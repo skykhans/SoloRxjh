@@ -1,0 +1,449 @@
+{
+  "contract_id": "local_equipment_gems_v1",
+  "version": 1,
+  "date": "2026-11-13",
+  "status": "planned_specific_project_rules_pending_overall_D1_audit",
+  "runtime_implemented": false,
+  "engine_target": "Godot 4.7.2 standard / GDScript",
+  "authority_note": "本文件是项目采用方案，不是官网原值表或用户逐值确认；项目值显式列出，程序不得把未知源值兜底成这些数。",
+  "references": [
+    "../reference/讨伐与宝珠规则.md",
+    "../reference/讨伐与宝珠参数.json",
+    "../reference/辅助装备与服务类道具.md",
+    "../reference/V25图示核对记录.md"
+  ],
+  "project_rules": {
+    "equipment_sets": {
+      "ids": [
+        "primary",
+        "secondary"
+      ],
+      "active_count": 1,
+      "secondary_access": "permanent_local_feature_no_real_payment",
+      "slots_per_set": [
+        {
+          "id": "weapon",
+          "label": "武器",
+          "nullable_empty": true
+        },
+        {
+          "id": "body",
+          "label": "衣服",
+          "nullable_empty": true
+        },
+        {
+          "id": "inner_armor",
+          "label": "内甲",
+          "nullable_empty": true
+        },
+        {
+          "id": "glove_a",
+          "label": "护手一",
+          "nullable_empty": true
+        },
+        {
+          "id": "glove_b",
+          "label": "护手二",
+          "nullable_empty": true
+        },
+        {
+          "id": "boots",
+          "label": "靴子",
+          "nullable_empty": true
+        },
+        {
+          "id": "necklace",
+          "label": "项链",
+          "nullable_empty": true
+        },
+        {
+          "id": "earring_a",
+          "label": "耳环一",
+          "nullable_empty": true
+        },
+        {
+          "id": "earring_b",
+          "label": "耳环二",
+          "nullable_empty": true
+        },
+        {
+          "id": "ring_a",
+          "label": "戒指一",
+          "nullable_empty": true
+        },
+        {
+          "id": "ring_b",
+          "label": "戒指二",
+          "nullable_empty": true
+        },
+        {
+          "id": "cape",
+          "label": "披风",
+          "nullable_empty": true
+        },
+        {
+          "id": "sect_uniform",
+          "label": "门派服/战甲",
+          "nullable_empty": true
+        },
+        {
+          "id": "decoration",
+          "label": "装饰物",
+          "nullable_empty": true
+        }
+      ],
+      "slot_count": 14,
+      "slot_count_evidence": "项目完整槽位方案；不是官方总槽位已确认",
+      "inactive_set_affects_stats": false,
+      "same_instance_multiple_locations_allowed": false,
+      "preview_changes_state": false,
+      "decoration_stat_effect": "appearance_only_in_this_project_scheme"
+    },
+    "set_switch": {
+      "default_input": "PageDown",
+      "ui_and_key_use_same_command": true,
+      "character_must_be_alive": true,
+      "allowed_player_action": "idle",
+      "forbid_pending_transaction": true,
+      "forbid_chat_or_non_equipment_modal_input": true,
+      "must_validate_all_target_nonempty_slots": true,
+      "cooldown_seconds": 1.0,
+      "cooldown_clock": "interaction_clock_continues_while_world_paused",
+      "skills_and_world_timers_not_advanced_by_interaction_clock": true,
+      "refresh_skill_cooldowns": false,
+      "remove_negative_effects": false,
+      "inventory_moves_on_switch": false,
+      "persist_active_set_id": true,
+      "repeat_request_no_second_commit": true
+    },
+    "gem_equipment": {
+      "shared_slots_across_sets": true,
+      "slots": [
+        {
+          "id": "weapon",
+          "type": "武器",
+          "counterpart_slot_in_active_set": "weapon"
+        },
+        {
+          "id": "body",
+          "type": "衣服",
+          "counterpart_slot_in_active_set": "body"
+        },
+        {
+          "id": "inner_armor",
+          "type": "内甲",
+          "counterpart_slot_in_active_set": "inner_armor"
+        },
+        {
+          "id": "glove_a",
+          "type": "护手",
+          "counterpart_slot_in_active_set": "glove_a"
+        },
+        {
+          "id": "glove_b",
+          "type": "护手",
+          "counterpart_slot_in_active_set": "glove_b"
+        },
+        {
+          "id": "boots",
+          "type": "靴子",
+          "counterpart_slot_in_active_set": "boots"
+        }
+      ],
+      "slot_count": 6,
+      "minimum_level": 140,
+      "minimum_ascension_form": 4,
+      "minimum_checks_both_required": true,
+      "grades": [
+        "normal",
+        "advanced",
+        "rare",
+        "legendary"
+      ],
+      "grade_labels": [
+        "普通",
+        "高级",
+        "稀有",
+        "传说"
+      ],
+      "source_type_count": 5,
+      "type_grade_combination_count": 20,
+      "single_gem_effective": true,
+      "require_eligible_counterpart_equipped_for_effect": true,
+      "enhancement_input": "actual_permanent_enhancement_only",
+      "buff_or_item_temporary_increases_apply": false,
+      "valid_ineligible_instances_preserved_in_slot": true,
+      "inactive_effect_value": 0,
+      "undefined_item_or_duplicate_instance_is_error": true,
+      "sell_to_npc_allowed": false,
+      "discard_allowed": false,
+      "personal_storage_allowed": true,
+      "gem_instances_nonstackable_project_choice": true
+    },
+    "gem_effect_formula": {
+      "evidence": "project_design_not_official_formula",
+      "expression": "base[grade] + per_ascension_after_four[grade] * (ascension_form - 4) + per_real_enhancement[grade] * real_enhancement",
+      "supported_ascension_forms": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "supported_real_enhancement_range": [
+        0,
+        15
+      ],
+      "out_of_range_policy": "reject_invalid_configuration_or_state_not_silent_clamp",
+      "eligible_input_only": true,
+      "types": {
+        "weapon": {
+          "stat": "pve_attack_bonus",
+          "base": [
+            12,
+            24,
+            40,
+            64
+          ],
+          "per_ascension_after_four": [
+            2,
+            4,
+            6,
+            8
+          ],
+          "per_real_enhancement": [
+            2,
+            3,
+            4,
+            6
+          ]
+        },
+        "body": {
+          "stat": "pve_defense_bonus",
+          "base": [
+            10,
+            20,
+            32,
+            50
+          ],
+          "per_ascension_after_four": [
+            2,
+            3,
+            5,
+            7
+          ],
+          "per_real_enhancement": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "inner_armor": {
+          "stat": "max_hp_bonus",
+          "base": [
+            30,
+            60,
+            100,
+            160
+          ],
+          "per_ascension_after_four": [
+            10,
+            20,
+            30,
+            40
+          ],
+          "per_real_enhancement": [
+            5,
+            10,
+            15,
+            20
+          ]
+        },
+        "glove": {
+          "stat": "pve_attack_bonus",
+          "base": [
+            4,
+            8,
+            14,
+            22
+          ],
+          "per_ascension_after_four": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "per_real_enhancement": [
+            1,
+            1,
+            2,
+            3
+          ]
+        },
+        "boots": {
+          "stat": "pve_defense_bonus",
+          "base": [
+            4,
+            8,
+            14,
+            22
+          ],
+          "per_ascension_after_four": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "per_real_enhancement": [
+            1,
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "pve_stat_applies_to": "explicit_pve_combat_ruleset_not_visual_humanoid_test",
+      "max_hp_increase_heals_current_hp": false,
+      "max_hp_decrease_rule": "during_legal_state_transition_reduce_current_hp_to_new_max_without_healing_on_restore",
+      "load_bad_hp_policy": "reject_inconsistent_snapshot_not_repair_by_clamping"
+    },
+    "gem_evolution": {
+      "service": "gem_admin",
+      "distance_m": 2.5,
+      "input_count": 2,
+      "input_location": "equipment_bag_only",
+      "inputs_must_be_distinct_instances": true,
+      "same_type_required": true,
+      "same_grade_required": true,
+      "legendary_input_allowed": false,
+      "silver_fee": 10000000,
+      "base_success_probability": {
+        "normal_to_advanced": 0.8,
+        "advanced_to_rare": 0.55,
+        "rare_to_legendary": 0.35
+      },
+      "lucky_charm": {
+        "optional": true,
+        "definition_id": "gem_luck_charm",
+        "maximum_count": 1,
+        "additional_probability_points": 0.1,
+        "consume_on_committed_attempt_success_or_failure": true,
+        "other_strengthening_or_service_bonuses_apply": false
+      },
+      "probability_rule": "base_plus_optional_charm_no_clamp_configuration_must_be_within_0_and_1",
+      "success_test": "uniform_in_0_inclusive_1_exclusive_less_than_probability",
+      "success_consumes_input_slots": [
+        "A",
+        "B"
+      ],
+      "success_output_count": 1,
+      "success_output": "same_type_next_grade_new_unique_instance",
+      "failure_consumes_input_slots": [
+        "A"
+      ],
+      "failure_retains_input_slot_B_unchanged": true,
+      "silver_consumed_on_success_or_failure": true,
+      "input_compatibility_and_probabilities_evidence": "project_design_source_only_confirms_illustrated_two_inputs_fee_and_one_failure_consumption"
+    },
+    "rare_gem_creation": {
+      "service": "gem_admin_special_crafting_route",
+      "recipe_visible_without_role_level_gate": true,
+      "required_proof_definition": "raid_proof_hell_fire_dragon",
+      "required_proof_count": 200,
+      "additional_silver_fee": 0,
+      "output_count": 1,
+      "output_grade": "rare",
+      "output_type": "chosen_explicitly_from_five_types",
+      "craft_success_probability": 1.0,
+      "check_output_capacity_after_consuming_inputs": true,
+      "no_extra_level_or_proficiency_requirement_project_choice": true,
+      "fee_output_count_and_success_evidence": "project_design_source_only_confirms_200_proofs_and_special_creation"
+    },
+    "rare_gem_disassembly": {
+      "service": "gem_admin_disassembly_route",
+      "allowed_grade": "rare",
+      "input_location": "equipment_bag_only",
+      "input_count": 1,
+      "additional_silver_fee": 0,
+      "output_definition": "raid_proof_hell_fire_dragon",
+      "output_count_distribution": "uniform_integer_inclusive",
+      "output_count_range": [
+        45,
+        55
+      ],
+      "verify_capacity_for_maximum_output_after_input_removal": true,
+      "confirm_exact_target_instance_and_outcome_range": true,
+      "range_and_fee_evidence": "project_design_source_says_approximately_50_not_exact_range"
+    },
+    "gem_lucky_charm_creation": {
+      "service": "gem_admin_special_crafting_route",
+      "required_proof_definition": "raid_proof_hell_fire_dragon",
+      "required_proof_count": 20,
+      "silver_fee": 2000000,
+      "output_definition": "gem_luck_charm",
+      "output_count": 1,
+      "success_probability": 1.0,
+      "acquisition_evidence": "project_new_local_acquisition_source_only_shows_lucky_charm_slot"
+    },
+    "atomicity": {
+      "quote_uses_instance_ids_not_array_indices": true,
+      "quote_checks_inventory_revision_and_recipe_version": true,
+      "cancel_mutates_resources_or_rng": false,
+      "validation_failure_mutates_resources_or_rng": false,
+      "random_state_copied_then_committed_with_resources": true,
+      "duplicate_command_returns_previous_result_or_stale_error_never_reexecutes": true,
+      "business_commit_schedules_auto_save": true,
+      "save_failure_keeps_old_file_and_committed_memory_marked_unsaved": true,
+      "save_failure_is_not_business_validation_failure": true
+    },
+    "prohibited_shortcuts": [
+      "merge_two_equipment_sets_into_stats",
+      "treat_preview_as_equip",
+      "delete_ineligible_gems",
+      "treat_reference_null_as_free_or_default",
+      "reuse_consumed_instance_id",
+      "invent_official_item_ids_for_type_grade_combinations",
+      "map_unknown_grade_to_normal",
+      "force_probability_into_range_instead_of_rejecting_bad_parameters"
+    ]
+  },
+  "evidence_classification": {
+    "official_public_values": [
+      "gem_140_level_and_fourth_ascension",
+      "five_gem_types_four_grades_six_slots",
+      "gem_effect_uses_actual_advancement_and_enhancement_not_buff",
+      "evolution_fee_10000000",
+      "failure_consumes_one_lower_gem",
+      "rare_creation_proofs_200",
+      "personal_storage_and_trade_restrictions",
+      "temporary_ineligibility_preserves_gem"
+    ],
+    "community_cross_reference": [
+      "secondary_set_switch_and_nonstacking",
+      "PageDown_key"
+    ],
+    "explicit_project_choices": [
+      "14_slots_each_set",
+      "permanent_unpaid_secondary",
+      "1_second_interaction_cooldown",
+      "one_shared_gem_group",
+      "formula_coefficients",
+      "two_same_type_same_grade_inputs",
+      "probability_table_and_lucky_bonus",
+      "consume_input_A_on_failure",
+      "rare_creation_fee_zero_output_one_guaranteed",
+      "disassembly_45_to_55_fee_zero",
+      "lucky_charm_recipe",
+      "nonstackable_gem_instances",
+      "gem_admin_modern_service_routes"
+    ]
+  },
+  "open_overall_dependencies": [
+    "all_equipment_definition_requirements_and_growth_contract",
+    "all_role_initialization_and_progression_contract",
+    "global_inventory_capacity_weight_and_stack_contract",
+    "raid_proof_and_normal_gem_real_acquisition_contract",
+    "complete_role_core_stats_combat_and_caps_contract",
+    "final_world_NPC_location_mapping"
+  ]
+}
