@@ -1,0 +1,3280 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "project_design_not_implemented_not_balanced",
+  "scope": "14职业逐级气功/升天点发放、两类气功共用预算、已分配/有效等级与重复领取边界；不代替全技能学习条件/效果。",
+  "source_policy": "六转已存旧官网升级表列气功3点和升天点1点；V8社区乐师80级124点仅为历史数量参照。低级发点曲线及有效等级上限为项目设计，数值相符不证明曲线由官网公布。",
+  "initial": {
+    "qigong_unallocated": 0,
+    "ascension_unallocated": 0,
+    "covered_level": 1,
+    "level_award_spans": []
+  },
+  "qigong_pool_consumers": [
+    "ordinary_qigong",
+    "ascended_qigong"
+  ],
+  "ascension_pool_consumers": [
+    "ascended_attack_skill_stage_upgrades"
+  ],
+  "anti_qigong_uses_separate_budget": true,
+  "allocation_cost_per_level": 1,
+  "ascended_award_branch": "rank >= 6 before experience transaction; levels before first ascension never retrospectively re-awarded",
+  "covered_level_policy": "monotonic 1..180; spans cover 2..covered_level exactly once; configuration jumps record skipped spans with zero normal awards; explicit legacy import skip spans record0 normal awards and provenance, not configuration edits",
+  "span_kinds": [
+    "before_first_ascension",
+    "after_first_ascension",
+    "configuration_skip",
+    "legacy_import_skip"
+  ],
+  "span_required_fields": [
+    "first_level",
+    "last_level",
+    "kind",
+    "award_rule_version",
+    "qigong_points_awarded",
+    "ascension_points_awarded"
+  ],
+  "defined_effective_level_limits": [
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "障力激活",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_6a80e611b980"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "障力运用",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_5fc283c1f2dd"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "障力恢复",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_93af86cec106"
+    },
+    {
+      "class_id": "musician",
+      "passive": "高山流水",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_fc39bf546a62"
+    },
+    {
+      "class_id": "musician",
+      "passive": "梅花三弄",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_6a39c5714ed3"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "绝脉暴走",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_246736bb8bd9"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "绝脉治愈",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_070e70fe77b7"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "愤怒爆发",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_73890f53bd3c"
+    },
+    {
+      "class_id": "blade",
+      "passive": "狂风万破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_83378e287800"
+    },
+    {
+      "class_id": "sword",
+      "passive": "狂风万破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_83378e287800"
+    },
+    {
+      "class_id": "spear",
+      "passive": "狂风万破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_83378e287800"
+    },
+    {
+      "class_id": "archer",
+      "passive": "狂风万破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_83378e287800"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "狂风万破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_83378e287800"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "狂风万破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_83378e287800"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "狂风万破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_83378e287800"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "狂风万破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_83378e287800"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "狂风万破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_83378e287800"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "玄武神功",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_656092e4e343"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "荆轲之怒",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_9ed1e6031705"
+    },
+    {
+      "class_id": "spear",
+      "passive": "狂神降世",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_181c481f7ec7"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "狂神降世",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_181c481f7ec7"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "血雨恶魔",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_cffb2fa63225"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "伤痕愈烈",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_a0986855936b"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "血雨之击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_7023016ad58f"
+    },
+    {
+      "class_id": "blade",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_f7e00df50117"
+    },
+    {
+      "class_id": "sword",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_f7e00df50117"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_f7e00df50117"
+    },
+    {
+      "class_id": "spear",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_f7e00df50117"
+    },
+    {
+      "class_id": "archer",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_f7e00df50117"
+    },
+    {
+      "class_id": "physician",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_f7e00df50117"
+    },
+    {
+      "class_id": "musician",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_f7e00df50117"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_f7e00df50117"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_f7e00df50117"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_f7e00df50117"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_f7e00df50117"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_f7e00df50117"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_f7e00df50117"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "致残",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_f7e00df50117"
+    },
+    {
+      "class_id": "blade",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_af8073415478"
+    },
+    {
+      "class_id": "sword",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_af8073415478"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_af8073415478"
+    },
+    {
+      "class_id": "spear",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_af8073415478"
+    },
+    {
+      "class_id": "archer",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_af8073415478"
+    },
+    {
+      "class_id": "physician",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_af8073415478"
+    },
+    {
+      "class_id": "musician",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_af8073415478"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_af8073415478"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_af8073415478"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_af8073415478"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_af8073415478"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_af8073415478"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_af8073415478"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "气沉丹田",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_af8073415478"
+    },
+    {
+      "class_id": "blade",
+      "passive": "连环飞舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_417cb1cecb69"
+    },
+    {
+      "class_id": "sword",
+      "passive": "连环飞舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_417cb1cecb69"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "连环飞舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_417cb1cecb69"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "连消带打",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_a951de667c6f"
+    },
+    {
+      "class_id": "spear",
+      "passive": "连环飞舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_417cb1cecb69"
+    },
+    {
+      "class_id": "archer",
+      "passive": "流星三矢",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_cadc9692d95e"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "夺命连环",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_2ef312886fbc"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "连环飞舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_417cb1cecb69"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "连环飞舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_417cb1cecb69"
+    },
+    {
+      "class_id": "blade",
+      "passive": "四两千金",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_3092fabb4f0d"
+    },
+    {
+      "class_id": "blade",
+      "passive": "穷途末路",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_9d9c1f4a2388"
+    },
+    {
+      "class_id": "sword",
+      "passive": "移花接木",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_8f4e8cbf7375"
+    },
+    {
+      "class_id": "musician",
+      "passive": "三潭映月",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_410242d2d08a"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "追骨吸元",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_837231e2ab8f"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "移花接木",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_8f4e8cbf7375"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "吸血进击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_2ca829700375"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "反弹无效",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_00e4ecba5ecf"
+    },
+    {
+      "class_id": "blade",
+      "passive": "力劈华山",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_1a8609e75fc1"
+    },
+    {
+      "class_id": "blade",
+      "passive": "摄魂一击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_90e8f15918b1"
+    },
+    {
+      "class_id": "blade",
+      "passive": "稳如泰山",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_293b9c738531"
+    },
+    {
+      "class_id": "sword",
+      "passive": "长虹贯日",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_d81f3cb0a488"
+    },
+    {
+      "class_id": "sword",
+      "passive": "百变神行",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_6f24d83778c6"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "三花聚顶",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_0d76fb786238"
+    },
+    {
+      "class_id": "spear",
+      "passive": "金钟罡气",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_b30593a8385f"
+    },
+    {
+      "class_id": "spear",
+      "passive": "横练太保",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_a91f076259c7"
+    },
+    {
+      "class_id": "archer",
+      "passive": "百步穿杨",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_7950de01c238"
+    },
+    {
+      "class_id": "archer",
+      "passive": "凝神聚气",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_dc34d0f462f0"
+    },
+    {
+      "class_id": "archer",
+      "passive": "正本培源",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_6e605512d009"
+    },
+    {
+      "class_id": "physician",
+      "passive": "体血倍增",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_d8572682656e"
+    },
+    {
+      "class_id": "physician",
+      "passive": "洗髓易筋",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_a38eb2d9a9d7"
+    },
+    {
+      "class_id": "musician",
+      "passive": "战马奔腾",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_3d7184950426"
+    },
+    {
+      "class_id": "musician",
+      "passive": "秋江夜泊",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_55186aaf2157"
+    },
+    {
+      "class_id": "musician",
+      "passive": "清心普善",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_c680484c366d"
+    },
+    {
+      "class_id": "musician",
+      "passive": "阳关三叠",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_ea98a98609ee"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "力劈华山",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_1a8609e75fc1"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "摄魂一击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_90e8f15918b1"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "百变神行",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_6f24d83778c6"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "长虹贯日",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_d81f3cb0a488"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "百变神行",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_6f24d83778c6"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "长白气运",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_d5bc8dad0e1a"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "力劈华山",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_1a8609e75fc1"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "百变神行",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_6f24d83778c6"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "金钟罡气",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_b30593a8385f"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "横练太保",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_a91f076259c7"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "洗髓易筋",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_a38eb2d9a9d7"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "见危授命",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_dfe440da766d"
+    },
+    {
+      "class_id": "spear",
+      "passive": "运气疗伤",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_1e389fe4d9de"
+    },
+    {
+      "class_id": "physician",
+      "passive": "运气行心",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_8f4c2afe36fa"
+    },
+    {
+      "class_id": "physician",
+      "passive": "太极心法",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_2fa9ac5f9fe5"
+    },
+    {
+      "class_id": "physician",
+      "passive": "妙手回春",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_c6b1fb781a15"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "运气疗伤",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_1e389fe4d9de"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "运气疗伤",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_1e389fe4d9de"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "运气行心",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_8f4c2afe36fa"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "太极心法",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_2fa9ac5f9fe5"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "妙手回春",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_c6b1fb781a15"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "太极心法",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_2fa9ac5f9fe5"
+    },
+    {
+      "class_id": "sword",
+      "passive": "破天一剑",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_2dfbffb07397"
+    },
+    {
+      "class_id": "physician",
+      "passive": "长功击力",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_c8f0e5f24c5d"
+    },
+    {
+      "class_id": "musician",
+      "passive": "汉宫秋月",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_1c0a30d787e7"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "磨杵成针",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_7b318f4e88f1"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "玄武危化",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_91137e4df1d6"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "神力激发",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_8af24823dcc6"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "长功击力",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_c8f0e5f24c5d"
+    },
+    {
+      "class_id": "blade",
+      "passive": "霸气破甲",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_e6a6c9b6c954"
+    },
+    {
+      "class_id": "sword",
+      "passive": "无坚不摧",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_0eb0bff69140"
+    },
+    {
+      "class_id": "sword",
+      "passive": "护身罡气",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_ad348a425909"
+    },
+    {
+      "class_id": "physician",
+      "passive": "护身气甲",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_7cfd20ea2442"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "霸气破甲",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_e6a6c9b6c954"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "护身罡气",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_ad348a425909"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "灵甲护身",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_98989815662b"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "金刚不坏",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_23dbcc91f971"
+    },
+    {
+      "class_id": "blade",
+      "passive": "真武绝击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_ad0f58ef4558"
+    },
+    {
+      "class_id": "physician",
+      "passive": "真武绝击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_ad0f58ef4558"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "真武绝击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_ad0f58ef4558"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "玄武强击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_326d1c222dca"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "真武绝击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_ad0f58ef4558"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "真武绝击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_ad0f58ef4558"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "真武绝击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_ad0f58ef4558"
+    },
+    {
+      "class_id": "archer",
+      "passive": "猎鹰之眼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_41101560ddfc"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "玄武的指点",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_4117142977ef"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "黑花漫开",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_845c6cd72b52"
+    },
+    {
+      "class_id": "spear",
+      "passive": "灵甲爆发",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_1e68c7400ec7"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "霹雳弹指",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_d33fc09ee12f"
+    },
+    {
+      "class_id": "blade",
+      "passive": "满月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_e20d6fefe7bb"
+    },
+    {
+      "class_id": "sword",
+      "passive": "满月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_e20d6fefe7bb"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "满月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_e20d6fefe7bb"
+    },
+    {
+      "class_id": "spear",
+      "passive": "即月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_ebc4db8590f4"
+    },
+    {
+      "class_id": "archer",
+      "passive": "满月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_e20d6fefe7bb"
+    },
+    {
+      "class_id": "physician",
+      "passive": "满月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_e20d6fefe7bb"
+    },
+    {
+      "class_id": "musician",
+      "passive": "满月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_e20d6fefe7bb"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "长虹贯天",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_418fa30bb1a7"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "哀鸿遍野",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_76ec4b44f3c1"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "长红贯天",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_45a2d7927f05"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "哀鸿遍野",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_76ec4b44f3c1"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "满月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_e20d6fefe7bb"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "满月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_e20d6fefe7bb"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "红月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_d2afa6d6820e"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "满月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_e20d6fefe7bb"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "满月狂风",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_e20d6fefe7bb"
+    },
+    {
+      "class_id": "sword",
+      "passive": "百毒不侵",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_92428499c8c4"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "千蛛万手",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_b1cee7f8062f"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "电光朝露",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_844c4be23bc4"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "无障无碍",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_c4efd75feb72"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "化险为夷",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_1c22fe455164"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "黑花集中",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_91e897f01e47"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "万毒不侵",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_e7a674939ff3"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "愤怒调节",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_9a3ee0228aa9"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "蛊毒解除",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_56b05bf76c42"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "神力保护",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_79ddc14fa08e"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "抗击身法",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_cb3c6a7fc0ac"
+    },
+    {
+      "class_id": "sword",
+      "passive": "怒海狂澜",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_526d7146868a"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "怒海狂澜",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_526d7146868a"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "乾坤一掷",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_b3c6adab7bb4"
+    },
+    {
+      "class_id": "spear",
+      "passive": "转攻为守",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_b8cdaf136e60"
+    },
+    {
+      "class_id": "spear",
+      "passive": "乾坤挪移",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_ecdbd7ce502a"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "转攻为守",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_b8cdaf136e60"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "乾坤挪移",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_ecdbd7ce502a"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "转攻为守",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_b8cdaf136e60"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "内功罡气",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_25b154f1e921"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "内功血雨",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_9eca08cd0894"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "夜魔缠身",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_59df04f4e6da"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "绝脉运气",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_bf60f49786ce"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "天魔狂血",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_7eb4aed2b2b4"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "火龙问鼎",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_68962c7f89bb"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "流光乱舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_967048d82c30"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "暗影绝杀",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_ab4099fbdb01"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "行风弄舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_9b9acbfddd29"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "内息行心",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_2198d87d10ce"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "天魔极血",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_2e9107f47d37"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "天魔之力",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_e4e4cfe990a7"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "真气还原",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_e5305a25c37e"
+    },
+    {
+      "class_id": "musician",
+      "passive": "岳阳三醉",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_1809b985e471"
+    },
+    {
+      "class_id": "musician",
+      "passive": "鸾凤和鸣",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_d915d93dacc7"
+    },
+    {
+      "class_id": "musician",
+      "passive": "阳明春晓",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_626ca8850b21"
+    },
+    {
+      "class_id": "musician",
+      "passive": "潇湘雨夜",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_dae8fa5957f1"
+    },
+    {
+      "class_id": "musician",
+      "passive": "飞花点翠",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_7cbe186f2df0"
+    },
+    {
+      "class_id": "musician",
+      "passive": "子夜秋歌",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_0e7b55f01daa"
+    },
+    {
+      "class_id": "musician",
+      "passive": "天龙探爪",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_92e2a06cde35"
+    },
+    {
+      "class_id": "physician",
+      "passive": "吸星大法",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_20fedd675814"
+    },
+    {
+      "class_id": "physician",
+      "passive": "狂意护体",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_c64d282181b3"
+    },
+    {
+      "class_id": "physician",
+      "passive": "无中生有",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_e73e0539ee71"
+    },
+    {
+      "class_id": "physician",
+      "passive": "九天真气",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_67a4f0500707"
+    },
+    {
+      "class_id": "physician",
+      "passive": "万物回春",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_b163b72e6c51"
+    },
+    {
+      "class_id": "physician",
+      "passive": "明镜止水",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_6abb46da8a4b"
+    },
+    {
+      "class_id": "blade",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_8281ed099137"
+    },
+    {
+      "class_id": "blade",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_dedae4d4bd0c"
+    },
+    {
+      "class_id": "sword",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_8281ed099137"
+    },
+    {
+      "class_id": "sword",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_dedae4d4bd0c"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_8281ed099137"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_dedae4d4bd0c"
+    },
+    {
+      "class_id": "spear",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_8281ed099137"
+    },
+    {
+      "class_id": "spear",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_dedae4d4bd0c"
+    },
+    {
+      "class_id": "archer",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_8281ed099137"
+    },
+    {
+      "class_id": "archer",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_dedae4d4bd0c"
+    },
+    {
+      "class_id": "physician",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_8281ed099137"
+    },
+    {
+      "class_id": "physician",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_dedae4d4bd0c"
+    },
+    {
+      "class_id": "musician",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_8281ed099137"
+    },
+    {
+      "class_id": "musician",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_dedae4d4bd0c"
+    },
+    {
+      "class_id": "musician",
+      "passive": "血脉上升",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_d69d2de60dbb"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_8281ed099137"
+    },
+    {
+      "class_id": "han_feiguan",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_han_feiguan_dedae4d4bd0c"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_8281ed099137"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_dedae4d4bd0c"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_8281ed099137"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_dedae4d4bd0c"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_8281ed099137"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_dedae4d4bd0c"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_8281ed099137"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_dedae4d4bd0c"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_8281ed099137"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_dedae4d4bd0c"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "精金百炼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_8281ed099137"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "血气方刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_dedae4d4bd0c"
+    },
+    {
+      "class_id": "blade",
+      "passive": "暗影绝杀",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_ab4099fbdb01"
+    },
+    {
+      "class_id": "blade",
+      "passive": "梵音破镜",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_35d49019787a"
+    },
+    {
+      "class_id": "blade",
+      "passive": "流光乱舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_967048d82c30"
+    },
+    {
+      "class_id": "blade",
+      "passive": "遁出逆境",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_722781632d51"
+    },
+    {
+      "class_id": "blade",
+      "passive": "火龙之火",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_6f7fd25c3753"
+    },
+    {
+      "class_id": "blade",
+      "passive": "毒蛇出洞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_e6b3ad595de9"
+    },
+    {
+      "class_id": "blade",
+      "passive": "龙魂附体",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_6ebfff1f6bc1"
+    },
+    {
+      "class_id": "blade",
+      "passive": "画龙点睛",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_blade_5870010d6245"
+    },
+    {
+      "class_id": "sword",
+      "passive": "毒蛇出洞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_e6b3ad595de9"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "外刚内刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_6ef703b316e0"
+    },
+    {
+      "class_id": "spear",
+      "passive": "毒蛇出洞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_e6b3ad595de9"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "毒蛇出洞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_e6b3ad595de9"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "毒蛇出洞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_e6b3ad595de9"
+    },
+    {
+      "class_id": "sword",
+      "passive": "回柳身法",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_e7a9b85d45d2"
+    },
+    {
+      "class_id": "sword",
+      "passive": "乘胜追击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_5763faf2480f"
+    },
+    {
+      "class_id": "sword",
+      "passive": "冲冠一怒",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_718a4e380cf7"
+    },
+    {
+      "class_id": "sword",
+      "passive": "天地同寿",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_71616415cd41"
+    },
+    {
+      "class_id": "sword",
+      "passive": "火凤临朝",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_e448690e8e0b"
+    },
+    {
+      "class_id": "sword",
+      "passive": "惊天动地",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_sword_4291cfbf9f01"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "回柳身法",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_e7a9b85d45d2"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "冲冠一怒",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_718a4e380cf7"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "天地同寿",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_71616415cd41"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "火凤临朝",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_e448690e8e0b"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "致手绝命",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_e42f6805509a"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "心神凝聚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_2280eb338657"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "以怒还怒",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_e05a70bee4f7"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "先发制人",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_13e892549725"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "剑刃乱舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_7a4c5686a28d"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "一招残杀",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_98cc2fd5447f"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "夜魔缠身",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_59df04f4e6da"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "顺水推舟",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_7d31c5bd5607"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "无情打击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_6fbf0fec5c18"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "一招杀神",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_aa15ccfcccb7"
+    },
+    {
+      "class_id": "archer",
+      "passive": "心神凝聚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_2280eb338657"
+    },
+    {
+      "class_id": "spear",
+      "passive": "末日狂舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_1ca817f98672"
+    },
+    {
+      "class_id": "spear",
+      "passive": "怒意之吼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_10a165ba7721"
+    },
+    {
+      "class_id": "spear",
+      "passive": "破甲刺魂",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_4f926e5e151c"
+    },
+    {
+      "class_id": "spear",
+      "passive": "以退为进",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_40098ce68f2d"
+    },
+    {
+      "class_id": "spear",
+      "passive": "怒意之火",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_f7a9ed039560"
+    },
+    {
+      "class_id": "spear",
+      "passive": "灭世狂舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_0fd0be5106f8"
+    },
+    {
+      "class_id": "spear",
+      "passive": "寒冰领域",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_spear_5536e8e9c771"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "水火一体",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_5c5775187820"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "会心一击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_d9e064e1108c"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "末日狂舞",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_1ca817f98672"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "电光石火",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_66eff75328fa"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "精益求精",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_63dcf4c5b075"
+    },
+    {
+      "class_id": "fighter",
+      "passive": "不死之躯",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_fighter_6eca356e71d0"
+    },
+    {
+      "class_id": "archer",
+      "passive": "锐利之箭",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_8c1feacba8b4"
+    },
+    {
+      "class_id": "archer",
+      "passive": "回流真气",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_db7e195867cd"
+    },
+    {
+      "class_id": "archer",
+      "passive": "无明暗矢",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_d6b1b8306277"
+    },
+    {
+      "class_id": "archer",
+      "passive": "致命绝杀",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_6d2d09db7d01"
+    },
+    {
+      "class_id": "archer",
+      "passive": "绝影射魂",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_b6298438a062"
+    },
+    {
+      "class_id": "archer",
+      "passive": "千钧压驼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_61244271642b"
+    },
+    {
+      "class_id": "archer",
+      "passive": "天外三矢",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_6135db39d24f"
+    },
+    {
+      "class_id": "archer",
+      "passive": "千里一击",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_4a5af9a02816"
+    },
+    {
+      "class_id": "archer",
+      "passive": "恶尽矢穷",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_9ae5c572cb4c"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "流星漫天",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_b017432b7d78"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "弱点击破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_b32bc5282dae"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "牢不可破",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_4418b84991e4"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "陵劲淬砺",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_a5f621132db5"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "杀星光符",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_09a2cb459044"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "技冠群雄",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_b81958f390e1"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "passive": "破空坠星",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_lu_fenglang_72d196059e6e"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "嫉妒的化身",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_474ab6e8b420"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "玄武雷电",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_15fbf2a219d2"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "玄武诅咒",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_ae4edb962d59"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "杀人鬼",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_af1f0ddf7246"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "魔魂复苏",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_1f53c7d8c16c"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "招式新法",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_747be21ca39d"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "纵横无双",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_22cbd899f7f1"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "以柔克刚",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_bb72b2f08de1"
+    },
+    {
+      "class_id": "tan_hualing",
+      "passive": "惊涛骇浪",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_tan_hualing_1b6c4efd4c82"
+    },
+    {
+      "class_id": "physician",
+      "passive": "形移妖相",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_4c3dba55c7dc"
+    },
+    {
+      "class_id": "physician",
+      "passive": "云心月性",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_8159c31d10bb"
+    },
+    {
+      "class_id": "physician",
+      "passive": "望梅添花",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_physician_f6ccc8157234"
+    },
+    {
+      "class_id": "musician",
+      "passive": "悬丝诊脉",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_musician_b2dfa92d60a7"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "望梅添花",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_f6ccc8157234"
+    },
+    {
+      "class_id": "assassin",
+      "passive": "烈日炎炎",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_assassin_38fc56f07575"
+    },
+    {
+      "class_id": "archer",
+      "passive": "烈日炎炎",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_archer_38fc56f07575"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "passive": "烈日炎炎",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_mei_liuzhen_38fc56f07575"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "passive": "烈日炎炎",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_zhen_fengbai_38fc56f07575"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "杀星义气",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_239d791beef3"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "passive": "尸毒爆发",
+      "allocated_cap": 20,
+      "effective_cap": 40,
+      "project_qigong_id": "qigong_dongling_shennv_73e602492364"
+    }
+  ],
+  "effective_level_policy": "require learned/unlocked/compatible and at least one allocated point; then allocated + explicit equipment/effect bonus, capped by the named passive limit with visible unused excess; missing passive limits rejected; intrinsic resource baselines remain separate.",
+  "borrowed_levels_change_owned_points": false,
+  "records": [
+    {
+      "level_reached": 1,
+      "qigong_points_without_first_ascension": 0,
+      "qigong_points_after_first_ascension": 0,
+      "ascension_points_after_first_ascension": 0
+    },
+    {
+      "level_reached": 2,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 3,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 4,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 5,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 6,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 7,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 8,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 9,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 10,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 11,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 12,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 13,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 14,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 15,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 16,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 17,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 18,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 19,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 20,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 21,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 22,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 23,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 24,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 25,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 26,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 27,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 28,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 29,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 30,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 31,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 32,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 33,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 34,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 35,
+      "qigong_points_without_first_ascension": 1,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 36,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 37,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 38,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 39,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 40,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 41,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 42,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 43,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 44,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 45,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 46,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 47,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 48,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 49,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 50,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 51,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 52,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 53,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 54,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 55,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 56,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 57,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 58,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 59,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 60,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 61,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 62,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 63,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 64,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 65,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 66,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 67,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 68,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 69,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 70,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 71,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 72,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 73,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 74,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 75,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 76,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 77,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 78,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 79,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 80,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 81,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 82,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 83,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 84,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 85,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 86,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 87,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 88,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 89,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 90,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 91,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 92,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 93,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 94,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 95,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 96,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 97,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 98,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 99,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 100,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 101,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 102,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 103,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 104,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 105,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 106,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 107,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 108,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 109,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 110,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 111,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 112,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 113,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 114,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 115,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 116,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 117,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 118,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 119,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 120,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 121,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 122,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 123,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 124,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 125,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 126,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 127,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 128,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 129,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 130,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 131,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 132,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 133,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 134,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 135,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 136,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 137,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 138,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 139,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 140,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 141,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 142,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 143,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 144,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 145,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 146,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 147,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 148,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 149,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 150,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 151,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 152,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 153,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 154,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 155,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 156,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 157,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 158,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 159,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 160,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 161,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 162,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 163,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 164,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 165,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 166,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 167,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 168,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 169,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 170,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 171,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 172,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 173,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 174,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 175,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 176,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 177,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 178,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 179,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    },
+    {
+      "level_reached": 180,
+      "qigong_points_without_first_ascension": 2,
+      "qigong_points_after_first_ascension": 3,
+      "ascension_points_after_first_ascension": 1
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "eight_lifesteal_reflection_profiles_not_implemented",
+  "source_policy": "保原两移花50%、梅吸血进击低于50%/伤害50%/最多2000、穷途末路反弹双倍及反弹无效涵盖穷途末路。下列其他系数/概率/时序/同动作上限是项目采用；三潭和弦增幅精确比例未由官网给出。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_blade_3092fabb4f0d",
+      "class_id": "blade",
+      "name": "四两千金",
+      "profile_id": "received_reflect",
+      "source_table_index": 35,
+      "source_row_index": 8,
+      "source_row_sha256": "b1f95d80f0fa83ac0e5f3ec7f119a43c7ff426473cc434bbc181628905c62d0a"
+    },
+    {
+      "qigong_id": "qigong_blade_9d9c1f4a2388",
+      "class_id": "blade",
+      "name": "穷途末路",
+      "profile_id": "reflect_double",
+      "source_table_index": 35,
+      "source_row_index": 13,
+      "source_row_sha256": "3c18cf4cb39bf558cb480f75c1e9ec81f186711a9ab34bf2c76aadc6feea2874"
+    },
+    {
+      "qigong_id": "qigong_sword_8f4e8cbf7375",
+      "class_id": "sword",
+      "name": "移花接木",
+      "profile_id": "successful_hit_lifesteal",
+      "source_table_index": 36,
+      "source_row_index": 5,
+      "source_row_sha256": "19d32142ff35cd289ed8030a90e006ab98ddd749c900e011a980889df8b2d45e",
+      "eligible_root_override": "attack_martial_skill only; explicit63794八转published restriction, not basicnormal"
+    },
+    {
+      "qigong_id": "qigong_musician_410242d2d08a",
+      "class_id": "musician",
+      "name": "三潭映月",
+      "profile_id": "received_reflect_and_chords",
+      "source_table_index": 41,
+      "source_row_index": 13,
+      "source_row_sha256": "dac1475dfc63c998ebfac9eec6752755b59fd0488801ffd0c87284a750ba3eba"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_837231e2ab8f",
+      "class_id": "han_feiguan",
+      "name": "追骨吸元",
+      "profile_id": "received_lifedrain",
+      "source_table_index": 42,
+      "source_row_index": 5,
+      "source_row_sha256": "6fde2084f04cf5bf36512fabce175e806bf26b799e8d80a49db039ae215035e5"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_8f4e8cbf7375",
+      "class_id": "tan_hualing",
+      "name": "移花接木",
+      "profile_id": "successful_hit_lifesteal",
+      "source_table_index": 43,
+      "source_row_index": 7,
+      "source_row_sha256": "eb59e1c5d2d34577c8a1e39e14befb3dccd0aed259e4045c46c2dcc25b77eae9"
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_2ca829700375",
+      "class_id": "mei_liuzhen",
+      "name": "吸血进击",
+      "profile_id": "low_hp_received_heal",
+      "source_table_index": 45,
+      "source_row_index": 11,
+      "source_row_sha256": "368379c88cb38861bf270440ae33ec8d7cbb9e83eb28a471645ee1dffc6a94e4"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_00e4ecba5ecf",
+      "class_id": "lu_fenglang",
+      "name": "反弹无效",
+      "profile_id": "reflected_damage_reduction",
+      "source_table_index": 46,
+      "source_row_index": 21,
+      "source_row_sha256": "67f72cc732c63dc44ded7475f24d6142418c5008c357523a1340a9050c596012"
+    }
+  ],
+  "common": {
+    "positive_effective_learned_allocated_required": true,
+    "root_events_only": true,
+    "source_damage": "actual hostile HP loss, exclude shields/self-cost/overkill",
+    "once_per_root_action_per_owner_passive": true,
+    "derived_damage_can_trigger_these": false,
+    "post_hit_order": "finish source hit lethal interception/death first; only living recipient performs reflect/heal; reflection cannot resurrect source",
+    "heal_block": "all healing obeys HP recovery block; blocked amount discarded, no catchup or source damage rollback",
+    "no_corpse_damage": true,
+    "rng_order": "eligible defender passives by stable qigongID after original HP-loss snapshot, then attacker lifesteal; require recipient still alive",
+    "duplicate_or_replayed_damage": "original callback result reused, no second draw/heal/reflect"
+  },
+  "received_reflect": {
+    "chance_bp_per_effective_level": 100,
+    "damage_from_received_hp_loss_bp": 5000,
+    "maximum_return_damage_by_owner_attack_multiplier": 2,
+    "target": "original attacker if still alive/hostile/same active scene",
+    "phase": "instant derived reflection; no weapon hit/accuracy/crit/ordinary defense again; explicit reflected-damage reduction and hostile shield apply once"
+  },
+  "reflect_double": {
+    "requires_actual_base_four_liang_reflect_success": true,
+    "chance_bp_per_effective_level": 100,
+    "multiplier_bp": 20000,
+    "same_reflect_event": "modify existing bounded reflect amount once, then final cap owner attack*2; no second extra hit",
+    "not_independent_reflection": true
+  },
+  "successful_hit_lifesteal": {
+    "eligible": "normal or attack martial root primary actual HP loss, once per action; no lifesteal from each secondary or derived hit",
+    "heal_from_actual_damage_bp": 5000,
+    "per_action_cap_per_effective_level": 5,
+    "chance": "explicit100percent when qualified; do not fabricate extra random chance absent source",
+    "after_reflection_attacker_death": "no heal resurrection; committed original damage remains"
+  },
+  "received_lifedrain": {
+    "chance_bp_per_effective_level": 100,
+    "damage_from_received_hp_loss_bp": 2500,
+    "maximum_drain_by_owner_attack_multiplier": 2,
+    "target": "original attacker still living/hostile/same scene",
+    "damage_pipeline": "derived reflection-like life-drain, obey reflected-damage reduction/shield once, no ordinary defense/crit/attack callbacks",
+    "hp_restored": "actual original attackerHP lost to this drain only, not requested raw damage; HP healing block can deny restore while drain still harms attacker"
+  },
+  "received_reflect_and_chords": {
+    "reflect_profile": "received_reflect",
+    "chord_base_effect_multiplier_bp_per_effective_level": 50,
+    "chord_formula": "base chord bonus * (10000+50*effective_grade)/10000 floor; e.g1000base at20 ->1100bp",
+    "applies_to": "exact active triad/seventh/ninth own effect, not all stats three times",
+    "temporary_effective_zero": "remove this added contribution; chord baseline remains",
+    "composition_owner": "乐师和弦联动气功.v1.json chord_composition; base-only Santan extra added once, not entire Yueyang/Luanfengtotal"
+  },
+  "low_hp_received_heal": {
+    "threshold": "HP strictly below50percent after root received damage, still alive",
+    "chance_bp_per_effective_level": 100,
+    "heal_from_received_hp_loss_bp": 5000,
+    "maximum_heal": 2000,
+    "additional_action_cap": null,
+    "source_received_damage50percent_is_not_maxHP50percent": true
+  },
+  "reflected_damage_reduction": {
+    "reduction_bp_per_effective_level": 100,
+    "maximum_reduction_bp": 4000,
+    "eligible_tags": [
+      "reflected_damage",
+      "four_liang_reflect",
+      "double_four_liang_reflect",
+      "received_lifedrain"
+    ],
+    "not_ordinary_damage_reduction": true,
+    "rounding": "floor(incoming*(10000-reduction)/10000); legitimate0",
+    "stacking": "named profile once, never add same instance twice"
+  },
+  "persistence": "callback receipts/derived damage roots and per-action passive-consumed flags captured with action; HP result and random consumption in same transaction. Ordinary save waits all derived results. No regeneration by re-reading old callback after load.",
+  "source_condition_override": "剑移花触发武功限定来自63794八转正文；谭同名无此指定，不跨职业复制。"
+}

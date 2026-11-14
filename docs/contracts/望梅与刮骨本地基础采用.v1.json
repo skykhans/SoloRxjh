@@ -1,0 +1,81 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "3probability_passives_with_explicit_project_base_not_official_base_facts_not_implemented",
+  "source_policy": "原气功仅说明提升望梅解渴/刮骨疗毒概率；已归档正文未给基础触发/效果。以下两职业基础机制为完整项目补充，不叫官网已核、不靠运行时缺字段补默认。源望梅止渴主动仍独立，不按相似名合并。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_physician_f6ccc8157234",
+      "class_id": "physician",
+      "name": "望梅添花",
+      "source_table_index": 40,
+      "source_row_index": 16,
+      "source_row_sha256": "55e1850d62cc5f0c51ed846e6c044400d8f99d7691405dcca67a95d6ad3c60cf",
+      "profile_id": "mana_recovery_probability"
+    },
+    {
+      "qigong_id": "qigong_musician_b2dfa92d60a7",
+      "class_id": "musician",
+      "name": "悬丝诊脉",
+      "source_table_index": 41,
+      "source_row_index": 16,
+      "source_row_sha256": "524f86bc4ba3866bb9dd1d4c30094d417b6b63486eae79e280780d530287b19a",
+      "profile_id": "self_cleanse_probability"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_f6ccc8157234",
+      "class_id": "dongling_shennv",
+      "name": "望梅添花",
+      "source_table_index": 47,
+      "source_row_index": 16,
+      "source_row_sha256": "29df420a407ef78a27d41fae0a470638513eb6f64134ea98d4bcb7f48e254276",
+      "profile_id": "mana_recovery_probability"
+    }
+  ],
+  "source_read_audit": {
+    "archive": "../reference/官网资料/目录正文.json",
+    "read_urls": [
+      "http://rxjh.17game.com/data/qgwg/200905/39825.htm",
+      "http://rxjh.17game.com/data/qgwg/200905/39823.htm"
+    ],
+    "scope": "searched all saved127directory and officialtopic text; foundupgrade descriptions andseparateactive望梅止渴 only, not claimwebexhaustiveabsence"
+  },
+  "supporting_innate_profile_definitions": [
+    {
+      "innate_profile_id": "local_wangmei_mana_response",
+      "class_ids": [
+        "physician",
+        "dongling_shennv"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "base_chance_bp": 500,
+      "trigger": "uniquehostilerootdirectactualHPloss, ownstillalive/currentmana*2<maxmana, once/root; no selfcost/periodic/derived",
+      "chance_with_own_modifier": "min4000,500+100*effectiveown望梅grade",
+      "result": "restoreceil(validmaxmana10percent), limitedactualmissingmana; noHP/barrier/stamina/revive",
+      "mana_block": "explicitmana-recovery-block preventstrigger/no draw; HP-only封疗doesnotblockmana",
+      "independent_of_active_wangmei": "doesnotcast/reset/learn辅助望梅止渴, no partyheal or newfreeactivecommand",
+      "source_origin": "projectinnate response, not thirdsource气功row"
+    },
+    {
+      "innate_profile_id": "local_guagu_cleanse_response",
+      "class_ids": [
+        "musician"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "base_chance_bp": 500,
+      "trigger": "uniquehostilerootdirectactualHPloss, ownstillalive, at leastoneexistingactualdispellable normalnegative, once/root",
+      "chance_with_own_modifier": "min4000,500+100*effective悬丝grade",
+      "result": "safe-removeoneownnegative source by latestacceptedapplication then stableeffectID; not alltargets/allfamily bydefault",
+      "scope": "explicitdispellable normalnegative only, no life/death/activity/quest/claimrecords/antibudget/sourceclassfacts",
+      "no_recursive_dispel": "not a Donglingactive解除 action, nevertrigger蛊毒/神力 or anothercleanse-response chain; delayed阎王safe removal noexplosion",
+      "source_origin": "projectinnate response, not claimnewofficialbaseability"
+    }
+  ],
+  "modifier_semantics": "three sourcepassives onlyraise chance on namedclassbase, no neweffectifbaseclass/level/rankineligible. Grade0 preservesexplicitbase500whenclassqualified; chance>4000part explicitlyunused. Beforefullgrade cap no addedhealquantity or secondroll.",
+  "order": "after committedrootHPdamage/lethal handling and existingreceived-heals, before attackerposthitnewnegative applications; only oldexistingnormalnegative sources eligible, no retroactiveunblocking ofalready skippedheals. Sourcepassiveproc seal blocks chance-based innate response whilevalid.",
+  "activation": "eachnewrole templateexplicitly selectsclass profile IDs or emptyarray. Ordinary sourceimport sword hasexplicitempty selection. FutureNPCbuild mustexplicitlydeclareknownprofile, not inferfromname or fillunknown. Aboveclassmechanics are projectrole defaults onlywhenactualformalclassconfigselects.",
+  "persistence": "ownclassprofile selection/version andsame-roottrigger receipt/random/mana delta/removedsource ID in currentcharacter state; no repeated heal/cleanse onloading inventory. Offlinepause freezeother timers; no refund/extraaward. Originalsourcecredentials preserved.",
+  "scope": "closes3sourceprobabilityroles usingexplicitnewprojectbehavior. It doesnotresolveofficialbaseidentity/formulas, or proveGodotNPCeffecttags/triggerexecution."
+}

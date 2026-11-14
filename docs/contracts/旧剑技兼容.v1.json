@@ -1,0 +1,178 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "legacy_martial_design_not_implemented",
+  "source_files": {
+    "assets/config/gameplay.ron": "2194f3f319cd183371d75f42c687b1006bb9984bda9d8f2c3b39572c85a979af",
+    "src/gameplay/skills.rs": "a54816eec220afb299d11358aaa536e10d61760d6859065f655237d9e64dec33",
+    "src/gameplay/combat.rs": "f24e74175e3b3050aaf34e49f6798d9f89b3b99b927281f254cb3f9ba2fa77fe"
+  },
+  "source_policy": "原四项名称/数组索引/上限3、解锁1/2/3/4级、学习2/4/8两、体力成本/动作时间/威力等取旧项目源码。固定攻击目标上限8和23命中防护接入为项目迁移设计，非官网技能。",
+  "legacy_rank_validation": "length4 integers0..3, energy rank1..3, spent=sum(ranks)-1 < decoded legacy level; other learned ranks require source levels2/3/4. Validate before target conversion. Do not call qigong respec to repair bad old ranks.",
+  "import_policy": {
+    "stable_ids": "exact original array index -> definition ability_id, preserve rank and learned/unlearned0",
+    "source_energy_rank_one_before_binding": "retain historical rank1 but not usable until Q001binding, never infer binding from learned flag",
+    "other22initial_teaching_grants": false,
+    "skill_bar": [
+      "legacy_sword_energy",
+      "legacy_sword_piercing",
+      "legacy_sword_guard",
+      "legacy_sword_mend"
+    ],
+    "new_save_cooldowns": "source snapshot has no cooldown/effect/action fields; initialize all0/noeffect as known format semantics, not evidence of full combat state",
+    "new_roles": "ordinary sword22starts teaching_sword_first; old family separately learnable from Cao after story binding, never replaces official sword skill library"
+  },
+  "learning": {
+    "npc_id": "npc_cao_bin",
+    "range_mm": 2500,
+    "class_id": "sword",
+    "requires_story_bound": true,
+    "prices_by_current_rank": [
+      2,
+      4,
+      8
+    ],
+    "energy_first_rank": "grant once at Q001binding for new sword role only; imports preserve old rank1 and never repeat grant",
+    "other_first_rank": "pay2 from rank0 at respective minimum level",
+    "shared_legacy_training_budget": "min(11,character_level-1)",
+    "spent": "sum(legacy ranks)-1 after energy first-rank grant; normal qigong/ascension/anti pools cannot pay",
+    "budget_domain": "only meaningful once story binding and free energy rank1 are present; before that no training, keep source ranks as imported",
+    "configuration_lower_level": "explicit preview budget conflict and chosen handling; never create negative normal points",
+    "rank3": "reject without charge",
+    "duplicate_request": "same result no second fee/rank",
+    "not_refunded_by_other_respecs": true
+  },
+  "action_policy": "accepted action snapshot fixes source level/rank/power; cost/cooldown paid once, interrupted or missed no refund; HP/mana/stamina override under20blood-devil applied before affordability but old payment never refunded. No ordinary attack auto-trigger or gathering by martial skill.",
+  "scope": "new runtime damage not numerically identical to old saturating defense/min1 due explicit23new formula; original level/rank/effect/cost retained and difference preview/documented. Does not prove runtime ability or animation quality.",
+  "abilities": [
+    {
+      "ability_id": "legacy_sword_energy",
+      "name": "剑气",
+      "class_id": "sword",
+      "legacy_rank_array_index": 0,
+      "minimum_character_level": 1,
+      "requires_story_bound": true,
+      "requires_equipped_sword": true,
+      "maximum_rank": 3,
+      "handler": "area_fixed",
+      "duration_steps": 36,
+      "effect_step": 15,
+      "stamina_cost": 30,
+      "hp_cost": 0,
+      "mana_cost": 0,
+      "cooldown_steps": 360,
+      "range_mm": 2800,
+      "cost_profile": "legacy_stamina_martial_cost",
+      "presentation_ref": "dev_legacy_sword_energy",
+      "damage": {
+        "base": 38,
+        "per_character_level_after_first": 8,
+        "per_skill_rank_after_first": 12,
+        "critical_allowed": false,
+        "attack_interval_added": false,
+        "damage_pipeline": "explicit fixed raw skill damage ->23ordinary hit/defense/protection; skip attack-interval draw/phase attack coefficient/crit; never double-add current weapon",
+        "maximum_targets": 8,
+        "arc_degrees": 360,
+        "target_selection": "valid original primary first if within geometry, then distance/id; action/hit ordinal one per target; not a projectile or teleport",
+        "source_difference": "old loop uncapped target count explicitly limited8 in new runtime; single story fixed-damage profile, never generic default"
+      }
+    },
+    {
+      "ability_id": "legacy_sword_piercing",
+      "name": "穿云刺",
+      "class_id": "sword",
+      "legacy_rank_array_index": 1,
+      "minimum_character_level": 2,
+      "requires_story_bound": true,
+      "requires_equipped_sword": true,
+      "maximum_rank": 3,
+      "handler": "cone_fixed",
+      "duration_steps": 39,
+      "effect_step": 15,
+      "stamina_cost": 35,
+      "hp_cost": 0,
+      "mana_cost": 0,
+      "cooldown_steps": 480,
+      "range_mm": 6000,
+      "cost_profile": "legacy_stamina_martial_cost",
+      "presentation_ref": "dev_legacy_sword_piercing",
+      "damage": {
+        "base": 48,
+        "per_character_level_after_first": 10,
+        "per_skill_rank_after_first": 12,
+        "critical_allowed": false,
+        "attack_interval_added": false,
+        "damage_pipeline": "explicit fixed raw skill damage ->23ordinary hit/defense/protection; skip attack-interval draw/phase attack coefficient/crit; never double-add current weapon",
+        "maximum_targets": 8,
+        "arc_degrees": 40,
+        "target_selection": "valid original primary first if within geometry, then distance/id; action/hit ordinal one per target; not a projectile or teleport",
+        "source_difference": "old loop uncapped target count explicitly limited8 in new runtime; single story fixed-damage profile, never generic default"
+      }
+    },
+    {
+      "ability_id": "legacy_sword_guard",
+      "name": "护体诀",
+      "class_id": "sword",
+      "legacy_rank_array_index": 2,
+      "minimum_character_level": 3,
+      "requires_story_bound": true,
+      "requires_equipped_sword": true,
+      "maximum_rank": 3,
+      "handler": "self_guard",
+      "duration_steps": 30,
+      "effect_step": 12,
+      "stamina_cost": 20,
+      "hp_cost": 0,
+      "mana_cost": 0,
+      "cooldown_steps": 840,
+      "range_mm": 0,
+      "cost_profile": "legacy_stamina_martial_cost",
+      "presentation_ref": "dev_legacy_sword_guard",
+      "effect": {
+        "duration_steps": 360,
+        "direct_damage_reduction_bp_by_rank": [
+          4000,
+          5000,
+          6000
+        ],
+        "periodic_damage_protected": false,
+        "stacking": "same source refresh360 not add; distinct known guard-family sources strongest only",
+        "snapshot_rank_at_application": true,
+        "ordering": "23percent-reduction stage before Zhen shield/Mei barrier",
+        "rank_upgrade_or_unequip": "no refresh or extra cast; paid standalone timed guard finishes snapshot duration"
+      }
+    },
+    {
+      "ability_id": "legacy_sword_mend",
+      "name": "回春诀",
+      "class_id": "sword",
+      "legacy_rank_array_index": 3,
+      "minimum_character_level": 4,
+      "requires_story_bound": true,
+      "requires_equipped_sword": true,
+      "maximum_rank": 3,
+      "handler": "self_heal",
+      "duration_steps": 42,
+      "effect_step": 18,
+      "stamina_cost": 25,
+      "hp_cost": 0,
+      "mana_cost": 0,
+      "cooldown_steps": 720,
+      "range_mm": 0,
+      "cost_profile": "legacy_stamina_martial_cost",
+      "presentation_ref": "dev_legacy_sword_mend",
+      "effect": {
+        "hp_restore_by_rank": [
+          40,
+          60,
+          80
+        ],
+        "target": "self_only",
+        "full_or_already_healing_blocked_before_accept": "reject no payment/cooldown",
+        "blocked_after_payment": "zero recovery, no refund",
+        "over_missing_hp": "only missing amount",
+        "dead_actor": "never resurrect"
+      }
+    }
+  ]
+}

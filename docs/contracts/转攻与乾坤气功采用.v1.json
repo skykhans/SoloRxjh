@@ -1,0 +1,91 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "five_class_specific_transfer_power_profiles_not_implemented",
+  "source_policy": "同名转攻为守枪/格斗按攻击转防，卢按受伤20%转防，乾坤枪增打击/卢1级1.5%而连击末击0.5%原职责及数值保留；概率/锚/时长/高级线性与试算时点为项目采用。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_spear_b8cdaf136e60",
+      "class_id": "spear",
+      "name": "转攻为守",
+      "profile_id": "attack_to_guard",
+      "source_table_index": 38,
+      "source_row_index": 5,
+      "source_row_sha256": "df9b3d47e86285e4cd3d94abbf3390b849eff2ef958a35c29c0a29e33e960bcc"
+    },
+    {
+      "qigong_id": "qigong_spear_ecdbd7ce502a",
+      "class_id": "spear",
+      "name": "乾坤挪移",
+      "profile_id": "spear_flat_martial_power",
+      "source_table_index": 38,
+      "source_row_index": 8,
+      "source_row_sha256": "3f5edb916c00ab9ff655fd14aa6d0b7a0f231620bf10325968e676fde7b6bc2a"
+    },
+    {
+      "qigong_id": "qigong_fighter_b8cdaf136e60",
+      "class_id": "fighter",
+      "name": "转攻为守",
+      "profile_id": "attack_to_guard",
+      "source_table_index": 44,
+      "source_row_index": 9,
+      "source_row_sha256": "c13ce240ecd46205211c4dbd76a6474562f2cd74d3542a00d51d448872e96fe7"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_ecdbd7ce502a",
+      "class_id": "lu_fenglang",
+      "name": "乾坤挪移",
+      "profile_id": "lu_split_martial_power",
+      "source_table_index": 46,
+      "source_row_index": 8,
+      "source_row_sha256": "270e06539fb9b1c6e45c95adc3b61475eca2c7bed2944b4ed31d0600bf9309a1"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_b8cdaf136e60",
+      "class_id": "lu_fenglang",
+      "name": "转攻为守",
+      "profile_id": "incoming20percent_to_guard",
+      "source_table_index": 46,
+      "source_row_index": 9,
+      "source_row_sha256": "c121be8b97ded938857004b3e713753bd0b2cc1317c6fcc1cb07fa2652a418e9"
+    }
+  ],
+  "attack_to_guard": {
+    "trigger": "first actual hostile direct root HP loss, receiver survives, once/action; no periodic/self/derived trigger",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "duration_steps": 180,
+    "snapshot": "nonfeedback own ordinary attack lower bound excluding all attack-defense conversions, final overrides and downstream rage/weakening/transfer",
+    "transfer_amount": "floor(snapshot_lower25percent)",
+    "changes": "both own attack endpoints subtract same transfer_amount, ordinary defense adds same amount; valid lower remains>=0, interval width preserved",
+    "source_fraction_unpublished": true,
+    "no_current_hit_retroaction": true,
+    "stacking": "one own source, new success replaces amount/duration no addition; other actor cannot donate copies"
+  },
+  "incoming20percent_to_guard": {
+    "trigger": "eligible root direct hit after hit/crit/accepted damage modifiers known, target alive, before ordinary defense application",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "duration_steps": 180,
+    "preview_damage": "floor(raw_before_defense100/(100+current ordinary+contextDefense excluding own prior transfer-family effect)); preview not committed HP loss and no callbacks/absorptions",
+    "added_defense": "floor(preview_damage20percent)",
+    "final_current_hit": "replace own transfer source then evaluate raw original event once with updated ordinary defense; later flat/percent/shield/barrier stages once; no iterative damage-defense convergence",
+    "already_active_source": "old own contribution excluded from preview, successful new source replaces not stacks; failed chance keeps old contribution for actual hit",
+    "temporary_grade_change": "source amount is activation snapshot, underlying effect eligibility must positive; no extra draw/refresh when anti changes grade"
+  },
+  "spear_flat_martial_power": {
+    "flat_power_per_effective_grade": 2,
+    "scope": "root attack martial flat skillpower component only, not basic/weapon/range/status/heal"
+  },
+  "lu_split_martial_power": {
+    "power_gain_bp_per_effective_grade_normal": 150,
+    "power_gain_bp_per_effective_grade_combo_or_finishing": 50,
+    "source_first_two_levels": "1:1.5/0.5percent,2:3/1percent; continuation beyond2 explicit project linear extrapolation",
+    "scope": "flat skillpower modifier only, use explicit combo_skill/finishing flags; if either true select lower coefficient once, not both",
+    "malformed_flags": "reject formal phase, never inspect name or actual hits to guess"
+  },
+  "stat_graph": "all attack-defense conversion inputs read declared pre-conversion anchors; pure flat skills feed skillpower stage not ordinary attack. Reversible snapshot sources expire/remove and recompute, no permanent base rewrites. New cycles/SCC reject before play, no default0 iteration fix.",
+  "persistence": "per source activation amount/grade/remaining1..180 and hit trial/final receipt kept; preview arithmetic does not consume second damage RNG or reward. Root replay never re-draw/recompute with new target stats; death clears timed transfer but cooldown/action receipts remain.",
+  "scope": "class-specific named rules only. They do not change general guard/ratio gas source meanings or complete all character build interactions.",
+  "effect_eligibility": "own class, learned/allocated positive effective grade under existing气功学习与秘籍 and升级发点; temporary0 suspends contribution without cancelling stored timer, no refunds. Never borrow same-name other-class branch."
+}

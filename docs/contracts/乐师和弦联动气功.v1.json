@@ -1,0 +1,120 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "7music_chord_and_attack_passives_not_implemented",
+  "source_policy": "保三和弦增强/鸾使岳阳当前效果增加200%/飞增发动率效果/子夜只七九/绝望/内力伤害/天龙最终20%职责；具体基数/概率/时长/数值与叠加顺序为项目采用。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_musician_1809b985e471",
+      "class_id": "musician",
+      "name": "岳阳三醉",
+      "source_table_index": 41,
+      "source_row_index": 7,
+      "source_row_sha256": "668ce2f8705bbb10f3e4230ca0872b7b26473c7b643951ae63455141dd588a12",
+      "profile_id": "chord_base_amplification"
+    },
+    {
+      "qigong_id": "qigong_musician_d915d93dacc7",
+      "class_id": "musician",
+      "name": "鸾凤和鸣",
+      "source_table_index": 41,
+      "source_row_index": 9,
+      "source_row_sha256": "633ec10d40e068a6e21c260a4bb0a7bff9994fd81ad996cc034b27a3d6e46a1b",
+      "profile_id": "temporary_yueyang_triple"
+    },
+    {
+      "qigong_id": "qigong_musician_626ca8850b21",
+      "class_id": "musician",
+      "name": "阳明春晓",
+      "source_table_index": 41,
+      "source_row_index": 10,
+      "source_row_sha256": "2bc92e0cc3602478da4fc0e78118c3c41c5080d03f5870e47eaaeb33bc22e788",
+      "profile_id": "despair_debuff"
+    },
+    {
+      "qigong_id": "qigong_musician_dae8fa5957f1",
+      "class_id": "musician",
+      "name": "潇湘雨夜",
+      "source_table_index": 41,
+      "source_row_index": 11,
+      "source_row_sha256": "bb3e228b758bd9d33e81a8212240e119bcbe8ebc1df73a27c5a8daf4b9719560",
+      "profile_id": "mana_damage"
+    },
+    {
+      "qigong_id": "qigong_musician_7cbe186f2df0",
+      "class_id": "musician",
+      "name": "飞花点翠",
+      "source_table_index": 41,
+      "source_row_index": 12,
+      "source_row_sha256": "f1d16a2d6250ce4afbd8c4716e9f6faf222262b6b8d2914eaa18409105a6a25d",
+      "profile_id": "luanfeng_proc_amplification"
+    },
+    {
+      "qigong_id": "qigong_musician_0e7b55f01daa",
+      "class_id": "musician",
+      "name": "子夜秋歌",
+      "source_table_index": 41,
+      "source_row_index": 14,
+      "source_row_sha256": "0a29e199bce4f77c3c950325f2665c7575e955fe2b0e948d3e75e8b44cb75042",
+      "profile_id": "seventh_ninth_amplification"
+    },
+    {
+      "qigong_id": "qigong_musician_92e2a06cde35",
+      "class_id": "musician",
+      "name": "天龙探爪",
+      "source_table_index": 41,
+      "source_row_index": 18,
+      "source_row_sha256": "733b2b93bdaf78db91064ad0d151ed40d493a77df80855143c68469a62e8bb00",
+      "profile_id": "one_attack_final20"
+    }
+  ],
+  "chord_composition": {
+    "baseline_owner": "职业特殊资源.v1.json musician.chord.effects",
+    "yueyang": "extra=floor(base_chord_bonus*100*effective岳阳grade/10000)",
+    "ziye": "if seventh/ninth, extra=floor(extra*(10000+50*effective子夜grade)/10000), not multiply base or triad",
+    "luanfeng": "when own active snapshot buff, extra=floor(extra*(30000+50*effective飞花grade)/10000); source增加200percent means triple Yueyangextra, not triple all base/stats",
+    "santan": "existing三潭映月 base-chord extra=floor(base_chord_bonus*50*effective三潭grade/10000), independent added once; never multiply whole composed total",
+    "final": "base+modifiedYueyangextra+independentSantanalone; no activechord=>0, no cycling all three states atonce",
+    "temporary_grade_zero": "remove only that contribution, do not delete baseline chord or refund learned points; expired luanfeng never boosts again from save"
+  },
+  "luanfeng_trigger": {
+    "root": "first actual primaryHPdamage normal/attackmartial, once/action, currentchordexists and positive own岳阳/鸾 grades",
+    "chance_bp": "min(4000,100*effective鸾grade+25*effective飞grade)",
+    "duration_steps": 360,
+    "snapshot": "飞grade saved for buff effect coefficient, selected 岳阳/子夜/三潭 current effective grades recompute chord output with their source eligibility",
+    "same_source": "replace360notadd, no different source clone",
+    "no_extra_attack": true
+  },
+  "despair_debuff": {
+    "trigger": "qualified root originalprimary actualHPloss,targetlives,once/action",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "duration_steps": 360,
+    "negative_family": "music_despair",
+    "effect": "attack martial flat skillpower reduced1000bp only; not weaponattack or maxHP",
+    "landing": "explicit normalnegative application eligible for stated generic避减益; not Dongling-onlyimmune",
+    "duration_modifiers_enabled": false,
+    "stacking": "strongest samefamily once, individual timers; same source refresh360notadd"
+  },
+  "mana_damage": {
+    "trigger": "qualified root originalprimary actualHPloss,targetlives,once/action",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "amount": "min(target_current_mana,accepted_caster_max_mana*effective_grade//100)",
+    "target_kind": "explicit martialNPC withmana; monsters adopted minimum0 give no meaningful mana hit/no pointless roll, do not createHPdamage",
+    "does_not_restore_attacker_mana": true,
+    "callbacks": "no HPlethal/lifesteal/bleed/rage/charge/armor penalty callbacks from manaloss",
+    "receipt": "same root resource event, no underflow or duplicated drain"
+  },
+  "one_attack_final20": {
+    "trigger": "accepted root normal/attackmartial after costs,once/action",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "gain_bp": 2000,
+    "source_published_ratio": true,
+    "snapshot": "same action gain once before percent protections, not repeated on derived/periodicdamage or one source per target limb"
+  },
+  "draw_order": "known accepted-cast天龙 before hit randomness; actual hit后 by stable eligible ID(luanfeng/despair/mana) then anti, each root consumed once. Derived event never triggers these.",
+  "persistence": "chord identity/remaining and luanfeng source snapshot/remaining360, unique proc receipt/despair source/mana delta and random consumption saved with same fixed-step result; pause/offline freeze, death clears transient state, no refresh just by UI redraw.",
+  "scope": "sourcebaseidentity/formulas for望梅解渴/刮骨疗毒 remain officiallyunresolved; explicitprojectbase nowowned by望梅与刮骨本地基础采用.v1.json; otheradoptedsourcecontracts remainindependent, no runtimecompletion claim."
+}

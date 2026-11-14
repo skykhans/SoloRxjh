@@ -1,0 +1,154 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "ten_recovery_and_mana_passive_profiles_not_implemented",
+  "source_policy": "保源气功对金创药/人参/治疗武功/武功耗内功的作用范围，精确每级系数/合成/取整为项目采用。名字运气疗伤的被动不是医师同名可施放治疗技能。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_spear_1e389fe4d9de",
+      "class_id": "spear",
+      "name": "运气疗伤",
+      "source_table_index": 38,
+      "source_row_index": 1,
+      "source_row_sha256": "296388be736fabf7a005b10db396f305c90640a71c95f5cda058b67bfdfdcee7",
+      "profile_id": "hp_potion_gain"
+    },
+    {
+      "qigong_id": "qigong_physician_8f4c2afe36fa",
+      "class_id": "physician",
+      "name": "运气行心",
+      "source_table_index": 40,
+      "source_row_index": 0,
+      "source_row_sha256": "645c17aa01e3e3414d6d45ebcedfa5ef2ee3bcb3008d5d800c1c895310198bb7",
+      "profile_id": "mana_potion_gain"
+    },
+    {
+      "qigong_id": "qigong_physician_2fa9ac5f9fe5",
+      "class_id": "physician",
+      "name": "太极心法",
+      "source_table_index": 40,
+      "source_row_index": 1,
+      "source_row_sha256": "d674958a720c28bf7ae9015226206f9daa125e798e5613891155341633850fab",
+      "profile_id": "martial_mana_reduction"
+    },
+    {
+      "qigong_id": "qigong_physician_c6b1fb781a15",
+      "class_id": "physician",
+      "name": "妙手回春",
+      "source_table_index": 40,
+      "source_row_index": 4,
+      "source_row_sha256": "d0cc4ab323f2f5f015927734b1ef0a9b33bd75d5ce3297db3278c2e65a65a93d",
+      "profile_id": "healing_martial_gain"
+    },
+    {
+      "qigong_id": "qigong_fighter_1e389fe4d9de",
+      "class_id": "fighter",
+      "name": "运气疗伤",
+      "source_table_index": 44,
+      "source_row_index": 1,
+      "source_row_sha256": "4adc94f0293a865a269bf6bdf7542e4a76cd0bf539af26cf891cb2858b6d3d65",
+      "profile_id": "hp_potion_gain"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_1e389fe4d9de",
+      "class_id": "lu_fenglang",
+      "name": "运气疗伤",
+      "source_table_index": 46,
+      "source_row_index": 1,
+      "source_row_sha256": "4daeb4e474cfffb8a5e2edb9a33dad05f33790c0a1e7c77c158e1d613264b272",
+      "profile_id": "hp_potion_gain"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_8f4c2afe36fa",
+      "class_id": "dongling_shennv",
+      "name": "运气行心",
+      "source_table_index": 47,
+      "source_row_index": 0,
+      "source_row_sha256": "87bb699cd0221eefb62b00c3585b2d5a0c9350ddb475e5077c73969dee12dbbb",
+      "profile_id": "mana_potion_gain"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_2fa9ac5f9fe5",
+      "class_id": "dongling_shennv",
+      "name": "太极心法",
+      "source_table_index": 47,
+      "source_row_index": 1,
+      "source_row_sha256": "b5ebf6fdc4e4e98f584ec43f9f44580843ad9ff5292164ad881d6781e87ad38e",
+      "profile_id": "martial_mana_reduction"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_c6b1fb781a15",
+      "class_id": "dongling_shennv",
+      "name": "妙手回春",
+      "source_table_index": 47,
+      "source_row_index": 7,
+      "source_row_sha256": "b3a75499067b0b3f4c2d33eff6ba2246cd8ac9d7d1d1a259a4c3027eb26a4f17",
+      "profile_id": "healing_martial_gain"
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_2fa9ac5f9fe5",
+      "class_id": "zhen_fengbai",
+      "name": "太极心法",
+      "source_table_index": 48,
+      "source_row_index": 4,
+      "source_row_sha256": "b6a4e68fccb264d42c07d2ae5c290904f7a29cb1093e7f7f601fb53fee41b761",
+      "profile_id": "martial_mana_reduction"
+    }
+  ],
+  "potion_effects": {
+    "gain_bp_per_effective_level": 100,
+    "cap_gain_bp": 4000,
+    "hp_item_ids": [
+      "consumable_hp_small",
+      "consumable_hp_medium",
+      "consumable_hp_large"
+    ],
+    "mana_item_ids": [
+      "consumable_mana_ginseng",
+      "consumable_mana_wild_ginseng",
+      "consumable_mana_snow_ginseng"
+    ],
+    "owner": "potion actual consumer passive grade at accepted use, not merchant or teammate healer",
+    "formula": "floor(base_item_restore*(10000+100*grade)/10000), then limit to current missing valid resource",
+    "not_affected": [
+      "changbai_ginseng",
+      "heavenly_stone",
+      "pending_claim",
+      "natural_regen",
+      "barrier_recovery"
+    ],
+    "healing_block": "pre-existing HP block rejects HP item use before cost/cooldown; no boosted bypass, mana items unaffected by HP-only block",
+    "multiple_same_named_sources": "one class-qualified passive source only; no repeated multiplier per potion stack"
+  },
+  "healing_martial": {
+    "gain_bp_per_effective_level": 150,
+    "cap_gain_bp": 6000,
+    "owner": "caster positive learned allocated effective grade snapshot at accepted heal, not recipient grade",
+    "formula": "base adopted heal amount -> floor(amount*(10000+150*grade)/10000) -> at effect apply live HP block/alive and limit missingHP",
+    "eligible": "explicit recovery_martial_skill/HP_heal profile, including20Dongling recovery ticks; no lifesteal/HP potions/resurrection/barrier/mana",
+    "periodic": "one cast grade snapshot kept for all valid ticks; do not multiply already boosted stored amount again each tick",
+    "group": "same caster coefficient once independently on each legal target base amount",
+    "no_new_procs": "magnitude modifier does not manufacture hit/crit/rage/charge events"
+  },
+  "mana_reduction": {
+    "reduction_bp_per_effective_level": 100,
+    "maximum_reduction_bp": 4000,
+    "scope": "instant mana payment of explicitly tagged martial skills, not all UI costs or persistent aura upkeep",
+    "eligible_source": "one effective learned own-class Taiji source",
+    "combine_with_auxiliary": "base* (10000-TaijiReduction) * (10000-strongestAuxReduction) /100000000; upward round once after product, positive result minimum1; no repeated per-source round or additive65percent cutoff",
+    "zero_original_cost": 0,
+    "blood_devil": "after all ordinary reductions, explicit new martial cost override0; before affordability checks; no payment refund on already paid actions",
+    "does_not_change": [
+      "HPcost",
+      "stamina_cost",
+      "item_count",
+      "learning_practice",
+      "silver",
+      "cooldown"
+    ],
+    "live_cost_snapshot": "at accept only; later anti/unequip does not refund or increase already accepted cost",
+    "named_proc_fee_exception": "甄凤柏内功联动气功.v1.json weapon_boost500 explicitly permits Taiji alone for extra passive500fee; ordinary auxiliary/blooddevil waiver not inferred"
+  },
+  "grade_policy": "existing learning conditions and named20/40 caps, temporary0 contributes zero; baseline restoration still follows item/skill definition. Missing modifier source/cost profile rejects, not guessed.",
+  "persistence": "store chosen cast recovery/cost snapshot and spent receipt, not another permanent base restore number. Potion quantity/effect/cooldown commit together; late block no catchup; same cast/tick replay no second heal."
+}

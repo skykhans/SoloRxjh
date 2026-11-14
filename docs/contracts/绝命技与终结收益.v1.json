@@ -1,0 +1,458 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "12_finishing_abilities_and_reward_modifiers_design_not_implemented",
+  "source_file": "../reference/武功气功参数.json",
+  "source_file_sha256": "322e4611d236f6998a30436ee9ce1693e43f42fdd7b172565c01572390acea40",
+  "source_policy": "韩绝命技标签与各行原名/等级保留；乐师心血和格斗绝命分组采用为本地finishing_martial，不能声称原表给出全部处决规则。神女原1-69/99/130目标段、经验/历练/钱倍数与物品提升10/15/20%保留；30%施放线、动作/费用/其他职业目标段及伤害为项目选择。",
+  "shared_refs": {
+    "learning": "六职业普通武功.v1.json#/learning",
+    "execution": "六职业普通武功.v1.json#/execution",
+    "damage_and_cost": "六职业普通武功.v1.json#/damage_and_cost"
+  },
+  "cast_policy": {
+    "required_target_combat_kind": "monster",
+    "excluded_target_kinds": [
+      "player",
+      "martial_NPC",
+      "friendly_NPC",
+      "gatherable"
+    ],
+    "missing_kind_or_level": "reject encounter config, never infer from humanoid model",
+    "maximum_target_hp_ratio_bp": 3000,
+    "threshold_formula": "current_hp*10000 <= maximum_hp*3000; target alive, positive valid maximum; checked before math",
+    "accept_and_impact": "level/kind/HP threshold/alive/hostility/range/LOS checked before cost, and again at actual impact; healing above threshold before impact makes no-finishing-hit, no refund/cooldown reset",
+    "mana_cost_formula": "20 + ceil(minimum_level/2)",
+    "stamina_cost": 0,
+    "life_cost": 0,
+    "ammo_item_cost": 0,
+    "cooldown_group": "one shared source_finishing_techniques group per caster600world steps, scopeexact12ability IDs inthisfile; choosing another tier cannot bypass. Original teaching_assassin_finisher keeps its own180step/3combo-point rules and isnotcaptured by the shared finishing_martial typeflag; ordinary root recovery lock still applies",
+    "damage": "one root direct attack_martial_skill; use ability flat power not shared4L; own class profile coefficient15000, standard23hit/crit/mitigation, named power modifiers once",
+    "no_guaranteed_execute": true,
+    "offensive_proc_policy": "ordinary root eligible named procs still follow their own restrictions; finishing_martial flag blocks only passives explicitly excluding it; no implicit supercritical or universal passive immunity",
+    "chord_policy": "these3musician finishers have no25normal-chord-advance tag; named梅花/鸾凤 trigger remains once by14 and own root receipts",
+    "death_result": "only if this direct finisher event commits final death; reflected damage/DoT/derived extras/other killer never borrow its reward profile; compare actual death event ID not latest attacker",
+    "tier_choice": "use exact paid ability reward profile; never highest learned level or automatic stronger fallback"
+  },
+  "reward_profiles": {
+    "ordinary_no_finisher_bonus": {
+      "experience_bp": 10000,
+      "practice_bp": 10000,
+      "silver_bp": 10000,
+      "random_drop_chance_bp": 10000,
+      "origin": "project choice; other9source rows do not publish Dongling multipliers"
+    },
+    "dongling_1": {
+      "experience_bp": 20000,
+      "practice_bp": 30000,
+      "silver_bp": 50000,
+      "random_drop_chance_bp": 11000,
+      "origin": "published2x/3x/5x and10percent drop increase; relative-chance interpretation is project choice"
+    },
+    "dongling_2": {
+      "experience_bp": 14000,
+      "practice_bp": 20000,
+      "silver_bp": 12000,
+      "random_drop_chance_bp": 11500,
+      "origin": "published1.4x/2x/1.2x and15percent drop increase; relative-chance interpretation is project choice"
+    },
+    "dongling_3": {
+      "experience_bp": 12000,
+      "practice_bp": 12000,
+      "silver_bp": 10000,
+      "random_drop_chance_bp": 12000,
+      "origin": "published1.2x/1.2x and20percent drop increase; source lists no silver increase, explicitly adopt unchanged silver"
+    }
+  },
+  "reward_order": {
+    "scope": "ordinary monster kill reward components that explicitly opt into finishing modifiers; quest/activity-completion/first-clear/fixed proof/ascension-progress unchanged",
+    "required_encounter_field": "finishing_reward_components explicit subset of experience,practice,silver,random_drop; empty is an explicit no-bonus design only with reason; missing field rejects export",
+    "xp_and_practice": "floor(actual monster base component*exact finisher multiplier/10000) once, then19qualified-member5percent pool/level weights; explicit training recipient bonuses apply after allocation before personal caps, never repeat finisher per recipient or create a second death event",
+    "silver": "floor(explicit base silver*multiplier/10000) once in original shared drop bundle, same pickup rights as base loot; not a new personal copy for each party member",
+    "random_drop": "each opted-in ordinary random table chance=min(10000,floor(original_bp*profile.random_drop_chance_bp/10000)); relative chance not percentage-point addition or more independent rolls; quantity/item-pool weighting unchanged",
+    "excluded_drops": "fixed guaranteed, quest, exclusive activity, unique protected and once-per-world rewards never multiplied",
+    "roll_position": "profile fixed from final death receipt before sole drop draw; no ordinary draw then reroll as improved; preserve chosen outcomes and random cursor",
+    "missing_base_drop_or_rewards": "reject formal encounter definition, no base zero/free/generated table to conceal unfinished world design",
+    "multiple_attackers": "exact one killer/direct-root profile for one death; no stack across selected skills, assistants or two simultaneous projectiles",
+    "atomicity": "deathID/profile/base&modified pools/qualified recipients/drop outcomes/receipts submitted together on host; replays restore same result; client cannot claim bonus based on visual kill",
+    "persistence": "remaining shared cooldown and paid action/direct death receipt saved by05/23; pause/offline freeze, load/reconnect cannot redraw or re-credit",
+    "training_followup_owner": {
+      "file": "修炼之门.v1.json",
+      "pointer": "/timed_buffs/reward_application",
+      "order": "finisher base/ordinary chance first; eligible training personal reward after allocation or unique public silver/drop multiplier afterwards once"
+    }
+  },
+  "action_profiles": {
+    "musician": {
+      "handler": "projectile",
+      "windup_steps": 36,
+      "active_steps": 1,
+      "recovery_steps": 47,
+      "hit_offsets_in_active_steps": [
+        0
+      ],
+      "attack_multiplier_per_hit_bp": 15000,
+      "range_mm": 12000,
+      "stamina_cost": 0,
+      "hp_cost_profile": "explicit_zero",
+      "cooldown_steps": 600,
+      "required_weapon_family": "zither",
+      "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+      "projectile_speed_mm_per_second": 12000,
+      "attack_category": "attack_martial_skill",
+      "maximum_targets_per_hit": 1,
+      "combo_skill": false,
+      "power_modifier_owner_file": "武功威力气功采用.v1.json",
+      "finishing_martial": true,
+      "critical_allowed": true,
+      "native_target_kind": "single",
+      "base_secondary_damage_bp": 10000,
+      "mana_cost_offset": 0,
+      "presentation_ref": "dev_finisher_musician",
+      "maximum_projectile_steps": 60,
+      "projectile_radius_mm": 100
+    },
+    "fighter": {
+      "handler": "melee_line",
+      "windup_steps": 36,
+      "active_steps": 1,
+      "recovery_steps": 47,
+      "hit_offsets_in_active_steps": [
+        0
+      ],
+      "attack_multiplier_per_hit_bp": 15000,
+      "range_mm": 1700,
+      "stamina_cost": 0,
+      "hp_cost_profile": "explicit_zero",
+      "cooldown_steps": 600,
+      "required_weapon_family": "gauntlets",
+      "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+      "projectile_speed_mm_per_second": 0,
+      "width_mm": 500,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "attack_martial_skill",
+      "maximum_targets_per_hit": 1,
+      "combo_skill": false,
+      "power_modifier_owner_file": "武功威力气功采用.v1.json",
+      "finishing_martial": true,
+      "critical_allowed": true,
+      "native_target_kind": "single",
+      "base_secondary_damage_bp": 10000,
+      "mana_cost_offset": 0,
+      "presentation_ref": "dev_finisher_fighter"
+    },
+    "han_feiguan": {
+      "handler": "melee_cone",
+      "windup_steps": 36,
+      "active_steps": 1,
+      "recovery_steps": 47,
+      "hit_offsets_in_active_steps": [
+        0
+      ],
+      "attack_multiplier_per_hit_bp": 15000,
+      "range_mm": 2500,
+      "stamina_cost": 0,
+      "hp_cost_profile": "explicit_zero",
+      "cooldown_steps": 600,
+      "required_weapon_family": "fire_dragon_blade",
+      "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+      "projectile_speed_mm_per_second": 0,
+      "arc_degrees": 90,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "attack_martial_skill",
+      "maximum_targets_per_hit": 1,
+      "combo_skill": false,
+      "power_modifier_owner_file": "武功威力气功采用.v1.json",
+      "finishing_martial": true,
+      "critical_allowed": true,
+      "native_target_kind": "single",
+      "base_secondary_damage_bp": 10000,
+      "mana_cost_offset": 0,
+      "presentation_ref": "dev_finisher_han_feiguan"
+    },
+    "dongling_shennv": {
+      "handler": "projectile",
+      "windup_steps": 36,
+      "active_steps": 1,
+      "recovery_steps": 47,
+      "hit_offsets_in_active_steps": [
+        0
+      ],
+      "attack_multiplier_per_hit_bp": 15000,
+      "range_mm": 12000,
+      "stamina_cost": 0,
+      "hp_cost_profile": "explicit_zero",
+      "cooldown_steps": 600,
+      "required_weapon_family": "cold_jade_staff",
+      "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+      "projectile_speed_mm_per_second": 12000,
+      "maximum_projectile_steps": 60,
+      "projectile_radius_mm": 100,
+      "attack_category": "attack_martial_skill",
+      "maximum_targets_per_hit": 1,
+      "combo_skill": false,
+      "power_modifier_owner_file": "武功威力气功采用.v1.json",
+      "finishing_martial": true,
+      "critical_allowed": true,
+      "native_target_kind": "single",
+      "base_secondary_damage_bp": 10000,
+      "mana_cost_offset": 0,
+      "presentation_ref": "dev_finisher_dongling_shennv"
+    }
+  },
+  "abilities": [
+    {
+      "ability_id": "finisher_musician_a080fbd05eb4",
+      "class_id": "musician",
+      "name": "心血破击",
+      "source_ref": {
+        "source_table_index": 17,
+        "source_row_index": 0,
+        "source_row_sha256": "9074e4535a011bd509372f3ca44a8bfb318069bedcf8db880f03a48d2743cb5e"
+      },
+      "minimum_level": 25,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 1,
+      "action_profile_id": "musician",
+      "target_minimum_level": 1,
+      "target_maximum_level": 69,
+      "reward_profile_id": "ordinary_no_finisher_bonus",
+      "flat_power_per_hit": 200,
+      "power_origin": "explicit project power, source row does not publish numeric power"
+    },
+    {
+      "ability_id": "finisher_musician_57c8bb2df5b9",
+      "class_id": "musician",
+      "name": "心血破曲",
+      "source_ref": {
+        "source_table_index": 17,
+        "source_row_index": 1,
+        "source_row_sha256": "630ee0d1ea0875b59122fd6d9d1ab4862c98a509c12c1c5decb0f35a8591aba2"
+      },
+      "minimum_level": 70,
+      "minimum_rank": 3,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 2,
+      "action_profile_id": "musician",
+      "target_minimum_level": 1,
+      "target_maximum_level": 99,
+      "reward_profile_id": "ordinary_no_finisher_bonus",
+      "flat_power_per_hit": 560,
+      "power_origin": "explicit project power, source row does not publish numeric power"
+    },
+    {
+      "ability_id": "finisher_musician_3a8a2366ceea",
+      "class_id": "musician",
+      "name": "心血破击奏",
+      "source_ref": {
+        "source_table_index": 17,
+        "source_row_index": 2,
+        "source_row_sha256": "efbb05e80c2075c659def3b5699a1d7bc96834b2a62425da717cc5aa684301e2"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 3,
+      "action_profile_id": "musician",
+      "target_minimum_level": 1,
+      "target_maximum_level": 130,
+      "reward_profile_id": "ordinary_no_finisher_bonus",
+      "flat_power_per_hit": 800,
+      "power_origin": "explicit project power, source row does not publish numeric power"
+    },
+    {
+      "ability_id": "finisher_fighter_d7113ab47a34",
+      "class_id": "fighter",
+      "name": "三绝拳",
+      "source_ref": {
+        "source_table_index": 19,
+        "source_row_index": 21,
+        "source_row_sha256": "73fb262b2a1b128dc9601d83ee532dd6eb2397e29cb443ad65e5d02d1c3ba6eb"
+      },
+      "minimum_level": 25,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 1,
+      "action_profile_id": "fighter",
+      "target_minimum_level": 1,
+      "target_maximum_level": 69,
+      "reward_profile_id": "ordinary_no_finisher_bonus",
+      "flat_power_per_hit": 200,
+      "power_origin": "explicit project power, source row does not publish numeric power"
+    },
+    {
+      "ability_id": "finisher_fighter_5ef19ae21a62",
+      "class_id": "fighter",
+      "name": "节拳击",
+      "source_ref": {
+        "source_table_index": 19,
+        "source_row_index": 22,
+        "source_row_sha256": "dc4951f1116723626b38e3dfc6512de9af4072b245d630ed6ad935154c1134db"
+      },
+      "minimum_level": 70,
+      "minimum_rank": 3,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 2,
+      "action_profile_id": "fighter",
+      "target_minimum_level": 1,
+      "target_maximum_level": 99,
+      "reward_profile_id": "ordinary_no_finisher_bonus",
+      "flat_power_per_hit": 560,
+      "power_origin": "explicit project power, source row does not publish numeric power"
+    },
+    {
+      "ability_id": "finisher_fighter_205f489380b7",
+      "class_id": "fighter",
+      "name": "断魂斩",
+      "source_ref": {
+        "source_table_index": 19,
+        "source_row_index": 23,
+        "source_row_sha256": "7e29657dea1b712542cac54af8caaa67b916b611a900522ec5daffc1699f004d"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 3,
+      "action_profile_id": "fighter",
+      "target_minimum_level": 1,
+      "target_maximum_level": 130,
+      "reward_profile_id": "ordinary_no_finisher_bonus",
+      "flat_power_per_hit": 800,
+      "power_origin": "explicit project power, source row does not publish numeric power"
+    },
+    {
+      "ability_id": "finisher_han_feiguan_a9fc96db38e4",
+      "class_id": "han_feiguan",
+      "name": "天魔贯穿",
+      "source_ref": {
+        "source_table_index": 21,
+        "source_row_index": 22,
+        "source_row_sha256": "9e5da35fe018c3ef0ffef2523caa8706a409436c18a48e0f3bb5aa804368578d"
+      },
+      "minimum_level": 25,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 1,
+      "action_profile_id": "han_feiguan",
+      "target_minimum_level": 1,
+      "target_maximum_level": 69,
+      "reward_profile_id": "ordinary_no_finisher_bonus",
+      "flat_power_per_hit": 200,
+      "power_origin": "explicit project power, source row does not publish numeric power"
+    },
+    {
+      "ability_id": "finisher_han_feiguan_74a68f1d0249",
+      "class_id": "han_feiguan",
+      "name": "天魔锁魂",
+      "source_ref": {
+        "source_table_index": 21,
+        "source_row_index": 23,
+        "source_row_sha256": "f73cf8e611f2eb26e97c7643c515aa881338fd17dd2de6d595feee179f887920"
+      },
+      "minimum_level": 70,
+      "minimum_rank": 3,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 2,
+      "action_profile_id": "han_feiguan",
+      "target_minimum_level": 1,
+      "target_maximum_level": 99,
+      "reward_profile_id": "ordinary_no_finisher_bonus",
+      "flat_power_per_hit": 560,
+      "power_origin": "explicit project power, source row does not publish numeric power"
+    },
+    {
+      "ability_id": "finisher_han_feiguan_5b7477b996bb",
+      "class_id": "han_feiguan",
+      "name": "天魔斩魄",
+      "source_ref": {
+        "source_table_index": 21,
+        "source_row_index": 24,
+        "source_row_sha256": "c8c76ffb7d3835f86c92771bcd5193019d6afe66cbe323e9d143bee1b5645683"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 3,
+      "action_profile_id": "han_feiguan",
+      "target_minimum_level": 1,
+      "target_maximum_level": 130,
+      "reward_profile_id": "ordinary_no_finisher_bonus",
+      "flat_power_per_hit": 800,
+      "power_origin": "explicit project power, source row does not publish numeric power"
+    },
+    {
+      "ability_id": "finisher_dongling_shennv_0983a313cc1b",
+      "class_id": "dongling_shennv",
+      "name": "遮星",
+      "source_ref": {
+        "source_table_index": 30,
+        "source_row_index": 17,
+        "source_row_sha256": "39095f382e668d4ea6ec9473704c62129ff5ba3ce21bcb91f4d9c8dd2f6c1685"
+      },
+      "minimum_level": 25,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 1,
+      "action_profile_id": "dongling_shennv",
+      "target_minimum_level": 1,
+      "target_maximum_level": 69,
+      "reward_profile_id": "dongling_1",
+      "flat_power_per_hit": 25,
+      "power_origin": "published numeric power adopted as flat input; formula semantics not claimed official"
+    },
+    {
+      "ability_id": "finisher_dongling_shennv_e5ff85df11b0",
+      "class_id": "dongling_shennv",
+      "name": "破星",
+      "source_ref": {
+        "source_table_index": 30,
+        "source_row_index": 18,
+        "source_row_sha256": "05d9756707ccd70e8e6e28880fcefda025c2814ad9a9c32df26fbd73fee3c13a"
+      },
+      "minimum_level": 70,
+      "minimum_rank": 3,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 2,
+      "action_profile_id": "dongling_shennv",
+      "target_minimum_level": 1,
+      "target_maximum_level": 99,
+      "reward_profile_id": "dongling_2",
+      "flat_power_per_hit": 70,
+      "power_origin": "published numeric power adopted as flat input; formula semantics not claimed official"
+    },
+    {
+      "ability_id": "finisher_dongling_shennv_7ecc331a6c19",
+      "class_id": "dongling_shennv",
+      "name": "化星",
+      "source_ref": {
+        "source_table_index": 30,
+        "source_row_index": 19,
+        "source_row_sha256": "409650a4162232fdd12e7c23c36670fee338a3522ca345a325fa4342c23abf94"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "any",
+      "maximum_phase": 1,
+      "tier": 3,
+      "action_profile_id": "dongling_shennv",
+      "target_minimum_level": 1,
+      "target_maximum_level": 130,
+      "reward_profile_id": "dongling_3",
+      "flat_power_per_hit": 100,
+      "power_origin": "published numeric power adopted as flat input; formula semantics not claimed official"
+    }
+  ],
+  "remaining_dependencies": "complete monster/drop/coin ownership/world/quests normal heroes adopted in英雄普通武功.v1.json and ascended abilities in升天武功与秘籍.v1.json; no gameplay or LAN result proved by arithmetic"
+}

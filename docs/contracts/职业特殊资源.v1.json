@@ -1,0 +1,193 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-13",
+  "status": "project_design_not_implemented_not_balanced",
+  "scope": "梅柳真障力/愤怒点、乐师和弦、甄凤柏生命耗费/充能护盾的状态与基础数值；不是全职业技能树或全部气功联动。",
+  "units": {
+    "world_steps_per_second": 60,
+    "basis_points_per_whole": 10000
+  },
+  "sources": [
+    {
+      "url": "http://rxjh.17game.com/data/qgwg/200905/39825.htm",
+      "archive": "../reference/官网资料/目录正文.json",
+      "facts": "障力基础吸收5%、障力恢复的低于50%前置/恢复100%、愤怒爆发40%/集3点、三七九和弦/高山流水20级可设置顺序、绝脉暴走威力+100%/生命消耗+50%及先增后减的绝脉治愈。"
+    },
+    {
+      "url": "http://rxjh.17game.com/data/qgwg/202607/71341.htm",
+      "archive": "../reference/官网资料/目录正文.json",
+      "facts": "梅柳真障力恢复各式威力及五/七式恢复、4分钟冷却说明；其他式的威力不自动证明官方恢复量。"
+    },
+    {
+      "url": "http://rxjh.17game.com/event/2026/content/index.html",
+      "archive": "../reference/官网资料/专题补充正文.json",
+      "facts": "甄凤柏攻击武功消耗生命，持续攻击武功可充能，触发短暂减伤护盾。"
+    }
+  ],
+  "source_policy": "仅sources.facts列出已保存公开事实；以下所有补全上限、公式、取整、时序、概率/持续等均为明确项目设计，未回填原始参考。",
+  "mei_liuzhen": {
+    "barrier": {
+      "maximum_from": "final_max_mana",
+      "maximum_multiplier": 2,
+      "initial": "full",
+      "absorption_base_bp": 500,
+      "absorption_bp_per_activation_point": 50,
+      "absorption_rounding": "ceil_then_limit_by_current_barrier",
+      "regen_base_bp_per_second": 100,
+      "regen_bp_per_utilization_point": 20,
+      "regen_fraction_denominator": 600000,
+      "regen_fraction_resets_on": [
+        "full",
+        "restore_blocked",
+        "maximum_changed",
+        "death"
+      ],
+      "healing_block_affects": [
+        "natural_regen",
+        "recovery_skill",
+        "recovery_passive"
+      ]
+    },
+    "recovery_passive": {
+      "requires_level": 60,
+      "threshold_numerator": 1,
+      "threshold_denominator": 2,
+      "threshold_comparison": "strictly_below_after_hit",
+      "chance_at_one_point_bp": 500,
+      "chance_bp_per_additional_point": 100,
+      "restore": "full_barrier",
+      "only_if_alive": true,
+      "once_per_unique_direct_hit": true
+    },
+    "recovery_skill": {
+      "amount_profile": "explicitly_tagged_recovery_power",
+      "ordinary_shared_cooldown_steps": 1800,
+      "ascended_shared_cooldown_steps": 14400,
+      "same_cooldown_group": "mei_barrier_recovery",
+      "rounding": "integer_power_then_limit_by_missing_barrier"
+    },
+    "fury_points": {
+      "initial": 0,
+      "maximum": 3,
+      "requires_level": 90,
+      "chance_per_eligible_direct_hit_bp": 4000,
+      "requires_learned_passive": true,
+      "at_full": "no_extra_gain_or_random_draw",
+      "consume": "next_accepted_attack_skill_once",
+      "power_bonus_bp_per_effective_level": 100
+    }
+  },
+  "musician": {
+    "chord": {
+      "initial": "none",
+      "states": [
+        "none",
+        "triad",
+        "seventh",
+        "ninth"
+      ],
+      "duration_steps": 600,
+      "maximum_active_states": 1,
+      "same_state_reapply": "refresh_not_extend",
+      "ordinary_attack_triggers_once_per_action": true,
+      "requires_actual_hostile_hit": true,
+      "effects": {
+        "triad": {
+          "attack_bonus_bp": 1000
+        },
+        "seventh": {
+          "defense_bonus_bp": 1000
+        },
+        "ninth": {
+          "attack_skill_power_bonus_bp": 1000
+        }
+      },
+      "default_cycle": [
+        "triad",
+        "seventh",
+        "ninth"
+      ],
+      "custom_cycle_requires_high_mountain_points": 20,
+      "custom_cycle_requires_permutation": true,
+      "loss_of_active_instrument": "clear_chord_keep_cycle",
+      "loss_of_custom_cycle_qualification": "keep_setting_inactive; use_explicit_default_cycle_until_qualified",
+      "custom_cycle_qualification": "effective level of learned/unlocked 高山流水 >= 20"
+    },
+    "random_chord_passive": {
+      "requires_level": 60,
+      "chance_at_one_point_bp": 1000,
+      "chance_bp_per_additional_point": 50,
+      "outcomes": "uniform_among_three_chords"
+    }
+  },
+  "zhen_fengbai": {
+    "attack_cost": {
+      "profile_id": "blood_attack_300bp",
+      "base_max_hp_bp": 300,
+      "base_rounding": "ceil",
+      "minimum_hp_after_payment": 1,
+      "basic_attack_cost_hp": 0,
+      "cost_is_damage": false,
+      "rampage_learn_level": 10,
+      "rampage_required_rank": 1,
+      "rampage_chance_at_one_point_bp": 500,
+      "rampage_chance_bp_per_additional_point": 100,
+      "rampage_power_bonus_bp": 10000,
+      "rampage_cost_multiplier_bp": 15000,
+      "healing_passive_learn_level": 130,
+      "healing_passive_required_rank": 8,
+      "cost_reduction_bp_per_point": 200,
+      "modifier_order": [
+        "base_cost_ceil",
+        "rampage_cost_ceil_if_triggered",
+        "healing_reduction_ceil"
+      ],
+      "insufficient_enhanced_cost": "suppress_rampage_keep_one_legal_base_cast_no_reroll"
+    },
+    "charge_shield": {
+      "initial_state": "charging",
+      "initial_charge": 0,
+      "charge_threshold": 100,
+      "charge_per_accepted_attack_skill_with_actual_hostile_damage": 10,
+      "maximum_gain_events_per_action": 1,
+      "charge_while_shielded": false,
+      "shield_duration_steps": 180,
+      "shield_damage_reduction_bp": 3000,
+      "damage_reduction_rounding": "ceil",
+      "charge_after_expiry": 0,
+      "basic_attack_gains_charge": false,
+      "self_cost_gains_charge": false,
+      "valid_state_constraints": {
+        "charging": {
+          "charge_min": 0,
+          "charge_max": 99,
+          "remaining_steps": 0
+        },
+        "shielded": {
+          "charge": 0,
+          "remaining_steps_min": 1,
+          "remaining_steps_max": 180
+        }
+      }
+    }
+  },
+  "lifecycle": {
+    "offline_and_pause": "freeze_world_steps_and_fraction",
+    "death": "clear_special_temporal_state; barrier_zero_until_explicit_respawn",
+    "respawn": "barrier_full; fury_zero; chord_none; charge_zero; shield_absent",
+    "role_change": "preview_and_clear_incompatible_special_state",
+    "missing_or_incompatible_fields": "reject_not_fill_defaults"
+  },
+  "effect_level_policy": "Allocation/effective limits have one owner in 升级发点.v1.json; formulas use the explicitly bound passive effective level, not a duplicated local cap.",
+  "effect_level_limit_file": "升级发点.v1.json",
+  "passive_identity_bindings": {
+    "barrier_activation": "qigong_mei_liuzhen_6a80e611b980",
+    "barrier_utilization": "qigong_mei_liuzhen_5fc283c1f2dd",
+    "barrier_recovery": "qigong_mei_liuzhen_93af86cec106",
+    "fury": "qigong_mei_liuzhen_73890f53bd3c",
+    "custom_chord_cycle": "qigong_musician_fc39bf546a62",
+    "random_chord": "qigong_musician_6a39c5714ed3",
+    "rampage": "qigong_zhen_fengbai_246736bb8bd9",
+    "healing_cost_reduction": "qigong_zhen_fengbai_070e70fe77b7"
+  }
+}

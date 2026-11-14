@@ -1,0 +1,248 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "legacy_identity_xp_resources_equipment_skills_receipt_design_not_implemented_full_profile_mapping_pending",
+  "source_archive": "../reference/旧存档结构基线.json",
+  "accepted_version_pairs": [
+    {
+      "schema_version": 1,
+      "content_version": "liuli-0.3"
+    },
+    {
+      "schema_version": 2,
+      "content_version": "liuli-0.4"
+    },
+    {
+      "schema_version": 3,
+      "content_version": "liuli-0.5"
+    },
+    {
+      "schema_version": 4,
+      "content_version": "liuli-0.6"
+    }
+  ],
+  "source_policy": "下列旧结构差异取实际解码源码；新目标ID/导入去重为项目设计，不将缺值默认或旧解码默认沿用到未知版本。",
+  "normalization_steps": [
+    {
+      "from_schema": 1,
+      "input_progress_fields": [
+        "total_exp",
+        "hp",
+        "stamina",
+        "silver",
+        "inventory",
+        "stage"
+      ],
+      "add_adventure": {
+        "boars_defeated": 0,
+        "wolves_defeated": 0,
+        "bamboo_harvested": 0,
+        "commissions_claimed": [
+          false,
+          false,
+          false
+        ]
+      },
+      "add_loadout": "rank0 fuxian_sword only if old stage says owned; rank0 menial_robe; empty equipment bag",
+      "add_martial_ranks": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "add_journey": "valley_hunt, kills[0,0], repeat_claimed[0,0]",
+      "add_sect": "rank0 contribution0 earned0 commissions[0,0,0]"
+    },
+    {
+      "from_schema": 2,
+      "remove_adventure_fields": [
+        "sword_rank",
+        "armor_rank"
+      ],
+      "add_loadout": "transfer exact two ranks to explicit sword/armor; sword only if source stage owns it; empty bag",
+      "forbid_input_extension_fields": [
+        "loadout",
+        "martial",
+        "journey",
+        "sect"
+      ],
+      "add_martial_ranks": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "add_journey": "same explicit old default",
+      "add_sect": "same explicit old default"
+    },
+    {
+      "from_schema": 3,
+      "remove_adventure_fields": [
+        "sword_rank",
+        "armor_rank"
+      ],
+      "add_loadout": "transfer exact ranks to sword/armor; source stage determines sword ownership",
+      "forbid_input_extension_fields": [
+        "loadout"
+      ],
+      "preserve_present_fields": [
+        "martial",
+        "journey",
+        "sect"
+      ]
+    },
+    {
+      "from_schema": 4,
+      "action": "read original full fields, never infer new missing data"
+    }
+  ],
+  "source_weapon_owned_stages": [
+    "bind_sword",
+    "gathering",
+    "challenge",
+    "return_to_outpost",
+    "completed"
+  ],
+  "inventory_mapping": {
+    "linglong_bamboo": "linglong_bamboo",
+    "beast_hide": "beast_hide",
+    "wolf_fang": "wolf_fang",
+    "spirit_ore": "spirit_ore",
+    "healing_potion": "consumable_hp_small"
+  },
+  "import_identity": {
+    "source_digest": "SHA256 exact source file bytes",
+    "source_version_pair_in_receipt": true,
+    "target_profile_scope": true,
+    "repeated_same_source_same_profile": "show prior imported character/result; no second role/items",
+    "new_source_bytes_same_old_role": "explicit distinct import preview, never automatically merge/overwrite old imported role",
+    "canonical_json_equivalence_not_guaranteed": "byte-different source has different digest, always show preview",
+    "role_id_derivation": "SHA256 UTF8 profile_id + ASCII0 separator + source_digest; prefix legacy_ and full hex digest",
+    "instance_id_derivation": "SHA256 UTF8 imported_role_id + ASCII0 separator + original_container_path_and_index; prefix legacy_item_ and full hex digest",
+    "same_source_identical_items_at_different_paths": "distinct instances; never deduplicate by definition/rank",
+    "receipt_and_role_commit": "one profile transaction; failure leaves old target/source intact; retry same receipt never grants again",
+    "source_is_read_only": true
+  },
+  "target_role": "Fang Chen sword preset, rank0 route unselected; do not run22new-character grants",
+  "training_gate_daily_conversion": {
+    "accepted_sources": "only four explicitly accepted schema/content pairs",
+    "target_character_state": {"by_world": {}},
+    "policy": "no historical task tokens or delivery rewards; explicit new ledger, never missing-field repair for new formats"
+  },
+  "training_gate_buff_conversion": {
+    "accepted_sources": "only the four explicitly accepted schema/content version pairs",
+    "target_character_state": {"by_world": {}},
+    "policy": "known legacy source has no training grant history; initialize empty ledger explicitly, never invent historical buffs or claims",
+    "world_clock": "explicitly created target world starts training_gate_clock_steps at0; joining an existing world uses its authoritative persisted clock",
+    "new_format_missing_fields": "reject; this legacy conversion is never a load repair"
+  },
+  "warehouse_silver_conversion": {
+    "accepted_source_schemas": [1, 2, 3, 4],
+    "target_field": "character.warehouse_silver",
+    "target_value": 0,
+    "carried_silver": "preserve exact old silver through existing mapping; never deposit it implicitly",
+    "owner_file": "容器与仓储.v1.json",
+    "new_format_missing_field": "reject, not an old import"
+  },
+  "critical_open_mappings": [
+    "whole schema5 profile strict shape and all character subsystem references/activities/instance validation, beyond receipt and retained progress components"
+  ],
+  "validation": "unknown/mismatched version pair, unknown fields, missing required old fields, malformed ranks/state/counters/settings/position fail entire import. No DB writes, no user save mutation, no importing a partial role just to pass later stages.",
+  "experience_conversion": {
+    "basis": "existing Rust decoder validates all accepted schemas against the current preserved liuli0.6 rules; this is the explicitly supported import baseline, not proof all historical private configurations had this curve",
+    "legacy_rules_file_sha256": "2194f3f319cd183371d75f42c687b1006bb9984bda9d8f2c3b39572c85a979af",
+    "legacy_level_start_xp": [
+      0,
+      100,
+      260,
+      500,
+      850,
+      1300,
+      1900,
+      2700,
+      3700,
+      5000
+    ],
+    "legacy_max_xp": 5000,
+    "legacy_max_level": 10,
+    "target_threshold_file": "等级经验.v1.json",
+    "method": "for legacy level L<10, target_xp = target_start[L] + floor((source_xp-old_start[L])*target_cost[L]/(old_start[L+1]-old_start[L])); source5000 old level10 maps exactly to target level10 start",
+    "preserves": "decoded old integer level and within-level rational progress to target XP precision; original total_exp preserved in import provenance, not asserted numerically unchanged",
+    "no_auto_advancement": true,
+    "preview_required_fields": [
+      "source_xp",
+      "legacy_level",
+      "legacy_fraction_numerator",
+      "legacy_fraction_denominator",
+      "target_xp",
+      "target_level",
+      "target_current_hp",
+      "source_current_hp",
+      "numeric_changes_reason"
+    ],
+    "custom_legacy_curve": "explicitly unsupported without a separately versioned and verified import profile; never guess from HP or skills"
+  },
+  "point_migration": {
+    "covered_level": "converted legacy level",
+    "level_award_spans": "if L>1, [2,L] kind legacy_import_skip, 0 ordinary/ascension normal award; none for L1",
+    "initial_ordinary_qigong_points": 0,
+    "initial_ascension_points": 0,
+    "initial_anti_qigong_budget": 0,
+    "future_relevel": "never repeat processed import-skip levels",
+    "normal_rules_after_import": "new future levels follow current table; no retroactive new-system points for imported levels",
+    "reason": "old saves have no new qigong/ascension pool, preserving historical martial levels does not award new pools"
+  },
+  "equipment_mapping_file": "旧装备兼容.v1.json",
+  "resource_conversion": {
+    "source_validation": {
+      "hp": "integer1..(120+30*(legacy_level-1)); schema1..4 source validation rejects dead0 HP, never rescues it",
+      "stamina": "finite numeric0..100 per preserved baseline; parse original JSON numeric token as decimal/rational for preview, not accidental language int conversion",
+      "source_numeric_tokens_preserved": true
+    },
+    "hp": {
+      "old_max_hp_base": 120,
+      "old_max_hp_per_level": 30,
+      "target_max_hp": "compute fully validated imported sword role at converted level/rank0, real imported equipment/sect/skills and explicit overrides; never use new-character template",
+      "formula": "ceil(old_hp * target_max_hp / old_max_hp)",
+      "rounding_reason": "positive old HP remains positive; ratio error less than1 target HP; not a refill",
+      "full_old_hp": "maps exactly to target maximum",
+      "invalid_source": "reject before conversion; never clamp bad old HP"
+    },
+    "stamina": {
+      "target_max": 100,
+      "formula": "floor(source_stamina rational value)",
+      "rounding_reason": "explicit fractional quantization to integer rule, loss strictly less than1; preserve original token and show before/after in preview",
+      "waiting_steps": 60,
+      "fraction_remainder": 0,
+      "normal_regeneration_after_import": "23 contract, never initialize to full or recover offline time"
+    },
+    "mana": {
+      "source_field_absent": true,
+      "target": "full derived current mana maximum; explicitly new resource initialization, not proof old mana existed"
+    },
+    "other_resources": "no rage/chord/shield/charge sources in old snapshot; initialize explicitly absent/0 for sword class, do not read combat effects from current play session",
+    "no_new_grants": "no health potion, XP, points, starter gear or quest reward on conversion",
+    "commit_policy": "original and converted resource values recorded with source digest in same import receipt; preview/confirmation precedes actual import; retry repeats original result not new healing"
+  },
+  "legacy_martial_mapping_file": "旧剑技兼容.v1.json",
+  "receipt_schema_file": "旧档导入凭证.schema.json",
+  "receipt_policy": {
+    "profile_field": "legacy_import_receipts",
+    "default_for_new_profile": [],
+    "unique_receipt_key": "target_profile_id + source_sha256 + import_profile_id",
+    "storage_unit": "same profile JSON atomic commit as imported role, not external index/DB",
+    "strict_fields": "schema validates shape only; arithmetic/references/deduplication require semantic validation",
+    "version_pair": "exact accepted_version_pairs; independent enum membership insufficient",
+    "source_numeric_token": "parse whole original JSON number grammar, finite0..100, rational floor must equal target_stamina; no eval/code/nonnumeric text",
+    "conversion_relations": "source level/maxHP, targetXP and HP ceiling validated with pinned import-profile v1, not mutable present role. Imported sword rank0,no new HP qigong/overrides and old equipment/sect have no maxHP bonus; targetMaxHP=133+7*(sourceLevel-1). Old skills validated against source level. Later role configuration/level/equipment changes never rewrite historical conversion.",
+    "source_paths": "canonical original normalized schema4 paths, each once; two distinct paths keep distinct ID. ID re-derived using receipt role ID and path; no mutable current container indices",
+    "present_role_reference": "exactly one current role with matching identity; target instances may later be moved/sold/consumed, so receipt is initial provenance, never recreates missing current items",
+    "deleted_role_reference": "no current role under target ID; keep tombstone after explicit role deletion; replay reports already imported then deleted, never silently resurrects",
+    "revision": "positive commit revision <= current profile revision, no duplicate or future imports",
+    "receipt_updates": "after original commit immutable except explicit present->deleted tombstone; live progression never rewrites conversion snapshot",
+    "same_origin_changed_bytes": "explicit separate preview, no auto-merge as previously defined",
+    "receipt_unknown_versions_or_bad_relations": "reject profile/import; never rebuild index by guessing current role contents"
+  },
+  "sect_mapping_file": "旧门派与委托.v1.json",
+  "retained_progress_mapping_file": "故事冒险门派进度.v1.json"
+}

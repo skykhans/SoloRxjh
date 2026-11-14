@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SoloRxjh legacy import receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "receipt_version": {
+      "const": 1
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_schema_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "source_content_version": {
+      "enum": [
+        "liuli-0.3",
+        "liuli-0.4",
+        "liuli-0.5",
+        "liuli-0.6"
+      ]
+    },
+    "import_profile_id": {
+      "const": "legacy-liuli06-to-jianghu1"
+    },
+    "target_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_character_id": {
+      "type": "string",
+      "pattern": "^legacy_[0-9a-f]{64}$"
+    },
+    "character_state": {
+      "enum": [
+        "present",
+        "deleted"
+      ]
+    },
+    "conversion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_xp": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "source_level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "target_xp": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 81000
+        },
+        "source_hp": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 390
+        },
+        "source_max_hp": {
+          "type": "integer",
+          "minimum": 120,
+          "maximum": 390
+        },
+        "target_hp": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "target_max_hp": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "source_stamina_token": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_stamina": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "legacy_skill_ranks": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          }
+        }
+      },
+      "required": [
+        "source_xp",
+        "source_level",
+        "target_xp",
+        "source_hp",
+        "source_max_hp",
+        "target_hp",
+        "target_max_hp",
+        "source_stamina_token",
+        "target_stamina",
+        "legacy_skill_ranks"
+      ]
+    },
+    "source_equipment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source_path": {
+            "type": "string",
+            "pattern": "^progress\\.loadout\\.(weapon|armor|bag\\[(0|[1-9][0-9]*)\\])$"
+          },
+          "source_definition_id": {
+            "enum": [
+              "fuxian_sword",
+              "ironwood_blade",
+              "refined_blade",
+              "frost_edge",
+              "menial_robe",
+              "leather_armor",
+              "dark_iron_armor"
+            ]
+          },
+          "source_rank": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "target_instance_id": {
+            "type": "string",
+            "pattern": "^legacy_item_[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "source_path",
+          "source_definition_id",
+          "source_rank",
+          "target_instance_id"
+        ]
+      }
+    },
+    "normalization_profile_version": {
+      "const": 1
+    },
+    "committed_profile_revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    }
+  },
+  "required": [
+    "receipt_version",
+    "source_sha256",
+    "source_schema_version",
+    "source_content_version",
+    "import_profile_id",
+    "target_profile_id",
+    "target_character_id",
+    "character_state",
+    "conversion",
+    "source_equipment",
+    "normalization_profile_version",
+    "committed_profile_revision"
+  ]
+}

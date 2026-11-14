@@ -1,0 +1,92 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "four_Zhen_mana_protection_passives_not_implemented",
+  "source_policy": "保20内功/2000以上/武器1.5/额外500及太极减耗、夜魔30%、绝脉比较总内功且怪物取最低的源职责；基数/概率/包含边界/最低值/叠加顺序均项目采用。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_zhen_fengbai_25b154f1e921",
+      "class_id": "zhen_fengbai",
+      "name": "内功罡气",
+      "source_table_index": 48,
+      "source_row_index": 10,
+      "source_row_sha256": "db1b081331234a3358b65f509af5f00a050fb88467131da077ba3f2894ad6195",
+      "profile_id": "mana_guard20"
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_9eca08cd0894",
+      "class_id": "zhen_fengbai",
+      "name": "内功血雨",
+      "source_table_index": 48,
+      "source_row_index": 11,
+      "source_row_sha256": "5a1bfff6cf43270372c1567b90ab890e44cf6d32a52a3c7c0813c5600a69c34f",
+      "profile_id": "weapon_boost500"
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_59df04f4e6da",
+      "class_id": "zhen_fengbai",
+      "name": "夜魔缠身",
+      "source_table_index": 48,
+      "source_row_index": 12,
+      "source_row_sha256": "a195161b8f0fdf5b827d7be6585de9a311cd1fcad191d1e31ff1225eb9b7407b",
+      "profile_id": "night30_protection"
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_bf60f49786ce",
+      "class_id": "zhen_fengbai",
+      "name": "绝脉运气",
+      "source_table_index": 48,
+      "source_row_index": 19,
+      "source_row_sha256": "ba4095f9edcc81fc758e9149aceb63232ebcea39808762c55364694bc346c1b8",
+      "profile_id": "mana_gap_skillpower"
+    }
+  ],
+  "eligibility": "same class learned allocated positive effective grade; named profile dependencies/actor.kind/weapon pool explicit, no unknown source fallback",
+  "mana_guard20": {
+    "trigger": "each unique successful root direct monster attack before defense; not misses/iframes/DoT/environment/derived",
+    "payment_mana": 20,
+    "taiji_or_aux_reduced": false,
+    "blood_devil_waived": false,
+    "can_pay": "currentmana>=20; debit once, no RNG. Insufficient -> no benefit for this hit and no debit, show reason, not ordinary fielddefault",
+    "pve_defense_add": "floor(valid_max_mana*effective_grade*25/10000), only this committed hit defensive slot",
+    "continuous_panel": "show conditional potential/20mana requirement, do not persist permanent defense",
+    "immune_to_hostile_current_blooddevil": "hit rejected before upkeep; no mana consumed"
+  },
+  "weapon_boost500": {
+    "trigger": "accepted root normal or attack martial after ordinary base fees paid, before attack snapshot; once per action",
+    "threshold_current_mana": 2000,
+    "threshold_operator": ">= project explicit interpretation of source以上",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "fee_base_mana": 500,
+    "fee_rule": "named exception applies Taiji reduction only, ceil500*(10000-TaijiReduction)/10000; auxiliary reduction not applied, minimum1. This extra passive fee not waived by blooddevil martial base0cost. No successful proc if cannot pay; do not reroll.",
+    "result": "active equipped blood-orb weapon explicit attack contribution min/max*1.5floor, add only differential to accepted ordinaryattack interval; do not multiply full character attack1.5 or add fullweapon again",
+    "weapon_pool": "project only current weapon instance base+real enhancement/explicit allowed growth; source someother-equipment not published, no implied jewelry/cape inclusion. Future additionalpool must version explicitly.",
+    "snapshot": "successful fee and weapon differential/root ID committed together; later miss no refund or repeated per target"
+  },
+  "night30_protection": {
+    "eligible": "unique direct hostile root hit after ordinarydefense/fixed reduction before percent protection",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "damage_cancel_bp": 3000,
+    "rounding": "ceil remaining30percent canceled, minimumremaining0 not1",
+    "not_apply": [
+      "selfcost",
+      "periodic",
+      "environment",
+      "derived reflection"
+    ],
+    "same_source": "once per hit, not one roll per percent stage"
+  },
+  "mana_gap_skillpower": {
+    "self_total": "validated maxmana, not currentmana after cost",
+    "target_total": "martialNPC maxmana; monster project minimum0 explicit, no fake monster blue bar; unknownkind rejected",
+    "gap": "max(0,selfmax-targetmax), negativegap0",
+    "gain_bp": "floor(100*effective_grade*gap/selfmax); ownmax mustpositive, maximumgrade*100",
+    "scope": "root attack martial flat skillpower component, not normal attack/weapon/DoT/full final damage",
+    "target_specific": "primary snapshot provides action profile; each target validated kind/total for per-target power modifier, one time without changing root class"
+  },
+  "order": "base martial fees and HP override first -> accepted offensive weapon_boost roll/extra500payment -> weaponinterval and skillpower source snapshots. At hit: relationship/immunity/hit -> mana_guard20 once then ordinarydefense -> night protection with other explicit named protection before charging shield; never debit20twice for defense preview.",
+  "persistence": "action fee/sourcegrade/weaponpool/gap and perhit20payment/protection roll receipts saved with same random/resource revision; preview/UI no payment, load/miss/retry never second500or20. No persistent equipment mutation from temporary weapon differential.",
+  "scope": "four named effects only, actual sufficient-mana normal build/economy and all equipment growth still P/Tvalidation; does not grant free maxmana or create new2000mana on source learning."
+}

@@ -1,0 +1,53 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "two_area_passives_not_implemented",
+  "source_policy": "枪范围副目标由50%到80%、甄单体周围4敌/范围目标+4及五式秘籍原说明保留；概率/半径/成长曲线/派生限制/计时为项目采用。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_spear_1e68c7400ec7",
+      "class_id": "spear",
+      "name": "灵甲爆发",
+      "source_table_index": 38,
+      "source_row_index": 11,
+      "source_row_sha256": "a9e770eba06824a1cd3eec6ddfedcb6d3ddfa7cc67be39523196de0493173e83",
+      "profile_id": "spear_secondary_multiplier"
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_d33fc09ee12f",
+      "class_id": "zhen_fengbai",
+      "name": "霹雳弹指",
+      "source_table_index": 48,
+      "source_row_index": 17,
+      "source_row_sha256": "179ef696a7ecf85fff4de1ab14da06424589b8903bce7d9f17b6383d871b499c",
+      "profile_id": "zhen_extra_four"
+    }
+  ],
+  "spear_secondary_multiplier": {
+    "requires_root_martial_area_skill": true,
+    "requires_declared_base_secondary_damage_bp": 5000,
+    "effective_secondary_bp_formula": "min(8000,5000+150*effective_grade); grade20 reaches8000, higher legal grade excess explicitly unused",
+    "primary_bp": 10000,
+    "no_new_targets": true,
+    "operation": "replace exact secondary multiplier once, not multiply8000 over already5000. Other class/skill explicit100percent secondary profile remains intact and cannot silently be reclassified5000.",
+    "missing_or_other_secondary_policy": "formal spear-area definition must specify compatibility; source unknown or missing base secondary field rejects formal export, not default reduction",
+    "stage": "after ordinary direct damage computations before target final percent protections, using unscaled per-target amount, apply its named secondary rate once; no second multiplier on already processed damage",
+    "root_primary_dead_or_outside_shape": "no other target promoted to primary just to gain100percent"
+  },
+  "zhen_extra_four": {
+    "requires_root_attack_martial": true,
+    "requires_original_primary": true,
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "draw_time": "accepted cast after all admission checks before selecting target list; once per action, pay/cooldown and random result same receipt",
+    "single_target_branch": "on first actualHPdamage of original primary, one splash event to up to4other enemies within5000mm of primary hit position; no primary duplicate. No actual hit -> no splash, no second roll.",
+    "area_branch": "increase each declared hit ordinal target capacity exactly4 after original base recipient selection; select additional unique valid targets within original area shape, no new radius",
+    "recipient_order": "original valid primary first, base secondary distance/id, then4extra distance/id from remaining. Deduplicate actor IDs per hit ordinal; no duplicate award for multi hurt boxes",
+    "extra_damage": "same accepted action attack/flat-power/phase snapshot and target-specific modifiers; each extra target own accuracy/mitigation, crit disabled by project; derived-no-offensive-procs tag prevents recursion",
+    "secondary_extra_does_not_refill_base_slots": "base candidates snapshot/declared impact scope; absent candidates yield fewer hits, never synthesize targets",
+    "finishing_or_combo_classification": "root original explicit single/area/finishing/combo labels unchanged; passive splash never changes quest challenge label"
+  },
+  "classification": "single/area comes from the original ability target-policy ID and declared native capacity, not number of actual enemies or ultimate hits. Single hit1 plus4splash remains single for10turn test; native area hitting1 remains area. Missing label rejects formal ability configuration.",
+  "persistence": "accepted per-action proc snapshot, primary,selected unique IDs/root/extra ordinals,queued splash center/remaining and emitted receipts recorded. Ordinary save waits root descendants; activity snapshot preserves all. No replay redraw/reselection after receipt.",
+  "scope": "does not mark all spear/Zhen official abilities adopted. Their original target caps/geometry/secondary multipliers still need explicit per-source phase definitions; no runtime feature claim."
+}

@@ -1,0 +1,216 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "11assassin_archer_passives_and_project_finisher_not_implemented",
+  "source_policy": "保超必杀/连击点留存/快打延时/必杀增减耗/夜魔30%/顺水20%/普通对怪附伤职责，精确点数机制/概率/倍率/时长/原创起手必杀为项目采用，不称原官网低阶技能或必杀阶段已核。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_assassin_e42f6805509a",
+      "class_id": "assassin",
+      "name": "致手绝命",
+      "source_table_index": 37,
+      "source_row_index": 3,
+      "source_row_sha256": "81019947c704c3004fd4ab5cd375049f3f8f075e963953dd9a8fcccb1b70662a",
+      "profile_id": "supercritical_damage"
+    },
+    {
+      "qigong_id": "qigong_assassin_2280eb338657",
+      "class_id": "assassin",
+      "name": "心神凝聚",
+      "source_table_index": 37,
+      "source_row_index": 4,
+      "source_row_sha256": "2f36aea175caf851433a557b375dcd7c1c3235edf743c03c9fca509c2173adee",
+      "profile_id": "supercritical_chance"
+    },
+    {
+      "qigong_id": "qigong_assassin_e05a70bee4f7",
+      "class_id": "assassin",
+      "name": "以怒还怒",
+      "source_table_index": 37,
+      "source_row_index": 5,
+      "source_row_sha256": "89b0bee61c2587bd10459f2180c1268c92cb1e59b207b94684dfcc9c0550ca4a",
+      "profile_id": "finisher_preserve_points"
+    },
+    {
+      "qigong_id": "qigong_assassin_13e892549725",
+      "class_id": "assassin",
+      "name": "先发制人",
+      "source_table_index": 37,
+      "source_row_index": 7,
+      "source_row_sha256": "9f2026ddbe7c3e922bb5644a5623d42d6a5289618741e3c5c52648e05e249153",
+      "profile_id": "fast_attack_accuracy"
+    },
+    {
+      "qigong_id": "qigong_assassin_7a4c5686a28d",
+      "class_id": "assassin",
+      "name": "剑刃乱舞",
+      "source_table_index": 37,
+      "source_row_index": 10,
+      "source_row_sha256": "7e9205fde3e4540d7ed7380107442ccdb1c2637194b0b1ccd051e13671798b74",
+      "profile_id": "quick_attack_duration"
+    },
+    {
+      "qigong_id": "qigong_assassin_98cc2fd5447f",
+      "class_id": "assassin",
+      "name": "一招残杀",
+      "source_table_index": 37,
+      "source_row_index": 11,
+      "source_row_sha256": "f59662c6983d7e07f8b68e0d915d77b5903c5cef80ea2153628eb3bea2c27afb",
+      "profile_id": "finisher_damage_proc"
+    },
+    {
+      "qigong_id": "qigong_assassin_59df04f4e6da",
+      "class_id": "assassin",
+      "name": "夜魔缠身",
+      "source_table_index": 37,
+      "source_row_index": 12,
+      "source_row_sha256": "f63a48c6ae9651b5734e8271f7f4a930665a156ad414fcc26e64f7f736b0b630",
+      "profile_id": "received_cancel30"
+    },
+    {
+      "qigong_id": "qigong_assassin_7d31c5bd5607",
+      "class_id": "assassin",
+      "name": "顺水推舟",
+      "source_table_index": 37,
+      "source_row_index": 13,
+      "source_row_sha256": "00fa4f5212dd48326d2e8b400b0b30492ce3fc40e39ac68ac9ce47eb38daf383",
+      "profile_id": "received_restore20"
+    },
+    {
+      "qigong_id": "qigong_assassin_6fbf0fec5c18",
+      "class_id": "assassin",
+      "name": "无情打击",
+      "source_table_index": 37,
+      "source_row_index": 14,
+      "source_row_sha256": "ebe4553b3718116e64708dd1a921d8c6987068547e4e270360e521abe108b68b",
+      "profile_id": "normal_monster_extra"
+    },
+    {
+      "qigong_id": "qigong_assassin_aa15ccfcccb7",
+      "class_id": "assassin",
+      "name": "一招杀神",
+      "source_table_index": 37,
+      "source_row_index": 18,
+      "source_row_sha256": "af80aac40a4c656c793171830bb75a9ed918b219f22eacf124b53d3384e28f6e",
+      "profile_id": "finisher_mana_reduction"
+    },
+    {
+      "qigong_id": "qigong_archer_2280eb338657",
+      "class_id": "archer",
+      "name": "心神凝聚",
+      "source_table_index": 39,
+      "source_row_index": 7,
+      "source_row_sha256": "d3f36d55d557c51393b85f11d03a931bd8f4a8f4b69a99c2bcd547a35bb4842c",
+      "profile_id": "supercritical_chance"
+    }
+  ],
+  "combo_point_resource": {
+    "class_id": "assassin",
+    "initial": 0,
+    "maximum": 3,
+    "gain": "root normal action firstactualHPdamage to originalprimary +1, once/action; no derived,multi hit later,ticks,gather or incoming damage",
+    "finisher_requirement": 3,
+    "payment": "accepted explicitfinishing_martial costprofile consumes3 once; cannot cast before3 even if chance保点 would succeed",
+    "preserve_chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "preserve": "以怒 triggers once after all admission/resource checks; success keeps3 but paysmana/cooldown, no extra gainedpoint; miss aftercost no refund",
+    "death": "clear0; pause/offline freeze; action/root receipt and actualpoints saved",
+    "not_same_as": "Mei愤怒点/rage/qigonglevelpool"
+  },
+  "supercritical": {
+    "allowed_class_ids": [
+      "assassin",
+      "archer"
+    ],
+    "requires_explicit_phase_critical_allowed": true,
+    "base_chance_bp": 0,
+    "chance_bp_per_effective心神grade": 100,
+    "maximum_super_chance_bp": 4000,
+    "super_multiplier_bp": 20000,
+    "assassin_extra_multiplier_bp_per_effective致手grade": 100,
+    "selection": "one23critical integerdraw: [0,superchance)supercritical, next ordinarychance ordinarycritical, remaindernormal; sum capped9500, ordinary segment gets remainingcap. No rolltwice, no stacked1.5*2.",
+    "scope": "rootnormal/attackmartial only; derived arrows/reflection/DoT/heal/legacyfixedcriticalfalse excluded",
+    "actual_hit_tags": "supercritical impliescritical forsingle defensive10percent test, not instantkill and not automatically finishing_martial"
+  },
+  "profiles": {
+    "fast_attack_accuracy": {
+      "extra_accuracy_per_effective_grade": 1,
+      "qualifies": "accepted normal totalwindup+active+recovery<=30steps afterlegitimate快打 timing; no playerwait/visualFPS manipulation"
+    },
+    "quick_attack_duration": {
+      "extra_duration_steps_per_effective_grade": 6,
+      "target": "own已采用快打 source only, notallbuff/attackperiod/cooldown"
+    },
+    "finisher_damage_proc": {
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "gain_bp": 3000,
+      "eligible": "explicitrootfinishingmartial ataccept, onegain snapshot/action, no other attackbyname"
+    },
+    "received_cancel30": {
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "eligible": "uniqueincomingrootdirect hostilehit, afterordinarydefense/fixedstage beforepercentprotect",
+      "cancel_bp": 3000,
+      "rounding": "ceilportioncanceled, zeroallowed; noself/DoT/reflection"
+    },
+    "received_restore20": {
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "eligible": "rootdirectactualHPloss receiverstillalive,once/root; no life afterterminaldeath",
+      "heal": "floor(actualreceivedHPloss20percent), HPblock/missingcap obeyed, no actualzero-min1"
+    },
+    "normal_monster_extra": {
+      "flat_extra_bp_of_accepted_attack_upper_per_effective_grade": 50,
+      "eligible": "rootnormal firstprimaryactualHPloss vscombat_kindmonster, notNPCmartial/derived",
+      "damage": "oneaddedfloor(accepted_attack_upper*50*grade/10000), cappedactualtriggerHPloss, no additionalHPcallbacks/procs"
+    },
+    "finisher_mana_reduction": {
+      "reduction_bp_per_effective_grade": 50,
+      "max_reduction_bp": 2000,
+      "eligible": "explicitrootfinishing_martial instantmana cost only",
+      "combine": "multiplybase with declaredTaiji/aux andownfinisher factor thenceilonce; positivebase minimum1; HP/stamina/items/points3 not reduced, blooddevil martial0override afterordinarymodifiers"
+    }
+  },
+  "supporting_active_definitions": [
+    {
+      "ability_id": "teaching_assassin_finisher",
+      "class_id": "assassin",
+      "name": "三息绝击",
+      "origin": "originalproject lowlevelresource teaching, notofficialsource name or replacement of full assassin tree",
+      "minimum_level": 25,
+      "minimum_rank": 1,
+      "learning_practice": 5000,
+      "learning_silver": 1000,
+      "learning_npc_id": "npc_hyunbo_master",
+      "maximum_stage": 1,
+      "mana_cost": 8,
+      "hp_cost": 0,
+      "stamina_cost": 0,
+      "combo_point_cost": 3,
+      "cooldown_steps": 180,
+      "windup_steps": 18,
+      "active_steps": 1,
+      "recovery_steps": 29,
+      "required_weapon_family": "dual_blade",
+      "range_mm": 1800,
+      "width_mm": 500,
+      "maximum_targets_per_hit": 1,
+      "native_target_kind": "single",
+      "finishing_martial": true,
+      "combo_skill": false,
+      "critical_allowed": true,
+      "flat_power_per_hit": 0,
+      "attack_multiplier_per_hit_bp": 20000,
+      "hit_offsets_in_active_steps": [
+        0
+      ],
+      "attack_category": "attack_martial_skill",
+      "presentation_ref": "dev_teaching_assassin_finisher",
+      "new_role_initial_grant": false
+    }
+  ],
+  "cast_order": "validateweapon/class/life/points3 andotherfees -> accepted保点 and一招增伤 results -> debitpoints whennotpreserved/mana afterexplicit reductions -> snapshots -> actualaccuracy/oneexclusivecriticaldraw -> damage/procs. Eachreceipt neverrepeated frommultiplehurtboxes.",
+  "persistence": "combo0..3, paid/preserved marker andfinishergain, exclusivecriticaloutcome/consumption stored withaction/root. Ordinarysave waitsdescendants; no newpointsfromreplay. Configexplicitpoints keepssource record, no normal skillacquisition claim.",
+  "scope": "namedprofilesonly; own烈日 armor-mask adoption now owned by烈日防具失效气功采用.v1.json, not thiseffectfile. Fullofficialactivephase/gear/context/runtime dependencies remain unfinished."
+}

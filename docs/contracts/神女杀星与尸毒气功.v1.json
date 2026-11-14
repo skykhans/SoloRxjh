@@ -1,0 +1,110 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "last2Donglingpassives_have_explicit_project_base_and_scaling_not_implemented",
+  "source_policy": "原文仅给杀星增加伤害、尸毒增加异常状态效果；不提供完整基础动作/伤害/触发。下列基础模型、比例/概率/时长/目标/防递归均为明确项目设计，不把尸毒与阎王爆合并，不声称查获官方隐藏公式。",
+  "source_file": "../reference/武功气功参数.json",
+  "bindings": [
+    {
+      "qigong_id": "qigong_dongling_shennv_239d791beef3",
+      "class_id": "dongling_shennv",
+      "name": "杀星义气",
+      "source_table_index": 47,
+      "source_row_index": 3,
+      "source_row_sha256": "f804e985cbdf6cd59151985823834f369014481dc9cd811ebb7a179d8c196748",
+      "profile_id": "star_flat_component"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_73e602492364",
+      "class_id": "dongling_shennv",
+      "name": "尸毒爆发",
+      "source_table_index": 47,
+      "source_row_index": 18,
+      "source_row_sha256": "de73d60450cad0c0cfd603c90fe4be3a809386fee5ccdea7798cda1c8b69adb2",
+      "profile_id": "corpse_poison"
+    }
+  ],
+  "effective_level_owner_file": "升级发点.v1.json",
+  "eligibility": "own learned/unlocked source with actual allocation>=1, compatible class/weapon and positive effectivegrade; use21learning/book/rank conditions. grade0 no new contribution/application; accepted snapshots/independent landed effects not retroactively rewritten bytemporary anti.",
+  "star_flat_component": {
+    "root": "own direct attack_martial_skill only, original primary first successful hit once per accepted root; finishing allowed unless another explicit source restriction, normal/heal/negative-status-only/DoT/derived excluded",
+    "snapshot_at_accept": [
+      "own positive effectivegrade",
+      "unified final attack interval maximum",
+      "root primary ID",
+      "star component unconsumed marker"
+    ],
+    "base_component_formula": "floor(accepted_final_attack_maximum/20)",
+    "grade_add_per_effective_grade": 2,
+    "total_component_formula": "base_component + 2*accepted_effective_grade",
+    "basis_origin": "project separates explicit base and passive increase; grade0 means no whole star component, not a free intrinsic grant",
+    "stage": "after normal flat martial-power percentage composition, before phase coefficient/critical/ordinary defense; additive named component, not another separate hit",
+    "consumption": "first true hit on original primary consumes before damage even if shields/defense yield0HP loss; missed primary segment doesnotconsume, later real primary hit mayconsume; secondary/derived never steal eligibility",
+    "no_second_power_multiplier": true,
+    "no_extra_random_or_callbacks": true,
+    "persistence": "save root component amount and consumed primary/ordinal with accepted grade, no permanent derived attribute; root replay not add again"
+  },
+  "corpse_poison": {
+    "trigger": "own root direct attackmartial first actual positive originalprimary HP loss while originalprimary stillalive; once/action afterdamage and beforeanti; no proc fromnormal/negative-only/heal/reflection/derived/status ticks",
+    "base_proc_chance_bp": 1000,
+    "proc_seal": "20eligible普通气功 probability seal subtracts strongest stated seal amount, floor0; deterministic immunity/invalid target rejects beforeproc draw; one [0,9999] root draw only whenchancepositive",
+    "status_avoid": "after proc success, existing strongest generic incoming-negative avoidance may reject one application; original root damage remains; no new ordinary hit/crit for poison",
+    "base_tick_amount_formula": "floor(accepted_final_attack_maximum/20)",
+    "potency_gain_bp_per_effective_grade": 100,
+    "tick_amount_formula": "floor(base_tick_amount*(10000+100*accepted_effective_grade)/10000)",
+    "duration_base_steps": 300,
+    "tick_interval_steps": 60,
+    "duration_modifiers": "normal outgoing/incoming negative-duration composition once per20/异常状态防护与解除气功; save effective total and remaining, interval60unchanged, all due ticks throughfinalexpiry. base300gives5ticks, normal modifiers can change count. No catchup onlateblock/pause.",
+    "family_id": "dongling_corpse_poison",
+    "family_kind": "hostile_Dongling_negative_periodic",
+    "immunity_tag": "dongling_negative_status_immunity",
+    "dispellable": true,
+    "spread_allowed": false,
+    "source_payload": [
+      "caster identity and accepted class",
+      "exact qigong ID/grade",
+      "accepted final attackmaximum and final tick amount",
+      "root/source/targetIDs",
+      "effective total/remaining/family tick phase",
+      "poison death-hook processed marker"
+    ],
+    "stacking": "one receiverfamily tick; choose strongest active tick amount then stable sourceID, keep allsource durations; samecaster/qigong/target replaces remaining notadd. Existing family phase retained onreplace/stronger arrival, no extra immediate tick. Zero is legal arithmetic not minimum1.",
+    "periodic_damage": "23enemy status protections once, no ordinary defense/hit/crit or offensive proc/charge/anti/bleed recursion. Real HP loss and authoritative death credited once, defender receivedrage allowed byits rules.",
+    "death_burst": {
+      "trigger": "target commits first authoritative death withactivefamily; snapshot winning strongest source beforedeadtargeteffect cleanup. Only living registered caster in same sceneinstance eligible; valid registered caster withoutliveentity means no burst, unknown identity isinvalidsnapshot. Do not searchweaker sources ifwinner ineligible.",
+      "excluded_fatal_events": [
+        "corpse_poison_burst",
+        "self_cost",
+        "nonhostile_environment"
+      ],
+      "amount_formula": "2*winning_snapshot_tick_amount",
+      "radius_mm": 3000,
+      "target_cap": 4,
+      "selection": "other living hostile enemies in same instance, corpse death-position sphere andLOS, immunity filter, distance/stableID; original deadtargetexcluded. No target promotion/throughwall/teleport.",
+      "immunity": "new receivers withDongling-negative immunity reject beforedamage; shields/statusprotection applyonce, no normalaccuracy/crit/defense",
+      "tags": [
+        "enemy_status_burst",
+        "corpse_poison_burst",
+        "derived_no_attack_procs",
+        "no_corpse_poison_chain",
+        "not_direct_finisher"
+      ],
+      "order": "complete original lethal event/death reward snapshot first, then queued burst beforeend-of-stepcleanup. A victim killed by this burst cannot trigger anothercorpsepoison burst even if it was marked; periodic due on alreadydeadvictim skipped.",
+      "rewards": "each actual newly caused death hasitsown deathID/caster credit; never borrow26directfinisher multipliers, never award olddeadbody again or satisfy本人kill using anotherentity",
+      "deduplication": "original_target_deathID + winning_sourceID + burstordinal, eachrecipient once; persist targets/snapshots/cursor/results withrootdeathreceipt",
+      "same_step_order": "capture winner/deathposition at each first death beforecleanup; complete due ordinaryroots/periodicticks first, then one sorted burstwave byoriginaldeathroot/sourceID/targetID, then final cleanup. Caster alive/sameinstance and receivers rechecked atwave; failed eligibility gives no alternate source. Burst-caused deaths never enqueue anothercorpsewave."
+    },
+    "safe_remove_without_burst": [
+      "natural_expiry",
+      "dispel",
+      "immunity",
+      "explicit_configuration_removal",
+      "scene_cleanup"
+    ],
+    "temporary_grade_zero": "no new proc; existing independently landed snapshot continues remainingduration, not rerolled/rescaled; own respec doesnot refund original attackcost",
+    "save": "store source/familyremaining/tickphase anddeathhook receipt, includingburst queue ifactivity. Normal save waits pending death/burstsettlement, pause/offline freeze; knowninactiveowner preservedasidentitynotdefaultlivecaster"
+  },
+  "cross_contract": "20解除all/selectedfamily recognizes thisexplicitknownexternal Dongling family and removes it safely;20传染 doesnotcopy becausefamily notin its whitelist. This isnot20阎王爆 accumulator; no damage-tracking/reflection/expiryexplosion. Named阎王-specific defensive passives do not coverthisburst.",
+  "persistence": "star rootmarker andcorpse source/ticks/deathhook/queuedburst results in same05/23 authoritative state. LANhost owns allrandom/recipients andreceipts, no newproc/reburst onreconnect. No new skill/manualitem identity; existing21two qigong records remain authority forlearning.",
+  "source_file_sha256": "322e4611d236f6998a30436ee9ce1693e43f42fdd7b172565c01572390acea40"
+}

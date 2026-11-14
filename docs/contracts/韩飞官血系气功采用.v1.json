@@ -1,0 +1,161 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "nine_Han_independent_combat_profiles_not_implemented",
+  "source_policy": "保狂血连续有冷却技能10秒/最多2层/40%80%、问鼎火龙时长、流光对怪群体、暗影依攻击附伤、行风25%、内息缩冷却、极血2层增两被动概率、天魔之力增血系伤、真气还原专防真武源职责；其他概率/系数/作用时点为项目选择。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_han_feiguan_7eb4aed2b2b4",
+      "class_id": "han_feiguan",
+      "name": "天魔狂血",
+      "source_table_index": 42,
+      "source_row_index": 2,
+      "source_row_sha256": "b0a3f68bdacfd70f03e8b64486c06fa0d33e22957ca747959a56190b74fb70f9",
+      "profile_id": "blood_stacks"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_68962c7f89bb",
+      "class_id": "han_feiguan",
+      "name": "火龙问鼎",
+      "source_table_index": 42,
+      "source_row_index": 9,
+      "source_row_sha256": "53dbdd696cf7e6dc3e6ea3891d32df2e5f978580445113e9399aa3a2574aa663",
+      "profile_id": "awakening_duration"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_967048d82c30",
+      "class_id": "han_feiguan",
+      "name": "流光乱舞",
+      "source_table_index": 42,
+      "source_row_index": 10,
+      "source_row_sha256": "0279c471173e75ce0a5c07014b4a26b05ee66bc46cef01530edd5c107d3a023b",
+      "profile_id": "monster_area_power"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_ab4099fbdb01",
+      "class_id": "han_feiguan",
+      "name": "暗影绝杀",
+      "source_table_index": 42,
+      "source_row_index": 11,
+      "source_row_sha256": "11bbeb08e4d926f6f623efbdc497eab77879caaafa46a94902a2e96ee183fe0f",
+      "profile_id": "attack_based_extra"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_9b9acbfddd29",
+      "class_id": "han_feiguan",
+      "name": "行风弄舞",
+      "source_table_index": 42,
+      "source_row_index": 12,
+      "source_row_sha256": "1e656694256c6a6d345671f696a619361012c7ab924fc46250718bab6080985e",
+      "profile_id": "one_attack25percent"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_2198d87d10ce",
+      "class_id": "han_feiguan",
+      "name": "内息行心",
+      "source_table_index": 42,
+      "source_row_index": 13,
+      "source_row_sha256": "b99a38ccfa69bd8e00c260ff5fb50420bed347d59468c6bf58c3cc7022f8ad56",
+      "profile_id": "martial_cooldown"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_2e9107f47d37",
+      "class_id": "han_feiguan",
+      "name": "天魔极血",
+      "source_table_index": 42,
+      "source_row_index": 14,
+      "source_row_sha256": "65d46f19d07b90f076374c6bedc35b4710b69f079125d30ae49c163d49409539",
+      "profile_id": "extreme_blood"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_e4e4cfe990a7",
+      "class_id": "han_feiguan",
+      "name": "天魔之力",
+      "source_table_index": 42,
+      "source_row_index": 18,
+      "source_row_sha256": "d936c7dbab339710f84b37f961c0769800d027753e2135be618acf8d6764d3b9",
+      "profile_id": "blood_damage_gain"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_e5305a25c37e",
+      "class_id": "han_feiguan",
+      "name": "真气还原",
+      "source_table_index": 42,
+      "source_row_index": 21,
+      "source_row_sha256": "4fafc5b3bb1bd49f7e1e674a159ce6de17c957e2368c148aecff8ed0b6a001bd",
+      "profile_id": "martial_lethal_reduction"
+    }
+  ],
+  "blood_stacks": {
+    "initial_stack": 0,
+    "maximum_stack": 2,
+    "window_steps": 600,
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "qualifying_cast": "accepted root hostile attack martial with positive declared cooldown, after all base fees; no heals/buffs/basic/derived or UI command",
+    "update": "if previous remaining0, stack0; draw once to add1 up to2, then reset window600 on valid consecutive cast. At2 no pointless draw, preserve2/reset600. Effect snapshot uses new count for this accepted action. Miss/interruption no refund or rollback.",
+    "damage_gain_bp_per_stack": 4000,
+    "one_or_two": "4000/8000 total gain, not two multiplicative1.4 factors",
+    "temporary_effective_zero": "no source damage/stack gain, existing remaining window freezes only on pause/offline and otherwise continues, not a free reward on recovery"
+  },
+  "awakening_duration": {
+    "applies_to": "explicit fire_dragon_awakening temporary weapon-buff family in辅助武功采用, not lightness/rage or permanent weapon advancement",
+    "extra_steps_per_effective_grade": 6,
+    "sample_at_cast_once": true,
+    "shared_cooldown": "unchanged1800base; no duration-derived cooldown refresh"
+  },
+  "monster_area_power": {
+    "skill_power_gain_bp_per_effective_grade": 100,
+    "eligibility": "root native-area attack martial vs explicit monster, not native single with passive splash; flat skillpower source stage only"
+  },
+  "attack_based_extra": {
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "trigger": "first original-primary actualHPdamage in root attack action, target still living, once/action",
+    "extra": "floor(accepted ordinary_attack_upper50percent), capped at actual triggerHPdamage, apply one derived_no_offensive_procs extra to same target",
+    "mitigation": "no new accuracy/crit/ordinary defense again; explicit derived damage protection/shield once",
+    "derived_activates_blood": false
+  },
+  "one_attack25percent": {
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "trigger": "accepted root normal/attack martial, once/action after costs before final damage gain snapshot",
+    "damage_gain_bp": 2500,
+    "no_repeat_per_target": true
+  },
+  "martial_cooldown": {
+    "reduction_bp_per_effective_grade": 50,
+    "maximum_reduction_bp": 2000,
+    "target": "newly accepted own martial active skill cooldowns only, not passive internal/gather/potion/dodge/world/activity",
+    "formula": "ceil(base_cooldown_steps*(10000-50grade)/10000), minimum1 if originalpositive; explicit shared group applies same reduced started duration once",
+    "not_modify_existing_timers": true
+  },
+  "extreme_blood": {
+    "requires_current_blood_stacks": 2,
+    "extra_chance_bp_per_effective_grade_for_named_passives": 25,
+    "named_profiles": [
+      "attack_based_extra",
+      "one_attack25percent"
+    ],
+    "final_chance_cap_bp": 4000,
+    "independent_extreme_proc_bp_per_effective_grade": 100,
+    "extreme_gain_bp": 4000,
+    "scope": "one qualifying blood cast action, no added timer/third stack; no blood-stacks2 means no enhanced chance or extreme roll",
+    "reentry": "no generated cast, extra attack or automatic next action"
+  },
+  "blood_damage_gain": {
+    "gain_modifier_bp_per_effective_grade": 50,
+    "apply_to": "blood-stacks and extreme damage-gain portions only, multiply portions once; no effect on all other damage/25percent source",
+    "snapshot_once": true
+  },
+  "martial_lethal_reduction": {
+    "reduction_bp_per_effective_grade": 100,
+    "maximum_reduction_bp": 4000,
+    "requires_tag": "source actual root damage receipt martial_lethal from武功致命气功采用, not all crit or all attack skills",
+    "phase": "23named percent protection, one application, no reflect/derived trigger"
+  },
+  "action_order": "accepted fees -> snapshot eligiblegrades/expire oldblood -> bloodstack update -> extreme conditional roll -> eligible行风 roll -> record total blood/extreme/行风gain. Named gain portions sum, multiplier applied once at23hit-time final modifiers. Miss no new callback; actual hit may trigger暗影 once, plus extreme probability modifier from root snapshot.",
+  "grade_dependencies": "sameclass learned allocated positive effective own source required; extreme and its bonus additionally require own effective狂血>0 and root2stack snapshot. 天魔之力 requires actual nonzero blood/extreme portion, not a standalone buff.",
+  "persistence": "stack0..2/window0..600 with invariant window0=>stack0, original action snapshot/gain/extra queue and random receipts. Death clears active stack/window, cooldowns remain. Save/load does not refresh600 or reroll extreme; LAN host authority only.",
+  "scope": "nine named Han effects, independent from ordinary blade/normal rage. Full official Han active phase adoption/hero weapon paths still incomplete; all values marked project where not explicitly published."
+}

@@ -1,0 +1,75 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "three_range_passives_not_implemented",
+  "source_policy": "原弓有效射程/梅平打武功射程及基础攻击/神女减益施展距离职责保留；精确米数/攻击加量/上限/快照行为为项目采用，不声称官方系数。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_archer_41101560ddfc",
+      "class_id": "archer",
+      "name": "猎鹰之眼",
+      "source_table_index": 39,
+      "source_row_index": 1,
+      "source_row_sha256": "69081da4d1f4d35bb87e25e13a477519b8bc7130dcedaa24676b3ce88f83c5be",
+      "profile_id": "bow_effective_range"
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_4117142977ef",
+      "class_id": "mei_liuzhen",
+      "name": "玄武的指点",
+      "source_table_index": 45,
+      "source_row_index": 4,
+      "source_row_sha256": "cc9236d94779cb18c71ee83a929d7a35f1541f6de0a29f1e3347718e75f7e2dc",
+      "profile_id": "mei_range_and_base_attack"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_845c6cd72b52",
+      "class_id": "dongling_shennv",
+      "name": "黑花漫开",
+      "source_table_index": 47,
+      "source_row_index": 6,
+      "source_row_sha256": "ea5d467080f69b9cbd85014f1acc59c9170a09a1db8501338e3d4cfdd0c87809",
+      "profile_id": "negative_status_cast_range"
+    }
+  ],
+  "profiles": {
+    "bow_effective_range": {
+      "range_mm_per_effective_grade": 100,
+      "allowed_weapon_family": "bow",
+      "scope": [
+        "normal_attack",
+        "attack_martial_skill"
+      ],
+      "unsupported": "melee-only tagged attack cannot be made ranged by this source"
+    },
+    "mei_range_and_base_attack": {
+      "range_mm_per_effective_grade": 100,
+      "allowed_weapon_family": "black_tortoise_bow",
+      "scope": [
+        "normal_attack",
+        "attack_martial_skill"
+      ],
+      "base_attack_min_add_per_effective_grade": 1,
+      "base_attack_max_add_per_effective_grade": 1
+    },
+    "negative_status_cast_range": {
+      "range_mm_per_effective_grade": 100,
+      "scope": "explicit Dongling negative status skill cast targeting only",
+      "excludes": [
+        "party_heal",
+        "positive_buff",
+        "dispel",
+        "ordinary_damage_attack",
+        "secondary_aoe_radius",
+        "spread_radius"
+      ]
+    }
+  },
+  "application": "require own class learned/allocated positive effective grade and exact skill tags; effective cast/normal reach=explicit base reach+grade100mm, current grade0..40. Same-family range sources strongest contribution only; max+4000mm. Sum/overflow validated, no absent base range default.",
+  "targeting": "current effective range used for selectable intent and LOS precheck; only valid hostile/party policy target, never global lock or distant interaction. Action snapshots effective range at accept; later source/anti changes apply next action, not retroactive refund.",
+  "projectiles": "preserve speed/radius/trajectory/solid collision; effective maximum travel distance from accepted reach, lifetime=ceil(distance_mm*60/speed_mm_per_second). Recompute once from explicit positive speed, not keep original short life or extend old flying projectile after gear change. First hostile interception never rewrites primary.",
+  "geometry": "no through-wall/closed gate/water navigation changes. Max targets, cone/line width and secondary splash/spread/burst radius unchanged unless distinct explicit source says otherwise. Root target original geometry revalidated at hit.",
+  "not_gather_or_dodge": "does not alter2mcollect,2.5mNPC,3mdodge,portal activation or melee collision capsules. No extra arrow/extra skill proc/AI detection range by this source.",
+  "mei_attack": "add both endpoints once in the declared base flat source stage; do not additionally multiply shot damage or repeat bonus per arrow snapshot. Not ordinary archer or all weapon-class buff.",
+  "persistence": "store accepted action/projectile reach and remaining lifetime, no permanent derived range cache. Offline/pause freezes projectile steps; queued derived arrows use accepted root snapshot. Live selector after load recalculates from current legitimate build."
+}

@@ -1,0 +1,220 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-13",
+  "status": "project_design_not_implemented_not_balanced",
+  "source_policy": "职业内功/甄凤柏V25正文已存狂风延时、刺客/枪客/格斗家怒气差异、出血及伤痕不按来源叠加、血雨恶魔PK专用/留1生命/5秒/无敌愤怒免费发动及击杀指定敌人否则死亡。以下基础量/概率/伤害/冷却/事件顺序和NPC活动适配为项目设计。",
+  "identity_mapping_file": "武功气功来源映射.v1.json",
+  "rage": {
+    "eligible_class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "initial_meter": 0,
+    "threshold": 10000,
+    "maximum_saved_meter": 9999,
+    "offensive_gain_per_action_with_hostile_hp_damage": 500,
+    "maximum_offensive_gains_per_action": 1,
+    "received_counts_periodic_damage": true,
+    "self_cost_shields_overkill_give_rage": false,
+    "gain_while_any_enrage_source_active": 0,
+    "threshold_policy": "consume threshold, enter natural rage, discard same-event excess; never bank overflow",
+    "natural_duration_steps": 600,
+    "natural_duration_extra_steps_per_effective_extender_level": 6,
+    "attack_bonus_bp": 2000,
+    "defense_bonus_bp": 2000,
+    "bonus_base_excludes_rage_family": true,
+    "multiple_sources": "same bonus once; separate remaining times; never add durations",
+    "death": "clear meter and all rage sources",
+    "received_base_gain_formula": "ceil(actual hostile HP loss * 10000 / final max HP at damage settlement)",
+    "received_base_gain_cap": 2000,
+    "received_class_modifier_order": "apply direct-hit passive multiplier after base cap; never apply it to periodic damage",
+    "bonus_base_excludes_stat_weakening_family": true,
+    "stat_order": "non-rage/non-weakening anchor -> rage attack/defense -> strongest weakening and linked transfer; transfer never feeds rage anchor"
+  },
+  "rage_passive_bindings": {
+    "duration_extenders": [
+      {
+        "class_id": "blade",
+        "qigong_id": "qigong_blade_83378e287800"
+      },
+      {
+        "class_id": "sword",
+        "qigong_id": "qigong_sword_83378e287800"
+      },
+      {
+        "class_id": "spear",
+        "qigong_id": "qigong_spear_83378e287800"
+      },
+      {
+        "class_id": "archer",
+        "qigong_id": "qigong_archer_83378e287800"
+      },
+      {
+        "class_id": "han_feiguan",
+        "qigong_id": "qigong_han_feiguan_83378e287800"
+      },
+      {
+        "class_id": "tan_hualing",
+        "qigong_id": "qigong_tan_hualing_83378e287800"
+      },
+      {
+        "class_id": "fighter",
+        "qigong_id": "qigong_fighter_83378e287800"
+      },
+      {
+        "class_id": "lu_fenglang",
+        "qigong_id": "qigong_lu_fenglang_83378e287800"
+      },
+      {
+        "class_id": "zhen_fengbai",
+        "qigong_id": "qigong_zhen_fengbai_83378e287800"
+      },
+      {
+        "class_id": "mei_liuzhen",
+        "qigong_id": "qigong_mei_liuzhen_656092e4e343"
+      }
+    ],
+    "assassin_gain": {
+      "qigong_id": "qigong_assassin_9ed1e6031705",
+      "extra_offensive_meter_per_effective_level": 50,
+      "other_attack_effects": "pending complete passive mapping"
+    },
+    "received_gain_multipliers": [
+      {
+        "class_id": "spear",
+        "qigong_id": "qigong_spear_181c481f7ec7",
+        "bonus_bp_per_effective_level": 100,
+        "only_direct_hostile_hits": true
+      },
+      {
+        "class_id": "fighter",
+        "qigong_id": "qigong_fighter_181c481f7ec7",
+        "bonus_bp_per_effective_level": 100,
+        "only_direct_hostile_hits": true
+      }
+    ],
+    "activation_policy": "only compatible learned/allocated passives use their positive effective level; intrinsic 14-class rage baseline remains separate"
+  },
+  "forced_rage_effect_profiles": {
+    "party_three_seconds": {
+      "duration_steps": 180,
+      "adds_enrage": true,
+      "resets_meter": false,
+      "group_scope": "current real party, not room"
+    },
+    "instant_rage_bonus_seven_percent": {
+      "duration_steps": 180,
+      "adds_enrage": true,
+      "resets_meter": true,
+      "rage_bonus_multiplier_bp": 10700
+    },
+    "same_faction_rage_bonus_only": {
+      "duration_steps": 180,
+      "adds_enrage": false,
+      "rage_bonus_multiplier_bp": 10700,
+      "requires_same_actual_faction": true,
+      "requires_currently_enraged": true
+    },
+    "blood_devil_five_seconds": {
+      "duration_steps": 300,
+      "adds_enrage": true,
+      "resets_meter": false
+    }
+  },
+  "forced_profile_policy": "explicit calling ability owns learning/trigger probability/cost/cooldown; missing caller definition rejected. Natural duration extenders never extend fixed 3/5-second sources. Bonus multipliers take strongest, not product. Removing rage clears its sources/bonuses but not blood-devil core state.",
+  "bleeding": {
+    "class_id": "zhen_fengbai",
+    "intrinsic_proc_chance_bp": 1000,
+    "chance_bonus_bp_per_effective_blood_rain_level": 50,
+    "blood_rain_qigong_id": "qigong_zhen_fengbai_7023016ad58f",
+    "requires_actual_hostile_hp_damage": true,
+    "maximum_rolls_per_action_per_target": 1,
+    "target_draw_order": "stable entity ID",
+    "duration_steps": 300,
+    "tick_interval_steps": 60,
+    "tick_at_application": false,
+    "damage_from_trigger_hp_loss_bp": 2000,
+    "minimum_tick_damage": 1,
+    "tick_cap_by_snapshot_attack_multiplier": 2,
+    "minimum_tick_cap": 1,
+    "damage_rounding": "floor then explicit minimum then cap",
+    "stacking": "strongest per-family tick; all sources keep original remaining times; no offset extra pulses",
+    "source_fields": [
+      "source_actor_id",
+      "reward_owner_id",
+      "root_event_id",
+      "remaining_steps",
+      "snapshot_tick_damage"
+    ],
+    "derived_damage_creates_new_attack_procs": false,
+    "source_classes_allowing_shared_bleed_tag": [
+      "zhen_fengbai",
+      "assassin",
+      "spirit_pet"
+    ],
+    "other_sources_require_explicit_ability_definitions": true,
+    "scar_qigong_id": "qigong_zhen_fengbai_a0986855936b",
+    "scar_direct_attack_damage_bonus_bp_per_effective_level": 50,
+    "scar_stacks_per_bleed_source": false,
+    "scar_applies_again_to_periodic_bleed": false,
+    "requires_target_alive_after_hit": true
+  },
+  "blood_devil": {
+    "class_id": "zhen_fengbai",
+    "qigong_id": "qigong_zhen_fengbai_cffb2fa63225",
+    "learning_level": 60,
+    "required_rank": 3,
+    "eligible_context": "explicit npc-martial PvE activity supporting complete combat snapshot; never player-vs-player or ordinary unsnapshotted field",
+    "lethal_opponent": "living hostile martial combatant with explicit class; at least one side NPC; never guess by name/appearance",
+    "chance_at_effective_level_one_bp": 500,
+    "chance_bp_per_extra_effective_level": 50,
+    "success_cooldown_steps": 36000,
+    "phase_states": [
+      "inactive",
+      "challenge"
+    ],
+    "on_trigger_hp": 1,
+    "duration_steps": 300,
+    "immune_to_hostile_damage": true,
+    "immune_to_environment_or_scripted_death": false,
+    "waives_learning_cooldowns_items_or_admission": false,
+    "final_direct_attack_damage_bonus_bp": 2000,
+    "bound_opponent_id_required": true,
+    "self_kill_requirement": "this character directly or via its own explicitly applied damage status; party/pet last hit is not success",
+    "same_step_policy": "resolve due damage and capture authoritative death facts; adjudicate valid bound-opponent kill before timeout; then remaining death hooks/cleanup",
+    "healing_prevents_timeout_death": false,
+    "on_win": "remove only own challenge/rage/invulnerability/free-cost/damage-bonus sources; keep HP as is",
+    "on_failure": "ordinary death/activity failure once, bypass lethal interceptors; no second roll",
+    "bound_opponent_killed_by_other_or_removed": "fail once before closing activity; never replace target",
+    "exit_save": "keep full activity combat snapshot and same remaining steps/opponent; no reset or implicit rescue",
+    "configuration_clear": "explicit preview and configured-source record; no normal victory/kill/rewards",
+    "cooldown_and_roll_position_persist": true,
+    "new_martial_cast_cost_overrides": {
+      "hp": 0,
+      "mana": 0,
+      "stamina": 0
+    },
+    "cost_override_order": "after base/rampage/healing cost arithmetic, before base/enhanced affordability checks; both candidate branches may be zero; old payments never refunded",
+    "damage_bonus_sample_time": "current challenge state at direct damage settlement, not an extra multiplier on derived bleed ticks",
+    "eligible_context_part_of_combat_state": true,
+    "initial_cooldown_steps": 0,
+    "direct_bonus_and_scar_order": "at direct hit, apply eligible scar and active challenge bonuses as separate multiplicative sources once; derived bleed never reapplies them",
+    "eligibility_flags_must_be_explicit": true,
+    "actor_already_dead_prevents_rescue": true,
+    "npc_ai_policy": "prioritize bound opponent using ordinary movement/legal martial actions; never teleport or make target lose HP by script",
+    "requires_learned_and_positive_effective_level": true
+  },
+  "persistence": "natural meter and source timers; bleed family phase and source damage/credit snapshots; blood-devil phase/opponent/activity/deadline/cooldown/committed random and death facts. Freeze offline/pause; never rebuild a removed rage source from core blood-devil state."
+}

@@ -1,0 +1,128 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "seven_legacy_consumable_adoptions_not_implemented_not_full_catalog",
+  "source_file": "../reference/任务物品与消耗品.json",
+  "source_page": "http://rxjh.17game.com/data/zb/200905/39806.htm",
+  "scope": "7旧官网消耗品全条映射；6恢复药与1洗点品，不冒充最新版全部药品目录。既有两初始药/山参复用原权威定义。",
+  "items": [
+    {
+      "item_id": "consumable_hp_medium",
+      "name": "金创药（中）",
+      "source_item_reference": "IREF-39806-002",
+      "item_profile_ref": {
+        "owner_file": "角色初始模板.v1.json",
+        "member": "item_profiles.initial_recovery_consumable"
+      },
+      "restore_resource": "hp",
+      "flat_restore": 160,
+      "minimum_level": 1,
+      "cooldown_group": "hp_restore",
+      "cooldown_steps": 180,
+      "weight_g": 15,
+      "buy_price": 50,
+      "sell_price": 12,
+      "buyback_allowed": false,
+      "source_policy": "恢复量为已保存旧官网值；价/重/等级/权限/冷却为项目采用，不称当前商城/客户端事实"
+    },
+    {
+      "item_id": "consumable_hp_large",
+      "name": "金创药（大）",
+      "source_item_reference": "IREF-39806-003",
+      "item_profile_ref": {
+        "owner_file": "角色初始模板.v1.json",
+        "member": "item_profiles.initial_recovery_consumable"
+      },
+      "restore_resource": "hp",
+      "flat_restore": 300,
+      "minimum_level": 1,
+      "cooldown_group": "hp_restore",
+      "cooldown_steps": 180,
+      "weight_g": 20,
+      "buy_price": 100,
+      "sell_price": 25,
+      "buyback_allowed": false,
+      "source_policy": "恢复量为已保存旧官网值；价/重/等级/权限/冷却为项目采用，不称当前商城/客户端事实"
+    },
+    {
+      "item_id": "consumable_mana_wild_ginseng",
+      "name": "野山参",
+      "source_item_reference": "IREF-39806-005",
+      "item_profile_ref": {
+        "owner_file": "角色初始模板.v1.json",
+        "member": "item_profiles.initial_recovery_consumable"
+      },
+      "restore_resource": "mana",
+      "flat_restore": 160,
+      "minimum_level": 1,
+      "cooldown_group": "mana_restore",
+      "cooldown_steps": 180,
+      "weight_g": 15,
+      "buy_price": 50,
+      "sell_price": 12,
+      "buyback_allowed": false,
+      "source_policy": "恢复量为已保存旧官网值；价/重/等级/权限/冷却为项目采用，不称当前商城/客户端事实"
+    },
+    {
+      "item_id": "consumable_mana_snow_ginseng",
+      "name": "雪原参",
+      "source_item_reference": "IREF-39806-006",
+      "item_profile_ref": {
+        "owner_file": "角色初始模板.v1.json",
+        "member": "item_profiles.initial_recovery_consumable"
+      },
+      "restore_resource": "mana",
+      "flat_restore": 320,
+      "minimum_level": 1,
+      "cooldown_group": "mana_restore",
+      "cooldown_steps": 180,
+      "weight_g": 20,
+      "buy_price": 100,
+      "sell_price": 25,
+      "buyback_allowed": false,
+      "source_policy": "恢复量为已保存旧官网值；价/重/等级/权限/冷却为项目采用，不称当前商城/客户端事实"
+    }
+  ],
+  "source_adoptions": [
+    {
+      "reference_id": "IREF-39806-001",
+      "item_id": "consumable_hp_small",
+      "owner_file": "角色初始模板.v1.json"
+    },
+    {
+      "reference_id": "IREF-39806-002",
+      "item_id": "consumable_hp_medium",
+      "owner_file": "常规消耗品.v1.json"
+    },
+    {
+      "reference_id": "IREF-39806-003",
+      "item_id": "consumable_hp_large",
+      "owner_file": "常规消耗品.v1.json"
+    },
+    {
+      "reference_id": "IREF-39806-004",
+      "item_id": "consumable_mana_ginseng",
+      "owner_file": "角色初始模板.v1.json"
+    },
+    {
+      "reference_id": "IREF-39806-005",
+      "item_id": "consumable_mana_wild_ginseng",
+      "owner_file": "常规消耗品.v1.json"
+    },
+    {
+      "reference_id": "IREF-39806-006",
+      "item_id": "consumable_mana_snow_ginseng",
+      "owner_file": "常规消耗品.v1.json"
+    },
+    {
+      "reference_id": "IREF-39806-007",
+      "item_id": "changbai_ginseng",
+      "owner_file": "历练与洗点.v1.json"
+    }
+  ],
+  "use_policy": "all6 restorative types explicitly reuse the named recovery profile. Same resource shares one180-step group across strengths/stack IDs/UI/key paths; HP and mana groups separate. Stronger medicine never resets group on selection. Full/blocked/map-forbidden/dead rejects before consumption. Blood devil never waives item costs.",
+  "inventory_policy": "per source profile max99, character-bound permanent, private warehouse allowed, use only real bag. Sale allowed at explicit item sell_price and no buyback; discard with confirmation, no player trade. Paid potion quantity/stack and cooldown commit once.",
+  "npc_id": "npc_pingshizhi",
+  "shop": "matching explicit items, unlimited project stock; positive explicit price. No new medicines/strengths inferred from names or made by amount scaling.",
+  "no_initial_grant": "new4 products sold/owned only after actual purchase/reward/configuration; never appended to22initial pack or old import inventories"
+}

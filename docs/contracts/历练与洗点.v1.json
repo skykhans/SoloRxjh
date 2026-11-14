@@ -1,0 +1,142 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-13",
+  "status": "project_design_not_implemented_not_balanced",
+  "scope": "普通历练收入与封顶、升天历练生成/领取天机石、普通及升天气功洗点；明确项目采用，不冒充官方全部数值。",
+  "source_policy": "原参考的历练奖励/高阶消费和升天历练1008原文不改。以下收入档、进度阈值/增量、领取和长白山参采用范围均为项目设计。",
+  "practice": {
+    "initial": 0,
+    "maximum": 9007199254740991,
+    "monster_base_table": "等级经验.v1.json",
+    "monster_base_column": "ordinary_monster_base_practice",
+    "group_pool": "floor(base * (20 + eligible_count - 1) / 20); allocate by eligible level weights with stable-id remainder",
+    "xp_cap_changes_practice": false,
+    "cap_policy": "show allocated/applied/overflow; never redistribute personal overflow",
+    "quest_rewards": "explicit independent integer amounts; never infer from xp or empty reward text",
+    "death_penalty": 0
+  },
+  "ascension_progress": {
+    "initial_progress": 0,
+    "initial_unclaimed_stones": 0,
+    "requires_rank": 6,
+    "minimum_monster_level_relative_to_receiver": -10,
+    "points_per_stone": 10000,
+    "ordinary_monster_base_progress": 500,
+    "elite_multiplier": 3,
+    "boss_multiplier": 12,
+    "group_pool": "separate subgroup meeting rank/monster-level qualification; same 5% bonus and level-weighted allocation",
+    "minimum_remainder": 0,
+    "maximum_remainder": 9999,
+    "maximum_unclaimed_stones": 9007199254740991,
+    "overflow_policy": "remainder keeps modulo 10000; pending stones credit only remaining capacity; display lost excess; never create inventory implicitly",
+    "death": "keep_progress_and_unclaimed",
+    "loss_of_rank_by_configuration": "keep_values_locked_until_qualified",
+    "xp_cap_changes_progress": false
+  },
+  "stone_claim": {
+    "request_quantity_min": 1,
+    "request_quantity_max": 9999,
+    "requires_rank": 6,
+    "requires_alive": true,
+    "requires_out_of_combat": true,
+    "requires_idle": true,
+    "requires_no_active_challenge": true,
+    "output_item_id": "heavenly_stone",
+    "fees_silver": 0,
+    "output_capacity": "check real backpack after pending debit; capacity failure changes neither pending nor inventory",
+    "refunded_skill_points_go_to_pending": false
+  },
+  "qigong_respec": {
+    "input_item_id": "changbai_ginseng",
+    "input_quantity": 1,
+    "additional_silver": 0,
+    "requires_alive": true,
+    "requires_out_of_combat": true,
+    "requires_idle": true,
+    "requires_no_active_challenge": true,
+    "scope": [
+      "ordinary_qigong_allocations",
+      "ascended_qigong_allocations"
+    ],
+    "refund": "only actual allocated owned points back to same qigong pool",
+    "reset_allocated_level": 0,
+    "keeps": [
+      "unlocks",
+      "learned_books",
+      "original_learning_costs",
+      "covered_level",
+      "level_award_spans",
+      "attack_skill_stages",
+      "ascension_points",
+      "anti_qigong_allocations",
+      "equipment"
+    ],
+    "no_allocations": "reject_without_consuming_item",
+    "temporal_effects": "remove self sustained effects directly requiring cleared allocations; completed standalone effects retain originally paid duration; never reset cooldowns or extend effects",
+    "clears_independent_fury_points": true,
+    "keeps_intrinsic_charge_shield_remaining": true
+  },
+  "transactions": "all inputs/outputs/progress/allocations/cap result/request id commit together; LAN host authority and original settlement replay; no default values for missing reward fields",
+  "item_definitions": [
+    {
+      "item_id": "heavenly_stone",
+      "kind": "progression_material",
+      "max_stack": 9999,
+      "weight_g": 1,
+      "binding": "character",
+      "permanent": true,
+      "discard_allowed": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "private_warehouse": true,
+      "equipment_processing": false,
+      "use_policy_owner": "14合同4.2/4.6; real bag conversion/quest input/reset output only",
+      "acquisition": "explicit cultivation claim/quest award/actual invested-point refund; never an implicit shop purchase"
+    },
+    {
+      "item_id": "ascension_skill_reset_token",
+      "kind": "functional_consumable",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "permanent": true,
+      "discard_allowed": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "private_warehouse": true,
+      "equipment_processing": false,
+      "purchase": {
+        "npc_id": "npc_yuegong_henge",
+        "minimum_rank": 6,
+        "silver_price": 1000000,
+        "stock": "unlimited_project_adoption"
+      },
+      "use_policy_owner": "qigong conversion/reset contract; do not confuse with passive-point reset"
+    },
+    {
+      "item_id": "changbai_ginseng",
+      "kind": "functional_consumable",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "permanent": true,
+      "discard_allowed": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "private_warehouse": true,
+      "equipment_processing": false,
+      "purchase": {
+        "npc_id": "npc_pingshizhi",
+        "minimum_rank": 0,
+        "minimum_level": 1,
+        "silver_price": 100000,
+        "stock": "unlimited_project_adoption"
+      },
+      "use_policy_owner": "qigong_respec; one real bag item, scope ordinary/ascended passive allocations only"
+    }
+  ],
+  "item_parameter_authority": "item_definitions structures the existing17合同6.1/6.2 parameters; readable document is its view, not a second runtime source. Yuegong vendor outside current initial subgraph remains a full-world binding dependency."
+}

@@ -1,0 +1,128 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "4Tan_passives_with_source_counter_phase_not_implemented",
+  "source_policy": "保每5点窗口0.1秒、纵横概率、以柔减伤/四两防护/致命霸王、惊涛增加概率；缩影源60级/威力10/PK保留，其余概率/行为/保命量/时长/费用是项目采用，不称官网完整反击机制。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_tan_hualing_747be21ca39d",
+      "class_id": "tan_hualing",
+      "name": "招式新法",
+      "source_table_index": 43,
+      "source_row_index": 3,
+      "source_row_sha256": "907e580489fe5849577729291f8eb723f694d1b0cd6a17d3919e4f045acb8894",
+      "profile_id": "counter_input_window"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_22cbd899f7f1",
+      "class_id": "tan_hualing",
+      "name": "纵横无双",
+      "source_table_index": 43,
+      "source_row_index": 8,
+      "source_row_sha256": "91ad71c2e14fca25dea15dcd3d8d2d0f851bda0105455522af20db7c53d6547f",
+      "profile_id": "counter_success_chance"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_bb72b2f08de1",
+      "class_id": "tan_hualing",
+      "name": "以柔克刚",
+      "source_table_index": 43,
+      "source_row_index": 12,
+      "source_row_sha256": "8a2ea5cd10af95d594a2da676f63824c985fc70b6f79f73e7c4a6de8570dc188",
+      "profile_id": "soft_guard_reflect_and_lethal"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_1b6c4efd4c82",
+      "class_id": "tan_hualing",
+      "name": "惊涛骇浪",
+      "source_table_index": 43,
+      "source_row_index": 18,
+      "source_row_sha256": "937a5306b1965d9ac9af95078ffce2e356d70b64492fe96a9399739cfa18cf2c",
+      "profile_id": "soft_guard_chance_gain"
+    }
+  ],
+  "supporting_active_definitions": [
+    {
+      "ability_id": "ability_tan_counter_step",
+      "class_id": "tan_hualing",
+      "name": "缩影步-1式",
+      "source_table_index": 23,
+      "source_row_index": 20,
+      "source_row_sha256": "bb32c411c2ac3eb38097fa3091d194e7ce67b8c13a4771c78c6c5625204c11f0",
+      "source_level": "60",
+      "source_power": "10",
+      "source_scope": "PK",
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "learning_practice": 60000,
+      "learning_silver": 6000,
+      "learning_npc_id": "npc_hyunbo_master",
+      "adopted_phase": 1,
+      "full_official_phase_graph_complete": false,
+      "requires_context": "explicitNPCmartial_duel, neverplayerPvP",
+      "requires_weapon_family": "flower_sword",
+      "mana_cost": 20,
+      "stamina_cost": 10,
+      "hp_cost": 0,
+      "cooldown_steps": 600,
+      "windup_steps": 6,
+      "active_steps": 6,
+      "recovery_steps": 12,
+      "flat_power_per_hit": 10,
+      "attack_multiplier_bp": 10000,
+      "range_mm": 3000,
+      "maximum_targets": 1,
+      "native_target_kind": "single",
+      "finishing_martial": false,
+      "combo_skill": false,
+      "critical_allowed": false,
+      "presentation_ref": "dev_tan_counter_step",
+      "learning_origin": "source level/power/name retained; extra advancement/fees/costs/timeline/counter behavior project design"
+    }
+  ],
+  "counter_input_window": {
+    "source_ability_id": "ability_tan_counter_step",
+    "base_window_steps": 18,
+    "extra_steps": "floor(effective招式grade/5)*6",
+    "trigger": "hostilemartialNPC acceptedmelee rootwindup whose originalprimary is this livingTan,<=3m andLOS, inNPCduel",
+    "input": "explicit ability command with original hostile actionID before windowexpires; no automatic cast or free input from combatlog",
+    "multiple_windows": "earliest ending candidate then stable actionID chosen; spent window/root cannot be reused",
+    "zero_talent": "source counter still base18, no forged passive needed"
+  },
+  "counter_success_chance": {
+    "base_bp": 3000,
+    "additional_bp_per_effective纵横grade": 100,
+    "cap_bp": 8000,
+    "admission": "allwindow/class/weapon/context/mana/stamina/idle/cooldown checks before anydraw. Acceptedinput pays once; probabilityfailure no refund/invulnerability.",
+    "success": "at6step parry event originalhostilewindup muststillvalid/alive/targetsame/LOS/distance; cancelthat one uncommitted hit without refund toattacker, then single counterhit using source10+acceptedattack, sweep1m lateral shift withcollision ifspace",
+    "scope": "only target attackaction canceled, notallincoming; no teleport/wallbypass/newcounterprompt fromthisreaction",
+    "late_invalid": "noparry/counter, no retarget/refund",
+    "lateral_direction": "acceptedactorlocalright(+X relative -Zforward), sweptmax1000mm, obstructionstopsatvalidposition; noalternatepointsearch or invulnerability"
+  },
+  "soft_guard": {
+    "chance_bp": "min4000,100*effective以柔grade+25*effective惊涛grade",
+    "incoming": "uniquehostiledirectroot,alive,beforefinalpercentprotect",
+    "damage_reduction_bp": 2000,
+    "permanent_reflect_reduction_bp_per_effective_grade": 50,
+    "reflectscope": [
+      "four_liang_reflect",
+      "double_four_liang_reflect"
+    ],
+    "notall_damage_reflection": true,
+    "reflected_percent_reduction_cap_bp": 2000
+  },
+  "bawang_lethal": {
+    "same_eligible_chance_formula_as_softguard": true,
+    "lethal_scope": "afterallnormalprotection still lethal, hostile damage only, activevictim and maxHP>=10",
+    "success_hp": 10,
+    "duration_steps": 180,
+    "attack_and_defense_gain_bp": 2000,
+    "success_internal_cooldown_steps": 36000,
+    "no_invulnerability_freecost": true,
+    "state": "do notsettle death, appendactiveinterceptorreceipt and3sec standalone source",
+    "dispatcher": "Tan eligible ready以柔霸王 has priorityover同职业火凤; chooseone thenrollonce. Ifchosenfails,die normally, nosecondfirephoenixchance. Ifprioritynotready/ineligible chooseothereligibleprofile beforedraw. Zhen/sword cannotborrowTaninterceptor."
+  },
+  "chance_gain": "惊涛 no independentprocdamage; requiresactualownpositive以柔. Temporarysourcegrade0 stopseligibility withoutrefund, cooldownspersist.",
+  "persistence": "windowremaining/originalactionID/acceptedcost/result/cancelreceipt andsourcecounterstep phase,霸王/reflectsource/corecooldown stored in fullactivity snapshot. No secondcancel/freeheal fromreplay; normalsavewaitsreactionend, pauseofflinefreeze.",
+  "scope": "one sourcecounter phase adoption notfullTanactive skilltree, NPCduel actualactivity/controls/animation stillpending."
+}

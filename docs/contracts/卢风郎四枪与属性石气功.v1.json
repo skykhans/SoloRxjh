@@ -1,0 +1,136 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "7Lu_projectile_stone_profiles_not_implemented",
+  "source_policy": "保流星4枪/弱点PK集中/杀星弱点2倍/技冠威力2倍且互斥/武器防具属性石2倍排强化/破空增概率职责；概率/时点/射程/队列与NPC适配为项目选择。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_lu_fenglang_b017432b7d78",
+      "class_id": "lu_fenglang",
+      "name": "流星漫天",
+      "source_table_index": 46,
+      "source_row_index": 7,
+      "source_row_sha256": "ac1ddd81cd8d5d9c63b88c094f442a362875653ba9377382d14369c9f5ddd107",
+      "profile_id": "four_spear_chain"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_b32bc5282dae",
+      "class_id": "lu_fenglang",
+      "name": "弱点击破",
+      "source_table_index": 46,
+      "source_row_index": 10,
+      "source_row_sha256": "231f509978ea520e8fedfc357c81f66d433550e81d0c2a6dac3f56d389df063d",
+      "profile_id": "duel_concentrated_spears"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_4418b84991e4",
+      "class_id": "lu_fenglang",
+      "name": "牢不可破",
+      "source_table_index": 46,
+      "source_row_index": 11,
+      "source_row_sha256": "1fa70e7b72f2a84ebf2c4ca73cae563a597be515b7df742640182aaece9f8407",
+      "profile_id": "armor_attribute_stone_double"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_a5f621132db5",
+      "class_id": "lu_fenglang",
+      "name": "陵劲淬砺",
+      "source_table_index": 46,
+      "source_row_index": 12,
+      "source_row_sha256": "98c1d725a7599a12de5746a046bb4f0ceb69e3e41355b06bfe24a5d618b37583",
+      "profile_id": "weapon_attribute_stone_double"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_09a2cb459044",
+      "class_id": "lu_fenglang",
+      "name": "杀星光符",
+      "source_table_index": 46,
+      "source_row_index": 13,
+      "source_row_sha256": "70fa0c303187e51befae8e20bcabc6cd299c074ab3436190996d30ce91fe6704",
+      "profile_id": "duel_weakpoint_gain_double"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_b81958f390e1",
+      "class_id": "lu_fenglang",
+      "name": "技冠群雄",
+      "source_table_index": 46,
+      "source_row_index": 14,
+      "source_row_sha256": "d3d612d7f17ff489422e6840d367b259325fa0df93e9601f45522661c5e1d930",
+      "profile_id": "star_martial_power_double"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_72d196059e6e",
+      "class_id": "lu_fenglang",
+      "name": "破空坠星",
+      "source_table_index": 46,
+      "source_row_index": 18,
+      "source_row_sha256": "d90e8745ba04ac7a3d27bd7b74fb84802caac973faf1aad6d4ec37172216e0a7",
+      "profile_id": "star_chance_gain"
+    }
+  ],
+  "four_spear_chain": {
+    "requires_equipped_family": "soul_spear",
+    "trigger": "first originalprimaryactualHPloss rootnormal/attackmartial, targetlives,once/action",
+    "chance_bp": "min4000,100*effective流星grade+25*effective破空grade",
+    "total_projectile_semantics": "root initialhit +3derived spear-energyprojectiles emitted6/12/18steps afterproc, total4 not rootplus4; no additionalinventoryweapons/ammo",
+    "projectile": "16000mm/s,100mmradius,12000mmmaxtravel,actualwall/hostilecollision, no instantpiercingthroughwall",
+    "damage": "each derived uses50percent acceptedrootordinaryattack, no skillflat component/newcrit, perrecipientownaccuracy/defense, derived_no_offensive_procs",
+    "target": "normalmode originalprimary directionatlaunch, validdistance checked. No stale-ID target replacement."
+  },
+  "duel_concentrated_spears": {
+    "requires": "actualsame-root流星success and ownpositive弱点, explicitnpc_martial_duel vs actualhostilemartialNPC; noplayerPvP/ordinarybeastassumption",
+    "chance_bp_per_effective_grade": 100,
+    "max_chance_bp": 4000,
+    "queued_descendants": "3queued descendants aimoriginalprimary with fixed directionatlaunch/truecollisions, not homingteleport; their50percent differential gets an extra50percentacceptedattack so100percenttotal each",
+    "lethal_name": "explicit weakpoint_burst tag, not execute/guaranteedkill or source真武martial_lethal tag; no newordinarycritdraw",
+    "rootpower_exclusion": "if acceptedroot already snapshotted技冠power, weakpointineligible(no pointlessdraw), cannotcombineoldpowerroot withnewweakpoint mode"
+  },
+  "duel_weakpoint_gain_double": {
+    "requires": "same-rootactualweakpoint andNPCduel",
+    "result": "double weakpoint additional50percentportion ->100percentextra, descendant50baseline+100extra=150percent, not double all existingroot/weapon/HP",
+    "no_independenthit_or_draw": true
+  },
+  "star_martial_power_double": {
+    "requires": "same-root流星success, ownpositive技冠, weakpointnotchosen",
+    "duration_steps": 180,
+    "gain": "nextacceptedrootattackmartial flat skillpower doubled once whileownstar-powerbufflives, rootalreadycommittedhit notrewritten",
+    "mode": "one transient star mode, power vs concentrated mutuallyexclusive; same-source refresh180notadd",
+    "same_root_noextra": true
+  },
+  "attribute_stone_rule": {
+    "source_kind": "explicit adopted growth contribution category attribute_stone only; not baseequipment/realenhancement/synthesis/awakening/gems or wholearmorstat",
+    "operation": "double exact eligiblecontribution for that acceptedattack or receivedhit only, no permanentinstance edit. Required typed source/caps/formula known before formalactivation; probability fields explicit saturate10000withUIexcess, invalidbasefields rejected not repaired",
+    "missing_pool": "unknownmetadatarejects config; explicit empty/noattributestone legal gives0extra and no pointlessdraw",
+    "ordering": "modify source portion once before ordinarybuild/snapshot; excluding other conversionfeedback, no double grant of enchant/stone component",
+    "resource_changing_stone_fields": "instantaneous hit adapter cannot invent maxHP/mana/point grants or receipts; anysuchproperty requires a separately specified persistent-context projection before formaluse. Unknownoutside-scope contribution rejects, not silently ignored."
+  },
+  "armor_attribute_stone_double": {
+    "trigger": "eligible directrootreceivedhit before defense, livingreceiver,once/hit",
+    "chance_bp_per_effective_grade": 100,
+    "max_chance_bp": 4000,
+    "slots": [
+      "body",
+      "inner_armor",
+      "glove_a",
+      "glove_b",
+      "boots"
+    ],
+    "only_active_valid_source_contributions": true,
+    "no_healing_if_maxHPsource": true
+  },
+  "weapon_attribute_stone_double": {
+    "trigger": "acceptedrootnormal/attackmartial afteradmission,once/action, activecompatiblesoul-spearweapon hasexplicitpool",
+    "chance_bp_per_effective_grade": 100,
+    "max_chance_bp": 4000,
+    "not_double_real_enhancement": true,
+    "snapshot": "wholeacceptedaction includingderived projectiles receives source differential once, no per-targetredraw"
+  },
+  "star_chance_gain": {
+    "requires_ownpositive流星": true,
+    "extra_bp_per_effective_grade": 25,
+    "no_independentattack": true
+  },
+  "learning": "气功学习与秘籍 retains90quest弱点/90level+5rankarmor earliest100/110+一式weapon earliest115; effect adoption never removes those prerequisites.",
+  "persistence": "rootstar/weakpoint/powerbranch/stoneproc receipts, queue originaltarget/vector/interval/range/launchsteps, transientpowermode andremaining180 saved. No repeatedlaunch/stone boost fromview redraw orload; pause/offlinefreeze, deathstopsunemitted attacks notcooldowns.",
+  "scope": "NPCduelactivities/actualattributestone definitions andall officialLuactives arestilldependencies, not filledbyfakepool or duplicatedsourceitem."
+}

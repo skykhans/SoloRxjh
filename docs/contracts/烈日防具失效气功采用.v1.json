@@ -1,0 +1,74 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "4armor_suppression_profiles_not_implemented",
+  "source_policy": "原刺/弓上衣与梅/甄防具、3秒分别保留。概率/全防具5槽边界/实际属性失效方式为项目采用；原无视是否仅攻击者视角未公开，这里明确选择所有合法观察者一致的目标临时负面状态，供LAN一致结算，不声称官网内部实现相同。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_assassin_38fc56f07575",
+      "class_id": "assassin",
+      "source_table_index": 37,
+      "source_row_index": 16,
+      "source_row_sha256": "c77a2dda16fe1237c4fe470e942e915239569aae0b21b637e81ca6caada6fd2f",
+      "suppressed_slots": [
+        "body"
+      ]
+    },
+    {
+      "qigong_id": "qigong_archer_38fc56f07575",
+      "class_id": "archer",
+      "source_table_index": 39,
+      "source_row_index": 16,
+      "source_row_sha256": "bc1a56ea8fe494d01a86c15585b010de9754fcdfb3ad7a232811ec65bc15407e",
+      "suppressed_slots": [
+        "body"
+      ]
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_38fc56f07575",
+      "class_id": "mei_liuzhen",
+      "source_table_index": 45,
+      "source_row_index": 15,
+      "source_row_sha256": "8d1f028cba412331565fc81848ac3ef91fbdd8490964c73aba4a3318aa2c23cd",
+      "suppressed_slots": [
+        "body",
+        "inner_armor",
+        "glove_a",
+        "glove_b",
+        "boots"
+      ]
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_38fc56f07575",
+      "class_id": "zhen_fengbai",
+      "source_table_index": 48,
+      "source_row_index": 16,
+      "source_row_sha256": "6ca65fba2f9c4db782d3e2e36a6ff4f5a435617859ddbcab643459c9b4528fb8",
+      "suppressed_slots": [
+        "body",
+        "inner_armor",
+        "glove_a",
+        "glove_b",
+        "boots"
+      ]
+    }
+  ],
+  "trigger": {
+    "root": "own learned allocatedpositiveeffectivegrade normal/attackmartial firstoriginalprimaryactualHPloss,targetlives,once/action",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "requires_target": "actualknown nonempty armorinstance inaffected active slot; no fake armor forunarmoredmonster, no meaningfulsource => no draw",
+    "duration_steps": 180,
+    "negative_family": "temporary_armor_source_suppression",
+    "status_landing": "explicitnegative ordinaryfamily may genericavoid; duration fixedbase180, no normaldurationmodifiers bydefault"
+  },
+  "suppression": "remove only item-derived contributions ofaffected active slot from stat/source aggregation: base/growth/synthesis/element/awakening/direct bonuses and item-granted effective qigong levels. Itemownership/ID/currentcontainer/growthnumbers remain unchanged. Weapon/jewelry/cape/decoration/sectuniform and non-equipment learned grade/sect/growth unaffected.",
+  "slot_semantics": "target slot mask, not original instance binding. Swapping another item into affected slot stays suppressed until sourceexpires. Inactive loadout never counted anyway; switch toanotherlegal activegroup reevaluates itsaffectedslots, no hidden cleanse via unequip. No unknownslot fallback.",
+  "gems": "sixgem slots are separateowninstances, not bodyarmorattributes; remain under13eligibility/actualcounterpartpresent qualification. Do not erasegem or assume originalarmor suppression also voidsallgems. Named future explicit counterparteffectavailability rule must beversioned ifchanged.",
+  "derived_changes": "recompute all legitimate maxHP/maxmana/carry/grade/budget sources once onapplication/expiry/source-maskunion change. Rise neverheals; legitimatefall clampsactualresources, not anattack so no lifesteal/receivedrage or phantomkill callback. If a computedmaxHP could becomeinvalid<=0, buildconfig isinvalid, not runtimeclamp0damage.",
+  "anti_budget": "14existinglegitimate budget-loss rule applies: iftemporary removedequipmentpoints makes allocations over budget, clearallanti allocations once and report/commitcurrentremainingbudget, no removaloflearneddefinitions/owneditems. Expiry restores derivedbudget not priorallocation snapshot/freepoints. Samevalidmaskreplay no secondreset.",
+  "carry": "legitimate reduction may create explicitcapacity-change overloadreceipt per弓手carry contract; keepitems/noincreaseweight/walkonly untilundercap. This is explicitrulechangeevent, not repair forbadloadedinventory.",
+  "stacking": "per-source slot masks/time independent; effective suppressedmask isunion, no double subtraction. One expires cannot re-add stillsuppressedslot, same-source refresh180notadd. Sourceinstance references knownactor/qigong/root, deathclearsdebuff asstatedeffectrules; sourcetransientdisconnectdoesnotrefresh.",
+  "persistence": "save source masks/remain1..180 andapplication event/revision, canonical item instances, linkedbudget/overload changes. Rebuildderivedstats frombase with mask, never persist old contributiondelta forfutureaddition. Pendingrespawn/sourceconfig flags revalidated, no autoequip/copy/deletion onload.",
+  "runtime_boundary": "allaffecteditem contribution metadata must be defined before formalconfig export. Unknownextra itemeffect/cap not silentlyignored/defaultnormal; fullgear catalogs andruntimechangingmask test remain unfinished."
+}

@@ -1,0 +1,344 @@
+{
+  "archived_on": "2026-11-14",
+  "source_path": "assets/config/gameplay.ron",
+  "source_file_sha256": "2194f3f319cd183371d75f42c687b1006bb9984bda9d8f2c3b39572c85a979af",
+  "excerpt_sha256": "5308bcb4bda539fbd6926b96b6129e546c1b6a274aee6100afd1f10233dab15b",
+  "text": "    ai: (sense: 9.0, leash: 18.0, range: 1.8, windup: 0.6, recovery: 1.4,\n        respawn: 30.0, exclusion_distance: 5.0, radius: 0.45,\n        heavy_interval: 8.0, heavy_windup: 1.2, heavy_range: 3.0, heavy_damage: 35),\n    enemies: [\n        (id: \"boar\", level: 1, label: \"野猪\", model: \"boar\", scale: 1.0, boss: false, hp: 55, damage: 8, speed: 2.4, exp: 20, loot: [(item: beast_hide, count: 1)]),\n        (id: \"mountain_wolf\", level: 2, label: \"山狼\", model: \"mountain_wolf\", scale: 1.0, boss: false, hp: 85, damage: 12, speed: 3.0, exp: 30, loot: [(item: wolf_fang, count: 1)]),\n        (id: \"bamboo_beast\", level: 3, label: \"竹林凶兽\", model: \"bamboo_beast\", scale: 1.0, boss: true, hp: 420, damage: 22, speed: 2.6, exp: 100, loot: [(item: spirit_ore, count: 1)]),\n        (id: \"valley_boar\", level: 4, label: \"岩背野猪\", model: \"boar\", scale: 1.25, boss: false, hp: 150, damage: 18, speed: 2.6, exp: 55, loot: [(item: beast_hide, count: 1), (item: spirit_ore, count: 1)]),\n        (id: \"valley_guardian\", level: 6, label: \"溪谷兽王\", model: \"bamboo_beast\", scale: 1.15, boss: true, hp: 850, damage: 30, speed: 2.5, exp: 180, loot: [(item: spirit_ore, count: 3), (item: healing_potion, count: 1)]),\n        (id: \"frost_wolf\", level: 7, label: \"霜牙山狼\", model: \"mountain_wolf\", scale: 1.2, boss: false, hp: 230, damage: 26, speed: 3.2, exp: 85, loot: [(item: wolf_fang, count: 1), (item: spirit_ore, count: 1)]),\n        (id: \"frost_guardian\", level: 10, label: \"寒石巨兽\", model: \"bamboo_beast\", scale: 1.35, boss: true, hp: 1350, damage: 42, speed: 2.7, exp: 300, loot: [(item: spirit_ore, count: 5), (item: healing_potion, count: 2)]),\n    ],\n    spawns: [\n        (id: \"boar_01\", kind: \"boar\", position: (5.0, -20.0), required_stage: None),\n        (id: \"boar_02\", kind: \"boar\", position: (-18.0, -28.0), required_stage: None),\n        (id: \"boar_03\", kind: \"boar\", position: (14.0, -48.0), required_stage: None),\n        (id: \"boar_04\", kind: \"boar\", position: (56.0, 20.0), required_stage: None),\n        (id: \"wolf_01\", kind: \"mountain_wolf\", position: (-38.0, 2.0), required_stage: None),\n        (id: \"wolf_02\", kind: \"mountain_wolf\", position: (55.0, -55.0), required_stage: None),\n        (id: \"wolf_03\", kind: \"mountain_wolf\", position: (12.0, -60.0), required_stage: None),\n        (id: \"wolf_04\", kind: \"mountain_wolf\", position: (-18.0, 45.0), required_stage: None),\n        (id: \"boss_01\", kind: \"bamboo_beast\", position: (-42.0, -42.0), required_stage: None),\n        (id: \"valley_boar_01\", kind: \"valley_boar\", position: (98.0, 14.0), required_stage: None),\n        (id: \"valley_boar_02\", kind: \"valley_boar\", position: (122.0, 14.0), required_stage: None),\n        (id: \"valley_boar_03\", kind: \"valley_boar\", position: (98.0, -28.0), required_stage: None),\n        (id: \"valley_boar_04\", kind: \"valley_boar\", position: (132.0, -28.0), required_stage: None),\n        (id: \"valley_guardian_01\", kind: \"valley_guardian\", position: (120.0, -42.0), required_stage: Some(valley_boss)),\n        (id: \"frost_wolf_01\", kind: \"frost_wolf\", position: (-28.0, -104.0), required_stage: None),\n        (id: \"frost_wolf_02\", kind: \"frost_wolf\", position: (28.0, -104.0), required_stage: None),\n        (id: \"frost_wolf_03\", kind: \"frost_wolf\", position: (-28.0, -130.0), required_stage: None),\n        (id: \"frost_wolf_04\", kind: \"frost_wolf\", position: (28.0, -130.0), required_stage: None),\n        (id: \"frost_guardian_01\", kind: \"frost_guardian\", position: (0.0, -140.0), required_stage: Some(north_boss)),\n    ],\n)\n",
+  "monsters": [
+    {
+      "id": "boar",
+      "level": 1,
+      "label": "野猪",
+      "model": "boar",
+      "scale": 1.0,
+      "boss": false,
+      "hp": 55,
+      "damage": 8,
+      "speed": 2.4,
+      "exp": 20,
+      "loot": [
+        {
+          "legacy_item": "beast_hide",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "mountain_wolf",
+      "level": 2,
+      "label": "山狼",
+      "model": "mountain_wolf",
+      "scale": 1.0,
+      "boss": false,
+      "hp": 85,
+      "damage": 12,
+      "speed": 3.0,
+      "exp": 30,
+      "loot": [
+        {
+          "legacy_item": "wolf_fang",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "bamboo_beast",
+      "level": 3,
+      "label": "竹林凶兽",
+      "model": "bamboo_beast",
+      "scale": 1.0,
+      "boss": true,
+      "hp": 420,
+      "damage": 22,
+      "speed": 2.6,
+      "exp": 100,
+      "loot": [
+        {
+          "legacy_item": "spirit_ore",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "valley_boar",
+      "level": 4,
+      "label": "岩背野猪",
+      "model": "boar",
+      "scale": 1.25,
+      "boss": false,
+      "hp": 150,
+      "damage": 18,
+      "speed": 2.6,
+      "exp": 55,
+      "loot": [
+        {
+          "legacy_item": "beast_hide",
+          "quantity": 1
+        },
+        {
+          "legacy_item": "spirit_ore",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "valley_guardian",
+      "level": 6,
+      "label": "溪谷兽王",
+      "model": "bamboo_beast",
+      "scale": 1.15,
+      "boss": true,
+      "hp": 850,
+      "damage": 30,
+      "speed": 2.5,
+      "exp": 180,
+      "loot": [
+        {
+          "legacy_item": "spirit_ore",
+          "quantity": 3
+        },
+        {
+          "legacy_item": "healing_potion",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "frost_wolf",
+      "level": 7,
+      "label": "霜牙山狼",
+      "model": "mountain_wolf",
+      "scale": 1.2,
+      "boss": false,
+      "hp": 230,
+      "damage": 26,
+      "speed": 3.2,
+      "exp": 85,
+      "loot": [
+        {
+          "legacy_item": "wolf_fang",
+          "quantity": 1
+        },
+        {
+          "legacy_item": "spirit_ore",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "frost_guardian",
+      "level": 10,
+      "label": "寒石巨兽",
+      "model": "bamboo_beast",
+      "scale": 1.35,
+      "boss": true,
+      "hp": 1350,
+      "damage": 42,
+      "speed": 2.7,
+      "exp": 300,
+      "loot": [
+        {
+          "legacy_item": "spirit_ore",
+          "quantity": 5
+        },
+        {
+          "legacy_item": "healing_potion",
+          "quantity": 2
+        }
+      ]
+    }
+  ],
+  "spawns": [
+    {
+      "id": "boar_01",
+      "kind": "boar",
+      "position_feet_m": [
+        5.0,
+        0,
+        -20.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "boar_02",
+      "kind": "boar",
+      "position_feet_m": [
+        -18.0,
+        0,
+        -28.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "boar_03",
+      "kind": "boar",
+      "position_feet_m": [
+        14.0,
+        0,
+        -48.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "boar_04",
+      "kind": "boar",
+      "position_feet_m": [
+        56.0,
+        0,
+        20.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "wolf_01",
+      "kind": "mountain_wolf",
+      "position_feet_m": [
+        -38.0,
+        0,
+        2.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "wolf_02",
+      "kind": "mountain_wolf",
+      "position_feet_m": [
+        55.0,
+        0,
+        -55.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "wolf_03",
+      "kind": "mountain_wolf",
+      "position_feet_m": [
+        12.0,
+        0,
+        -60.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "wolf_04",
+      "kind": "mountain_wolf",
+      "position_feet_m": [
+        -18.0,
+        0,
+        45.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "boss_01",
+      "kind": "bamboo_beast",
+      "position_feet_m": [
+        -42.0,
+        0,
+        -42.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "valley_boar_01",
+      "kind": "valley_boar",
+      "position_feet_m": [
+        98.0,
+        0,
+        14.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "valley_boar_02",
+      "kind": "valley_boar",
+      "position_feet_m": [
+        122.0,
+        0,
+        14.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "valley_boar_03",
+      "kind": "valley_boar",
+      "position_feet_m": [
+        98.0,
+        0,
+        -28.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "valley_boar_04",
+      "kind": "valley_boar",
+      "position_feet_m": [
+        132.0,
+        0,
+        -28.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "valley_guardian_01",
+      "kind": "valley_guardian",
+      "position_feet_m": [
+        120.0,
+        0,
+        -42.0
+      ],
+      "legacy_required_stage": "valley_boss"
+    },
+    {
+      "id": "frost_wolf_01",
+      "kind": "frost_wolf",
+      "position_feet_m": [
+        -28.0,
+        0,
+        -104.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "frost_wolf_02",
+      "kind": "frost_wolf",
+      "position_feet_m": [
+        28.0,
+        0,
+        -104.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "frost_wolf_03",
+      "kind": "frost_wolf",
+      "position_feet_m": [
+        -28.0,
+        0,
+        -130.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "frost_wolf_04",
+      "kind": "frost_wolf",
+      "position_feet_m": [
+        28.0,
+        0,
+        -130.0
+      ],
+      "legacy_required_stage": null
+    },
+    {
+      "id": "frost_guardian_01",
+      "kind": "frost_guardian",
+      "position_feet_m": [
+        0.0,
+        0,
+        -140.0
+      ],
+      "legacy_required_stage": "north_boss"
+    }
+  ],
+  "scope": "旧7怪/19刷点及AI原文；仅项目历史值，不是官网怪物参数。"
+}

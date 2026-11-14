@@ -1,0 +1,108 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "five_Mei_NPC_context_profiles_not_implemented",
+  "source_policy": "保嫉妒PK职业10%/-5%、雷电40%最终攻击、诅咒本人最大HP20%且门派战禁、杀人鬼最多5层、对怪防御职责。概率/曲线/阶段/PK替NPC为项目采用；诅咒原句伤害承受者不清，明确选攻击目标额外受伤，不称原主体已核。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_mei_liuzhen_474ab6e8b420",
+      "class_id": "mei_liuzhen",
+      "name": "嫉妒的化身",
+      "source_table_index": 45,
+      "source_row_index": 9,
+      "source_row_sha256": "70859dc245f8b7b6dce0f3c65964f91b5024a2737683534c80c9a15d5b31a1d7",
+      "profile_id": "duel_class_match"
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_15fbf2a219d2",
+      "class_id": "mei_liuzhen",
+      "name": "玄武雷电",
+      "source_table_index": 45,
+      "source_row_index": 12,
+      "source_row_sha256": "24fc9c5a39cd81f816b7bb49e694b1c3b1d4a6aa40fde82c40469b740203aba6",
+      "profile_id": "one_action_attack40"
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_ae4edb962d59",
+      "class_id": "mei_liuzhen",
+      "name": "玄武诅咒",
+      "source_table_index": 45,
+      "source_row_index": 13,
+      "source_row_sha256": "605e7dc7df52740e83de8c32418734af3d91e9f50a94f8887ec04c3e7d823959",
+      "profile_id": "self_maxhp_extra20"
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_af1f0ddf7246",
+      "class_id": "mei_liuzhen",
+      "name": "杀人鬼",
+      "source_table_index": 45,
+      "source_row_index": 14,
+      "source_row_sha256": "15494dbf631d489544e41e3999648d0a6317e1d9ecda97eba2c91d43feb82673",
+      "profile_id": "nearby_duel_actor_stacks"
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_1f53c7d8c16c",
+      "class_id": "mei_liuzhen",
+      "name": "魔魂复苏",
+      "source_table_index": 45,
+      "source_row_index": 18,
+      "source_row_sha256": "1fe53675aff79cb84590d4a286f36fa5092078a0a9030a6c86342f6ad6dfd08a",
+      "profile_id": "monster_guard"
+    }
+  ],
+  "duel_class_match": {
+    "context": "explicitNPCmartial_duel, legalhostile actualclass actor; no playerPvP/monsterfalseclass",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "target_class_gain_bp": {
+      "tan_hualing": 1000,
+      "sword": 1000,
+      "han_feiguan": -500,
+      "blade": -500
+    },
+    "eligible": "rootnormal/attackmartial qualified originalprimary accuracyhit, once/root, targetclassatimpact; otherclass no draw",
+    "one_modifier": "one outgoing damage multiplier11000or9500, not independent positive andnegative outcomes or globaldefense penalty",
+    "not_apply": [
+      "DoT",
+      "derived",
+      "selfcost",
+      "unrelatedtargets"
+    ]
+  },
+  "one_action_attack40": {
+    "trigger": "acceptedrootnormal/attackmartial afterfees beforeintervalsnapshot,compatibleblacktortoisebow",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "attack_multiplier_bp": 14000,
+    "base": "ordinaryattack interval afterlegalflat/rage priorweakening, applyonce; no skillflatpower multiply or new bufftimer",
+    "descendants": "same root snapshot inherited, not retrigger40percentperarrow"
+  },
+  "self_maxhp_extra20": {
+    "trigger": "first originalprimaryactualHPdamage rootattack, targetstilllives, once/root",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "source_maxhp": "acceptedcastervalidatedmaximumHP, notremainingHP",
+    "base_extra_bp": 2000,
+    "damage_cap_by_accepted_attack_upper_multiplier": 2,
+    "project_subject": "additionaldamage to primary, notpay20percentselfHP; sourceuncertainty retained",
+    "blocked_activity_tag": "sect_war, includingNPCadaptation; missingactivitycontextrejects formalconfig, no defaultordinarymode",
+    "damage": "one derived-no-offensive-procs cappedraw amount, no secondordinarydefense/crit, explicitstatusprotection/shield once"
+  },
+  "nearby_duel_actor_stacks": {
+    "context": "explicitNPCmartialduel, notcountNPCs indiscriminately or invisible fakeplayers",
+    "eligible_targets": "livinglegalhostileNPCmartial withinacceptedroot effectiveattackrange andLOS, uniqueentityIDs, no pets/teammates/dead/pendingrespawn",
+    "maximum_stacks": 5,
+    "skill_power_gain_bp_per_stack_per_effective_grade": 50,
+    "scope": "rootattackmartialflatpower portion once, notfullattackorwound/killcounter",
+    "snapshot": "countataccept andretainforroot; targetmovesafterward no reroll/recount/reward"
+  },
+  "monster_guard": {
+    "conditional_pve_defense_per_effective_grade": 2,
+    "incoming_target_kind": "sourceattackerexplicitmonster, martialNPCnotincluded by thisnamedprojectchoice",
+    "not_ordinary_defense_or_gangqi": true,
+    "source_exact_amount_unpublished": true
+  },
+  "eligibility": "own learned allocatedpositiveeffectivegrade/learningrank/manual, compatibleownweapon when stated; rootcost/eligibility first, sourceprocseal obeyed; nofakefaction/class/mana toqualifyNPC.",
+  "persistence": "accepted attack40 andnearbycount/castermaxHP snapshots, targetclassmodifier result andconditionalextra root receipts kept withrandom. Continuousguard currentgrade re-evaluated, noHPhealing or permanentdefensecache. Pause/offline freezequeues, derived no recursiveproc.",
+  "scope": "namedprofilesonly; own烈日 armor-mask adoption now owned by烈日防具失效气功采用.v1.json, not thiseffectfile. Fullofficialactivephase/gear/context/runtime dependencies remain unfinished."
+}

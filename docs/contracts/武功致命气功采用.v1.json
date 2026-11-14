@@ -1,0 +1,110 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "7critical_effect_profiles_1learning_dependency_unresolved_not_implemented",
+  "source_policy": "原真武增加武功致命概率、甄必杀武功不发动、梅增武功暴击概率/攻击力保留；下面基点/倍率/互斥抽数/攻击类型是项目设计。神女前置任务未闭合，不允许效果定义掩盖学习条件缺失。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_blade_ad0f58ef4558",
+      "class_id": "blade",
+      "name": "真武绝击",
+      "source_table_index": 35,
+      "source_row_index": 7,
+      "source_row_sha256": "46cbe919808010c92c056015b87575cbd86d1ea4f7d7fe30c679a39d3c842daf",
+      "profile_id": "martial_lethal_critical",
+      "excludes_finishing_martial": false,
+      "source_quest_unresolved": false
+    },
+    {
+      "qigong_id": "qigong_physician_ad0f58ef4558",
+      "class_id": "physician",
+      "name": "真武绝击",
+      "source_table_index": 40,
+      "source_row_index": 7,
+      "source_row_sha256": "5c4e970eea278203cff15bee4964e5419da96ac450f695bac5b3c60834ee11a2",
+      "profile_id": "martial_lethal_critical",
+      "excludes_finishing_martial": false,
+      "source_quest_unresolved": false
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_ad0f58ef4558",
+      "class_id": "han_feiguan",
+      "name": "真武绝击",
+      "source_table_index": 42,
+      "source_row_index": 8,
+      "source_row_sha256": "e99b58e2b5e04661cfde3ec33fc94aa76d5d36e66d3c0af6d696da681658152a",
+      "profile_id": "martial_lethal_critical",
+      "excludes_finishing_martial": false,
+      "source_quest_unresolved": false
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_326d1c222dca",
+      "class_id": "mei_liuzhen",
+      "name": "玄武强击",
+      "source_table_index": 45,
+      "source_row_index": 5,
+      "source_row_sha256": "e2a7786c7d761ea2de43a7b4f7a6932ac6c29b1a6d31d0daa4c65c1c80309a55",
+      "profile_id": "mei_martial_critical",
+      "excludes_finishing_martial": false,
+      "source_quest_unresolved": false
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_ad0f58ef4558",
+      "class_id": "lu_fenglang",
+      "name": "真武绝击",
+      "source_table_index": 46,
+      "source_row_index": 5,
+      "source_row_sha256": "e03aa9aa2e217c0ac3333b67eabe0ac775a38f65ebce6b4b1e59638a89bd86b5",
+      "profile_id": "martial_lethal_critical",
+      "excludes_finishing_martial": false,
+      "source_quest_unresolved": false
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_ad0f58ef4558",
+      "class_id": "dongling_shennv",
+      "name": "真武绝击",
+      "source_table_index": 47,
+      "source_row_index": 10,
+      "source_row_sha256": "ba3adf312326997ccba215969cc5e2ab7c1b7340bcda319b40753e2c2e656acc",
+      "profile_id": "martial_lethal_critical",
+      "excludes_finishing_martial": false,
+      "source_quest_unresolved": true
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_ad0f58ef4558",
+      "class_id": "zhen_fengbai",
+      "name": "真武绝击",
+      "source_table_index": 48,
+      "source_row_index": 7,
+      "source_row_sha256": "82aa89e7269d0ceef6ca20aa191f933c35143fd02a2c19104e73b612aa699767",
+      "profile_id": "martial_lethal_critical",
+      "excludes_finishing_martial": true,
+      "source_quest_unresolved": false
+    }
+  ],
+  "eligibility": "learned/allocated positive effective grade, root attack_martial_skill only; normal basic/heal/state-burst/DoT/derived reflection/extra hit excluded. Explicit source phase critical_allowed false remains false even if passive present; absent phase type/finishing classification is formal config error.",
+  "chance_modifier": {
+    "bp_per_effective_level": 100,
+    "add_to": "ordinary applicable root martial critical chance, one final probability then one23critical roll, not independent extra lethal roll",
+    "chance_gameplay_cap_bp": 9500,
+    "multiple_same_scope_sources": "one class-qualified named source, not repeated per phase/target alias; other declared chance families sum then cap once",
+    "positive_explicit_finishing_tag": "Zhen branch excluded, never identify by name containing必杀",
+    "temporary_effective_zero": "no modifier, no point refunds"
+  },
+  "mei_critical_power": {
+    "extra_critical_multiplier_bp_per_effective_level": 50,
+    "only_when_this_root_is_critical": true,
+    "formula": "base critical multiplier +50*grade, applied once; no bonus ordinary noncritical flat power",
+    "source_exact_coefficient_unpublished": true
+  },
+  "lethal_tag": "successful root critical promoted by an eligible真武 profile carries martial_lethal tag for明确格斗10percent保护; never means execute/instant-kill. Root critical/lethal protection tests once if both tags; no extra damage event.",
+  "persistence": "accepted action source grades/applicable probability/critical allowance/finishing flags and committed per-target critical result; replays never reroll, source unlock remains required, no save-time auto completion of task.",
+  "unresolved_quest_source": {
+    "class_id": "dongling_shennv",
+    "task_name_as_published": "神秘守卫的嘱托",
+    "map_as_published": "南明湖",
+    "level": 90,
+    "details_in147task_rows": false,
+    "policy": "block this source learning condition formal export until exact quest or explicit complete local replacement designed; do not fabricate reward/NPC/quest ID or silently waive"
+  }
+}

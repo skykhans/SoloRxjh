@@ -1,0 +1,65 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "three_berserk_lowHP_profiles_not_implemented",
+  "source_policy": "两怒海原狂暴攻击等同愤怒攻击，甄乾坤低HP增强/30%以下或血魔最大保留。概率/增幅/曲线/动作取样时点为项目采用，不冒充官网完整公式。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_sword_526d7146868a",
+      "class_id": "sword",
+      "name": "怒海狂澜",
+      "source_table_index": 36,
+      "source_row_index": 7,
+      "source_row_sha256": "70050b590823d49dd3b4c6b4b9419f5001b69742371ea88a4cec62ebeac61fb6",
+      "profile_id": "one_attack_enrage_equivalent"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_526d7146868a",
+      "class_id": "tan_hualing",
+      "name": "怒海狂澜",
+      "source_table_index": 43,
+      "source_row_index": 10,
+      "source_row_sha256": "71581fc1fb454d8011c71c023e6d9ff14954fdc8385f2f2f9baa5e343fa6bd9b",
+      "profile_id": "one_attack_enrage_equivalent"
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_b3c6adab7bb4",
+      "class_id": "zhen_fengbai",
+      "name": "乾坤一掷",
+      "source_table_index": 48,
+      "source_row_index": 9,
+      "source_row_sha256": "50ca928a31d7d88153a1ac21cb062cfdf9df960dcd2e5a0ab7bca682ff6f8e54",
+      "profile_id": "low_hp_attack"
+    }
+  ],
+  "one_attack_enrage_equivalent": {
+    "requires_root": "normal or attack martial, learned allocated positive effective skill; no healing/gather/derived/status burst",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "draw_time": "accepted valid paid attack, once per action, before attack-interval snapshot. Failed admission no draw; miss after accepted cast still consumes result/cost.",
+    "attack_effect": "own action ordinary attack anchor gets highest of current real enrage attack multiplier and natural-enrage-equivalent12000bp, never multiply both oradd another20percent",
+    "does_not_change": [
+      "actual rage meter",
+      "rage source timers",
+      "defense bonus",
+      "party members",
+      "skill flat power"
+    ],
+    "scope": "one accepted root including its same snapshot derived hits; do not redraw per hit/target; descendants cannot proc new berserk",
+    "already_enraged": "action attack multiplier no extra benefit; no fake new source/extended timer, avoid pointless chance draw when current real rage factor already>=12000",
+    "requires_attack_interval_component": true,
+    "fixed_legacy_damage_profile": "no attack interval component -> no contribution or pointless roll; not converted to extra fixed-power percent"
+  },
+  "low_hp_attack": {
+    "eligible": "Zhen root normal/attack martial, learned allocated positive grade; actual casteralive valid0<HP<=maxHP",
+    "snapshot_time": "after normal/HPcost and blood-devil0cost override committed, before attack-interval snapshot; no repeated cost or damage-as-cost callback",
+    "maximum_gain_bp_per_effective_grade": 100,
+    "maximum_curve": "when HP*10<=maxHP*3 OR active blood-devil challenge, gain=100*grade; otherwise floor(100*grade*(maxHP-HP)*10/(maxHP*7))",
+    "fullHP_gain": 0,
+    "attack_source": "apply to ordinary attack interval both endpoints once, before rage/weakening downstream stages, not to skill flat power or entire final damage",
+    "blood_devil": "max curve only, still its separate declared direct damage20percent once; do not multiply max-curve again from enrage label",
+    "later_heal_or_anti": "old accepted snapshot fixed; new actions recalculate, no persistent bonus cache"
+  },
+  "common": "all coefficients/sums checked exact; grade0 contribution0, temporary passive reduction does not erase allocated points. No separate crit/instant kill/HP drain/protection. Source action snapshot records root grade/HP cost/result and multiplier, save/replay no second roll.",
+  "scope": "Han天魔狂血/极血/之力 and dependent passives remain unadopted; these named equivalent attacks do not substitute those independently sourced mechanics."
+}

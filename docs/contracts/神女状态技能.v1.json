@@ -1,0 +1,530 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "project_status_ability_design_not_implemented_not_balanced",
+  "class_id": "dongling_shennv",
+  "source_file": "../reference/武功气功参数.json",
+  "source_table_index": 34,
+  "fresh_download_archive": "../reference/官网资料/技能原页复核.json",
+  "source_policy": "18名称/说明/等级10/内功列原文保持；新原页仍不解释等级10或内功列语义。学习等级/晋级/阶段/费用/时序及以下精确行为为项目采用，不能冒充官方原值。",
+  "stage_policy": {
+    "local_cap": 10,
+    "source_level_10_proves_learning_at_10": false,
+    "minimum_level_extra_per_stage": 2,
+    "first_stage_learning_practice_per_learning_level": 1000,
+    "first_stage_learning_silver_per_learning_level": 2000,
+    "cost_multiplier_for_each_stage": "new_stage_number",
+    "qigong_or_ascension_point_cost": 0,
+    "book_requirement": "explicitly_none_project_design",
+    "learning_provider": "泫勃派门主的本职业武学服务；实际场景映射仍待完成"
+  },
+  "mana_policy": "local integer cost = ceil(published neigong-column number / 10); this is a project cost choice, not a claim that source heading proves original HP/mana consumption",
+  "common_cast": {
+    "cast_steps": 30,
+    "maximum_range_mm": 15000,
+    "requires_line_of_sight": true,
+    "mana_paid_and_cooldown_started": "accepted_cast_once",
+    "can_move_while_casting": false,
+    "hard_control_interrupts": true,
+    "failure_after_payment": "no_refund_no_retarget",
+    "group_target_cap": 30,
+    "group_scope": "current real party/raid, not room or faction"
+  },
+  "families": {
+    "stat_weakening": {
+      "duration_base_steps": 600,
+      "duration_per_extra_stage_steps": 60,
+      "reduction_base_bp": 500,
+      "reduction_per_caster_ten_levels_bp": 10,
+      "reduction_per_extra_stage_bp": 100,
+      "affected_stats": [
+        "attack",
+        "defense"
+      ],
+      "rounding": "floor",
+      "target_stacking": "strongest weakening percentage; retain sources separately",
+      "transfer_rounding": "floor half of this link actual contribution",
+      "transfer_link_limit_per_caster": 1,
+      "link_ends_on": [
+        "expiry",
+        "dispel",
+        "target_death",
+        "caster_death",
+        "caster_new_transfer_link"
+      ],
+      "calculation_excludes_all_stat_weakening_family": true,
+      "percentage_snapshot": "caster level and skill stage at accepted cast; receiver non-weakening base recomputed when needed",
+      "tie_order": "trigger event ID; only winning link grants transfer",
+      "anchor_order": "target attack/defense after rage applied to a base excluding both rage and stat-weakening; linked transfers excluded from all anchors"
+    },
+    "forced_action_once": {
+      "queue_max_wait_steps": 300,
+      "when": "next idle decision before expiry",
+      "pool": "currently legal learned combat-active skills plus one legal basic-attack option, one ticket per skill; use its normal target policy and costs",
+      "normal_costs_cooldowns_and_targeting_apply": true,
+      "no_legal_option_before_cast": "reject",
+      "already_paid_action": "finish; never cancel/refund it to force a free action",
+      "selection_saved_once": true,
+      "precheck_idle_lock": "ignore only current busy lock when checking whether any eventual option exists; execution waits for actual idle and revalidates"
+    },
+    "dispel_all_dongling": {
+      "target": "one living entity with Dongling negative effects; self/party/enemy explicitly selected",
+      "remove": "all negative Dongling families and their links",
+      "delayed_burst_removal": "safe_no_explosion"
+    },
+    "dispel_selected_family_party": {
+      "selection": "required explicit known family ID",
+      "remove": "that one family from each eligible party member",
+      "no_matching_effect_before_cast": "reject",
+      "delayed_burst_removal": "safe_no_explosion"
+    },
+    "percent_hp_burst": {
+      "base_target_max_hp_bp": 1000,
+      "per_extra_stage_bp": 100,
+      "rounding": "floor",
+      "cap_by_caster_attack_multiplier": 10,
+      "normal_skill_mitigation_applies": true,
+      "immunity_tag": "dongling_negative_status_immunity"
+    },
+    "revenge_max_hp": {
+      "armed_duration_steps": 1800,
+      "trigger": "marked target is authoritative killer of this caster before arm expires",
+      "active_reduction_steps": 1800,
+      "stacking": "strongest 15/30 percent, never sum",
+      "clamp_current_hp_when_maximum_falls": true,
+      "restore_current_hp_on_expiry": false,
+      "no_trigger_on_other_killer_or_plain_expiry": true,
+      "reduction_rounding": "floor reduction then subtract from positive base maximum",
+      "armed_duration_per_extra_stage_steps": 120,
+      "active_duration_per_extra_stage_steps": 120
+    },
+    "proc_seal": {
+      "duration_steps": 600,
+      "chance_subtract_base_bp": 1000,
+      "chance_subtract_per_extra_stage_bp": 100,
+      "chance_floor_bp": 0,
+      "applies_to": [
+        "ordinary_qigong_proc",
+        "ascended_qigong_proc"
+      ],
+      "anti_qigong_independent_chance_affected": false,
+      "requires_actual_target_triggered_passive": true,
+      "stacking": "strongest_only"
+    },
+    "random_walk": {
+      "duration_base_steps": 180,
+      "duration_per_extra_stage_steps": 12,
+      "resample_interval_steps": 30,
+      "distance_mm": 2000,
+      "direction_options": 8,
+      "ordinary_navigation_and_collision": true,
+      "blocked_all_directions": "remain_stationary; never teleport or cross collision"
+    },
+    "delayed_burst": {
+      "duration_steps": 600,
+      "tracked_damage": "actual hostile HP loss while marked; exclude shields/self-cost/overkill",
+      "return_base_bp": 5000,
+      "return_per_extra_stage_bp": 500,
+      "damage_cap_by_caster_attack_multiplier": 20,
+      "radius_mm": 5000,
+      "target_cap": 5,
+      "include_original_marked_target": false,
+      "ordering": "distance then stable entity ID",
+      "explode_only_on": "natural_expiry",
+      "safe_removal_on": [
+        "dispel",
+        "immunity",
+        "target_death",
+        "scene_cleanup"
+      ],
+      "burst_generates_attack_procs": false
+    },
+    "spread": {
+      "radius_mm": 5000,
+      "target_cap": 4,
+      "include_original_target": false,
+      "ordering": "distance then stable entity ID",
+      "copyable_families": [
+        "stat_weakening_without_transfer",
+        "revenge_max_hp",
+        "proc_seal",
+        "random_walk",
+        "delayed_burst",
+        "stationary_burn"
+      ],
+      "copied_remaining_steps": "same remaining time, never renew full duration",
+      "copied_delayed_burst_tracker": 0,
+      "copied_caster_and_root_event_retained": true,
+      "transfer_link_copy_allowed": false,
+      "immunity_filters_targets": true,
+      "no_source_effect_or_recipient_before_cast": "reject",
+      "radius_per_extra_stage_mm": 500
+    },
+    "periodic_heal": {
+      "duration_steps": 1080,
+      "tick_interval_steps": 180,
+      "tick_at_cast": false,
+      "final_due_tick_before_expiry": true,
+      "target_max_hp_base_bp": 100,
+      "target_max_hp_per_extra_stage_bp": 20,
+      "caster_rank_flat_per_tick": 5,
+      "rounding": "ceil percent component then add rank part",
+      "radius_mm": 15000,
+      "stacking": "strongest amount in one family tick; no offset extra pulses",
+      "healing_block": "skip due tick, no accumulated catch-up"
+    },
+    "stationary_burn": {
+      "duration_steps": 360,
+      "tick_interval_steps": 60,
+      "stationary_distance_threshold_mm": 100,
+      "movement_measure": "actual traversed distance in last interval; not net displacement",
+      "teleport_counts_as_walk": false,
+      "stacking": "strongest 3/5 percent in one family tick",
+      "rounding": "ceil",
+      "normal_status_damage_protection_applies": true,
+      "duration_per_extra_stage_steps": 60,
+      "damage_cap_by_caster_attack_multiplier": 5
+    },
+    "dongling_status_immunity": {
+      "scope": "tagged Dongling negative status skills/effects including burst/control; not ordinary Dongling attack damage",
+      "clears_existing_negative_families_safely": true,
+      "stacking": "independent sources; immune while any lives",
+      "blocks_friendly_heals_or_dispels": false
+    }
+  },
+  "external_family_owners": {
+    "dongling_corpse_poison": {
+      "owner_file": "神女杀星与尸毒气功.v1.json",
+      "json_pointer": "/corpse_poison",
+      "dispellable": true,
+      "immunity_tag": "dongling_negative_status_immunity",
+      "spread_allowed": false,
+      "source_type": "passive_effect_not_an_extra_34table_skill"
+    }
+  },
+  "persistence": "effect family/source/target/stage snapshots/remaining steps, family tick phases, walked distance, tracked HP damage, revenge killer condition, transfer link and spread root IDs; no node references; pause/offline freeze; host settlement replay never selects or ticks twice",
+  "definitions": [
+    {
+      "skill_id": "status_dongling_c9958e0c8771",
+      "source_table_index": 34,
+      "source_row_index": 0,
+      "source_row_sha256": "04e701b58856b72a2b980ca7652a8c3c03c534b60e5c0269f40baaf62de6960a",
+      "learning_level": 10,
+      "required_rank": 1,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 5,
+      "cooldown_steps": 600,
+      "effect": {
+        "family": "stat_weakening",
+        "transfer_to_caster_bp": 0
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_e84161107cd4",
+      "source_table_index": 34,
+      "source_row_index": 1,
+      "source_row_sha256": "61292c99ae41fdde9714890b8ed65f2a2cdc7d197121539a3f17380105360443",
+      "learning_level": 35,
+      "required_rank": 2,
+      "stage_cap": 10,
+      "prerequisite_skills": [
+        "status_dongling_c9958e0c8771"
+      ],
+      "mana_cost": 10,
+      "cooldown_steps": 900,
+      "effect": {
+        "family": "stat_weakening",
+        "transfer_to_caster_bp": 5000
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_62d08e3b8efd",
+      "source_table_index": 34,
+      "source_row_index": 2,
+      "source_row_sha256": "c19552b46bff85e9ef224178e95ed8b3faf035e750ecb986948706e7a27e6a8a",
+      "learning_level": 60,
+      "required_rank": 3,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 30,
+      "cooldown_steps": 1200,
+      "effect": {
+        "family": "forced_action_once"
+      },
+      "cooldown_reduction_per_extra_stage_steps": 60
+    },
+    {
+      "skill_id": "status_dongling_2449a5bf445b",
+      "source_table_index": 34,
+      "source_row_index": 3,
+      "source_row_sha256": "48e151cfdb0ef457697258e09c9903a9d9590aca1e84c6d31ff593a201c7cac9",
+      "learning_level": 25,
+      "required_rank": 1,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 40,
+      "cooldown_steps": 600,
+      "effect": {
+        "family": "dispel_all_dongling"
+      },
+      "cooldown_reduction_per_extra_stage_steps": 30
+    },
+    {
+      "skill_id": "status_dongling_4393f233660a",
+      "source_table_index": 34,
+      "source_row_index": 4,
+      "source_row_sha256": "12d29535bf377c3c76e59f93cfca0a691338e4010116619563ae927efae0ad53",
+      "learning_level": 80,
+      "required_rank": 4,
+      "stage_cap": 10,
+      "prerequisite_skills": [
+        "status_dongling_2449a5bf445b"
+      ],
+      "mana_cost": 160,
+      "cooldown_steps": 1800,
+      "effect": {
+        "family": "dispel_selected_family_party"
+      },
+      "cooldown_reduction_per_extra_stage_steps": 60
+    },
+    {
+      "skill_id": "status_dongling_2429fd777393",
+      "source_table_index": 34,
+      "source_row_index": 5,
+      "source_row_sha256": "20325c4e20699d5b2408d6dc94cf5627f033a6e61a593ee34bd4478602efeef8",
+      "learning_level": 100,
+      "required_rank": 5,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 60,
+      "cooldown_steps": 3600,
+      "effect": {
+        "family": "percent_hp_burst"
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_afd828efca45",
+      "source_table_index": 34,
+      "source_row_index": 6,
+      "source_row_sha256": "0f1c0f8cde2ef19b8784c5ecbcc8bc388989785e57761e1269814866e5d37e26",
+      "learning_level": 35,
+      "required_rank": 2,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 30,
+      "cooldown_steps": 1800,
+      "effect": {
+        "family": "revenge_max_hp",
+        "max_hp_reduction_bp": 1500
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_b28820c57f8f",
+      "source_table_index": 34,
+      "source_row_index": 7,
+      "source_row_sha256": "5027d61f51c5afa88a7d844405f27b4f916fa9be172d4214f5f1a7d77e333960",
+      "learning_level": 80,
+      "required_rank": 4,
+      "stage_cap": 10,
+      "prerequisite_skills": [
+        "status_dongling_afd828efca45"
+      ],
+      "mana_cost": 40,
+      "cooldown_steps": 1800,
+      "effect": {
+        "family": "revenge_max_hp",
+        "max_hp_reduction_bp": 3000
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_f277eb3094bd",
+      "source_table_index": 34,
+      "source_row_index": 8,
+      "source_row_sha256": "f82a54b964f61be21e7d67692f99822518a3b520dae7650ca74aa84842bd656e",
+      "learning_level": 60,
+      "required_rank": 3,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 50,
+      "cooldown_steps": 1200,
+      "effect": {
+        "family": "proc_seal"
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_ff839e93c6e6",
+      "source_table_index": 34,
+      "source_row_index": 9,
+      "source_row_sha256": "5ad0a02e2777d252cbcfcffeebd89fdcabae7692e137220f734ed0f1d6d9b94d",
+      "learning_level": 60,
+      "required_rank": 3,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 100,
+      "cooldown_steps": 1200,
+      "effect": {
+        "family": "random_walk"
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_7366d14a907b",
+      "source_table_index": 34,
+      "source_row_index": 10,
+      "source_row_sha256": "8a412f8a58a5db6889bcbd871dfbc0cb9a2dd004436197a69cebd384822ec489",
+      "learning_level": 100,
+      "required_rank": 5,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 200,
+      "cooldown_steps": 5400,
+      "effect": {
+        "family": "delayed_burst"
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_c1e11ae174a3",
+      "source_table_index": 34,
+      "source_row_index": 11,
+      "source_row_sha256": "bdca2c55d3efff4155e31be0166e87192d25e90be8901f01801166cf875f516a",
+      "learning_level": 120,
+      "required_rank": 7,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 350,
+      "cooldown_steps": 1800,
+      "effect": {
+        "family": "spread"
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_bfb200cc118e",
+      "source_table_index": 34,
+      "source_row_index": 12,
+      "source_row_sha256": "677cf352269c79d1f9aacc8c143c0676df0cafde459ac747fb99433ad9d96072",
+      "learning_level": 10,
+      "required_rank": 1,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 5,
+      "cooldown_steps": 600,
+      "effect": {
+        "family": "periodic_heal",
+        "scope": "self_or_party_member"
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_d2e7d9216918",
+      "source_table_index": 34,
+      "source_row_index": 13,
+      "source_row_sha256": "898a8d26511ce4872f1c0f64fd5b32a555fb51d04049ceefec293b3463635026",
+      "learning_level": 80,
+      "required_rank": 4,
+      "stage_cap": 10,
+      "prerequisite_skills": [
+        "status_dongling_bfb200cc118e"
+      ],
+      "mana_cost": 90,
+      "cooldown_steps": 1200,
+      "effect": {
+        "family": "periodic_heal",
+        "scope": "current_party_in_radius"
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_1e3419bec4b8",
+      "source_table_index": 34,
+      "source_row_index": 14,
+      "source_row_sha256": "3331721170761dcbe9535b7ae5dfaa4b3efd02f4a844be50fc1625332c2e9580",
+      "learning_level": 35,
+      "required_rank": 2,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 30,
+      "cooldown_steps": 1200,
+      "effect": {
+        "family": "stationary_burn",
+        "max_hp_damage_bp": 300
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_67324dd0aeab",
+      "source_table_index": 34,
+      "source_row_index": 15,
+      "source_row_sha256": "9e6f4f5cd2f0fbf46e7c13ccf4b34ed43cc53535850e2f80e498e3fd8d3298d9",
+      "learning_level": 90,
+      "required_rank": 4,
+      "stage_cap": 10,
+      "prerequisite_skills": [
+        "status_dongling_1e3419bec4b8"
+      ],
+      "mana_cost": 40,
+      "cooldown_steps": 1200,
+      "effect": {
+        "family": "stationary_burn",
+        "max_hp_damage_bp": 500
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_01dc8769d8f5",
+      "source_table_index": 34,
+      "source_row_index": 16,
+      "source_row_sha256": "4c4dcf0f9670b46ba04eed055f62a6b38290272877a1a12078a1fc870ea445b3",
+      "learning_level": 60,
+      "required_rank": 3,
+      "stage_cap": 10,
+      "prerequisite_skills": [],
+      "mana_cost": 50,
+      "cooldown_steps": 3600,
+      "effect": {
+        "family": "dongling_status_immunity",
+        "scope": "self_or_party_member",
+        "duration_base_steps": 360,
+        "duration_per_extra_stage_steps": 60,
+        "radius_mm": 15000
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    },
+    {
+      "skill_id": "status_dongling_1f7fbf458953",
+      "source_table_index": 34,
+      "source_row_index": 17,
+      "source_row_sha256": "9fddd5875a38cbeb7b715412e31cbc80be341dd48e3eb993b61bca9c7bc6c666",
+      "learning_level": 120,
+      "required_rank": 7,
+      "stage_cap": 10,
+      "prerequisite_skills": [
+        "status_dongling_01dc8769d8f5"
+      ],
+      "mana_cost": 160,
+      "cooldown_steps": 7200,
+      "effect": {
+        "family": "dongling_status_immunity",
+        "scope": "current_party_in_radius",
+        "duration_base_steps": 180,
+        "duration_per_extra_stage_steps": 0,
+        "radius_base_mm": 6000,
+        "radius_per_extra_stage_mm": 1000
+      },
+      "cooldown_reduction_per_extra_stage_steps": 0
+    }
+  ],
+  "family_tick_policy": "one receiver/family phase; stronger source changes do not create an extra pulse; last source removal clears phase",
+  "frame_policy": "eligible lethal damage first resolves a configured interceptor, otherwise HP zero marks death immediately; complete due damage/ticks then snapshot death facts; blood-devil bound-kill success precedes timeout; final deaths/hooks/cleanup once; other due ticks precede natural expiry; expiring delayed-burst trackers snapshotted before explosions",
+  "reapplication_policy": "same caster/skill/target replaces that source with current parameters and duration; no duration addition; copied payload uses only its remaining duration; request/root deduplication never creates another application from a replay",
+  "status_passive_modifiers_owner_file": "异常状态防护与解除气功.v1.json",
+  "duration_policy": "negative timed family base duration -> named outgoing/incoming normal-status modifiers once; save effective total and remaining bounded by effective total. Spread carries remaining without modifying again. Positive heal/immunity and instant effects use their own fixed timing."
+}

@@ -1,0 +1,164 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "14named_passive_profiles_not_implemented",
+  "source_policy": "13职业原文按防御/气功点增加生命和武功防护；谭花灵同名原文是概率减少攻击50%。分支保留，不混成官网统一公式。以下转换比例/触发概率/防护形式与时序为项目设计。",
+  "conversion_profile": {
+    "id": "defense_to_health_and_martial_guard",
+    "requires_learned_allocated_positive_effective_level": true,
+    "defense_input": "explicit ordinary defense anchor from growth/equipment/sect/direct buffs/rage/weakening, excluding PvE defense, all HP-to-defense or this conversion-family feedback and final-defense override. A dependent input cannot feed this anchor; reject cyclic definition graph.",
+    "max_hp_formula": "floor(defense_anchor * effective_qigong_level *5/100)",
+    "martial_damage_reduction_bp_formula": "min(2000, floor(defense_anchor * effective_qigong_level /10))",
+    "martial_only": "only direct enemy attack_martial_skill tag; no ordinary basic/environment/self cost/DoT or arbitrary status burst",
+    "health_add_order": "after nonfeedback base maxHP, before explicit finalmaxHPoverride. Do not fold derived add back into persisted base attributes.",
+    "protection_order": "23 named percentage reduction stage before Zhen shield/Mei barrier; same family no double application",
+    "recompute": "equipment/sect/buff/grade change or anti debuff uses current validated anchor, not a saved derived cache; lowering maxHP clamps legitimate currentHP only, raising never heals",
+    "allocated_zero_or_effective_zero": "no contribution; allocated points unchanged by temporary zero"
+  },
+  "tan_profile": {
+    "id": "tan_half_damage_proc",
+    "chance_bp_per_effective_level": 100,
+    "maximum_chance_bp": 4000,
+    "damage_multiplier_bp": 5000,
+    "requires_learned_allocated_positive_effective_level": true,
+    "eligible_event": "unique direct hostile hit after accuracy/crit/ordinarydefense/flat reduction, before other percent protections",
+    "one_roll_per_damage_event": true,
+    "only_if_incoming_positive": true,
+    "periodic_self_environment": false,
+    "result": "floor(incoming*5000/10000), zero legitimate; no minimum1 damage",
+    "hp_or_conversion_bonus": 0,
+    "order": "draw in target defensive-passive slot before HP-loss callbacks, never at attacker post-hit phase; repeat event replays result",
+    "no_extra_attack_or_heal": true
+  },
+  "effective_limit_owner_file": "升级发点.v1.json",
+  "bindings": [
+    {
+      "qigong_id": "qigong_blade_af8073415478",
+      "class_id": "blade",
+      "source_table_index": 35,
+      "source_row_index": 6,
+      "source_row_sha256": "95168f7fac0fd75636f42e6dd89696d3d9cf54f90e20512427f8e7b5898c9bb7",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_sword_af8073415478",
+      "class_id": "sword",
+      "source_table_index": 36,
+      "source_row_index": 6,
+      "source_row_sha256": "41e02afc2429ee9c2e85ae15b3084fd6af6b687fb9644f4872025176a783520a",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_assassin_af8073415478",
+      "class_id": "assassin",
+      "source_table_index": 37,
+      "source_row_index": 6,
+      "source_row_sha256": "b5c9a3b190d65fefa48771692c71d45bf9575cdc74a72255160c8c2324e6c863",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_spear_af8073415478",
+      "class_id": "spear",
+      "source_table_index": 38,
+      "source_row_index": 6,
+      "source_row_sha256": "57461c3ff820f8fe37dbb20aa71a1397613183e25ec6e53b2ef022a396bcfdf1",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_archer_af8073415478",
+      "class_id": "archer",
+      "source_table_index": 39,
+      "source_row_index": 6,
+      "source_row_sha256": "6189b6ff642602ca498e53d02f939dcb183fd820af3c8127c15eab98ee72fff9",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_physician_af8073415478",
+      "class_id": "physician",
+      "source_table_index": 40,
+      "source_row_index": 6,
+      "source_row_sha256": "d14ce4a59e27cf5a68de1bf6c107aea70bfdbc930d46297366287e19d41f86b4",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_musician_af8073415478",
+      "class_id": "musician",
+      "source_table_index": 41,
+      "source_row_index": 6,
+      "source_row_sha256": "5a0bff38ac1cbbe87b24f137cb2ffabaa6f16963e386fb3595404c01a9776d77",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_af8073415478",
+      "class_id": "han_feiguan",
+      "source_table_index": 42,
+      "source_row_index": 6,
+      "source_row_sha256": "9841c8c1e7f8d8ec1b0dec5f265984643d7f0876443db04ee4904542b6dca4c2",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_af8073415478",
+      "class_id": "tan_hualing",
+      "source_table_index": 43,
+      "source_row_index": 6,
+      "source_row_sha256": "abfa3804121b2dea63189bde70cd5b0a5be619a32ad2e772765f57a92184a14b",
+      "effect_profile_id": "tan_half_damage_proc",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_fighter_af8073415478",
+      "class_id": "fighter",
+      "source_table_index": 44,
+      "source_row_index": 6,
+      "source_row_sha256": "0f41c6b897bfac22eede638e02558b85ff3c3bea4bbc1691eebd346f8fe262e6",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_af8073415478",
+      "class_id": "mei_liuzhen",
+      "source_table_index": 45,
+      "source_row_index": 6,
+      "source_row_sha256": "86b3a9feb1a48400e7fe3595f4e66f7160360b82182e1660292d3522225aa858",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_af8073415478",
+      "class_id": "lu_fenglang",
+      "source_table_index": 46,
+      "source_row_index": 6,
+      "source_row_sha256": "9660fce68d1a0688f0fa1a41f6f65c820321b173c970a35fbe8e4ec56f2d21be",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_af8073415478",
+      "class_id": "dongling_shennv",
+      "source_table_index": 47,
+      "source_row_index": 5,
+      "source_row_sha256": "4f99bce5a175b38a19361d19b0680005ab3700a69b07b6b24909fa9d3d0d77c6",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_af8073415478",
+      "class_id": "zhen_fengbai",
+      "source_table_index": 48,
+      "source_row_index": 5,
+      "source_row_sha256": "8b18c3812dba363232074d72678eacfb7f5e937a9f9d7e49369245080a88f4dd",
+      "effect_profile_id": "defense_to_health_and_martial_guard",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    }
+  ],
+  "persistence": "derived HP/guard not separately saved; source qigong allocations and known effect sources determine it. Tan proc saves consumed random/result with hit receipt, no reroll on retry. UI names show class-qualified effect description and source IDs.",
+  "scope": "exact named two-profile adoption only. All other same-name gas/defense effects still require independent source rules; no new runtime/official-formula parity claim."
+}

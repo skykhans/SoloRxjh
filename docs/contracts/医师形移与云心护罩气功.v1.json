@@ -1,0 +1,65 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "2physician_defensive_profiles_not_implemented",
+  "source_policy": "保形移100%回避平砍/武功，云心距离/最大内功/等级生成保护罩且击破减HP/最多5秒。概率/形移窗口/冷却/护罩公式和破罩扣量都是项目选择。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_physician_4c3dba55c7dc",
+      "class_id": "physician",
+      "name": "形移妖相",
+      "source_table_index": 40,
+      "source_row_index": 18,
+      "source_row_sha256": "e55d8fae43a05c3da09f70188a6bfdac162ac4a3ce9978cd7c9b99a6a93235dd",
+      "profile_id": "direct_attack_evasion_window"
+    },
+    {
+      "qigong_id": "qigong_physician_8159c31d10bb",
+      "class_id": "physician",
+      "name": "云心月性",
+      "source_table_index": 40,
+      "source_row_index": 21,
+      "source_row_sha256": "7516961f4a428deef5db24eacf6b40648278867ddea22ca7806550b8f786c5a3",
+      "profile_id": "distance_mana_shield"
+    }
+  ],
+  "direct_attack_evasion_window": {
+    "trigger": "qualifiedincomingrootdirecthostileattack geometry/LOS/alive, beforeaccuracy/damage; ownpositivegrade andready",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "success_window_steps": 60,
+    "success_internal_cooldown_steps": 1800,
+    "result": "100percentordinary/attackmartial direct avoidance includingtriggerhit, no second ordinaryaccuracy/crit/shielddraw foravoidedhit",
+    "not_avoid": [
+      "periodic",
+      "reflection",
+      "environment",
+      "selfcost",
+      "scriptdeath",
+      "negativeeffectlanding_withoutdirectdamage"
+    ],
+    "existingwindow": "do notredraw/refresh by additionalincominghits",
+    "no_counterattack_or_heal": true
+  },
+  "distance_mana_shield": {
+    "trigger": "qualifyingpositiveincomingrootdirecthostiledamage afternormalaccuracy, beforefinalabsorption, receiverliving, noactiveowncloudshield andready",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "success_internal_cooldown_steps": 1800,
+    "maximum_remaining_steps": 300,
+    "capacity": "floor(validmaxmana*effectivegrade/100)*min(3,1+floor(source_receiver_distance_mm/5000)); requirepositivecapacity else noteligible/no meaninglessroll",
+    "snapshot": "grade/maxmana/distancebands atactivation; no latergear/anti re-fill orscale",
+    "absorbs": "hostileHPdamage afterordinarydefense/fixed/percentprotection, beforeactualHPdebit, no selfcost/environment/scriptor ownbreakpenalty; creationonlydirect but existingpool canabsorb hostileperiodic/reflection once",
+    "sourceposition": "sourceactualvalidsameinstancemomentdistance, no summingprojectiletravel or guessdistanceafterdisconnect",
+    "onepool": "no stacking/refill/replacementwhileactive, newhitsonlyconsumeexistingcapacity",
+    "break": "remainingcapacity becomes0 because positive eligible damageconsumed it; markbrokenandremove once, residualdamagecontinues then breakpenaltybeforepositivehealingcallbacks",
+    "break_penalty": "ceil(activation_maxHP5percent), one unavoidableHP-loss event linkedshield_instance; may cause death, no minimum1lifefallback, not an attack/selfcastfee; cannot reflect/absorb by anotherownshield or trigger sourceoffspringproc",
+    "death_cause": "shield_break_penalty, explicituninterceptable for this local design; actualzero transitionsawaiting_respawn underlife contract",
+    "expiry_dispel": "naturaltimeout/safeclear/death/sceneexplicitcleanup not broken => noHPpenalty",
+    "saved_state": "shield_instance_id/rootID/capacity_initial/current0..initial/remaining1..300/maxHPsnapshot/breaksettledflag; current0andactive is invalid, never regeneratecapacity"
+  },
+  "eligibility": "ownclass learnedallocatedpositiveeffectivegrade and exactskill/actor tags; ordinary/ascended passiveproc seal blocksnewcreation. Anti reducesnewchance/capacity, paidstandalone currentwindow/shieldfinishesoriginalsnapshot, no freecancelheal.",
+  "ordering": "geometry/life/immunity -> ifnew形移eligible onechance -> avoidhit on success else normalaccuracy/crit/defense -> cloudgenerationifeligible -> explicitpercentprotection -> cloudpool once -> residualHP loss -> one linkedbreakpenalty -> completelethal handling -> recoverycallbacks onlyifalive. Need stabletyped ordering, no repeatedgeneration fromresidualdamage.",
+  "persistence": "window/shieldremaining/cooldowns and allbreak/death/rootreceipts same fixedstepresult, pause/offlinefreeze; crash/reload brokenresult never charges5percent twice or reloads fullpool. Ordinarysave waits descendantsettlements; fullactivitysnapshot cancapturephase.",
+  "scope": "newlocaldefensemodel only, notofficialcompleteglobeformula orruntimequality. No special revival/status immunity free from stated100percentdirectavoidance."
+}

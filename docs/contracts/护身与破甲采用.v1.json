@@ -1,0 +1,149 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "eight_guard_penetration_profiles_not_implemented",
+  "source_policy": "保刀霸气追加对方防御20%、剑无坚减防50%、两护身对怪50%/对角色基础防御+50%、医每点总攻击0.5%、格斗暴击减10%。概率/时序/作用锚及其余系数为项目值；谭护身冲突已在学习合同具体采用，不无视秘籍条件。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_blade_e6a6c9b6c954",
+      "class_id": "blade",
+      "name": "霸气破甲",
+      "profile_id": "defense_based_extra",
+      "source_table_index": 35,
+      "source_row_index": 5,
+      "source_row_sha256": "cb8c8e8914169d9453331eacf8b333fb2622ef3a8918c538048caac778601b56",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_sword_0eb0bff69140",
+      "class_id": "sword",
+      "name": "无坚不摧",
+      "profile_id": "half_ordinary_defense",
+      "source_table_index": 36,
+      "source_row_index": 9,
+      "source_row_sha256": "651ea62ee939104eebd7c2d22cb40955b1785dbe9206dc78bcdd8823ae834811",
+      "learning_owner_file": "气功学习与秘籍.v1.json",
+      "eligible_root_override": "attack_martial_skill only; explicit63794八转published restriction, not basicnormal"
+    },
+    {
+      "qigong_id": "qigong_sword_ad348a425909",
+      "class_id": "sword",
+      "name": "护身罡气",
+      "profile_id": "monster_half_damage_or_martial_defense",
+      "source_table_index": 36,
+      "source_row_index": 12,
+      "source_row_sha256": "6a6e234a612c0fb464aeac09b3082b8f61cc0e86b055977f1879f10c3d8868e8",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_physician_7cfd20ea2442",
+      "class_id": "physician",
+      "name": "护身气甲",
+      "profile_id": "attack_to_defense",
+      "source_table_index": 40,
+      "source_row_index": 12,
+      "source_row_sha256": "e89237f6ab1dfab1a8d8cfd39f5ae6e1f3b56d94b527490782f78f3ea5b5881b",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_e6a6c9b6c954",
+      "class_id": "han_feiguan",
+      "name": "霸气破甲",
+      "profile_id": "defense_based_extra_hero",
+      "source_table_index": 42,
+      "source_row_index": 7,
+      "source_row_sha256": "45ac3af6da06e4e3289b8cf611851acf8f713a6d4dcc2a4f993dd59d195273a1",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_ad348a425909",
+      "class_id": "tan_hualing",
+      "name": "护身罡气",
+      "profile_id": "monster_half_damage_or_martial_defense",
+      "source_table_index": 43,
+      "source_row_index": 5,
+      "source_row_sha256": "3ac09107752207da2736e765b0fda52c236ef4a9300407fcf68d66ff3509c599",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_fighter_98989815662b",
+      "class_id": "fighter",
+      "name": "灵甲护身",
+      "profile_id": "martial_flat_protection",
+      "source_table_index": 44,
+      "source_row_index": 4,
+      "source_row_sha256": "fb1242e036c04a48f694f2c2fe8b350ef23fcad899d880ad821133144aa2cddf",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    },
+    {
+      "qigong_id": "qigong_fighter_23dbcc91f971",
+      "class_id": "fighter",
+      "name": "金刚不坏",
+      "profile_id": "critical_protection",
+      "source_table_index": 44,
+      "source_row_index": 8,
+      "source_row_sha256": "e714331460fe64e6221c2566969ee4c222dad1b9d7c5647b58149c8491958d9f",
+      "learning_owner_file": "气功学习与秘籍.v1.json"
+    }
+  ],
+  "chance_policy": "requires learned allocated positive effective grade; chance=100*grade bp with max4000 for explicitly probabilistic profiles below; stable root/primary/unique target hit receipt, derived events never recursively proc",
+  "profiles": {
+    "defense_based_extra": {
+      "chance": "chance_policy",
+      "base_ratio_bp": 2000,
+      "input": "target ordinary defense anchor at hit before this attack penetration, noPvEdefense",
+      "output": "floor(input20percent), capped at accepted attacker_maxAttack*2",
+      "pipeline": "one tagged armor_penalty_extra after ordinary defense/flat reduction on successful root primary hit, before percent protection; no second hit/crit/ordinary mitigation or extra callbacks",
+      "grade_scales": "probability only, not20percent source ratio"
+    },
+    "defense_based_extra_hero": {
+      "chance": "chance_policy",
+      "project_ratio_bp": 2000,
+      "source_ratio_unpublished": true,
+      "same_pipeline_as": "defense_based_extra",
+      "scope": "Han-qualified identity, not borrowed ordinary blade passive"
+    },
+    "half_ordinary_defense": {
+      "chance": "chance_policy",
+      "target": "original primary, first valid direct hit once per action",
+      "duration_steps": 180,
+      "ordinary_defense_reduction_bp": 5000,
+      "effect_applies_to_current_hit": false,
+      "scope": "ordinary defense source final subtotal; PvE guard ratings separate; not remove maxHP/skill/equipment identity",
+      "stacking": "same-family strongest only, separate source remaining times, same-source refresh180notadd",
+      "future_hits": "use temporarily reduced live ordinary defense, no rewriting persistent base"
+    },
+    "monster_half_damage_or_martial_defense": {
+      "chance": "chance_policy, defensive per unique direct hit before ordinary defense calculation",
+      "incoming_kind": "explicit hostile monster vs martialNPC; playerPvPstilldisabled",
+      "monster": "current received hit damage multiply5000bp in protection stage, no additional persistent defense",
+      "martial_npc": "current hit ordinary defense anchor multiplied15000bp before defense formula, no additional50percent damage reduction",
+      "does_not_create_persistent_buff": true,
+      "periodic_or_environment": false,
+      "grade_scales": "chance only; original50percent ratios remain"
+    },
+    "attack_to_defense": {
+      "formula": "floor(ordinary_attack_sum_anchor*effective_grade*50/10000)",
+      "ordinary_attack_sum_anchor": "sum lower+upper final attack before any defense-to-attack feedback, PvE-only attack or final override; dependency cycle is configuration error",
+      "ordinary_defense_add": true,
+      "base_rule_origin": "0.5percent per point original; sum of interval endpoints is explicit project interpretation not proven official meaning"
+    },
+    "martial_flat_protection": {
+      "amount_per_effective_level": 1,
+      "scope": "flat damage reduction only on direct attack_martial_skill after normal defense, not ordinary defense stat or percent",
+      "scope_not": "basic,environment,selfcost,DoT/reflection",
+      "floor_zero": true
+    },
+    "critical_protection": {
+      "damage_reduction_bp": 1000,
+      "chance_bp_per_effective_grade": 250,
+      "max_chance_bp": 10000,
+      "eligible": "actually committed root critical or explicit lethal-strike-tagged direct hit",
+      "source_difference": "10percent original preserved; grade-scaled qualification is project probability, never blanket ordinary-attack reduction",
+      "combines": "if hit both critical and lethal, one roll/10percent once; other declared protection sources each once, no extra event"
+    }
+  },
+  "protection_order": "pre-defense defensive-proc slot: sword/tan护身 choose one target-kind branch; build ordinary defense (including physician converted term), apply existing half-defense source, optional martialNPC guard50percent then formula23. Post-defense fixed protection includes fighter flat; armor extra once; percent protections by stable family ID (gasTan,critical,monster护身,otherexplicit) then Zhen shield/Mei barrier. Check all intermediate exact ranges.",
+  "feedback_policy": "derived physician defense cannot feed an attack-to-defense-to-attack cycle; reject SCC before configuration activation, not iterate until stable or fallback0. Half-defense live reduction never re-grants equipment/point budget or changes slot ownership.",
+  "persistence": "continuous contributions recomputed, timed half-defense sources saved remaining steps, per-hit defensive/critical draws and armor extra receipt captured. Class-qualified passive IDs prevent same name merging; save/replay never doubles reduction or derived add."
+}

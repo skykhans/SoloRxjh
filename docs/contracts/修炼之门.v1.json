@@ -1,0 +1,1809 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "room_routes_death_buffs_daily_monsters_design_not_implemented_not_balanced",
+  "scope": "四主题36房、空间/路由/死亡选择、8BUFF、16任务物品/8每日任务及144本地怪物变体/432刷点/定时野怪规则；完整服务道具系统、经济/实玩校准及Godot/LAN实现仍待完成。",
+  "source": {
+    "url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+    "archive": "../reference/官网资料/目录正文.json",
+    "facts": [
+      "入口在泫勃派南处、时空之门旁",
+      "北海/南林/东陵/虎峡谷四主题，每主题九个独立房间",
+      "推荐等级不是硬门槛，非该等级也能进入",
+      "每房一个移动装置，可选练级房间并返回泫勃",
+      "死亡可选择原地复活；否则返回泫勃",
+      "无小地图，禁止土灵符储存/移动、至尊热血符和情侣/结婚戒指传送",
+      "原版可自由PK；项目继续采用PvE，不开放玩家伤害",
+      "各房有高手以上怪物、定时野怪、每日任务和两小时BUFF，具体实施仍需后续数据"
+    ],
+    "project_choices": [
+      "世界内每个房间按world_id/map_id共享，离线一人、LAN按同一世界进入，不创建私人满血副本",
+      "场景几何、装置坐标、1级0转、免费交通、脱战换房及两种复活均为本地设计",
+      "房内仅换本主题九房；更换主题先返回入口再选择，避免复制36套跨主题菜单",
+      "原地复活使用保存的真实死亡脚位置/朝向，不能改到安全点；不收费、不重领BUFF或刷新怪物"
+    ],
+    "text_sha256": "5c8cbe40d407e6f63c324ce32ee7e8d0ea2a314c16861eae61680e8a80024e9b"
+  },
+  "entry": {
+    "host_map_id": "hyunbo_outskirts",
+    "entity_id": "device_training_gate",
+    "display_name": "修炼之门",
+    "entity_kind": "scene_interaction_device",
+    "position_feet_m": [
+      24,
+      0,
+      12
+    ],
+    "interaction_anchor_id": "training_gate_entry_service",
+    "interaction_position_feet_m": [
+      24,
+      0,
+      10
+    ],
+    "return_anchor_id": "training_gate_hyunbo_return",
+    "return_position_feet_m": [
+      24,
+      0,
+      6
+    ],
+    "interaction_yaw_radians": 0,
+    "return_yaw_radians": 3.141592653589793,
+    "radius_m": 0.5,
+    "height_m": 3,
+    "placement_basis": "project southern settlement plaza; not official coordinate scale; no fabricated time-gate service"
+  },
+  "themes": [
+    {
+      "theme_id": "beihai",
+      "display_name": "北海修炼场",
+      "recommended_level_range_as_published": [
+        60,
+        105
+      ],
+      "theme_visual": "snow"
+    },
+    {
+      "theme_id": "nanlin",
+      "display_name": "南林修炼场",
+      "recommended_level_range_as_published": [
+        80,
+        115
+      ],
+      "theme_visual": "jungle"
+    },
+    {
+      "theme_id": "dongling",
+      "display_name": "东陵修炼场",
+      "recommended_level_range_as_published": [
+        100,
+        125
+      ],
+      "theme_visual": "mountain"
+    },
+    {
+      "theme_id": "huxia",
+      "display_name": "虎峡谷修炼场",
+      "recommended_level_range_as_published": [
+        110,
+        135
+      ],
+      "theme_visual": "gorge"
+    }
+  ],
+  "room_layout": {
+    "basis": "one explicit reusable project combat-room layout, themed presentation; not a traced official room",
+    "x_bounds_m": [
+      -64,
+      64
+    ],
+    "z_bounds_m": [
+      -64,
+      64
+    ],
+    "floor_y_m": 0,
+    "floor_geometry": {
+      "kind": "bounded_walkable_plane",
+      "thickness_m": 1,
+      "center_y_m": -0.5
+    },
+    "solid_blocks": [
+      {
+        "id_suffix": "nw_terrain",
+        "center_m": [
+          -30,
+          3,
+          -20
+        ],
+        "size_m": [
+          14,
+          6,
+          14
+        ]
+      },
+      {
+        "id_suffix": "ne_terrain",
+        "center_m": [
+          30,
+          3,
+          -20
+        ],
+        "size_m": [
+          14,
+          6,
+          14
+        ]
+      },
+      {
+        "id_suffix": "sw_terrain",
+        "center_m": [
+          -30,
+          3,
+          20
+        ],
+        "size_m": [
+          14,
+          6,
+          14
+        ]
+      },
+      {
+        "id_suffix": "se_terrain",
+        "center_m": [
+          30,
+          3,
+          20
+        ],
+        "size_m": [
+          14,
+          6,
+          14
+        ]
+      }
+    ],
+    "actor_radius_m": 0.35,
+    "room_device": {
+      "entity_kind": "scene_interaction_device",
+      "display_name": "房间移动装置",
+      "position_feet_m": [
+        0,
+        0,
+        50
+      ],
+      "radius_m": 0.5,
+      "height_m": 2,
+      "interaction_position_feet_m": [
+        0,
+        0,
+        48
+      ],
+      "interaction_yaw_radians": 0,
+      "arrival_position_feet_m": [
+        0,
+        0,
+        44
+      ],
+      "arrival_yaw_radians": 3.141592653589793
+    },
+    "arrival_safe_zone": {
+      "center_xz_m": [
+        0,
+        44
+      ],
+      "radius_m": 8,
+      "forbid_hostile_spawn_and_entry": true,
+      "automatic_recovery": false,
+      "resets_cooldowns_or_effects": false
+    },
+    "navigation": "floor bounds minus actor-radius-expanded obstacles; every room must bake and validate actual Godot navigation before release",
+    "boundary_policy": "impassable bounded edges, no fall/overlap teleport; selection is the only normal room travel"
+  },
+  "rooms": [
+    {
+      "map_id": "training_beihai_01",
+      "theme_id": "beihai",
+      "room_number": 1,
+      "display_name": "北海修炼场·1号房",
+      "device_entity_id": "device_training_beihai_01_move",
+      "interaction_anchor_id": "training_beihai_01_service",
+      "arrival_anchor_id": "training_beihai_01_arrival",
+      "selection_connection_id": "select_training_beihai_01"
+    },
+    {
+      "map_id": "training_beihai_02",
+      "theme_id": "beihai",
+      "room_number": 2,
+      "display_name": "北海修炼场·2号房",
+      "device_entity_id": "device_training_beihai_02_move",
+      "interaction_anchor_id": "training_beihai_02_service",
+      "arrival_anchor_id": "training_beihai_02_arrival",
+      "selection_connection_id": "select_training_beihai_02"
+    },
+    {
+      "map_id": "training_beihai_03",
+      "theme_id": "beihai",
+      "room_number": 3,
+      "display_name": "北海修炼场·3号房",
+      "device_entity_id": "device_training_beihai_03_move",
+      "interaction_anchor_id": "training_beihai_03_service",
+      "arrival_anchor_id": "training_beihai_03_arrival",
+      "selection_connection_id": "select_training_beihai_03"
+    },
+    {
+      "map_id": "training_beihai_04",
+      "theme_id": "beihai",
+      "room_number": 4,
+      "display_name": "北海修炼场·4号房",
+      "device_entity_id": "device_training_beihai_04_move",
+      "interaction_anchor_id": "training_beihai_04_service",
+      "arrival_anchor_id": "training_beihai_04_arrival",
+      "selection_connection_id": "select_training_beihai_04"
+    },
+    {
+      "map_id": "training_beihai_05",
+      "theme_id": "beihai",
+      "room_number": 5,
+      "display_name": "北海修炼场·5号房",
+      "device_entity_id": "device_training_beihai_05_move",
+      "interaction_anchor_id": "training_beihai_05_service",
+      "arrival_anchor_id": "training_beihai_05_arrival",
+      "selection_connection_id": "select_training_beihai_05"
+    },
+    {
+      "map_id": "training_beihai_06",
+      "theme_id": "beihai",
+      "room_number": 6,
+      "display_name": "北海修炼场·6号房",
+      "device_entity_id": "device_training_beihai_06_move",
+      "interaction_anchor_id": "training_beihai_06_service",
+      "arrival_anchor_id": "training_beihai_06_arrival",
+      "selection_connection_id": "select_training_beihai_06"
+    },
+    {
+      "map_id": "training_beihai_07",
+      "theme_id": "beihai",
+      "room_number": 7,
+      "display_name": "北海修炼场·7号房",
+      "device_entity_id": "device_training_beihai_07_move",
+      "interaction_anchor_id": "training_beihai_07_service",
+      "arrival_anchor_id": "training_beihai_07_arrival",
+      "selection_connection_id": "select_training_beihai_07"
+    },
+    {
+      "map_id": "training_beihai_08",
+      "theme_id": "beihai",
+      "room_number": 8,
+      "display_name": "北海修炼场·8号房",
+      "device_entity_id": "device_training_beihai_08_move",
+      "interaction_anchor_id": "training_beihai_08_service",
+      "arrival_anchor_id": "training_beihai_08_arrival",
+      "selection_connection_id": "select_training_beihai_08"
+    },
+    {
+      "map_id": "training_beihai_09",
+      "theme_id": "beihai",
+      "room_number": 9,
+      "display_name": "北海修炼场·9号房",
+      "device_entity_id": "device_training_beihai_09_move",
+      "interaction_anchor_id": "training_beihai_09_service",
+      "arrival_anchor_id": "training_beihai_09_arrival",
+      "selection_connection_id": "select_training_beihai_09"
+    },
+    {
+      "map_id": "training_nanlin_01",
+      "theme_id": "nanlin",
+      "room_number": 1,
+      "display_name": "南林修炼场·1号房",
+      "device_entity_id": "device_training_nanlin_01_move",
+      "interaction_anchor_id": "training_nanlin_01_service",
+      "arrival_anchor_id": "training_nanlin_01_arrival",
+      "selection_connection_id": "select_training_nanlin_01"
+    },
+    {
+      "map_id": "training_nanlin_02",
+      "theme_id": "nanlin",
+      "room_number": 2,
+      "display_name": "南林修炼场·2号房",
+      "device_entity_id": "device_training_nanlin_02_move",
+      "interaction_anchor_id": "training_nanlin_02_service",
+      "arrival_anchor_id": "training_nanlin_02_arrival",
+      "selection_connection_id": "select_training_nanlin_02"
+    },
+    {
+      "map_id": "training_nanlin_03",
+      "theme_id": "nanlin",
+      "room_number": 3,
+      "display_name": "南林修炼场·3号房",
+      "device_entity_id": "device_training_nanlin_03_move",
+      "interaction_anchor_id": "training_nanlin_03_service",
+      "arrival_anchor_id": "training_nanlin_03_arrival",
+      "selection_connection_id": "select_training_nanlin_03"
+    },
+    {
+      "map_id": "training_nanlin_04",
+      "theme_id": "nanlin",
+      "room_number": 4,
+      "display_name": "南林修炼场·4号房",
+      "device_entity_id": "device_training_nanlin_04_move",
+      "interaction_anchor_id": "training_nanlin_04_service",
+      "arrival_anchor_id": "training_nanlin_04_arrival",
+      "selection_connection_id": "select_training_nanlin_04"
+    },
+    {
+      "map_id": "training_nanlin_05",
+      "theme_id": "nanlin",
+      "room_number": 5,
+      "display_name": "南林修炼场·5号房",
+      "device_entity_id": "device_training_nanlin_05_move",
+      "interaction_anchor_id": "training_nanlin_05_service",
+      "arrival_anchor_id": "training_nanlin_05_arrival",
+      "selection_connection_id": "select_training_nanlin_05"
+    },
+    {
+      "map_id": "training_nanlin_06",
+      "theme_id": "nanlin",
+      "room_number": 6,
+      "display_name": "南林修炼场·6号房",
+      "device_entity_id": "device_training_nanlin_06_move",
+      "interaction_anchor_id": "training_nanlin_06_service",
+      "arrival_anchor_id": "training_nanlin_06_arrival",
+      "selection_connection_id": "select_training_nanlin_06"
+    },
+    {
+      "map_id": "training_nanlin_07",
+      "theme_id": "nanlin",
+      "room_number": 7,
+      "display_name": "南林修炼场·7号房",
+      "device_entity_id": "device_training_nanlin_07_move",
+      "interaction_anchor_id": "training_nanlin_07_service",
+      "arrival_anchor_id": "training_nanlin_07_arrival",
+      "selection_connection_id": "select_training_nanlin_07"
+    },
+    {
+      "map_id": "training_nanlin_08",
+      "theme_id": "nanlin",
+      "room_number": 8,
+      "display_name": "南林修炼场·8号房",
+      "device_entity_id": "device_training_nanlin_08_move",
+      "interaction_anchor_id": "training_nanlin_08_service",
+      "arrival_anchor_id": "training_nanlin_08_arrival",
+      "selection_connection_id": "select_training_nanlin_08"
+    },
+    {
+      "map_id": "training_nanlin_09",
+      "theme_id": "nanlin",
+      "room_number": 9,
+      "display_name": "南林修炼场·9号房",
+      "device_entity_id": "device_training_nanlin_09_move",
+      "interaction_anchor_id": "training_nanlin_09_service",
+      "arrival_anchor_id": "training_nanlin_09_arrival",
+      "selection_connection_id": "select_training_nanlin_09"
+    },
+    {
+      "map_id": "training_dongling_01",
+      "theme_id": "dongling",
+      "room_number": 1,
+      "display_name": "东陵修炼场·1号房",
+      "device_entity_id": "device_training_dongling_01_move",
+      "interaction_anchor_id": "training_dongling_01_service",
+      "arrival_anchor_id": "training_dongling_01_arrival",
+      "selection_connection_id": "select_training_dongling_01"
+    },
+    {
+      "map_id": "training_dongling_02",
+      "theme_id": "dongling",
+      "room_number": 2,
+      "display_name": "东陵修炼场·2号房",
+      "device_entity_id": "device_training_dongling_02_move",
+      "interaction_anchor_id": "training_dongling_02_service",
+      "arrival_anchor_id": "training_dongling_02_arrival",
+      "selection_connection_id": "select_training_dongling_02"
+    },
+    {
+      "map_id": "training_dongling_03",
+      "theme_id": "dongling",
+      "room_number": 3,
+      "display_name": "东陵修炼场·3号房",
+      "device_entity_id": "device_training_dongling_03_move",
+      "interaction_anchor_id": "training_dongling_03_service",
+      "arrival_anchor_id": "training_dongling_03_arrival",
+      "selection_connection_id": "select_training_dongling_03"
+    },
+    {
+      "map_id": "training_dongling_04",
+      "theme_id": "dongling",
+      "room_number": 4,
+      "display_name": "东陵修炼场·4号房",
+      "device_entity_id": "device_training_dongling_04_move",
+      "interaction_anchor_id": "training_dongling_04_service",
+      "arrival_anchor_id": "training_dongling_04_arrival",
+      "selection_connection_id": "select_training_dongling_04"
+    },
+    {
+      "map_id": "training_dongling_05",
+      "theme_id": "dongling",
+      "room_number": 5,
+      "display_name": "东陵修炼场·5号房",
+      "device_entity_id": "device_training_dongling_05_move",
+      "interaction_anchor_id": "training_dongling_05_service",
+      "arrival_anchor_id": "training_dongling_05_arrival",
+      "selection_connection_id": "select_training_dongling_05"
+    },
+    {
+      "map_id": "training_dongling_06",
+      "theme_id": "dongling",
+      "room_number": 6,
+      "display_name": "东陵修炼场·6号房",
+      "device_entity_id": "device_training_dongling_06_move",
+      "interaction_anchor_id": "training_dongling_06_service",
+      "arrival_anchor_id": "training_dongling_06_arrival",
+      "selection_connection_id": "select_training_dongling_06"
+    },
+    {
+      "map_id": "training_dongling_07",
+      "theme_id": "dongling",
+      "room_number": 7,
+      "display_name": "东陵修炼场·7号房",
+      "device_entity_id": "device_training_dongling_07_move",
+      "interaction_anchor_id": "training_dongling_07_service",
+      "arrival_anchor_id": "training_dongling_07_arrival",
+      "selection_connection_id": "select_training_dongling_07"
+    },
+    {
+      "map_id": "training_dongling_08",
+      "theme_id": "dongling",
+      "room_number": 8,
+      "display_name": "东陵修炼场·8号房",
+      "device_entity_id": "device_training_dongling_08_move",
+      "interaction_anchor_id": "training_dongling_08_service",
+      "arrival_anchor_id": "training_dongling_08_arrival",
+      "selection_connection_id": "select_training_dongling_08"
+    },
+    {
+      "map_id": "training_dongling_09",
+      "theme_id": "dongling",
+      "room_number": 9,
+      "display_name": "东陵修炼场·9号房",
+      "device_entity_id": "device_training_dongling_09_move",
+      "interaction_anchor_id": "training_dongling_09_service",
+      "arrival_anchor_id": "training_dongling_09_arrival",
+      "selection_connection_id": "select_training_dongling_09"
+    },
+    {
+      "map_id": "training_huxia_01",
+      "theme_id": "huxia",
+      "room_number": 1,
+      "display_name": "虎峡谷修炼场·1号房",
+      "device_entity_id": "device_training_huxia_01_move",
+      "interaction_anchor_id": "training_huxia_01_service",
+      "arrival_anchor_id": "training_huxia_01_arrival",
+      "selection_connection_id": "select_training_huxia_01"
+    },
+    {
+      "map_id": "training_huxia_02",
+      "theme_id": "huxia",
+      "room_number": 2,
+      "display_name": "虎峡谷修炼场·2号房",
+      "device_entity_id": "device_training_huxia_02_move",
+      "interaction_anchor_id": "training_huxia_02_service",
+      "arrival_anchor_id": "training_huxia_02_arrival",
+      "selection_connection_id": "select_training_huxia_02"
+    },
+    {
+      "map_id": "training_huxia_03",
+      "theme_id": "huxia",
+      "room_number": 3,
+      "display_name": "虎峡谷修炼场·3号房",
+      "device_entity_id": "device_training_huxia_03_move",
+      "interaction_anchor_id": "training_huxia_03_service",
+      "arrival_anchor_id": "training_huxia_03_arrival",
+      "selection_connection_id": "select_training_huxia_03"
+    },
+    {
+      "map_id": "training_huxia_04",
+      "theme_id": "huxia",
+      "room_number": 4,
+      "display_name": "虎峡谷修炼场·4号房",
+      "device_entity_id": "device_training_huxia_04_move",
+      "interaction_anchor_id": "training_huxia_04_service",
+      "arrival_anchor_id": "training_huxia_04_arrival",
+      "selection_connection_id": "select_training_huxia_04"
+    },
+    {
+      "map_id": "training_huxia_05",
+      "theme_id": "huxia",
+      "room_number": 5,
+      "display_name": "虎峡谷修炼场·5号房",
+      "device_entity_id": "device_training_huxia_05_move",
+      "interaction_anchor_id": "training_huxia_05_service",
+      "arrival_anchor_id": "training_huxia_05_arrival",
+      "selection_connection_id": "select_training_huxia_05"
+    },
+    {
+      "map_id": "training_huxia_06",
+      "theme_id": "huxia",
+      "room_number": 6,
+      "display_name": "虎峡谷修炼场·6号房",
+      "device_entity_id": "device_training_huxia_06_move",
+      "interaction_anchor_id": "training_huxia_06_service",
+      "arrival_anchor_id": "training_huxia_06_arrival",
+      "selection_connection_id": "select_training_huxia_06"
+    },
+    {
+      "map_id": "training_huxia_07",
+      "theme_id": "huxia",
+      "room_number": 7,
+      "display_name": "虎峡谷修炼场·7号房",
+      "device_entity_id": "device_training_huxia_07_move",
+      "interaction_anchor_id": "training_huxia_07_service",
+      "arrival_anchor_id": "training_huxia_07_arrival",
+      "selection_connection_id": "select_training_huxia_07"
+    },
+    {
+      "map_id": "training_huxia_08",
+      "theme_id": "huxia",
+      "room_number": 8,
+      "display_name": "虎峡谷修炼场·8号房",
+      "device_entity_id": "device_training_huxia_08_move",
+      "interaction_anchor_id": "training_huxia_08_service",
+      "arrival_anchor_id": "training_huxia_08_arrival",
+      "selection_connection_id": "select_training_huxia_08"
+    },
+    {
+      "map_id": "training_huxia_09",
+      "theme_id": "huxia",
+      "room_number": 9,
+      "display_name": "虎峡谷修炼场·9号房",
+      "device_entity_id": "device_training_huxia_09_move",
+      "interaction_anchor_id": "training_huxia_09_service",
+      "arrival_anchor_id": "training_huxia_09_arrival",
+      "selection_connection_id": "select_training_huxia_09"
+    }
+  ],
+  "selection": {
+    "world_connection_kind": "training_room_selection",
+    "entry_connection_id": "select_training_gate_room",
+    "entry_domain": "exactly the36 map_ids in rooms, chosen theme plus room_number1..9; no free-form map ID",
+    "room_domain": "same theme_id rooms excluding current room, plus explicit leave_to_hyunbo",
+    "current_room_choice": "reject without moving, healing, regranting or refreshing",
+    "cross_theme_choice_inside_room": "reject; return to gate first",
+    "minimum_level": 1,
+    "minimum_rank": 0,
+    "required_route": "any valid unselected/righteous/evil",
+    "required_class": "any of14 valid classes",
+    "requires_alive": true,
+    "requires_out_of_combat": true,
+    "forbids_active_challenge": true,
+    "interaction_radius_m": 2.5,
+    "silver_fee": 0,
+    "item_fee": [],
+    "required_quest": null,
+    "normal_destination": "selected room.arrival_anchor_id, exact registered map and shared world",
+    "leave_destination": "entry.return_anchor_id",
+    "preflight": "validate requester/map/device/range/session and selected row, destination resource/anchor/navigation/collision before replacing current scene",
+    "failure": "remain in source with resources unchanged; no nearest room/default birth fallback",
+    "lan": "host validates each requester's own state; preserve world/party, no forced movement of teammates",
+    "commit": "location/yaw and transaction receipt once; duplicate command returns existing result",
+    "room_lifecycle": "selection never resets source/target monster life, respawn timers, world clock, unclaimed rewards or party ownership",
+    "ordinary_field_loot_on_leave": "retain existing ordinary field drop semantics; this travel is not a private reward claim service",
+    "ui": "show theme recommendation and room number; do not label it an entry requirement or claim unconfigured monster stats"
+  },
+  "death_choice": {
+    "owner_file": "死亡与复活保存.v1.json",
+    "mode": "training_gate_room",
+    "condition": "death committed while actual map_id is a registered room and no unrelated private activity",
+    "pending_death_extension": {
+      "field": "training_gate_choice",
+      "required_fields": [
+        "room_map_id",
+        "death_position_feet_m",
+        "death_yaw_radians"
+      ],
+      "default_respawn_anchor_id": "training_gate_hyunbo_return",
+      "validation": "known registered room; finite valid death pose; exact same map as death; awaiting_respawn HP0; no conflicting private attempt; default return anchor must resolve"
+    },
+    "choices": [
+      {
+        "choice_id": "revive_in_same_room",
+        "destination": "training_gate_choice.room_map_id and exact saved death pose",
+        "silver_fee": 0,
+        "item_fee": [],
+        "resource_policy": "normal respawn maxima and class special-resource policy; preserve inventory/XP/quest/cooldowns; no new-character pack",
+        "requires": "still awaiting same death_event_id; exact death pose remains navigable, unblocked and valid in this world's room",
+        "blocked": "keep death page and offer the independently explicit leave choice; never silently choose it",
+        "monster_policy": "no room/enemy reset or copied full-health instance; living enemies continue in LAN",
+        "invulnerability_grant": false
+      },
+      {
+        "choice_id": "leave_to_hyunbo",
+        "destination_anchor_id": "training_gate_hyunbo_return",
+        "silver_fee": 0,
+        "item_fee": [],
+        "resource_policy": "same normal respawn resource policy",
+        "requires": "still awaiting same death_event_id and valid destination preflight"
+      }
+    ],
+    "commit": "pose, life_state active, resources and pending_death null once, receipt references original death_event_id; duplicate old death choice does not heal again",
+    "save_or_reconnect_while_dead": "restore same two choices and saved death pose, no implicit revive/leave, no new reward",
+    "clock": "offline death page pauses world; LAN world and enemies continue per existing death contract",
+    "not_a_resurrection_skill": "normal HP recovery cannot invoke this choice or revive arbitrary non-room deaths"
+  },
+  "restrictions": {
+    "player_pvp": false,
+    "npc_warrior_context": "ordinary room monsters do not acquire warrior/PVP tags; any future warrior activity needs its own explicit contract",
+    "minimap_visible": false,
+    "prohibited_source_actions": [
+      "土灵符记录/传送",
+      "至尊热血符",
+      "情侣戒传送",
+      "结婚戒传送"
+    ],
+    "item_binding_policy": "six usable return item IDs plus five reserved source identities map exact actions in便携传送与修炼限制.v1.json; reserved service items cannot become usable until full definitions exist",
+    "regular_portable_teleport_bypasses": false,
+    "configuration_center": "explicit marked configuration transactions follow18; normal room travel never invokes them",
+    "portable_action_owner": {
+      "file": "便携传送与修炼限制.v1.json",
+      "pointer": "/training_policy"
+    }
+  },
+  "persistence": {
+    "room_identity": "world_id + map_id; no separate independently editable room_instance_id",
+    "character_location": "actual map_id/pose, not just last selected theme",
+    "private_attempt_required": false,
+    "restore": "same shared room identity and actual permitted pose; cannot rebuild full-health private copy on reconnect",
+    "bad_room_or_anchor_reference": "reject, no town relocation fallback",
+    "unconfigured_room_combat": "D1 blocks implementation/release until explicit monster/spawn/drop/task/buff definitions are supplied; empty rooms are not final gameplay"
+  },
+  "remaining_required_design": [
+    "修炼战斗/每日任务奖励、刷点密度、升级节奏和药费经济校准",
+    "Godot UI/碰撞/导航、保存死亡页和LAN并发实测"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "scope": "source/hash,36 room bindings, selector expansion and one shared static layout, not combat or actual death commands",
+    "registered_rooms": 36,
+    "registered_devices": 37,
+    "new_anchors": 74,
+    "expanded_directed_options": 360,
+    "entry_options": 36,
+    "same_theme_switch_options": 288,
+    "exit_options": 36,
+    "reachable_public_maps_at_level1_rank0": 53,
+    "reachable_public_maps_at_level150_rank10": 56,
+    "shared_layout_review": {
+      "map_id": "shared_training_room_layout",
+      "reachable_grid_nodes": 3772,
+      "checked_anchors": 2,
+      "geometry_and_targets_sha256": "d200c79eed40da0d622e3470a7abd216764b6783e6a844d162814deb448f1d54"
+    },
+    "shared_layout_routes": [
+      {
+        "destination_anchor_id": "room_arrival",
+        "map_id": "shared_training_room_layout",
+        "waypoints_m": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            44
+          ]
+        ]
+      },
+      {
+        "destination_anchor_id": "room_service",
+        "map_id": "shared_training_room_layout",
+        "waypoints_m": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            48
+          ]
+        ]
+      }
+    ],
+    "registered_room_arrival_and_service_bindings_checked": 72,
+    "death_pose_examples": {
+      "clear_xz": [
+        0,
+        0
+      ],
+      "blocked_xz": [
+        30,
+        20
+      ],
+      "outside_bounds_xz": [
+        65,
+        0
+      ]
+    },
+    "not_executed": [
+      "Godot layout/navigation and UI",
+      "actual death/respawn save/reconnect/retry",
+      "LAN shared-room population",
+      "monster/reward/daily task/buff functionality"
+    ]
+  },
+  "timed_buffs": {
+    "status": "explicit_project_schedule_and_effect_mapping_not_implemented_not_balanced",
+    "source_facts": "eight names/effect directions, theme membership,20%/50% and2hours from the same55886 archive; source does not give exact event time schedule, stacking, field mapping or payout algorithm",
+    "duration_world_steps": 432000,
+    "clock": {
+      "owner": "persisted world simulation clock at60Hz, never machine date/UI interaction time",
+      "world_step_field": "world.training_gate_clock_steps",
+      "initial_value_for_explicit_new_world": 0,
+      "range": "integer0..9007199254740991; overflow stops ticking with an error, never wraps",
+      "period_steps": 1296000,
+      "eligible_window_start_inclusive": 0,
+      "eligible_window_end_exclusive": 432000,
+      "cycle_formula": "world_step // period_steps",
+      "phase_formula": "world_step % period_steps",
+      "project_schedule": "each6simulation hours, first2hours grant opportunity; all themes use same window",
+      "pause_or_whole_world_offline": "freeze; no catch-up from wall time",
+      "lan_disconnected_client": "host world continues; rejoin reconciles elapsed host simulation steps since character observation stamp; no reset on reconnect",
+      "rewind_or_missing_new_world_clock": "reject inconsistent same-world state; no implicit new cycle"
+    },
+    "definitions": [
+      {
+        "effect_id": "training_buff_winter_defense",
+        "display_name_as_published": "严冬雪寒",
+        "theme_ids": [
+          "beihai"
+        ],
+        "effect_as_published": "防御力增加20%",
+        "project_target": "ordinary_defense_nonfeedback_anchor",
+        "multiplier_bp": 12000,
+        "family_id": "training_winter_defense"
+      },
+      {
+        "effect_id": "training_buff_summer_mana",
+        "display_name_as_published": "炎热夏天",
+        "theme_ids": [
+          "nanlin"
+        ],
+        "effect_as_published": "内功增加20%",
+        "project_target": "max_mana_post_derived",
+        "multiplier_bp": 12000,
+        "family_id": "training_summer_mana"
+      },
+      {
+        "effect_id": "training_buff_autumn_health",
+        "display_name_as_published": "秋高气爽",
+        "theme_ids": [
+          "dongling"
+        ],
+        "effect_as_published": "体力增加20%",
+        "project_target": "max_hp_post_derived",
+        "multiplier_bp": 12000,
+        "family_id": "training_autumn_health"
+      },
+      {
+        "effect_id": "training_buff_killing_attack",
+        "display_name_as_published": "杀气冲天",
+        "theme_ids": [
+          "huxia"
+        ],
+        "effect_as_published": "攻击力增加20%",
+        "project_target": "final_attack_interval_before_override",
+        "multiplier_bp": 12000,
+        "family_id": "training_killing_attack"
+      },
+      {
+        "effect_id": "training_buff_fortune_drop",
+        "display_name_as_published": "福寿金猪丸-福",
+        "theme_ids": [
+          "huxia"
+        ],
+        "effect_as_published": "物品掉落增加50%",
+        "project_target": "ordinary_random_drop_probability",
+        "multiplier_bp": 15000,
+        "family_id": "training_fortune_drop"
+      },
+      {
+        "effect_id": "training_buff_longevity_practice",
+        "display_name_as_published": "福寿金猪丸-寿",
+        "theme_ids": [
+          "beihai"
+        ],
+        "effect_as_published": "获得历练增加50%",
+        "project_target": "personal_practice_after_team_allocation",
+        "multiplier_bp": 15000,
+        "family_id": "training_longevity_practice"
+      },
+      {
+        "effect_id": "training_buff_gold_experience",
+        "display_name_as_published": "福寿金猪丸-金",
+        "theme_ids": [
+          "beihai",
+          "dongling",
+          "nanlin"
+        ],
+        "effect_as_published": "经验值获得增加50%",
+        "project_target": "personal_experience_after_team_allocation",
+        "multiplier_bp": 15000,
+        "family_id": "training_gold_experience"
+      },
+      {
+        "effect_id": "training_buff_pig_silver",
+        "display_name_as_published": "福寿金猪丸-猪",
+        "theme_ids": [
+          "dongling",
+          "huxia"
+        ],
+        "effect_as_published": "游戏币获得增加50%",
+        "project_target": "public_monster_silver_bag",
+        "multiplier_bp": 15000,
+        "family_id": "training_pig_silver"
+      }
+    ],
+    "theme_bundles": {
+      "beihai": [
+        "training_buff_winter_defense",
+        "training_buff_longevity_practice",
+        "training_buff_gold_experience"
+      ],
+      "nanlin": [
+        "training_buff_summer_mana",
+        "training_buff_gold_experience"
+      ],
+      "dongling": [
+        "training_buff_autumn_health",
+        "training_buff_gold_experience",
+        "training_buff_pig_silver"
+      ],
+      "huxia": [
+        "training_buff_killing_attack",
+        "training_buff_fortune_drop",
+        "training_buff_pig_silver"
+      ]
+    },
+    "grant": {
+      "eligibility": "alive character physically in a registered room in this world during open window, not merely viewing menu; valid14class and route",
+      "trigger": "on successful room entry or an open-window fixed step for an already-present eligible character; before new combat action acceptance",
+      "claim_key": [
+        "world_id",
+        "character_id",
+        "theme_id",
+        "cycle_index"
+      ],
+      "limit": "one whole bundle per character/theme/cycle; one grant receipt, no per-effect repeated claims",
+      "duration": "full432000world steps from actual grant, including a late-window entry; closing window does not end a granted duration",
+      "new_cycle": "previous cycle duration necessarily expired before next cycle because window_end + duration < period",
+      "current_room_same_theme_change": "preserve remaining steps and claim; never refresh",
+      "outside_theme": "retain actual remaining steps and keep decrementing on this world clock, but effects inactive",
+      "cross_theme": "only currently occupied theme bundle may apply; old-theme timers/claims retained, no stacking across themes",
+      "death": "timers/claims retained; effects inactive while dead; no regrant from a claimed cycle on revive",
+      "revive_with_unclaimed_theme": "normal eligibility grant only if the window remains open; a death receipt is not a buff claim",
+      "acceptance_and_expiry_order": "expire sources at start of fixed step, process eligible grants and resource-cap recalculation before new action snapshots; already accepted attacks keep old snapshot",
+      "expiry_boundary": "remaining_steps0 means inactive; no final extra tick or reward",
+      "commit": "all bundle effects,remaining steps,last_claimed_cycle,observation stamp and grant receipt in one character/world transaction; duplicate returns original",
+      "failure": "no partial bundle or consumed claim; file save failure after successful business commit keeps committed result for save retry"
+    },
+    "stat_application": {
+      "integer_formula": "floor(valid_input * multiplier_bp /10000) with exact-integer checks before multiply",
+      "ordinary_defense_nonfeedback_anchor": "multiply the existing acyclic ordinary-defense anchor once after its nonfeedback sources, before defense-to-HP conversion; excludes PvE defense, HP-to-defense feedback and final-defense override. Downstream conversions use this modified anchor; do not multiply their derived defense a second time",
+      "max_mana_post_derived": "multiply normal validated derived maximum once before18explicit final override; tagged post-derived so it cannot feed another conversion anchor",
+      "max_hp_post_derived": "source word体力 is deliberately mapped to maximumHP, not stamina; multiply normal derived maxHP once before18final override; no feedback into HP-to-defense/conversion anchors",
+      "final_attack_interval_before_override": "multiply each bound of the unified valid attack interval once before18final override and accepted-action snapshot; no second weapon roll or skill-flat multiplication; legacy fixed-power actions without attack interval unaffected",
+      "current_resources": "raising maxHP/mana or related class caps never fills current values; legitimate decrease clamps to new valid caps per14, no refund or cooldown reset",
+      "same_family": "at most one source per theme grant; no stacking from multiple rooms,players or copied party auras",
+      "scope": "only eligible local player character; not inherited by pets/companions, and not a multiplier on buff/skill numbers displayed in other definitions"
+    },
+    "reward_application": {
+      "eligibility_snapshot": "at unique monster death settlement in a registered room, capture each recipient/kill owner alive,connected where required,actual same room/current theme,claim identity and positive remaining steps; no evaluation at later pickup or delivery",
+      "monster_requirement": "each adopted room monster must explicitly tag ordinary reward components eligible for training bonuses and provide exact base values/drop table; absent values block D1/export, not default zero",
+      "personal_experience_after_team_allocation": "26finisher first modifies eligible base;19creates and splits team pool once; for each recipient with金 apply floor(allocated_share*15000/10000), then14personal cap/overflow. Separate base_share and personal_bonus in receipt; do not put personal bonus back in shared pool",
+      "personal_practice_after_team_allocation": "same order using independent practice pool and寿; do not derive practice from boostedXP, and do not multiply ascension progress",
+      "public_monster_silver_bag": "if the unique kill owner qualifies for猪 at death, multiply the one ordinary monster silver bag after26finisher by15000/10000 and floor once; original pickup ownership remains; no copy per recipient and no bonus at pickup",
+      "ordinary_random_drop_probability": "if unique kill owner qualifies for福, take each explicitly eligible ordinary chance after26finisher rounding/clamp, multiply15000/10000, floor then cap10000. One original trial/random draw, no extra quantity or extra roll;0 stays0",
+      "excluded": [
+        "task/quest completion rewards",
+        "fixed or protected/unique items",
+        "training task proof items",
+        "activity completion awards",
+        "ascension practice/progress/points",
+        "shops,warehouse silver and player transfers",
+        "already committed or pending claim rewards"
+      ],
+      "team_conservation": "sum(base_shares)=team_pool; sum(actual_credits+cap_losses)=team_pool+sum(personal_buff_bonuses). Personal bonus is explicit generated reward, not a reallocated teammate share",
+      "deduplication": "death_id and original payout/random result receipt include bonus source keys and base/final values; reconnect,retry,revive or room switch never reapply",
+      "required_monster_field": "training_reward_components: explicit subset of experience,practice,silver,random_drop; absent rejects export, empty requires a declared reason; never inferred from monster name or room recommendation"
+    },
+    "persistence": {
+      "character_field": "character.training_gate_buffs.by_world[world_id]",
+      "world_record_fields": [
+        "observed_world_step",
+        "themes"
+      ],
+      "theme_record_fields": [
+        "last_claimed_cycle_or_null",
+        "remaining_world_steps"
+      ],
+      "explicit_new_record": "on first encounter with a validated world,stamp=current world step and each of four themes{last_claimed_cycle_or_null:null,remaining_world_steps:0}; not a missing-field repair on load",
+      "remaining_range": "integer0..432000; claimed cycle null only if never granted and remaining0; otherwise valid cycle<=current cycle",
+      "reconcile": "same world current step must be>=observed stamp; decrease each saved remaining by elapsed simulation steps with legitimate minimum0, update stamp; no real-time catch-up",
+      "no_duplicate_expiry_cache": "persist remaining steps plus common observation stamp, not a second independently editable absolute expiry",
+      "world_scope": "foreign-world entries remain inactive and cannot be relabelled to current world; rejoining that world requires its authoritative clock/protocol, not treating it as a fresh grant",
+      "restore": "validate all four theme records,world identity,clock and receipts before activating sources; missing malformed new fields reject; never grant on loading solely because state is absent",
+      "configuration_center": "18may explicitly edit effect time/claim state only as marked configuration transaction with preview; it does not count as a normal schedule grant"
+    }
+  },
+  "daily_tasks": {
+    "status": "items_quests_and_producer_bindings_designed_not_implemented_not_balanced",
+    "source_facts": "published16names and existence of daily quests only; no published mapping/count/reward/reset algorithm",
+    "local_choices": "all item permissions, four theme groupings, eight quests, personal collection, counts, fixed rewards, producer roles and simulation-day are local design",
+    "day_clock": {
+      "owner_pointer": "/timed_buffs/clock",
+      "field": "world.training_gate_clock_steps",
+      "steps_per_day": 5184000,
+      "day_formula": "world_step //5184000",
+      "boundary": "day0 includes0..5183999; next day starts5184000",
+      "offline": "whole world pause/offline freezes; host continues while client disconnected; no system-date reset"
+    },
+    "items": [
+      {
+        "item_id": "training_item_beihai_silver_fox_tooth",
+        "display_name_as_published": "北海银狐牙",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_beihai_ordinary",
+        "producer_role_id": "training_producer_beihai_silver_fox_tooth",
+        "producer_kind": "ordinary",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_beihai_ice_jade_ring",
+        "display_name_as_published": "冰玉的戒指",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_beihai_ordinary",
+        "producer_role_id": "training_producer_beihai_ice_jade_ring",
+        "producer_kind": "ordinary",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_beihai_breath",
+        "display_name_as_published": "北海气息",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_beihai_summoned",
+        "producer_role_id": "training_producer_beihai_breath",
+        "producer_kind": "summoned",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_beihai_guardian_skin",
+        "display_name_as_published": "幻影门护法皮肤碎块",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_beihai_summoned",
+        "producer_role_id": "training_producer_beihai_guardian_skin",
+        "producer_kind": "summoned",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_nanlin_flower_seed",
+        "display_name_as_published": "南林食人花种子",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_nanlin_ordinary",
+        "producer_role_id": "training_producer_nanlin_flower_seed",
+        "producer_kind": "ordinary",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_nanlin_ape_hide",
+        "display_name_as_published": "南林大猿皮",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_nanlin_ordinary",
+        "producer_role_id": "training_producer_nanlin_ape_hide",
+        "producer_kind": "ordinary",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_nanlin_breath",
+        "display_name_as_published": "南林的气息",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_nanlin_summoned",
+        "producer_role_id": "training_producer_nanlin_breath",
+        "producer_kind": "summoned",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_nanlin_ghost_worm_meat",
+        "display_name_as_published": "千年鬼虫的肉块",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_nanlin_summoned",
+        "producer_role_id": "training_producer_nanlin_ghost_worm_meat",
+        "producer_kind": "summoned",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_dongling_wolf_hair",
+        "display_name_as_published": "东陵嗜血狂狼狼毫",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_dongling_ordinary",
+        "producer_role_id": "training_producer_dongling_wolf_hair",
+        "producer_kind": "ordinary",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_dongling_fish_net",
+        "display_name_as_published": "东陵双枪鱼贼的鱼网",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_dongling_ordinary",
+        "producer_role_id": "training_producer_dongling_fish_net",
+        "producer_kind": "ordinary",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_dongling_breath",
+        "display_name_as_published": "东陵气息",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_dongling_summoned",
+        "producer_role_id": "training_producer_dongling_breath",
+        "producer_kind": "summoned",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_dongling_deer_tail",
+        "display_name_as_published": "鹿尾巴",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_dongling_summoned",
+        "producer_role_id": "training_producer_dongling_deer_tail",
+        "producer_kind": "summoned",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_huxia_deer_horn",
+        "display_name_as_published": "虎峡谷魔煞狂鹿的角",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_huxia_ordinary",
+        "producer_role_id": "training_producer_huxia_deer_horn",
+        "producer_kind": "ordinary",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_huxia_monster_eye",
+        "display_name_as_published": "虎峡怪的眼睛.",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_huxia_ordinary",
+        "producer_role_id": "training_producer_huxia_monster_eye",
+        "producer_kind": "ordinary",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_huxia_breath",
+        "display_name_as_published": "虎峡谷气息",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_huxia_summoned",
+        "producer_role_id": "training_producer_huxia_breath",
+        "producer_kind": "summoned",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      },
+      {
+        "item_id": "training_item_huxia_ghost_king_hair",
+        "display_name_as_published": "绝影鬼王的头发",
+        "source_url": "http://rxjh.17game.com/data/mapnpc/201409/55886.htm",
+        "category": "quest_token",
+        "stack_limit": 99,
+        "weight_g": 0,
+        "binding": "character_id + world_id + quest_id + accepted_day_index",
+        "purpose_quest_id": "training_daily_huxia_summoned",
+        "producer_role_id": "training_producer_huxia_ghost_king_hair",
+        "producer_kind": "summoned",
+        "quantity_per_eligible_death": 1,
+        "probability_bp": 10000,
+        "source_mapping_policy": "name is published; theme/producer role/drop/permissions are explicit local adoption, never infer monster identity from item name",
+        "eligibility": "accepted active round, alive participating character in same registered room at unique death; no pre-accept accumulation; stop at objective count",
+        "permissions": {
+          "use": false,
+          "sell": false,
+          "discard": false,
+          "warehouse": false,
+          "trade": false,
+          "craft": false,
+          "quest_turn_in": true,
+          "abandon_or_expiry_cleanup": true
+        },
+        "sell_price": null,
+        "expiry": "only explicit abandon or next world-day boundary; no wall-time expiry",
+        "acquisition": "personal quest award by death_id/role/round, not public random loot; no26 or training fortune bonus",
+        "capacity_failure": "no token and no objective progress; original death reward not retried, show no space; a later distinct eligible death may grant"
+      }
+    ],
+    "quests": [
+      {
+        "quest_id": "training_daily_beihai_ordinary",
+        "theme_id": "beihai",
+        "producer_kind": "ordinary",
+        "source_status": "project quest, not one of147 official quest records",
+        "minimum_level": 1,
+        "minimum_completed_rank": 0,
+        "class_scope": "all14classes",
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "repeat": "once per character/world/day/quest; abandoning does not spend completion slot",
+        "acceptance": "alive, out of combat, idle, no challenge; use current room movement device task page within2.5m; only matching theme",
+        "objectives": [
+          {
+            "item_id": "training_item_beihai_silver_fox_tooth",
+            "quantity": 20
+          },
+          {
+            "item_id": "training_item_beihai_ice_jade_ring",
+            "quantity": 20
+          }
+        ],
+        "preaccept_items_count": false,
+        "reward": {
+          "experience": 5000,
+          "practice": 500,
+          "silver": 1000,
+          "items": [],
+          "ascension_progress": 0
+        },
+        "turn_in": "same-theme room device, alive/out of combat/idle/no challenge, within2.5m; all bound inputs consumed and rewards/state/receipt committed atomically",
+        "reward_modifiers": "quest rewards excluded from team sharing,26finishers and training buffs; apply14XP personal cap and17currency/practice limits",
+        "currency_or_practice_overflow": "reject entire delivery if cannot hold complete declared silver/practice; no partial payment or clamp",
+        "xp_cap": "14personal cap may lose XP; preview exact loss before confirmation; do not move loss to another recipient",
+        "completed_state": "one day completion marker and immutable receipt; keep no spent tokens"
+      },
+      {
+        "quest_id": "training_daily_beihai_summoned",
+        "theme_id": "beihai",
+        "producer_kind": "summoned",
+        "source_status": "project quest, not one of147 official quest records",
+        "minimum_level": 1,
+        "minimum_completed_rank": 0,
+        "class_scope": "all14classes",
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "repeat": "once per character/world/day/quest; abandoning does not spend completion slot",
+        "acceptance": "alive, out of combat, idle, no challenge; use current room movement device task page within2.5m; only matching theme",
+        "objectives": [
+          {
+            "item_id": "training_item_beihai_breath",
+            "quantity": 3
+          },
+          {
+            "item_id": "training_item_beihai_guardian_skin",
+            "quantity": 1
+          }
+        ],
+        "preaccept_items_count": false,
+        "reward": {
+          "experience": 10000,
+          "practice": 1000,
+          "silver": 2000,
+          "items": [],
+          "ascension_progress": 0
+        },
+        "turn_in": "same-theme room device, alive/out of combat/idle/no challenge, within2.5m; all bound inputs consumed and rewards/state/receipt committed atomically",
+        "reward_modifiers": "quest rewards excluded from team sharing,26finishers and training buffs; apply14XP personal cap and17currency/practice limits",
+        "currency_or_practice_overflow": "reject entire delivery if cannot hold complete declared silver/practice; no partial payment or clamp",
+        "xp_cap": "14personal cap may lose XP; preview exact loss before confirmation; do not move loss to another recipient",
+        "completed_state": "one day completion marker and immutable receipt; keep no spent tokens"
+      },
+      {
+        "quest_id": "training_daily_nanlin_ordinary",
+        "theme_id": "nanlin",
+        "producer_kind": "ordinary",
+        "source_status": "project quest, not one of147 official quest records",
+        "minimum_level": 1,
+        "minimum_completed_rank": 0,
+        "class_scope": "all14classes",
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "repeat": "once per character/world/day/quest; abandoning does not spend completion slot",
+        "acceptance": "alive, out of combat, idle, no challenge; use current room movement device task page within2.5m; only matching theme",
+        "objectives": [
+          {
+            "item_id": "training_item_nanlin_flower_seed",
+            "quantity": 20
+          },
+          {
+            "item_id": "training_item_nanlin_ape_hide",
+            "quantity": 20
+          }
+        ],
+        "preaccept_items_count": false,
+        "reward": {
+          "experience": 10000,
+          "practice": 1000,
+          "silver": 2000,
+          "items": [],
+          "ascension_progress": 0
+        },
+        "turn_in": "same-theme room device, alive/out of combat/idle/no challenge, within2.5m; all bound inputs consumed and rewards/state/receipt committed atomically",
+        "reward_modifiers": "quest rewards excluded from team sharing,26finishers and training buffs; apply14XP personal cap and17currency/practice limits",
+        "currency_or_practice_overflow": "reject entire delivery if cannot hold complete declared silver/practice; no partial payment or clamp",
+        "xp_cap": "14personal cap may lose XP; preview exact loss before confirmation; do not move loss to another recipient",
+        "completed_state": "one day completion marker and immutable receipt; keep no spent tokens"
+      },
+      {
+        "quest_id": "training_daily_nanlin_summoned",
+        "theme_id": "nanlin",
+        "producer_kind": "summoned",
+        "source_status": "project quest, not one of147 official quest records",
+        "minimum_level": 1,
+        "minimum_completed_rank": 0,
+        "class_scope": "all14classes",
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "repeat": "once per character/world/day/quest; abandoning does not spend completion slot",
+        "acceptance": "alive, out of combat, idle, no challenge; use current room movement device task page within2.5m; only matching theme",
+        "objectives": [
+          {
+            "item_id": "training_item_nanlin_breath",
+            "quantity": 3
+          },
+          {
+            "item_id": "training_item_nanlin_ghost_worm_meat",
+            "quantity": 1
+          }
+        ],
+        "preaccept_items_count": false,
+        "reward": {
+          "experience": 20000,
+          "practice": 2000,
+          "silver": 4000,
+          "items": [],
+          "ascension_progress": 0
+        },
+        "turn_in": "same-theme room device, alive/out of combat/idle/no challenge, within2.5m; all bound inputs consumed and rewards/state/receipt committed atomically",
+        "reward_modifiers": "quest rewards excluded from team sharing,26finishers and training buffs; apply14XP personal cap and17currency/practice limits",
+        "currency_or_practice_overflow": "reject entire delivery if cannot hold complete declared silver/practice; no partial payment or clamp",
+        "xp_cap": "14personal cap may lose XP; preview exact loss before confirmation; do not move loss to another recipient",
+        "completed_state": "one day completion marker and immutable receipt; keep no spent tokens"
+      },
+      {
+        "quest_id": "training_daily_dongling_ordinary",
+        "theme_id": "dongling",
+        "producer_kind": "ordinary",
+        "source_status": "project quest, not one of147 official quest records",
+        "minimum_level": 1,
+        "minimum_completed_rank": 0,
+        "class_scope": "all14classes",
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "repeat": "once per character/world/day/quest; abandoning does not spend completion slot",
+        "acceptance": "alive, out of combat, idle, no challenge; use current room movement device task page within2.5m; only matching theme",
+        "objectives": [
+          {
+            "item_id": "training_item_dongling_wolf_hair",
+            "quantity": 20
+          },
+          {
+            "item_id": "training_item_dongling_fish_net",
+            "quantity": 20
+          }
+        ],
+        "preaccept_items_count": false,
+        "reward": {
+          "experience": 15000,
+          "practice": 1500,
+          "silver": 3000,
+          "items": [],
+          "ascension_progress": 0
+        },
+        "turn_in": "same-theme room device, alive/out of combat/idle/no challenge, within2.5m; all bound inputs consumed and rewards/state/receipt committed atomically",
+        "reward_modifiers": "quest rewards excluded from team sharing,26finishers and training buffs; apply14XP personal cap and17currency/practice limits",
+        "currency_or_practice_overflow": "reject entire delivery if cannot hold complete declared silver/practice; no partial payment or clamp",
+        "xp_cap": "14personal cap may lose XP; preview exact loss before confirmation; do not move loss to another recipient",
+        "completed_state": "one day completion marker and immutable receipt; keep no spent tokens"
+      },
+      {
+        "quest_id": "training_daily_dongling_summoned",
+        "theme_id": "dongling",
+        "producer_kind": "summoned",
+        "source_status": "project quest, not one of147 official quest records",
+        "minimum_level": 1,
+        "minimum_completed_rank": 0,
+        "class_scope": "all14classes",
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "repeat": "once per character/world/day/quest; abandoning does not spend completion slot",
+        "acceptance": "alive, out of combat, idle, no challenge; use current room movement device task page within2.5m; only matching theme",
+        "objectives": [
+          {
+            "item_id": "training_item_dongling_breath",
+            "quantity": 3
+          },
+          {
+            "item_id": "training_item_dongling_deer_tail",
+            "quantity": 1
+          }
+        ],
+        "preaccept_items_count": false,
+        "reward": {
+          "experience": 30000,
+          "practice": 3000,
+          "silver": 6000,
+          "items": [],
+          "ascension_progress": 0
+        },
+        "turn_in": "same-theme room device, alive/out of combat/idle/no challenge, within2.5m; all bound inputs consumed and rewards/state/receipt committed atomically",
+        "reward_modifiers": "quest rewards excluded from team sharing,26finishers and training buffs; apply14XP personal cap and17currency/practice limits",
+        "currency_or_practice_overflow": "reject entire delivery if cannot hold complete declared silver/practice; no partial payment or clamp",
+        "xp_cap": "14personal cap may lose XP; preview exact loss before confirmation; do not move loss to another recipient",
+        "completed_state": "one day completion marker and immutable receipt; keep no spent tokens"
+      },
+      {
+        "quest_id": "training_daily_huxia_ordinary",
+        "theme_id": "huxia",
+        "producer_kind": "ordinary",
+        "source_status": "project quest, not one of147 official quest records",
+        "minimum_level": 1,
+        "minimum_completed_rank": 0,
+        "class_scope": "all14classes",
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "repeat": "once per character/world/day/quest; abandoning does not spend completion slot",
+        "acceptance": "alive, out of combat, idle, no challenge; use current room movement device task page within2.5m; only matching theme",
+        "objectives": [
+          {
+            "item_id": "training_item_huxia_deer_horn",
+            "quantity": 20
+          },
+          {
+            "item_id": "training_item_huxia_monster_eye",
+            "quantity": 20
+          }
+        ],
+        "preaccept_items_count": false,
+        "reward": {
+          "experience": 20000,
+          "practice": 2000,
+          "silver": 4000,
+          "items": [],
+          "ascension_progress": 0
+        },
+        "turn_in": "same-theme room device, alive/out of combat/idle/no challenge, within2.5m; all bound inputs consumed and rewards/state/receipt committed atomically",
+        "reward_modifiers": "quest rewards excluded from team sharing,26finishers and training buffs; apply14XP personal cap and17currency/practice limits",
+        "currency_or_practice_overflow": "reject entire delivery if cannot hold complete declared silver/practice; no partial payment or clamp",
+        "xp_cap": "14personal cap may lose XP; preview exact loss before confirmation; do not move loss to another recipient",
+        "completed_state": "one day completion marker and immutable receipt; keep no spent tokens"
+      },
+      {
+        "quest_id": "training_daily_huxia_summoned",
+        "theme_id": "huxia",
+        "producer_kind": "summoned",
+        "source_status": "project quest, not one of147 official quest records",
+        "minimum_level": 1,
+        "minimum_completed_rank": 0,
+        "class_scope": "all14classes",
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "repeat": "once per character/world/day/quest; abandoning does not spend completion slot",
+        "acceptance": "alive, out of combat, idle, no challenge; use current room movement device task page within2.5m; only matching theme",
+        "objectives": [
+          {
+            "item_id": "training_item_huxia_breath",
+            "quantity": 3
+          },
+          {
+            "item_id": "training_item_huxia_ghost_king_hair",
+            "quantity": 1
+          }
+        ],
+        "preaccept_items_count": false,
+        "reward": {
+          "experience": 40000,
+          "practice": 4000,
+          "silver": 8000,
+          "items": [],
+          "ascension_progress": 0
+        },
+        "turn_in": "same-theme room device, alive/out of combat/idle/no challenge, within2.5m; all bound inputs consumed and rewards/state/receipt committed atomically",
+        "reward_modifiers": "quest rewards excluded from team sharing,26finishers and training buffs; apply14XP personal cap and17currency/practice limits",
+        "currency_or_practice_overflow": "reject entire delivery if cannot hold complete declared silver/practice; no partial payment or clamp",
+        "xp_cap": "14personal cap may lose XP; preview exact loss before confirmation; do not move loss to another recipient",
+        "completed_state": "one day completion marker and immutable receipt; keep no spent tokens"
+      }
+    ],
+    "producer_binding_requirement": "all16producer roles bind explicit same-theme/kind/item monster rows and spawns in修炼怪物与刷点.v1.json; validate144rows/432spawns; missing/conflicting references reject export",
+    "collection_policy": {
+      "ownership": "one quest token per eligible player, not duplication of public loot; NPC companions get none; each recipient must independently satisfy19normal kill participation and same-room rules",
+      "contribution": "use19qualification; not last-hit-only and not merely party member in another room",
+      "receipt_key": [
+        "world_id",
+        "death_id",
+        "character_id",
+        "quest_id",
+        "accepted_day_index",
+        "item_id"
+      ],
+      "progress": "physical bound tokens are sole objective inventory, not a second independently mutable count; partial set is in_progress, complete set ready_to_turn_in",
+      "maximum": "grant only min(quantity_per_eligible_death,objective_requirement-owned_bound_quantity); never excess tokens",
+      "eligibility_order": "day transition/expired round cleanup before death grants or turn-in in same step; a death at boundary belongs only new day if its quest was accepted that day",
+      "multiple_tasks": "eight independent quests; one active round per quest, may accept both of current theme and retain other theme tasks; no shared material between rounds"
+    },
+    "round_lifecycle": {
+      "key": [
+        "world_id",
+        "character_id",
+        "quest_id",
+        "accepted_day_index"
+      ],
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "abandon": "explicit confirmation removes only that round tokens and active state; no fee or reward/refund; may reaccept same day if never delivered; old death receipts stay deduplicated",
+      "day_boundary": "atomically remove only previous-day active tasks and their bound tokens before actions, preserve completion receipts/history; do not autoaccept or award expired tasks",
+      "disconnect": "host reconciles world day and expiry before accepting commands; client cannot turn in old-day tokens after reconnect",
+      "foreign_world": "other-world quests/tokens remain inactive, unspendable and still occupy carried slots; do not relabel them; on rejoining reconcile original authoritative clock and expire when required",
+      "request_retry": "request_id + expected character revision + round identity; duplicate returns original transaction result; stale day/revision rejects, never silently starts a new round",
+      "save_failure": "committed memory result remains and save retry persists same receipt, never redo reward"
+    },
+    "persistence": {
+      "character_field": "character.training_gate_daily.by_world[world_id]",
+      "explicit_new_character": {
+        "by_world": {}
+      },
+      "per_world_fields": [
+        "observed_world_step",
+        "quests"
+      ],
+      "per_quest_fields": [
+        "accepted_day_index_or_null",
+        "state",
+        "last_delivered_day_index_or_null"
+      ],
+      "invariants": "known8quest IDs, valid day<=authoritative day; active accepted_day=current reconciled day; delivered requires accepted day=last_delivered day and exact receipt; not_accepted has null accepted day and no round tokens; token provenance agrees with role/world/quest/day; unknown/missing new-format fields reject",
+      "first_world": "explicitly initialize all8quest states not_accepted and null accepted/delivered day at validated current world step; never a load repair",
+      "initialization": "new character and accepted legacy1..4conversion empty by_world; no invented past quest rewards",
+      "configuration_center": "edits require marked18configuration transaction; cannot impersonate normal delivery/death receipt"
+    }
+  },
+  "monster_owner": {
+    "file": "修炼怪物与刷点.v1.json",
+    "monsters_pointer": "/monsters",
+    "spawns_pointer": "/spawns",
+    "schedule_pointer": "/summon_schedule"
+  }
+}

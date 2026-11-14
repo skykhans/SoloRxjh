@@ -1,0 +1,1567 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-13",
+  "status": "project_design_not_implemented_not_balanced",
+  "scope": "1～180项目累计经验阈值及明确选择按等级经验档的怪物基值；不是官网经验表，不是全部怪物正式定义。",
+  "source_policy": "四个旧任务的奖励约占5%仅提供量级参照，换算锚点采用项目精确值；原始奖励/约数说明不改写。其他锚点、插值及怪物经验均为项目设计。",
+  "reference_quest_anchors": [
+    {
+      "reference_id": "QREF-63788-004",
+      "level": 79,
+      "published_reward_xp": 3000000,
+      "published_fraction": "约5%",
+      "adopted_xp_to_next": 60000000
+    },
+    {
+      "reference_id": "QREF-63788-006",
+      "level": 83,
+      "published_reward_xp": 4440000,
+      "published_fraction": "约5%",
+      "adopted_xp_to_next": 88800000
+    },
+    {
+      "reference_id": "QREF-63788-010",
+      "level": 89,
+      "published_reward_xp": 7800000,
+      "published_fraction": "5%",
+      "adopted_xp_to_next": 156000000
+    },
+    {
+      "reference_id": "QREF-63788-012",
+      "level": 95,
+      "published_reward_xp": 13000000,
+      "published_fraction": "5%",
+      "adopted_xp_to_next": 260000000
+    }
+  ],
+  "design_anchors": [
+    {
+      "level": 1,
+      "design_reference_cost": 200
+    },
+    {
+      "level": 10,
+      "design_reference_cost": 20000
+    },
+    {
+      "level": 35,
+      "design_reference_cost": 500000
+    },
+    {
+      "level": 60,
+      "design_reference_cost": 12000000
+    },
+    {
+      "level": 79,
+      "design_reference_cost": 60000000
+    },
+    {
+      "level": 83,
+      "design_reference_cost": 88800000
+    },
+    {
+      "level": 89,
+      "design_reference_cost": 156000000
+    },
+    {
+      "level": 95,
+      "design_reference_cost": 260000000
+    },
+    {
+      "level": 100,
+      "design_reference_cost": 360000000
+    },
+    {
+      "level": 115,
+      "design_reference_cost": 900000000
+    },
+    {
+      "level": 120,
+      "design_reference_cost": 1200000000
+    },
+    {
+      "level": 130,
+      "design_reference_cost": 2000000000
+    },
+    {
+      "level": 140,
+      "design_reference_cost": 3200000000
+    },
+    {
+      "level": 150,
+      "design_reference_cost": 5000000000
+    },
+    {
+      "level": 160,
+      "design_reference_cost": 7400000000
+    },
+    {
+      "level": 170,
+      "design_reference_cost": 10500000000
+    },
+    {
+      "level": 179,
+      "design_reference_cost": 14000000000
+    },
+    {
+      "level": 180,
+      "design_reference_cost": 14400000000
+    }
+  ],
+  "authoring_method": "锚点间整数线性插值，向下取整；只用于编制本表，正式加载不得现场算曲线填补缺失等级。180级参考量仅用于同级怪物基值，不生成181级阈值。",
+  "monster_authoring_method": "普通基值=该级design_reference_cost整除[12+整除((level-1),2)]；精英/首领倍率仅对显式选择该经验档的定义适用。",
+  "monster_profiles": {
+    "ordinary_by_level": 1,
+    "elite_by_level": 3,
+    "boss_by_level": 12
+  },
+  "level_difference_multiplier": {
+    "numerator": 1,
+    "denominator": 1
+  },
+  "maximum_total_xp": 371126840985,
+  "terminal_policy": "累计经验封顶在180级起点；事务逐角色显示原分配/实际入账/满级溢出，溢出不转历练/银两/点数、不留以后领取。",
+  "records": [
+    {
+      "level": 1,
+      "minimum_total_xp": 0,
+      "xp_to_next_level": 200,
+      "ordinary_monster_base_xp": 16,
+      "isolated_same_level_defeats_to_next": 13,
+      "ordinary_monster_base_practice": 1
+    },
+    {
+      "level": 2,
+      "minimum_total_xp": 200,
+      "xp_to_next_level": 2400,
+      "ordinary_monster_base_xp": 200,
+      "isolated_same_level_defeats_to_next": 12,
+      "ordinary_monster_base_practice": 20
+    },
+    {
+      "level": 3,
+      "minimum_total_xp": 2600,
+      "xp_to_next_level": 4600,
+      "ordinary_monster_base_xp": 353,
+      "isolated_same_level_defeats_to_next": 14,
+      "ordinary_monster_base_practice": 35
+    },
+    {
+      "level": 4,
+      "minimum_total_xp": 7200,
+      "xp_to_next_level": 6800,
+      "ordinary_monster_base_xp": 523,
+      "isolated_same_level_defeats_to_next": 14,
+      "ordinary_monster_base_practice": 52
+    },
+    {
+      "level": 5,
+      "minimum_total_xp": 14000,
+      "xp_to_next_level": 9000,
+      "ordinary_monster_base_xp": 642,
+      "isolated_same_level_defeats_to_next": 15,
+      "ordinary_monster_base_practice": 64
+    },
+    {
+      "level": 6,
+      "minimum_total_xp": 23000,
+      "xp_to_next_level": 11200,
+      "ordinary_monster_base_xp": 800,
+      "isolated_same_level_defeats_to_next": 14,
+      "ordinary_monster_base_practice": 80
+    },
+    {
+      "level": 7,
+      "minimum_total_xp": 34200,
+      "xp_to_next_level": 13400,
+      "ordinary_monster_base_xp": 893,
+      "isolated_same_level_defeats_to_next": 16,
+      "ordinary_monster_base_practice": 89
+    },
+    {
+      "level": 8,
+      "minimum_total_xp": 47600,
+      "xp_to_next_level": 15600,
+      "ordinary_monster_base_xp": 1040,
+      "isolated_same_level_defeats_to_next": 15,
+      "ordinary_monster_base_practice": 104
+    },
+    {
+      "level": 9,
+      "minimum_total_xp": 63200,
+      "xp_to_next_level": 17800,
+      "ordinary_monster_base_xp": 1112,
+      "isolated_same_level_defeats_to_next": 17,
+      "ordinary_monster_base_practice": 111
+    },
+    {
+      "level": 10,
+      "minimum_total_xp": 81000,
+      "xp_to_next_level": 20000,
+      "ordinary_monster_base_xp": 1250,
+      "isolated_same_level_defeats_to_next": 16,
+      "ordinary_monster_base_practice": 125
+    },
+    {
+      "level": 11,
+      "minimum_total_xp": 101000,
+      "xp_to_next_level": 39200,
+      "ordinary_monster_base_xp": 2305,
+      "isolated_same_level_defeats_to_next": 18,
+      "ordinary_monster_base_practice": 230
+    },
+    {
+      "level": 12,
+      "minimum_total_xp": 140200,
+      "xp_to_next_level": 58400,
+      "ordinary_monster_base_xp": 3435,
+      "isolated_same_level_defeats_to_next": 18,
+      "ordinary_monster_base_practice": 343
+    },
+    {
+      "level": 13,
+      "minimum_total_xp": 198600,
+      "xp_to_next_level": 77600,
+      "ordinary_monster_base_xp": 4311,
+      "isolated_same_level_defeats_to_next": 19,
+      "ordinary_monster_base_practice": 431
+    },
+    {
+      "level": 14,
+      "minimum_total_xp": 276200,
+      "xp_to_next_level": 96800,
+      "ordinary_monster_base_xp": 5377,
+      "isolated_same_level_defeats_to_next": 19,
+      "ordinary_monster_base_practice": 537
+    },
+    {
+      "level": 15,
+      "minimum_total_xp": 373000,
+      "xp_to_next_level": 116000,
+      "ordinary_monster_base_xp": 6105,
+      "isolated_same_level_defeats_to_next": 20,
+      "ordinary_monster_base_practice": 610
+    },
+    {
+      "level": 16,
+      "minimum_total_xp": 489000,
+      "xp_to_next_level": 135200,
+      "ordinary_monster_base_xp": 7115,
+      "isolated_same_level_defeats_to_next": 20,
+      "ordinary_monster_base_practice": 711
+    },
+    {
+      "level": 17,
+      "minimum_total_xp": 624200,
+      "xp_to_next_level": 154400,
+      "ordinary_monster_base_xp": 7720,
+      "isolated_same_level_defeats_to_next": 20,
+      "ordinary_monster_base_practice": 772
+    },
+    {
+      "level": 18,
+      "minimum_total_xp": 778600,
+      "xp_to_next_level": 173600,
+      "ordinary_monster_base_xp": 8680,
+      "isolated_same_level_defeats_to_next": 20,
+      "ordinary_monster_base_practice": 868
+    },
+    {
+      "level": 19,
+      "minimum_total_xp": 952200,
+      "xp_to_next_level": 192800,
+      "ordinary_monster_base_xp": 9180,
+      "isolated_same_level_defeats_to_next": 22,
+      "ordinary_monster_base_practice": 918
+    },
+    {
+      "level": 20,
+      "minimum_total_xp": 1145000,
+      "xp_to_next_level": 212000,
+      "ordinary_monster_base_xp": 10095,
+      "isolated_same_level_defeats_to_next": 22,
+      "ordinary_monster_base_practice": 1009
+    },
+    {
+      "level": 21,
+      "minimum_total_xp": 1357000,
+      "xp_to_next_level": 231200,
+      "ordinary_monster_base_xp": 10509,
+      "isolated_same_level_defeats_to_next": 23,
+      "ordinary_monster_base_practice": 1050
+    },
+    {
+      "level": 22,
+      "minimum_total_xp": 1588200,
+      "xp_to_next_level": 250400,
+      "ordinary_monster_base_xp": 11381,
+      "isolated_same_level_defeats_to_next": 23,
+      "ordinary_monster_base_practice": 1138
+    },
+    {
+      "level": 23,
+      "minimum_total_xp": 1838600,
+      "xp_to_next_level": 269600,
+      "ordinary_monster_base_xp": 11721,
+      "isolated_same_level_defeats_to_next": 24,
+      "ordinary_monster_base_practice": 1172
+    },
+    {
+      "level": 24,
+      "minimum_total_xp": 2108200,
+      "xp_to_next_level": 288800,
+      "ordinary_monster_base_xp": 12556,
+      "isolated_same_level_defeats_to_next": 24,
+      "ordinary_monster_base_practice": 1255
+    },
+    {
+      "level": 25,
+      "minimum_total_xp": 2397000,
+      "xp_to_next_level": 308000,
+      "ordinary_monster_base_xp": 12833,
+      "isolated_same_level_defeats_to_next": 25,
+      "ordinary_monster_base_practice": 1283
+    },
+    {
+      "level": 26,
+      "minimum_total_xp": 2705000,
+      "xp_to_next_level": 327200,
+      "ordinary_monster_base_xp": 13633,
+      "isolated_same_level_defeats_to_next": 25,
+      "ordinary_monster_base_practice": 1363
+    },
+    {
+      "level": 27,
+      "minimum_total_xp": 3032200,
+      "xp_to_next_level": 346400,
+      "ordinary_monster_base_xp": 13856,
+      "isolated_same_level_defeats_to_next": 25,
+      "ordinary_monster_base_practice": 1385
+    },
+    {
+      "level": 28,
+      "minimum_total_xp": 3378600,
+      "xp_to_next_level": 365600,
+      "ordinary_monster_base_xp": 14624,
+      "isolated_same_level_defeats_to_next": 25,
+      "ordinary_monster_base_practice": 1462
+    },
+    {
+      "level": 29,
+      "minimum_total_xp": 3744200,
+      "xp_to_next_level": 384800,
+      "ordinary_monster_base_xp": 14800,
+      "isolated_same_level_defeats_to_next": 26,
+      "ordinary_monster_base_practice": 1480
+    },
+    {
+      "level": 30,
+      "minimum_total_xp": 4129000,
+      "xp_to_next_level": 404000,
+      "ordinary_monster_base_xp": 15538,
+      "isolated_same_level_defeats_to_next": 27,
+      "ordinary_monster_base_practice": 1553
+    },
+    {
+      "level": 31,
+      "minimum_total_xp": 4533000,
+      "xp_to_next_level": 423200,
+      "ordinary_monster_base_xp": 15674,
+      "isolated_same_level_defeats_to_next": 28,
+      "ordinary_monster_base_practice": 1567
+    },
+    {
+      "level": 32,
+      "minimum_total_xp": 4956200,
+      "xp_to_next_level": 442400,
+      "ordinary_monster_base_xp": 16385,
+      "isolated_same_level_defeats_to_next": 28,
+      "ordinary_monster_base_practice": 1638
+    },
+    {
+      "level": 33,
+      "minimum_total_xp": 5398600,
+      "xp_to_next_level": 461600,
+      "ordinary_monster_base_xp": 16485,
+      "isolated_same_level_defeats_to_next": 29,
+      "ordinary_monster_base_practice": 1648
+    },
+    {
+      "level": 34,
+      "minimum_total_xp": 5860200,
+      "xp_to_next_level": 480800,
+      "ordinary_monster_base_xp": 17171,
+      "isolated_same_level_defeats_to_next": 29,
+      "ordinary_monster_base_practice": 1717
+    },
+    {
+      "level": 35,
+      "minimum_total_xp": 6341000,
+      "xp_to_next_level": 500000,
+      "ordinary_monster_base_xp": 17241,
+      "isolated_same_level_defeats_to_next": 30,
+      "ordinary_monster_base_practice": 1724
+    },
+    {
+      "level": 36,
+      "minimum_total_xp": 6841000,
+      "xp_to_next_level": 960000,
+      "ordinary_monster_base_xp": 33103,
+      "isolated_same_level_defeats_to_next": 30,
+      "ordinary_monster_base_practice": 3310
+    },
+    {
+      "level": 37,
+      "minimum_total_xp": 7801000,
+      "xp_to_next_level": 1420000,
+      "ordinary_monster_base_xp": 47333,
+      "isolated_same_level_defeats_to_next": 31,
+      "ordinary_monster_base_practice": 4733
+    },
+    {
+      "level": 38,
+      "minimum_total_xp": 9221000,
+      "xp_to_next_level": 1880000,
+      "ordinary_monster_base_xp": 62666,
+      "isolated_same_level_defeats_to_next": 31,
+      "ordinary_monster_base_practice": 6266
+    },
+    {
+      "level": 39,
+      "minimum_total_xp": 11101000,
+      "xp_to_next_level": 2340000,
+      "ordinary_monster_base_xp": 75483,
+      "isolated_same_level_defeats_to_next": 32,
+      "ordinary_monster_base_practice": 7548
+    },
+    {
+      "level": 40,
+      "minimum_total_xp": 13441000,
+      "xp_to_next_level": 2800000,
+      "ordinary_monster_base_xp": 90322,
+      "isolated_same_level_defeats_to_next": 32,
+      "ordinary_monster_base_practice": 9032
+    },
+    {
+      "level": 41,
+      "minimum_total_xp": 16241000,
+      "xp_to_next_level": 3260000,
+      "ordinary_monster_base_xp": 101875,
+      "isolated_same_level_defeats_to_next": 32,
+      "ordinary_monster_base_practice": 10187
+    },
+    {
+      "level": 42,
+      "minimum_total_xp": 19501000,
+      "xp_to_next_level": 3720000,
+      "ordinary_monster_base_xp": 116250,
+      "isolated_same_level_defeats_to_next": 32,
+      "ordinary_monster_base_practice": 11625
+    },
+    {
+      "level": 43,
+      "minimum_total_xp": 23221000,
+      "xp_to_next_level": 4180000,
+      "ordinary_monster_base_xp": 126666,
+      "isolated_same_level_defeats_to_next": 34,
+      "ordinary_monster_base_practice": 12666
+    },
+    {
+      "level": 44,
+      "minimum_total_xp": 27401000,
+      "xp_to_next_level": 4640000,
+      "ordinary_monster_base_xp": 140606,
+      "isolated_same_level_defeats_to_next": 34,
+      "ordinary_monster_base_practice": 14060
+    },
+    {
+      "level": 45,
+      "minimum_total_xp": 32041000,
+      "xp_to_next_level": 5100000,
+      "ordinary_monster_base_xp": 150000,
+      "isolated_same_level_defeats_to_next": 34,
+      "ordinary_monster_base_practice": 15000
+    },
+    {
+      "level": 46,
+      "minimum_total_xp": 37141000,
+      "xp_to_next_level": 5560000,
+      "ordinary_monster_base_xp": 163529,
+      "isolated_same_level_defeats_to_next": 35,
+      "ordinary_monster_base_practice": 16352
+    },
+    {
+      "level": 47,
+      "minimum_total_xp": 42701000,
+      "xp_to_next_level": 6020000,
+      "ordinary_monster_base_xp": 172000,
+      "isolated_same_level_defeats_to_next": 35,
+      "ordinary_monster_base_practice": 17200
+    },
+    {
+      "level": 48,
+      "minimum_total_xp": 48721000,
+      "xp_to_next_level": 6480000,
+      "ordinary_monster_base_xp": 185142,
+      "isolated_same_level_defeats_to_next": 36,
+      "ordinary_monster_base_practice": 18514
+    },
+    {
+      "level": 49,
+      "minimum_total_xp": 55201000,
+      "xp_to_next_level": 6940000,
+      "ordinary_monster_base_xp": 192777,
+      "isolated_same_level_defeats_to_next": 37,
+      "ordinary_monster_base_practice": 19277
+    },
+    {
+      "level": 50,
+      "minimum_total_xp": 62141000,
+      "xp_to_next_level": 7400000,
+      "ordinary_monster_base_xp": 205555,
+      "isolated_same_level_defeats_to_next": 37,
+      "ordinary_monster_base_practice": 20555
+    },
+    {
+      "level": 51,
+      "minimum_total_xp": 69541000,
+      "xp_to_next_level": 7860000,
+      "ordinary_monster_base_xp": 212432,
+      "isolated_same_level_defeats_to_next": 38,
+      "ordinary_monster_base_practice": 21243
+    },
+    {
+      "level": 52,
+      "minimum_total_xp": 77401000,
+      "xp_to_next_level": 8320000,
+      "ordinary_monster_base_xp": 224864,
+      "isolated_same_level_defeats_to_next": 38,
+      "ordinary_monster_base_practice": 22486
+    },
+    {
+      "level": 53,
+      "minimum_total_xp": 85721000,
+      "xp_to_next_level": 8780000,
+      "ordinary_monster_base_xp": 231052,
+      "isolated_same_level_defeats_to_next": 39,
+      "ordinary_monster_base_practice": 23105
+    },
+    {
+      "level": 54,
+      "minimum_total_xp": 94501000,
+      "xp_to_next_level": 9240000,
+      "ordinary_monster_base_xp": 243157,
+      "isolated_same_level_defeats_to_next": 39,
+      "ordinary_monster_base_practice": 24315
+    },
+    {
+      "level": 55,
+      "minimum_total_xp": 103741000,
+      "xp_to_next_level": 9700000,
+      "ordinary_monster_base_xp": 248717,
+      "isolated_same_level_defeats_to_next": 40,
+      "ordinary_monster_base_practice": 24871
+    },
+    {
+      "level": 56,
+      "minimum_total_xp": 113441000,
+      "xp_to_next_level": 10160000,
+      "ordinary_monster_base_xp": 260512,
+      "isolated_same_level_defeats_to_next": 40,
+      "ordinary_monster_base_practice": 26051
+    },
+    {
+      "level": 57,
+      "minimum_total_xp": 123601000,
+      "xp_to_next_level": 10620000,
+      "ordinary_monster_base_xp": 265500,
+      "isolated_same_level_defeats_to_next": 40,
+      "ordinary_monster_base_practice": 26550
+    },
+    {
+      "level": 58,
+      "minimum_total_xp": 134221000,
+      "xp_to_next_level": 11080000,
+      "ordinary_monster_base_xp": 277000,
+      "isolated_same_level_defeats_to_next": 40,
+      "ordinary_monster_base_practice": 27700
+    },
+    {
+      "level": 59,
+      "minimum_total_xp": 145301000,
+      "xp_to_next_level": 11540000,
+      "ordinary_monster_base_xp": 281463,
+      "isolated_same_level_defeats_to_next": 42,
+      "ordinary_monster_base_practice": 28146
+    },
+    {
+      "level": 60,
+      "minimum_total_xp": 156841000,
+      "xp_to_next_level": 12000000,
+      "ordinary_monster_base_xp": 292682,
+      "isolated_same_level_defeats_to_next": 42,
+      "ordinary_monster_base_practice": 29268
+    },
+    {
+      "level": 61,
+      "minimum_total_xp": 168841000,
+      "xp_to_next_level": 14526315,
+      "ordinary_monster_base_xp": 345864,
+      "isolated_same_level_defeats_to_next": 43,
+      "ordinary_monster_base_practice": 34586
+    },
+    {
+      "level": 62,
+      "minimum_total_xp": 183367315,
+      "xp_to_next_level": 17052631,
+      "ordinary_monster_base_xp": 406015,
+      "isolated_same_level_defeats_to_next": 43,
+      "ordinary_monster_base_practice": 40601
+    },
+    {
+      "level": 63,
+      "minimum_total_xp": 200419946,
+      "xp_to_next_level": 19578947,
+      "ordinary_monster_base_xp": 455324,
+      "isolated_same_level_defeats_to_next": 44,
+      "ordinary_monster_base_practice": 45532
+    },
+    {
+      "level": 64,
+      "minimum_total_xp": 219998893,
+      "xp_to_next_level": 22105263,
+      "ordinary_monster_base_xp": 514075,
+      "isolated_same_level_defeats_to_next": 44,
+      "ordinary_monster_base_practice": 51407
+    },
+    {
+      "level": 65,
+      "minimum_total_xp": 242104156,
+      "xp_to_next_level": 24631578,
+      "ordinary_monster_base_xp": 559808,
+      "isolated_same_level_defeats_to_next": 45,
+      "ordinary_monster_base_practice": 55980
+    },
+    {
+      "level": 66,
+      "minimum_total_xp": 266735734,
+      "xp_to_next_level": 27157894,
+      "ordinary_monster_base_xp": 617224,
+      "isolated_same_level_defeats_to_next": 45,
+      "ordinary_monster_base_practice": 61722
+    },
+    {
+      "level": 67,
+      "minimum_total_xp": 293893628,
+      "xp_to_next_level": 29684210,
+      "ordinary_monster_base_xp": 659649,
+      "isolated_same_level_defeats_to_next": 46,
+      "ordinary_monster_base_practice": 65964
+    },
+    {
+      "level": 68,
+      "minimum_total_xp": 323577838,
+      "xp_to_next_level": 32210526,
+      "ordinary_monster_base_xp": 715789,
+      "isolated_same_level_defeats_to_next": 46,
+      "ordinary_monster_base_practice": 71578
+    },
+    {
+      "level": 69,
+      "minimum_total_xp": 355788364,
+      "xp_to_next_level": 34736842,
+      "ordinary_monster_base_xp": 755148,
+      "isolated_same_level_defeats_to_next": 47,
+      "ordinary_monster_base_practice": 75514
+    },
+    {
+      "level": 70,
+      "minimum_total_xp": 390525206,
+      "xp_to_next_level": 37263157,
+      "ordinary_monster_base_xp": 810068,
+      "isolated_same_level_defeats_to_next": 47,
+      "ordinary_monster_base_practice": 81006
+    },
+    {
+      "level": 71,
+      "minimum_total_xp": 427788363,
+      "xp_to_next_level": 39789473,
+      "ordinary_monster_base_xp": 846584,
+      "isolated_same_level_defeats_to_next": 48,
+      "ordinary_monster_base_practice": 84658
+    },
+    {
+      "level": 72,
+      "minimum_total_xp": 467577836,
+      "xp_to_next_level": 42315789,
+      "ordinary_monster_base_xp": 900335,
+      "isolated_same_level_defeats_to_next": 48,
+      "ordinary_monster_base_practice": 90033
+    },
+    {
+      "level": 73,
+      "minimum_total_xp": 509893625,
+      "xp_to_next_level": 44842105,
+      "ordinary_monster_base_xp": 934210,
+      "isolated_same_level_defeats_to_next": 49,
+      "ordinary_monster_base_practice": 93421
+    },
+    {
+      "level": 74,
+      "minimum_total_xp": 554735730,
+      "xp_to_next_level": 47368421,
+      "ordinary_monster_base_xp": 986842,
+      "isolated_same_level_defeats_to_next": 49,
+      "ordinary_monster_base_practice": 98684
+    },
+    {
+      "level": 75,
+      "minimum_total_xp": 602104151,
+      "xp_to_next_level": 49894736,
+      "ordinary_monster_base_xp": 1018259,
+      "isolated_same_level_defeats_to_next": 50,
+      "ordinary_monster_base_practice": 101825
+    },
+    {
+      "level": 76,
+      "minimum_total_xp": 651998887,
+      "xp_to_next_level": 52421052,
+      "ordinary_monster_base_xp": 1069817,
+      "isolated_same_level_defeats_to_next": 50,
+      "ordinary_monster_base_practice": 106981
+    },
+    {
+      "level": 77,
+      "minimum_total_xp": 704419939,
+      "xp_to_next_level": 54947368,
+      "ordinary_monster_base_xp": 1098947,
+      "isolated_same_level_defeats_to_next": 51,
+      "ordinary_monster_base_practice": 109894
+    },
+    {
+      "level": 78,
+      "minimum_total_xp": 759367307,
+      "xp_to_next_level": 57473684,
+      "ordinary_monster_base_xp": 1149473,
+      "isolated_same_level_defeats_to_next": 51,
+      "ordinary_monster_base_practice": 114947
+    },
+    {
+      "level": 79,
+      "minimum_total_xp": 816840991,
+      "xp_to_next_level": 60000000,
+      "ordinary_monster_base_xp": 1176470,
+      "isolated_same_level_defeats_to_next": 52,
+      "ordinary_monster_base_practice": 117647
+    },
+    {
+      "level": 80,
+      "minimum_total_xp": 876840991,
+      "xp_to_next_level": 67200000,
+      "ordinary_monster_base_xp": 1317647,
+      "isolated_same_level_defeats_to_next": 52,
+      "ordinary_monster_base_practice": 131764
+    },
+    {
+      "level": 81,
+      "minimum_total_xp": 944040991,
+      "xp_to_next_level": 74400000,
+      "ordinary_monster_base_xp": 1430769,
+      "isolated_same_level_defeats_to_next": 53,
+      "ordinary_monster_base_practice": 143076
+    },
+    {
+      "level": 82,
+      "minimum_total_xp": 1018440991,
+      "xp_to_next_level": 81600000,
+      "ordinary_monster_base_xp": 1569230,
+      "isolated_same_level_defeats_to_next": 53,
+      "ordinary_monster_base_practice": 156923
+    },
+    {
+      "level": 83,
+      "minimum_total_xp": 1100040991,
+      "xp_to_next_level": 88800000,
+      "ordinary_monster_base_xp": 1675471,
+      "isolated_same_level_defeats_to_next": 54,
+      "ordinary_monster_base_practice": 167547
+    },
+    {
+      "level": 84,
+      "minimum_total_xp": 1188840991,
+      "xp_to_next_level": 100000000,
+      "ordinary_monster_base_xp": 1886792,
+      "isolated_same_level_defeats_to_next": 54,
+      "ordinary_monster_base_practice": 188679
+    },
+    {
+      "level": 85,
+      "minimum_total_xp": 1288840991,
+      "xp_to_next_level": 111200000,
+      "ordinary_monster_base_xp": 2059259,
+      "isolated_same_level_defeats_to_next": 55,
+      "ordinary_monster_base_practice": 205925
+    },
+    {
+      "level": 86,
+      "minimum_total_xp": 1400040991,
+      "xp_to_next_level": 122400000,
+      "ordinary_monster_base_xp": 2266666,
+      "isolated_same_level_defeats_to_next": 55,
+      "ordinary_monster_base_practice": 226666
+    },
+    {
+      "level": 87,
+      "minimum_total_xp": 1522440991,
+      "xp_to_next_level": 133600000,
+      "ordinary_monster_base_xp": 2429090,
+      "isolated_same_level_defeats_to_next": 56,
+      "ordinary_monster_base_practice": 242909
+    },
+    {
+      "level": 88,
+      "minimum_total_xp": 1656040991,
+      "xp_to_next_level": 144800000,
+      "ordinary_monster_base_xp": 2632727,
+      "isolated_same_level_defeats_to_next": 56,
+      "ordinary_monster_base_practice": 263272
+    },
+    {
+      "level": 89,
+      "minimum_total_xp": 1800840991,
+      "xp_to_next_level": 156000000,
+      "ordinary_monster_base_xp": 2785714,
+      "isolated_same_level_defeats_to_next": 57,
+      "ordinary_monster_base_practice": 278571
+    },
+    {
+      "level": 90,
+      "minimum_total_xp": 1956840991,
+      "xp_to_next_level": 173333333,
+      "ordinary_monster_base_xp": 3095238,
+      "isolated_same_level_defeats_to_next": 57,
+      "ordinary_monster_base_practice": 309523
+    },
+    {
+      "level": 91,
+      "minimum_total_xp": 2130174324,
+      "xp_to_next_level": 190666666,
+      "ordinary_monster_base_xp": 3345029,
+      "isolated_same_level_defeats_to_next": 58,
+      "ordinary_monster_base_practice": 334502
+    },
+    {
+      "level": 92,
+      "minimum_total_xp": 2320840990,
+      "xp_to_next_level": 208000000,
+      "ordinary_monster_base_xp": 3649122,
+      "isolated_same_level_defeats_to_next": 58,
+      "ordinary_monster_base_practice": 364912
+    },
+    {
+      "level": 93,
+      "minimum_total_xp": 2528840990,
+      "xp_to_next_level": 225333333,
+      "ordinary_monster_base_xp": 3885057,
+      "isolated_same_level_defeats_to_next": 59,
+      "ordinary_monster_base_practice": 388505
+    },
+    {
+      "level": 94,
+      "minimum_total_xp": 2754174323,
+      "xp_to_next_level": 242666666,
+      "ordinary_monster_base_xp": 4183908,
+      "isolated_same_level_defeats_to_next": 59,
+      "ordinary_monster_base_practice": 418390
+    },
+    {
+      "level": 95,
+      "minimum_total_xp": 2996840989,
+      "xp_to_next_level": 260000000,
+      "ordinary_monster_base_xp": 4406779,
+      "isolated_same_level_defeats_to_next": 60,
+      "ordinary_monster_base_practice": 440677
+    },
+    {
+      "level": 96,
+      "minimum_total_xp": 3256840989,
+      "xp_to_next_level": 280000000,
+      "ordinary_monster_base_xp": 4745762,
+      "isolated_same_level_defeats_to_next": 60,
+      "ordinary_monster_base_practice": 474576
+    },
+    {
+      "level": 97,
+      "minimum_total_xp": 3536840989,
+      "xp_to_next_level": 300000000,
+      "ordinary_monster_base_xp": 5000000,
+      "isolated_same_level_defeats_to_next": 60,
+      "ordinary_monster_base_practice": 500000
+    },
+    {
+      "level": 98,
+      "minimum_total_xp": 3836840989,
+      "xp_to_next_level": 320000000,
+      "ordinary_monster_base_xp": 5333333,
+      "isolated_same_level_defeats_to_next": 61,
+      "ordinary_monster_base_practice": 533333
+    },
+    {
+      "level": 99,
+      "minimum_total_xp": 4156840989,
+      "xp_to_next_level": 340000000,
+      "ordinary_monster_base_xp": 5573770,
+      "isolated_same_level_defeats_to_next": 62,
+      "ordinary_monster_base_practice": 557377
+    },
+    {
+      "level": 100,
+      "minimum_total_xp": 4496840989,
+      "xp_to_next_level": 360000000,
+      "ordinary_monster_base_xp": 5901639,
+      "isolated_same_level_defeats_to_next": 62,
+      "ordinary_monster_base_practice": 590163
+    },
+    {
+      "level": 101,
+      "minimum_total_xp": 4856840989,
+      "xp_to_next_level": 396000000,
+      "ordinary_monster_base_xp": 6387096,
+      "isolated_same_level_defeats_to_next": 63,
+      "ordinary_monster_base_practice": 638709
+    },
+    {
+      "level": 102,
+      "minimum_total_xp": 5252840989,
+      "xp_to_next_level": 432000000,
+      "ordinary_monster_base_xp": 6967741,
+      "isolated_same_level_defeats_to_next": 63,
+      "ordinary_monster_base_practice": 696774
+    },
+    {
+      "level": 103,
+      "minimum_total_xp": 5684840989,
+      "xp_to_next_level": 468000000,
+      "ordinary_monster_base_xp": 7428571,
+      "isolated_same_level_defeats_to_next": 64,
+      "ordinary_monster_base_practice": 742857
+    },
+    {
+      "level": 104,
+      "minimum_total_xp": 6152840989,
+      "xp_to_next_level": 504000000,
+      "ordinary_monster_base_xp": 8000000,
+      "isolated_same_level_defeats_to_next": 63,
+      "ordinary_monster_base_practice": 800000
+    },
+    {
+      "level": 105,
+      "minimum_total_xp": 6656840989,
+      "xp_to_next_level": 540000000,
+      "ordinary_monster_base_xp": 8437500,
+      "isolated_same_level_defeats_to_next": 64,
+      "ordinary_monster_base_practice": 843750
+    },
+    {
+      "level": 106,
+      "minimum_total_xp": 7196840989,
+      "xp_to_next_level": 576000000,
+      "ordinary_monster_base_xp": 9000000,
+      "isolated_same_level_defeats_to_next": 64,
+      "ordinary_monster_base_practice": 900000
+    },
+    {
+      "level": 107,
+      "minimum_total_xp": 7772840989,
+      "xp_to_next_level": 612000000,
+      "ordinary_monster_base_xp": 9415384,
+      "isolated_same_level_defeats_to_next": 66,
+      "ordinary_monster_base_practice": 941538
+    },
+    {
+      "level": 108,
+      "minimum_total_xp": 8384840989,
+      "xp_to_next_level": 648000000,
+      "ordinary_monster_base_xp": 9969230,
+      "isolated_same_level_defeats_to_next": 66,
+      "ordinary_monster_base_practice": 996923
+    },
+    {
+      "level": 109,
+      "minimum_total_xp": 9032840989,
+      "xp_to_next_level": 684000000,
+      "ordinary_monster_base_xp": 10363636,
+      "isolated_same_level_defeats_to_next": 67,
+      "ordinary_monster_base_practice": 1036363
+    },
+    {
+      "level": 110,
+      "minimum_total_xp": 9716840989,
+      "xp_to_next_level": 720000000,
+      "ordinary_monster_base_xp": 10909090,
+      "isolated_same_level_defeats_to_next": 67,
+      "ordinary_monster_base_practice": 1090909
+    },
+    {
+      "level": 111,
+      "minimum_total_xp": 10436840989,
+      "xp_to_next_level": 756000000,
+      "ordinary_monster_base_xp": 11283582,
+      "isolated_same_level_defeats_to_next": 68,
+      "ordinary_monster_base_practice": 1128358
+    },
+    {
+      "level": 112,
+      "minimum_total_xp": 11192840989,
+      "xp_to_next_level": 792000000,
+      "ordinary_monster_base_xp": 11820895,
+      "isolated_same_level_defeats_to_next": 68,
+      "ordinary_monster_base_practice": 1182089
+    },
+    {
+      "level": 113,
+      "minimum_total_xp": 11984840989,
+      "xp_to_next_level": 828000000,
+      "ordinary_monster_base_xp": 12176470,
+      "isolated_same_level_defeats_to_next": 69,
+      "ordinary_monster_base_practice": 1217647
+    },
+    {
+      "level": 114,
+      "minimum_total_xp": 12812840989,
+      "xp_to_next_level": 864000000,
+      "ordinary_monster_base_xp": 12705882,
+      "isolated_same_level_defeats_to_next": 69,
+      "ordinary_monster_base_practice": 1270588
+    },
+    {
+      "level": 115,
+      "minimum_total_xp": 13676840989,
+      "xp_to_next_level": 900000000,
+      "ordinary_monster_base_xp": 13043478,
+      "isolated_same_level_defeats_to_next": 70,
+      "ordinary_monster_base_practice": 1304347
+    },
+    {
+      "level": 116,
+      "minimum_total_xp": 14576840989,
+      "xp_to_next_level": 960000000,
+      "ordinary_monster_base_xp": 13913043,
+      "isolated_same_level_defeats_to_next": 70,
+      "ordinary_monster_base_practice": 1391304
+    },
+    {
+      "level": 117,
+      "minimum_total_xp": 15536840989,
+      "xp_to_next_level": 1020000000,
+      "ordinary_monster_base_xp": 14571428,
+      "isolated_same_level_defeats_to_next": 71,
+      "ordinary_monster_base_practice": 1457142
+    },
+    {
+      "level": 118,
+      "minimum_total_xp": 16556840989,
+      "xp_to_next_level": 1080000000,
+      "ordinary_monster_base_xp": 15428571,
+      "isolated_same_level_defeats_to_next": 71,
+      "ordinary_monster_base_practice": 1542857
+    },
+    {
+      "level": 119,
+      "minimum_total_xp": 17636840989,
+      "xp_to_next_level": 1140000000,
+      "ordinary_monster_base_xp": 16056338,
+      "isolated_same_level_defeats_to_next": 72,
+      "ordinary_monster_base_practice": 1605633
+    },
+    {
+      "level": 120,
+      "minimum_total_xp": 18776840989,
+      "xp_to_next_level": 1200000000,
+      "ordinary_monster_base_xp": 16901408,
+      "isolated_same_level_defeats_to_next": 72,
+      "ordinary_monster_base_practice": 1690140
+    },
+    {
+      "level": 121,
+      "minimum_total_xp": 19976840989,
+      "xp_to_next_level": 1280000000,
+      "ordinary_monster_base_xp": 17777777,
+      "isolated_same_level_defeats_to_next": 73,
+      "ordinary_monster_base_practice": 1777777
+    },
+    {
+      "level": 122,
+      "minimum_total_xp": 21256840989,
+      "xp_to_next_level": 1360000000,
+      "ordinary_monster_base_xp": 18888888,
+      "isolated_same_level_defeats_to_next": 73,
+      "ordinary_monster_base_practice": 1888888
+    },
+    {
+      "level": 123,
+      "minimum_total_xp": 22616840989,
+      "xp_to_next_level": 1440000000,
+      "ordinary_monster_base_xp": 19726027,
+      "isolated_same_level_defeats_to_next": 74,
+      "ordinary_monster_base_practice": 1972602
+    },
+    {
+      "level": 124,
+      "minimum_total_xp": 24056840989,
+      "xp_to_next_level": 1520000000,
+      "ordinary_monster_base_xp": 20821917,
+      "isolated_same_level_defeats_to_next": 74,
+      "ordinary_monster_base_practice": 2082191
+    },
+    {
+      "level": 125,
+      "minimum_total_xp": 25576840989,
+      "xp_to_next_level": 1600000000,
+      "ordinary_monster_base_xp": 21621621,
+      "isolated_same_level_defeats_to_next": 75,
+      "ordinary_monster_base_practice": 2162162
+    },
+    {
+      "level": 126,
+      "minimum_total_xp": 27176840989,
+      "xp_to_next_level": 1680000000,
+      "ordinary_monster_base_xp": 22702702,
+      "isolated_same_level_defeats_to_next": 75,
+      "ordinary_monster_base_practice": 2270270
+    },
+    {
+      "level": 127,
+      "minimum_total_xp": 28856840989,
+      "xp_to_next_level": 1760000000,
+      "ordinary_monster_base_xp": 23466666,
+      "isolated_same_level_defeats_to_next": 76,
+      "ordinary_monster_base_practice": 2346666
+    },
+    {
+      "level": 128,
+      "minimum_total_xp": 30616840989,
+      "xp_to_next_level": 1840000000,
+      "ordinary_monster_base_xp": 24533333,
+      "isolated_same_level_defeats_to_next": 76,
+      "ordinary_monster_base_practice": 2453333
+    },
+    {
+      "level": 129,
+      "minimum_total_xp": 32456840989,
+      "xp_to_next_level": 1920000000,
+      "ordinary_monster_base_xp": 25263157,
+      "isolated_same_level_defeats_to_next": 77,
+      "ordinary_monster_base_practice": 2526315
+    },
+    {
+      "level": 130,
+      "minimum_total_xp": 34376840989,
+      "xp_to_next_level": 2000000000,
+      "ordinary_monster_base_xp": 26315789,
+      "isolated_same_level_defeats_to_next": 77,
+      "ordinary_monster_base_practice": 2631578
+    },
+    {
+      "level": 131,
+      "minimum_total_xp": 36376840989,
+      "xp_to_next_level": 2120000000,
+      "ordinary_monster_base_xp": 27532467,
+      "isolated_same_level_defeats_to_next": 78,
+      "ordinary_monster_base_practice": 2753246
+    },
+    {
+      "level": 132,
+      "minimum_total_xp": 38496840989,
+      "xp_to_next_level": 2240000000,
+      "ordinary_monster_base_xp": 29090909,
+      "isolated_same_level_defeats_to_next": 78,
+      "ordinary_monster_base_practice": 2909090
+    },
+    {
+      "level": 133,
+      "minimum_total_xp": 40736840989,
+      "xp_to_next_level": 2360000000,
+      "ordinary_monster_base_xp": 30256410,
+      "isolated_same_level_defeats_to_next": 79,
+      "ordinary_monster_base_practice": 3025641
+    },
+    {
+      "level": 134,
+      "minimum_total_xp": 43096840989,
+      "xp_to_next_level": 2480000000,
+      "ordinary_monster_base_xp": 31794871,
+      "isolated_same_level_defeats_to_next": 79,
+      "ordinary_monster_base_practice": 3179487
+    },
+    {
+      "level": 135,
+      "minimum_total_xp": 45576840989,
+      "xp_to_next_level": 2600000000,
+      "ordinary_monster_base_xp": 32911392,
+      "isolated_same_level_defeats_to_next": 80,
+      "ordinary_monster_base_practice": 3291139
+    },
+    {
+      "level": 136,
+      "minimum_total_xp": 48176840989,
+      "xp_to_next_level": 2720000000,
+      "ordinary_monster_base_xp": 34430379,
+      "isolated_same_level_defeats_to_next": 80,
+      "ordinary_monster_base_practice": 3443037
+    },
+    {
+      "level": 137,
+      "minimum_total_xp": 50896840989,
+      "xp_to_next_level": 2840000000,
+      "ordinary_monster_base_xp": 35500000,
+      "isolated_same_level_defeats_to_next": 80,
+      "ordinary_monster_base_practice": 3550000
+    },
+    {
+      "level": 138,
+      "minimum_total_xp": 53736840989,
+      "xp_to_next_level": 2960000000,
+      "ordinary_monster_base_xp": 37000000,
+      "isolated_same_level_defeats_to_next": 80,
+      "ordinary_monster_base_practice": 3700000
+    },
+    {
+      "level": 139,
+      "minimum_total_xp": 56696840989,
+      "xp_to_next_level": 3080000000,
+      "ordinary_monster_base_xp": 38024691,
+      "isolated_same_level_defeats_to_next": 82,
+      "ordinary_monster_base_practice": 3802469
+    },
+    {
+      "level": 140,
+      "minimum_total_xp": 59776840989,
+      "xp_to_next_level": 3200000000,
+      "ordinary_monster_base_xp": 39506172,
+      "isolated_same_level_defeats_to_next": 82,
+      "ordinary_monster_base_practice": 3950617
+    },
+    {
+      "level": 141,
+      "minimum_total_xp": 62976840989,
+      "xp_to_next_level": 3380000000,
+      "ordinary_monster_base_xp": 41219512,
+      "isolated_same_level_defeats_to_next": 83,
+      "ordinary_monster_base_practice": 4121951
+    },
+    {
+      "level": 142,
+      "minimum_total_xp": 66356840989,
+      "xp_to_next_level": 3560000000,
+      "ordinary_monster_base_xp": 43414634,
+      "isolated_same_level_defeats_to_next": 83,
+      "ordinary_monster_base_practice": 4341463
+    },
+    {
+      "level": 143,
+      "minimum_total_xp": 69916840989,
+      "xp_to_next_level": 3740000000,
+      "ordinary_monster_base_xp": 45060240,
+      "isolated_same_level_defeats_to_next": 84,
+      "ordinary_monster_base_practice": 4506024
+    },
+    {
+      "level": 144,
+      "minimum_total_xp": 73656840989,
+      "xp_to_next_level": 3920000000,
+      "ordinary_monster_base_xp": 47228915,
+      "isolated_same_level_defeats_to_next": 84,
+      "ordinary_monster_base_practice": 4722891
+    },
+    {
+      "level": 145,
+      "minimum_total_xp": 77576840989,
+      "xp_to_next_level": 4100000000,
+      "ordinary_monster_base_xp": 48809523,
+      "isolated_same_level_defeats_to_next": 85,
+      "ordinary_monster_base_practice": 4880952
+    },
+    {
+      "level": 146,
+      "minimum_total_xp": 81676840989,
+      "xp_to_next_level": 4280000000,
+      "ordinary_monster_base_xp": 50952380,
+      "isolated_same_level_defeats_to_next": 85,
+      "ordinary_monster_base_practice": 5095238
+    },
+    {
+      "level": 147,
+      "minimum_total_xp": 85956840989,
+      "xp_to_next_level": 4460000000,
+      "ordinary_monster_base_xp": 52470588,
+      "isolated_same_level_defeats_to_next": 86,
+      "ordinary_monster_base_practice": 5247058
+    },
+    {
+      "level": 148,
+      "minimum_total_xp": 90416840989,
+      "xp_to_next_level": 4640000000,
+      "ordinary_monster_base_xp": 54588235,
+      "isolated_same_level_defeats_to_next": 86,
+      "ordinary_monster_base_practice": 5458823
+    },
+    {
+      "level": 149,
+      "minimum_total_xp": 95056840989,
+      "xp_to_next_level": 4820000000,
+      "ordinary_monster_base_xp": 56046511,
+      "isolated_same_level_defeats_to_next": 87,
+      "ordinary_monster_base_practice": 5604651
+    },
+    {
+      "level": 150,
+      "minimum_total_xp": 99876840989,
+      "xp_to_next_level": 5000000000,
+      "ordinary_monster_base_xp": 58139534,
+      "isolated_same_level_defeats_to_next": 87,
+      "ordinary_monster_base_practice": 5813953
+    },
+    {
+      "level": 151,
+      "minimum_total_xp": 104876840989,
+      "xp_to_next_level": 5240000000,
+      "ordinary_monster_base_xp": 60229885,
+      "isolated_same_level_defeats_to_next": 88,
+      "ordinary_monster_base_practice": 6022988
+    },
+    {
+      "level": 152,
+      "minimum_total_xp": 110116840989,
+      "xp_to_next_level": 5480000000,
+      "ordinary_monster_base_xp": 62988505,
+      "isolated_same_level_defeats_to_next": 88,
+      "ordinary_monster_base_practice": 6298850
+    },
+    {
+      "level": 153,
+      "minimum_total_xp": 115596840989,
+      "xp_to_next_level": 5720000000,
+      "ordinary_monster_base_xp": 65000000,
+      "isolated_same_level_defeats_to_next": 88,
+      "ordinary_monster_base_practice": 6500000
+    },
+    {
+      "level": 154,
+      "minimum_total_xp": 121316840989,
+      "xp_to_next_level": 5960000000,
+      "ordinary_monster_base_xp": 67727272,
+      "isolated_same_level_defeats_to_next": 89,
+      "ordinary_monster_base_practice": 6772727
+    },
+    {
+      "level": 155,
+      "minimum_total_xp": 127276840989,
+      "xp_to_next_level": 6200000000,
+      "ordinary_monster_base_xp": 69662921,
+      "isolated_same_level_defeats_to_next": 90,
+      "ordinary_monster_base_practice": 6966292
+    },
+    {
+      "level": 156,
+      "minimum_total_xp": 133476840989,
+      "xp_to_next_level": 6440000000,
+      "ordinary_monster_base_xp": 72359550,
+      "isolated_same_level_defeats_to_next": 90,
+      "ordinary_monster_base_practice": 7235955
+    },
+    {
+      "level": 157,
+      "minimum_total_xp": 139916840989,
+      "xp_to_next_level": 6680000000,
+      "ordinary_monster_base_xp": 74222222,
+      "isolated_same_level_defeats_to_next": 91,
+      "ordinary_monster_base_practice": 7422222
+    },
+    {
+      "level": 158,
+      "minimum_total_xp": 146596840989,
+      "xp_to_next_level": 6920000000,
+      "ordinary_monster_base_xp": 76888888,
+      "isolated_same_level_defeats_to_next": 91,
+      "ordinary_monster_base_practice": 7688888
+    },
+    {
+      "level": 159,
+      "minimum_total_xp": 153516840989,
+      "xp_to_next_level": 7160000000,
+      "ordinary_monster_base_xp": 78681318,
+      "isolated_same_level_defeats_to_next": 92,
+      "ordinary_monster_base_practice": 7868131
+    },
+    {
+      "level": 160,
+      "minimum_total_xp": 160676840989,
+      "xp_to_next_level": 7400000000,
+      "ordinary_monster_base_xp": 81318681,
+      "isolated_same_level_defeats_to_next": 92,
+      "ordinary_monster_base_practice": 8131868
+    },
+    {
+      "level": 161,
+      "minimum_total_xp": 168076840989,
+      "xp_to_next_level": 7710000000,
+      "ordinary_monster_base_xp": 83804347,
+      "isolated_same_level_defeats_to_next": 93,
+      "ordinary_monster_base_practice": 8380434
+    },
+    {
+      "level": 162,
+      "minimum_total_xp": 175786840989,
+      "xp_to_next_level": 8020000000,
+      "ordinary_monster_base_xp": 87173913,
+      "isolated_same_level_defeats_to_next": 93,
+      "ordinary_monster_base_practice": 8717391
+    },
+    {
+      "level": 163,
+      "minimum_total_xp": 183806840989,
+      "xp_to_next_level": 8330000000,
+      "ordinary_monster_base_xp": 89569892,
+      "isolated_same_level_defeats_to_next": 94,
+      "ordinary_monster_base_practice": 8956989
+    },
+    {
+      "level": 164,
+      "minimum_total_xp": 192136840989,
+      "xp_to_next_level": 8640000000,
+      "ordinary_monster_base_xp": 92903225,
+      "isolated_same_level_defeats_to_next": 94,
+      "ordinary_monster_base_practice": 9290322
+    },
+    {
+      "level": 165,
+      "minimum_total_xp": 200776840989,
+      "xp_to_next_level": 8950000000,
+      "ordinary_monster_base_xp": 95212765,
+      "isolated_same_level_defeats_to_next": 95,
+      "ordinary_monster_base_practice": 9521276
+    },
+    {
+      "level": 166,
+      "minimum_total_xp": 209726840989,
+      "xp_to_next_level": 9260000000,
+      "ordinary_monster_base_xp": 98510638,
+      "isolated_same_level_defeats_to_next": 95,
+      "ordinary_monster_base_practice": 9851063
+    },
+    {
+      "level": 167,
+      "minimum_total_xp": 218986840989,
+      "xp_to_next_level": 9570000000,
+      "ordinary_monster_base_xp": 100736842,
+      "isolated_same_level_defeats_to_next": 96,
+      "ordinary_monster_base_practice": 10073684
+    },
+    {
+      "level": 168,
+      "minimum_total_xp": 228556840989,
+      "xp_to_next_level": 9880000000,
+      "ordinary_monster_base_xp": 104000000,
+      "isolated_same_level_defeats_to_next": 95,
+      "ordinary_monster_base_practice": 10400000
+    },
+    {
+      "level": 169,
+      "minimum_total_xp": 238436840989,
+      "xp_to_next_level": 10190000000,
+      "ordinary_monster_base_xp": 106145833,
+      "isolated_same_level_defeats_to_next": 97,
+      "ordinary_monster_base_practice": 10614583
+    },
+    {
+      "level": 170,
+      "minimum_total_xp": 248626840989,
+      "xp_to_next_level": 10500000000,
+      "ordinary_monster_base_xp": 109375000,
+      "isolated_same_level_defeats_to_next": 96,
+      "ordinary_monster_base_practice": 10937500
+    },
+    {
+      "level": 171,
+      "minimum_total_xp": 259126840989,
+      "xp_to_next_level": 10888888888,
+      "ordinary_monster_base_xp": 112256586,
+      "isolated_same_level_defeats_to_next": 98,
+      "ordinary_monster_base_practice": 11225658
+    },
+    {
+      "level": 172,
+      "minimum_total_xp": 270015729877,
+      "xp_to_next_level": 11277777777,
+      "ordinary_monster_base_xp": 116265750,
+      "isolated_same_level_defeats_to_next": 98,
+      "ordinary_monster_base_practice": 11626575
+    },
+    {
+      "level": 173,
+      "minimum_total_xp": 281293507654,
+      "xp_to_next_level": 11666666666,
+      "ordinary_monster_base_xp": 119047619,
+      "isolated_same_level_defeats_to_next": 99,
+      "ordinary_monster_base_practice": 11904761
+    },
+    {
+      "level": 174,
+      "minimum_total_xp": 292960174320,
+      "xp_to_next_level": 12055555555,
+      "ordinary_monster_base_xp": 123015873,
+      "isolated_same_level_defeats_to_next": 99,
+      "ordinary_monster_base_practice": 12301587
+    },
+    {
+      "level": 175,
+      "minimum_total_xp": 305015729875,
+      "xp_to_next_level": 12444444444,
+      "ordinary_monster_base_xp": 125701459,
+      "isolated_same_level_defeats_to_next": 100,
+      "ordinary_monster_base_practice": 12570145
+    },
+    {
+      "level": 176,
+      "minimum_total_xp": 317460174319,
+      "xp_to_next_level": 12833333333,
+      "ordinary_monster_base_xp": 129629629,
+      "isolated_same_level_defeats_to_next": 100,
+      "ordinary_monster_base_practice": 12962962
+    },
+    {
+      "level": 177,
+      "minimum_total_xp": 330293507652,
+      "xp_to_next_level": 13222222222,
+      "ordinary_monster_base_xp": 132222222,
+      "isolated_same_level_defeats_to_next": 101,
+      "ordinary_monster_base_practice": 13222222
+    },
+    {
+      "level": 178,
+      "minimum_total_xp": 343515729874,
+      "xp_to_next_level": 13611111111,
+      "ordinary_monster_base_xp": 136111111,
+      "isolated_same_level_defeats_to_next": 101,
+      "ordinary_monster_base_practice": 13611111
+    },
+    {
+      "level": 179,
+      "minimum_total_xp": 357126840985,
+      "xp_to_next_level": 14000000000,
+      "ordinary_monster_base_xp": 138613861,
+      "isolated_same_level_defeats_to_next": 102,
+      "ordinary_monster_base_practice": 13861386
+    },
+    {
+      "level": 180,
+      "minimum_total_xp": 371126840985,
+      "xp_to_next_level": null,
+      "ordinary_monster_base_xp": 142574257,
+      "isolated_same_level_defeats_to_next": null,
+      "ordinary_monster_base_practice": 14257425
+    }
+  ],
+  "practice_authoring_method": "普通怪历练基值=本表普通经验基值整除10；显式精英/首领经验档使用同一1/3/12倍率；历练另算组队池，不由经验实际入账反推。"
+}

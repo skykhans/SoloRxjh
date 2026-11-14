@@ -1,0 +1,130 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "nine_named_combo_passives_adopted_not_implemented",
+  "source_policy": "6连环飞舞提高连打率、弓流星三矢连射3箭、格斗夺命连环在连击武功追加30%、刺连消带打回避后下次普攻附对方伤害的职责取源。以下概率/间隔/快照/上限/触发限制为项目采用。",
+  "normal_extra_hit": {
+    "eligible_root": "normal attack with first actual hostile HP damage to original living primary; once per root action",
+    "chance_bp_per_effective_level": 100,
+    "maximum_chance_bp": 4000,
+    "success": "queue exactly1derived hit at6world steps to same primary",
+    "per_derived_hit_attack_multiplier_bp": 5000,
+    "damage_snapshot": "same accepted action attack interval, derived ordinal own uniform attack draw/accuracy but crit explicitly disabled",
+    "geometry_recheck": "original range/LOS/shape at derived event; no teleport/retarget/follow target beyond range",
+    "source_attacker_must_live_and_keep_compatible_weapon": true
+  },
+  "normal_three_arrows": {
+    "eligible_root": "normal bow attack first actual hostile HP hit to original living primary; once per root",
+    "chance_bp_per_effective_level": 100,
+    "maximum_chance_bp": 4000,
+    "success": "root initial arrow plus2derived actual projectiles, launched6and12steps after qualifying primary hit",
+    "derived_attack_multiplier_bp": 5000,
+    "projectile_policy": "snapshot original normal bow speed/radius/max life; face original target last validated direction at launch; collision may intercept but never changes root primary for proc purposes",
+    "per_arrow": "independent accuracy, inclusive interval draw, no crit; no arrows if attacker dead/weapon incompatible; no wall ignoring impact"
+  },
+  "combo_skill_extra_damage": {
+    "eligible_root": "attack martial skill explicitly declared combo hit ordinals>=2, first actual primary HP damage once; not all skills guessed from names",
+    "chance_bp_per_effective_level": 100,
+    "maximum_chance_bp": 4000,
+    "source_explicit_extra_damage_bp": 3000,
+    "success": "same primary receives floor(trigger actualHP loss30percent) once; ordinary defense/crit not applied again, status protection applies once",
+    "zero_extra": "legitimate0 does not become1",
+    "source_projectile_or_addon_is_not_combo_skill": true,
+    "shared_family_owner": "枪格斗狂风与破甲气功.v1.json combo_extra30;同root会心/夺命 only strongesteligiblechance+stableID once, no2separate30percenthits"
+  },
+  "evade_next_normal_bonus": {
+    "trigger": "source directly targeted hostile normal/martial attack fails23accuracy; target alive with positive effective skill; iframe/LOS/range/friendly/immune rejection not counted as successful evasion",
+    "saved_bonus": "source accepted raw attack interval maximum+its explicit phase flat power, multiplied phase coefficient without accuracy/crit/targetdefense; no new random draw to estimate missed damage",
+    "maximum_bonus": "current defender attack maximum*2; finite checked before math, lower cap is explicit gameplay",
+    "storage": "one armed next-normal token per defender, replace by stronger snapshot not add, remaining180steps; weak event refreshes remaining only if it replaces token by equal/higher amount",
+    "consume": "on next accepted normal attack, add to its first primary-target hit input once before mitigation; consume at accept, miss/cancel/no target does not refund; not to every3combo stage",
+    "zero_effective_grade": "token inactive but preserved remaining time until expiry; wash/death clears, temporary anti debuff does not refund permanent points"
+  },
+  "derived_event_policy": "every extra hit/arrow/30percent add has root_event_id+derived_ordinal and tag derived_no_attack_procs. No additional combo,offensive rage,bleed,charge,anti,致残 or recoil recursion. Ordinary valid derived damage still credited once and can supply defender base received-rage; explicit learned defensive callbacks follow nonrecursive guard. No gather/material/skill-resource generation.",
+  "one_action_source_policy": "if multiple explicit same-family combo passives legally present, strongest family chance applied once, never independent extra-chain loops. Each named class-owned skill requires learned/allocated positive effective grade.",
+  "persistence": "queue launch/due steps, root/primary,source attack snapshot,remaining projectile life,per-derived receipts and armed evade token kept in full activity snapshots; pause/offline freeze. Ordinary action save waits root and all descendants end, not only animation recovery; no saved paid action with missing delayed damage.",
+  "defensive_recursion": "derived events cannot arm连消带打 or new offensive procs; defensive damage reduction/heal can run only by explicit eligible direct-hit tags, never inferred as a new player action.",
+  "bindings": [
+    {
+      "qigong_id": "qigong_blade_417cb1cecb69",
+      "class_id": "blade",
+      "name": "连环飞舞",
+      "source_table_index": 35,
+      "source_row_index": 2,
+      "source_row_sha256": "c1d86fa16c112d96f17057221300caff8ada3497260007a219aba0c793f24013",
+      "effect_profile_id": "normal_extra_hit"
+    },
+    {
+      "qigong_id": "qigong_sword_417cb1cecb69",
+      "class_id": "sword",
+      "name": "连环飞舞",
+      "source_table_index": 36,
+      "source_row_index": 2,
+      "source_row_sha256": "8e475c64b41ae766f7c301cb0f0067f5d41482dd9d9ccefbe9b655e0afcc8569",
+      "effect_profile_id": "normal_extra_hit"
+    },
+    {
+      "qigong_id": "qigong_assassin_417cb1cecb69",
+      "class_id": "assassin",
+      "name": "连环飞舞",
+      "source_table_index": 37,
+      "source_row_index": 2,
+      "source_row_sha256": "8b855ef7c34dc4acd1cb7f709e2c18d466ca6589bbbda6d90df8daa4729ca5b4",
+      "effect_profile_id": "normal_extra_hit"
+    },
+    {
+      "qigong_id": "qigong_assassin_a951de667c6f",
+      "class_id": "assassin",
+      "name": "连消带打",
+      "source_table_index": 37,
+      "source_row_index": 9,
+      "source_row_sha256": "6368de56b61507dccc4d9cec4b8c21c2a645e02bf0873bb414b12524e7833f91",
+      "effect_profile_id": "evade_next_normal_bonus"
+    },
+    {
+      "qigong_id": "qigong_spear_417cb1cecb69",
+      "class_id": "spear",
+      "name": "连环飞舞",
+      "source_table_index": 38,
+      "source_row_index": 2,
+      "source_row_sha256": "ce093879ccb09fb0d01c21d20cdd67ab51b37ca27cc389f6845acf41801111dc",
+      "effect_profile_id": "normal_extra_hit"
+    },
+    {
+      "qigong_id": "qigong_archer_cadc9692d95e",
+      "class_id": "archer",
+      "name": "流星三矢",
+      "source_table_index": 39,
+      "source_row_index": 8,
+      "source_row_sha256": "7ef092213d33512dea9198fc21124755297fe0b6e978117c1dc9595d63adcb79",
+      "effect_profile_id": "normal_three_arrows"
+    },
+    {
+      "qigong_id": "qigong_fighter_2ef312886fbc",
+      "class_id": "fighter",
+      "name": "夺命连环",
+      "source_table_index": 44,
+      "source_row_index": 13,
+      "source_row_sha256": "fe290c720bca715fb2fcd32891071d3ac677b7d66a50e7d87de4ea0856fcfbc2",
+      "effect_profile_id": "combo_skill_extra_damage"
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_417cb1cecb69",
+      "class_id": "lu_fenglang",
+      "name": "连环飞舞",
+      "source_table_index": 46,
+      "source_row_index": 2,
+      "source_row_sha256": "7e89484556c6b5e65f857d78d36f13e25074a751d8018b839c56bc6780fa4700",
+      "effect_profile_id": "normal_extra_hit"
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_417cb1cecb69",
+      "class_id": "zhen_fengbai",
+      "name": "连环飞舞",
+      "source_table_index": 48,
+      "source_row_index": 2,
+      "source_row_sha256": "c0a12d180be3fc998c893134d180f475c2ff75694562bfa77df055517edb7a52",
+      "effect_profile_id": "normal_extra_hit"
+    }
+  ]
+}

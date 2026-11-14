@@ -1,0 +1,110 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "migration_design_not_implemented_full_world_items_pending",
+  "source_archive": "../reference/旧主线任务基线.json",
+  "scope": "原Q001～Q005阶段、计数和奖励数值承接；新职业物品/剧情适配与任务逐项正式场景引用另需闭合。",
+  "initial_pack_owner": "角色初始模板.v1.json; legacy starting_potions=3 is evidence only, never grant in addition to new 5+5 pack",
+  "quests": [
+    {
+      "quest_id": "Q001",
+      "steps": [
+        "report_to_cao",
+        "take_story_sword",
+        "bind_at_ravine"
+      ],
+      "prerequisite": null,
+      "reward_silver": 0,
+      "reward_xp": 0,
+      "reward_potions": 0,
+      "completion": "binding completed once; unlock Q002; no rank/skill grants"
+    },
+    {
+      "quest_id": "Q002",
+      "prerequisite": "Q001 delivered",
+      "objective": "deliver 3 real linglong bamboo items to Cao",
+      "required_item_quantity": 3,
+      "reward_xp": 80,
+      "reward_silver": 3,
+      "reward_hp_potions": 2
+    },
+    {
+      "quest_id": "Q003",
+      "prerequisite": "Q002 delivered",
+      "steps": [
+        "defeat bamboo_beast once",
+        "report_to_cao"
+      ],
+      "reward_xp": 0,
+      "reward_silver": 5,
+      "reward_hp_potions": 0,
+      "boss_kill_reward": "separate explicitly mapped monster reward, never silently add quest XP"
+    },
+    {
+      "quest_id": "Q004",
+      "prerequisite": "Q003 delivered",
+      "steps": [
+        "5 valley_boar kills",
+        "valley_guardian defeat",
+        "report_to_cao"
+      ],
+      "reward_xp": 250,
+      "reward_silver": 15,
+      "reward_hp_potions": 2
+    },
+    {
+      "quest_id": "Q005",
+      "prerequisite": "Q004 delivered",
+      "steps": [
+        "5 frost_wolf kills",
+        "frost_guardian defeat",
+        "report_to_cao"
+      ],
+      "reward_xp": 500,
+      "reward_silver": 25,
+      "reward_hp_potions": 3
+    }
+  ],
+  "counters": {
+    "start": "after Q003 final delivery, valley_boar/frost_wolf each increments own lifetime journey counter",
+    "precount_north_before_Q004_report": true,
+    "boss_count_requires_current_boss_stage": true,
+    "shared_party_kills": "not adopted here; task config explicitly requires participant kill credit; no implicit all-room sharing",
+    "repeat_claims_use_same_lifetime_counter": true,
+    "deduplication": "authoritative death event per character/counter; no overkill second kill"
+  },
+  "repeat_hunts": [
+    {
+      "id": "repeat_valley_hunt",
+      "counter": "valley_boar",
+      "required_delivered_quest": "Q004",
+      "kills_per_round": 5,
+      "silver_per_round": 8,
+      "xp_per_round": 80
+    },
+    {
+      "id": "repeat_north_hunt",
+      "counter": "frost_wolf",
+      "required_delivered_quest": "Q005",
+      "kills_per_round": 5,
+      "silver_per_round": 12,
+      "xp_per_round": 120
+    }
+  ],
+  "repeat_rule": "claim next round only when lifetime counter >= (claimed_rounds+1)*5; no kill counter reset or implicit daily refresh; mainline same 5 kills can cover first repeat as old code does; one explicit claim one round",
+  "sword_migration": {
+    "legacy_behavior": "TakeSword overwrites weapon slot; forbidden for new multi-class templates",
+    "new_grant": "one unique story sword instance into equipment bag; never overwrites initial weapon",
+    "class_equipping": "sword-class compatible use explicit equip transaction only; other classes keep story sword as quest artifact and use their own weapon for combat/gathering",
+    "binding_does_not_require_equipped_sword": true,
+    "duplicate_grant": "stage/request guard; import preserves existing instance and does not grant again",
+    "formal_item_definition_status": "剧情剑与玲珑竹.v1.json defines ownership/stats/permissions and all3 explicit enhancement recipes; legacy instance mapping still pending"
+  },
+  "transactions": "step/real items/XP/silver/potions/claimed round counters and result IDs commit once; validate output capacity after input removal; insufficient space retains deliverable state; save failure re-saves same committed result",
+  "rule_changes": "new gameplay XP uses explicit180 table, level-up never refills resources; initial potion/new class rules override old starting3 grant only for new roles; original rewards retained as starter quest rewards not high-level economy proof",
+  "open_dependencies": [
+    "old story sword instance mapping",
+    "all5 monster/source entity/reward/boss gate bindings",
+    "full old save story-stage mapping without resource loss"
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "retained_component_mapping_not_implemented_not_whole_profile_schema",
+  "component_schema_file": "故事冒险门派进度.schema.json",
+  "target_field": "character.quests.retained_story_adventure",
+  "single_authority": "story_stage and journey.stage derive Q001..Q005 states; do not also persist Q001..Q005 delivered/boss/gate booleans. Generic quest service reads this explicit adapter. Other quests remain separately keyed, never named Q001..Q005 duplicate.",
+  "source_mapping": {
+    "progress.stage": "story_stage",
+    "progress.journey.stage": "journey.stage",
+    "progress.journey.kills": "journey.kills",
+    "progress.journey.repeat_claimed": "journey.repeat_claimed",
+    "progress.adventure": "adventure exact3counters/3booleans",
+    "progress.sect.rank": "sect.rank",
+    "progress.sect.contribution": "sect.available",
+    "progress.sect.earned": "sect.earned",
+    "progress.sect.commissions_claimed": "sect.commissions_claimed"
+  },
+  "import_new_fields": {
+    "component_version": 1,
+    "sect.sect_id": "liuli_sword_sect",
+    "sect.legacy_opening_spend": "old earned-old available-sum old promotion costs up to actual rank",
+    "sect.new_exchange_spend": 0
+  },
+  "story_projection": [
+    {
+      "stages": [
+        "report",
+        "take_sword",
+        "bind_sword"
+      ],
+      "Q001": "active",
+      "Q002": "not_available",
+      "Q003": "not_available"
+    },
+    {
+      "stages": [
+        "gathering"
+      ],
+      "Q001": "delivered",
+      "Q002": "active",
+      "Q003": "not_available"
+    },
+    {
+      "stages": [
+        "challenge"
+      ],
+      "Q001": "delivered",
+      "Q002": "delivered",
+      "Q003": "active_boss"
+    },
+    {
+      "stages": [
+        "return_to_outpost"
+      ],
+      "Q001": "delivered",
+      "Q002": "delivered",
+      "Q003": "target_complete_waiting_turnin"
+    },
+    {
+      "stages": [
+        "completed"
+      ],
+      "Q001": "delivered",
+      "Q002": "delivered",
+      "Q003": "delivered"
+    }
+  ],
+  "journey_projection": {
+    "enabled_only_after_story_stage": "completed",
+    "before_enabled": "journey must equal exact original default; Q004/Q005 unavailable, no received rewards",
+    "valley_hunt": [
+      "Q004active_hunt",
+      "Q005unavailable"
+    ],
+    "valley_boss": [
+      "Q004active_boss",
+      "Q005unavailable"
+    ],
+    "valley_report": [
+      "Q004target_complete",
+      "Q005unavailable"
+    ],
+    "north_hunt": [
+      "Q004delivered",
+      "Q005active_hunt"
+    ],
+    "north_boss": [
+      "Q004delivered",
+      "Q005active_boss"
+    ],
+    "north_report": [
+      "Q004delivered",
+      "Q005target_complete"
+    ],
+    "completed": [
+      "Q004delivered",
+      "Q005delivered"
+    ]
+  },
+  "cross_field_validation": [
+    "before story completed, journey must stagevalley_hunt/kills[0,0]/repeat[0,0]",
+    "valley boss/report or later require valley kills>=5; valley_hunt requires valley kills<5",
+    "north boss/report or completed require north kills>=5; north_hunt requires north kills<5; north precount allowed while valley stages",
+    "repeat claims[i]*5 <= journey kills[i]; valley repeat requires at least north_hunt stage; north repeat requires completed",
+    "sect rank>0 requires story completed and level>=promotion level3/5/8; rank>1 requires at least north_hunt; rank>2 requires journey completed",
+    "nondefault sect requires story at leastgathering; earned equals available+promotion prefix+legacy_opening_spend+new_exchange_spend for normal history, explicit configuration ledger separate",
+    "sect commissions[i]*3 <= adventure corresponding lifetime counter; one-time claimed flags require3/3/6 counter thresholds",
+    "source-style sword_owned stage requires actual mapped story sword; task history does not generate missing instances",
+    "death/pending loot receipt projection never creates quest state ahead of stage; old return/completed stage imports no unpicked loot entitlement"
+  ],
+  "persistent_reward_receipt_rule": "new runtime task step event receipts are separate idempotency identities, not alternative stage booleans; on import no synthetic XP/items are replayed to manufacture absent historical logs",
+  "configuration_policy": "explicitly configured story/sect exception must satisfy structural types and carry declared scoped exception; no ordinary source import gets automatic exception to fix contradictions",
+  "not_covered": "whole profile schema, all14class fields/effects/activities/inventory instances and new127source task definitions; component coverage never certifies full save import"
+}

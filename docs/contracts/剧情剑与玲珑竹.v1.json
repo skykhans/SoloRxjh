@@ -1,0 +1,275 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "story_items_and_gathering_design_not_implemented",
+  "source_policy": "浮仙剑0基础攻击/每强化4/上限3、竹3击/每击10经验/30秒恢复/5米排斥来自旧实现；新物品权限/重量/堆叠/跨职业及多人归属为项目设计，不是官网事实。",
+  "source_hashes": {
+    "assets/config/gameplay.ron": "2194f3f319cd183371d75f42c687b1006bb9984bda9d8f2c3b39572c85a979af",
+    "src/gameplay/combat.rs": "f24e74175e3b3050aaf34e49f6798d9f89b3b99b927281f254cb3f9ba2fa77fe",
+    "src/ui.rs": "1e02820b8b9c868b0d51f4b4c83fe33e7ff0edf8f8da5c2321b088e09d92b85d"
+  },
+  "items": [
+    {
+      "item_id": "fuxian_sword",
+      "name": "浮仙剑",
+      "kind": "weapon",
+      "slot": "weapon",
+      "weapon_family": "sword",
+      "allowed_equip_classes": [
+        "sword"
+      ],
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "max_stack": 1,
+      "weight_g": 900,
+      "binding": "character",
+      "warehouse": false,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "unique_per_character_definition": true,
+      "weapon_attack_min": 0,
+      "weapon_attack_max": 0,
+      "attack_per_real_enhancement": 4,
+      "real_enhancement_limit": 3,
+      "synthesis_slots": 0,
+      "awakening_allowed": false,
+      "element_attribute_allowed": false,
+      "evolution_allowed": false,
+      "true_equipment_allowed": false,
+      "merit_equipment_allowed": false,
+      "exclusive_advancement_allowed": false,
+      "enhancement_recipe_policy": "exact fuxian_enhancement_recipes in this file, not general forging table",
+      "source_instance_rank_import": "preserve valid old0..3 rank, chosen instance identity, binding progress; duplicate legacy instances require explicit mapping decision, never discard one silently",
+      "presentation_ref": "dev_story_fuxian_sword"
+    },
+    {
+      "item_id": "linglong_bamboo",
+      "name": "玲珑竹材",
+      "kind": "material",
+      "container": "consumable_bag",
+      "max_stack": 99,
+      "weight_g": 100,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": true,
+      "sell_price": 1,
+      "buyback": false,
+      "player_trade": false,
+      "buy_from_npc": false,
+      "equipment_processing_input": "only named recipe/sect donation definitions; no implicit material for all upgrades",
+      "mainline_reservation": "Q002 active reserves min(3,actual carried quantity) from sale/discard/crafting/donation; warehouse deposit allowed, delivery requires real bag",
+      "quest_input_owner": "旧主线迁移.v1.json#Q002"
+    },
+    {
+      "item_id": "spirit_ore",
+      "name": "灵矿",
+      "kind": "material",
+      "container": "consumable_bag",
+      "max_stack": 99,
+      "weight_g": 200,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": true,
+      "sell_price": 4,
+      "buyback": false,
+      "player_trade": false,
+      "buy_from_npc": false,
+      "source_policy": "旧掉落材料和卖价4保留，堆重/权限为项目定义",
+      "acquisition_source_monsters": [
+        {
+          "id": "bamboo_beast",
+          "count": 1
+        },
+        {
+          "id": "valley_boar",
+          "count": 1
+        },
+        {
+          "id": "valley_guardian",
+          "count": 3
+        },
+        {
+          "id": "frost_wolf",
+          "count": 1
+        },
+        {
+          "id": "frost_guardian",
+          "count": 5
+        }
+      ],
+      "acquisition_status": "quantities retained from legacy fixed loot; formal creature/reward ownership bindings still pending, not a random new drop chance",
+      "aliases": [
+        "灵铁矿"
+      ],
+      "legacy_name_as_published_in_project": "灵铁矿"
+    }
+  ],
+  "story_interactions": [
+    {
+      "interaction_id": "story_report",
+      "legacy_object_id": "cao_bin",
+      "project_entity_id": "npc_cao_bin",
+      "requires_stage": "report",
+      "next_stage": "take_sword",
+      "range_mm": 2500
+    },
+    {
+      "interaction_id": "story_take_sword",
+      "legacy_object_id": "tool_rack",
+      "project_entity_id": "tool_rack",
+      "requires_stage": "take_sword",
+      "next_stage": "bind_sword",
+      "range_mm": 2500,
+      "grants_item_id": "fuxian_sword",
+      "quantity": 1,
+      "destination": "equipment_bag",
+      "requires_output_capacity": true
+    },
+    {
+      "interaction_id": "story_bind_sword",
+      "legacy_object_id": "sword_binding_point",
+      "project_entity_id": "sword_binding_point",
+      "requires_stage": "bind_sword",
+      "next_stage": "gathering",
+      "range_mm": 2500,
+      "requires_existing_story_instance": true,
+      "grants_second_item": false,
+      "requires_equipped_story_sword": false,
+      "active_grant": {
+        "class_id": "sword",
+        "ability_id": "legacy_sword_energy",
+        "rank": 1,
+        "only_if_not_already_learned": true,
+        "does_not_replace_hotbar_or_upgrade_existing_rank": true,
+        "owner_file": "旧剑技兼容.v1.json"
+      }
+    },
+    {
+      "interaction_id": "story_deliver_bamboo",
+      "legacy_object_id": "cao_bin",
+      "project_entity_id": "npc_cao_bin",
+      "requires_stage": "gathering",
+      "next_stage": "challenge",
+      "range_mm": 2500,
+      "transaction_owner": "旧主线迁移.v1.json#Q002"
+    },
+    {
+      "interaction_id": "story_report_victory",
+      "legacy_object_id": "cao_bin",
+      "project_entity_id": "npc_cao_bin",
+      "requires_stage": "return_to_outpost",
+      "next_stage": "completed",
+      "range_mm": 2500,
+      "transaction_owner": "旧主线迁移.v1.json#Q003"
+    }
+  ],
+  "gathering": {
+    "node_ids": [
+      "bamboo_01",
+      "bamboo_02",
+      "bamboo_03",
+      "bamboo_04",
+      "bamboo_05",
+      "bamboo_06"
+    ],
+    "node_position_owner": "../reference/旧场景几何基线.json",
+    "action_owner": "角色初始模板.v1.json#gathering",
+    "hits_to_fell": 3,
+    "xp_per_valid_hit": 10,
+    "practice_per_hit": 0,
+    "ascension_progress_per_hit": 0,
+    "felling_drop": {
+      "item_id": "linglong_bamboo",
+      "quantity": 1,
+      "spawn_position": "node base at ground surface",
+      "ownership": "character landing final valid gathering hit only; never copied to every hitter/party member",
+      "full_bag": "drop remains unclaimed in scene; no quest count before actual pickup"
+    },
+    "hit_counter_scope": "world node generation shared by room; each accepted gathering action contributes once; respawn creates new generation",
+    "xp_recipient": "actual accepted hit actor; no team XP bonus/shared kill resource pipeline",
+    "respawn_wait_steps": 1800,
+    "respawn_exclusion_radius_mm": 5000,
+    "respawn_exclusion_actors": "any connected living player within strict less-than5m; exact5m permits; not only host",
+    "blocked_respawn": "remain waiting at zero until exclusion clear; no teleport/new drop/extra XP",
+    "pause": "offline freezes world; LAN menu never freezes node clock",
+    "scene_rebuild": "ordinary gathering field state not persisted, as existing ordinary scene contract; carried loot/quest/committed XP retained",
+    "source_once_key": [
+      "session",
+      "node_id",
+      "generation",
+      "gather_action_id"
+    ]
+  },
+  "state_authority": "story stage alone derives owned/bound/gate/boss facts; item instance is actual ownership, not another quest-progress boolean. Stage bind_sword or later requires real known story sword; no missing sword auto grant. Configuration exceptions explicit preview/source.",
+  "world_contract_file": "世界图谱.v1.json",
+  "runtime_implemented": false,
+  "fuxian_enhancement_recipes": [
+    {
+      "recipe_id": "fuxian_upgrade_1",
+      "item_id": "fuxian_sword",
+      "from_rank": 0,
+      "to_rank": 1,
+      "silver": 4,
+      "bamboo_count": 2,
+      "spirit_ore_count": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "additional_inputs": []
+    },
+    {
+      "recipe_id": "fuxian_upgrade_2",
+      "item_id": "fuxian_sword",
+      "from_rank": 1,
+      "to_rank": 2,
+      "silver": 8,
+      "bamboo_count": 3,
+      "spirit_ore_count": 1,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "additional_inputs": []
+    },
+    {
+      "recipe_id": "fuxian_upgrade_3",
+      "item_id": "fuxian_sword",
+      "from_rank": 2,
+      "to_rank": 3,
+      "silver": 16,
+      "bamboo_count": 4,
+      "spirit_ore_count": 2,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "additional_inputs": []
+    }
+  ],
+  "enhancement_service": {
+    "npc_id": "npc_daojianxiao",
+    "distance_mm": 2500,
+    "requires_alive": true,
+    "requires_idle": true,
+    "requires_out_of_combat": true,
+    "requires_no_active_challenge": true,
+    "requires_story_bound": true,
+    "requires_class": "sword",
+    "input_location": "equipment_bag_only; explicitly unequip first, primary/secondary/warehouse instances rejected",
+    "consume_item_instance": false,
+    "preserve_instance_id": true,
+    "output_slot": "same input slot",
+    "mainline_reservation": "when Q002 active, bag bamboo minus reserved3 must cover recipe; warehouse stock cannot pay remotely",
+    "permission_source": "special story sword recipe, never apply novice-equipment no-growth or normal high-enhancement probability rules",
+    "quote_fields": [
+      "recipe_id",
+      "recipe_version",
+      "character_revision",
+      "item_instance_id",
+      "from_rank",
+      "input_stack_ids_and_counts"
+    ],
+    "cancel_or_validation_failure": "no resource/item/rank/RNG changes",
+    "save_retry": "same committed rank/resource result; no second deduction",
+    "rank3_request": "reject without charge; never clamp or consume at cap"
+  }
+}

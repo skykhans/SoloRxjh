@@ -1,0 +1,674 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-13",
+  "status": "project_design_not_implemented_not_balanced",
+  "scope": "14职业1级0转基础面板及1～180属性成长；不是完整创建模板、经验表或职业特殊资源定义。",
+  "source_policy": "published_base_fields逐值采用已存官网文字；缺项的project_base_fields、全部成长/衍生系数均为项目设计，不回填原始参考。",
+  "level_range": [
+    1,
+    180
+  ],
+  "common": {
+    "max_stamina": 100,
+    "stamina_per_level": 0
+  },
+  "advancement_core_increments": [
+    {
+      "rank": 1,
+      "heart": 1,
+      "qi": 1,
+      "body": 1,
+      "soul": 1
+    },
+    {
+      "rank": 2,
+      "heart": 1,
+      "qi": 1,
+      "body": 1,
+      "soul": 1
+    },
+    {
+      "rank": 3,
+      "heart": 1,
+      "qi": 1,
+      "body": 1,
+      "soul": 1
+    },
+    {
+      "rank": 4,
+      "heart": 1,
+      "qi": 1,
+      "body": 1,
+      "soul": 1
+    },
+    {
+      "rank": 5,
+      "heart": 1,
+      "qi": 1,
+      "body": 1,
+      "soul": 1
+    },
+    {
+      "rank": 6,
+      "heart": 2,
+      "qi": 2,
+      "body": 2,
+      "soul": 2
+    },
+    {
+      "rank": 7,
+      "heart": 2,
+      "qi": 2,
+      "body": 2,
+      "soul": 2
+    },
+    {
+      "rank": 8,
+      "heart": 2,
+      "qi": 2,
+      "body": 2,
+      "soul": 2
+    },
+    {
+      "rank": 9,
+      "heart": 2,
+      "qi": 2,
+      "body": 2,
+      "soul": 2
+    },
+    {
+      "rank": 10,
+      "heart": 2,
+      "qi": 2,
+      "body": 2,
+      "soul": 2
+    },
+    {
+      "rank": 11,
+      "heart": 2,
+      "qi": 2,
+      "body": 2,
+      "soul": 2
+    },
+    {
+      "rank": 12,
+      "heart": 2,
+      "qi": 2,
+      "body": 2,
+      "soul": 2
+    }
+  ],
+  "core_delta_contributions": {
+    "heart": {
+      "max_mana": 2
+    },
+    "qi": {
+      "attack": 1
+    },
+    "body": {
+      "max_hp": 3,
+      "defense": 1
+    },
+    "soul": {
+      "accuracy": 1,
+      "evasion": 1
+    }
+  },
+  "ascended_level_bonus": {
+    "required_rank": 6,
+    "level_origin": 115,
+    "retroactive_at_advancement": true,
+    "per_level": {
+      "max_hp": 2,
+      "max_mana": 2,
+      "attack": 1,
+      "defense": 1,
+      "accuracy": 0,
+      "evasion": 0
+    }
+  },
+  "classes": [
+    {
+      "class_id": "blade",
+      "name": "刀客",
+      "base": {
+        "heart": 8,
+        "qi": 8,
+        "body": 15,
+        "soul": 9,
+        "max_hp": 145,
+        "max_mana": 116,
+        "attack": 8,
+        "defense": 15,
+        "accuracy": 1,
+        "evasion": 1
+      },
+      "per_level": {
+        "max_hp": 9,
+        "max_mana": 3,
+        "attack": 2,
+        "defense": 2,
+        "accuracy": 1,
+        "evasion": 1
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_mana",
+        "attack",
+        "max_hp",
+        "defense"
+      ],
+      "project_base_fields": [
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/200905/39793.htm"
+    },
+    {
+      "class_id": "sword",
+      "name": "剑客",
+      "base": {
+        "heart": 9,
+        "qi": 11,
+        "body": 11,
+        "soul": 9,
+        "max_hp": 133,
+        "max_mana": 118,
+        "attack": 11,
+        "defense": 11,
+        "accuracy": 4,
+        "evasion": 4
+      },
+      "per_level": {
+        "max_hp": 7,
+        "max_mana": 4,
+        "attack": 2,
+        "defense": 1,
+        "accuracy": 2,
+        "evasion": 2
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_mana",
+        "attack",
+        "max_hp",
+        "defense"
+      ],
+      "project_base_fields": [
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/200905/39792.htm"
+    },
+    {
+      "class_id": "spear",
+      "name": "枪客",
+      "base": {
+        "heart": 9,
+        "qi": 13,
+        "body": 11,
+        "soul": 7,
+        "max_hp": 133,
+        "max_mana": 118,
+        "attack": 13,
+        "defense": 11,
+        "accuracy": 2,
+        "evasion": 1
+      },
+      "per_level": {
+        "max_hp": 7,
+        "max_mana": 3,
+        "attack": 3,
+        "defense": 1,
+        "accuracy": 1,
+        "evasion": 1
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_mana",
+        "attack",
+        "max_hp",
+        "defense"
+      ],
+      "project_base_fields": [
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/200905/39791.htm"
+    },
+    {
+      "class_id": "physician",
+      "name": "医师",
+      "base": {
+        "heart": 9,
+        "qi": 11,
+        "body": 9,
+        "soul": 11,
+        "max_hp": 133,
+        "max_mana": 118,
+        "attack": 11,
+        "defense": 9,
+        "accuracy": 2,
+        "evasion": 2
+      },
+      "per_level": {
+        "max_hp": 6,
+        "max_mana": 8,
+        "attack": 2,
+        "defense": 1,
+        "accuracy": 1,
+        "evasion": 1
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_mana",
+        "attack",
+        "max_hp",
+        "defense"
+      ],
+      "project_base_fields": [
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/200905/39790.htm"
+    },
+    {
+      "class_id": "archer",
+      "name": "弓手",
+      "base": {
+        "heart": 9,
+        "qi": 11,
+        "body": 9,
+        "soul": 11,
+        "max_hp": 126,
+        "max_mana": 124,
+        "attack": 11,
+        "defense": 9,
+        "accuracy": 5,
+        "evasion": 3
+      },
+      "per_level": {
+        "max_hp": 6,
+        "max_mana": 4,
+        "attack": 2,
+        "defense": 1,
+        "accuracy": 2,
+        "evasion": 1
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_mana",
+        "max_hp"
+      ],
+      "project_base_fields": [
+        "attack",
+        "defense",
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/200905/39789.htm"
+    },
+    {
+      "class_id": "assassin",
+      "name": "刺客",
+      "base": {
+        "heart": 7,
+        "qi": 10,
+        "body": 9,
+        "soul": 14,
+        "max_hp": 130,
+        "max_mana": 114,
+        "attack": 10,
+        "defense": 9,
+        "accuracy": 3,
+        "evasion": 5
+      },
+      "per_level": {
+        "max_hp": 6,
+        "max_mana": 3,
+        "attack": 2,
+        "defense": 1,
+        "accuracy": 2,
+        "evasion": 2
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_mana",
+        "max_hp",
+        "attack",
+        "defense"
+      ],
+      "project_base_fields": [
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/200905/39788.htm"
+    },
+    {
+      "class_id": "musician",
+      "name": "乐师",
+      "base": {
+        "heart": 18,
+        "qi": 7,
+        "body": 8,
+        "soul": 7,
+        "max_hp": 124,
+        "max_mana": 136,
+        "attack": 7,
+        "defense": 8,
+        "accuracy": 2,
+        "evasion": 3
+      },
+      "per_level": {
+        "max_hp": 6,
+        "max_mana": 8,
+        "attack": 2,
+        "defense": 1,
+        "accuracy": 1,
+        "evasion": 1
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "accuracy",
+        "evasion",
+        "max_mana",
+        "attack",
+        "max_hp",
+        "defense"
+      ],
+      "project_base_fields": [],
+      "source": "http://rxjh.17game.com/data/introduce/201204/53653.htm"
+    },
+    {
+      "class_id": "fighter",
+      "name": "格斗家",
+      "base": {
+        "heart": 7,
+        "qi": 9,
+        "body": 16,
+        "soul": 8,
+        "max_hp": 145,
+        "max_mana": 114,
+        "attack": 9,
+        "defense": 16,
+        "accuracy": 2,
+        "evasion": 2
+      },
+      "per_level": {
+        "max_hp": 9,
+        "max_mana": 3,
+        "attack": 2,
+        "defense": 2,
+        "accuracy": 1,
+        "evasion": 1
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_hp",
+        "attack",
+        "max_mana",
+        "defense"
+      ],
+      "project_base_fields": [
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/201507/58113.htm"
+    },
+    {
+      "class_id": "han_feiguan",
+      "name": "韩飞官",
+      "base": {
+        "heart": 8,
+        "qi": 8,
+        "body": 15,
+        "soul": 9,
+        "max_hp": 145,
+        "max_mana": 116,
+        "attack": 9,
+        "defense": 15,
+        "accuracy": 2,
+        "evasion": 1
+      },
+      "per_level": {
+        "max_hp": 9,
+        "max_mana": 4,
+        "attack": 3,
+        "defense": 2,
+        "accuracy": 1,
+        "evasion": 1
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_mana",
+        "max_hp"
+      ],
+      "project_base_fields": [
+        "attack",
+        "defense",
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/201303/54215.htm"
+    },
+    {
+      "class_id": "tan_hualing",
+      "name": "谭花灵",
+      "base": {
+        "heart": 9,
+        "qi": 11,
+        "body": 11,
+        "soul": 9,
+        "max_hp": 133,
+        "max_mana": 118,
+        "attack": 11,
+        "defense": 11,
+        "accuracy": 4,
+        "evasion": 4
+      },
+      "per_level": {
+        "max_hp": 7,
+        "max_mana": 4,
+        "attack": 2,
+        "defense": 1,
+        "accuracy": 2,
+        "evasion": 2
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_hp",
+        "attack",
+        "max_mana",
+        "defense"
+      ],
+      "project_base_fields": [
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/201402/54925.htm"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "name": "梅柳真",
+      "base": {
+        "heart": 10,
+        "qi": 10,
+        "body": 9,
+        "soul": 11,
+        "max_hp": 128,
+        "max_mana": 122,
+        "attack": 10,
+        "defense": 9,
+        "accuracy": 5,
+        "evasion": 3
+      },
+      "per_level": {
+        "max_hp": 7,
+        "max_mana": 5,
+        "attack": 2,
+        "defense": 1,
+        "accuracy": 2,
+        "evasion": 1
+      },
+      "published_base_fields": [],
+      "project_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_hp",
+        "max_mana",
+        "attack",
+        "defense",
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/201702/61216.htm"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "name": "卢风郎",
+      "base": {
+        "heart": 8,
+        "qi": 14,
+        "body": 10,
+        "soul": 8,
+        "max_hp": 132,
+        "max_mana": 116,
+        "attack": 14,
+        "defense": 10,
+        "accuracy": 3,
+        "evasion": 2
+      },
+      "per_level": {
+        "max_hp": 7,
+        "max_mana": 4,
+        "attack": 3,
+        "defense": 1,
+        "accuracy": 2,
+        "evasion": 1
+      },
+      "published_base_fields": [],
+      "project_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_hp",
+        "max_mana",
+        "attack",
+        "defense",
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/201712/62154.htm"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "name": "东陵神女",
+      "base": {
+        "heart": 16,
+        "qi": 7,
+        "body": 8,
+        "soul": 9,
+        "max_hp": 124,
+        "max_mana": 132,
+        "attack": 7,
+        "defense": 8,
+        "accuracy": 3,
+        "evasion": 3
+      },
+      "per_level": {
+        "max_hp": 6,
+        "max_mana": 8,
+        "attack": 2,
+        "defense": 1,
+        "accuracy": 1,
+        "evasion": 1
+      },
+      "published_base_fields": [],
+      "project_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_hp",
+        "max_mana",
+        "attack",
+        "defense",
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/data/introduce/202005/64533.htm"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "name": "甄凤柏",
+      "base": {
+        "heart": 17,
+        "qi": 9,
+        "body": 6,
+        "soul": 8,
+        "max_hp": 118,
+        "max_mana": 134,
+        "attack": 9,
+        "defense": 6,
+        "accuracy": 4,
+        "evasion": 3
+      },
+      "per_level": {
+        "max_hp": 5,
+        "max_mana": 4,
+        "attack": 2,
+        "defense": 1,
+        "accuracy": 2,
+        "evasion": 1
+      },
+      "published_base_fields": [
+        "heart",
+        "qi",
+        "body",
+        "soul",
+        "max_hp",
+        "max_mana",
+        "attack",
+        "defense"
+      ],
+      "project_base_fields": [
+        "accuracy",
+        "evasion"
+      ],
+      "source": "http://rxjh.17game.com/event/2026/content/index.html"
+    }
+  ]
+}

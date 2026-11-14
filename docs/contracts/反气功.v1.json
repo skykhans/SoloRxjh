@@ -1,0 +1,358 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-13",
+  "status": "project_rules_and_identity_links_not_implemented_target_effects_pending",
+  "identity_mapping_file": "武功气功来源映射.v1.json",
+  "source_policy": "70090已公开29名称、十二转开放、只对主目标/普攻武功命中/独立概率及不受所有气功等级增加；V25只说明反气功点提升对怪防御。以下精确成本、概率、减级、计时、叠加与对怪防御系数均为项目设计。",
+  "unlock": {
+    "minimum_level": 170,
+    "minimum_rank": 12,
+    "all_29_definitions_available": true,
+    "caster_class_scope": "all_14_classes"
+  },
+  "allocation": {
+    "maximum_level_per_definition": 5,
+    "points_per_level": 1,
+    "all_qigong_level_bonus_applies": false,
+    "source_of_budget": "14合同4.1; level/effective equipment/explicit item budget only"
+  },
+  "proc": {
+    "chance_bp": 2000,
+    "maximum_checks_per_action_per_definition": 1,
+    "check_at": "first_valid_hit_on_action_primary_target_after_existing_damage_and_resource_effects",
+    "normal_and_attack_skills": true,
+    "secondary_targets": false,
+    "independent_random_draws": true,
+    "stable_draw_order": "anti_qigong_id ascending among eligible definitions",
+    "requires_target_qigong_effective_before_counters_positive": true,
+    "reductions_affect_current_hit": false,
+    "duration_steps": 180,
+    "cooldown_steps": 180,
+    "cooldown_scope": "attacker_and_anti_definition",
+    "cooldown_starts": "successful_application_only",
+    "extra_attacks_or_recursion": false,
+    "requires_living_primary_target_after_hit": true
+  },
+  "effect": {
+    "reduction_per_allocated_level": 1,
+    "minimum_effective_target_level": 0,
+    "stacking": "strongest active source per target qigong; do not add; weaker live sources resume when stronger expires",
+    "same_source_reapply": "refresh duration; never add levels or extend by addition",
+    "retains_target_allocated_points": true,
+    "retains_target_learned_books": true,
+    "retains_target_equipment": true,
+    "zero_effective_level": "disable that passive contribution/trigger only; do not refund allocated points",
+    "effect_source_fields": [
+      "source_actor_id",
+      "anti_qigong_id",
+      "target_qigong_id",
+      "trigger_event_id",
+      "reduction",
+      "remaining_steps"
+    ]
+  },
+  "pve_defense": {
+    "requires_unlocked": true,
+    "per_point_of_current_total_budget": 2,
+    "includes_unallocated_budget": true,
+    "counts_budget_once": true,
+    "source_unpublished_formula": true,
+    "separate_from_ordinary_defense": true,
+    "wild_beasts_need_fake_qigong": false
+  },
+  "reallocation": {
+    "requires_alive": true,
+    "requires_idle": true,
+    "requires_out_of_combat": true,
+    "requires_no_active_challenge": true,
+    "silver_fee": 0,
+    "item_fee": null,
+    "scope": "anti allocations only; preserve derived budget, level award history and cooldowns",
+    "old_successful_effects": "finish original remaining duration without refresh; no new procs from cleared allocations"
+  },
+  "lifecycle": {
+    "pause_offline": "freeze integer world steps",
+    "attacker_cooldown_entries_max": 29,
+    "target_death": "clear target counter debuffs; do not refresh attacker cooldowns",
+    "class_change": "preview incompatible target effects and allocation changes",
+    "save_action_receipt": "anti_checked_for_primary_hit plus committed random-state position; replay never draws again",
+    "missing_target_effect_definition": "reject formal ability configuration; never create fake passive values",
+    "source_actor_disconnection": "finish original persisted remaining duration; no live node dependency"
+  },
+  "definitions": [
+    {
+      "anti_qigong_id": "anti_qigong_74a38cdd158f",
+      "source_table_index": 62,
+      "source_row_index": 0,
+      "source_row_sha256": "7f09da68471b7cbbdbb46d808b4d55c7ec71fce788bdf983fe190454546cdc8d",
+      "target_qigong_ids": [
+        "qigong_sword_0eb0bff69140"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_d8f756b022db",
+      "source_table_index": 62,
+      "source_row_index": 1,
+      "source_row_sha256": "fe0fb2787e05b49986fe7527882172bf26b72c07f777a39895dc03fe9fd370d3",
+      "target_qigong_ids": [
+        "qigong_sword_ad348a425909"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_6d603234b777",
+      "source_table_index": 62,
+      "source_row_index": 2,
+      "source_row_sha256": "0a3fb1a59a7fc70f8ffe5b3904345673a5119158c3c1d5a92cd5c636e5fbfabe",
+      "target_qigong_ids": [
+        "qigong_blade_3092fabb4f0d"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_7c96413b8e41",
+      "source_table_index": 62,
+      "source_row_index": 3,
+      "source_row_sha256": "551a3d997a783597ab6a6f73d70e8dff570af01b90615b891f0cdd6b1282ab30",
+      "target_qigong_ids": [
+        "qigong_blade_e6a6c9b6c954"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_0b579a03fe8e",
+      "source_table_index": 62,
+      "source_row_index": 4,
+      "source_row_sha256": "f3dad1333169fd376ffa8f21b398c0b5ab034fb85d872982c74072996fa88051",
+      "target_qigong_ids": [
+        "qigong_spear_ebc4db8590f4"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_2c15293075bc",
+      "source_table_index": 62,
+      "source_row_index": 5,
+      "source_row_sha256": "6e36998442c8a15df612e913bb3dc9e6636f19a2e0b909a17e3bc6c108345d1e",
+      "target_qigong_ids": [
+        "qigong_spear_10a165ba7721"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_5249ab67dbce",
+      "source_table_index": 62,
+      "source_row_index": 6,
+      "source_row_sha256": "c9e64462a167a8d22b4bd090569f9661e00173d02fe444586d60d4e05012126e",
+      "target_qigong_ids": [
+        "qigong_archer_d6b1b8306277"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_41e0460c3c13",
+      "source_table_index": 62,
+      "source_row_index": 7,
+      "source_row_sha256": "fd30be99284f2f598245428f5314e74aa7d71ea5ba4225b8feabaa316c8e189a",
+      "target_qigong_ids": [
+        "qigong_archer_6d2d09db7d01"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_aa5becbe63fb",
+      "source_table_index": 62,
+      "source_row_index": 8,
+      "source_row_sha256": "c4873248ba7b6685623d1861efab74acf159a0c375ca5db2abacd42e74be239b",
+      "target_qigong_ids": [
+        "qigong_physician_e73e0539ee71"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_6d1165167f69",
+      "source_table_index": 62,
+      "source_row_index": 9,
+      "source_row_sha256": "b97b4c55d2521e0cc9d9d5bde9546b40e6ffaea30ca84757896922e702cb6f10",
+      "target_qigong_ids": [
+        "qigong_physician_8159c31d10bb"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_167ea7fd998f",
+      "source_table_index": 62,
+      "source_row_index": 10,
+      "source_row_sha256": "07d6009aa05fa2b6d5bd684d5d4cf89284b85f699b840370be5da619a9d68011",
+      "target_qigong_ids": [
+        "qigong_assassin_38fc56f07575"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_553bafa572e9",
+      "source_table_index": 62,
+      "source_row_index": 11,
+      "source_row_sha256": "07a8211ea52ae05ddd802bebabb398c1a73543e397efb1e4f8762cfd793dd396",
+      "target_qigong_ids": [
+        "qigong_assassin_a951de667c6f"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_803f98edaa90",
+      "source_table_index": 62,
+      "source_row_index": 12,
+      "source_row_sha256": "b24d0561c0b712f7f668440000a5f31bd88b4a6b379f85b42ffb5d8587a83ac2",
+      "target_qigong_ids": [
+        "qigong_musician_d915d93dacc7"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_ea35ae86b87a",
+      "source_table_index": 62,
+      "source_row_index": 13,
+      "source_row_sha256": "79866d3b4428e0bfb448c32895f092823e1036fcd005718ce9d9e1f91e47f312",
+      "target_qigong_ids": [
+        "qigong_musician_410242d2d08a"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_4797d2d80e08",
+      "source_table_index": 62,
+      "source_row_index": 14,
+      "source_row_sha256": "f7535cb548f0b5ac21ce460813c96652176f856f612021ae85606add6acfe995",
+      "target_qigong_ids": [
+        "qigong_han_feiguan_7eb4aed2b2b4"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_5379d77295dc",
+      "source_table_index": 62,
+      "source_row_index": 15,
+      "source_row_sha256": "3dc47a13c01c27e669514115e88e04883c30485eed512694b83f9e83861013c6",
+      "target_qigong_ids": [
+        "qigong_han_feiguan_e6a6c9b6c954"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_323d9bba7a5f",
+      "source_table_index": 62,
+      "source_row_index": 16,
+      "source_row_sha256": "414efef88fba92a883ea70778f01823a24ed3c18842c7a29dbf153c0c217db42",
+      "target_qigong_ids": [
+        "qigong_tan_hualing_22cbd899f7f1"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_94b48df06da1",
+      "source_table_index": 62,
+      "source_row_index": 17,
+      "source_row_sha256": "2815c243089523606ede4c397bc91fd6264b92a3c4161d22cd799f95e198629b",
+      "target_qigong_ids": [
+        "qigong_tan_hualing_747be21ca39d"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_c5c4820637c5",
+      "source_table_index": 62,
+      "source_row_index": 18,
+      "source_row_sha256": "666daf1eec9ec62d71104090abbc383b91d674ceacbe8fd76ca0802d866f7578",
+      "target_qigong_ids": [
+        "qigong_fighter_d9e064e1108c"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_2d8b8452200a",
+      "source_table_index": 62,
+      "source_row_index": 19,
+      "source_row_sha256": "63f982e8a882ac07e50c5da4c5f5d32591a3bfd60a11265ea1fa4c25cce8300d",
+      "target_qigong_ids": [
+        "qigong_fighter_66eff75328fa"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_a9e48b679c6b",
+      "source_table_index": 62,
+      "source_row_index": 20,
+      "source_row_sha256": "48610a88196adbd604547e7c7de8947b3caf7bbb8f19a7add5ee2dd5b797ab3b",
+      "target_qigong_ids": [
+        "qigong_mei_liuzhen_73890f53bd3c"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_f280ff0956d7",
+      "source_table_index": 62,
+      "source_row_index": 21,
+      "source_row_sha256": "dc17a6f39b25b943f6a36f7c0e742f6c361db3ac5e54c7e7c8446b1219463304",
+      "target_qigong_ids": [
+        "qigong_mei_liuzhen_15fbf2a219d2"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_249ffca61b15",
+      "source_table_index": 62,
+      "source_row_index": 22,
+      "source_row_sha256": "8bba6dd867b33db7556503c3ed4b9bf33143a3fa4cdb6cf33961f47eff7b919a",
+      "target_qigong_ids": [
+        "qigong_lu_fenglang_b017432b7d78"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_0074f7010aad",
+      "source_table_index": 62,
+      "source_row_index": 23,
+      "source_row_sha256": "565a8ee6eb5e3430cca3561fcfc1ea9d4d3bef7b1706a3ffe2a17a7b7b82e525",
+      "target_qigong_ids": [
+        "qigong_lu_fenglang_b8cdaf136e60"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_76d872601837",
+      "source_table_index": 62,
+      "source_row_index": 24,
+      "source_row_sha256": "1d1d44d994bd61da3d4d82940d7039d71a0ed41b1bffd7f338f33a8e3e7d3f65",
+      "target_qigong_ids": [
+        "qigong_dongling_shennv_91e897f01e47"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_a2a8a78140eb",
+      "source_table_index": 62,
+      "source_row_index": 25,
+      "source_row_sha256": "1e1b8ffc8f654faae96b191440b4a454917794a92bd5473e3e99e8e843ff0b4a",
+      "target_qigong_ids": [
+        "qigong_dongling_shennv_73e602492364"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_96724a75e902",
+      "source_table_index": 62,
+      "source_row_index": 26,
+      "source_row_sha256": "092b524a159fdf3c039da5b0737db40475a589e13014fd6ad2466544221fa369",
+      "target_qigong_ids": [
+        "qigong_zhen_fengbai_a0986855936b"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_310557dac63e",
+      "source_table_index": 62,
+      "source_row_index": 27,
+      "source_row_sha256": "9fddf33200702437d725d1bec3f45245723aa89149b780bed86000f66863a4e1",
+      "target_qigong_ids": [
+        "qigong_zhen_fengbai_246736bb8bd9"
+      ]
+    },
+    {
+      "anti_qigong_id": "anti_qigong_5aadbf4cd094",
+      "source_table_index": 62,
+      "source_row_index": 28,
+      "source_row_sha256": "2ebc43fad124ed09a36e5a1b4c2a8a7f25bb97ff73e72de2c7d4eee9070763f9",
+      "target_qigong_ids": [
+        "qigong_archer_f7e00df50117",
+        "qigong_assassin_f7e00df50117",
+        "qigong_blade_f7e00df50117",
+        "qigong_dongling_shennv_f7e00df50117",
+        "qigong_fighter_f7e00df50117",
+        "qigong_han_feiguan_f7e00df50117",
+        "qigong_lu_fenglang_f7e00df50117",
+        "qigong_mei_liuzhen_f7e00df50117",
+        "qigong_musician_f7e00df50117",
+        "qigong_physician_f7e00df50117",
+        "qigong_spear_f7e00df50117",
+        "qigong_sword_f7e00df50117",
+        "qigong_tan_hualing_f7e00df50117",
+        "qigong_zhen_fengbai_f7e00df50117"
+      ]
+    }
+  ]
+}

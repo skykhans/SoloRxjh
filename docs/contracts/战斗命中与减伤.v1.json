@@ -1,0 +1,155 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "project_design_not_implemented_not_balanced",
+  "source_policy": "全部精确公式/基础概率/闪避数值是项目设计，不宣称官网公式。14/20/22已采用资源与动作通过本合同唯一结算。完整其他技能效果/装备属性仍需逐项接入。",
+  "integer_arithmetic": {
+    "maximum_exact_integer": 9007199254740991,
+    "basis_points": 10000,
+    "rounding": "each named stage floors unless its owning shield/resource rule explicitly uses ceil",
+    "intermediate_overflow": "check before multiplication/addition; reject formal configuration or command, never wrap/clamp invalid input"
+  },
+  "relationships": {
+    "ordinary_pve": "player_or_friendly_NPC_vs_explicit_hostile_world_NPC_or_monster; including martial NPC activity",
+    "player_vs_player": false,
+    "faction_name_alone_creates_hostility": false,
+    "friendly_damage": false,
+    "safe_zone_blocks_hostile_events_before_random": true,
+    "missing_combat_flags": "reject configuration"
+  },
+  "hit": {
+    "base_chance_bp": 9000,
+    "per_accuracy_minus_evasion_bp": 10,
+    "minimum_chance_bp": 500,
+    "maximum_chance_bp": 9900,
+    "formula": "clamp(9000 + 10*(attacker_accuracy-target_evasion),500,9900)",
+    "roll_domain": "uniform integer [0,9999]",
+    "success": "roll < chance",
+    "miss_consumes_attack_interval_or_crit_draw": false,
+    "periodic_damage_rechecks_hit": false,
+    "geometry_precedes_random": true
+  },
+  "critical": {
+    "class_base_chance_bp": 500,
+    "class_base_multiplier_bp": 15000,
+    "applies_to": [
+      "normal_attack",
+      "attack_martial_skill"
+    ],
+    "periodic_or_state_burst_crit": false,
+    "final_chance_valid_range_bp": [
+      0,
+      10000
+    ],
+    "probability_caps_are_explicit_gameplay_not_bad_input_repair": true,
+    "named_supercritical_adapter_file": "刺客必杀与超必杀气功采用.v1.json; explicitassassin/archer exclusive roll partitions only, ordinary classes no defaultsupercritical",
+    "multiple_critical_draws_for_supercritical": false
+  },
+  "defense": {
+    "constant": 100,
+    "effective_defense_formula": "ordinary_defense + pve_defense when event context is explicit PvE; each nonnegative",
+    "mitigation_formula": "floor(incoming*100/(100+effective_defense))",
+    "zero_defense": "full incoming before later reductions",
+    "zero_damage_permitted": true,
+    "minimum_one_damage": false,
+    "status_damage_reapplies_defense": false
+  },
+  "direct_pipeline": [
+    "geometry_relationship_alive_safezone_iframe",
+    "eligible_named_lu_monster_guard_once_per_root_before_accuracy",
+    "eligible_physician_direct_avoid_window",
+    "hit_draw",
+    "uniform_integer_from_action_attack_interval",
+    "prepare_declared_flat_skill_power_with_eligible_flat_and_percent_source_modifiers_once_then_add_to_attack_draw",
+    "eligible_dongling_star_component_once_first_true_primary_hit_after_power_composition",
+    "eligible_named_normal_enhancer_flat_once_root_normal_only_not_derived",
+    "multiply_phase_coefficient_floor",
+    "apply_explicit_non_power_action_modifiers_once",
+    "critical_draw_and_multiplier",
+    "explicit_hit_time_damage_modifiers_in_stable_source_order",
+    "eligible_named_predefense_guard_proc_and_live_defense_adjustments",
+    "ordinary_plus_context_defense",
+    "explicit_local_gangqi_resistance_for_direct_martial_only",
+    "explicit_flat_damage_reduction_nonnegative_floor_zero",
+    "eligible_named_defense_based_extra_once",
+    "eligible_fighter_noncombo_monster_final_extra_once",
+    "explicit_percent_damage_reduction",
+    "eligible_physician_cloud_creation_and_absorption",
+    "zhen_charging_shield",
+    "mei_barrier",
+    "hp_loss_capped_to_remaining_and_lethal_interception",
+    "linked_cloud_break_penalty_and_final_life_state_once",
+    "actual_loss_reward_credit_resources",
+    "eligible_post_hit_passives_and_anti_qigong"
+  ],
+  "post_hit_policy": "dead target has no on-target effect; hostile direct hit requires successful accuracy and actual HP damage for bleed/charge/offensive rage. Mei recovery and anti eligibility keep their owning contracts; shield-only hit may still be a valid anti primary hit if target lives.",
+  "periodic_pipeline": [
+    "source_snapshot_and_tick_phase",
+    "alive_relationship_safezone_eligible_immunity",
+    "explicit_status_protection_no_hit_no_crit_no_second_defense",
+    "zhen_shield_only_if_explicit_hostile_status_damage",
+    "hp_loss_and_lethal_interception",
+    "actual_received_rage_and_activity_credit_only"
+  ],
+  "mei_barrier_applies_to": "direct hostile attack only; not periodic or self cost",
+  "status_burst_pipeline": "20 declared base/cap -> explicit status protection (no ordinary attack accuracy/crit) -> hostile status shield -> HP loss; never replay direct skill/proc pipeline",
+  "damage_credit": {
+    "actual_hp_loss_excludes": [
+      "self_payment",
+      "overkill",
+      "shield_absorption"
+    ],
+    "killer": "owner of first committed event making target death terminal; activity lethal interceptor may postpone terminal death",
+    "pet_owner_not_same_as_self_for_blood_devil": true,
+    "duplicate_key": [
+      "session_id",
+      "action_or_root_event_id",
+      "target_id",
+      "hit_or_tick_ordinal"
+    ],
+    "multiple_damage_events_same_step": "stable action/root ID then hit/tick ordinal then target ID; no client message-arrival ordering"
+  },
+  "dodge": {
+    "stamina_cost": 20,
+    "total_steps": 24,
+    "invulnerability_first_step_inclusive": 4,
+    "invulnerability_last_step_inclusive": 12,
+    "distance_mm": 3000,
+    "cooldown_steps": 60,
+    "direction": "normalized input or current forward, fixed at accept",
+    "collision_sweep": true,
+    "invulnerability_blocks": [
+      "direct_hostile_attack"
+    ],
+    "blocks_periodic_environment_or_cost": false,
+    "counter_resets_from_potion_or_menu": false
+  },
+  "attack_interval": {
+    "owner": "22 action snapshot after attack contributions; pve attack contribution included once for PvE snapshot",
+    "no_weapon_double_add": true,
+    "integer_range_sampling": "inclusive unbiased range; single-valued interval requires no draw",
+    "future_proc_reduction_changes_old_interval": false,
+    "old_paid_action_keeps_cost_and_action_snapshot": true
+  },
+  "random_order": "accepted-cast after admission/payment may have explicitly named action-snapshot proc draws (e.g怒海); record their result first. At actual hit: geometry/alive eligibility before accuracy draw, interval draw only if nonsingleton, one applicable critical draw, then explicit callbacks/anti stable ordering. Paid miss never rewinds earlier accepted-cast draws.",
+  "life_cycle": "committed damage/credit/resource/death effects one transaction. Bad config rejected before starting action; save failure re-saves original result. Complete activity state required for blood-devil persistence. Other NPC/skill effects without explicit profiles cannot become runtime defaults.",
+  "stamina_regeneration": {
+    "amount_per_second": 10,
+    "delay_after_last_stamina_payment_steps": 60,
+    "integer_fraction_denominator": 60,
+    "tick_formula": "remainder + 10; quotient/remainder divided by60 per eligible world step; limit to missing stamina",
+    "full_resource_clears_fraction": true,
+    "pause_offline": "freeze delay/fraction",
+    "death": "no regeneration until explicit respawn",
+    "damage_resets_delay": false
+  },
+  "power_modifiers_owner_file": "武功威力气功采用.v1.json",
+  "guard_and_penetration_owner_file": "护身与破甲采用.v1.json",
+  "gangqi_owner_file": "精金血气与罡气采用.v1.json",
+  "physician_defense_owner_file": "医师形移与云心护罩气功.v1.json",
+  "training_gate_modifiers_owner": {
+    "file": "修炼之门.v1.json",
+    "pointer": "/timed_buffs/stat_application",
+    "order": "nonfeedback defense multiplier before its named conversions; post-derived maxHP/mana and final attack interval before explicit final overrides; no skill-flat or legacy fixed-power amplification"
+  }
+}

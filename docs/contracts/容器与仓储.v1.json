@@ -1,0 +1,273 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "project_design_not_implemented_not_complete_item_catalog",
+  "scope": "三个容器容量/扩容与七个仓管的角色私人仓储服务；不是账号共享仓库或完整物品权限表。",
+  "authority": {
+    "readable_contract": "../17-物品背包与经济采用合同.md",
+    "world_owner_file": "世界图谱.v1.json",
+    "item_permissions": "each explicitly adopted item definition; missing permission or unknown item is configuration error, never default allow/deny",
+    "source_records": "../reference/NPC名称与入口.json",
+    "source_policy": "NPC原名/钱庄仓储职责取已归档正文；容量/价格/重量/跨城共享和货币规则均是项目采用。南林原文明确存免费、取收费，未给金额；本地费用不回填原文。",
+    "maximum_exact_integer": 9007199254740991
+  },
+  "ownership": {
+    "scope": "character_id",
+    "one_warehouse_per_character": true,
+    "same_character_accesses_same_warehouse_at_all_seven_npcs": true,
+    "shared_between_characters_or_profiles": false,
+    "shared_with_party_or_npc_companions": false,
+    "warehouse_items_count_toward_carried_weight": false,
+    "warehouse_items_usable_as_remote_consumables_or_crafting_inputs": false,
+    "same_instance_may_exist_in_two_locations": false,
+    "warehouse_silver_balance_field": "character.warehouse_silver",
+    "warehouse_silver_initial_value_for_new_characters": 0,
+    "legacy_schema1_to4_warehouse_silver_initial_value": 0,
+    "new_schema_missing_or_invalid_balance": "reject; no implicit zero",
+    "warehouse_silver_contributes_to_carried_silver": false
+  },
+  "containers": [
+    {
+      "container_id": "inventory",
+      "display_name": "材料/消耗品背包",
+      "initial_slots": 60,
+      "slots_per_expansion": 20,
+      "maximum_slots": 200,
+      "expansion_silver_prices": [
+        100000,
+        500000,
+        2000000,
+        5000000,
+        10000000,
+        20000000,
+        40000000
+      ],
+      "counts_carried_weight": true,
+      "acceptance": "only stackable item categories explicitly assigned here by their definitions"
+    },
+    {
+      "container_id": "equipment_bag",
+      "display_name": "装备背包",
+      "initial_slots": 40,
+      "slots_per_expansion": 20,
+      "maximum_slots": 200,
+      "expansion_silver_prices": [
+        100000,
+        500000,
+        2000000,
+        5000000,
+        10000000,
+        20000000,
+        40000000,
+        80000000
+      ],
+      "counts_carried_weight": true,
+      "acceptance": "only instance categories explicitly assigned here by their definitions; one instance per slot"
+    },
+    {
+      "container_id": "warehouse",
+      "display_name": "角色私人仓库",
+      "initial_slots": 100,
+      "slots_per_expansion": 50,
+      "maximum_slots": 500,
+      "expansion_silver_prices": [
+        500000,
+        1000000,
+        2000000,
+        5000000,
+        10000000,
+        20000000,
+        40000000,
+        80000000
+      ],
+      "counts_carried_weight": false,
+      "acceptance": "only explicit warehouse-permitted items; preserve binding, expiry, quest ownership and instance/stack identity"
+    }
+  ],
+  "carried_weight": {
+    "unit": "integer_grams",
+    "base_limit_grams": 100000,
+    "included_locations": [
+      "inventory",
+      "equipment_bag",
+      "both_equipment_sets",
+      "equipped_gems"
+    ],
+    "excluded_locations": [
+      "warehouse",
+      "npc_buyback_records",
+      "preview_only"
+    ],
+    "modifier_owner_file": "弓手箭矢与距离气功.v1.json",
+    "unknown_item_weight": "configuration error",
+    "legal_overweight_state": "use archer contract source/revision receipt; no automatic deletion, no generic overload exception"
+  },
+  "service_eligibility": {
+    "minimum_level": 1,
+    "minimum_rank": 0,
+    "allowed_routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "requires_alive": true,
+    "requires_out_of_combat": true,
+    "forbids_active_challenge": true,
+    "interaction_radius_m": 2.5,
+    "requires_same_map_and_available_npc": true,
+    "close_or_leave_range": "invalidate service session/quotes; keep already committed results",
+    "concurrent_commands": "host serializes per-character state revision; stale revision rejected",
+    "lan_authority": "host validates the requester's own character, containers and carried silver; never party leader or another player's account"
+  },
+  "actions": {
+    "deposit_items": {
+      "source_containers": [
+        "inventory",
+        "equipment_bag"
+      ],
+      "destination_container": "warehouse",
+      "silver_fee": 0,
+      "allow_direct_equipped_items": false,
+      "requires": "explicit warehouse permission, source ownership/quantity/revision, no reserved recipe inputs or protected quest quantity violation",
+      "layout": "compute all destination merge/split slots and remove all source quantities as one transaction",
+      "empty_or_invalid_quantity": "reject",
+      "item_state": "preserve definition, binding, expiry, quest owner and all growth state; do not clone instances"
+    },
+    "withdraw_items": {
+      "source_container": "warehouse",
+      "destination": "the item's explicit inventory/equipment_bag assignment",
+      "silver_fee_per_unit": 1,
+      "fee_formula": "sum(selected physical item quantities) * silver_fee_per_unit; each unique instance counts one, not one per occupied stack",
+      "fee_payment_location": "carried silver only",
+      "requires": "positive exact quantities, correct owner/revision, final destination slots and carried weight legal; valid overweight receipt may not acquire additional positive weight",
+      "partial_commit_allowed": false,
+      "failure": "preserve warehouse/carried silver/items/slots; do not auto-reduce quantity or choose another bag"
+    },
+    "deposit_silver": {
+      "silver_fee": 0,
+      "amount": "positive exact integer",
+      "requires": "carried silver >= amount and warehouse_silver + amount <= maximum_exact_integer",
+      "result": "carried silver -= amount; warehouse_silver += amount, one transaction",
+      "item_slot_cost": 0
+    },
+    "withdraw_silver": {
+      "silver_fee": 0,
+      "amount": "positive exact integer",
+      "requires": "warehouse_silver >= amount and carried silver + amount <= maximum_exact_integer",
+      "result": "warehouse_silver -= amount; carried silver += amount, one transaction",
+      "item_slot_cost": 0
+    },
+    "expand_container": {
+      "container_ids": [
+        "inventory",
+        "equipment_bag",
+        "warehouse"
+      ],
+      "price": "containers[container_id].expansion_silver_prices[current_expansion_level]",
+      "payment_location": "carried silver only",
+      "level_increment_per_command": 1,
+      "capacity_formula": "initial_slots + slots_per_expansion * new_expansion_level",
+      "at_maximum": "reject before charging",
+      "batch_multiple_levels_in_one_command": false,
+      "cross_npc_state": "same character expansion levels; switching NPC never resets count or price"
+    }
+  },
+  "transaction": {
+    "required_command_identity": [
+      "world_id_if_lan",
+      "character_id",
+      "service_npc_id",
+      "command_id",
+      "expected_character_revision",
+      "service_session_id"
+    ],
+    "quote": "bind operation, exact instance/stack IDs and quantities, destination and total fee to session and revision; submission recomputes and rejects stale quote",
+    "sequence": [
+      "validate service session, NPC range/alive/map, role eligibility and command deduplication",
+      "validate item IDs/permissions/ownership, source quantities, silver and exact integer ranges",
+      "calculate final merge/split layout, instance ownership, slots and carried weight on a candidate snapshot",
+      "commit all items, silver, capacity levels, revision and settlement receipt once",
+      "persist by the existing profile/LAN result protocol; do not rerun committed operation on save failure or retry"
+    ],
+    "all_or_nothing": true,
+    "implicit_spend_warehouse_silver": false,
+    "duplicate_command": "return existing result, no second fee/transfer/expansion",
+    "sorting": "permitted in own bags/warehouse; stable ordering and explicit merge keys from 17; no quantities or permissions changed",
+    "profile_save_owner": "../05-数据与存档.md",
+    "network_result_owner": "../19-局域网组队聊天与多开.md"
+  },
+  "npc_bindings": [
+    {
+      "npc_id": "npc_wei_dabao",
+      "source_reference_id": "NREF-40139-R019",
+      "map_id": "hyunbo_town"
+    },
+    {
+      "npc_id": "npc_xiao_chunshui",
+      "source_reference_id": "NREF-40138-R007",
+      "map_id": "liuzheng_pass"
+    },
+    {
+      "npc_id": "npc_zhou_shutong",
+      "source_reference_id": "NREF-40137-R007",
+      "map_id": "sanxie_pass"
+    },
+    {
+      "npc_id": "npc_wei_baibaibai",
+      "source_reference_id": "NREF-40136-002",
+      "map_id": "shenwu_gate"
+    },
+    {
+      "npc_id": "npc_xuanyuan_erguang",
+      "source_reference_id": "NREF-40135-002",
+      "map_id": "liushan_house"
+    },
+    {
+      "npc_id": "npc_jin_shiling",
+      "source_reference_id": "NREF-40131-005",
+      "map_id": "beihai_ice"
+    },
+    {
+      "npc_id": "npc_huang_haohu",
+      "source_reference_id": "NREF-39620-002",
+      "map_id": "nanlin_forest"
+    }
+  ],
+  "unresolved_scope": [
+    "all remaining source NPC services, goods, prices and task bindings",
+    "complete item category/permission definitions and income/expense balance",
+    "Godot UI/navigation/transactions, crash recovery and multi-machine LAN tests"
+  ],
+  "design_review": {
+    "checked_on": "2026-11-14",
+    "scope": "schema/reference/position and arithmetic examples, not Godot storage execution",
+    "npc_bindings_checked": 7,
+    "service_anchor_paths_checked": 7,
+    "capacity_examples": {
+      "inventory": {
+        "steps": 7,
+        "final_slots": 200,
+        "total_silver": 77600000
+      },
+      "equipment_bag": {
+        "steps": 8,
+        "final_slots": 200,
+        "total_silver": 157600000
+      },
+      "warehouse": {
+        "steps": 8,
+        "final_slots": 500,
+        "total_silver": 158500000
+      }
+    },
+    "withdraw_99_stack_units_plus_one_instance_fee": 100,
+    "silver_transfer_example": 5000000000,
+    "maximum_exact_integer_boundary": 9007199254740991,
+    "not_executed": [
+      "real inventory movement/permissions",
+      "stale session/repeated command and save fault recovery",
+      "Godot UI/navigation",
+      "LAN concurrency"
+    ]
+  }
+}

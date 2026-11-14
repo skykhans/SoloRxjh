@@ -1,0 +1,118 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "project_solo_mainline_encounter_design_not_implemented",
+  "scope": "Q003-Q005 personal boss instancing; cooperative ordinary hunting/LAN/other activities remain required, not replaced by this solo mainline trial",
+  "states": [
+    "combat",
+    "victory_reward_pending",
+    "victory_claimed",
+    "failed"
+  ],
+  "entry_policy": "explicit marker interaction, living/idle/out of combat/no active activity; exact quest boss stage. Validate complete target scene/actor/resource/return anchor before committing. No recharge/heal/refresh buffs or skill timers. Reject invalid entry without teleport or charge.",
+  "boss_spawn_policy": "remove three story boss actors from shared ordinary world; preserve IDs/coordinates only inside encounter instance. Never let public-world stale boss events grant quest/loot.",
+  "gate_policy": "public challenge_gate remains solid; explicit outside marker opens eligible personal encounter, instance challenge_gate collision opens there only. Never toggle room-wide collision from one character quest. Other private geometry preserved; no looping public portal trigger.",
+  "failure": "player death or confirmed abandon -> failed attempt; no monster/quest reward or refund. Death uses normal story_workcamp_start respawn; living abandon returns owning public anchor with actual resources/cooldowns. New retry fresh boss under new attempt ID, never restarts old saved attempt.",
+  "victory": "authoritative terminal boss death snapshots reward/credit exactly once, marks personal boss objective complete, commits monster XP/practice and receipt, enters victory_reward_pending. No second death/respawn/XP. Remove combat threats; remaining committed player status/cooldowns follow normal rules.",
+  "fixed_loot_claim": "explicit persistent encounter reward panel, one entry per actual fixed-loot line; all-or-nothing claim validates bag slots/weight and then produces items/new stack IDs once. Claim does not repeat XP/practice/quest objective. Full bag keeps reward pending; no silent inventory/mail/warehouse drop.",
+  "exit_with_pending": "explicit confirmation can return with persistent pending reward entitlement. Claim later at Cao service; pending reward not carried item/weight and not quest material. No extra monster spawn to reclaim; final quest turn-in may proceed independently, pending receipt remains claimable until actual claim.",
+  "ordinary_drop_policy_difference": "these personal boss fixed rewards use durable entitlement, not ordinary transient ground drops; explicit project change prevents losing unique boss ore/potions on save/exit. Ordinary monster and gather drops keep existing field rules.",
+  "pending_claim_service_npc_id": "npc_cao_bin",
+  "replay_policy": "death receipt per character/quest objective; reward claim receipt per death result; old acknowledged role revisions and duplicate requests return original or stale error, never issue a new attempt or reward",
+  "persistence": "combat retains full same instance/boss/resources/actions/projectiles/random/status and attempt. After terminal victory may release combat scene but persists death/XP receipt and fixed reward entitlement/claimed state; always validates state transitions and target definitions. LAN host journal plus character ack protocol required.",
+  "import_policy": "old quest return/report/completed state proves objective already defeated but not unpicked loot entitlement; do not invent pending ore/potions, new XP or a second boss. Preserve known actual old inventory and task progress. Exact old instance-ID/schema migration remains separate required work.",
+  "encounters": [
+    {
+      "encounter_id": "story_boss_q003",
+      "quest_id": "Q003",
+      "monster_id": "bamboo_beast",
+      "spawn_id": "boss_01",
+      "activity_map_id": "instance_story_boss_q003",
+      "public_entry_position_feet_m": [
+        -42,
+        0,
+        -21
+      ],
+      "instance_player_spawn_feet_m": [
+        -42,
+        0,
+        -26
+      ],
+      "return_anchor_id": "story_boss_q003_return",
+      "geometry_owner": "../reference/旧场景几何基线.json",
+      "geometry_selection": "same62 object IDs/positions in separate scene namespace; only this boss actor, no shops/gathering/ordinary monsters",
+      "opened_collision_object_ids": [
+        "challenge_gate"
+      ],
+      "requires_quest_objective": "this quest boss challenge active, not already defeated/delivered",
+      "time_limit": "explicitly_none",
+      "fees_silver": 0,
+      "fees_items": [],
+      "maximum_real_players": 1,
+      "npc_or_pet_companions_allowed": false,
+      "supports_blood_devil": false,
+      "victory_reward_profile": "reference exact monster reward and fixed_loot in 旧三地区怪物.v1.json, never duplicate values",
+      "quest_delivery_reward": "only later Cao turn-in, not included here"
+    },
+    {
+      "encounter_id": "story_boss_q004",
+      "quest_id": "Q004",
+      "monster_id": "valley_guardian",
+      "spawn_id": "valley_guardian_01",
+      "activity_map_id": "instance_story_boss_q004",
+      "public_entry_position_feet_m": [
+        120,
+        0,
+        -20
+      ],
+      "instance_player_spawn_feet_m": [
+        120,
+        0,
+        -30
+      ],
+      "return_anchor_id": "story_boss_q004_return",
+      "geometry_owner": "../reference/旧场景几何基线.json",
+      "geometry_selection": "same62 object IDs/positions in separate scene namespace; only this boss actor, no shops/gathering/ordinary monsters",
+      "opened_collision_object_ids": [],
+      "requires_quest_objective": "this quest boss challenge active, not already defeated/delivered",
+      "time_limit": "explicitly_none",
+      "fees_silver": 0,
+      "fees_items": [],
+      "maximum_real_players": 1,
+      "npc_or_pet_companions_allowed": false,
+      "supports_blood_devil": false,
+      "victory_reward_profile": "reference exact monster reward and fixed_loot in 旧三地区怪物.v1.json, never duplicate values",
+      "quest_delivery_reward": "only later Cao turn-in, not included here"
+    },
+    {
+      "encounter_id": "story_boss_q005",
+      "quest_id": "Q005",
+      "monster_id": "frost_guardian",
+      "spawn_id": "frost_guardian_01",
+      "activity_map_id": "instance_story_boss_q005",
+      "public_entry_position_feet_m": [
+        0,
+        0,
+        -124
+      ],
+      "instance_player_spawn_feet_m": [
+        0,
+        0,
+        -130
+      ],
+      "return_anchor_id": "story_boss_q005_return",
+      "geometry_owner": "../reference/旧场景几何基线.json",
+      "geometry_selection": "same62 object IDs/positions in separate scene namespace; only this boss actor, no shops/gathering/ordinary monsters",
+      "opened_collision_object_ids": [],
+      "requires_quest_objective": "this quest boss challenge active, not already defeated/delivered",
+      "time_limit": "explicitly_none",
+      "fees_silver": 0,
+      "fees_items": [],
+      "maximum_real_players": 1,
+      "npc_or_pet_companions_allowed": false,
+      "supports_blood_devil": false,
+      "victory_reward_profile": "reference exact monster reward and fixed_loot in 旧三地区怪物.v1.json, never duplicate values",
+      "quest_delivery_reward": "only later Cao turn-in, not included here"
+    }
+  ]
+}

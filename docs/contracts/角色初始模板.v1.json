@@ -1,0 +1,2861 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "initial_templates_and_item_phase_design_not_implemented_not_full_progression",
+  "source_policy": "14武器攻击区间、3源首招威力/等级字段及药恢复量按原表保存；1级0转授予、其他属性/权限/费用/时序/伤害输入与11原创教学为项目采用，不宣称官网初始礼包。",
+  "references": {
+    "equipment": "../reference/武器装备参数.json",
+    "skills": "../reference/武功气功参数.json",
+    "consumables": "../reference/任务物品与消耗品.json"
+  },
+  "initial_state_profile": {
+    "id": "new_character_progress_zero",
+    "total_xp": 0,
+    "expected_level_for_validation_only": 1,
+    "completed_rank": 0,
+    "route": "unselected",
+    "practice": 0,
+    "ascension_progress": 0,
+    "unclaimed_heavenly_stones": 0,
+    "owned_qigong_points": 0,
+    "ascension_points": 0,
+    "covered_level": 1,
+    "level_award_spans": [],
+    "completed_quests": [],
+    "learned_manuals": [],
+    "training_gate_buffs": {"by_world": {}},
+    "training_gate_daily": {"by_world": {}},
+    "gems": {
+      "weapon": null,
+      "body": null,
+      "inner_armor": null,
+      "glove_a": null,
+      "glove_b": null,
+      "boots": null
+    },
+    "hp_mana_stamina": "full derived initial maxima after the two actual equipment grants; not persistent derived stat caches",
+    "special_resources": "explicit class profile initialization from 14/20 contracts; no shared mana fallback",
+    "random_state": "new independent per-character seed and zero consumption; no shared fixed drop sequence"
+  },
+  "equipment_layout_profile": {
+    "id": "two_empty_sets_14_slots",
+    "sets": {
+      "primary": {
+        "weapon": null,
+        "body": null,
+        "inner_armor": null,
+        "glove_a": null,
+        "glove_b": null,
+        "boots": null,
+        "necklace": null,
+        "earring_a": null,
+        "earring_b": null,
+        "ring_a": null,
+        "ring_b": null,
+        "cape": null,
+        "sect_uniform": null,
+        "decoration": null
+      },
+      "secondary": {
+        "weapon": null,
+        "body": null,
+        "inner_armor": null,
+        "glove_a": null,
+        "glove_b": null,
+        "boots": null,
+        "necklace": null,
+        "earring_a": null,
+        "earring_b": null,
+        "ring_a": null,
+        "ring_b": null,
+        "cape": null,
+        "sect_uniform": null,
+        "decoration": null
+      }
+    },
+    "selection_required": true,
+    "missing_profile_or_slot": "reject; never borrow sword template"
+  },
+  "item_profiles": {
+    "initial_regular_weapon": {
+      "kind": "weapon",
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "replacement_npc_id": "npc_daojianxiao",
+      "replacement_price": 100,
+      "replacement_stock": "unlimited_matching_class_only"
+    },
+    "hero_initial_seal": {
+      "kind": "weapon",
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "replacement_shop": "explicitly_none; unique initial instance preserved or used by a named class advancement recipe",
+      "permissions_evidence": "blood orb published restrictions retained; other five seals protected by project choice, not copied as official rules",
+      "unique_per_character_definition": true
+    },
+    "initial_common_clothing": {
+      "kind": "armor",
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "replacement_npc_id": "npc_daojianxiao",
+      "replacement_price": 50,
+      "replacement_stock": "unlimited"
+    },
+    "initial_recovery_consumable": {
+      "kind": "consumable",
+      "max_stack": 99,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": true,
+      "player_trade": false,
+      "replacement_npc_id": "npc_pingshizhi",
+      "use_quantity": 1,
+      "usable_in_combat_without_cancelling_action": true,
+      "requires_alive_and_map_permission": true,
+      "full_resource": "reject without consuming or starting cooldown",
+      "restore_over_missing_capacity": "apply missing amount only; never repair already-invalid HP/mana",
+      "item_cost_waived_by_blood_devil": false,
+      "hp_recovery_block": "when already blocked, reject HP potion without consume/cooldown; mana potion unaffected by HP-only recovery block",
+      "use_location": "real_consumable_bag_only_not_warehouse",
+      "hotbar_stack_selection": "binding chooses definition; select eligible real stack by stable ID before use. An explicit stale stack request never switches to another stack."
+    }
+  },
+  "providers": [
+    {
+      "project_npc_id": "npc_daojianxiao",
+      "source_reference_id": "NREF-40139-004"
+    },
+    {
+      "project_npc_id": "npc_pingshizhi",
+      "source_reference_id": "NREF-40139-005"
+    }
+  ],
+  "damage_input_policy": "snapshot unified final attack min/max at accepted action (already includes weapon, growth/equipment/passive/rage/weakening and explicit training-gate attack multiplier before final override); per valid hit ordinal draw in that interval, add flat power, multiply/floor phase coefficient; later hit-time damage bonuses/crit/defense/shield still follow full combat contract. Never roll/add weapon or training multiplier again, or average its range.",
+  "basic_combo_policy": {
+    "stage_count": 3,
+    "one_request_one_stage": true,
+    "same_request_replay_advances_stage": false,
+    "recovery_input_buffer_steps": 12,
+    "next_stage_deadline_after_recovery_steps": 60,
+    "missing_next_input": "reset_to_stage_one",
+    "no_automatic_three_hits_from_one_request": true
+  },
+  "attack_execution_policy": "model -Z forward; primary hostile selected before payment, facing locked for windup; extra targets by declared shape; hit ledger keyed action/target/hit ordinal; derived proc limits still per action/target as 20 contract. Projectiles fly straight and hit first hostile or solid obstacle, allies do not take damage; interception never changes original primary target. Cast failure never retargets/refunds. Target count is per hit ordinal. Within a valid melee/sound shape, keep original primary first if actually eligible, then distance/id extras; other real collisions never rewrite primary ID.",
+  "gathering": {
+    "input": "normal attack intent explicitly targeting a gatherable plant",
+    "range_mm": 2000,
+    "hits_per_bamboo": 3,
+    "handler": "near_collecting_tool_swing",
+    "requires_facing_and_line_of_sight": true,
+    "launches_combat_projectile": false,
+    "skill_cast_collects": false,
+    "tool_is_inventory_item": false,
+    "tool_presentation_ref": "dev_role_collecting_knife",
+    "note": "intrinsic role tool presentation, no equipment replacement or hidden stat; distant ranged weapon attacks never collect bamboo",
+    "windup_steps": 12,
+    "active_steps": 1,
+    "recovery_steps": 23,
+    "cooldown_steps": 36,
+    "hp_cost": 0,
+    "mana_cost": 0,
+    "stamina_cost": 0,
+    "dispatch_before_combat_weapon_check": true,
+    "auto_target_policy": "valid explicit gather target first; without explicit target and no hostile in near attack cone, choose nearest eligible plant within 2m by distance/id before action. Never use this for stale/unknown explicit IDs.",
+    "generates_combat_resource_procs": false
+  },
+  "teaching_progression_policy": {
+    "scope_ability_ids": [
+      "teaching_blade_first",
+      "teaching_sword_first",
+      "teaching_spear_first",
+      "teaching_physician_first",
+      "teaching_archer_first",
+      "teaching_assassin_first",
+      "teaching_musician_first",
+      "teaching_fighter_first",
+      "teaching_mei_liuzhen_first",
+      "teaching_lu_fenglang_first",
+      "teaching_dongling_shennv_first"
+    ],
+    "maximum_phase": 1,
+    "expiration_level": null,
+    "expiration_rank": null,
+    "growth_input": "existing accepted-action final attack interval and explicitly applicable named modifiers; never multiply again by character level or rank",
+    "phase_upgrade": "reject phase greater than 1; no teaching upgrade item, silver or practice cost",
+    "official_skill_transition": "learn each official ability under its own explicit conditions; no automatic grant, replacement, phase transfer or refund",
+    "skill_bar_transition": "retain existing bindings; player may replace slots explicitly; removing a binding never forgets the ability",
+    "weapon_transition": "check required_weapon_family against the active weapon definition, not its initial item ID; compatible higher-tier weapon allowed",
+    "missing_official_definition": "reject export or request for that official ability; never substitute a teaching ability",
+    "source_backed_initial_abilities": "excluded from this policy; their full phase graphs must be adopted separately",
+    "balance_status": "retention ensures an explicit usable basic kit, not proof of level 1-79 balance or completed progression"
+  },
+  "creation_atomicity": "validate full class/template/items/skills/layout/birth-anchor first; generate role and unique instances once per creation request; initial pack and learned phases committed with role; save retry never re-grants. Tutorial skip does not delete/regrant pack or complete story quests. Existing saves, import, respawn, NPC spawning and character switching never execute this creation grant again.",
+  "scope_note": "No level-ten armor/rank-one weapons, rare cloak, gems, manuals, advancement rewards or six sealed-weapon duplicates. Initial templates do not close all 1-79 adaptations, full active phases, level-ten/route equipment progression or birth/world/presentation bindings.",
+  "items": [
+    {
+      "item_id": "weapon_blade_straight",
+      "profile_id": "initial_regular_weapon",
+      "name": "直刀",
+      "class_id": "blade",
+      "weapon_family": "blade",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 1200,
+      "stats": {
+        "weapon_attack_min": 8,
+        "weapon_attack_max": 12
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": false,
+      "source_table_index": 0,
+      "source_row_index": 0,
+      "source_row_sha256": "704e143c27009ddff0654d363655999745c059495ffaba626d41369de9bfa8a3",
+      "source_level_token": "通用",
+      "source_advancement_token": null,
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_blade",
+      "initial_instance_profile": "ordinary_initial_equipment"
+    },
+    {
+      "item_id": "weapon_sword_wood",
+      "profile_id": "initial_regular_weapon",
+      "name": "木剑",
+      "class_id": "sword",
+      "weapon_family": "sword",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 900,
+      "stats": {
+        "weapon_attack_min": 10,
+        "weapon_attack_max": 15
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": false,
+      "source_table_index": 1,
+      "source_row_index": 0,
+      "source_row_sha256": "4cbafcafbada22cdc9349d3fff4022536c1cf9043f34b81592079aa9e91efe8e",
+      "source_level_token": "通用",
+      "source_advancement_token": null,
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_sword",
+      "initial_instance_profile": "ordinary_initial_equipment"
+    },
+    {
+      "item_id": "weapon_spear_wood",
+      "profile_id": "initial_regular_weapon",
+      "name": "木枪",
+      "class_id": "spear",
+      "weapon_family": "spear",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 2000,
+      "stats": {
+        "weapon_attack_min": 12,
+        "weapon_attack_max": 18
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": false,
+      "source_table_index": 3,
+      "source_row_index": 0,
+      "source_row_sha256": "60eb3a30f7b153e58b234b025dc9ed1c1034135523a17f247f6fe3e37358f211",
+      "source_level_token": "通用",
+      "source_advancement_token": null,
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_spear",
+      "initial_instance_profile": "ordinary_initial_equipment"
+    },
+    {
+      "item_id": "weapon_staff_wood",
+      "profile_id": "initial_regular_weapon",
+      "name": "木杖",
+      "class_id": "physician",
+      "weapon_family": "staff",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 1000,
+      "stats": {
+        "weapon_attack_min": 8,
+        "weapon_attack_max": 10
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": false,
+      "source_table_index": 5,
+      "source_row_index": 0,
+      "source_row_sha256": "edd97d913a379db1075fe3adba2f6ae2923f2d0f3a07f12d9610ef216f3b32b7",
+      "source_level_token": "通用",
+      "source_advancement_token": null,
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_staff",
+      "initial_instance_profile": "ordinary_initial_equipment"
+    },
+    {
+      "item_id": "weapon_bow_bamboo",
+      "profile_id": "initial_regular_weapon",
+      "name": "竹弓",
+      "class_id": "archer",
+      "weapon_family": "bow",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 700,
+      "stats": {
+        "weapon_attack_min": 11,
+        "weapon_attack_max": 16
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": false,
+      "source_table_index": 4,
+      "source_row_index": 0,
+      "source_row_sha256": "894f02ca354024e1b24204a946b529afb2091fda5e28ca7f04a1c8a4e20e49cf",
+      "source_level_token": "通用",
+      "source_advancement_token": null,
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_bow",
+      "initial_instance_profile": "ordinary_initial_equipment"
+    },
+    {
+      "item_id": "weapon_short_blade",
+      "profile_id": "initial_regular_weapon",
+      "name": "短刃",
+      "class_id": "assassin",
+      "weapon_family": "dual_blade",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 600,
+      "stats": {
+        "weapon_attack_min": 9,
+        "weapon_attack_max": 13
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": false,
+      "source_table_index": 2,
+      "source_row_index": 0,
+      "source_row_sha256": "1b0e337b74697987286e4d4d85c8075a4faaab3a043660e293afaadd3aa45b78",
+      "source_level_token": "通用",
+      "source_advancement_token": null,
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_dual_blade",
+      "initial_instance_profile": "ordinary_initial_equipment"
+    },
+    {
+      "item_id": "weapon_zither_nameless",
+      "profile_id": "initial_regular_weapon",
+      "name": "无名玄琴",
+      "class_id": "musician",
+      "weapon_family": "zither",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 1500,
+      "stats": {
+        "weapon_attack_min": 10,
+        "weapon_attack_max": 15
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": false,
+      "source_table_index": 6,
+      "source_row_index": 0,
+      "source_row_sha256": "903259ff4683dca648ad9696003a9fbf3ed3bb31b45899b046949f7dcf8537c0",
+      "source_level_token": "通用",
+      "source_advancement_token": null,
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_zither",
+      "initial_instance_profile": "ordinary_initial_equipment"
+    },
+    {
+      "item_id": "weapon_gauntlets_black_leather",
+      "profile_id": "initial_regular_weapon",
+      "name": "黑皮手套",
+      "class_id": "fighter",
+      "weapon_family": "gauntlets",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 400,
+      "stats": {
+        "weapon_attack_min": 12,
+        "weapon_attack_max": 20
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": false,
+      "source_table_index": 7,
+      "source_row_index": 0,
+      "source_row_sha256": "4a67253eaa9856d05fe31e27853f23b6b98fe901389f3816fac3cace0dd6d476",
+      "source_level_token": "1",
+      "source_advancement_token": null,
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_gauntlets",
+      "initial_instance_profile": "ordinary_initial_equipment"
+    },
+    {
+      "item_id": "weapon_fire_dragon_sealed",
+      "profile_id": "hero_initial_seal",
+      "name": "火龙刀(封印)",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 1800,
+      "stats": {
+        "weapon_attack_min": 16,
+        "weapon_attack_max": 30
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "source_table_index": 9,
+      "source_row_index": 0,
+      "source_row_sha256": "e56aed28edaa4e587d6df71597c7cd3c1c6078fa6a5e2101d8653471bc148a0e",
+      "source_level_token": "1",
+      "source_advancement_token": null,
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "initial_instance_profile": "hero_sealed_equipment"
+    },
+    {
+      "item_id": "weapon_flower_sword_sealed",
+      "profile_id": "hero_initial_seal",
+      "name": "伏魔花灵剑（封印）",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 1000,
+      "stats": {
+        "weapon_attack_min": 15,
+        "weapon_attack_max": 29
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "source_table_index": 10,
+      "source_row_index": 0,
+      "source_row_sha256": "0f20478082405cad3dff23e2c3e5c3ea7eb86866a5078784d67ae0c4364156fd",
+      "source_level_token": "无",
+      "source_advancement_token": null,
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_flower_sword",
+      "initial_instance_profile": "hero_sealed_equipment"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_sealed",
+      "profile_id": "hero_initial_seal",
+      "name": "玄武破天弓（封印）",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 900,
+      "stats": {
+        "weapon_attack_min": 14,
+        "weapon_attack_max": 20
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "source_table_index": 11,
+      "source_row_index": 0,
+      "source_row_sha256": "6044ad9b1f6d79f02f180cd25d111700223355c71cfedd89efb9ab7297ae6286",
+      "source_level_token": "无",
+      "source_advancement_token": "封印",
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "initial_instance_profile": "hero_sealed_equipment"
+    },
+    {
+      "item_id": "weapon_soul_spear_sealed",
+      "profile_id": "hero_initial_seal",
+      "name": "追魂五星枪（封印）",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 1800,
+      "stats": {
+        "weapon_attack_min": 15,
+        "weapon_attack_max": 27
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "source_table_index": 12,
+      "source_row_index": 0,
+      "source_row_sha256": "cd95c8c97397148a506985bd844fe90c9cfc99f0e93f0b4ab0cd3f7dd6c3939b",
+      "source_level_token": "无",
+      "source_advancement_token": "封印",
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_soul_spear",
+      "initial_instance_profile": "hero_sealed_equipment"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_sealed",
+      "profile_id": "hero_initial_seal",
+      "name": "寒玉神杖（封印）",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 1000,
+      "stats": {
+        "weapon_attack_min": 15,
+        "weapon_attack_max": 27
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "source_table_index": 13,
+      "source_row_index": 0,
+      "source_row_sha256": "ff0cc2dba5673963a96ee29b55d3d35081f92432b25aea122eb31f548c511fba",
+      "source_level_token": "无",
+      "source_advancement_token": "封印",
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "initial_instance_profile": "hero_sealed_equipment"
+    },
+    {
+      "item_id": "weapon_blood_orb_sealed",
+      "profile_id": "hero_initial_seal",
+      "name": "血雨丸(封印)(甄凤柏)",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "slot": "weapon",
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 200,
+      "stats": {
+        "weapon_attack_min": 14,
+        "weapon_attack_max": 23
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "source_table_index": 8,
+      "source_row_index": 0,
+      "source_row_sha256": "33c2ab8cf4ce7b6f2d9ac6a4fa2822fa49a592b7cb189f3ddbb3e039a77745dd",
+      "source_level_token": "1",
+      "source_advancement_token": "封印",
+      "project_requirements_note": "1级0转采用，通用/无/封印原标签不改为官方数字门槛；武器推进与角色晋级分开。",
+      "presentation_ref": "dev_weapon_blood_orb",
+      "initial_instance_profile": "hero_sealed_equipment"
+    },
+    {
+      "item_id": "armor_apprentice_shirt",
+      "profile_id": "initial_common_clothing",
+      "name": "见习短衫",
+      "slot": "body",
+      "allowed_classes": [
+        "blade",
+        "sword",
+        "spear",
+        "physician",
+        "archer",
+        "assassin",
+        "musician",
+        "fighter",
+        "han_feiguan",
+        "tan_hualing",
+        "mei_liuzhen",
+        "lu_fenglang",
+        "dongling_shennv",
+        "zhen_fengbai"
+      ],
+      "minimum_level": 1,
+      "minimum_rank": 0,
+      "weight_g": 500,
+      "stats": {
+        "defense": 2
+      },
+      "enhancement_limit": 0,
+      "generic_growth_modes": [],
+      "origin": "project level-one clothing; never downgrade published level-ten class armor",
+      "presentation_ref": "dev_apprentice_shirt_body_variants",
+      "initial_instance_profile": "ordinary_initial_equipment"
+    },
+    {
+      "item_id": "consumable_hp_small",
+      "profile_id": "initial_recovery_consumable",
+      "name": "金创药（小）",
+      "source_item_reference": "IREF-39806-001",
+      "restore_resource": "hp",
+      "flat_restore": 70,
+      "minimum_level": 1,
+      "cooldown_group": "hp_restore",
+      "cooldown_steps": 180,
+      "weight_g": 10,
+      "buy_price": 20,
+      "sell_price": 5,
+      "buyback_allowed": false
+    },
+    {
+      "item_id": "consumable_mana_ginseng",
+      "profile_id": "initial_recovery_consumable",
+      "name": "人参",
+      "source_item_reference": "IREF-39806-004",
+      "restore_resource": "mana",
+      "flat_restore": 70,
+      "minimum_level": 1,
+      "cooldown_group": "mana_restore",
+      "cooldown_steps": 180,
+      "weight_g": 10,
+      "buy_price": 20,
+      "sell_price": 5,
+      "buyback_allowed": false
+    }
+  ],
+  "basic_attack_profiles": [
+    {
+      "basic_profile_id": "basic_blade",
+      "class_id": "blade",
+      "weapon_family": "blade",
+      "handler": "melee_single",
+      "range_mm": 2200,
+      "projectile_speed_mm_per_second": 0,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_blade",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "arc_degrees": 90,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_sword",
+      "class_id": "sword",
+      "weapon_family": "sword",
+      "handler": "melee_single",
+      "range_mm": 2200,
+      "projectile_speed_mm_per_second": 0,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 17,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 17,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 17,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_sword",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "arc_degrees": 90,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_spear",
+      "class_id": "spear",
+      "weapon_family": "spear",
+      "handler": "melee_single",
+      "range_mm": 3000,
+      "projectile_speed_mm_per_second": 0,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_spear",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "arc_degrees": 90,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_physician",
+      "class_id": "physician",
+      "weapon_family": "staff",
+      "handler": "projectile",
+      "range_mm": 12000,
+      "projectile_speed_mm_per_second": 12000,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_physician",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "maximum_projectile_steps": 60,
+      "projectile_radius_mm": 100,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_archer",
+      "class_id": "archer",
+      "weapon_family": "bow",
+      "handler": "projectile",
+      "range_mm": 18000,
+      "projectile_speed_mm_per_second": 16000,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_archer",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "maximum_projectile_steps": 68,
+      "projectile_radius_mm": 100,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_assassin",
+      "class_id": "assassin",
+      "weapon_family": "dual_blade",
+      "handler": "melee_single",
+      "range_mm": 1800,
+      "projectile_speed_mm_per_second": 0,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 10,
+          "active_steps": 1,
+          "recovery_steps": 13,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 10,
+          "active_steps": 1,
+          "recovery_steps": 13,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 10,
+          "active_steps": 1,
+          "recovery_steps": 13,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_assassin",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "arc_degrees": 90,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_musician",
+      "class_id": "musician",
+      "weapon_family": "zither",
+      "handler": "projectile",
+      "range_mm": 10000,
+      "projectile_speed_mm_per_second": 12000,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_musician",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "maximum_projectile_steps": 50,
+      "projectile_radius_mm": 100,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_fighter",
+      "class_id": "fighter",
+      "weapon_family": "gauntlets",
+      "handler": "melee_single",
+      "range_mm": 1700,
+      "projectile_speed_mm_per_second": 0,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 10,
+          "active_steps": 1,
+          "recovery_steps": 13,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 10,
+          "active_steps": 1,
+          "recovery_steps": 13,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 10,
+          "active_steps": 1,
+          "recovery_steps": 13,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_fighter",
+      "source_motion_refs": [
+        {
+          "source_table_index": 19,
+          "source_row_index": 0,
+          "source_row_sha256": "5132359de3c19db6354423b778bf254371f5d1872a7c0be6be59ee5be6ca946e"
+        },
+        {
+          "source_table_index": 19,
+          "source_row_index": 1,
+          "source_row_sha256": "9b1284e0c3dcc6a35bacb4c042bb3a0da2f8404672a4a83b333c4b7897736333"
+        }
+      ],
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "arc_degrees": 90,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_han_feiguan",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "handler": "melee_single",
+      "range_mm": 2500,
+      "projectile_speed_mm_per_second": 0,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_han_feiguan",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "arc_degrees": 90,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_tan_hualing",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "handler": "melee_single",
+      "range_mm": 2200,
+      "projectile_speed_mm_per_second": 0,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 17,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 17,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 17,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_tan_hualing",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "arc_degrees": 90,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_mei_liuzhen",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "handler": "projectile",
+      "range_mm": 18000,
+      "projectile_speed_mm_per_second": 18000,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_mei_liuzhen",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "maximum_projectile_steps": 60,
+      "projectile_radius_mm": 100,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_lu_fenglang",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "handler": "melee_single",
+      "range_mm": 3000,
+      "projectile_speed_mm_per_second": 0,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 21,
+          "active_steps": 1,
+          "recovery_steps": 26,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 21,
+          "active_steps": 1,
+          "recovery_steps": 26,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 21,
+          "active_steps": 1,
+          "recovery_steps": 26,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_lu_fenglang",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "arc_degrees": 90,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_dongling_shennv",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "handler": "projectile",
+      "range_mm": 14000,
+      "projectile_speed_mm_per_second": 12000,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_dongling_shennv",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "maximum_projectile_steps": 70,
+      "projectile_radius_mm": 100,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    },
+    {
+      "basic_profile_id": "basic_zhen_fengbai",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "handler": "projectile",
+      "range_mm": 16000,
+      "projectile_speed_mm_per_second": 20000,
+      "mana_cost": 0,
+      "hp_cost": 0,
+      "ammo_cost": 0,
+      "combo_stages": [
+        {
+          "stage": 1,
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 17,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 2,
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 17,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 10000
+        },
+        {
+          "stage": 3,
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 17,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "attack_multiplier_bp": 12000
+        }
+      ],
+      "presentation_ref": "dev_basic_zhen_fengbai",
+      "targeting": "optional explicit primary; otherwise directional attack, never invent target IDs; stale explicit target rejects",
+      "maximum_projectile_steps": 48,
+      "projectile_radius_mm": 100,
+      "attack_category": "normal_attack",
+      "maximum_targets_per_hit": 1
+    }
+  ],
+  "active_ability_definitions": [
+    {
+      "ability_id": "teaching_blade_first",
+      "class_id": "blade",
+      "name": "破势试斩",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "melee_cone",
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 8,
+          "attack_multiplier_per_hit_bp": 11000,
+          "range_mm": 2200,
+          "mana_cost": 4,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 60,
+          "required_weapon_family": "blade",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 0,
+          "arc_degrees": 90,
+          "vertical_hit_height_mm": 2000,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 2,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "area",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_blade"
+    },
+    {
+      "ability_id": "teaching_sword_first",
+      "class_id": "sword",
+      "name": "引剑式",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "melee_line",
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 4,
+          "attack_multiplier_per_hit_bp": 12000,
+          "range_mm": 2200,
+          "mana_cost": 3,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 48,
+          "required_weapon_family": "sword",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 0,
+          "width_mm": 600,
+          "vertical_hit_height_mm": 2000,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_sword"
+    },
+    {
+      "ability_id": "teaching_spear_first",
+      "class_id": "spear",
+      "name": "探锋势",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "melee_line",
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 35,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 6,
+          "attack_multiplier_per_hit_bp": 11000,
+          "range_mm": 3000,
+          "mana_cost": 4,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 72,
+          "required_weapon_family": "spear",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 0,
+          "width_mm": 600,
+          "vertical_hit_height_mm": 2000,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 2,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "area",
+          "base_secondary_damage_bp": 5000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_spear"
+    },
+    {
+      "ability_id": "teaching_physician_first",
+      "class_id": "physician",
+      "name": "凝息弹",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "projectile",
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 8,
+          "attack_multiplier_per_hit_bp": 9000,
+          "range_mm": 12000,
+          "mana_cost": 4,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 72,
+          "required_weapon_family": "staff",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 12000,
+          "maximum_projectile_steps": 60,
+          "projectile_radius_mm": 100,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_physician"
+    },
+    {
+      "ability_id": "teaching_archer_first",
+      "class_id": "archer",
+      "name": "校弦一矢",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "projectile",
+          "windup_steps": 18,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 5,
+          "attack_multiplier_per_hit_bp": 11000,
+          "range_mm": 18000,
+          "mana_cost": 4,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 60,
+          "required_weapon_family": "bow",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 16000,
+          "maximum_projectile_steps": 68,
+          "projectile_radius_mm": 100,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_archer"
+    },
+    {
+      "ability_id": "teaching_assassin_first",
+      "class_id": "assassin",
+      "name": "双刃试锋",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "melee_combo",
+          "windup_steps": 12,
+          "active_steps": 13,
+          "recovery_steps": 17,
+          "hit_offsets_in_active_steps": [
+            0,
+            6,
+            12
+          ],
+          "flat_power_per_hit": 0,
+          "attack_multiplier_per_hit_bp": 6000,
+          "range_mm": 1800,
+          "mana_cost": 4,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 60,
+          "required_weapon_family": "dual_blade",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 0,
+          "width_mm": 500,
+          "vertical_hit_height_mm": 2000,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": true,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_assassin"
+    },
+    {
+      "ability_id": "teaching_musician_first",
+      "class_id": "musician",
+      "name": "清弦试音",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "sound_cone",
+          "windup_steps": 30,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 8,
+          "attack_multiplier_per_hit_bp": 10000,
+          "range_mm": 4500,
+          "mana_cost": 6,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 90,
+          "required_weapon_family": "zither",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 0,
+          "arc_degrees": 140,
+          "vertical_hit_height_mm": 2000,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 2,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "area",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_musician"
+    },
+    {
+      "ability_id": "teaching_fighter_first",
+      "class_id": "fighter",
+      "name": "入门拳脚",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "melee_combo",
+          "windup_steps": 12,
+          "active_steps": 7,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0,
+            6
+          ],
+          "flat_power_per_hit": 0,
+          "attack_multiplier_per_hit_bp": 9000,
+          "range_mm": 1700,
+          "mana_cost": 4,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 60,
+          "required_weapon_family": "gauntlets",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 0,
+          "width_mm": 500,
+          "vertical_hit_height_mm": 2000,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": true,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_fighter"
+    },
+    {
+      "ability_id": "ability_han_magic_dragon_cut",
+      "class_id": "han_feiguan",
+      "name": "魔龙斩",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "melee_cone",
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 70,
+          "attack_multiplier_per_hit_bp": 10000,
+          "range_mm": 2500,
+          "mana_cost": 6,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 90,
+          "required_weapon_family": "fire_dragon_blade",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 0,
+          "arc_degrees": 90,
+          "vertical_hit_height_mm": 2000,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "published_name_level_power_with_project_gift_and_cast_parameters",
+      "phase_scope": "creation and phase1 remain owned here; same ability ID project phases2..10 owned by英雄普通武功.v1.json, not claimed official phase table",
+      "presentation_ref": "dev_teaching_han_feiguan",
+      "source_ref": {
+        "source_table_index": 21,
+        "source_row_index": 0,
+        "source_row_sha256": "88fbd53a80bc6450d3861f5c10ce2e5fa58133a637c0326e1235f72b3fc96930"
+      }
+    },
+    {
+      "ability_id": "ability_tan_seven_star_stab",
+      "class_id": "tan_hualing",
+      "name": "七星发破",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "melee_line",
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 31,
+          "attack_multiplier_per_hit_bp": 10000,
+          "range_mm": 2200,
+          "mana_cost": 3,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 60,
+          "required_weapon_family": "flower_sword",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 0,
+          "width_mm": 600,
+          "vertical_hit_height_mm": 2000,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "published_name_level_power_with_project_gift_and_cast_parameters",
+      "phase_scope": "creation and phase1 remain owned here; same ability ID project phases2..10 owned by英雄普通武功.v1.json, not claimed official phase table",
+      "presentation_ref": "dev_teaching_tan_hualing",
+      "source_ref": {
+        "source_table_index": 23,
+        "source_row_index": 0,
+        "source_row_sha256": "286b3232c296a781fa248fc3b19fbc331b9641d8cdfb172db033bce185e9fb2d"
+      }
+    },
+    {
+      "ability_id": "teaching_mei_liuzhen_first",
+      "class_id": "mei_liuzhen",
+      "name": "玄武试射",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "projectile",
+          "windup_steps": 18,
+          "active_steps": 7,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0,
+            6
+          ],
+          "flat_power_per_hit": 8,
+          "attack_multiplier_per_hit_bp": 6500,
+          "range_mm": 18000,
+          "mana_cost": 5,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 72,
+          "required_weapon_family": "black_tortoise_bow",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 18000,
+          "maximum_projectile_steps": 60,
+          "projectile_radius_mm": 100,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_mei_liuzhen"
+    },
+    {
+      "ability_id": "teaching_lu_fenglang_first",
+      "class_id": "lu_fenglang",
+      "name": "追魂探锋",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "melee_line",
+          "windup_steps": 21,
+          "active_steps": 1,
+          "recovery_steps": 26,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 6,
+          "attack_multiplier_per_hit_bp": 11500,
+          "range_mm": 3000,
+          "mana_cost": 4,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 60,
+          "required_weapon_family": "soul_spear",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 0,
+          "width_mm": 600,
+          "vertical_hit_height_mm": 2000,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_lu_fenglang"
+    },
+    {
+      "ability_id": "teaching_dongling_shennv_first",
+      "class_id": "dongling_shennv",
+      "name": "凝霜点",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "projectile",
+          "windup_steps": 24,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 10,
+          "attack_multiplier_per_hit_bp": 10000,
+          "range_mm": 14000,
+          "mana_cost": 4,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 72,
+          "required_weapon_family": "cold_jade_staff",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 12000,
+          "maximum_projectile_steps": 70,
+          "projectile_radius_mm": 100,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "original_low_level_teaching_not_official_skill",
+      "phase_scope": "project teaching skill single phase; never replaces full official tree",
+      "presentation_ref": "dev_teaching_dongling_shennv"
+    },
+    {
+      "ability_id": "ability_zhen_blood_rain_shot",
+      "class_id": "zhen_fengbai",
+      "name": "血雨弹",
+      "initial_phase": 1,
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "projectile",
+          "windup_steps": 12,
+          "active_steps": 1,
+          "recovery_steps": 23,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_power_per_hit": 80,
+          "attack_multiplier_per_hit_bp": 10000,
+          "range_mm": 16000,
+          "mana_cost": 3,
+          "stamina_cost": 0,
+          "hp_cost_profile": "blood_attack_300bp",
+          "cooldown_steps": 90,
+          "required_weapon_family": "blood_orb",
+          "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+          "projectile_speed_mm_per_second": 20000,
+          "maximum_projectile_steps": 48,
+          "projectile_radius_mm": 100,
+          "attack_category": "attack_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": false,
+          "power_modifier_owner_file": "武功威力气功采用.v1.json",
+          "finishing_martial": false,
+          "critical_allowed": true,
+          "native_target_kind": "single",
+          "base_secondary_damage_bp": 10000
+        }
+      ],
+      "origin": "published_name_level_power_with_project_gift_and_cast_parameters",
+      "phase_scope": "creation and phase1 remain owned here; same ability ID project phases2..10 owned by英雄普通武功.v1.json, not claimed official phase table",
+      "presentation_ref": "dev_teaching_zhen_fengbai",
+      "source_ref": {
+        "source_table_index": 32,
+        "source_row_index": 0,
+        "source_row_sha256": "82486a440900550703b3c22954ae2ea85e2949cd24afac661213572a88cde87d"
+      }
+    },
+    {
+      "ability_id": "ability_physician_breath_heal",
+      "class_id": "physician",
+      "name": "运气疗伤",
+      "initial_phase": 1,
+      "origin": "published_level_one_auxiliary_skill; initial learned state and recovery/cast values are project choices",
+      "source_ref": {
+        "source_table_index": 54,
+        "source_row_index": 0,
+        "source_row_sha256": "cdd42f18d45f925d19cf5f1f949b157e139bb27758981852d5b8f509f8e6d2db"
+      },
+      "adopted_phases": [
+        {
+          "phase": 1,
+          "minimum_level": 1,
+          "minimum_rank": 0,
+          "handler": "instant_ally_heal",
+          "windup_steps": 30,
+          "active_steps": 1,
+          "recovery_steps": 29,
+          "hit_offsets_in_active_steps": [
+            0
+          ],
+          "flat_hp_recovery": 30,
+          "mana_cost": 6,
+          "stamina_cost": 0,
+          "hp_cost_profile": "explicit_zero",
+          "cooldown_steps": 180,
+          "required_weapon_family": "staff",
+          "targeting": "self or current party member; explicit none means self, invalid explicit target never changes to self",
+          "healing_block_policy": "reject before payment when already blocked; block at effect time gives zero without refund",
+          "range_mm": 15000,
+          "requires_line_of_sight": true,
+          "attack_category": "recovery_martial_skill",
+          "maximum_targets_per_hit": 1,
+          "combo_skill": false,
+          "finishing_martial": false,
+          "critical_allowed": false,
+          "native_target_kind": "support"
+        }
+      ],
+      "phase_scope": "project single-phase recovery; other physician skills remain independent",
+      "presentation_ref": "dev_physician_breath_heal"
+    }
+  ],
+  "templates": [
+    {
+      "template_id": "new_blade",
+      "class_id": "blade",
+      "starting_weapon_id": "weapon_blade_straight",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "blade"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_blade_straight",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_blade",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_blade_first",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_blade_first",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_sword",
+      "class_id": "sword",
+      "starting_weapon_id": "weapon_sword_wood",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "sword"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_sword_wood",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_sword",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_sword_first",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_sword_first",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_spear",
+      "class_id": "spear",
+      "starting_weapon_id": "weapon_spear_wood",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "spear"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_spear_wood",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_spear",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_spear_first",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_spear_first",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_physician",
+      "class_id": "physician",
+      "starting_weapon_id": "weapon_staff_wood",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "physician"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_staff_wood",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_physician",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_physician_first",
+          "phase": 1
+        },
+        {
+          "ability_id": "ability_physician_breath_heal",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_physician_first",
+        "ability_physician_breath_heal",
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [
+        "local_wangmei_mana_response"
+      ],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_archer",
+      "class_id": "archer",
+      "starting_weapon_id": "weapon_bow_bamboo",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "archer"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_bow_bamboo",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_archer",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_archer_first",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_archer_first",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_assassin",
+      "class_id": "assassin",
+      "starting_weapon_id": "weapon_short_blade",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "assassin"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_short_blade",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_assassin",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_assassin_first",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_assassin_first",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_musician",
+      "class_id": "musician",
+      "starting_weapon_id": "weapon_zither_nameless",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "musician"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_zither_nameless",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_musician",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_musician_first",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_musician_first",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [
+        "local_guagu_cleanse_response"
+      ],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_fighter",
+      "class_id": "fighter",
+      "starting_weapon_id": "weapon_gauntlets_black_leather",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "fighter"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_gauntlets_black_leather",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_fighter",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_fighter_first",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_fighter_first",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_han_feiguan",
+      "class_id": "han_feiguan",
+      "starting_weapon_id": "weapon_fire_dragon_sealed",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "han_feiguan"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_fire_dragon_sealed",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_han_feiguan",
+      "learned_active_phases": [
+        {
+          "ability_id": "ability_han_magic_dragon_cut",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "ability_han_magic_dragon_cut",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_tan_hualing",
+      "class_id": "tan_hualing",
+      "starting_weapon_id": "weapon_flower_sword_sealed",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "tan_hualing"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_flower_sword_sealed",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_tan_hualing",
+      "learned_active_phases": [
+        {
+          "ability_id": "ability_tan_seven_star_stab",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "ability_tan_seven_star_stab",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_mei_liuzhen",
+      "class_id": "mei_liuzhen",
+      "starting_weapon_id": "weapon_black_tortoise_bow_sealed",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "mei_liuzhen"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_black_tortoise_bow_sealed",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_mei_liuzhen",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_mei_liuzhen_first",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_mei_liuzhen_first",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_lu_fenglang",
+      "class_id": "lu_fenglang",
+      "starting_weapon_id": "weapon_soul_spear_sealed",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "lu_fenglang"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_soul_spear_sealed",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_lu_fenglang",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_lu_fenglang_first",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_lu_fenglang_first",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_dongling_shennv",
+      "class_id": "dongling_shennv",
+      "starting_weapon_id": "weapon_cold_jade_staff_sealed",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "dongling_shennv"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_cold_jade_staff_sealed",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_dongling_shennv",
+      "learned_active_phases": [
+        {
+          "ability_id": "teaching_dongling_shennv_first",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "teaching_dongling_shennv_first",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [
+        "local_wangmei_mana_response"
+      ],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    },
+    {
+      "template_id": "new_zhen_fengbai",
+      "class_id": "zhen_fengbai",
+      "starting_weapon_id": "weapon_blood_orb_sealed",
+      "initial_state_profile": "new_character_progress_zero",
+      "base_growth_ref": {
+        "file": "职业基础成长.v1.json",
+        "class_id": "zhen_fengbai"
+      },
+      "birth_anchor_id": "story_workcamp_start",
+      "equipment_layout_profile": "two_empty_sets_14_slots",
+      "active_loadout_id": "primary",
+      "equipped_grants": [
+        {
+          "loadout_id": "primary",
+          "slot": "weapon",
+          "item_id": "weapon_blood_orb_sealed",
+          "quantity": 1
+        },
+        {
+          "loadout_id": "primary",
+          "slot": "body",
+          "item_id": "armor_apprentice_shirt",
+          "quantity": 1
+        }
+      ],
+      "bag_grants": [
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_mana_ginseng",
+          "quantity": 5
+        }
+      ],
+      "silver": 2000,
+      "basic_attack_profile_id": "basic_zhen_fengbai",
+      "learned_active_phases": [
+        {
+          "ability_id": "ability_zhen_blood_rain_shot",
+          "phase": 1
+        }
+      ],
+      "skill_bar": [
+        "ability_zhen_blood_rain_shot",
+        null,
+        null,
+        null
+      ],
+      "item_bar": [
+        "consumable_hp_small",
+        "consumable_mana_ginseng",
+        null
+      ],
+      "declared_innate_profiles": [],
+      "innate_profile_owner_file": "望梅与刮骨本地基础采用.v1.json"
+    }
+  ],
+  "source_file_hashes": {
+    "equipment": "661e06a358ed0a4c6acc5169eddbaa381e261f7b87d3e5a70545f2bca81b5a34",
+    "skills": "322e4611d236f6998a30436ee9ce1693e43f42fdd7b172565c01572390acea40",
+    "consumables": "05d0d2331031dbdcf9ffff743e1114da9b558d6cc5361c02003cdb07d4133e1e"
+  },
+  "reuse_item_identity_on_full_catalog_adoption": true,
+  "source_scope_note": "Published initial skill phase values are not a declaration of complete phase caps; the rest of those official families must keep the same chosen identities through full adoption. Original teaching skills are single-phase additions only.",
+  "initial_instance_profiles": {
+    "ordinary_initial_equipment": {
+      "enhancement": 0,
+      "synthesis_entries": [],
+      "awakening_stage": 0,
+      "element_attribute": null,
+      "evolution_tier": 0,
+      "true_equipment": false,
+      "merit_equipment": false
+    },
+    "hero_sealed_equipment": {
+      "enhancement": 0,
+      "synthesis_entries": [],
+      "awakening_stage": 0,
+      "element_attribute": null,
+      "evolution_tier": 0,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "exclusive_weapon_advancement_stage": 0
+    }
+  }
+}

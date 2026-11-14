@@ -1,0 +1,217 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "legacy_sect_design_not_implemented",
+  "source_files": {
+    "assets/config/gameplay.ron": "2194f3f319cd183371d75f42c687b1006bb9984bda9d8f2c3b39572c85a979af",
+    "assets/config/quests.ron": "b0608af0f13785dc781acb145815f6ca5fb5c2952039d677302ddc20f8eb2f71",
+    "src/gameplay/sect.rs": "0493153471b7360df37900d0cd1da789656cdc0626cec06dc2e710e7b8da78df",
+    "src/gameplay/progress.rs": "3581f320b95a22e04c882f70a1692b9cdf78c465673aff2859885a6bd114e84c"
+  },
+  "source_policy": "宗门旧等级/费用/效果/计数/奖励原值保留；新事务ID/日志及导入历史支出边界为明确项目设计。不是热血江湖官方门派规则。",
+  "sect_id": "liuli_sword_sect",
+  "service_npc_id": "npc_cao_bin",
+  "service_range_mm": 2500,
+  "requires_story_bound": true,
+  "class_requirement": "all14classes, story artifact binding not equipped sword",
+  "character_advancement_independent": true,
+  "ranks": [
+    {
+      "rank": 0,
+      "title": "杂役弟子",
+      "attack_bonus": 0,
+      "defense_bonus": 0
+    },
+    {
+      "rank": 1,
+      "title": "外门弟子",
+      "attack_bonus": 2,
+      "defense_bonus": 1
+    },
+    {
+      "rank": 2,
+      "title": "内门弟子",
+      "attack_bonus": 4,
+      "defense_bonus": 2
+    },
+    {
+      "rank": 3,
+      "title": "宗门执事",
+      "attack_bonus": 6,
+      "defense_bonus": 3
+    }
+  ],
+  "promotions": [
+    {
+      "from_rank": 0,
+      "to_rank": 1,
+      "minimum_level": 3,
+      "required_delivered_quest": "Q003",
+      "contribution_cost": 10
+    },
+    {
+      "from_rank": 1,
+      "to_rank": 2,
+      "minimum_level": 5,
+      "required_delivered_quest": "Q004",
+      "contribution_cost": 25
+    },
+    {
+      "from_rank": 2,
+      "to_rank": 3,
+      "minimum_level": 8,
+      "required_delivered_quest": "Q005",
+      "contribution_cost": 50
+    }
+  ],
+  "donation": {
+    "item_id": "linglong_bamboo",
+    "quantity": 3,
+    "contribution_reward": 2,
+    "mainline_reserve": "Q002active keeps3 in real bag; donation then requires6 carried; warehouse remote payment prohibited"
+  },
+  "commissions": [
+    {
+      "id": "sect_hunt_boar",
+      "counter": "adventure.boars_defeated",
+      "goal_per_round": 3,
+      "contribution_per_round": 3
+    },
+    {
+      "id": "sect_hunt_wolf",
+      "counter": "adventure.wolves_defeated",
+      "goal_per_round": 3,
+      "contribution_per_round": 4
+    },
+    {
+      "id": "sect_gather_bamboo",
+      "counter": "adventure.bamboo_harvested",
+      "goal_per_round": 3,
+      "contribution_per_round": 2
+    }
+  ],
+  "exchanges": [
+    {
+      "id": "sect_hp_potion",
+      "cost": 2,
+      "item_id": "consumable_hp_small",
+      "quantity": 1
+    },
+    {
+      "id": "sect_spirit_ore",
+      "cost": 4,
+      "item_id": "spirit_ore",
+      "quantity": 1
+    }
+  ],
+  "counter_policy": "preserve exact adventure lifetime counts, not journey valley/north counters. Every3 qualifies next explicit round; claim count never reset by scene/death. Same source counter may satisfy distinct explicitly named sect and old one-time commission rewards, each own receipt; no shared boolean.",
+  "one_time_outpost_commissions": [
+    {
+      "id": "outpost_boar",
+      "counter": "adventure.boars_defeated",
+      "goal": 3,
+      "silver": 5,
+      "xp": 40
+    },
+    {
+      "id": "outpost_wolf",
+      "counter": "adventure.wolves_defeated",
+      "goal": 3,
+      "silver": 8,
+      "xp": 60
+    },
+    {
+      "id": "outpost_bamboo",
+      "counter": "adventure.bamboo_harvested",
+      "goal": 6,
+      "silver": 5,
+      "xp": 40
+    }
+  ],
+  "ledger": {
+    "earned": "total actually received contribution, never decremented by costs",
+    "available": "current spendable contribution",
+    "promotion_spend": "10+25+50 prefix by actual rank",
+    "new_exchange_spend": "new explicit exchange receipts only",
+    "legacy_unclassified_spend": "at import earned-available-promotion prefix; must be >=0, preserve as historical opening spend without inventing previous potion/ore purchases",
+    "equation": "earned = available + promotion_spend + legacy_unclassified_spend + new_exchange_spend + explicit_other_recorded_spend; explicit configuration adjustments separately tagged",
+    "commission_history": "preserve exact original3claimed-round counters; do not recompute earned from kills because donation/history is not in old save",
+    "bad_ledger": "reject negative/contradictory source/overflow, never clamp/refund/replay reward"
+  },
+  "import_mapping": {
+    "old_sect_fields": [
+      "rank",
+      "contribution",
+      "earned",
+      "commissions_claimed"
+    ],
+    "new_sect_identity": "liuli_sword_sect independent of sword profession",
+    "old_adventure_fields": "preserve3counters and3one-time reward booleans separately",
+    "legacy_source_preconditions": "source bound stage if any nondefault sect; original old level and journey/story prerequisites verified before mapping",
+    "no_new_promotion": "rank preserved exactly, no auto promotion from converted level or earned",
+    "source_default_initialization": "schema1/2 old missing sect/adventure normalization uses only already specified version-specific defaults"
+  },
+  "transaction_policy": "alive/idle/out of combat/no active challenge,2.5m explicit service; quote stable action/rank/counter revision. Validate material/currency/output bag/weight before committing. Failed exchange leaves contribution and counters, repeated requests do not spend/earn twice; rank3 rejects further promotion. Shop sale does not create contribution.",
+  "open_dependencies": [
+    "imported target strict profile field mapping",
+    "runtime NPC services/ledger and save/fault tests",
+    "full project sect expansion beyond preserved3ranks not inferred from twelve character ranks"
+  ],
+  "event_source_mapping": [
+    {
+      "counter": "adventure.boars_defeated",
+      "event": "terminal_monster_death",
+      "exact_monster_id": "boar",
+      "excluded_examples": [
+        "valley_boar",
+        "valley_guardian"
+      ],
+      "increment": 1,
+      "recipient": "authoritative killing credit character; no implicit party share",
+      "stage_gate": "none; even prebinding kills count but claiming service still requires binding"
+    },
+    {
+      "counter": "adventure.wolves_defeated",
+      "event": "terminal_monster_death",
+      "exact_monster_id": "mountain_wolf",
+      "excluded_examples": [
+        "frost_wolf",
+        "frost_guardian"
+      ],
+      "increment": 1,
+      "recipient": "authoritative killing credit character; no implicit party share",
+      "stage_gate": "none"
+    },
+    {
+      "counter": "adventure.bamboo_harvested",
+      "event": "third_valid_gather_hit_fells_this_node_generation",
+      "exact_node_ids": [
+        "bamboo_01",
+        "bamboo_02",
+        "bamboo_03",
+        "bamboo_04",
+        "bamboo_05",
+        "bamboo_06"
+      ],
+      "increment": 1,
+      "recipient": "last accepted hit actor, same as fixed bamboo drop owner",
+      "excluded_events": [
+        "first_or_second_hit",
+        "ground_item_pickup",
+        "quest_delivery",
+        "donation",
+        "bamboo_respawn",
+        "decorative_bamboo",
+        "drop_replay"
+      ],
+      "stage_gate": "none; only actual valid gathering action"
+    }
+  ],
+  "event_receipt_policy": "counter increment and death/harvest result commit together with root/generation/action receipt. If0..max integer would overflow reject event/configuration before mutation, never legacy saturating_add. Do not rewalk source inventory to recompute harvested counters.",
+  "event_evidence": {
+    "source_path": "src/gameplay/combat.rs",
+    "source_file_sha256": "f24e74175e3b3050aaf34e49f6798d9f89b3b99b927281f254cb3f9ba2fa77fe",
+    "death_excerpt": "match kind.as_str(): boar -> boars_defeated; mountain_wolf -> wolves_defeated; all others unchanged",
+    "gather_excerpt": "increment bamboo_harvested only inside node.hits == rules.gathering.hits branch"
+  }
+}

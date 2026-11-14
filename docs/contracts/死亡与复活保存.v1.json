@@ -1,0 +1,56 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "schema5_life_cycle_design_not_implemented",
+  "source_policy": "新档项目生命周期规则，替换早期死亡等回城才保存的草案；旧schema1～4仍严格拒0HP，不把新规则倒用到坏旧档。",
+  "states": [
+    "active",
+    "awaiting_respawn"
+  ],
+  "validation": {
+    "active": "HP integer1..valid current max; pending_death null",
+    "awaiting_respawn": "HP exactly0; one valid pending_death record; all active command permissions off; no ticking battle entity for that character",
+    "missing_life_state": "reject new-schema record, never infer active from a positive number",
+    "conflict": "activeHP0 or awaiting_respawnHP>0/null death record rejected, no automatic heal/respawn"
+  },
+  "pending_death_fields": [
+    "death_event_id",
+    "cause_kind",
+    "source_actor_id_or_null",
+    "failed_activity_attempt_id_or_null",
+    "respawn_anchor_id",
+    "death_settlement_id"
+  ],
+  "death_event_id_unique": "within character committed revision chain; same lethal root cannot produce2death settlements",
+  "cause_kinds": [
+    "hostile_direct",
+    "hostile_status",
+    "environment",
+    "scripted_uninterceptable",
+    "blood_devil_failure",
+    "explicit_configuration",
+    "shield_break_penalty"
+  ],
+  "on_death": "first complete configured interception; if not intercepted atomically HP0+awaiting_respawn+death receipt+activity failure/resource effects. Cancel root input/accepted future attack emissions according to death rules, clear death-cleared chord/rage/shield/charge. Preserve actual inventory/XP/currency/quest/claim rights/cooldowns. Do not grant22pack or rewind paid items.",
+  "posthumous_effects": "only already committed standalone world status effects that owner contracts allow remain under persisted original source IDs; they cannot revive attacker or resume its cancelled action. Unemitted offensive child hits cancelled once. Source ID need not live node.",
+  "death_page": "no gameplay move/attack/skill/loot/shop; settings/chat/save allowed; explicit respawn choice. LAN other actors/world continue; offline death page pauses as modal. Save and return to selector do not silently respawn.",
+  "ordinary_save": "persist death fixed-step result and current final revision immediately when possible; prior ordinary save-waits-action requirement does not wait forever for a cancelled dead action. On failure retain old file and committed dead memory/unsaved indication, retry same receipt.",
+  "load_dead": "show same death page with same pending_death, no ordinary world avatar spawned and no new failure/reward; must explicitly respawn. No automatic activeHP=1/full fix.",
+  "respawn": "choose only the explicitly validated death context: ordinary death uses story_workcamp_start; registered training-room death uses its persisted training_gate_choice and explicit selected option owned by 修炼之门.v1.json. Preflight exact destination scene/pose/navigation/collision before changing life. Atomically pose+active+pending_death null+HP/mana/stamina at current validated maxima, special resources per14respawn rule, cooldowns unchanged. Append respawn receipt referencing same deathEvent; duplicate command returns original/no new heal.",
+  "respawn_fail": "unresolved/blocked destination or save journal failure keeps awaiting_respawn, never choose nearest valid point or another map. File save after successful business commit failure keeps original committed memory+unsaved semantics.",
+  "activity": "death failure closes current combat snapshot according to owner, retains attempts/fees/consumed resource/unique settlement. Pending loot from a different previously won encounter retained. LAN multiparty failure/exit follows activity contract, not room-wide reset.",
+  "configuration": "18center may explicitly modify life/HP together with linked activity/receipt preview, mark configured; normal HP heal of dead record cannot bypass life transition or count as resurrection skill.",
+  "conditional_pending_death_fields": {
+    "training_gate_choice": {
+      "owner_file": "修炼之门.v1.json",
+      "owner_pointer": "/death_choice",
+      "required_when": "death location is exactly one registered training room and no unrelated private activity",
+      "forbidden_when": "all other death contexts",
+      "respawn_anchor_id": "training_gate_hyunbo_return",
+      "pose_fields": ["room_map_id", "death_position_feet_m", "death_yaw_radians"],
+      "reject": "missing/mismatched context or invalid pose; never infer room mode from a display name"
+    }
+  },
+  "scope": "supports new schema5 one-role life component plus explicit training-room death choices; not whole-profile schema/runtime export. Future actual resurrection ability needs separate explicit cost/state transition, not regular healing.",
+  "shield_break_source_owner_file": "医师形移与云心护罩气功.v1.json; oneuninterceptablelinkedpenalty, notcastfee orfreeleave1HP"
+}

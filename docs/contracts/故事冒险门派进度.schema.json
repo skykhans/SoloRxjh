@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SoloRxjh retained story/adventure/sect progress v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "component_version": {
+      "const": 1
+    },
+    "story_stage": {
+      "enum": [
+        "report",
+        "take_sword",
+        "bind_sword",
+        "gathering",
+        "challenge",
+        "return_to_outpost",
+        "completed"
+      ]
+    },
+    "journey": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "enum": [
+            "valley_hunt",
+            "valley_boss",
+            "valley_report",
+            "north_hunt",
+            "north_boss",
+            "north_report",
+            "completed"
+          ]
+        },
+        "kills": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2,
+          "items": false
+        },
+        "repeat_claimed": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2,
+          "items": false
+        }
+      },
+      "required": [
+        "stage",
+        "kills",
+        "repeat_claimed"
+      ]
+    },
+    "adventure": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "boars_defeated": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "wolves_defeated": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "bamboo_harvested": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "commissions_claimed": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "minItems": 3,
+          "maxItems": 3,
+          "items": false
+        }
+      },
+      "required": [
+        "boars_defeated",
+        "wolves_defeated",
+        "bamboo_harvested",
+        "commissions_claimed"
+      ]
+    },
+    "sect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sect_id": {
+          "const": "liuli_sword_sect"
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "available": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "earned": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "legacy_opening_spend": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "new_exchange_spend": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "commissions_claimed": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          ],
+          "minItems": 3,
+          "maxItems": 3,
+          "items": false
+        }
+      },
+      "required": [
+        "sect_id",
+        "rank",
+        "available",
+        "earned",
+        "legacy_opening_spend",
+        "new_exchange_spend",
+        "commissions_claimed"
+      ]
+    }
+  },
+  "required": [
+    "component_version",
+    "story_stage",
+    "journey",
+    "adventure",
+    "sect"
+  ]
+}

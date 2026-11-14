@@ -1,0 +1,642 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "legacy_story_creature_design_not_implemented_not_full_world",
+  "source_archive": "../reference/旧三地区怪物基线.json",
+  "source_policy": "等级/生命/伤害/速度/经验/固定掉落/刷点/AI旧值保留。防御=等级2、命中=等级5、回避=等级2、普通历练=旧经验整除10为项目补值；明确独立奖励档不再叠14等级档。",
+  "ai": {
+    "sense_mm": 9000,
+    "leash_mm": 18000,
+    "normal_attack_range_mm": 1800,
+    "normal_windup_steps": 36,
+    "recovery_steps": 84,
+    "capsule_radius_mm": 450,
+    "capsule_height_mm": 1800,
+    "normal_arc_degrees": 120,
+    "boss_heavy_cooldown_steps": 480,
+    "boss_heavy_windup_steps": 72,
+    "boss_heavy_range_mm": 3000,
+    "boss_heavy_arc_degrees": 160,
+    "heavy_cooldown_first_attack": "ready at spawn; starts on accepted heavy windup",
+    "facing_locked_at_windup": true,
+    "hit_ordinals_per_attack": 1,
+    "attack_cost_hp_mana_stamina": 0,
+    "patrol_radius_mm": 2000,
+    "return_healing": "once actually at valid home, restore full health without rewards; no teleport on leash",
+    "multiplayer_target": "eligible living hostile outside safe zone, shortest reachable distance then stable ID; revalidate each decision; never target by client arrival order"
+  },
+  "respawn": {
+    "ordinary_wait_steps": 7200,
+    "exclusion_mm": 5000,
+    "exclusion_actors": "any connected living player strictly inside5m of home",
+    "blocked": "wait at zero without rewards/teleport",
+    "boss_policy": "no ordinary respawn; personal quest-stage projection and death-event receipt prevent repeated rewards",
+    "source_difference": "old ordinary30s deliberately changed to16合同120s; bamboo30s remains its own gather rule"
+  },
+  "loot_ownership": {
+    "ordinary": "19 kill-owner single real drop, no all-party copies",
+    "quest_boss": "one private personal quest encounter per eligible character/attempt; cannot use room-global absence to satisfy another role",
+    "claim": "real backpack pickup, full bag stays in scene; committed reward event never emits same drop IDs twice",
+    "save": "ordinary scene drops not persisted; warned before normal exit; already picked items preserved"
+  },
+  "additional_items": [
+    {
+      "item_id": "beast_hide",
+      "name": "兽皮",
+      "kind": "material",
+      "max_stack": 99,
+      "weight_g": 200,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": true,
+      "sell_price": 3,
+      "buyback": false,
+      "player_trade": false,
+      "buy_from_npc": false
+    },
+    {
+      "item_id": "wolf_fang",
+      "name": "狼牙",
+      "kind": "material",
+      "max_stack": 99,
+      "weight_g": 50,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": true,
+      "sell_price": 4,
+      "buyback": false,
+      "player_trade": false,
+      "buy_from_npc": false
+    }
+  ],
+  "monsters": [
+    {
+      "monster_id": "boar",
+      "name": "野猪",
+      "level": 1,
+      "boss": false,
+      "max_hp": 55,
+      "max_mana": 0,
+      "attack_min": 8,
+      "attack_max": 8,
+      "ordinary_defense": 2,
+      "accuracy": 5,
+      "evasion": 2,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 2400,
+      "is_npc_martial": false,
+      "rage_enabled": false,
+      "qigong_allocations": {},
+      "supports_blood_devil": false,
+      "xp_reward": 20,
+      "practice_reward": 2,
+      "silver_reward": 0,
+      "ascension_progress_reward": 0,
+      "reward_profile": "explicit_legacy_story_not_level_based",
+      "fixed_loot": [
+        {
+          "item_id": "beast_hide",
+          "quantity": 1
+        }
+      ],
+      "random_loot": [],
+      "model_spec": {
+        "legacy_model_id": "boar",
+        "scale": 1.0,
+        "development_presentation_ref": "dev_boar"
+      },
+      "heavy_attack_damage": null,
+      "combat_kind": "monster"
+    },
+    {
+      "monster_id": "mountain_wolf",
+      "name": "山狼",
+      "level": 2,
+      "boss": false,
+      "max_hp": 85,
+      "max_mana": 0,
+      "attack_min": 12,
+      "attack_max": 12,
+      "ordinary_defense": 4,
+      "accuracy": 10,
+      "evasion": 4,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "is_npc_martial": false,
+      "rage_enabled": false,
+      "qigong_allocations": {},
+      "supports_blood_devil": false,
+      "xp_reward": 30,
+      "practice_reward": 3,
+      "silver_reward": 0,
+      "ascension_progress_reward": 0,
+      "reward_profile": "explicit_legacy_story_not_level_based",
+      "fixed_loot": [
+        {
+          "item_id": "wolf_fang",
+          "quantity": 1
+        }
+      ],
+      "random_loot": [],
+      "model_spec": {
+        "legacy_model_id": "mountain_wolf",
+        "scale": 1.0,
+        "development_presentation_ref": "dev_mountain_wolf"
+      },
+      "heavy_attack_damage": null,
+      "combat_kind": "monster"
+    },
+    {
+      "monster_id": "bamboo_beast",
+      "name": "竹林凶兽",
+      "level": 3,
+      "boss": true,
+      "max_hp": 420,
+      "max_mana": 0,
+      "attack_min": 22,
+      "attack_max": 22,
+      "ordinary_defense": 6,
+      "accuracy": 15,
+      "evasion": 6,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 2600,
+      "is_npc_martial": false,
+      "rage_enabled": false,
+      "qigong_allocations": {},
+      "supports_blood_devil": false,
+      "xp_reward": 100,
+      "practice_reward": 10,
+      "silver_reward": 0,
+      "ascension_progress_reward": 0,
+      "reward_profile": "explicit_legacy_story_not_level_based",
+      "fixed_loot": [
+        {
+          "item_id": "spirit_ore",
+          "quantity": 1
+        }
+      ],
+      "random_loot": [],
+      "model_spec": {
+        "legacy_model_id": "bamboo_beast",
+        "scale": 1.0,
+        "development_presentation_ref": "dev_bamboo_beast"
+      },
+      "heavy_attack_damage": 35,
+      "combat_kind": "monster"
+    },
+    {
+      "monster_id": "valley_boar",
+      "name": "岩背野猪",
+      "level": 4,
+      "boss": false,
+      "max_hp": 150,
+      "max_mana": 0,
+      "attack_min": 18,
+      "attack_max": 18,
+      "ordinary_defense": 8,
+      "accuracy": 20,
+      "evasion": 8,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 2600,
+      "is_npc_martial": false,
+      "rage_enabled": false,
+      "qigong_allocations": {},
+      "supports_blood_devil": false,
+      "xp_reward": 55,
+      "practice_reward": 5,
+      "silver_reward": 0,
+      "ascension_progress_reward": 0,
+      "reward_profile": "explicit_legacy_story_not_level_based",
+      "fixed_loot": [
+        {
+          "item_id": "beast_hide",
+          "quantity": 1
+        },
+        {
+          "item_id": "spirit_ore",
+          "quantity": 1
+        }
+      ],
+      "random_loot": [],
+      "model_spec": {
+        "legacy_model_id": "boar",
+        "scale": 1.25,
+        "development_presentation_ref": "dev_boar"
+      },
+      "heavy_attack_damage": null,
+      "combat_kind": "monster"
+    },
+    {
+      "monster_id": "valley_guardian",
+      "name": "溪谷兽王",
+      "level": 6,
+      "boss": true,
+      "max_hp": 850,
+      "max_mana": 0,
+      "attack_min": 30,
+      "attack_max": 30,
+      "ordinary_defense": 12,
+      "accuracy": 30,
+      "evasion": 12,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 2500,
+      "is_npc_martial": false,
+      "rage_enabled": false,
+      "qigong_allocations": {},
+      "supports_blood_devil": false,
+      "xp_reward": 180,
+      "practice_reward": 18,
+      "silver_reward": 0,
+      "ascension_progress_reward": 0,
+      "reward_profile": "explicit_legacy_story_not_level_based",
+      "fixed_loot": [
+        {
+          "item_id": "spirit_ore",
+          "quantity": 3
+        },
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 1
+        }
+      ],
+      "random_loot": [],
+      "model_spec": {
+        "legacy_model_id": "bamboo_beast",
+        "scale": 1.15,
+        "development_presentation_ref": "dev_bamboo_beast"
+      },
+      "heavy_attack_damage": 45,
+      "combat_kind": "monster"
+    },
+    {
+      "monster_id": "frost_wolf",
+      "name": "霜牙山狼",
+      "level": 7,
+      "boss": false,
+      "max_hp": 230,
+      "max_mana": 0,
+      "attack_min": 26,
+      "attack_max": 26,
+      "ordinary_defense": 14,
+      "accuracy": 35,
+      "evasion": 14,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3200,
+      "is_npc_martial": false,
+      "rage_enabled": false,
+      "qigong_allocations": {},
+      "supports_blood_devil": false,
+      "xp_reward": 85,
+      "practice_reward": 8,
+      "silver_reward": 0,
+      "ascension_progress_reward": 0,
+      "reward_profile": "explicit_legacy_story_not_level_based",
+      "fixed_loot": [
+        {
+          "item_id": "wolf_fang",
+          "quantity": 1
+        },
+        {
+          "item_id": "spirit_ore",
+          "quantity": 1
+        }
+      ],
+      "random_loot": [],
+      "model_spec": {
+        "legacy_model_id": "mountain_wolf",
+        "scale": 1.2,
+        "development_presentation_ref": "dev_mountain_wolf"
+      },
+      "heavy_attack_damage": null,
+      "combat_kind": "monster"
+    },
+    {
+      "monster_id": "frost_guardian",
+      "name": "寒石巨兽",
+      "level": 10,
+      "boss": true,
+      "max_hp": 1350,
+      "max_mana": 0,
+      "attack_min": 42,
+      "attack_max": 42,
+      "ordinary_defense": 20,
+      "accuracy": 50,
+      "evasion": 20,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 2700,
+      "is_npc_martial": false,
+      "rage_enabled": false,
+      "qigong_allocations": {},
+      "supports_blood_devil": false,
+      "xp_reward": 300,
+      "practice_reward": 30,
+      "silver_reward": 0,
+      "ascension_progress_reward": 0,
+      "reward_profile": "explicit_legacy_story_not_level_based",
+      "fixed_loot": [
+        {
+          "item_id": "spirit_ore",
+          "quantity": 5
+        },
+        {
+          "item_id": "consumable_hp_small",
+          "quantity": 2
+        }
+      ],
+      "random_loot": [],
+      "model_spec": {
+        "legacy_model_id": "bamboo_beast",
+        "scale": 1.35,
+        "development_presentation_ref": "dev_bamboo_beast"
+      },
+      "heavy_attack_damage": 63,
+      "combat_kind": "monster"
+    }
+  ],
+  "spawns": [
+    {
+      "id": "boar_01",
+      "kind": "boar",
+      "position_feet_m": [
+        5.0,
+        0,
+        -20.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "boar_02",
+      "kind": "boar",
+      "position_feet_m": [
+        -18.0,
+        0,
+        -28.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "boar_03",
+      "kind": "boar",
+      "position_feet_m": [
+        14.0,
+        0,
+        -48.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "boar_04",
+      "kind": "boar",
+      "position_feet_m": [
+        56.0,
+        0,
+        20.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "wolf_01",
+      "kind": "mountain_wolf",
+      "position_feet_m": [
+        -38.0,
+        0,
+        2.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "wolf_02",
+      "kind": "mountain_wolf",
+      "position_feet_m": [
+        55.0,
+        0,
+        -55.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "wolf_03",
+      "kind": "mountain_wolf",
+      "position_feet_m": [
+        12.0,
+        0,
+        -60.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "wolf_04",
+      "kind": "mountain_wolf",
+      "position_feet_m": [
+        -18.0,
+        0,
+        45.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "boss_01",
+      "kind": "bamboo_beast",
+      "position_feet_m": [
+        -42.0,
+        0,
+        -42.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "Q002 delivered and Q003 boss not yet defeated",
+      "runtime_scene_scope": "owning private story encounter only; never shared world"
+    },
+    {
+      "id": "valley_boar_01",
+      "kind": "valley_boar",
+      "position_feet_m": [
+        98.0,
+        0,
+        14.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "valley_boar_02",
+      "kind": "valley_boar",
+      "position_feet_m": [
+        122.0,
+        0,
+        14.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "valley_boar_03",
+      "kind": "valley_boar",
+      "position_feet_m": [
+        98.0,
+        0,
+        -28.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "valley_boar_04",
+      "kind": "valley_boar",
+      "position_feet_m": [
+        132.0,
+        0,
+        -28.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "valley_guardian_01",
+      "kind": "valley_guardian",
+      "position_feet_m": [
+        120.0,
+        0,
+        -42.0
+      ],
+      "legacy_required_stage": "valley_boss",
+      "map_id": "story_valley_world",
+      "unlock_condition": "Q004 hunting objective complete and Q004 boss not yet defeated",
+      "runtime_scene_scope": "owning private story encounter only; never shared world"
+    },
+    {
+      "id": "frost_wolf_01",
+      "kind": "frost_wolf",
+      "position_feet_m": [
+        -28.0,
+        0,
+        -104.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "frost_wolf_02",
+      "kind": "frost_wolf",
+      "position_feet_m": [
+        28.0,
+        0,
+        -104.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "frost_wolf_03",
+      "kind": "frost_wolf",
+      "position_feet_m": [
+        -28.0,
+        0,
+        -130.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "frost_wolf_04",
+      "kind": "frost_wolf",
+      "position_feet_m": [
+        28.0,
+        0,
+        -130.0
+      ],
+      "legacy_required_stage": null,
+      "map_id": "story_valley_world",
+      "unlock_condition": "explicitly_always",
+      "runtime_scene_scope": "shared story_valley_world ordinary field"
+    },
+    {
+      "id": "frost_guardian_01",
+      "kind": "frost_guardian",
+      "position_feet_m": [
+        0.0,
+        0,
+        -140.0
+      ],
+      "legacy_required_stage": "north_boss",
+      "map_id": "story_valley_world",
+      "unlock_condition": "Q005 hunting objective complete and Q005 boss not yet defeated",
+      "runtime_scene_scope": "owning private story encounter only; never shared world"
+    }
+  ],
+  "open_dependencies": [
+    "spawn navigation validation in actual Godot collision",
+    "legacy imported quest-instance/death receipt schema mapping"
+  ],
+  "static_geometry_review": {
+    "checked_on": "2026-11-14",
+    "geometry_file": "../reference/旧场景几何基线.json",
+    "geometry_file_sha256": "1f6cccbd5119badca34ef13564ee54682a663c4b8dac7c47808684edf2d4ddef",
+    "scope": "design-only axis-alignedXZ obstacle test; not Godot runtime/pathfinding proof",
+    "spawn_radius_m": 0.45,
+    "spawn_overlap_count": 0,
+    "spawn_safe_zone_conflict_count": 0,
+    "spawn_coordinates_changed": false,
+    "route_grid_m": 2,
+    "route_actor_radius_m": 0.35,
+    "route_edge_sample_max_m": 0.1,
+    "route_start_xz": [
+      0,
+      24
+    ],
+    "gate_state": "challenge_gate open; other legacy blocking Building/ToolRack/Rock/Water/Bamboo/Fence/NPC preserved",
+    "reachable_grid_cells": 24554,
+    "reachable_spawn_count": 19,
+    "diagonal_edges": false,
+    "terrain_height_or_dynamic_actors_verified": false,
+    "routes_are_not_runtime_navigation_data": true
+  },
+  "quest_encounter_owner_file": "主线首领遭遇.v1.json"
+}

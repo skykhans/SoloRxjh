@@ -1,0 +1,165 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "9archer_chain_profiles_not_implemented",
+  "source_policy": "保箭攻击/非轻功辅助时间/无明一箭/致命概率/绝影三矢概率/防御负重/天外真气箭/远距强化增伤/近距依心减伤原职责。V25天外取消五阶升天限制；精确系数距离与队列替代为项目值。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_archer_8c1feacba8b4",
+      "class_id": "archer",
+      "name": "锐利之箭",
+      "source_table_index": 39,
+      "source_row_index": 5,
+      "source_row_sha256": "6295bd616f0dca13a71a8e41e66422521ca578594a7f9a7489a6a1abd651efed",
+      "profile_id": "bow_attack_add"
+    },
+    {
+      "qigong_id": "qigong_archer_db7e195867cd",
+      "class_id": "archer",
+      "name": "回流真气",
+      "source_table_index": 39,
+      "source_row_index": 9,
+      "source_row_sha256": "7ad077bd21886d477f7c4ac1067a5996867d39e4a1dc6bb2671c54fece183171",
+      "profile_id": "nonlightness_aux_duration"
+    },
+    {
+      "qigong_id": "qigong_archer_d6b1b8306277",
+      "class_id": "archer",
+      "name": "无明暗矢",
+      "source_table_index": 39,
+      "source_row_index": 10,
+      "source_row_sha256": "8183e4c533331f5e8a9fc5f8448bb17c4678c357769156200318f74138297c6e",
+      "profile_id": "one_hidden_arrow"
+    },
+    {
+      "qigong_id": "qigong_archer_6d2d09db7d01",
+      "class_id": "archer",
+      "name": "致命绝杀",
+      "source_table_index": 39,
+      "source_row_index": 11,
+      "source_row_sha256": "9e1a121e158f222bea69d79c4e615f95f72acd04bd7926f7eb8f79725eed2c33",
+      "profile_id": "ordinary_critical_chance"
+    },
+    {
+      "qigong_id": "qigong_archer_b6298438a062",
+      "class_id": "archer",
+      "name": "绝影射魂",
+      "source_table_index": 39,
+      "source_row_index": 12,
+      "source_row_sha256": "1852a66db6d3e3710d71db2fb84dfca2045cb13db769509a11ff998249e88af0",
+      "profile_id": "three_arrow_chance"
+    },
+    {
+      "qigong_id": "qigong_archer_61244271642b",
+      "class_id": "archer",
+      "name": "千钧压驼",
+      "source_table_index": 39,
+      "source_row_index": 13,
+      "source_row_sha256": "2d823ad04f0c951667a67f8e714e9f9a62122de9e957dccd9c60e39bbaefbf46",
+      "profile_id": "defense_and_carry"
+    },
+    {
+      "qigong_id": "qigong_archer_6135db39d24f",
+      "class_id": "archer",
+      "name": "天外三矢",
+      "source_table_index": 39,
+      "source_row_index": 14,
+      "source_row_sha256": "2cb4a06716b7e398dc97fe21691e1ffaf8804015d799da9f06ea40dcdf598cd1",
+      "profile_id": "energy_arrow_substitution"
+    },
+    {
+      "qigong_id": "qigong_archer_4a5af9a02816",
+      "class_id": "archer",
+      "name": "千里一击",
+      "source_table_index": 39,
+      "source_row_index": 18,
+      "source_row_sha256": "7ddcafa6f1d66851b407bd980efae9a258bc9dae7e6a4fb6760d178e8cb48316",
+      "profile_id": "far_enhancement_extra"
+    },
+    {
+      "qigong_id": "qigong_archer_9ae5c572cb4c",
+      "class_id": "archer",
+      "name": "恶尽矢穷",
+      "source_table_index": 39,
+      "source_row_index": 21,
+      "source_row_sha256": "a7dc5682942c73f91872a5186fd489471180a787f065513b3787f2405c74c6ec",
+      "profile_id": "near_ranged_protection"
+    }
+  ],
+  "profiles": {
+    "bow_attack_add": {
+      "both_attack_endpoints_per_effective_grade": 1,
+      "requires_active_bow": true,
+      "not_grant_ammo_item_or_newhit": true
+    },
+    "nonlightness_aux_duration": {
+      "gain_bp_per_effective_grade": 100,
+      "scope": "own archer explicit positive auxiliary buff duration, not lightness/negative/cooldown/passive-internal effect",
+      "one_activation_snapshot": "effective_total=floor(base_duration*(10000+100grade)/10000); save base/modifier/total/remaining, not reextend each tick"
+    },
+    "one_hidden_arrow": {
+      "chance_bp_per_effective_grade": 100,
+      "max_chance_bp": 4000,
+      "trigger": "first root normal/attackmartial originalprimary actualHPloss,targetlives,once",
+      "result": "one actual derived arrow launches6steps later, same accepted positive projectile speed/radius/range, target direction currentvalid atlaunch, collisions ordinary",
+      "derived_damage_multiplier_bp": 5000,
+      "no_invisible_wall_bypass": true,
+      "procs": "derived_no_attack_procs/noextra crit; no arbitrary additional missile from each3arrow"
+    },
+    "ordinary_critical_chance": {
+      "add_bp_per_effective_grade": 50,
+      "scope": "eligible rootnormal/attackmartial ordinary critical segment; supercritical adapter stilloneexclusive draw, capshared9500 not another roll"
+    },
+    "three_arrow_chance": {
+      "add_bp_per_effective_grade": 50,
+      "requires_effective_流星三矢": true,
+      "final_chance_cap_bp": 4000,
+      "no_standalone_extra_projectile": true
+    },
+    "defense_and_carry": {
+      "ordinary_defense_per_effective_grade": 1,
+      "carry_limit_extra_grams_per_effective_grade": 1000,
+      "source_changes": "derived capacity source, not hidden permanent expansion level. No bonus from inactive source twice. Temporary capacity loss overload policy explicit below."
+    },
+    "energy_arrow_substitution": {
+      "requires_same_root_actualthree_arrow_proc_and_own_绝影positive": true,
+      "chance_bp_per_effective_grade": 100,
+      "max_chance_bp": 4000,
+      "stage_gate": null,
+      "override_source": "V25cancel5stage restriction, no hiddenminimum5",
+      "result": "replace2alreadyqueued derived3arrow descendants with energyarrow appearance/damage factor12000 of their own adoptedamount; no extra third/fourth arrow from substitution",
+      "paid_initial_hit": "alreadycommitted initialarrow not retimed/re-damaged, explicit local queue interpretation ofsource",
+      "no_ammo_mana_fee": true,
+      "collision": "realprojectile/samewall, not instantthroughwall真气damage",
+      "recursion": "substituted arrows keepderived_no_attack_procs"
+    },
+    "far_enhancement_extra": {
+      "minimum_target_distance_mm_ataccept": 12000,
+      "gain_bp_of_weapon_real_enhancement_attack_per_effective_grade": 50,
+      "pool": "only actual active bow real enhancement attack differential, not weaponbase/temporary15+[n]/wholebuildattack; sourcepool missing rejects",
+      "scope": "rootnormal/attackmartial additive attackcomponent once, no per-arrow extra multiplier unlessrootaccepted snapshot naturally inherited"
+    },
+    "near_ranged_protection": {
+      "maximum_source_distance_mm_atimpact": 8000,
+      "requires_incoming_root_ranged_tag": true,
+      "reduction_bp": "min(3000, target_currentheart*effectivegrade*5)",
+      "phase": "23namedpercentprotection, ceil canceledportion, zeroallowed; neitherordinarydefense norrewind rangedposition",
+      "not_apply": [
+        "melee",
+        "selfcost",
+        "environment",
+        "periodic",
+        "derivedreflection"
+      ]
+    }
+  },
+  "carry_overload_policy": {
+    "normal": "inventoryweight<=derivedcarrylimit",
+    "legitimate_live_grade_or_rule_loss": "if previouslyvalid then sourcechanged and weight>newlimit, persist explicit capacity_change receipt(oldlimit/newlimit/observedweight/source_event_id/revision), retainitems, no autodrop/defaultcapacityincrease",
+    "commands": "no increased carriedweight/newpickup/purchase whileover; storage deposit/sell/discard/sort andsameweightmoves allowed underownpermissions, walkingonly untilunderlimit; never deleteprotectedQ0023material to fix automatically",
+    "load": "overweight only with matching valid sourcechange receipt and contentversion/instances, otherwise badrecord reject; no general wrongweight fix",
+    "clear": "whenactualweight<=currentderivedlimit clearoverload receipt same transaction, no reward/refill"
+  },
+  "trigger_order": "root firstvalidprimaryloss:流星+绝影 chance once -> ifproc天外 substitution once -> independent无明 once; allqueueddescendants unique(root,ordinal), no derivedchain. Source skillclasses/weapon required, no fake梅/hero bow borrow.",
+  "persistence": "root accepted rangepool/damage/critical source/target snapshot,projectilequeues/substitution/fee and receipt plus ownaux durations/carry receipt retained. Pause/offline freezes, sourcechange not reroll alreadyaccepted arrow. Everyday saves waitqueueddescendants."
+}

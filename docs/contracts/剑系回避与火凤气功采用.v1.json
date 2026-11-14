@@ -1,0 +1,161 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "ten_sword_Tan_passives_not_implemented",
+  "source_policy": "保回柳回避/武功威力、冲冠怒气、天地回避后次攻最多3层、火凤保10生命、乘胜提升无坚、惊天提升武功职责。V25取消天地5阶升天门槛；概率/量/窗口/冷却/回避失败分类为项目选择。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_sword_e7a9b85d45d2",
+      "class_id": "sword",
+      "name": "回柳身法",
+      "source_table_index": 36,
+      "source_row_index": 8,
+      "source_row_sha256": "079da01d010df1964371eaa73790e8c37def34375a6523c7fe2ff80a5ba02876",
+      "profile_id": "martial_evade_and_power"
+    },
+    {
+      "qigong_id": "qigong_sword_5763faf2480f",
+      "class_id": "sword",
+      "name": "乘胜追击",
+      "source_table_index": 36,
+      "source_row_index": 10,
+      "source_row_sha256": "ee5adb67e2b9c8fde3c5c75f3f181e351535a940677602ff623b21c2a6b5b287",
+      "profile_id": "wujian_trigger_boost"
+    },
+    {
+      "qigong_id": "qigong_sword_718a4e380cf7",
+      "class_id": "sword",
+      "name": "冲冠一怒",
+      "source_table_index": 36,
+      "source_row_index": 11,
+      "source_row_sha256": "12d2a7135db0f1c496563c3fe30da06c77cea524c004c1d54b9902ba0eb2386a",
+      "profile_id": "hit_extra_rage"
+    },
+    {
+      "qigong_id": "qigong_sword_71616415cd41",
+      "class_id": "sword",
+      "name": "天地同寿",
+      "source_table_index": 36,
+      "source_row_index": 13,
+      "source_row_sha256": "060137caa0e79a7ade7d7d8a1d15b42b6d17edb33d6fc3761434eb630641435f",
+      "profile_id": "evaded_attack_stack"
+    },
+    {
+      "qigong_id": "qigong_sword_e448690e8e0b",
+      "class_id": "sword",
+      "name": "火凤临朝",
+      "source_table_index": 36,
+      "source_row_index": 14,
+      "source_row_sha256": "d19e6e183eb4a0d3246c8903b5e50bb0fd314315cb9717d74511d661dea15618",
+      "profile_id": "lethal_keep10"
+    },
+    {
+      "qigong_id": "qigong_sword_4291cfbf9f01",
+      "class_id": "sword",
+      "name": "惊天动地",
+      "source_table_index": 36,
+      "source_row_index": 18,
+      "source_row_sha256": "99d017f63520fd3322970beb43df5d89f963a3ccc50705dfb832edc6a48f8c34",
+      "profile_id": "temporary_martial_power"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_e7a9b85d45d2",
+      "class_id": "tan_hualing",
+      "name": "回柳身法",
+      "source_table_index": 43,
+      "source_row_index": 9,
+      "source_row_sha256": "8bae9be3ed9bde15aef694271c77f80c0ba7f9c97050904dac12d0da41070273",
+      "profile_id": "martial_evade_and_power"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_718a4e380cf7",
+      "class_id": "tan_hualing",
+      "name": "冲冠一怒",
+      "source_table_index": 43,
+      "source_row_index": 11,
+      "source_row_sha256": "3060d1b348b822337ae7850eac78790321a7e529de965d9df2b4bc0ab29380d1",
+      "profile_id": "hit_extra_rage"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_71616415cd41",
+      "class_id": "tan_hualing",
+      "name": "天地同寿",
+      "source_table_index": 43,
+      "source_row_index": 13,
+      "source_row_sha256": "fd0ace75741a4c1631c6bde1eb31912b4119618bf6f45b5502eb6ea8706427bd",
+      "profile_id": "evaded_attack_stack"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_e448690e8e0b",
+      "class_id": "tan_hualing",
+      "name": "火凤临朝",
+      "source_table_index": 43,
+      "source_row_index": 14,
+      "source_row_sha256": "00c7f33484598c30e404351297202bd6ad0fe0543412294d9d4511c8843d2d30",
+      "profile_id": "lethal_keep10"
+    }
+  ],
+  "martial_evade_and_power": {
+    "incoming_root_martial_hit_chance_subtract_bp_per_effective_grade": 50,
+    "incoming_basic_or_derived_not_affected": true,
+    "chance_formula": "23ordinary accuracy chance minus named martial-evasion source, final gameplayfloor500 applies once",
+    "own_martial_skill_power_gain_bp_per_effective_grade": 100,
+    "scope": "flat skillpower component per武功威力合同, not weapon/basic/wholefinaldamage"
+  },
+  "hit_extra_rage": {
+    "trigger": "first actualHPloss to original primary root normal/attackmartial,once/action",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "meter_gain": 500,
+    "seal_or_alreadyenraged": "existing rage eligibility blocks gain, no bank/catchup; no new fullrage timer"
+  },
+  "wujian_trigger_boost": {
+    "trigger": "qualified root first primaryHPloss, once/action",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "duration_steps": 180,
+    "wujian_chance_add_bp_per_effective_grade": 25,
+    "wujian_final_proc_chance_cap_bp": 4000,
+    "wujian_defense_reduction_extra_bp_per_effective_grade": 50,
+    "wujian_total_reduction_cap_bp": 7000,
+    "starts_for": "subsequent accepted root only, no samehit postcallback retroboost",
+    "requires_actual_own_wujian_effective": true,
+    "same_source": "refresh180notadd; does not erase base sword武功only trigger restriction"
+  },
+  "evaded_attack_stack": {
+    "root_generation": "original primary of own root attackmartial fails ordinary accuracy; iframe/range/LOS/invalidtarget not counted. V25no5stage condition; no derived loops.",
+    "stack_max": 3,
+    "window_steps": 600,
+    "per_stack_bonus_bp_of_accepted_attack_upper": 3000,
+    "per_action_cap_by_accepted_attack_upper_multiplier": 2,
+    "next_attack": "next valid accepted rootnormal/attackmartial takes token snapshot into firstprimary damage input; no bonus to each secondary/multi-hit",
+    "state_transition": "if qualifies miss again restore prior tokenplus1(max3)/refresh600, do not add its consumed bonus as new base. If actual primary hit succeeds, clear token. Cancel/blocked/geometryloss after paid command discards token, no refund. Initial basic miss cannot create a new token without preceding eligible martial miss.",
+    "grade": "positive effective ownsource required; exact gainperstack scales by gradefactor effectivegrade/20 withprojectcap full grade40, totalcap*2 asabove; temporaryzero disables use and newgain but existing timer continues",
+    "persistence": "tokenstack/baseattack/remaining, taken-token snapshot and primary hit outcome once recorded, root replay cannot restore/add again",
+    "bonus_formula": "min(2*A, floor(A*stack*3000*effectivegrade_at_next_accept/(10000*20))), A=last qualifying missed root ordinaryattack upper excluding taken-tokenbonus; update A only from original unaugmented attack snapshot, not actual/requested bonusdamage"
+  },
+  "lethal_keep10": {
+    "trigger": "root hostile lethal HP event, actor active/livingbefore event, validmaxHP>=10, not source scripted/uninterceptable/failure death",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "success_hp": 10,
+    "success_internal_cooldown_steps": 36000,
+    "maxHP_below10": "explicitly noteligible/no random, no min(10,max) fix",
+    "success": "do not transition awaiting_respawn or settle death; record interceptor once, no deathloot/refund/invulnerability/freecost beyond stated10HP",
+    "failure": "normal death then死亡与复活保存, not allowed anothersameprofile retry for same lethal event",
+    "cross_profile": "one configured legal interceptor attempted per event, not only one may be learned. Tan dispatcher in谭花灵缩影与霸王气功 gives ready以柔霸王 priority, then火凤 only if first ineligible/notready; failed selectedroll never falls through."
+  },
+  "temporary_martial_power": {
+    "trigger": "accepted own rootattackmartial,once/action after admission/fees",
+    "chance_bp_per_effective_grade": 100,
+    "maximum_chance_bp": 4000,
+    "duration_steps": 180,
+    "skill_power_gain_bp_per_effective_grade": 100,
+    "phase": "this action may snapshot after success, later validroots while bufflives; not alter already paid other actions",
+    "family": "sword_shaking_earth_power",
+    "same_source": "refresh180notadd"
+  },
+  "eligibility": "ownclass learned allocated positive effective grade; callback source seal consulted, timedsource/currentgrade gates no refund. Missing primary/combo/attack profile rejects formal config.",
+  "persistence": "evade token/proc buffs/lethal internal cooldown + exact source event/accepted snapshot/root receipts saved. Pause/offline freeze, death clears temporary token/buffs but not successful cooldown. Failure-source death bypass interceptor remains per20blooddevil rule.",
+  "scope": "Tan缩影步/以柔克刚/惊涛 dependencies still separate pending, not substituted by ten local effect profiles."
+}

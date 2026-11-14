@@ -1,0 +1,3764 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "234_six_class_ordinary_martial_design_not_implemented_not_full_active_tree",
+  "source_file": "../reference/武功气功参数.json",
+  "source_file_sha256": "322e4611d236f6998a30436ee9ce1693e43f42fdd7b172565c01572390acea40",
+  "source_policy": "仅六表名称、招式分组、人物等级、正邪原列为官网事实；其余阶段/威力/学习与施法成本/动作/目标/表现均为项目设计。原等级不是技能阶段；其他表的升天与英雄能力不套此政策。",
+  "source_table_indices": [
+    0,
+    3,
+    6,
+    9,
+    12,
+    14
+  ],
+  "adoption_rationale": "来源未载普通武功威力/阶段/费用，按学习等级给逐步增长的独立威力和学习资源门槛，六职业分别采用刀范围、剑精准、枪贯线、刺双段、弓箭及医师远程术法；既有教学不失效。普通武功无额外职业状态，差异状态按具名气功/辅助武功另行绑定，不从名称猜出控制/出血/回血。",
+  "learning": {
+    "entry": "own character martial library; no NPC or book required for these 234 abilities",
+    "requires_alive": true,
+    "requires_out_of_combat": true,
+    "requires_idle": true,
+    "requires_no_active_challenge": true,
+    "checks": [
+      "exact ability ID and own class",
+      "character level >= minimum_level",
+      "completed rank >= minimum_rank",
+      "required route any or exact current route",
+      "not learned",
+      "enough actual practice and silver"
+    ],
+    "cost_practice_formula": "10 * minimum_level * minimum_level",
+    "cost_silver_formula": "100 * minimum_level",
+    "ordinary_qigong_point_cost": 0,
+    "ascension_point_cost": 0,
+    "item_cost": [],
+    "predecessor_ability_ids": [],
+    "initial_phase": 1,
+    "automatic_grant_on_level_or_rank": false,
+    "repeat_learning": "reject before payment; duplicate request returns original committed result",
+    "phase_upgrade": "only phase1 exists; phase2 and above rejected without cost",
+    "route_change": "known ability retained; off-route ability unusable; never silently converted/refunded; explicit configuration exception follows18",
+    "level_or_rank_loss": "retain learned identity; insufficient qualification disables use; no refund or automatic rank repair",
+    "transaction": "copy/check/deduct practice and silver/add learned phase/receipt and rules version atomically; host authority; save failure retries original result, no re-charge",
+    "skill_bar": "explicit player binding only; existing teaching/source skills and other slots unchanged"
+  },
+  "damage_and_cost": {
+    "flat_power_per_hit_formula": "4 * minimum_level",
+    "flat_power_input": "definition minimum_level, never current character level; same full flat component each declared hit before own phase coefficient",
+    "mana_cost_formula": "4 + ceil(minimum_level / 5) + action_profile.mana_cost_offset",
+    "stamina_cost": 0,
+    "life_cost": 0,
+    "ammo_item_cost": 0,
+    "cost_frequency": "once per accepted root action, never per hit/target/projectile",
+    "damage_owner": "战斗命中与减伤.v1.json; final attack interval already includes weapon; declared power passives once; no second level growth",
+    "cost_owner": "恢复与内功消耗气功.v1.json; explicit applicable reductions, then named zero-cost overrides",
+    "critical_owner": "战斗命中与减伤.v1.json and named exclusive supercritical partitions",
+    "caster_must_meet_learning_qualifications_on_cast": true
+  },
+  "execution": {
+    "clock_hz": 60,
+    "primary": "explicit live hostile primary required before payment; relationship/range/LOS/safe zone checked, accepted direction locked",
+    "range_passives": "射程气功采用.v1.json only explicitly eligible named sources; do not infer new range from display name",
+    "per_hit": "actual geometry/LOS/relationship/alive rechecked; original primary first then distance/stableID; no retarget if primary becomes invalid; extra target cap per hit",
+    "projectiles": "real straight collision; first hostile or solid impact; friendly ignored, never homing or through walls; no second root action for intercepted target",
+    "combo_definition": "assassin alone has two declared root hit ordinals, combo_skill=true; other five single-hit profiles false; targets>1 never imply combo",
+    "proc_frequency": "root-based anger/bleed/anti/charge restrictions owned by respective contracts; not multiplied by targets/hit ordinals",
+    "zero_damage_or_miss": "use23 distinct results; no cost refund",
+    "paid_action": "persistent receipt contains ability/phase/profile version, accepted attack interval/effective grades/cost, primary/aim/hit ordinals/random cursor; pause and offline freeze; LAN host determines results",
+    "save": "ordinary save waits all root/projectiles/derived events complete per05; activities save full in-flight state",
+    "invalid_reference": "reject configuration or command with field/ID; never use teaching profile to replace missing ordinary ability",
+    "secondary_damage": "spear profile explicitly5000 base, eligible灵甲爆发 replaces once per范围目标气功采用.v1.json to maximum8000; blade profile10000 remains unchanged; no primary promotion",
+    "projectile_lifetime": "射程气功采用.v1.json: ceil(accepted_effective_range_mm*60/positive_speed_mm_per_second), preserve accepted speed/radius; declared base maximum_projectile_steps validates zero-bonus base only, not an extra cap on a range-enhanced action"
+  },
+  "action_profiles": {
+    "blade": {
+      "handler": "melee_cone",
+      "windup_steps": 18,
+      "active_steps": 1,
+      "recovery_steps": 29,
+      "hit_offsets_in_active_steps": [
+        0
+      ],
+      "attack_multiplier_per_hit_bp": 11000,
+      "range_mm": 2200,
+      "stamina_cost": 0,
+      "hp_cost_profile": "explicit_zero",
+      "cooldown_steps": 90,
+      "required_weapon_family": "blade",
+      "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+      "projectile_speed_mm_per_second": 0,
+      "arc_degrees": 90,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "attack_martial_skill",
+      "maximum_targets_per_hit": 3,
+      "combo_skill": false,
+      "power_modifier_owner_file": "武功威力气功采用.v1.json",
+      "finishing_martial": false,
+      "critical_allowed": true,
+      "native_target_kind": "area",
+      "base_secondary_damage_bp": 10000,
+      "mana_cost_offset": 0,
+      "presentation_ref": "dev_ordinary_martial_blade"
+    },
+    "sword": {
+      "handler": "melee_line",
+      "windup_steps": 12,
+      "active_steps": 1,
+      "recovery_steps": 23,
+      "hit_offsets_in_active_steps": [
+        0
+      ],
+      "attack_multiplier_per_hit_bp": 12000,
+      "range_mm": 2200,
+      "stamina_cost": 0,
+      "hp_cost_profile": "explicit_zero",
+      "cooldown_steps": 72,
+      "required_weapon_family": "sword",
+      "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+      "projectile_speed_mm_per_second": 0,
+      "width_mm": 600,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "attack_martial_skill",
+      "maximum_targets_per_hit": 1,
+      "combo_skill": false,
+      "power_modifier_owner_file": "武功威力气功采用.v1.json",
+      "finishing_martial": false,
+      "critical_allowed": true,
+      "native_target_kind": "single",
+      "base_secondary_damage_bp": 10000,
+      "mana_cost_offset": 0,
+      "presentation_ref": "dev_ordinary_martial_sword"
+    },
+    "assassin": {
+      "handler": "melee_combo",
+      "windup_steps": 12,
+      "active_steps": 7,
+      "recovery_steps": 17,
+      "hit_offsets_in_active_steps": [
+        0,
+        6
+      ],
+      "attack_multiplier_per_hit_bp": 5500,
+      "range_mm": 1800,
+      "stamina_cost": 0,
+      "hp_cost_profile": "explicit_zero",
+      "cooldown_steps": 72,
+      "required_weapon_family": "dual_blade",
+      "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+      "projectile_speed_mm_per_second": 0,
+      "width_mm": 500,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "attack_martial_skill",
+      "maximum_targets_per_hit": 1,
+      "combo_skill": true,
+      "power_modifier_owner_file": "武功威力气功采用.v1.json",
+      "finishing_martial": false,
+      "critical_allowed": true,
+      "native_target_kind": "single",
+      "base_secondary_damage_bp": 10000,
+      "mana_cost_offset": 0,
+      "presentation_ref": "dev_ordinary_martial_assassin"
+    },
+    "spear": {
+      "handler": "melee_line",
+      "windup_steps": 24,
+      "active_steps": 1,
+      "recovery_steps": 35,
+      "hit_offsets_in_active_steps": [
+        0
+      ],
+      "attack_multiplier_per_hit_bp": 12000,
+      "range_mm": 3000,
+      "stamina_cost": 0,
+      "hp_cost_profile": "explicit_zero",
+      "cooldown_steps": 96,
+      "required_weapon_family": "spear",
+      "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+      "projectile_speed_mm_per_second": 0,
+      "width_mm": 600,
+      "vertical_hit_height_mm": 2000,
+      "attack_category": "attack_martial_skill",
+      "maximum_targets_per_hit": 2,
+      "combo_skill": false,
+      "power_modifier_owner_file": "武功威力气功采用.v1.json",
+      "finishing_martial": false,
+      "critical_allowed": true,
+      "native_target_kind": "area",
+      "base_secondary_damage_bp": 5000,
+      "mana_cost_offset": 2,
+      "presentation_ref": "dev_ordinary_martial_spear"
+    },
+    "archer": {
+      "handler": "projectile",
+      "windup_steps": 18,
+      "active_steps": 1,
+      "recovery_steps": 23,
+      "hit_offsets_in_active_steps": [
+        0
+      ],
+      "attack_multiplier_per_hit_bp": 10000,
+      "range_mm": 18000,
+      "stamina_cost": 0,
+      "hp_cost_profile": "explicit_zero",
+      "cooldown_steps": 84,
+      "required_weapon_family": "bow",
+      "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+      "projectile_speed_mm_per_second": 16000,
+      "maximum_projectile_steps": 68,
+      "projectile_radius_mm": 100,
+      "attack_category": "attack_martial_skill",
+      "maximum_targets_per_hit": 1,
+      "combo_skill": false,
+      "power_modifier_owner_file": "武功威力气功采用.v1.json",
+      "finishing_martial": false,
+      "critical_allowed": true,
+      "native_target_kind": "single",
+      "base_secondary_damage_bp": 10000,
+      "mana_cost_offset": 0,
+      "presentation_ref": "dev_ordinary_martial_archer"
+    },
+    "physician": {
+      "handler": "projectile",
+      "windup_steps": 24,
+      "active_steps": 1,
+      "recovery_steps": 23,
+      "hit_offsets_in_active_steps": [
+        0
+      ],
+      "attack_multiplier_per_hit_bp": 10000,
+      "range_mm": 12000,
+      "stamina_cost": 0,
+      "hp_cost_profile": "explicit_zero",
+      "cooldown_steps": 84,
+      "required_weapon_family": "staff",
+      "targeting": "explicit_primary_hostile; extra targets limited by shape and stable distance/id ordering",
+      "projectile_speed_mm_per_second": 12000,
+      "maximum_projectile_steps": 60,
+      "projectile_radius_mm": 100,
+      "attack_category": "attack_martial_skill",
+      "maximum_targets_per_hit": 1,
+      "combo_skill": false,
+      "power_modifier_owner_file": "武功威力气功采用.v1.json",
+      "finishing_martial": false,
+      "critical_allowed": true,
+      "native_target_kind": "single",
+      "base_secondary_damage_bp": 10000,
+      "mana_cost_offset": 2,
+      "presentation_ref": "dev_ordinary_martial_physician"
+    }
+  },
+  "abilities": [
+    {
+      "ability_id": "martial_blade_8d1a8190fb44",
+      "class_id": "blade",
+      "name": "疾风烈火",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 0,
+        "source_row_sha256": "7f8b3e47d4f453c6093e16b446b53b07f5786a4ea971130de1fb10e0b02497b1"
+      },
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_205ae7cc58f2",
+      "class_id": "blade",
+      "name": "疾风断木",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 1,
+        "source_row_sha256": "9ed997a588a002a0eb7e2982c6670d5d74ab70764ff30f1a4ac347bd40ad5775"
+      },
+      "minimum_level": 20,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_751d81dda033",
+      "class_id": "blade",
+      "name": "疾风残影",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 2,
+        "source_row_sha256": "5adf3b7e25f809c0015146f803dc3948b997ac80703de0a7d1fd993e4621f57f"
+      },
+      "minimum_level": 30,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_59fdcd7277ca",
+      "class_id": "blade",
+      "name": "狂沙遍野",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 3,
+        "source_row_sha256": "d117c8ec46ba8d2a75bd43245cd9fb530a388dc35f22d426148d7018cb724614"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_732f31d3802b",
+      "class_id": "blade",
+      "name": "风卷残云",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 4,
+        "source_row_sha256": "67a83853f3c2edcf2b4bfbc75968d618960483029810d6c4378236a757af65ba"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_851ed84a1dd2",
+      "class_id": "blade",
+      "name": "鬼神绝杀",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 5,
+        "source_row_sha256": "d2df457e99807eaf1a3b817d5da54ffc862f34bfff2edd958c077afd9cd3a0a9"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_1738004c581d",
+      "class_id": "blade",
+      "name": "丹红五炼",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 6,
+        "source_row_sha256": "8fcb93b2bc89962eaf8c74aea12df20fd7ed35cc5b2e7e9eeade7cd20eabbe81"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_a8f946bd88ef",
+      "class_id": "blade",
+      "name": "丹红天忍",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 7,
+        "source_row_sha256": "ac10d661b69e657118c34a1f3359fe1188db07fab3ae26ece95c0dd703f0af08"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_af2ae4e3056a",
+      "class_id": "blade",
+      "name": "丹红拂面",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 8,
+        "source_row_sha256": "e38adf1beb21efff9d3ab696a59315bd16d410f1db44dbfeab7f4f71d5e217ed"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_65b3ec525186",
+      "class_id": "blade",
+      "name": "万象归天",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 9,
+        "source_row_sha256": "77e8d95b591aacc52a7a683167b4514ef7b90979897672f2cd20c065b672c467"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_4b0b78c58318",
+      "class_id": "blade",
+      "name": "万象无形",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 10,
+        "source_row_sha256": "afefaf43ac3f5dd60f7b8d3b2bf10234f4031c22f6bc24f318ce4599bc7cd032"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_31cb2545dc56",
+      "class_id": "blade",
+      "name": "炎龙烈焰",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 11,
+        "source_row_sha256": "3edc11101d190b8f82b844033a34d322eaa22f0b47f2dd10cbd116affc2c31d4"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_fbdef39c17c1",
+      "class_id": "blade",
+      "name": "苍狼破月",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 12,
+        "source_row_sha256": "253bfa819dd166c688b5919ac587350d7db05c80a4eed03ab7148aec98f12bdb"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_159d66767f67",
+      "class_id": "blade",
+      "name": "凤天烈火",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 13,
+        "source_row_sha256": "efe16ead0704feea9b6d0b69cbb269db016254e014561f68fefea9f6667889ed"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_1ffe2060962b",
+      "class_id": "blade",
+      "name": "龙啸云天",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 14,
+        "source_row_sha256": "d81e442231dfa96fd757014a7924a919d0f9583f0d20158f93055a227c7f9af4"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_c4d525cb9dbc",
+      "class_id": "blade",
+      "name": "追月流星斩",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 15,
+        "source_row_sha256": "d0c33600a049105e5f6e907b8c26b235a1e4b692c9ae8a235eeed52d58dedb89"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_a8946fa23055",
+      "class_id": "blade",
+      "name": "霸天腾龙斩",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 16,
+        "source_row_sha256": "141ffe3869909aabd9fa764c01a93f536beb6d8b4c679e1eb7772b3bece640b0"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_91584580acd6",
+      "class_id": "blade",
+      "name": "怒海狂龙斩",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 17,
+        "source_row_sha256": "13d5ff0b483ab89d45dfa59bc925ed3f9d4c0ae982b7488ca6c54818dfdb6d6b"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_6f1baaca10d4",
+      "class_id": "blade",
+      "name": "云雾飘渺",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 18,
+        "source_row_sha256": "eb862b81fac465049f7333838252e01d6c0bee432291a8f80a69dd802fb21769"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_3e861a24064c",
+      "class_id": "blade",
+      "name": "无我无刀",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 19,
+        "source_row_sha256": "a49abee88d0d292388d5ecdbd03276a954dd4d37372cf3ba45fdb8cc19bac26b"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_5e159a5ed04e",
+      "class_id": "blade",
+      "name": "撼天无涯",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 20,
+        "source_row_sha256": "c9d640ad3411eeb3c34476b122ce06d7bd6b83b67759aa56f380310e65d667ce"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_ba1db5fd7a14",
+      "class_id": "blade",
+      "name": "灭世屠龙",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 21,
+        "source_row_sha256": "ae5122f27abe19bbd66541b571217ca9a13a87bf0b8933da3c7ff4a4b38e325b"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_75dfae8447e8",
+      "class_id": "blade",
+      "name": "灭世裂刃",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 22,
+        "source_row_sha256": "b6e7a978a5367188aed1dbac76bf56938b4dc17dceb956b6076e1387f01a9cd8"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_40f36f466341",
+      "class_id": "blade",
+      "name": "灭世劈天",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 23,
+        "source_row_sha256": "b5031fd7f2cfc2b1b639e4dc1de0f05c3745fdd0c6c8c826ed58e880bb9e31c7"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_9265fb9d867f",
+      "class_id": "blade",
+      "name": "血流黑沙",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 24,
+        "source_row_sha256": "c0106d55b56b93e71682d6eb601c7ad1aba0319972fcdbb7db699632e92a8238"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_976f6fbdcc5f",
+      "class_id": "blade",
+      "name": "血流遍野",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 25,
+        "source_row_sha256": "0654b7b49a23b5d16ae20def4150a1197b2eb2d5c8c726de84171d6abce52c0e"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_d70b6e639a73",
+      "class_id": "blade",
+      "name": "血流地裂",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 26,
+        "source_row_sha256": "7cbe1d0669c8eca9582299782f451ab8647f8522869657be772f4af7c898141e"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_becac57ca978",
+      "class_id": "blade",
+      "name": "天觉灭世",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 27,
+        "source_row_sha256": "6f71c15b6f4863bf14c46f1717299e3aa589eb57eba384165ac62ff66f6cac74"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_bc5bf682c1ad",
+      "class_id": "blade",
+      "name": "刀风血雨",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 28,
+        "source_row_sha256": "06b1d16650df4a485e85a5e08102ece3ab141102a9160b4529ce87ba7120da0e"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_5ae183909120",
+      "class_id": "blade",
+      "name": "虎啸长空",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 29,
+        "source_row_sha256": "4154a7e19f74b43df98bb5a950ea4bac6543c84dfcb50752df425487e38a14de"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_8b169bf6539f",
+      "class_id": "blade",
+      "name": "冥鬼瞬杀",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 30,
+        "source_row_sha256": "2507e5da55cc010412932010c8d7e7eb916bad323267bdfa4dec32e022aed3bc"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_999c7600f9a5",
+      "class_id": "blade",
+      "name": "魔魂赤影",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 31,
+        "source_row_sha256": "e15e69483c294fdb60527ac6a966e18d76d7189d374a2703c2e044e5d18963a5"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_1cc29b39be6b",
+      "class_id": "blade",
+      "name": "泣鬼惊天",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 32,
+        "source_row_sha256": "f3551d43ea83eb320595d92b3e022de948976ec26584aab281ad1d7f88661063"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_7d6464f3986c",
+      "class_id": "blade",
+      "name": "魔狱破天斩",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 33,
+        "source_row_sha256": "2db2e7ed22ddb0124c97ef4c690efb3da94718fc64ea6b2f61db4e41ad431507"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_ba165cebdc8f",
+      "class_id": "blade",
+      "name": "追魂夺命斩",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 34,
+        "source_row_sha256": "c8f5d14eecffd1d73ad654d4ec1daeacc41c54693ff88cbf18c975c406d8b42f"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_3b21bb86b5cc",
+      "class_id": "blade",
+      "name": "魔狱血莲斩",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 35,
+        "source_row_sha256": "aabc77752377e9f2d45308cec6addc9fee9c7b21f50327cd131e6f7697268dc0"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_fcbcdc666538",
+      "class_id": "blade",
+      "name": "爆炎霹雳",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 36,
+        "source_row_sha256": "6c323aecb94df75d8a7f19fd60e4e7ebbf98ce75139c994036d7fc600394b8e3"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_70c138667bd4",
+      "class_id": "blade",
+      "name": "炎龙裂爆",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 37,
+        "source_row_sha256": "5fa2183f10deac4f17be3f13fb54607524ad63e8322390f464acc5a77a0a7c3e"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_blade_7ce569116ce1",
+      "class_id": "blade",
+      "name": "爆炎万刃",
+      "source_ref": {
+        "source_table_index": 0,
+        "source_row_index": 38,
+        "source_row_sha256": "3b1f9f37fd75e223f25b1e9dc3a5688920de837ee25ebb79fb91dcde5efca391"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "blade",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_f0fa8acd8a7a",
+      "class_id": "sword",
+      "name": "碧波潮生",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 0,
+        "source_row_sha256": "12ff23d0bf33fd92eaa406b29468ee71dafc73425006d87eeea99ad114f1e436"
+      },
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_15f2d70570ef",
+      "class_id": "sword",
+      "name": "劲风魅舞",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 1,
+        "source_row_sha256": "05ccbd13f54dbba5d509346d2a838d8e4d96528414d23253c1e948be0db79afc"
+      },
+      "minimum_level": 20,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_63221216dc5f",
+      "class_id": "sword",
+      "name": "皓月当空",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 2,
+        "source_row_sha256": "8842be97553268981397e527b549ec346aebfe9d9c62f7d5d117dce2be29825c"
+      },
+      "minimum_level": 30,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_471b3ed9b94f",
+      "class_id": "sword",
+      "name": "雷霆霹雳",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 3,
+        "source_row_sha256": "dd6e25949b0892fe8a929e3294e9e48d3fc51493a8992569a6191172a0b92fd5"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_1f3c149f2a13",
+      "class_id": "sword",
+      "name": "雷霆残影",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 4,
+        "source_row_sha256": "0c6a0789c8b68e6864e8b2175ea8ee9ae0c990af71453fd2384c93ac4d3097b3"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_4397bda504e6",
+      "class_id": "sword",
+      "name": "雷霆四海",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 5,
+        "source_row_sha256": "870af9a3b928958df8ea6d948ad5ed4fb84f74c5f9bf516321389e2930a2719e"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_cb4057631567",
+      "class_id": "sword",
+      "name": "碧波贯山",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 6,
+        "source_row_sha256": "6e002398b775f5d9a6a360856552bdc2d9f35c8eb1a1f10777d2d2d11b6f9aba"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_46224e53e09b",
+      "class_id": "sword",
+      "name": "碧波贯气",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 7,
+        "source_row_sha256": "897a493c1f20e58390ed9247311229a19c5eedf5e0d10c283a7053bf6a87bf69"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_307aa94338eb",
+      "class_id": "sword",
+      "name": "碧波杀阵",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 8,
+        "source_row_sha256": "b3b74031e4b88cbf75d857bcb5627d3fcdf4a129c60915711890d084512f6512"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_e48a6143b5d4",
+      "class_id": "sword",
+      "name": "剑破长空",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 9,
+        "source_row_sha256": "7ba635fc719a0df466bbb7e766ea3a9913669601d7b8a021b5f2ce9b967c04fb"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_75cd260e4f8f",
+      "class_id": "sword",
+      "name": "劈风斩浪",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 10,
+        "source_row_sha256": "1579f071021b5dc8e409af567d4d285ecb8f9e70ff7ac772c89f9f07aa78f764"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_e553a2761bc6",
+      "class_id": "sword",
+      "name": "凤舞神剑",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 11,
+        "source_row_sha256": "db15be18e2eac67b59b47d8941eeaf09c4e2c1f984f180c1275fde39276b5c16"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_b8a0d132f9c1",
+      "class_id": "sword",
+      "name": "气剑山河",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 12,
+        "source_row_sha256": "4ece94798eec95cb3529aa31c6a375d9b346615ed5064240b63c4e89f93ff7fe"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_b47920bd79fa",
+      "class_id": "sword",
+      "name": "天人神剑",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 13,
+        "source_row_sha256": "a9575e2f382179fa40660ff5dd7710b323f5c762749e5d90e9a2b6894cba8e4e"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_de6e14b3a445",
+      "class_id": "sword",
+      "name": "万剑归宗",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 14,
+        "source_row_sha256": "226ea7cb8a613015e359f6fb022ef71d06302230cac288e4d4f8ac0332028d5a"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_84f76675769c",
+      "class_id": "sword",
+      "name": "幻影追魂",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 15,
+        "source_row_sha256": "46f4ea49a3cba172581cfab2e23ce8fa89749abe7944e40f097a044b85bd48c9"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_ea98a98609ee",
+      "class_id": "sword",
+      "name": "阳关三叠",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 16,
+        "source_row_sha256": "ac6239f531e401f6e2a921054df7a111863f9bc366ab4d4036816c4a5431e7c6"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_4d8d4e53ca59",
+      "class_id": "sword",
+      "name": "万剑绝杀",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 17,
+        "source_row_sha256": "4e4c50a4f97af967f506b0fb4174579d79560de7dba6b01734b066b09f4045a2"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_b03cfe9063ae",
+      "class_id": "sword",
+      "name": "问剑无名",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 18,
+        "source_row_sha256": "b3c0d32e5baaef44d09d891941b6355a8bfffb9e3f2fae261685f56c9454e9a9"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_a7514884350c",
+      "class_id": "sword",
+      "name": "无名剑气",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 19,
+        "source_row_sha256": "f1956706b9cae4b28556fde30d4dea5282af982909ab5dc9d68eeccbca2be392"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_6b92fa5fbc0a",
+      "class_id": "sword",
+      "name": "断剑无声",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 20,
+        "source_row_sha256": "f67efd8fc8ff3a76372dfe007b94b611a8cdb645855e99b5608391fb7c8cfdb2"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_79d75472e526",
+      "class_id": "sword",
+      "name": "鬼煞之音",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 21,
+        "source_row_sha256": "54ba24dd1b1aad1ae60f9cfb5790fb3ce9058ea58752e9f9ba60cc66f4e4088e"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_bbf4f9367dd7",
+      "class_id": "sword",
+      "name": "鬼煞三星",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 22,
+        "source_row_sha256": "edd2333023e0ada1df862f7fcac126ef7382bb1ee7fd79c02c29ae1b7ec80c38"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_4b06579ac1a1",
+      "class_id": "sword",
+      "name": "鬼煞灭天",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 23,
+        "source_row_sha256": "ef731810381b9d3f5ab318e8c494bef27d1ba03d7233df756bac1f020d48e59f"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_e5a981aa049d",
+      "class_id": "sword",
+      "name": "裟衣激风",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 24,
+        "source_row_sha256": "b70af6e7f6af5df3f963a6d90a85445169d9ea7eb8f4d39e7a3927fe257db0e9"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_c1c420ab4255",
+      "class_id": "sword",
+      "name": "裟衣拂柳",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 25,
+        "source_row_sha256": "3e2ec0e77a725c305f2ea53450299f6a73814863c3d8985f6a74bb54b5014609"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_5843af5f59e5",
+      "class_id": "sword",
+      "name": "裟衣落英",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 26,
+        "source_row_sha256": "e1d22305495f77a49a3222a03f653a23ceb69ba8c34698fdef8354c52d6f7e03"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_282a4f3e2475",
+      "class_id": "sword",
+      "name": "灭魂寒锋",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 27,
+        "source_row_sha256": "52478d6678a3c348892178fab4cc46be5a09d6fd9d5594b4b7110042b512e7c6"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_d47e1ba955a7",
+      "class_id": "sword",
+      "name": "灭魂破山",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 28,
+        "source_row_sha256": "18c621300e2b2315b09abea464c5edb73936ba55341e54d6796e99f6ec16b1f4"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_445871dc1cdd",
+      "class_id": "sword",
+      "name": "灭魂鹰飞",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 29,
+        "source_row_sha256": "204d6ab9f51dd684504b888026913b56ff30bc9e8a26e17c9ee60e82c050383c"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_601dedfc04ca",
+      "class_id": "sword",
+      "name": "浣花剑雨",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 30,
+        "source_row_sha256": "238f2a97bd82f1296a485b74c4fc28c7fcb93934f7c076acb97064a885f3579e"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_cf6481234a08",
+      "class_id": "sword",
+      "name": "魔狱狂澜",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 31,
+        "source_row_sha256": "627e7db0ad599b760e5f4f2089ba9c7b83d7aaa479a5d5afdf84eb39e695900f"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_359c02800db6",
+      "class_id": "sword",
+      "name": "花落归宗",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 32,
+        "source_row_sha256": "42bfdfefcd85d349cf8c85886552608f0ad1290bfe6adb9c882761bb2eb8ca16"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_67c546e23899",
+      "class_id": "sword",
+      "name": "狂剑斩魔",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 33,
+        "source_row_sha256": "9fb880d0901958615899a6d50061bac2848b34502d8ed4340f01fb7ea71b574c"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_5a696c301083",
+      "class_id": "sword",
+      "name": "狂魔血舞",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 34,
+        "source_row_sha256": "4bc79fd7758b6ed3c6edbd61983c1bdab2f51936b46e2305948d0722355c9e1b"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_104f40c21847",
+      "class_id": "sword",
+      "name": "心魔缠身",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 35,
+        "source_row_sha256": "0357dc657054a84d324d363f68926b66430da78110ffff7db5448e939ed87ef7"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_1dc306223981",
+      "class_id": "sword",
+      "name": "鬼舞无锋",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 36,
+        "source_row_sha256": "c2ce84e689e93435112b5185285f131136802cc2ddb888610e1b08c089869b3b"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_24ff01b9e629",
+      "class_id": "sword",
+      "name": "鬼舞破天",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 37,
+        "source_row_sha256": "8493464f8b092af44d1c82c050009d7bb449647b8c704b16d69fb2722bb8181a"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_sword_b5755422dd88",
+      "class_id": "sword",
+      "name": "鬼舞破晓",
+      "source_ref": {
+        "source_table_index": 3,
+        "source_row_index": 38,
+        "source_row_sha256": "613ad657cbe43c540622a5a40a10c94a5555e05604936c40166733ec8729c629"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "sword",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_d6c72413af75",
+      "class_id": "assassin",
+      "name": "金鸡独立",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 0,
+        "source_row_sha256": "1a46685854de97bf9c49b64e02801537069ec419285a9c7cbb17b44524a1307c"
+      },
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_dd04bf7ead22",
+      "class_id": "assassin",
+      "name": "猛虎隐林",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 1,
+        "source_row_sha256": "abe40b3d4a2cf23881556f88d33128eeb5413126d53c093eecbe380761a41e16"
+      },
+      "minimum_level": 20,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_2faa2c2cf508",
+      "class_id": "assassin",
+      "name": "拨草寻蛇",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 2,
+        "source_row_sha256": "4142a1a3598232bc1db8ffd5840951ded124a421b7c8d5f5f91494c2a7131b22"
+      },
+      "minimum_level": 30,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_8dd5599d7720",
+      "class_id": "assassin",
+      "name": "流云突刺",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 3,
+        "source_row_sha256": "54bc05bd82168498cb6bf9d4d71d2ad697e7fab0b716a3d2f2e0030f1c251cbb"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_0d3ef3699b4b",
+      "class_id": "assassin",
+      "name": "聚气凝神",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 4,
+        "source_row_sha256": "6c10511b16c9e776bc07e4ba06624f1ab93613a690fc2de6339e905fc7b947c8"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_968c88a9eddd",
+      "class_id": "assassin",
+      "name": "御剑飞虹",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 5,
+        "source_row_sha256": "17ae36f7b5d5312ef4b2adbdbaa472356e4e90fd432db76c4cbc18c3ee968d80"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_d9c4a50ce0f9",
+      "class_id": "assassin",
+      "name": "回风拂柳",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 6,
+        "source_row_sha256": "fc043e5135637ec77b9b614ec6fbd8e7cba062f050a433b46317a969e100edc8"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_5597cd6fb532",
+      "class_id": "assassin",
+      "name": "半月穿云",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 7,
+        "source_row_sha256": "8d34b9004fcb989261cb3787ce6324f5e77dad0f4d7288a1dbc5a1afd861b2cd"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_7168af5811a4",
+      "class_id": "assassin",
+      "name": "雨打飞花",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 8,
+        "source_row_sha256": "fbc2fe48e423e002511dc639d15a9b8d4f71d4d287764643fe40d46bc8dc500e"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_e43fc0dd7d31",
+      "class_id": "assassin",
+      "name": "白鹤亮翅",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 9,
+        "source_row_sha256": "471b707c046ec21919c4f6a3722e43f54411d8525c005e1c49bb3595236fc5d6"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_e7bf413653b9",
+      "class_id": "assassin",
+      "name": "白鹤独立",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 10,
+        "source_row_sha256": "cdff8d60810da973baa5bcd59c8c911df60b780b6fb20128d544ef3b22105470"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_dad9b409ccf1",
+      "class_id": "assassin",
+      "name": "冷鹤守梅",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 11,
+        "source_row_sha256": "88d3e7a6bff3a29275599872c21fefcde80b6fb8c24e7de768ca3656cf06ea72"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_732f31d3802b",
+      "class_id": "assassin",
+      "name": "风卷残云",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 12,
+        "source_row_sha256": "ab30ee38bea5c8d1a2f42eb1c29b21f5f6e68fc8e86ab561efbbf4f7ff970b32"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_8dc2f7ccb916",
+      "class_id": "assassin",
+      "name": "风雨泰山",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 13,
+        "source_row_sha256": "ba951d568d3b5e418cb80b76231ca7e29754e34ce4557c765dd23871386d5954"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_0cf5ae9f3e5a",
+      "class_id": "assassin",
+      "name": "疾风落叶",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 14,
+        "source_row_sha256": "5bd5652219968efde03c421415660d2e3146202bf771d9982d31a3e9d3238cf7"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_e64d4bf52db5",
+      "class_id": "assassin",
+      "name": "地动惊天",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 15,
+        "source_row_sha256": "00e3967a0e4ba5eef69f95431e9b62d3f30daa08f7cf7ad0cea43de1e390263b"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_ad352e2a8f77",
+      "class_id": "assassin",
+      "name": "咫尺天涯",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 16,
+        "source_row_sha256": "bdd3235f0abc2a0ed9375715388d4d4f985202f758f0efad226a2a5988cfe2cb"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_3c8d540573a4",
+      "class_id": "assassin",
+      "name": "遮天蔽日",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 17,
+        "source_row_sha256": "b8c5ce4599d35a8f0289bf7dac227ae3eb2cc451f50732eb82f94841d24dd5ca"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_c2eb679791b0",
+      "class_id": "assassin",
+      "name": "碧海潮生",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 18,
+        "source_row_sha256": "f57e551bf6c17368b7e093a18369cc19a42ad47d7e12f48c5dca95121cf42581"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_807b4a21558f",
+      "class_id": "assassin",
+      "name": "黯然消魂",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 19,
+        "source_row_sha256": "4d5c77d7f38d61da2f6e6068fd81dc79641fa5f690d9a3501c2e673c4c9a5ece"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_a8be316b84f4",
+      "class_id": "assassin",
+      "name": "万流归宗",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 20,
+        "source_row_sha256": "2c127e88f5528f9d9cc8c17edaee40dba8955d999b28adfff16f02942b09f4f2"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_45c2672f2a3e",
+      "class_id": "assassin",
+      "name": "铁骑突出",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 21,
+        "source_row_sha256": "61e0599f601763a2e87e4382d3c5490ffc2561033bdde94d1299e81c0fe76fd1"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_76ddf007651e",
+      "class_id": "assassin",
+      "name": "锋芒毕露",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 22,
+        "source_row_sha256": "f6df32ec8860b47938e05c3fa5e5d442e583ef997e73922f918cb3d178aefe68"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_88ed305a1ee1",
+      "class_id": "assassin",
+      "name": "一战功成",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 23,
+        "source_row_sha256": "3bfa1b814d6badc79187f55575a34019b389545dfa738ebd768d11ae38091fe2"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_c023881a943d",
+      "class_id": "assassin",
+      "name": "斗转星移",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 24,
+        "source_row_sha256": "ce3c33a660ddd7dba963ebc73cb86361abec217c6153c280718ed96afa681c27"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_c1e8f359433d",
+      "class_id": "assassin",
+      "name": "星火燎原",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 25,
+        "source_row_sha256": "9044908ced2aaaf70efde31a281e1c308e9b3bd97add9b718abe8a77173f8c04"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_2aa4bcfd8e75",
+      "class_id": "assassin",
+      "name": "众星拱北",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 26,
+        "source_row_sha256": "c6820c86f26db8b1158861cded817891935344ccd4cb94a2c8f97b6c5a815166"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_10a6fb90502b",
+      "class_id": "assassin",
+      "name": "画蛇添足",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 27,
+        "source_row_sha256": "d39c94104534f347cc009ed5ac1818a28d51e0e7811a6ae9ac35b7830fc3e150"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_780855e24d47",
+      "class_id": "assassin",
+      "name": "杯弓蛇影",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 28,
+        "source_row_sha256": "1b06537eafd85956c889600c22adde8f3fdfe86162fbe9b68ef2896752c6f6a6"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_df8eb9608b8e",
+      "class_id": "assassin",
+      "name": "亢龙有悔",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 29,
+        "source_row_sha256": "59e893c84866729924fcdb3b3b97980b0705c0e71c069a0b644a5ca2088df86b"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_66eff75328fa",
+      "class_id": "assassin",
+      "name": "电光石火",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 30,
+        "source_row_sha256": "73a81837b728b1a898e362a44687ae86ba8b981c8987662d06d3768f187c4b53"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_363c574730f0",
+      "class_id": "assassin",
+      "name": "雷厉风行",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 31,
+        "source_row_sha256": "0e29bfecc8f6319654d2109e86565d2a9ce9eceac0ef966bb771aff59268fd5d"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_709e6953e79e",
+      "class_id": "assassin",
+      "name": "轰雷掣电",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 32,
+        "source_row_sha256": "4303db0ebbddc4498e3117246d65e48184e9a621abb9b0a14c2ea17d6550e4a8"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_c8899f805eac",
+      "class_id": "assassin",
+      "name": "邪镇天下",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 33,
+        "source_row_sha256": "d8de39e8e164bc4148c3ab2ed06c0757716a5924bfb4e1a568719ca62cc1e929"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_ffb9837e4dcf",
+      "class_id": "assassin",
+      "name": "毁天灭地",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 34,
+        "source_row_sha256": "dd433dd307fc8f645ff7c0b3ea8bb6b2f213cecee56e68179dfe4960410e860a"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_6f715cba11b7",
+      "class_id": "assassin",
+      "name": "唯我独尊",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 35,
+        "source_row_sha256": "c1a89d95692d06ddddc3ce0c22591bc16da3581dc1ba08c4ac7eba8f23ad1b4e"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_f8cfa60fecb7",
+      "class_id": "assassin",
+      "name": "群魔乱舞",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 36,
+        "source_row_sha256": "219d731eccefb2d454738375ac44286175bc98b21301931af73e04a914d2e5ca"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_5a6fb807ddab",
+      "class_id": "assassin",
+      "name": "跗骨之蛆",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 37,
+        "source_row_sha256": "9ac0b265ac2f1c827409128c237733cde34dfa0acaf58d28f437a48594acbe4b"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_assassin_249885e2968c",
+      "class_id": "assassin",
+      "name": "百鬼夜行",
+      "source_ref": {
+        "source_table_index": 6,
+        "source_row_index": 38,
+        "source_row_sha256": "d442ee5fe0ca6fb93fd478c76287d86c73a7a2f51a9b21da2fc84e448e561857"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "assassin",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_fb63d4133403",
+      "class_id": "spear",
+      "name": "震云贯日",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 0,
+        "source_row_sha256": "dd1b476a46efd2aa32dad47b155f52c933deefa028205b5042e256d1ae84353f"
+      },
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_f3110fb036cf",
+      "class_id": "spear",
+      "name": "腾雾强击",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 1,
+        "source_row_sha256": "5b89fbf9b8b42869c60e32353c112b2502c2bd2591f84f81f7aff68d6e7e585d"
+      },
+      "minimum_level": 20,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_960ce0670852",
+      "class_id": "spear",
+      "name": "纸传决打",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 2,
+        "source_row_sha256": "e23c5c05af90e0aee058afe70a3eefd65b3e6036c82f565b40635a961a681934"
+      },
+      "minimum_level": 30,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_1ff65496dc8c",
+      "class_id": "spear",
+      "name": "连环归灭",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 3,
+        "source_row_sha256": "eea0d3ed089e69f913e880d98fe0e59031722dbb54360be84166df59f82e1cb1"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_ea6c7aebe3c5",
+      "class_id": "spear",
+      "name": "连环飞天",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 4,
+        "source_row_sha256": "8f0a8f0a4b4bc9d31541d43076877b6cdbdb47334c1c8156c9ef49d2bce99715"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_f970c6d3a4fe",
+      "class_id": "spear",
+      "name": "连环屠龙",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 5,
+        "source_row_sha256": "34690a009430769a215c019eaaa69b43e9c95fcb5e369d7e4e8aa456a88c5e35"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_02e7c4bbeef4",
+      "class_id": "spear",
+      "name": "白虎吞天",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 6,
+        "source_row_sha256": "b6a55d19c1aad0ce47aa6d5998f6b514cb3ea6fb8bd7f9f2ea75a7a21b54cfb8"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_03adb85f4b12",
+      "class_id": "spear",
+      "name": "哀伤魔枪",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 7,
+        "source_row_sha256": "2cbc6eae33f1a7e65819095938577d1c399cbbd95cb3cc5c53c5406f7f747c70"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_9d49908343b8",
+      "class_id": "spear",
+      "name": "龟寿裂杀",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 8,
+        "source_row_sha256": "1aa8b2b49d1abd54b0b9a67d2b0ece25678345934533f28051cca0552cb6ac9b"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_295954dc2269",
+      "class_id": "spear",
+      "name": "义薄云天",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 9,
+        "source_row_sha256": "0cd90052c6a795d7e48d7b92b82bd7c8065fb68807c344d384e86935a657fc8a"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_96cc8f5c15c6",
+      "class_id": "spear",
+      "name": "龙腾四海",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 10,
+        "source_row_sha256": "20ef471e0bb43cc6a0792a431811d455488edc89fdd4a7643b13cb9d0d2f6d3e"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_d23dceb5e8ae",
+      "class_id": "spear",
+      "name": "鹰击长空",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 11,
+        "source_row_sha256": "2c6ca552b85f1a4b146382264dddf9f9b5ed4152183cef7f5cd0218314a3de0e"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_9bb840fedb05",
+      "class_id": "spear",
+      "name": "天人合一",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 12,
+        "source_row_sha256": "70a29baec362b464e36a3294890929a91be3b5636f70cb9ecd03d668ee23a4bd"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_21afdc705233",
+      "class_id": "spear",
+      "name": "天神万钧",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 13,
+        "source_row_sha256": "f09f2c080481327504ef8a2ef32c85cd3626766200da454598d2368dbd179cb8"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_40b4a9ac20fe",
+      "class_id": "spear",
+      "name": "无天无地",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 14,
+        "source_row_sha256": "035fdd6c2e16bae4b18529073c5ef81a817fb293a3ab513484ee5f7f2e05aac0"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_3c6fed583a48",
+      "class_id": "spear",
+      "name": "追风天狼刺",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 15,
+        "source_row_sha256": "6d6951fd6cec3c575d99633c38db73b275c5232ea7a0f85080f1c6dc4c24e65e"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_9ee6af2c3171",
+      "class_id": "spear",
+      "name": "嗜血天狼击",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 16,
+        "source_row_sha256": "ce75bd12e74c1471776a871466c435f077b62a9ca6b3b37a2d739333fb2106fb"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_26b36f2d148e",
+      "class_id": "spear",
+      "name": "疾风天狼破",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 17,
+        "source_row_sha256": "a25aab92ea675908cb44795b064088e5a05af003ebf69e28e3c53197f09bed79"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_38311e8048fe",
+      "class_id": "spear",
+      "name": "冰凝雪影",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 18,
+        "source_row_sha256": "a48560ae61d5d36ec167407a74144285a6c465a7fe86537ff986c8743e035b0a"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_0d69458539e3",
+      "class_id": "spear",
+      "name": "冰刃狂舞",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 19,
+        "source_row_sha256": "046fe7fb3b050d4b59051fcb3657694ef20ef5fbcf71da11f6d163281c594b98"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_4e8562c7bc34",
+      "class_id": "spear",
+      "name": "冰灵无极",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 20,
+        "source_row_sha256": "f03ee42a09c1bf7e01fea509c80668f2734a204c920e7635cdb4f4a314032201"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_d1ffe338aac2",
+      "class_id": "spear",
+      "name": "火星乍现",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 21,
+        "source_row_sha256": "9e165ea08ed3d1a56ff25a5e93879de08c8f85982d17dbd40d51e30ba5f43b8b"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_150b21b070ec",
+      "class_id": "spear",
+      "name": "中流砥柱",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 22,
+        "source_row_sha256": "abddd849e2cb1dc9b7e5f2ce3499bbebb1c65be76c6efc67446e39a9609a7f30"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_dc46e5a53a9b",
+      "class_id": "spear",
+      "name": "威凌天下",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 23,
+        "source_row_sha256": "4fb33479b98e69d906e6404774246f145f1d3d1d4bc354b06ca65d87272934d2"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_f7ecfcdd43a8",
+      "class_id": "spear",
+      "name": "逆天灭龙",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 24,
+        "source_row_sha256": "81c06de4f9b061b470f8bb293308b43d8d5260a386b1f84dac1dbd770dc07808"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_02f32235c47c",
+      "class_id": "spear",
+      "name": "逆天煞星",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 25,
+        "source_row_sha256": "159f82ae4479e2b00f7fe44abc9009f354236a93eac90afa5762ae379a6b4981"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_3f0b2b270960",
+      "class_id": "spear",
+      "name": "逆天将魔",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 26,
+        "source_row_sha256": "8dc1b6bc74b4bc8a0e3aaabeb4d639223b18a4595dff8b1f14fd13cec9bc25d6"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_618f6974fd3d",
+      "class_id": "spear",
+      "name": "天地无用",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 27,
+        "source_row_sha256": "d7c1880037f1027b4edbcfc5ce9daea19e819f2f251b449ba75febc832e7dfa6"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_5726f136c376",
+      "class_id": "spear",
+      "name": "神龙破甲",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 28,
+        "source_row_sha256": "e3d2e65c9a61f57fcf5d1dee84094284fc93872976361a2baec7e35d8ad54d40"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_611cad2b9799",
+      "class_id": "spear",
+      "name": "金蛇狂舞",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 29,
+        "source_row_sha256": "5be169e9226b23e64dcf478d3a8a53947c7c7f32c33609b2121ddff68aa73c8b"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_b65ad8193967",
+      "class_id": "spear",
+      "name": "天魔掠影",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 30,
+        "source_row_sha256": "68ae2b3a76133cebab67ae970afb196806a873b92b0c6e9f49adb32081f7d5d4"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_1bd70f52ab30",
+      "class_id": "spear",
+      "name": "魔天暗日",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 31,
+        "source_row_sha256": "28fbae36f41332a93683d9458c65594e5f539cda2cc7aad2bb45045094e3122e"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_8ebc0e6fdd68",
+      "class_id": "spear",
+      "name": "魔天灭世",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 32,
+        "source_row_sha256": "cbc51fd0b09d119bd9dedd3c806852706c86f555353e3708e2fa2860246d75bf"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_54ac43d11ca1",
+      "class_id": "spear",
+      "name": "毒龙断魂刺",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 33,
+        "source_row_sha256": "f43e6c4d6ddd7694129fe9590ffaced4f8e2ec0d7af8533c5c4689752e2bc925"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_ae84c86b8f44",
+      "class_id": "spear",
+      "name": "毒龙穿心钻",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 34,
+        "source_row_sha256": "fa2a67b5ce798cd489c4ddf49bf1368efe184355bb95637a77efbfcd928301de"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_6754c5f6c0cb",
+      "class_id": "spear",
+      "name": "狂舞千龙破",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 35,
+        "source_row_sha256": "c5bb7ce97d3ab52eedf19e66453f25ee30875066071f7f0442158821ba418430"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_f5ac2b7c793a",
+      "class_id": "spear",
+      "name": "血雨鬼泣",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 36,
+        "source_row_sha256": "dd5aeeae35c659a184d30212dccc735ca265f3c69ca72a87410f32bbb6fbc370"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_fa9d73801c10",
+      "class_id": "spear",
+      "name": "血祭天下",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 37,
+        "source_row_sha256": "4c53d869e059dd9d6fe144808fc90fa67c9769aed6df0496d5bba4690828ceb2"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_spear_45a1fb1894cf",
+      "class_id": "spear",
+      "name": "神枪泣血",
+      "source_ref": {
+        "source_table_index": 9,
+        "source_row_index": 38,
+        "source_row_sha256": "4777def53ba541d98ea5f3dd9faf782e0c782fdf196c37ee118c8b017e420bba"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "spear",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_bbdb2bb5f80c",
+      "class_id": "archer",
+      "name": "冷月寒杀",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 0,
+        "source_row_sha256": "7ae9d8cf5703dc8949a6ca09ffc1fb0fce857af0bf32c20ab0838d8d04d68742"
+      },
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_59e92c3eda79",
+      "class_id": "archer",
+      "name": "残月破魔",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 1,
+        "source_row_sha256": "99a82355340531be5dc21c539c38339131f02d7e788624ee54da099dc9d3a113"
+      },
+      "minimum_level": 20,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_0d3dc8857d51",
+      "class_id": "archer",
+      "name": "日月同辉",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 2,
+        "source_row_sha256": "a10a189953c3baf0fe1dab8b7e250fb3704ea3f5e7fada50b77abedd91ca2aea"
+      },
+      "minimum_level": 30,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_db2354665c96",
+      "class_id": "archer",
+      "name": "流星赶月",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 3,
+        "source_row_sha256": "2b64a3bd458521758b5d710794f8ac40d7ee8b551d1d8cbe824d0662005f2e8c"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_5b22aa111ecd",
+      "class_id": "archer",
+      "name": "流星飞电",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 4,
+        "source_row_sha256": "0f97f63c8987e3cc373f58d9e43df6919779b08b938bc0f626c449be9cf665a1"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_4b61e2ea252c",
+      "class_id": "archer",
+      "name": "光芒万丈",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 5,
+        "source_row_sha256": "a422330abac34694cc5b8f898cfce6f8b6a82ecc0b84d673fce4d42f2e0cf0b5"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_d580c3243c93",
+      "class_id": "archer",
+      "name": "丹凤朝阳",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 6,
+        "source_row_sha256": "4cb85adff0ba52edbb3a13377b6cdee4ee9b9cbdd16fb9fd7483d14fb9af785a"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_b42033c65b7e",
+      "class_id": "archer",
+      "name": "孤凤奔月",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 7,
+        "source_row_sha256": "48b89d9d7f7e2ae24b10a1a3c18d3f0fb48682956d3ad76003b4707dc1da167d"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_13955c268746",
+      "class_id": "archer",
+      "name": "凤翼天翔",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 8,
+        "source_row_sha256": "18bbc067d62f67675a9767239c55e986f6da255525dfd89f793750ed3b67920c"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_fbcc4b4230f2",
+      "class_id": "archer",
+      "name": "御箭伏魔",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 9,
+        "source_row_sha256": "18177acd4b7c89d3af65b464638e0cadbcb626bb89c8cafb09126d35cbb014dd"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_c45a23edccae",
+      "class_id": "archer",
+      "name": "除恶务尽",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 10,
+        "source_row_sha256": "54b13ae38c93a45402e46e197d274d32e8140990d8bc1ab33f0e236763dc37ef"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_485642b01cb8",
+      "class_id": "archer",
+      "name": "万箭破魔",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 11,
+        "source_row_sha256": "3577a78e982038176bfe8c5876d1aa6bc6455508dce99506d6460e70f39efdd3"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_cdada090bce5",
+      "class_id": "archer",
+      "name": "惊涛拍岸",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 12,
+        "source_row_sha256": "0f5cf3809b8b5ad2a7241e5a1941698d99bee9d0d04d7c85ceebe3716d522d0c"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_1f047174e112",
+      "class_id": "archer",
+      "name": "狂风巨浪",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 13,
+        "source_row_sha256": "ce2a1ea1256576bd963056dd18e11405e3ccd04b53a88a7051b745e963bd5ccf"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_7eb605d1f24c",
+      "class_id": "archer",
+      "name": "大海无量",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 14,
+        "source_row_sha256": "53c56d7eb7fbfa2750a0f02d0456c57b727ec66a87d4ef364f084d32df73cc6b"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_39d1c978e8f8",
+      "class_id": "archer",
+      "name": "强弓落日",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 15,
+        "source_row_sha256": "2d1cf76c071c487b975a946c7434a2aa745ea976e2aabe6f7339ae709f3d15fb"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_4f58ffeea156",
+      "class_id": "archer",
+      "name": "烈焰焚天",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 16,
+        "source_row_sha256": "7eab49ac6fb2fda9228a8fcba5e6ad36fed00f6d8871babe3bc951ace397a0a3"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_c34050d0ee64",
+      "class_id": "archer",
+      "name": "天崩地裂",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 17,
+        "source_row_sha256": "47b7f78308c122b0500661c77a4d86c15175c9877159c3a4f48fb5d5f5026060"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_3253d890234a",
+      "class_id": "archer",
+      "name": "狂矢追夕",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 18,
+        "source_row_sha256": "579fcddd48229062cb9ef843b20c6908dd914571b615da36616ee423cc154551"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_35702bcf1599",
+      "class_id": "archer",
+      "name": "箭破残阳",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 19,
+        "source_row_sha256": "1d85fb2002203504f90d322b333b36592b1a6342d656cf0414ca150108a4d98d"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_cfa2539c5a93",
+      "class_id": "archer",
+      "name": "偷天换日",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 20,
+        "source_row_sha256": "d366b899157862d15343d1691828043215f03612a9a108f71b3f317d2c60255a"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_24ca7dd004c6",
+      "class_id": "archer",
+      "name": "残箭摄魂",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 21,
+        "source_row_sha256": "7e329cd3a202631f15d8c1a649804a31a1835d4d07440e2a2602b6a255c75da2"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_a04080ff9839",
+      "class_id": "archer",
+      "name": "幽冥鬼矢",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 22,
+        "source_row_sha256": "0f18b42e30e80a0d5e257347b6e5364244921c66d5b275fed8b487dda0d25b27"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_84380567ca5f",
+      "class_id": "archer",
+      "name": "魂飞魄散",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 23,
+        "source_row_sha256": "84938b217b307c4f6bfe1cb294b21d603d2850888315adb20806cd29f75a7bc8"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_9d9413d93a84",
+      "class_id": "archer",
+      "name": "魔焰吞天",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 24,
+        "source_row_sha256": "025fb63af5331466d1cc2e54060a5d7beee7d8c0b8d3fdeb7a71ff0cf04404ef"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_1bedb66cb741",
+      "class_id": "archer",
+      "name": "逆魔缠身",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 25,
+        "source_row_sha256": "3754efa718486dab878335414e9946ed992eea443022c446e55c9976a7f6c5d0"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_a3faaafa1083",
+      "class_id": "archer",
+      "name": "群魔血舞",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 26,
+        "source_row_sha256": "6b0455c90cadeb2a1fe28ba435b789d8d2516378745a75da42850e3968a78dd6"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_ca4884f9cfa5",
+      "class_id": "archer",
+      "name": "血影狂杀",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 27,
+        "source_row_sha256": "d9be45496d76f385f6b9d1614f0075c3365ce7a820bea540287e2a55ebf9aee1"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_3f07b7b56974",
+      "class_id": "archer",
+      "name": "凝魂摄血",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 28,
+        "source_row_sha256": "eb2be07e354e770ea8ce0cd21474c44f207df044423393bbc4d9a943196f665b"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_433bec6005e4",
+      "class_id": "archer",
+      "name": "见血封喉",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 29,
+        "source_row_sha256": "4e65a924fe16c45e1071abb18c4062e0e5e4743f899da21ca01b7f002159e6c5"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_285c23d2cdcf",
+      "class_id": "archer",
+      "name": "箭落残阳",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 30,
+        "source_row_sha256": "9e7c15b6bdedeea773950fe4d6447b519a4da087e579e87b8928d858af45a242"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_1f8cf0877934",
+      "class_id": "archer",
+      "name": "鬼哭神嚎",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 31,
+        "source_row_sha256": "d263f5d148fea1d87d72be7c851a9b5753f781e59acd47765cc38bd9c1390664"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_7121b157f666",
+      "class_id": "archer",
+      "name": "天地俱灭",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 32,
+        "source_row_sha256": "2d8a2408e910216e842d04ed59bc49ed0f2e8ff8912e9d7d789e3afce1b201df"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_a4e896b0abf5",
+      "class_id": "archer",
+      "name": "阴云蔽日",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 33,
+        "source_row_sha256": "1f076aa5dfe239a0c1c9d14fc34ce871863d97a4ca37c59568df2719e32fe5ca"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_ac3385981187",
+      "class_id": "archer",
+      "name": "九阴破血",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 34,
+        "source_row_sha256": "fd51d099ee6f2e7639462ee0813dc325ad00fc075af5cfcf88e9de2532ceb494"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_52542afac3ea",
+      "class_id": "archer",
+      "name": "阴月狂杀",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 35,
+        "source_row_sha256": "231c721f2fee716704aa03354607da8974040124efa8d06a88443bb0c647f53b"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_ef138e535cf2",
+      "class_id": "archer",
+      "name": "魔谕流星",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 36,
+        "source_row_sha256": "b91523c8fb24071f0a7674beb4480516779503fa0f20470d92f76ec29cbb66fe"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_6ec90fee9fc7",
+      "class_id": "archer",
+      "name": "魔谕狂电",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 37,
+        "source_row_sha256": "4c03ca7bef3dc8e34d2a2d11adaa55c8729b5f98addb139f94d65956d35b9441"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_archer_66a1b4a66506",
+      "class_id": "archer",
+      "name": "魔谕奔雷",
+      "source_ref": {
+        "source_table_index": 12,
+        "source_row_index": 38,
+        "source_row_sha256": "b476239f6daa3b63b8a89cb921ef7769cc50cdf6a0efaf7312054403073f952e"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "archer",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_6c94634212e8",
+      "class_id": "physician",
+      "name": "绝影掌法",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 0,
+        "source_row_sha256": "1612437c9770c63fe1d622679da9d3b6d8669b3b81fc2643fdff66ca76e580db"
+      },
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_f4b0a6f54981",
+      "class_id": "physician",
+      "name": "太极五形",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 1,
+        "source_row_sha256": "3f7bbd6355c00f69f79b9dd39cc5b503f25bba5bdd8ee6452ca0bf433b04a0b0"
+      },
+      "minimum_level": 20,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_7a0542b18fe1",
+      "class_id": "physician",
+      "name": "太极罡气",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 2,
+        "source_row_sha256": "3fdf096fbf7f270ffe5d3a75009f882f1a7b0c4d64eb610a3d6017e681c4e4f1"
+      },
+      "minimum_level": 30,
+      "minimum_rank": 1,
+      "required_route": "any",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_5f8397ce9ca7",
+      "class_id": "physician",
+      "name": "青阳寒天",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 3,
+        "source_row_sha256": "5b9b5922546d100fefd5e7ff4a876285a4b73c7e0f8e0879442f17669f86c964"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_af5ad5b43f89",
+      "class_id": "physician",
+      "name": "青阳破天",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 4,
+        "source_row_sha256": "efd683c82eb36803d4465d904882629840850e7a649581d1cfb58ae66bdcf8b2"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_d353aa1c60f4",
+      "class_id": "physician",
+      "name": "青阳乱天",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 5,
+        "source_row_sha256": "73f87a1d98fa92479cd3eb592c3cb4e44544e1aab35029c35d2e482ed0b685b5"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_881d48d28bd3",
+      "class_id": "physician",
+      "name": "金掌敌虎",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 6,
+        "source_row_sha256": "81ddc37a0d293c2978bab42b720ddaf9454a07f688b7b7af90b90b618a1cbe0d"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_297c9ed45e2b",
+      "class_id": "physician",
+      "name": "金掌破凰",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 7,
+        "source_row_sha256": "11878f79d8e75fec643123f7783d5cc1b72ab2268e63680526300f5104a4a86b"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_73a47bdb95f3",
+      "class_id": "physician",
+      "name": "金掌绝龙",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 8,
+        "source_row_sha256": "16441db677df1143743e6f5738a9ff2960b8f00d3ca3618e4f5d910be1303988"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_8dfa1edf1c4b",
+      "class_id": "physician",
+      "name": "泰山压顶",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 9,
+        "source_row_sha256": "1724bf01a519aa213b2e92155b640d7cc54742d486f57e0f244589350767af81"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_2aa0d93e44c7",
+      "class_id": "physician",
+      "name": "泰山尊威",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 10,
+        "source_row_sha256": "2913ed6bec65747276061f0739e78653d970fbf165ff02cae4e01b403967937a"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_5f86460a967a",
+      "class_id": "physician",
+      "name": "泰山绝顶",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 11,
+        "source_row_sha256": "08280e10ac0cc9acbe67fbc3a626c3266e138c1fc538ee9cfe519e97baa65726"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_fb3eb49dacd5",
+      "class_id": "physician",
+      "name": "排山倒海",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 12,
+        "source_row_sha256": "481ebd36c4f788dff3ac1ce917db1349e6175415900e2195d2f12ce469f2a4d0"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_af6addf6684e",
+      "class_id": "physician",
+      "name": "碧波开天",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 13,
+        "source_row_sha256": "0385257ee8cef6fa9582e7def5ff3bc29ddf480ae39385166aebd75dca55a451"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_bf87824c6f54",
+      "class_id": "physician",
+      "name": "九天狂澜",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 14,
+        "source_row_sha256": "fbd950f8ee51f0cf0ee13a179c35929855f5685925ed6fda68567f3ecf426021"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_daaae9bde452",
+      "class_id": "physician",
+      "name": "漫天风雪",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 15,
+        "source_row_sha256": "3969ec67d64b254cd46c09e07c7b103f05c7d55142e9baa6b3e533c00f999cba"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_41fb26fee5cb",
+      "class_id": "physician",
+      "name": "雪舞狂杀",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 16,
+        "source_row_sha256": "06c433f3a6808f421660b8acfb3c474db84bcf74747ce8b8e0c3429d96c2b792"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_ae455a04b13d",
+      "class_id": "physician",
+      "name": "雪舞霜龙破",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 17,
+        "source_row_sha256": "46711ae12a610e1d3fdcea7c89f2ea6190afe1a71376ea1cb4f401f18387b892"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_50d9a6d351dd",
+      "class_id": "physician",
+      "name": "雷鸣动天",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 18,
+        "source_row_sha256": "54a1628b66508129eb421130aa03d4ea9f67a6fa6ea3bed45d968887903fdac1"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_a067518ae6fc",
+      "class_id": "physician",
+      "name": "惊雷初现",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 19,
+        "source_row_sha256": "7ed0df02c97265f917d9a00ce0bba44fa8173bf9694ab0303be2622fd43002ff"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_146e08e7c3a3",
+      "class_id": "physician",
+      "name": "惊雷裂空",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 20,
+        "source_row_sha256": "7471a6d0e31f7c1ca801093cd5aedff4580cb80b29bd056092a4fea2b3274a9f"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "righteous",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_db656f4e3785",
+      "class_id": "physician",
+      "name": "北冥凝血",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 21,
+        "source_row_sha256": "e4b8b88acc82a4e05ba5ea5afa596995b534d4fad236b372141ba3a6f463da38"
+      },
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_639a3bdae4bc",
+      "class_id": "physician",
+      "name": "北冥夺魄",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 22,
+        "source_row_sha256": "4cdb071679eb12622c943b97fd7f0b0af860ba49ffdf8ff22299adb98355e853"
+      },
+      "minimum_level": 45,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_46300950cef9",
+      "class_id": "physician",
+      "name": "北冥破心",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 23,
+        "source_row_sha256": "7cde5244cb631eceb483475e4a0ab886030051600e2dbc76b4ec3a35390c5528"
+      },
+      "minimum_level": 55,
+      "minimum_rank": 2,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_5fb6b58b1335",
+      "class_id": "physician",
+      "name": "独尊移山",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 24,
+        "source_row_sha256": "301a50472b4024e83a012c6e2b4bfcba07deb15e7cf7e15536b36888b4e39119"
+      },
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_fc3f642ce7e0",
+      "class_id": "physician",
+      "name": "独尊填海",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 25,
+        "source_row_sha256": "7e05d43620059dedeb5f236842fad7a4548a5d2a9cb60a72d25f2202449466fa"
+      },
+      "minimum_level": 64,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_191c07566c52",
+      "class_id": "physician",
+      "name": "独尊熔金",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 26,
+        "source_row_sha256": "c4ac2053acff0f0b1f4f60e014bce45819d72505f319750ba5e3cad2496013ef"
+      },
+      "minimum_level": 68,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_164f16f323bf",
+      "class_id": "physician",
+      "name": "迷魂聚气",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 27,
+        "source_row_sha256": "b66d1c20f518b35c18d22ceac9df18fb22b803541af3c4d36c9382e0d284ad02"
+      },
+      "minimum_level": 71,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_b0137c6d8302",
+      "class_id": "physician",
+      "name": "迷魂震裂",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 28,
+        "source_row_sha256": "8efff6ab5538288b00b2b3a3edba37c470912471e6fe7599170ba3eff0ad0ac7"
+      },
+      "minimum_level": 74,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_e5ddd455a699",
+      "class_id": "physician",
+      "name": "迷魂追魄",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 29,
+        "source_row_sha256": "72b1010bc7d6c70060b0a7d0f8fce39475aa215c92e79cdab04b948772849417"
+      },
+      "minimum_level": 77,
+      "minimum_rank": 3,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_f8cfa60fecb7",
+      "class_id": "physician",
+      "name": "群魔乱舞",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 30,
+        "source_row_sha256": "22f25d68d19011d5aefe4a43ac9d4016c183204c56dccb8642d3386871d81dba"
+      },
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_8049397d6164",
+      "class_id": "physician",
+      "name": "血海飘香",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 31,
+        "source_row_sha256": "14a3e5d76fa06d143f9e691c455781c5fe4904ce65171839fdfe254a6182e5ae"
+      },
+      "minimum_level": 84,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_0755873d4355",
+      "class_id": "physician",
+      "name": "只手遮天",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 32,
+        "source_row_sha256": "2bb5113b2d31b52e7fd92ab0eee257d8707265c10ce4ba36b9224ffa8aa17461"
+      },
+      "minimum_level": 88,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_691c921a808d",
+      "class_id": "physician",
+      "name": "狂狮吞天",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 33,
+        "source_row_sha256": "5cbbeef00513be834847342dce2a401f0008669c67a8b94fb53eb66b575332d0"
+      },
+      "minimum_level": 91,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_5e77548da2b8",
+      "class_id": "physician",
+      "name": "怒焰焚天",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 34,
+        "source_row_sha256": "fa745768776a5a610995fedf99e8b48f7fff6b5071399c6cb732747f549bdc34"
+      },
+      "minimum_level": 94,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_ebef83332a93",
+      "class_id": "physician",
+      "name": "天火燎原",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 35,
+        "source_row_sha256": "863b9f0709bc2ce2ddef44d508db547cdf94552e75965b5b30e1b05b5cd51ecf"
+      },
+      "minimum_level": 97,
+      "minimum_rank": 4,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_75691b082b40",
+      "class_id": "physician",
+      "name": "嗜血寒沙",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 36,
+        "source_row_sha256": "73830e6dad28378a590401612282c97c025dc671b387410e0943f96337f99a62"
+      },
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_3b2fef13e1ab",
+      "class_id": "physician",
+      "name": "满天沙舞",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 37,
+        "source_row_sha256": "4037aa7275726245796833387d9d777ecea38d473b6d401374477bed9a148c7d"
+      },
+      "minimum_level": 104,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    },
+    {
+      "ability_id": "martial_physician_4cadb5eec6c8",
+      "class_id": "physician",
+      "name": "寒沙蔽日",
+      "source_ref": {
+        "source_table_index": 14,
+        "source_row_index": 38,
+        "source_row_sha256": "ed7a4c7c80b4f1dbf34ee61206a42984f462e20c1cc56852ddb5cd7e220120eb"
+      },
+      "minimum_level": 108,
+      "minimum_rank": 5,
+      "required_route": "evil",
+      "action_profile_id": "physician",
+      "maximum_phase": 1
+    }
+  ],
+  "remaining_scope": "乐师/格斗58普通攻击由乐师格斗普通武功.v1.json采用；12绝命技由绝命技与终结收益.v1.json另采用；英雄普通武功由英雄普通武功.v1.json采用；升天主动由升天武功与秘籍.v1.json采用；完整装备与世界/奖励仍待采用；234条设计不代表完整技能树或实际通关。"
+}

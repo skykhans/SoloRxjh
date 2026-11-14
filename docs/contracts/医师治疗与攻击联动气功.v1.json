@@ -1,0 +1,127 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "six_physician_trigger_profiles_not_implemented",
+  "source_policy": "保吸星除轻功/狂意5%怒气3分钟防御/无中减狂意/九天辅助增效/万物双恢复/明镜无中份额增100%职责；精确系数/概率/取样为项目值。V25取消明镜5级以上升天限制，覆盖旧原条件。吸星施放时间本地采用增益持续时间，不冒称原词语义已核。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_physician_20fedd675814",
+      "class_id": "physician",
+      "name": "吸星大法",
+      "source_table_index": 40,
+      "source_row_index": 8,
+      "source_row_sha256": "dcf135d8fe28014cb41bd70009afa7d9e3f48aa45247893ea857e88701735599",
+      "profile_id": "nonlightness_aux_duration"
+    },
+    {
+      "qigong_id": "qigong_physician_c64d282181b3",
+      "class_id": "physician",
+      "name": "狂意护体",
+      "source_table_index": 40,
+      "source_row_index": 9,
+      "source_row_sha256": "11ad5b480348a922b6b47f1568a51b77c37d71a4e5b5d47e8c96f82925dd79d1",
+      "profile_id": "heal_rage_defense"
+    },
+    {
+      "qigong_id": "qigong_physician_e73e0539ee71",
+      "class_id": "physician",
+      "name": "无中生有",
+      "source_table_index": 40,
+      "source_row_index": 10,
+      "source_row_sha256": "c87ee18acb0fc8f3d4edf2ae27b0754911c9a4ad91edcc494a44bc8718e6278c",
+      "profile_id": "random_final_gain"
+    },
+    {
+      "qigong_id": "qigong_physician_67a4f0500707",
+      "class_id": "physician",
+      "name": "九天真气",
+      "source_table_index": 40,
+      "source_row_index": 11,
+      "source_row_sha256": "e9b02b7fb9180fa57be6af569cff02e8346ac3e363278b8dd673e65698df0cc7",
+      "profile_id": "own_aux_potency"
+    },
+    {
+      "qigong_id": "qigong_physician_b163b72e6c51",
+      "class_id": "physician",
+      "name": "万物回春",
+      "source_table_index": 40,
+      "source_row_index": 13,
+      "source_row_sha256": "581d0cbdbcf3a830b72c37238f352a0e119e5e40190e0745260e1ef73f51db27",
+      "profile_id": "double_heal"
+    },
+    {
+      "qigong_id": "qigong_physician_6abb46da8a4b",
+      "class_id": "physician",
+      "name": "明镜止水",
+      "source_table_index": 40,
+      "source_row_index": 14,
+      "source_row_sha256": "7901a983e043c9c76392716d1a3b6ae4cd976a857212dcf1a85a6a89a70cc31b",
+      "profile_id": "double_wuzhong_portion"
+    }
+  ],
+  "profiles": {
+    "nonlightness_aux_duration": {
+      "duration_gain_bp_per_effective_grade": 100,
+      "maximum_gain_bp": 4000,
+      "eligible": "own physician accepted auxiliary positive timed buff, excludes lightness/instantheal/negative status, cooldown or passive-proc buff",
+      "phase": "once at activation, effective_total=floor(base_total*(10000+100grade)/10000); save base/sourcegrade/effective total/remaining, no extend each tick"
+    },
+    "heal_rage_defense": {
+      "trigger": "own accepted HP recovery martial action restores positiveHP to at least1legal recipient, once per action not per tick/target",
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "targets": "actually restored living sameparty recipients from original heal action, max6/same scene, no joining after snapshot",
+      "rage_meter_add": 500,
+      "when_already_enraged": "no extra meter under rage terminal rule; not force another fullrage",
+      "defense_base_per_effective_grade": 1,
+      "defense_with_wuzhong": "floor(grade*(10000-100*effective无中grade)/10000), input modifier0..4000",
+      "duration_steps": 10800,
+      "family": "physician_heal_proc_defense",
+      "stacking": "same-family strongest once, source timers separate, same-source refresh notadd",
+      "duration_aux_boost_applies": false
+    },
+    "random_final_gain": {
+      "trigger": "accepted root attackmartial once after costs, not heal/basic/derived",
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "final_gain_bp": 2000,
+      "kuangyi_reduction_scope": "defense part only project choice, not alter original fixed500rage; applies current effective grade to newly created defensebuff, existing snapshot not retroactively changed"
+    },
+    "own_aux_potency": {
+      "gain_bp_per_effective_grade": 100,
+      "maximum_gain_bp": 4000,
+      "scope": "own physician explicitly tagged auxiliary skill positive effect potency (HP recovery base amounts,flat defense,ordinary movement speed including own lightness); source originalall辅助 used as explicit field allowlist",
+      "does_not_change": [
+        "costs",
+        "cooldowns",
+        "target_count",
+        "casttime",
+        "negative flags",
+        "instantphase identity",
+        "duration handled by吸星",
+        "passive-proc defensebuff"
+      ],
+      "composition": "normalized base effect ->9天 potency once ->妙手 healing bonus ifHPheal ->万物 possible double ->recipient missing cap/healingblock; independent base not multiplied repeatedly across ticks"
+    },
+    "double_heal": {
+      "trigger": "accepted own recoverymartial with at least1nonfull/nonblocked legal livingrecipient, once per action",
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "multiplier_bp": 20000,
+      "periodic": "snapshot one result for original cast eligible tick amounts; no everytick redraw or double already doubled stored amount",
+      "missing_cap_and_block": "each recipient/effecttime live validation; no revive or overheal"
+    },
+    "double_wuzhong_portion": {
+      "trigger": "same accepted root attackmartial already successfully triggered无中, once per action",
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "extra_gain_modifier_bp": 20000,
+      "applies_to": "无中 own20percent gainportion doubled to40percent, not double whole finaldamage",
+      "minimum_ascended_skill_stage_requirement": null,
+      "version_override_source": "V25content/gs cancellation of五级以上升天武功限制; no hidden5stage gate"
+    }
+  },
+  "eligibility": "own class learned/allocated positive effective grades, existing learning prerequisites/manuals mandatory, recipient callbacks use stable target IDs; blockers/failedheal never rewardsrage/defense. Generic derived no-proc tag prevents repeated heal callbacks.",
+  "persistence": "accepted cast grades/double-roll/targetset/costs and potion-independent cooldown with recipientbuff remaining0..10800 in same journal transaction; source snapshot does not extend on currentgrade change; offline/pause freeze; no log replay reward.",
+  "scope": "sourcebaseidentity/formulas for望梅解渴/刮骨疗毒 remain officiallyunresolved; explicitprojectbase nowowned by望梅与刮骨本地基础采用.v1.json; otheradoptedsourcecontracts remainindependent, no runtimecompletion claim."
+}

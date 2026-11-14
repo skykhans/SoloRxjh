@@ -1,0 +1,187 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "11status_passives_not_implemented_missing_corpse_poison_alias_not_guessed",
+  "source_policy": "保各源命中回避/延时缩时/阎王爆专用防护/神女解除和10秒武功保护职责；概率/量/合成时序为项目值，尸毒爆发与阎王爆未按名称擅自合并。",
+  "bindings": [
+    {
+      "qigong_id": "qigong_sword_92428499c8c4",
+      "class_id": "sword",
+      "name": "百毒不侵",
+      "source_table_index": 36,
+      "source_row_index": 21,
+      "source_row_sha256": "751d1881e243d6196ac611f6890f5a3649c0a74c56edcbf4d3764a528965b82f",
+      "profile_id": "incoming_status_avoid"
+    },
+    {
+      "qigong_id": "qigong_assassin_b1cee7f8062f",
+      "class_id": "assassin",
+      "name": "千蛛万手",
+      "source_table_index": 37,
+      "source_row_index": 8,
+      "source_row_sha256": "074eb70e0393d1988ab186af42c045cb786de4eb128b75d25480f6d06ea989d4",
+      "profile_id": "outgoing_negative_duration"
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_844c4be23bc4",
+      "class_id": "tan_hualing",
+      "name": "电光朝露",
+      "source_table_index": 43,
+      "source_row_index": 21,
+      "source_row_sha256": "e3a80c72735260d1cac2f6f9e139f29e82fa682806c5495179bf3c1c2709a16d",
+      "profile_id": "incoming_negative_duration"
+    },
+    {
+      "qigong_id": "qigong_fighter_c4efd75feb72",
+      "class_id": "fighter",
+      "name": "无障无碍",
+      "source_table_index": 44,
+      "source_row_index": 21,
+      "source_row_sha256": "6d72842016a6d6c6be212ab063f093244a762a22449ff79844973b391ac62341",
+      "profile_id": "yanwang_damage_reduction"
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_1c22fe455164",
+      "class_id": "mei_liuzhen",
+      "name": "化险为夷",
+      "source_table_index": 45,
+      "source_row_index": 21,
+      "source_row_sha256": "7841ff528819c58c2836764dc16962e31e68128fc77e68997411582fb3a81829",
+      "profile_id": "yanwang_damage_avoid"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_91e897f01e47",
+      "class_id": "dongling_shennv",
+      "name": "黑花集中",
+      "source_table_index": 47,
+      "source_row_index": 9,
+      "source_row_sha256": "b113e5627c0f4a8573f70217282cdd78ec6dd88154f0563af1cc9bddb2c9a7c7",
+      "profile_id": "negative_cast_success"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_e7a674939ff3",
+      "class_id": "dongling_shennv",
+      "name": "万毒不侵",
+      "source_table_index": 47,
+      "source_row_index": 11,
+      "source_row_sha256": "c8acf1bbe79cf50f0a1cf60f2edc06155dbdf9d591d893d8b996f9de0a472654",
+      "profile_id": "incoming_status_avoid"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_9a3ee0228aa9",
+      "class_id": "dongling_shennv",
+      "name": "愤怒调节",
+      "source_table_index": 47,
+      "source_row_index": 12,
+      "source_row_sha256": "b9deba0332e0492808d66b1bcf0c2cfb57ac6d218fabd346b9ea3c9930ffe3af",
+      "profile_id": "remove_enemy_rage"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_56b05bf76c42",
+      "class_id": "dongling_shennv",
+      "name": "蛊毒解除",
+      "source_table_index": 47,
+      "source_row_index": 13,
+      "source_row_sha256": "196731135da7c069b55cf6fa5514c6eaa0a69975ed360cc43837a328489391cd",
+      "profile_id": "dispel_all_on_success"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_79ddc14fa08e",
+      "class_id": "dongling_shennv",
+      "name": "神力保护",
+      "source_table_index": 47,
+      "source_row_index": 14,
+      "source_row_sha256": "fc4447dcf074a4c1784cca47974ad64e6a4b8c980279d9678edbc96403ab5d7e",
+      "profile_id": "guard_after_successful_dispel"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_cb3c6a7fc0ac",
+      "class_id": "dongling_shennv",
+      "name": "抗击身法",
+      "source_table_index": 47,
+      "source_row_index": 21,
+      "source_row_sha256": "8064e4f90abf7645c00b30f73e04bb96940ef69bd3c66490647aa515c419e4d1",
+      "profile_id": "incoming_status_avoid"
+    }
+  ],
+  "generic_eligibility": "own learned allocated positive effective grade; explicit effect family/type flags required. Positive buffs,environmental scripted quest states and life/respawn transitions not negative debuffs merely by display color/name. Unknown effect family rejects formal config.",
+  "profiles": {
+    "incoming_status_avoid": {
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "eligible": "new hostile negative-effect application, root or explicit spread with new recipient; not recurring damage ticks",
+      "same_class_multiple_skills": "choose strongest same-family avoid probability once, no independent3rolls for万毒/抗击/百毒 borrowed builds",
+      "result": "skip that status application only; original hit damage/other different effects remain; no existing status wipe or timed invulnerability"
+    },
+    "outgoing_negative_duration": {
+      "gain_bp_per_effective_grade": 100,
+      "maximum_gain_bp": 4000,
+      "scope": "negative status applied by own accepted attack/status skill, not inherited old source after source gear changes",
+      "does_not_extend": [
+        "positive self buffs",
+        "rage",
+        "stun immunity windows",
+        "DoT tick interval",
+        "cooldowns",
+        "quest timers",
+        "dispel-copied original remaining time"
+      ]
+    },
+    "incoming_negative_duration": {
+      "reduction_bp_per_effective_grade": 100,
+      "maximum_reduction_bp": 4000,
+      "scope": "new hostile negative status duration only, not damage/proc chance or ongoing status retiming"
+    },
+    "yanwang_damage_reduction": {
+      "reduction_bp_per_effective_grade": 100,
+      "maximum_reduction_bp": 4000,
+      "eligible_tag": "exact20delayed_burst_natural_expiry",
+      "damage_scope": "only receiver share of that burst, not all attacker skills or stored source damage",
+      "phase": "after burst snapshot/cap before other explicit status shield"
+    },
+    "yanwang_damage_avoid": {
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "eligible_tag": "exact20delayed_burst_natural_expiry",
+      "result": "receiver burst share0, does not cancel burst for other targets or dispel marker early"
+    },
+    "negative_cast_success": {
+      "chance_add_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 10000,
+      "scope": "20explicit Dongling negative status cast landing probability, after fixed immunity rejects; base landing chance explicitly10000 for adopted20definitions until another exact profile chosen",
+      "does_not_change": "23ordinary attack accuracy, self-heal/buff/dispels, anti independent proc, original hit damage",
+      "grade_can_be_wasted": "base10000 legitimately saturated, show no extra effect rather than invent greater damage"
+    },
+    "remove_enemy_rage": {
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "trigger": "first qualifying primary hit of root attack martial, current target lives, once/action",
+      "result": "if target has enrage source, remove all enrage/bonus sources; else set meter0. No re-grant blood-devil rage or remove its life challenge",
+      "derived_does_not_trigger": true
+    },
+    "dispel_all_on_success": {
+      "chance_bp_per_effective_grade": 100,
+      "maximum_chance_bp": 4000,
+      "trigger": "20dispel action actually removed>=1eligible negative effect from that target",
+      "result": "safe-remove all other dispellable negative sources from same target, not other party members",
+      "no_recursive_dispel": "one draw per original dispel action/target, secondary removals never trigger another all-dispel or reward"
+    },
+    "guard_after_successful_dispel": {
+      "trigger": "20explicit dispel actually removed>=1negative effect, no extra chance roll",
+      "duration_steps": 600,
+      "flat_martial_damage_reduction_per_effective_grade": 1,
+      "family": "dongling_post_dispel_guard",
+      "target": "same actual recipient only",
+      "removing_none": "no buff/cooldown refresh",
+      "stage": "23flat direct martial protection only; not ordinary defense or ordinary basic damage",
+      "stacking": "strongest samefamily once, same-source refresh600notadd"
+    }
+  },
+  "application_order": "fixed immunity/relationship/alive -> explicit status cast probability(base+黑花) -> strongest incoming避减益 draw -> source/receiver duration snapshot. duration=max(1,floor(base_steps*(10000+outgoing_gain)*(10000-incoming_reduction)/100000000)); one final floor. Fixed3seconds stated in source is base before these explicitly named modifiers. Already committed status never retimed; copied spread keeps remaining without full duration modifiers again.",
+  "landing_receipts": "new effect application carries root/action/target/effect-family ordinal; retries retain rolls and duration. Periodic ticks do not redraw landing or status avoidance.",
+  "burst_order": "natural delayed-burst tracker/cap snapshot once, per recipient special avoid then special reduction then remaining explicit status protection/shield; never send an avoided burst back into another reflection/proc.",
+  "dispel_order": "collect original actually removed set, record safe clear(no阎王explosion), roll蛊毒 once, safely clear additional allowed sources, then apply神力 one buff if original removal count positive. Cannot dispel non-dispellable life/death/activity/receipt facts.",
+  "scope": "11effects only, exact remaining corpse-poison state and all hostile effect family tags require other definitions. No blanket immunity/PVP unlock/runtime completion.",
+  "duration_family_scope": "only explicitly opted-in normal negative status family; adopted20Dongling negative timed families opt in, anti_qigong/致残/rage/cooldowns/quest/life states opt out. Fixed intrinsic schedules not silently extended.",
+  "duration_snapshot_validation": "store original base steps,source/receiver grade-derived modifiers, effective total duration and remaining<=that effective total. For20normal negative families, source-specific original duration is base, not hardcoded remaining ceiling after named modifiers. Damage ratios unchanged; periodic phases follow unchanged intervals, effective total may permit more/fewer ticks."
+}

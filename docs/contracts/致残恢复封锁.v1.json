@@ -1,0 +1,234 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "fourteen_shared_passive_effects_adopted_not_implemented",
+  "source_policy": "14个原致残气功都明确3秒不能恢复生命、梅柳真同时禁障力；神女/甄凤柏原文另明攻速影响概率。以下每级概率/触发时点/范围/算法/上限/堆叠为项目规则，不声称官方概率。",
+  "effect_profile": {
+    "id": "disable_hp_recovery3seconds",
+    "duration_steps": 180,
+    "effect_family": "hp_recovery_block",
+    "always_blocks": [
+      "instant_hp_heal",
+      "periodic_hp_heal",
+      "hp_potion",
+      "lifesteal_hp_restore",
+      "in_combat_passive_hp_restore"
+    ],
+    "conditional_barrier_block": "target class mei_liuzhen blocks natural/skill/passive barrier restoration; ordinary guard shields not inferred as barrier healing",
+    "never_blocks": [
+      "mana_recovery",
+      "stamina_recovery",
+      "rage_gain",
+      "nonhealing_shield_activation"
+    ],
+    "does_not_remove_target_existing_healing_effects": true,
+    "blocked_due_heal": "skip, no catchup",
+    "new_restore_request_when_already_blocked": "reject before payment; already paid late-block cast gives0/no refund",
+    "revive": "not treated as HP recovery; dead target cannot receive this debuff in first place"
+  },
+  "trigger": {
+    "requires_learned_allocated_and_positive_effective_level": true,
+    "eligible_attacks": [
+      "normal_attack",
+      "attack_martial_skill"
+    ],
+    "requires_actual_hostile_hp_damage": true,
+    "target": "original primary only, still alive after hit; no choosing new primary after death",
+    "once_per_action": true,
+    "multi_hit": "first qualifying primary hit once; missed/blocked earlier hit can leave eligibility for later actual hit but never more than1draw",
+    "chance_bp_per_effective_level": 100,
+    "unscaled_chance_max_bp": 4000,
+    "for_attack_speed_sensitive_classes": "min(4000,floor(100*effective_level*accepted_action_base_duration_steps/60))",
+    "base_duration_definition": "declared windup+active+recovery after legal attack-speed timing modifiers at action accept; excludes user waiting, cooldown and variable projectile travel; snapshot once, no charge-hold increase",
+    "zero_chance": "no random draw",
+    "trigger_order": "after actual HP loss/resource callbacks, before anti_qigong; newly imposed block affects later due effects not already committed same hit recovery",
+    "critical_or_extra_damage_changes_chance": false
+  },
+  "stacking": "keep distinct caster/qigong/root-event sources, block while at least one unexpired source; same caster+qigong refresh180 not add. Trigger never deletes another source or converts duration to360.",
+  "persistence": "effect source IDs/remaining1..180 plus action-level check-consumed receipt; offline/pause freezes, target death clears, source disconnect does not cancel persisted remaining time. Hit event replay never draws/applies twice.",
+  "named_effective_limits_owner": "升级发点.v1.json, each allocated20/effective40 explicitly listed, not universal cap",
+  "bindings": [
+    {
+      "qigong_id": "qigong_blade_f7e00df50117",
+      "class_id": "blade",
+      "source_table_index": 35,
+      "source_row_index": 17,
+      "source_row_sha256": "1a49606f420819245e462757d41f1f5ecc46bf726b69191504c367943317c167",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_blade_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_sword_f7e00df50117",
+      "class_id": "sword",
+      "source_table_index": 36,
+      "source_row_index": 17,
+      "source_row_sha256": "e896d4181ee1229457e9e2d6a07fd3575f6f913f6e8aae0792881ea95e27bad6",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_sword_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_assassin_f7e00df50117",
+      "class_id": "assassin",
+      "source_table_index": 37,
+      "source_row_index": 17,
+      "source_row_sha256": "1db792ce79feb1ef4b9fb373b4856e52bda2ef0c9bd9ff86cc7d5ad8a72329ca",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_assassin_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_spear_f7e00df50117",
+      "class_id": "spear",
+      "source_table_index": 38,
+      "source_row_index": 17,
+      "source_row_sha256": "9ae4848494ff1dd111d178c1cc7daf0b466dabc2ed41082a17dce16b2bad5cdf",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_spear_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_archer_f7e00df50117",
+      "class_id": "archer",
+      "source_table_index": 39,
+      "source_row_index": 17,
+      "source_row_sha256": "74a4047d865c37a65aa1b6ca9c1852dae5ffd4ace33b0bad0540069ae0521b25",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_archer_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_physician_f7e00df50117",
+      "class_id": "physician",
+      "source_table_index": 40,
+      "source_row_index": 17,
+      "source_row_sha256": "42d196d9c4aa01aab849c5f71c41758c7c904c52f55503e3d56fc1303e25a202",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_physician_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_musician_f7e00df50117",
+      "class_id": "musician",
+      "source_table_index": 41,
+      "source_row_index": 17,
+      "source_row_sha256": "70836a68c970421e39328bbbfbcde7d81fd01321b94258ca25db9efb567e068e",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_musician_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_han_feiguan_f7e00df50117",
+      "class_id": "han_feiguan",
+      "source_table_index": 42,
+      "source_row_index": 17,
+      "source_row_sha256": "11cd784714f536b2ce3d8625ccf3af0a5a0fa48d8aa66b267983acb3df443f07",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_han_feiguan_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_tan_hualing_f7e00df50117",
+      "class_id": "tan_hualing",
+      "source_table_index": 43,
+      "source_row_index": 17,
+      "source_row_sha256": "1434cdc094ef74136e75609195d11b2466f640b65425a420c09f7abed5329490",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_tan_hualing_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_fighter_f7e00df50117",
+      "class_id": "fighter",
+      "source_table_index": 44,
+      "source_row_index": 17,
+      "source_row_sha256": "a08590589a6ba33a04062aba283d176460d22851e7b741042a92aabe3eed1dc0",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_fighter_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_f7e00df50117",
+      "class_id": "mei_liuzhen",
+      "source_table_index": 45,
+      "source_row_index": 17,
+      "source_row_sha256": "b56c264d7f663a19bcaa709ad83942868b6b1c32f83be02fc25b99cc2325e4db",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_mei_liuzhen_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_lu_fenglang_f7e00df50117",
+      "class_id": "lu_fenglang",
+      "source_table_index": 46,
+      "source_row_index": 17,
+      "source_row_sha256": "82cc8c94ff9bcb4e5dda9e0e99da9c0c71e16c25feea41eddf130ceddc084ded",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_lu_fenglang_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": false
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_f7e00df50117",
+      "class_id": "dongling_shennv",
+      "source_table_index": 47,
+      "source_row_index": 17,
+      "source_row_sha256": "269b8b577bc241e377af965864f2b772406ddf3fda512bf51156de6639470417",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_dongling_shennv_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": true
+    },
+    {
+      "qigong_id": "qigong_zhen_fengbai_f7e00df50117",
+      "class_id": "zhen_fengbai",
+      "source_table_index": 48,
+      "source_row_index": 18,
+      "source_row_sha256": "10e548abc9409d454c817687e66dfe539e9b5674204f37ad1b618c414592f0ea",
+      "learning_condition_ref": {
+        "owner_file": "气功学习与秘籍.v1.json",
+        "qigong_id": "qigong_zhen_fengbai_f7e00df50117"
+      },
+      "effect_profile_id": "disable_hp_recovery3seconds",
+      "attack_speed_scaled_chance": true
+    }
+  ]
+}

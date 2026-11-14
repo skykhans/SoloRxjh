@@ -1,0 +1,108 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "seven_skill_power_passives_not_implemented",
+  "source_policy": "源内功方向与梅每点2.5%保留；2026官网71334正文明确剑对怪每点0.6%、格斗对怪最终额外1%。基础值、具体作用基数/时序及其余比例为项目采用；不冒充未知官方完整公式。",
+  "updated_source": "http://rxjh.17game.com/data/zb/202607/71334.htm",
+  "bindings": [
+    {
+      "qigong_id": "qigong_sword_2dfbffb07397",
+      "class_id": "sword",
+      "name": "破天一剑",
+      "source_table_index": 36,
+      "source_row_index": 3,
+      "source_row_sha256": "6290f46fb09ed7a510828050cda67422f635eb9378a8960b95086479d0ca58e2",
+      "profile_id": "sword_monster_skill_power"
+    },
+    {
+      "qigong_id": "qigong_physician_c8f0e5f24c5d",
+      "class_id": "physician",
+      "name": "长功击力",
+      "source_table_index": 40,
+      "source_row_index": 5,
+      "source_row_sha256": "f098b219d03f522cc6babb0f8aad2d013fd16e0f77583af6a7750a135cdf9fad",
+      "profile_id": "flat_attack_skill_power"
+    },
+    {
+      "qigong_id": "qigong_musician_1c0a30d787e7",
+      "class_id": "musician",
+      "name": "汉宫秋月",
+      "source_table_index": 41,
+      "source_row_index": 4,
+      "source_row_sha256": "169b1dc26cbf9e54019d5aae47bb194204d4a5cf17396e4c7e72155b89dcf508",
+      "profile_id": "music_skill_power"
+    },
+    {
+      "qigong_id": "qigong_fighter_7b318f4e88f1",
+      "class_id": "fighter",
+      "name": "磨杵成针",
+      "source_table_index": 44,
+      "source_row_index": 5,
+      "source_row_sha256": "43b760523482dd2ae4e0bdd948fc5a9e1f5937818f9c6e948ad16ece17aeeff1",
+      "profile_id": "fighter_noncombo_power"
+    },
+    {
+      "qigong_id": "qigong_mei_liuzhen_91137e4df1d6",
+      "class_id": "mei_liuzhen",
+      "name": "玄武危化",
+      "source_table_index": 45,
+      "source_row_index": 7,
+      "source_row_sha256": "69640abd9e504f06576c2cb17d7a5d7c9e269ee9ca91d7ac097b848e84f5101f",
+      "profile_id": "mei_skill_power"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_8af24823dcc6",
+      "class_id": "dongling_shennv",
+      "name": "神力激发",
+      "source_table_index": 47,
+      "source_row_index": 2,
+      "source_row_sha256": "09a0692f09295efdd215caea31a8fb2aa257e6a6ca5102dda9873254ac8911e9",
+      "profile_id": "group_attack_skill_power"
+    },
+    {
+      "qigong_id": "qigong_dongling_shennv_c8f0e5f24c5d",
+      "class_id": "dongling_shennv",
+      "name": "长功击力",
+      "source_table_index": 47,
+      "source_row_index": 8,
+      "source_row_sha256": "8b6ae07794c130aa4321a2b4be0b2a881b095960c50b628167192ed3cc34cfb3",
+      "profile_id": "flat_attack_skill_power"
+    }
+  ],
+  "source_classification": "monster-only update requires explicit target combat_kind=monster; martial NPC/player-character archetype is not monster simply because PvE. Existing old7beasts must be tagged monster by adopted definition. Missing combat_kind rejects formal encounter config, not default beast.",
+  "profiles": {
+    "sword_monster_skill_power": {
+      "skill_power_gain_bp_per_effective_level": 60,
+      "target_kind": "monster",
+      "nonmonster_gain": 0,
+      "scope": "flat skill-power component only, not whole attack+weapon"
+    },
+    "fighter_noncombo_power": {
+      "noncombo_skill_power_base_gain_bp_per_effective_level": 50,
+      "base_value_is_project_choice": true,
+      "monster_final_damage_extra_bp_per_effective_level": 100,
+      "nonmonster_final_extra": 0,
+      "scope": "explicit combo_skill=false martial attack; combo_skill=true or missing never guessed by skill name/hit count"
+    },
+    "music_skill_power": {
+      "skill_power_gain_bp_per_effective_level": 100
+    },
+    "mei_skill_power": {
+      "skill_power_gain_bp_per_effective_level": 250,
+      "requires_weapon_family": "black_tortoise_bow"
+    },
+    "flat_attack_skill_power": {
+      "flat_skill_power_per_effective_level": 2
+    },
+    "group_attack_skill_power": {
+      "skill_power_gain_bp_per_effective_level": 100,
+      "requires_declared_target_cap_greater_than": 1
+    }
+  },
+  "application": "only root attack_martial_skill, not normal basic/gather/heal/cost/DoT/reflection/derived extra. Use source class learned allocated positive effective grade. Passive effect eligibility is target-specific; group skill may hit monsters and martialNPCs with different applicable sword/fighter final modifiers.",
+  "skill_power_order": "declared base flat power per hit -> add own eligible flat passive bonus -> sum eligible same-scope skill-power percentage gains once, multiply/floor the flat component -> add action attack draw and apply declared phase coefficient -> crit/hit-time modifiers -> ordinary mitigation. Never multiply weapon/attack twice; flat0 base remains0 unless explicit flat-power addition exists.",
+  "fighter_final_order": "after ordinary defense/flat reduction, before percentage protections/shields, floor(final_stage_incoming*(10000+100*effective_grade)/10000) once on eligible monster/noncombo root hit; no reapplication to derived damage",
+  "snapshots": "grade and base skill-power taken at accepted action, target combat_kind at accepted primary/actual hit identity validated; no retarget to change paid snapshot. Hit-stage target-specific eligibility recorded on damage receipt; anti debuff later affects new actions, no refund or re-charge.",
+  "configuration": "explicit named stacking/order graph and checked integer math required; conflicting group/multi-hit flags or absent flat power/combat kind reject. Negative/overflow not truncated as0.",
+  "persistence": "store required action source snapshots and per-target modifier receipt, not mutable permanent base power. Save/replay never applies a second percentage or final-extra stage."
+}
