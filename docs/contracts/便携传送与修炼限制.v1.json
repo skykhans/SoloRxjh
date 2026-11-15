@@ -2,7 +2,7 @@
   "contract_version": 1,
   "updated_on": "2026-11-14",
   "status": "six_return_items_and_training_action_restrictions_designed_not_implemented",
-  "scope": "six usable project return consumables plus reserved source-item IDs for restrictions; earth/supreme/ring full service definitions remain explicit pending work",
+  "scope": "six return consumables,one saved-point talisman owned by separate contract,four reserved supreme/ring identities; full supreme/marriage services pending",
   "items": [
     {
       "item_id": "return_talisman",
@@ -229,14 +229,6 @@
   ],
   "reserved_items": [
     {
-      "item_id": "earth_spirit_talisman",
-      "source_name": "土灵符",
-      "action_ids": [
-        "earth_spirit_record",
-        "earth_spirit_travel"
-      ]
-    },
-    {
       "item_id": "supreme_hotblood_talisman_10d",
       "source_name": "至尊热血符10天",
       "action_ids": [
@@ -276,14 +268,14 @@
       "request_id",
       "expected_revision"
     ],
-    "acceptance": "alive,out of combat,idle,no active challenge; real carried item count>=1; valid map and explicitly allowed portable action; no warehouse auto-withdraw",
+    "acceptance": "alive,out of combat,idle,no active challenge; portable_return cooldown exactly0; real unreserved carried item count>=1; valid source/target map and allowed action; no warehouse auto-withdraw",
     "channel_steps": 180,
     "channel_cost_hp_mana_stamina": 0,
     "cooldown_steps": 600,
     "cooldown_group": "portable_return",
     "during_channel": "stationary3seconds, facing may turn; movement/dodge/attack/skill/item/new interaction, enemy damage or scene/party activity transition cancels; no item/cooldown consumed",
     "damage_order": "fixed-step enemy damage/cancellation before channel completion; damage at completion step cancels",
-    "completion": "revalidate role/item/source map restrictions/target anchor,world identity,nav/collision,capacity gates and revision; atomically consume1,move,clear interaction/path,commit receipt and start600step cooldown",
+    "completion": "revalidate role/item/source map restrictions/target anchor,world identity,nav/collision,destination entry gates,current action/reservation and cooldown0; validate current character revision via host transaction (not equality to original pre-action revision); atomically consume1,move,clear interaction/path,commit receipt and start600step cooldown",
     "blocked_destination": "reject completion,keep source position/resources/item and no cooldown; no nearest-point relocation",
     "same_map": "allowed only outside restrictions and at least2.5m from target anchor; too close rejects before channel",
     "no_healing": "preserve HP/mana/stamina,negative states,skill cooldowns,party and tasks; no world/monster reset",
@@ -291,7 +283,9 @@
     "save": "persist accepted channel ID,item reservation reference,source map/feet,remaining0..180 and cooldown; reservation not deducted physical count, prevents sale/discard/use/storage/stack-transfer of reserved unit; cancel releases reservation; no separate cloned item",
     "load": "validate reservation against single carried stack,action/state/world/revision; missing/bad new fields reject; restore remaining steps,never instant complete or full new duration",
     "pause_offline": "freeze remaining and cooldown; LAN host progresses connected simulation, disconnect cancels channel without cost then persists authoritative result",
-    "reward_relation": "movement never completes task,changes route/rank,grants region rewards or settles pending monster death"
+    "reward_relation": "movement never completes task,changes route/rank,grants region rewards or settles pending monster death",
+    "cooldown_validation": "integer0..600, decremented by world simulation steps; both UI and host acceptance enforce0, reject negative/missing new fields; acceptance does not start it, successful completion starts600 once",
+    "revision_policy": "accept expected_revision against authoritative current revision; reservation/action acceptance advances revision. Completion uses action_id and original reservation in the current revision chain, not the obsolete client acceptance revision; unrelated legitimate ticks do not cancel a valid channel. Configuration or inventory mutations that invalidate the reservation cancel explicitly."
   },
   "training_policy": {
     "map_ids": [
@@ -356,8 +350,83 @@
     "configuration_center": "18marked configuration transaction is separate command with provenance, cannot be invoked by item/hotbar/normal travel request"
   },
   "pending": [
-    "full earth-spirit stored-point system and supreme-service durations/effects/activation/obtaining",
+    "supreme-service durations/effects/activation/obtaining; earth-spirit base system owned by土灵符存点与移动.v1.json",
     "couple/marriage system local adoption and ring acquisition/target protocol",
     "Godot UI/channel/save/LAN runtime verification"
-  ]
+  ],
+  "adopted_service_items": [
+    {
+      "item_id": "earth_spirit_talisman",
+      "owner_file": "土灵符存点与移动.v1.json",
+      "pointer": "/item"
+    }
+  ],
+  "advancement_trial_policy": {
+    "rejected_action_ids": [
+      "portable_return",
+      "earth_spirit_record",
+      "earth_spirit_travel",
+      "supreme_talisman_activate",
+      "supreme_talisman_travel",
+      "couple_ring_travel",
+      "marriage_ring_travel"
+    ],
+    "checkpoints": [
+      "UI availability",
+      "command acceptance",
+      "channel completion",
+      "saved-point create/overwrite",
+      "destination/source map preflight",
+      "LAN host commit"
+    ],
+    "direction": "按owner_parts精确注册的九私场逐项阻止源/目标便携动作，包括从私场去合法外图点；不按前缀推断，退出仅活动终局。",
+    "owner_parts": [
+      {
+        "owner_file": "第六次升职与单机武勋试练.v1.json",
+        "map_ids": [
+          "instance_faction_merit",
+          "instance_ascension_shadow"
+        ]
+      },
+      {
+        "owner_file": "第八次升职本地十一试练.v1.json",
+        "map_ids": [
+          "instance_adv08_three_waves",
+          "instance_adv08_final"
+        ]
+      },
+      {
+        "owner_file": "第十次升职五式与回忆录试练.v1.json",
+        "map_ids": [
+          "instance_adv10_faction_proof",
+          "instance_adv10_memoir"
+        ]
+      },
+      {
+        "owner_file": "第十一次升职六式三首领.v1.json",
+        "map_ids": [
+          "instance_adv11_three_masters"
+        ]
+      },
+      {
+        "owner_file": "第十二次升职七式与三方盟约.v1.json",
+        "map_ids": [
+          "instance_adv12_sword_canyon",
+          "instance_adv12_heavenly_demon"
+        ]
+      }
+    ]
+  },
+  "nanming_cave_adapter_ref": {
+    "file": "南明洞空间与入口.v1.json",
+    "pointer": "/portable_actions"
+  },
+  "tower_floors_adapter_ref": {
+    "file": "万寿无天阁空间与入口.v1.json",
+    "pointer": "/portable_actions"
+  },
+  "bamboo_forests_adapter_ref": {
+    "file": "四转五段竹林入口与长老.v1.json",
+    "pointer": "/portable_actions"
+  }
 }

@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:merit-jewelry-instance:v1",
+  "$comment": "9款新版武勋首饰完整单实例12字段；严格数字token/来源链/全库存/所有权须另验，不是完整角色档案schema。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "instance_id",
+    "item_id",
+    "lineage_id",
+    "owner_character_id",
+    "binding",
+    "revision",
+    "creation_receipt_id",
+    "processing_level",
+    "processing_origin_receipt_id",
+    "durability",
+    "durability_origin_receipt_id",
+    "ownership_origin_receipt_id"
+  ],
+  "properties": {
+    "instance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "item_id": {
+      "enum": [
+        "jewelry_merit_earring_8da0d0a77c11",
+        "jewelry_merit_necklace_2ddb51e2d34a",
+        "jewelry_merit_ring_2c56eaf071db",
+        "jewelry_merit_earring_071dd25e356c",
+        "jewelry_merit_necklace_1622ab0eefd7",
+        "jewelry_merit_ring_d1fcaf888d40",
+        "jewelry_merit_earring_d75a6f78bce5",
+        "jewelry_merit_necklace_198d823072ec",
+        "jewelry_merit_ring_ebfa62954344"
+      ]
+    },
+    "lineage_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner_character_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "binding": {
+      "const": "unbound"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "creation_receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "processing_level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "processing_origin_receipt_id": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ]
+    },
+    "durability": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000
+    },
+    "durability_origin_receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ownership_origin_receipt_id": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ]
+    }
+  }
+}

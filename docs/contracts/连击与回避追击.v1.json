@@ -126,5 +126,20 @@
       "source_row_sha256": "c0a12d180be3fc998c893134d180f475c2ff75694562bfa77df055517edb7a52",
       "effect_profile_id": "normal_extra_hit"
     }
-  ]
+  ],
+  "persistent_evade_bonus_state": {
+    "target_field": "character.effects.assassin_evade_bonus",
+    "schema_ref": {
+      "file": "刺客回避追击状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": null,
+    "legacy_import": "四已知旧来源显式null；当前档缺字段拒绝，不构造回避凭证或刷新。",
+    "source": "仅刺客连消带打qigong_assassin_a951de667c6f；trigger_event_id为原敌方直接根动作对本人的实际23命中失败结果，须证明本人存活且原有效气功正等级。不是施放者新动作，不额外抽RNG。",
+    "snapshot": "原未命中段的已接纳攻击区间上限/平威力/系数依原saved_bonus计算，按武装时本人攻击上限两倍封顶，合法0仍为0；原结果记录完整公式输入，活跃组件只保存bonus_damage和原凭证。之后属性变更不重算历史快照；计算越安全整数整原事件拒绝，不截断。",
+    "replacement": "无token则存新快照/180；新候选低于旧bonus不替换也不刷新。等于或高于则替换原trigger与bonus并刷新180，不叠加。同事件重放不刷新。",
+    "consume": "本人有效连消带打等级正时，下一次合法接纳根普通攻击在原支付/动作快照结果中消费一次并清null，原首主目标命中段加入已保存bonus后正常减伤；多段/多目标/衍生不重复。接纳拒绝不消费，接受后打空/取消/目标丢失不退还。攻击武功/辅助不消费。暂时有效等级0的普通攻击不应用也不消费，token继续正常扣时；洗点移除该气功或死亡清null。",
+    "timing": "生成/实际替换步不扣新180；后续世界步入口扣既有余时，归0先清后接纳。暂停/离线冻结，不在读档补时/重新比较旧敌伤。",
+    "validation": "完整角色/effects先验白名单，非刺客和待复活角色必须null；真实失败命中/武装公式、重放与实际消费由原结果语义校验。动作与其后代仍由原动作持有，组件不存已消费布尔。"
+  }
 }

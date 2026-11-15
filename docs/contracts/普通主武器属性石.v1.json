@@ -1,0 +1,406 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_regular_fire_poison_design_not_implemented_other_elements_open",
+  "scope": "仅447新普通主武器火/毒属性真实1～10阶段，含两条原异常的具名本地采用；8初始武器、英雄/剧情/防具/首饰均排除。伪造/未完成可用此加工为明确项目选择。",
+  "source_policy": {
+    "references": [
+      {
+        "url": "http://rxjh.17game.com/event/2026/content/gs.html",
+        "text_sha256": "08053f00803cdb42c9b0d2066034f0d67341e80294a41e08e6cb609419a5e061",
+        "fact": "石头类复购举例明确火属性石，未给完整属性池/概率。"
+      },
+      {
+        "url": "http://rxjh.17game.com/data/tsplay/202203/66252.htm",
+        "text_sha256": "d6879de8eaf434d97c608581120e8538284d78ab50ed32b421af515a56c90c9f",
+        "fact": "四神之力是新增独立属性，与既有火、毒属性不冲突。"
+      }
+    ],
+    "adopted_facts": "公开正文确认火属性石、既有火毒与四神共存；未提供普通完整属性池、逐阶值、材料成本、概率或失败结果。",
+    "project_choices": "明确共享现有火/毒两元素项目贡献、材料唯一身份及字段schema；普通加工配方/资格独立采用。单槽互斥、阶段上限10、费用/概率/失败保留和移除均为项目方案，其他元素仍待，不据此永久删除。"
+  },
+  "eligibility_catalog_ref": {
+    "file": "普通主武器基础定义.v1.json",
+    "pointer": "/items"
+  },
+  "elements_ref": {
+    "file": "英雄武器属性石.v1.json",
+    "pointer": "/elements"
+  },
+  "attribute_schema_ref": {
+    "file": "英雄武器属性石.v1.json",
+    "pointer": "/attribute_schema"
+  },
+  "shared_material_refs": [
+    {
+      "item_id": "fire_attribute_stone",
+      "file": "英雄武器属性石.v1.json",
+      "pointer": "/items/0"
+    },
+    {
+      "item_id": "poison_attribute_stone",
+      "file": "英雄武器属性石.v1.json",
+      "pointer": "/items/1"
+    }
+  ],
+  "schema_adoption": "element_attribute必须显式null或恰有element_id/stage/origin_receipt_id；stage严格整数1..10，拒绝bool/float/string，不接受stage0对象。元素精确属于共享elements。收据必须解析同角色同武器血统已提交普通属性加工成功结果，元素/阶段一致；不借用英雄收据。缺字段/未知字段/损坏收据拒绝，不归零/不裁剪。正式创建仅显式null，无赠属性。 具名普通两实例转移例外：目标origin可为转移成功收据，按transfer_provenance_owner_ref核验源成功属性证明与一次消耗边；不直接接受未经证明的跨血统收据。",
+  "material_acquisition": {
+    "status": "design_pending_shop_registration",
+    "npc_id": "npc_daojianxiao",
+    "class_ids": [
+      "blade",
+      "sword",
+      "assassin",
+      "spear",
+      "archer",
+      "physician",
+      "musician",
+      "fighter"
+    ],
+    "minimum_level": 1,
+    "minimum_rank": 0,
+    "quantity_range": [
+      1,
+      99
+    ],
+    "stock": "unlimited",
+    "definition_policy": "复用火属性石10000/毒属性石15000两、10g、堆99及既有权限；普通商店适配器独立资格，不修改英雄商店筛选。",
+    "transaction": "先原库存合法，再检查最终银两/格重及可合堆；扣款/入包/修订/收据原子提交，重复仅回旧收据，保存失败只重存。"
+  },
+  "service_policy": {
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "requires_same_map_available_npc": true,
+    "requires_alive_idle_out_of_combat_no_challenge": true,
+    "source_location": "本人equipment_bag；先卸主/备用、先取仓，不跨角色或队伍材料。",
+    "qualification": "精确属于447 items；角色职业/等级/rank/路线满足物品，含40显式3项未选派例外；完整实例/归属/绑定/原库存合法，无占用。",
+    "wrong_element": "非空只能用同元素石按精确原stage升1；异元素石拒绝，不换型。换型必须先独立报价付费移除。",
+    "other_growth": "真实强化、合成及其余合法已登记字段保持；临时强化/元素显示提升非空时拒绝，不能加工清除。未知字段或尚无正式schema的状态拒绝，不损失旧字段。",
+    "cap": "真实10阶拒绝继续；显示14等来源另行采用，不扩真实上限。",
+    "instance_growth_schema_owner_ref": {
+      "file": "普通主武器基础定义.v1.json",
+      "pointer": "/instance_growth_schema"
+    },
+    "enhancement_boost_guard_owner_ref": {
+      "file": "普通武器附加提升.v1.json",
+      "pointer": "/processing_guard"
+    }
+  },
+  "recipes": [
+    {
+      "recipe_id": "regular_weapon_element_fire_01",
+      "element_id": "fire",
+      "source_stage": 0,
+      "target_stage": 1,
+      "source_state": "null required",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_fire_02",
+      "element_id": "fire",
+      "source_stage": 1,
+      "target_stage": 2,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 4000,
+      "success_probability_bp": 9500,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_fire_03",
+      "element_id": "fire",
+      "source_stage": 2,
+      "target_stage": 3,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 9000,
+      "success_probability_bp": 9000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_fire_04",
+      "element_id": "fire",
+      "source_stage": 3,
+      "target_stage": 4,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 4,
+      "silver_fee": 16000,
+      "success_probability_bp": 8500,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_fire_05",
+      "element_id": "fire",
+      "source_stage": 4,
+      "target_stage": 5,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 5,
+      "silver_fee": 25000,
+      "success_probability_bp": 8000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_fire_06",
+      "element_id": "fire",
+      "source_stage": 5,
+      "target_stage": 6,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 6,
+      "silver_fee": 36000,
+      "success_probability_bp": 7000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_fire_07",
+      "element_id": "fire",
+      "source_stage": 6,
+      "target_stage": 7,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 7,
+      "silver_fee": 49000,
+      "success_probability_bp": 6000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_fire_08",
+      "element_id": "fire",
+      "source_stage": 7,
+      "target_stage": 8,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 8,
+      "silver_fee": 64000,
+      "success_probability_bp": 5000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_fire_09",
+      "element_id": "fire",
+      "source_stage": 8,
+      "target_stage": 9,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 9,
+      "silver_fee": 81000,
+      "success_probability_bp": 4000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_fire_10",
+      "element_id": "fire",
+      "source_stage": 9,
+      "target_stage": 10,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 10,
+      "silver_fee": 100000,
+      "success_probability_bp": 3000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_poison_01",
+      "element_id": "poison",
+      "source_stage": 0,
+      "target_stage": 1,
+      "source_state": "null required",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_poison_02",
+      "element_id": "poison",
+      "source_stage": 1,
+      "target_stage": 2,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 4000,
+      "success_probability_bp": 9500,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_poison_03",
+      "element_id": "poison",
+      "source_stage": 2,
+      "target_stage": 3,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 9000,
+      "success_probability_bp": 9000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_poison_04",
+      "element_id": "poison",
+      "source_stage": 3,
+      "target_stage": 4,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 4,
+      "silver_fee": 16000,
+      "success_probability_bp": 8500,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_poison_05",
+      "element_id": "poison",
+      "source_stage": 4,
+      "target_stage": 5,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 5,
+      "silver_fee": 25000,
+      "success_probability_bp": 8000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_poison_06",
+      "element_id": "poison",
+      "source_stage": 5,
+      "target_stage": 6,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 6,
+      "silver_fee": 36000,
+      "success_probability_bp": 7000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_poison_07",
+      "element_id": "poison",
+      "source_stage": 6,
+      "target_stage": 7,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 7,
+      "silver_fee": 49000,
+      "success_probability_bp": 6000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_poison_08",
+      "element_id": "poison",
+      "source_stage": 7,
+      "target_stage": 8,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 8,
+      "silver_fee": 64000,
+      "success_probability_bp": 5000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_poison_09",
+      "element_id": "poison",
+      "source_stage": 8,
+      "target_stage": 9,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 9,
+      "silver_fee": 81000,
+      "success_probability_bp": 4000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "regular_weapon_element_poison_10",
+      "element_id": "poison",
+      "source_stage": 9,
+      "target_stage": 10,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 10,
+      "silver_fee": 100000,
+      "success_probability_bp": 3000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    }
+  ],
+  "removal": {
+    "recipe_id": "regular_weapon_remove_element",
+    "requires_nonnull_element": true,
+    "silver_fee": 100000,
+    "materials": [],
+    "success_probability_bp": 10000,
+    "random_draw_required": false,
+    "output_element_attribute": null,
+    "material_refund": false,
+    "preview": "展示原元素/阶段及全部贡献永久移除，无返石；确认绑定实例及业务修订。",
+    "result": "同实例同血统，element_attribute=null，其他全部合法字段保持，重量不变；空输入拒绝无扣款。"
+  },
+  "projection_policy": {
+    "category": "attribute_stone",
+    "elements_values_owner": "elements_ref唯一维护；火每阶攻击5，毒每阶攻击武功平威力8/命中2，其他已列分量明确0。",
+    "base": "非空按真实stage乘每阶三字段，显式null为明确无属性槽；未知元素拒绝，不猜火或0。",
+    "only_active_weapon": true,
+    "attack": "独立属性石来源各加攻击上下界一次，在原训练门槛/最终攻击倍率及显式覆盖前，基础值/强化/合成不重复计。",
+    "martial": "只加攻击武功根动作平威力，在同域百分比与phase前；普通攻击/治疗/纯状态不收武功贡献。",
+    "accuracy": "平加攻击者命中rating，不是百分比；沿已接受动作快照规则，不变成持续额外buff。",
+    "ordinary_class_boundary": "此资格为八普通职业，不应用卢风郎英雄气功翻倍；不把跨职业武器装备当作合法路径。",
+    "no_inferred_effects": "毒不附中毒/DoT，火不附灼烧；不推抗性/防御/气功点/反气功点/生命或内力变化。与四神独立并存，四神加工仍须自身owner。",
+    "snapshot": "生效组读取一次；包/仓/备用不叠。攻击动作接受后属性快照固定，之后升阶/移除不回写旧动作。",
+    "persist": "只存元素/真实stage/来源收据，不保存派生缓存；显示提升与真实阶段分开。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "recipe_id",
+      "recipe_version",
+      "source_element_id_or_null",
+      "source_stage_or_null",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "展示原/目标元素和真实阶段、三分量、成功率、两种结果成本；移除展示无返还。完整派生owner不足则不提供可提交报价。",
+    "commit": "房主按角色串行先查收据，校验所有修订/资格/完整实例/原库存合法；副本扣材料和费用并验证最终格重，复制RNG后bp<10000才抽一次均匀[0,9999]，draw<bp成功；资源/字段/RNG/修订/收据原子提交。",
+    "success": "原实例element_attribute换为目标元素/阶段及本次收据，其他全部字段精确保留。",
+    "failure": "原element_attribute含来源收据完全保留；照扣材料费及银费，不毁、不降、不清其他成长。",
+    "invalid_or_cancel": "无资源/RNG/修订变化，不提前开奖；旧stage/异元素/满阶或空移除均拒绝。",
+    "deduplication": "同命令同参数回原收据，在检查当前stage前去重；同命令异参数拒绝，失败也记录成本与RNG。",
+    "save_failure": "保留提交内存结果及未保存标记，只重存，不再扣费/抽样。",
+    "load": "校验元素schema、严格stage、完整成功收据与血统唯一性；拒绝不修复，不制造假收据。"
+  },
+  "implementation_gate": "本合同闭合447件火/毒基础加工设计，不等于所有元素或完整普通成长闭合。完整schema、其他成长及真实强化其他贡献/反气功/显示提升、服务注册和经济联审仍待；当前不激活运行，不增加世界服务数。",
+  "transfer_provenance_owner_ref": {
+    "file": "普通武器强化转移.v1.json",
+    "pointer": "/provenance_policy"
+  }
+}

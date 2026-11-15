@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:defensive-effect-state:v1",
+  "$comment": "唯一effects.defense四个自体防护profile。null表示无活跃效果；内部成功冷却仍timers.internal_cooldowns。云心只保存正容量活跃池，不把已破状态/扣血待办持久混入活跃池。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "direct_attack_evasion_window",
+    "distance_mana_shield",
+    "bawang_lethal",
+    "far_received_damage_bubble"
+  ],
+  "properties": {
+    "direct_attack_evasion_window": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "trigger_event_id",
+            "remaining_steps"
+          ],
+          "properties": {
+            "trigger_event_id": {
+              "$ref": "#/$defs/nonblank_id"
+            },
+            "remaining_steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 60
+            }
+          }
+        }
+      ]
+    },
+    "distance_mana_shield": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "shield_instance_id",
+            "trigger_event_id",
+            "capacity_initial",
+            "capacity_current",
+            "remaining_steps",
+            "activation_max_hp"
+          ],
+          "properties": {
+            "shield_instance_id": {
+              "$ref": "#/$defs/nonblank_id"
+            },
+            "trigger_event_id": {
+              "$ref": "#/$defs/nonblank_id"
+            },
+            "capacity_initial": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "capacity_current": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "remaining_steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 300
+            },
+            "activation_max_hp": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          }
+        }
+      ]
+    },
+    "bawang_lethal": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "trigger_event_id",
+            "remaining_steps"
+          ],
+          "properties": {
+            "trigger_event_id": {
+              "$ref": "#/$defs/nonblank_id"
+            },
+            "remaining_steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 180
+            }
+          }
+        }
+      ]
+    },
+    "far_received_damage_bubble": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "trigger_event_id",
+            "remaining_steps"
+          ],
+          "properties": {
+            "trigger_event_id": {
+              "$ref": "#/$defs/nonblank_id"
+            },
+            "remaining_steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 60
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "nonblank_id": {
+      "type": "string",
+      "pattern": "\\S"
+    }
+  }
+}

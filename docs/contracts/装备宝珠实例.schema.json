@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:equipment-gem-instance:v1",
+  "$comment": "20装备宝珠完整7键；类型/品质取精确定义，正文不可变。非装备根的强化/成长字段全部拒绝。严格数字token和来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "instance_id",
+    "item_id",
+    "lineage_id",
+    "owner_character_id",
+    "binding",
+    "revision",
+    "creation_receipt_id"
+  ],
+  "properties": {
+    "instance_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "item_id": {
+      "enum": [
+        "gem_weapon_normal",
+        "gem_weapon_advanced",
+        "gem_weapon_rare",
+        "gem_weapon_legendary",
+        "gem_body_normal",
+        "gem_body_advanced",
+        "gem_body_rare",
+        "gem_body_legendary",
+        "gem_inner_armor_normal",
+        "gem_inner_armor_advanced",
+        "gem_inner_armor_rare",
+        "gem_inner_armor_legendary",
+        "gem_glove_normal",
+        "gem_glove_advanced",
+        "gem_glove_rare",
+        "gem_glove_legendary",
+        "gem_boots_normal",
+        "gem_boots_advanced",
+        "gem_boots_rare",
+        "gem_boots_legendary"
+      ]
+    },
+    "lineage_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "owner_character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "binding": {
+      "const": "character"
+    },
+    "revision": {
+      "type": "integer",
+      "const": 0
+    },
+    "creation_receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  }
+}

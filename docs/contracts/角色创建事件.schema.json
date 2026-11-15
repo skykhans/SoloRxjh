@@ -1,0 +1,1038 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-creation-event:v1",
+  "$comment": "profile.character_creation_events唯一新角色三阶段原事件，不保存第二份完整角色。来源ID/请求摘要/修订/姓名唯一/全角色初值/原子文件语义仍另验；仅committed拥有22礼包授权。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "decision_profile_revision",
+        "character_revision_after",
+        "inventory_revision_after",
+        "silver_flow",
+        "stack_flows",
+        "instance_flow"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "decision_profile_revision": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 9007199254740991
+        },
+        "character_revision_after": {
+          "const": 1
+        },
+        "inventory_revision_after": {
+          "const": 1
+        },
+        "silver_flow": {
+          "$ref": "#/$defs/silver_flow"
+        },
+        "stack_flows": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/$defs/stack_flow"
+          }
+        },
+        "instance_flow": {
+          "$ref": "#/$defs/instance_flow"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "blade"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_blade_straight"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "sword"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_sword_wood"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "spear"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_spear_wood"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "physician"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_staff_wood"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "archer"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_bow_bamboo"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "assassin"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_short_blade"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "musician"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_zither_nameless"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "fighter"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_gauntlets_black_leather"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "han_feiguan"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_fire_dragon_sealed"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "tan_hualing"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_flower_sword_sealed"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "mei_liuzhen"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_black_tortoise_bow_sealed"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "lu_fenglang"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_soul_spear_sealed"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "dongling_shennv"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_cold_jade_staff_sealed"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "command": {
+                "properties": {
+                  "class_id": {
+                    "const": "zhen_fengbai"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "instance_flow": {
+                "properties": {
+                  "outputs": {
+                    "prefixItems": [
+                      {
+                        "properties": {
+                          "instance": {
+                            "properties": {
+                              "item_id": {
+                                "const": "weapon_blood_orb_sealed"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "decision_profile_revision",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "decision_profile_revision": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 9007199254740991
+        },
+        "reason": {
+          "const": "user_cancelled"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "command_id",
+        "expected_profile_revision",
+        "name",
+        "class_id",
+        "appearance"
+      ],
+      "properties": {
+        "command_id": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 32,
+          "pattern": "^[0-9a-f]{32}(?![\\s\\S])"
+        },
+        "expected_profile_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740989
+        },
+        "name": {
+          "$ref": "urn:solorxjh:character-identity:v1#/properties/name"
+        },
+        "class_id": {
+          "$ref": "urn:solorxjh:character-identity:v1#/$defs/class_id"
+        },
+        "appearance": {
+          "$ref": "urn:solorxjh:character-identity:v1#/properties/appearance"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:character-identity:v1#/$defs/class_body_constraints"
+        }
+      ]
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "created_at_utc",
+        "random_state",
+        "rules_hash",
+        "reservation_profile_revision",
+        "initial_character_digest"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string",
+          "minLength": 74,
+          "maxLength": 74,
+          "pattern": "^character:[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "created_at_utc": {
+          "$ref": "urn:solorxjh:character-identity:v1#/$defs/utc_seconds"
+        },
+        "random_state": {
+          "$ref": "urn:solorxjh:random-state:v1",
+          "properties": {
+            "next_block": {
+              "const": 0
+            }
+          }
+        },
+        "rules_hash": {
+          "$ref": "#/$defs/hash"
+        },
+        "reservation_profile_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740990
+        },
+        "initial_character_digest": {
+          "$ref": "#/$defs/hash",
+          "$comment": "完整已验证初始角色按快照摘要.v1.json计算，支持合法binary64位置；不是71整数命令编码，当前成长快照不与此原初始摘要比较。"
+        }
+      }
+    },
+    "initial_instance": {
+      "oneOf": [
+        {
+          "$ref": "urn:solorxjh:initial-ordinary-equipment-instance:v1"
+        },
+        {
+          "$ref": "urn:solorxjh:hero-weapon-instance:v1",
+          "properties": {
+            "enhancement": {
+              "const": 0
+            },
+            "synthesis_entries": {
+              "const": []
+            },
+            "awakening_stage": {
+              "const": 0
+            },
+            "element_attribute": {
+              "const": null
+            },
+            "evolution_tier": {
+              "const": 0
+            },
+            "true_equipment": {
+              "const": false
+            },
+            "merit_equipment": {
+              "const": false
+            },
+            "exclusive_weapon_advancement_stage": {
+              "const": 0
+            },
+            "four_divine_state": {
+              "const": null
+            },
+            "jade_attributes": {
+              "const": []
+            },
+            "enhancement_boost": {
+              "const": null
+            },
+            "revision": {
+              "const": 0
+            }
+          }
+        }
+      ]
+    },
+    "silver_flow": {
+      "$ref": "urn:solorxjh:silver-flow:v1",
+      "properties": {
+        "accounts": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "account": {
+                      "const": "carried_silver"
+                    },
+                    "after_balance": {
+                      "const": 2000
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/initial_silver_account"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "account": {
+                      "const": "warehouse_silver"
+                    },
+                    "after_balance": {
+                      "const": 0
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/initial_silver_account"
+                }
+              ]
+            }
+          ]
+        },
+        "movements": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "properties": {
+              "from_account_index": {
+                "type": "null"
+              },
+              "to_account_index": {
+                "const": 0
+              },
+              "amount": {
+                "const": 2000
+              },
+              "authorization": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "new_character_grant"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "stack_flow": {
+      "$ref": "urn:solorxjh:stack-flow:v1",
+      "properties": {
+        "inputs": {
+          "maxItems": 0
+        },
+        "consumptions": {
+          "maxItems": 0
+        },
+        "mint_authorization": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "new_character_grant"
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "consumable_hp_small"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/initial_stack_output"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "consumable_mana_ginseng"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/initial_stack_output"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "instance_flow": {
+      "$ref": "urn:solorxjh:instance-flow:v1",
+      "properties": {
+        "inputs": {
+          "maxItems": 0
+        },
+        "retirements": {
+          "maxItems": 0
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "instance": {
+                      "$ref": "#/$defs/initial_instance"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/initial_instance_output"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "instance": {
+                      "$ref": "urn:solorxjh:initial-ordinary-equipment-instance:v1",
+                      "properties": {
+                        "item_id": {
+                          "const": "armor_apprentice_shirt"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/initial_instance_output"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "initial_silver_account": {
+      "properties": {
+        "before_balance": {
+          "const": 0
+        },
+        "previous_output": {
+          "type": "null"
+        },
+        "opening_authorization": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "new_character_grant"
+            }
+          }
+        }
+      }
+    },
+    "initial_stack_output": {
+      "properties": {
+        "stack": {
+          "properties": {
+            "quantity": {
+              "const": 5
+            },
+            "binding": {
+              "const": "character"
+            },
+            "quest_scope": {
+              "type": "null"
+            },
+            "revision": {
+              "const": 0
+            }
+          }
+        },
+        "contributions": {
+          "maxItems": 0
+        },
+        "custody": {
+          "const": {
+            "kind": "held"
+          }
+        }
+      }
+    },
+    "initial_instance_output": {
+      "properties": {
+        "operation": {
+          "const": "create"
+        },
+        "source_input_indices": {
+          "maxItems": 0
+        },
+        "custody": {
+          "const": {
+            "kind": "held"
+          }
+        },
+        "creation_authorization": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "new_character_grant"
+            }
+          }
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:character-creation-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1,
+      "$comment": "唯一原数组，最多一reserved；allocation_index顺序/请求和身份唯一、原counter覆盖与跨owner守卫仍另验。"
+    }
+  }
+}

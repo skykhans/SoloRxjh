@@ -1,0 +1,134 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "identity_and_appearance_project_design_not_implemented",
+  "scope": "character.identity唯一五键，不新增顶层name/class_id/appearance镜像；不含完整角色根或创建事务。14既定姓名规则与三职业外观限制沿用，离散外观选项/颜色为本项目设计而非官网定值。",
+  "schema_ref": {
+    "file": "角色身份.schema.json",
+    "pointer": ""
+  },
+  "class_ids_ref": {
+    "file": "角色身份.schema.json",
+    "pointer": "/$defs/class_id/enum"
+  },
+  "identity_rules": {
+    "character_id": "稳定非空ID，独立于显示名、职业、外观和创建日期。创建由角色创建原事件按结算ID派生并持久去重，重试沿原ID；四已知旧档沿旧档导入import_identity.role_id_derivation，不重分配。现行ID缺失拒绝，不用姓名或时间修复。原创建事件详见creation_event_ref；完整角色来源联合校验仍待。",
+    "name": "角色姓名2..12个Unicode标量，输入先拒绝控制字符/孤立代理，再去首尾Unicode空白并按Unicode15.0.0做NFC规范化；持久姓名必须已是规范值，读取不偷偷trim/改写。拒绝控制字符U+0000..001F、U+007F..009F、孤立代理项及纯空白。内部合法空格保留，不自动删字或截断超长姓名。同Unicode15.0.0表的NFC后全量大小写折叠再NFC作为临时唯一键，同档当前角色两两不同；不持久化第二份name_key，不做NFKC/全半角转换或相似字合并。schema只保证长度/字符边界，NFC/完整折叠及唯一性须另验。",
+    "name_change": "18显式配置改名仍遵守同档唯一与长度/规范规则；character_id、created_at_utc及已有来源凭证不改，不把旧事件姓名当当前身份。未决玩法/事务的原配置守卫继续适用。",
+    "created_at_utc": "唯一创建时刻，真实公历UTC整秒YYYY-MM-DDTHH:MM:SSZ，年份0001..9999且不接纳闰秒60；schema显式校验月份日数/世纪闰年与整秒语法，不依赖可忽略的format；原时间来源另验。只显示，不驱动效果、随机或去重。确认事务冻结一次，重试/恢复/改名/换职业不改。四旧导入精确沿原pending/source_proof.created_at_utc，不读源文件修改时间或恢复时系统时间。",
+    "class_and_body": "14职业精确ID，male/female仅本项目外观/装备适配标签，不产生隐藏属性或另存性别镜像。卢/甄只male、神女只female，其他11职业两者。配置更换职业/体型也必须满足限制并预览不兼容装备/技能；失败不自动换体型或替换装备。",
+    "appearance": "四键固定离散ID，不存RGB、资源路径、模型句柄、骨骼、节点或身高缩放。肤色/发型/服饰配色不得影响碰撞半径、命中体积、速度、攻击距离或属性。选项缺失/未知拒绝，现行角色不能补默认；各选项在本职业合法体型内均可选。"
+  },
+  "skin_tones": [
+    {
+      "id": "ivory",
+      "name": "浅瓷",
+      "srgb_hex": "#EACCB7"
+    },
+    {
+      "id": "warm",
+      "name": "暖肤",
+      "srgb_hex": "#D8AA87"
+    },
+    {
+      "id": "bronze",
+      "name": "古铜",
+      "srgb_hex": "#B88561"
+    },
+    {
+      "id": "brown",
+      "name": "棕肤",
+      "srgb_hex": "#936343"
+    },
+    {
+      "id": "deep",
+      "name": "深肤",
+      "srgb_hex": "#64432F"
+    }
+  ],
+  "hairstyles": [
+    {
+      "id": "high_knot",
+      "name": "高束发髻",
+      "visual_direction": "束发抬高、后颈清晰，保留各职业头部识别轮廓"
+    },
+    {
+      "id": "half_tied",
+      "name": "半束长发",
+      "visual_direction": "上半束起、下半披发，适配武器与披风动作"
+    },
+    {
+      "id": "short_swept",
+      "name": "侧束短发",
+      "visual_direction": "短发侧梳，前额不遮挡面部与视线"
+    }
+  ],
+  "outfit_palettes": [
+    {
+      "id": "indigo",
+      "name": "靛青",
+      "primary_srgb_hex": "#344F73",
+      "secondary_srgb_hex": "#BBC4C7",
+      "trim_srgb_hex": "#B89C64"
+    },
+    {
+      "id": "crimson",
+      "name": "绛红",
+      "primary_srgb_hex": "#823C43",
+      "secondary_srgb_hex": "#D7C5AF",
+      "trim_srgb_hex": "#BA995E"
+    },
+    {
+      "id": "jade",
+      "name": "竹青",
+      "primary_srgb_hex": "#3D655C",
+      "secondary_srgb_hex": "#C8CFBC",
+      "trim_srgb_hex": "#A98F5C"
+    },
+    {
+      "id": "ochre",
+      "name": "赭黄",
+      "primary_srgb_hex": "#977448",
+      "secondary_srgb_hex": "#D8CBAF",
+      "trim_srgb_hex": "#5B5146"
+    },
+    {
+      "id": "plum",
+      "name": "梅紫",
+      "primary_srgb_hex": "#644B71",
+      "secondary_srgb_hex": "#CCC1CF",
+      "trim_srgb_hex": "#AD996F"
+    },
+    {
+      "id": "ink",
+      "name": "墨灰",
+      "primary_srgb_hex": "#3D434B",
+      "secondary_srgb_hex": "#BBC0C3",
+      "trim_srgb_hex": "#A78A5C"
+    }
+  ],
+  "palette_application": "颜色为sRGB8输入，渲染在线性空间按已登记遮罩混色。肤色只着色皮肤遮罩；服饰三色仅作用实际资源声明可染的主/辅/饰边遮罩，不统一覆盖整张材质。未声明可染的正式装备/披风保其原材质，不假造可染选项；见习短衫必须实现所选三色预览。发型只选形，不追加未设计的染发字段。",
+  "asset_binding": "正式资源目录必须覆盖25个合法class_id/body_type组合及各自3种发型、皮肤和短衫三遮罩。允许复用已登记兼容资源，但每组合须能定位真实模型/骨骼/动画/材质与许可，不用同名文件存在当适配通过。各模型沿原统一碰撞/动作规则。P/A阶段完成实际资源和预览、装备/披风遮挡、动作穿插及性能验证；本目录不宣称资源已存在。",
+  "fang_chen_preset": {
+    "name": "方尘",
+    "class_id": "sword",
+    "appearance": {
+      "body_type": "male",
+      "skin_tone_id": "warm",
+      "hairstyle_id": "high_knot",
+      "outfit_palette_id": "indigo"
+    }
+  },
+  "preset_policy": "新建方尘只是可编辑预设，仍走22创建确认与完整校验；四旧来源无姓名/外观字段，显式采用同方尘预设且不发22礼包。若同档已有规范化同名角色，导入在预留前拒绝并显示冲突角色ID；用户可按18先改已有角色名后重新预览，不自动加数字后缀、不在恢复时重新命名。已导入/已删除去重仍优先返回原凭证，不因重名新建。",
+  "legacy_ref": {
+    "file": "旧档导入.v1.json",
+    "pointer": "/import_identity"
+  },
+  "new_character_initialization": "本角色身份来自确认后的规范姓名/职业/四外观选择和同事务固定ID/时间；不把预设当所有职业强制默认。读档/复活/切换不重建身份。初始物品/技能/资源沿22原模板，身份目录不发奖励。",
+  "validation_order": "完整角色白名单（仍待）先验，再验本身份schema与真实公历，核NFC与同档唯一，核原身份不可变来源/确认选择，最后用同原identity.class_id联合效果/特殊资源/技能装备资格。不保存投影镜像；配置例外不得放行未知ID/坏字符或非法职业体型。",
+  "creation_event_ref": {
+    "file": "角色创建.v1.json",
+    "pointer": ""
+  },
+  "name_unicode_version": "15.0.0"
+}

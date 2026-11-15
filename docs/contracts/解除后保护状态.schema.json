@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:post-dispel-guard-state:v1",
+  "$comment": "唯一effects.post_dispel_guard，神力保护固定技能身份由族确定；每施放者一源，保存原成功解除结果及原有效等级快照。",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "source_actor_id",
+      "trigger_event_id",
+      "remaining_steps",
+      "effective_grade"
+    ],
+    "properties": {
+      "source_actor_id": {
+        "$ref": "#/$defs/nonblank_id"
+      },
+      "trigger_event_id": {
+        "$ref": "#/$defs/nonblank_id"
+      },
+      "remaining_steps": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 600
+      },
+      "effective_grade": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 40
+      }
+    }
+  },
+  "$defs": {
+    "nonblank_id": {
+      "type": "string",
+      "pattern": "\\S"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-15",
   "status": "project_design_not_implemented_not_balanced",
   "scope": "14职业逐级气功/升天点发放、两类气功共用预算、已分配/有效等级与重复领取边界；不代替全技能学习条件/效果。",
   "source_policy": "六转已存旧官网升级表列气功3点和升天点1点；V8社区乐师80级124点仅为历史数量参照。低级发点曲线及有效等级上限为项目设计，数值相符不证明曲线由官网公布。",
@@ -3276,5 +3276,60 @@
       "qigong_points_after_first_ascension": 3,
       "ascension_points_after_first_ascension": 1
     }
-  ]
+  ],
+  "equipment_jewelry_bonus_owner_ref": {
+    "file": "普通首饰基础定义.v1.json",
+    "pointer": "/contribution_policy/all_qigong"
+  },
+  "merit_jewelry_owner_ref": {
+    "file": "新版武勋首饰.v1.json",
+    "pointer": "/contribution_policy"
+  },
+  "award_rule_version": 1,
+  "persistent_history": {
+    "fields": [
+      "character.qigong.covered_level",
+      "character.qigong.level_award_spans"
+    ],
+    "schema_ref": {
+      "file": "升级发点历史.schema.json",
+      "pointer": ""
+    },
+    "version": "award_rule_version为严格整数1，对应本合同records固定逐级表；不是发行rules_hash或角色当前版本。未知历史版本拒绝或走明确迁移，不按当前表悄悄重算。",
+    "ownership": "两个字段仍在qigong下平铺，此schema是联合校验组件，不新增level_award_history持久包装，不把同字段复制到progress或顶层。初始模板声明初值1/[]，尚不是完整qigong正文。",
+    "coverage": "先核covered_level1..180、spans长度不超179；从next=2按数组顺序逐段核first_level==next及first<=last<=covered_level，再令next=last+1；末尾next==covered_level+1。covered=1恰空，覆盖水位>1不能空。当前等级可低于水位但不能高于水位；不能排序/合并坏输入来修复。",
+    "awards": "before_first_ascension逐level_reached求records.qigong_points_without_first_ascension和ascension0；after_first_ascension逐级求两after列。configuration_skip/legacy_import_skip两发点必0。段记录求和与实际值完全相等；合并相邻同kind/version时同步合计，两者不可拆开改写。实际职业/晋级快照/事件来源仍须原结算验证，形状不授权跳段或补发。",
+    "transitions": "正常经验事件只追加原covered以上首次跨越等级的同笔段并发点；配置跳级追加configuration_skip且0，降级不缩水位/删历史。已覆盖等级重新练回不新增段或奖励。legacy_import_skip仅四已知旧来源首次导入建立，之后不可用配置或升级命令伪造。已存历史不得因晋级/洗点/死亡/读档重分支或补点；必要等价合并只在合法新增后且保覆盖/收入/来源等价。",
+    "budget_boundary": "区间收入只是普通气功和升天点来源之一，不等于当前未分配余额；须与明确其他收入/支出、已分配和配置来源按原共享预算守恒，不能按历史总和重置余额。",
+    "boundary": "本组件不覆盖完整qigong学习/预算、角色与发点事件/授权根，原整数词元、来源和实际Godot重放/保存仍待。"
+  },
+  "persistent_shared_budget": {
+    "fields": [
+      "character.qigong.qigong_unallocated",
+      "character.qigong.allocations"
+    ],
+    "schema_ref": {
+      "file": "升级发点历史.schema.json",
+      "pointer": "/$defs/shared_qigong_budget"
+    },
+    "initial": {
+      "qigong_unallocated": 0,
+      "allocations": {}
+    },
+    "identity": "allocations唯一以308个稳定气功ID为键、值为自有已分配0～20等级，不按名字合并。普通/升天气功共同消费qigong_unallocated，每一级恰1点；稀疏表缺ID表示自有0，显式0合法但不授予资格。新增分配必须核当前职业/等级/晋级/任务/书资格。加载须核原分配与资格来源；降级/暂时失去资格保留合法历史自有点但不生效，不因当前资格不足自动清零或把合法历史判坏。异职业/配置移除资格的保留必须有18明确配置不生效来源；缺历史授权不能仅凭schema含308ID放行。",
+    "derived_levels": "装备/首饰/BUFF提供的额外等级及被削后的有效等级由已采用效果/上限owner即时推导，不存入allocations或qigong_unallocated，不对其退款。自有分配上限20不等于有效上限40；气功暂时失效不删自有点。",
+    "conservation": "按原发点区间和明确奖励/配置收入求自有总收入，等于qigong_unallocated+sum(allocations)+有明确来源的配置支出。未知收入/缺事件证明拒绝，不以当前等级、已学书或装备等级补预算。此二键组件不持有第二份来源日志；原经济/配置事件与全档来源闭包仍为唯一证据。",
+    "operations": "分配N级先逐技能资格/上限与共享余额校验，同笔余额-N/该技能+N。普通和升天气功不分两份可重复支用余额。洗点按历练与洗点owner清所有自有allocations值为0，将实际sum(allocations)精确返到同一余额，保原历史/学习资格；全为0时拒绝且不消费山参。任何加法超安全范围决定前拒绝，不截断或丢点。",
+    "other_pools": "ascension_unallocated用于升天攻击武功阶段，反气功独立预算/旧四剑技修行预算均不在本组件，不互相补款或退款。",
+    "initialization": "新建及四已知旧来源新导入角色两个字段0/{}；模板owned_qigong_points=0是声明的新建未分配初值，输出映射为本字段，不另保存同名总额。完整qigong根组装需保原其他字段，不能仅凭本二键组件创建缺学习/来源的角色。",
+    "boundary": "严格数字词元/全部历史与配置来源、完整技能学习/总账和角色根仍待，不以结构通过启用分配/洗点。",
+    "allocation_event_ref": {
+      "file": "气功学习与秘籍.v1.json",
+      "pointer": "/allocation_events"
+    },
+    "respec_event_ref": {
+      "file": "历练与洗点.v1.json",
+      "pointer": "/qigong_respec_events"
+    }
+  }
 }

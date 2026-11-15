@@ -1,0 +1,308 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "merit_qualification_and_paid_title_design_adopted_not_implemented_combat_effects_open",
+  "scope": "现有character.martial_merit余额的阶段/称号权威读口、旧三款首饰4/6阶段资格、新武勋9款数值或称号豁免。不是武勋收入/属性增益/完整活动经济已冻结。",
+  "source_refs": [
+    {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/79"
+    },
+    {
+      "file": "../reference/新版武勋首饰参数.json",
+      "pointer": "/confirmed_rules"
+    }
+  ],
+  "source_policy": "67905明载阶段1～9区间、正邪称号、8/9阶段每月消耗5万/15万；71637专题图示明载武圣/魔神及以上称号不受武勋数值限制但不豁免等级/名声。阶段0、认证领取/付费保留、30个模拟日代替日历月、续期不足处理、路线上下文和以下事务为项目选择。7～9阶段攻击/防御/生命源格带箭头，未裁定完整属性，不据前数字采用；其他武勋战斗加成亦另需owner。",
+  "balance_ref": {
+    "file": "第六次升职与单机武勋试练.v1.json",
+    "pointer": "/quest/required_merit/field"
+  },
+  "bands": [
+    {
+      "stage": 0,
+      "minimum_merit": 0,
+      "maximum_merit": 0,
+      "righteous_title_id": null,
+      "evil_title_id": null,
+      "righteous_name": null,
+      "evil_name": null,
+      "upkeep_per_period": 0
+    },
+    {
+      "stage": 1,
+      "minimum_merit": 1,
+      "maximum_merit": 1000,
+      "righteous_title_id": null,
+      "evil_title_id": null,
+      "righteous_name": null,
+      "evil_name": null,
+      "upkeep_per_period": 0
+    },
+    {
+      "stage": 2,
+      "minimum_merit": 1001,
+      "maximum_merit": 15000,
+      "righteous_title_id": "merit_title_righteous_02",
+      "evil_title_id": "merit_title_evil_02",
+      "righteous_name": "后起之秀",
+      "evil_name": "后起之秀",
+      "upkeep_per_period": 0
+    },
+    {
+      "stage": 3,
+      "minimum_merit": 15001,
+      "maximum_merit": 50000,
+      "righteous_title_id": "merit_title_righteous_03",
+      "evil_title_id": "merit_title_evil_03",
+      "righteous_name": "冷面杀手",
+      "evil_name": "冷面杀手",
+      "upkeep_per_period": 0
+    },
+    {
+      "stage": 4,
+      "minimum_merit": 50001,
+      "maximum_merit": 100000,
+      "righteous_title_id": "merit_title_righteous_04",
+      "evil_title_id": "merit_title_evil_04",
+      "righteous_name": "万人敌",
+      "evil_name": "千人斩",
+      "upkeep_per_period": 0
+    },
+    {
+      "stage": 5,
+      "minimum_merit": 100001,
+      "maximum_merit": 599999,
+      "righteous_title_id": "merit_title_righteous_05",
+      "evil_title_id": "merit_title_evil_05",
+      "righteous_name": "宗师",
+      "evil_name": "邪魔",
+      "upkeep_per_period": 0
+    },
+    {
+      "stage": 6,
+      "minimum_merit": 600000,
+      "maximum_merit": 1199999,
+      "righteous_title_id": "merit_title_righteous_06",
+      "evil_title_id": "merit_title_evil_06",
+      "righteous_name": "武尊",
+      "evil_name": "魔尊",
+      "upkeep_per_period": 0
+    },
+    {
+      "stage": 7,
+      "minimum_merit": 1200000,
+      "maximum_merit": 1499999,
+      "righteous_title_id": "merit_title_righteous_07",
+      "evil_title_id": "merit_title_evil_07",
+      "righteous_name": "武皇",
+      "evil_name": "霸皇",
+      "upkeep_per_period": 0
+    },
+    {
+      "stage": 8,
+      "minimum_merit": 1500000,
+      "maximum_merit": 4999999,
+      "righteous_title_id": "merit_title_righteous_08",
+      "evil_title_id": "merit_title_evil_08",
+      "righteous_name": "武圣",
+      "evil_name": "魔神",
+      "upkeep_per_period": 50000
+    },
+    {
+      "stage": 9,
+      "minimum_merit": 5000000,
+      "maximum_merit": 9007199254740991,
+      "righteous_title_id": "merit_title_righteous_09",
+      "evil_title_id": "merit_title_evil_09",
+      "righteous_name": "大武圣",
+      "evil_name": "大魔神",
+      "upkeep_per_period": 150000
+    }
+  ],
+  "stage_policy": {
+    "numeric_stage": "现有character.martial_merit严格0～9007199254740991，逐行闭区间查唯一stage。0是项目显式无武勋阶段，不能把缺失/负数/浮点补成0。",
+    "effective_stage": "先核完整余额/路线/凭证及原来源和本步到期；正邪路线且存在合法有效8/9凭证时，优先取凭证stage，即使余额数值阶段已降至0～7也不先返回低档。其余情况取min(数值阶段,7)。未认证高余额只显示可认证档位，不自动发高阶称号；未选派可保凭证但不激活。凭证8配数值9仍有效8，升级须原显式8升9事务，不能max(数值阶段,凭证stage)。",
+    "title_lookup": "只按有效stage及当前合法正邪路线映射本表固定ID；未选派时无正邪称号、不能领取高阶凭证。角色合法配置改路线时原凭证保stage/剩余并重映射固定ID，不复制两个凭证或刷新期限。",
+    "combat_boundary": "这里的生效阶段仅为资格/称号读口，不赋未采用攻击防御/气功等战斗贡献；不能把来源阶段表全部当0或声称完整武勋效果已实现。",
+    "qualification_resolution": {
+      "inputs": "同一已验证实际角色的martial_merit、progress.route和martial_merit_title_state；完整当前来源与本步到期先验。未知/缺失/坏来源拒绝，不能将坏凭证当null后算低档。",
+      "order": [
+        "逐原bands唯一闭区间取得numeric_stage。",
+        "若route为righteous或evil且原凭证合法有效，effective_stage=凭证stage；否则effective_stage=min(numeric_stage,7)。",
+        "route为unselected时title_id=null；否则只从原bands[effective_stage]对应righteous_title_id/evil_title_id读取，原阶段0/1的null保持，无同名推断。",
+        "原普通三款仅按effective_stage门槛4/6且全部原其他资格；新版九款按实际余额门槛或合法生效8/9凭证，仍保源等级/实际晋级等独立条件；原55防具仍只读各自余额门槛。"
+      ],
+      "derived_only": "numeric_stage/effective_stage/title_id为一次读取派生结果，不增添持久缓存/认证记录或消费武勋；报价必须冻结实际相关三修订/原世界步与来源，不能只存显示stage证明资格。",
+      "counterexamples": [
+        {
+          "balance": 0,
+          "route": "righteous",
+          "valid_title_stage": 8,
+          "expected_effective_stage": 8
+        },
+        {
+          "balance": 5000000,
+          "route": "evil",
+          "valid_title_stage": 8,
+          "expected_effective_stage": 8
+        },
+        {
+          "balance": 5000000,
+          "route": "righteous",
+          "valid_title_stage": null,
+          "expected_effective_stage": 7
+        },
+        {
+          "balance": 0,
+          "route": "unselected",
+          "valid_title_stage": 9,
+          "expected_effective_stage": 0
+        }
+      ],
+      "limits": "本算法只明确资格读口，原严格认证/续期/配置事件及完整时钟/战斗/文件LAN/Godot仍待。"
+    }
+  },
+  "title_state": {
+    "field": "character.martial_merit_title_state",
+    "empty_value": null,
+    "fields": [
+      "stage",
+      "remaining_steps",
+      "origin_receipt_id"
+    ],
+    "stage_values": [
+      8,
+      9
+    ],
+    "remaining_steps_range": [
+      1,
+      155520000
+    ],
+    "receipt": "非空同角色认证/续期或18明确配置来源，验证完整前链/余额变化/唯一事件。配置不伪造正常认证或月费收据。",
+    "fresh": "正式新建及旧档导入合同明确接受的四组schema/content导入新角色均显式null；保留目标档案已有角色凭证。新schema缺字段拒绝，不按当前余额自动补凭证。",
+    "strictness": "精确三字段、严格数字token及非空来源，未知stage/零剩余/缺键拒绝，不夹到合法档或静默清除。",
+    "schema_ref": {
+      "file": "武勋称号凭证.schema.json",
+      "pointer": ""
+    },
+    "validation_order": "先验完整null/三键根及严格整数token，再核本人真实原认证/续期/明确配置事件、完整前驱与实际扣费/期限；同形状字符串不授权。按实际原角色时钟核剩余，保持原route独立；route未选或当前余额下降不把合法原凭证判损坏或补清。尚无严格原称号事件/时钟链时仍拒绝运行，不借schema通过造来源。"
+  },
+  "upkeep": {
+    "period_steps": 155520000,
+    "tick_rate": 60,
+    "period_adoption": "30个权威模拟日=30*24*60*60*60步，明确代替真实日历月；离线/关闭不按墙钟追债。",
+    "first_claim": "本人已选正邪且当前余额达到所选8/9档最低数值，存活脱战空闲、有效NPC会话、无占用。null状态首次领取完整周期，不额外扣首期月费；不自动发武勋或补偿物品。已有相同/更高stage拒绝重复领取，不刷新。",
+    "upgrade": "有效8升9须当前余额>=500万，同NPC命令保原剩余，不重新给免费周期；下一次到期按9档费用。无正常提前续期、降档、取消或清空再领奖入口。",
+    "clock": "固定步开始先处理到期再接受命令；单一角色时钟，不因地图/死亡/换组重置，保留的LAN断开角色随房主继续。离线暂停或保存关闭冻结，普通递减不改业务修订。",
+    "renewal": "8到期余额>=50000/9到期>=150000则原子扣对应余额、重设完整周期并写续期收据，不要求余额仍达初始150万/500万。余额不足不扣部分、不自动降档或尝试另一收费，原子置null并按当前余额重算有效阶段，通知资格变化。",
+    "revision": "续期/到期清除时余额、凭证及受影响资格和修订同一次提交；失效装备保原位置及成长，只撤贡献；引起反气功分配不足沿14合法外部来源丧失处理，不恢复旧分配。",
+    "no_refresh": "死亡、保存重试、路线映射、重复请求不刷新；升级8到9保剩余。到期结算事件绑定角色/凭证/周期去重，失败保存只重存。",
+    "step_transition": {
+      "inputs": "当前完整正式角色、合法非null原称号凭证与原完整前驱、实际可模拟的下一权威角色步和原规则。先处理前一保存不确定/未决决定及远端协议守卫；不能只凭余额/图标或本机墙钟调用。无可模拟步时完全保持；死亡本身不阻原称号时钟。",
+      "no_title": "null无称号计时/续期候选，不因高余额自动认证，不分配事件/计数。",
+      "positive_remainder": "原remaining_steps>1时在原权威步推进中精确减1，其余凭证/余额不变；不改角色业务/库存/配置修订，不产生收费事件。实际时钟与保存仍走原权威记录，不为每步造业务收据。",
+      "expiry_candidate": "原remaining_steps=1时本次步首先构造到期业务候选，不把remaining0写成可加载称号根。按原stage精确取8费50000或9费150000；仅本人martial_merit支付，随身/仓银、历练及物品不可替代。资格/路线或已跌破初始认证门槛不改变已合法凭证的本期费用。",
+      "sufficient": "原余额>=本费则候选扣恰本费，保stage、remaining_steps=period_steps155520000，origin_receipt_id改为本次真实原续期决定ID。完整原前驱、扣前后余额/旧凭证与到期步须由严格原续期事件冻结；不能沿用旧origin冒充新周期或重用原认证免费周期。",
+      "insufficient": "原余额<本费则保持余额，凭证置null，原到期决定保旧凭证/完整前驱与清除原因。不部分扣款、不负债、不降档试另一费用，不等待本步后来收入来救本周期；以后符合资格只经原显式认证入口。",
+      "qualification": "在同一候选重算实际余额/路线和新凭证对应资格。真实失效保装备正文/位置/成长，撤贡献；原反气功预算不足须按原外部来源丧失算法同笔处理，不另返还旧配置或补资源。当前资源超过新合法上限按实际原属性变化规则同笔处理，不能提交坏根后靠读档修复。",
+      "revisions": "到期续期或清除是一次角色业务提交，character.revision+1，inventory_revision与customization.revision/latest保持；原协议/档案修订按其owner。若实际相关原owner要求更广差异须事前明确登记，不因到期夹带钱物变化。修订不可加/来源坏/候选非法时停止该权威角色步及依赖命令并保原正式可恢复快照，不写0剩余或借缺钱分支绕过修订耗尽。",
+      "ordering": "同一步先完成原到期决定及资格变化，再接受认证/升级/配置/装备/交易/战斗命令；后续命令重新读取实际新三修订与资格。不得拿到期前称号豁免成交，旧报价只按原规则拒绝重预览。其他角色/世界推进按原authority事务约束处理，不能以本地UI暂停冻结LAN世界。",
+      "replay": "原到期决定由同角色/原凭证来源/实际到期权威步唯一去重；严格原事件和ID协议沿本owner的expiry_events，不新增可重置周期计数器。保存存疑先重读原决定，已续期只回原结果，不再扣款；清除不因后来收入重新激活。跨多个可模拟步必须逐原到期边界结算并保来源，不按墙钟追债或直接用取模省略中间资格变化。",
+      "limits": "认证及到期三阶段原事件已采用；本状态转移仍不证明完整时钟/余额来源或真实存盘，未授权实际运行。"
+    },
+    "clock_ownership": {
+      "general_presence_ref": {
+        "file": "战斗冷却.v1.json",
+        "pointer": "/clock_policy"
+      },
+      "owner": "称号唯一余时仍是character.martial_merit_title_state.remaining_steps，不另存角色tick计数、第二个world_id/观察步或到期墙钟。原玩法会话authority推进实际存在的角色实体；称号只消费该实体实际被接纳模拟的步，完整时钟来源链另验。",
+      "presence": "离线实际游戏世界运行时每步消费；暂停/保存关闭/选角不推进。LAN已接纳实体包括断开后的原10秒保留期继续消费；原10秒后实体移除起冻结，120秒席位释放不追加110秒扣时。重连先按原连续结果恢复实际最后余时，再从新接纳后的实际步继续，不按离线墙钟或房间经过步补扣缺席。 已登记私场的实际接纳/挂起例外统一沿general_presence_ref的private_instance_suspension，不套公共LAN10秒扣步；挂起不清凭证或未决来源。",
+      "death": "死亡但原角色实体仍被authority保留时称号继续计时；不沿一般生命恢复/体力死亡冻结规则停称号，不因复活/死亡页/换装备刷新期限。死亡处理与到期同时发生仍在原角色单一步序中各处理一次。",
+      "world_transfer": "完整结束旧会话并保存最后角色/原来源后，新世界从实际携带余时继续；新旧world_step原点不可相减，不能把称号绑定旧世界后继续远端扣费。未决旧会话/未保存结果/认证reserved未解决禁止转移，不同时两authority计时或续期。",
+      "certification_delta": "认证plan.observed_world_step与committed_world_step必须同原play_session_identity/world的连续已接纳实体区间，且从观察至提交每一世界步确实消费一次称号步，才可使用T-B。世界可能继续而角色已被移除/会话失效/暂停区间不符合时，原认证必须abort session_invalid或state_changed，不能用房间差步当角色余时，也不能跨会话沿旧预留升级。",
+      "abort_reconcile": "原认证冻结凭证不因abort刷新，随后按真实已模拟角色步来源对账；缺席冻结区间不扣。若已跨到期边界，先执行原到期业务再接新命令，不拿原旧余时直接启动。尚无完整原时钟来源时拒绝运行，不能从当前两个标量猜连续。",
+      "limits": "本协议明确称号角色存在期计时，区别于吟诗/寿等源世界观察计时；严格到期事件已采用，但完整原实体接纳/移除/会话时钟记录仍待，结构通过不证明实际时钟。",
+      "private_advancement_trial_ref": {
+        "file": "第六次升职与单机武勋试练.v1.json",
+        "pointer": "/martial_merit/title_upkeep_interlock"
+      }
+    }
+  },
+  "eligibility": {
+    "legacy_jewelry": "鬼眼灵珠与死灵之环要求effective_stage>=6，浴血魔链>=4；不消耗武勋。原有等级/实际转职仍须满足，死灵坏属性token另阻塞正式定义。",
+    "new_merit_jewelry": "全9款先验源等级及实际八/十一/十二转，再判当前余额>=源120万/150万/500万 OR 存在有效8/9凭证且当前路线对应固定武圣/魔神/大武圣/大魔神ID。只豁免数值，不豁免等级转职/职业/实例；无凭证的显示字符串无效。",
+    "armor_boundary": "55武勋防具仍按其明确数值门槛，不接受首饰称号豁免；不能将本新首饰例外全局替代所有武勋资格。",
+    "loss": "合法资格丧失保实例所有权及位置，撤当前贡献，恢复重算但不回血/回复旧反气功分配。坏来源/坏字段不当作合法失效。"
+  },
+  "service": {
+    "npc_id": "npc_yuegong_henge",
+    "planned_service_id": "npc_yuegong_henge_merit_title_certification",
+    "registered": false,
+    "interaction_distance_mm": 2500,
+    "operation": "显式选择可领取8/9或8升9，不自动取最高替用户选择，完整预览期限/下一期月费。房主按同修订角色余额/凭证/路线计算，客户端不能提交权威stage。",
+    "request_schema_ref": {
+      "file": "武勋称号凭证.schema.json",
+      "pointer": "/$defs/certification_request"
+    },
+    "certification_admission": {
+      "request_identity": "request_id采用71确定JSON [\"merit_title_certification\",play_session_identity.session_id,command_id]，request_digest为完整六键request的71编码SHA256。先查原请求/摘要并恢复原决定，再判当前余额/凭证/修订；同ID异摘要拒绝，原认证重试不刷新期限。原certification_events严格持久事件已登记；不能只凭本request通过跳过完整候选/来源门禁。",
+      "context": "service_opening_index只引用同一原play_session_identity下真实原NPC会话，精确月宫姮娥与原merit_title_certification服务。先核完整原角色/来源/会话ACK、权限、两预期修订、存活脱战空闲/距离<=2500mm/视线及无交易配置活动占用；服务registered=false当前仍拒绝执行，不从warehouse opening结构引用推断这是仓储业务。",
+      "first_claim": "本步到期已结清且真实title_state=null时，requested_stage8要求实际martial_merit>=1500000、9要求>=5000000，route必须正/邪。只按显式requested_stage，不自动取余额最高档；不扣首期费、给完整155520000步，并由未来原committed认证结算生成origin，不调用配置或续期扣费路径。",
+      "upgrade": "真实有效stage8且requested_stage9、实际余额>=5000000时允许升级，保实际提交权威步对账后的剩余；原stage8来源与前驱留在原事件，不刷新完整周期。route仍须正/邪。已有相同或更高stage一律拒绝，不当成功no-op、更换收据或重新给免费期。",
+      "clock": "认证预览不暂停LAN世界。若升级在等待期间原凭证到期，先按原到期流程结清，原请求不能静默改成一次新免费认证；原冻结输入失效则原决定state_changed。需要首次领取时用户发新明确请求。不得用预留绕过称号到期收费。",
+      "candidate": "首次或升级成功各一次角色revision+1，库存和配置revision/latest保持；余额不变。只改称号凭证、原认证事件及必要原协议/档案元数据。资格更新在完整候选内完成，不发银/物品/武勋/气功点，不在原起点免费发装备或补资源。",
+      "gate": "已采用严格三阶段认证事件及原日志/索引/producer；服务仍未注册，真实NPC/时钟/完整来源/根及运行门禁未闭合，request或event结构通过不授权保存称号。"
+    }
+  },
+  "configuration": "18可明确编辑余额、凭证stage及剩余步，保独立配置来源和正常历史边界，预览资格/预算变化；不要求日常武勋门槛。直接配置有效8/9不能同时省略来源或给0剩余，身份/唯一性/数字精度不放宽。配置不自动认证/扣月费；下一到期仍按当前合法配置凭证规则结算。",
+  "implementation_gate": "资格/阶段/称号生命周期设计采用；新版9款基础/套装/加工/耐久及转让约束已由70采用。完整档案/收据schema、武勋战斗属性及活动收入/成长经济、71交易协议已采用，完整数据及经济联审仍待。未注册运行，不代表D1通过。",
+  "merit_jewelry_owner_ref": {
+    "file": "新版武勋首饰.v1.json",
+    "pointer": ""
+  },
+  "player_trade_protocol_owner_ref": {
+    "file": "玩家交易.v1.json",
+    "pointer": ""
+  },
+  "certification_events": {
+    "field": "profile.merit_title_certification_events",
+    "initial_value": [],
+    "schema_ref": {
+      "file": "武勋称号认证事件.schema.json",
+      "pointer": ""
+    },
+    "identity": "沿service.certification_admission原六键request与原通用counter分配。原请求去重先于当前状态，identity/command/plan三阶段不变；原事件终态保留，不以当前凭证已续期/清除而删除。",
+    "plan": "冻结原rules_hash、当前实际martial_merit_before、完整before_title或null及实际原世界observed_world_step。原凭证须先对账到此步；选8只能null，选9可null或8，已9拒绝。完整候选及资格/来源先验后才预留。",
+    "reserve": "原authority完整保存counter+1及reserved，角色/武勋/凭证/业务库存配置修订不变，同角色跨owner占用互斥。LAN世界继续，原凭证时钟不因预留免费暂停；仅保存冻结原输入，不存另一角色镜像。",
+    "commit": "同authority锁重验完整原会话/ACK、精确服务与窗口/距离/存活脱战、rules、两修订及原余额/凭证来源。实际提交步T不得早于plan.observed_world_step。首次null生成requested_stage/完整周期/本结算origin；8升9计算remaining=before.remaining_steps-(T-plan.observed_world_step)，必须正且保原剩余，无免费完整周期。after.origin_receipt_id精确identity.settlement_id，after.stage精确command.requested_stage。 T-B计算必须通过upkeep.clock_ownership.certification_delta连续实体区间校验；角色缺席/跨会话不能直接相减。",
+    "expiry_race": "升级差步>=原剩余时不能提交或静默变首次领取，原位abort state_changed。目标原冻结状态/两修订不变，后续原时钟必须对账实际经过步并先完成到期决定，不能把abort当恢复满期限。由于原同角色业务互斥，先持久解决此reserved再进入原到期业务，不无限等待两者相互解锁。",
+    "allowed_diff": "成功仅称号正文、character.revision+1、原事件及必要原档案/网络元数据；martial_merit余额保持，inventory_revision_after等command原值，customization及其最近引用保持。资格实际派生重算，不授钱物/技能/点数，不重填当前资源；实际根/来源全部通过才一次完整替换。",
+    "abort": "只接受原schema四原因，保持目标/余额/全部角色修订，无退款补偿或免费周期；原输入/计数/终态保留。缺来源/不确定写入先重读原正式决定，不猜失败或重分配。",
+    "history": "仅同本人原committed可授权after称号来源；核原资格余额、before为null首次或8升9、当时原世界步/完整前驱、实际输出/修订精确算术。后来余时递减/续期/到期与合法路线变更按原后继链，不要求今天凭证仍等原after。",
+    "network": "仅原committed/aborted作为原连续结果producer，reserved不发。接收者保存完整原决定/来源证明与结果head后ACK，不改authority或造本地认证；原重试回原决定，不覆盖后来凭证或扣费。",
+    "remaining": "认证及到期严格原事件已登记；服务仍未注册，武勋收入和完整实体时钟来源、角色/world/profile及实际文件LAN/Godot仍待。"
+  },
+  "expiry_events": {
+    "field": "profile.merit_title_expiry_events",
+    "initial_value": [],
+    "schema_ref": {
+      "file": "武勋称号到期事件.schema.json",
+      "pointer": ""
+    },
+    "command": "仅原authority从完整合法角色及真实实际到期步构造五键command，不接受客户端发到期命令。due_world_step是同原play_session实际从remaining1消费最后一步的步，不是墙钟/估计期限；before_title.origin精确command.origin_receipt_id。原角色未模拟/已移除不能分配此事件。",
+    "identity": "request_id=71确定JSON [\"merit_title_expiry\",play_session_identity.session_id,origin_receipt_id,due_world_step]，request_digest=完整五键command的71编码SHA256。先查原请求，原同笔恢复/终态返回；异摘要拒绝。无新增周期计数或用户随机command_id；每次续期新origin区分下一周期。",
+    "plan": "精确原rules_hash/before_title/martial_merit_before，before_title必须完整合法且remaining1，原源/实际前驱及本次确实到期来源已验证。与原角色同锁冻结，不提前写0余时。两预期修订匹配且角色可加1；完整续期或清除候选及资格/资源联验后才预留。",
+    "reserve": "原通用counter+1与reserved同档保存，角色余额/凭证及两修订保持，跨owner同角色占用互斥。本角色该到期步的依赖动作与结果发布等待此决定，其他角色/世界按原authority事务继续，不能把等待步数当新免费续期时长。",
+    "commit": "重核同会话/来源/原rules/角色两修订/原凭证与余额精确一致。逻辑committed_world_step必须等command.due_world_step，不以磁盘完成时刻延后本周期起点。8余额>=50000或9>=150000时扣恰该费、保stage、给155520000步且新origin=identity.settlement_id；否则余额原值、title_after=null。实际晚于该逻辑步的角色模拟尚未发生，不补免费等待。",
+    "revisions": "成功character_revision_after=expected+1，inventory_after=expected；customization全根保持。同笔按原step_transition处理资格与合法外部来源丧失，不授钱物/返气功/回血。完整快照只允许原明确差异，角色实际余时与原结果同逻辑步。",
+    "abort": "仅session_invalid/state_changed，保原输入/计数、余额/凭证/修订。不是user_cancelled收费豁免；原未完成到期角色步仍待收束，不能在余时1状态继续接受依赖命令或重领免费期。缺来源/存疑写先冻结重读，不自动abort。跨会话前须原authority完成/收束实际到期及原最终结果，不能用abort绕过收费。",
+    "history": "认证/合法配置或前次续期给原origin，实际模拟步消耗到剩余1并到期；核同本人/原world会话、唯一到期逻辑步、原余额与after精确算术。续期结果是唯一新凭证来源，清除结果不授权重建称号。原日志/远端证明保留，重复结果不重复扣费或重建旧期限。",
+    "network": "原committed/aborted才发布连续结果producer，reserved拒绝。接收端保存原完整决定/余额/凭证/来源与head后ACK；旧终态重放不能覆盖后来称号/余额。",
+    "remaining": "严格到期事件采用不证明完整武勋收入/原实体时钟来源；完整角色/world/profile、实际文件LAN/Godot与NPC服务仍待。"
+  },
+  "configuration_owner_ref": {
+    "file": "角色配置修订.v1.json",
+    "pointer": "/merit_configuration_events"
+  }
+}

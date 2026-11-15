@@ -1,0 +1,312 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "project_eligibility_design_not_implemented_organization_state_integration_pending",
+  "scope": "21条参数表4～6级门派战甲穿戴谓词；不是门派组织创建/升级/战争/完整存档或正式物品合同",
+  "source_audit_ref": {
+    "file": "../reference/防具来源采用审计.json",
+    "pointer": "/records"
+  },
+  "seventh_grade_source_ref": {
+    "file": "../reference/官网资料/目录正文.json",
+    "pointer": "/records/18"
+  },
+  "equipment_slot": "sect_uniform",
+  "rank_policy": {
+    "minimum_completed_rank": 2,
+    "basis": "21行来源最低等级35；二转为项目采用，不宣称源文给出转职条件"
+  },
+  "organization_requirement_policy": {
+    "comparison": "organization.level >= required_organization_level",
+    "allowed_roles": [
+      "leader",
+      "member"
+    ],
+    "basis": "名称4/5/6级用于项目组织最低等级；允许门主/成员及高等级组织使用低等级战甲均为项目采用，不从七级说明外推为官方4～6级规则",
+    "minimum_organization_level": 4,
+    "maximum_organization_level": 7,
+    "issue_organization_binding": "不绑定发放时组织ID；穿戴检查当前实际加入的同一组织，不产生跨角色转移权限"
+  },
+  "authoritative_input_contract": {
+    "persistence": "此处仅定义服务端读取接口，不新增一份持久化成员身份/等级。组织及成员关系的唯一状态owner、迁移和升级规则尚待门派完整设计接入；未接入不得启用穿戴或取得服务。",
+    "organization": "null，或明确存在且未解散的组织快照：organization_id非空ID，level为1～7严格整数，revision为非负严格整数；拒绝bool/浮点/字符串等级",
+    "membership": "null，或当前角色唯一有效成员关系快照：character_id、organization_id非空ID，role仅leader/member，revision非负严格整数；无成员关系不构造默认成员",
+    "consistency": "membership.character_id必须是操作角色，membership.organization_id必须与organization.organization_id相等；不能拼接其他组织等级/门主身份。由同一实际权威事务读取并验证源组织未解散、成员仍有效，不接受client自报快照授权。提交时组织revision分别等预览所读组织revision，成员revision分别等预览所读成员revision；不要求组织与成员revision数值互相相等。任一个变化整次拒绝并重新报价，不只比较两数相等。",
+    "legacy_personal_rank_ref": {
+      "file": "故事冒险门派进度.v1.json",
+      "pointer": "/source_mapping"
+    },
+    "legacy_boundary": "retained_story_adventure.sect.rank 0～3继续只作琉璃剑宗个人故事身份；不转换成组织level、leader角色或战甲资格，旧存档不自动获得4级组织。LAN客户提交的等级/角色/有效标记只可用于预览，权威房主重读实际状态。",
+    "schema_ref": {
+      "file": "门派防具资格输入.schema.json",
+      "pointer": ""
+    },
+    "null_semantics": "organization或membership任一个为null都不具资格；两者一空一非空可作为当前不可用读取结果，但不得因此尝试构造/补回关系。完整持久组织根若存在悬空引用仍按原owner拒绝，本接口不能替代该验证。",
+    "snapshot_origin": "此三键organization仅是存在、未解散组织的资格投影；实际已解散/不存在必须返回null，不能因schema没有dissolved字段默认有效。membership同理仅投影已核实的当前有效关系，不以role字符串本身证明成员真实。schema additionalProperties:false作用于该读取投影，不允许先投影隐藏完整源对象的未知/坏字段再当源已验证。",
+    "scope_boundary": "保留02的本地NPC门派组织范围，不据本接口新增玩家邀请/在线公会或将旧个人故事rank改成组织等级。组织唯一状态owner、创建/升级/降级/成员治理与完整迁移继续待，不能把读取schema当持久根或启用21战甲。"
+  },
+  "eligibility_predicate": [
+    "合法正式物品精确绑定本合同source_audit_ref及对应职业/路线/体型/最低等级条件",
+    "角色已实际完成至少二转，等级至少35，沿来源资格逐项验证",
+    "组织和成员关系均存在、有效、未解散/退出且严格通过authoritative_input_contract",
+    "当前成员role属于该条allowed_roles，组织level不低于该条required_organization_level"
+  ],
+  "invalidation_policy": {
+    "triggers": [
+      "退出或被移出组织",
+      "组织解散",
+      "组织等级降至门槛以下",
+      "成员角色变化不满足具体物品条件",
+      "职业/路线/体型/等级/转职资格变化"
+    ],
+    "retained_instance": "原实例保留原位置和血统，标为资格失效，不销毁、不自动塞入背包、不退款、不复制。两组均重算资格，非生效组无贡献。",
+    "contribution": "资格失效不贡献防御/生命/内力/障力/罡气/气功/外观及套装来源；回避等其他属性同样移除。当前资源只按新上限下裁，不回血/补障力或复活。",
+    "requalification": "完整资格恢复后才恢复贡献，保留真实成长和冷却，不补资源。",
+    "switching": "按13合同验证目标组全部非空槽；目标含失效战甲则整次拒绝。失效战甲仍可正常卸下，须通过最终背包格数和重量检查。",
+    "recheck_before_effect": "身份/组织变更提交与装备投影一起原子更新；加载和LAN加入先核权威资格再投影，禁止延后一帧继续提供来源。保存失败只重存已提交结果，不重放身份/资源事件。"
+  },
+  "zero_defense_policy": "21条源防御明确0，不是空值；不因门派等级额外生成防御或借用51/52普通防具成长。正式基础/成长/重量/权限/取得仍须独立采用。",
+  "seventh_grade_boundary": "四个七级名称仅保留源事实：level7，门主款leader，成员款leader/member，正邪各两款；不在这21条中，不生成等级/职业/数值未知的正式物品。",
+  "records": [
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/144"
+      },
+      "required_organization_level": 4,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/145"
+      },
+      "required_organization_level": 5,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/146"
+      },
+      "required_organization_level": 6,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/300"
+      },
+      "required_organization_level": 4,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/301"
+      },
+      "required_organization_level": 5,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/302"
+      },
+      "required_organization_level": 6,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/456"
+      },
+      "required_organization_level": 4,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/457"
+      },
+      "required_organization_level": 5,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/458"
+      },
+      "required_organization_level": 6,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/612"
+      },
+      "required_organization_level": 4,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/613"
+      },
+      "required_organization_level": 5,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/614"
+      },
+      "required_organization_level": 6,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/768"
+      },
+      "required_organization_level": 4,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/769"
+      },
+      "required_organization_level": 5,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/770"
+      },
+      "required_organization_level": 6,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/924"
+      },
+      "required_organization_level": 4,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/925"
+      },
+      "required_organization_level": 5,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/926"
+      },
+      "required_organization_level": 6,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1273"
+      },
+      "required_organization_level": 4,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1274"
+      },
+      "required_organization_level": 5,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    },
+    {
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1275"
+      },
+      "required_organization_level": 6,
+      "allowed_roles": [
+        "leader",
+        "member"
+      ]
+    }
+  ],
+  "runtime_registration": {
+    "enabled": false,
+    "reason": "组织状态owner/存档、完整门派玩法及门派战甲正式基础/成长/取得尚未闭合"
+  },
+  "remaining_work": [
+    "门派组织及成员关系唯一状态owner、生命周期/升级降级和旧档迁移",
+    "四至六级21条和七级4款的正式物品/成长/取得与活动经济",
+    "Godot实现、LAN权威与存档失败/资格变化运行测试"
+  ]
+}

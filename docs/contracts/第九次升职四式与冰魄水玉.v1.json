@@ -1,0 +1,525 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_explicit_local_ninth_design_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "record_url": "http://rxjh.17game.com/data/tasks/201907/63793.htm",
+    "source_html_sha256": "477383ad82de4b2ddf98f223d76fdef85a2a7677f9c6706ab6b05785bb1ac7dc",
+    "text_sha256": "8075ef7a091cd65f6d675e8e4e6ad42cf3ea9541fa3fc9f389145b5d497d78a4",
+    "image_review_file": "../reference/高阶转职图示核对.json",
+    "jade_image_sha256": "d22d769a074d4d956a203c9a4019860bbc0580120d2f7e524c2b8c5c4d81fab8",
+    "current_rule_url": "http://rxjh.17game.com/event/2026/content/gs.html",
+    "published_facts": "137可接，四主任务/NPC顺序，宏常爷冰魄水玉换刻天灵珠；已核图片250玉。V25转迷开悟/逐一弑战为可选，不阻断突破迷路。140最终门槛沿项目晋级表。",
+    "gaps_retained": [
+      "官方逐步战斗/材料全部来源与概率未知",
+      "灵珠图标不证明数量、额外奖或费用；不从角色余额推任务费用"
+    ]
+  },
+  "source_policy": "明确项目改编四主任务成六交互；20盗贼证据、两个既有来源怪作为本地材料producer、250玉三堆及1灵珠、0克/绑定/无额外钱费和额外奖励、全轮取消均是本地值，不冒称官网完整原样流程。",
+  "quest": {
+    "quest_id": "adv_09",
+    "minimum_level": 137,
+    "final_minimum_level": 140,
+    "required_completed_rank": 8,
+    "requires_delivered": "adv_08",
+    "class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "branch_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "cancelled_attempt_receipts",
+      "final_receipt_or_null"
+    ],
+    "stages": [
+      {
+        "stage_index": 1,
+        "name": "突破迷路",
+        "npc_id": "npc_gu_aojie",
+        "map_id": "huating_plain",
+        "minimum_level": 137,
+        "consume": [],
+        "grant": [],
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "next_stage_index": 2,
+        "next_state": "in_progress",
+        "origin": "四主任务名/NPC及宏常爷250玉来自官网/已核图；拆为六交互、20证据、委托1/灵珠1与无额外费用是项目设计"
+      },
+      {
+        "stage_index": 2,
+        "name": "拔云见日",
+        "npc_id": "npc_wen_jingjing",
+        "map_id": "huating_plain",
+        "minimum_level": 137,
+        "consume": [],
+        "grant": [],
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "next_stage_index": 3,
+        "next_state": "in_progress",
+        "origin": "四主任务名/NPC及宏常爷250玉来自官网/已核图；拆为六交互、20证据、委托1/灵珠1与无额外费用是项目设计"
+      },
+      {
+        "stage_index": 3,
+        "name": "一罚百戒",
+        "npc_id": "npc_hong_cailing",
+        "map_id": "huating_plain",
+        "minimum_level": 137,
+        "consume": [
+          {
+            "item_id": "adv09_bandit_proof",
+            "quantity": 20
+          }
+        ],
+        "grant": [],
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "next_stage_index": 4,
+        "next_state": "in_progress",
+        "origin": "四主任务名/NPC及宏常爷250玉来自官网/已核图；拆为六交互、20证据、委托1/灵珠1与无额外费用是项目设计"
+      },
+      {
+        "stage_index": 4,
+        "name": "千国之器：委托",
+        "npc_id": "npc_liu_chengbin",
+        "map_id": "huating_plain",
+        "minimum_level": 137,
+        "consume": [],
+        "grant": [
+          {
+            "item_id": "adv09_pearl_order",
+            "quantity": 1
+          }
+        ],
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "next_stage_index": 5,
+        "next_state": "in_progress",
+        "origin": "四主任务名/NPC及宏常爷250玉来自官网/已核图；拆为六交互、20证据、委托1/灵珠1与无额外费用是项目设计"
+      },
+      {
+        "stage_index": 5,
+        "name": "刻有天字的灵珠",
+        "npc_id": "npc_hong_changye",
+        "map_id": "huating_plain",
+        "minimum_level": 137,
+        "consume": [
+          {
+            "item_id": "adv09_pearl_order",
+            "quantity": 1
+          },
+          {
+            "item_id": "adv09_ice_jade",
+            "quantity": 250
+          }
+        ],
+        "grant": [
+          {
+            "item_id": "adv09_heaven_pearl",
+            "quantity": 1
+          }
+        ],
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "next_stage_index": 6,
+        "next_state": "in_progress",
+        "origin": "四主任务名/NPC及宏常爷250玉来自官网/已核图；拆为六交互、20证据、委托1/灵珠1与无额外费用是项目设计"
+      },
+      {
+        "stage_index": 6,
+        "name": "千国之器：回报",
+        "npc_id": "npc_liu_chengbin",
+        "map_id": "huating_plain",
+        "minimum_level": 140,
+        "consume": [
+          {
+            "item_id": "adv09_heaven_pearl",
+            "quantity": 1
+          }
+        ],
+        "grant": [],
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "next_stage_index": null,
+        "next_state": "delivered",
+        "origin": "四主任务名/NPC及宏常爷250玉来自官网/已核图；拆为六交互、20证据、委托1/灵珠1与无额外费用是项目设计"
+      }
+    ],
+    "acceptance": "137级、rank恰8、adv08已交付、本人固定class/正邪、精确NPC/地图<=2.5米、存活脱战空闲、无挑战/传送或未结束派生；stage1成功建立新attempt/branch及收据进入2，不预扣最终资源。",
+    "transition": "除stage1外仅当前精确stage；每次重新查137/rank8/adv08和交互，stage6另查140。stage输入实物/收据、输出、推进与角色修订同05/19原子事务。重复请求返回原收据，旧attempt不可作用新轮。",
+    "ready_policy": "阶段可交付性从当前阶段/实际背包/等级与状态派生，不保存收集计数或可重复奖励余额。137～139可完成前5交互持珠，最终回报保持stage6，禁止提前扣珠。",
+    "repeat": "跨世界角色终身一次，最终delivered不可重接。"
+  },
+  "optional_task_isolation": {
+    "quest_names": [
+      "转迷开悟",
+      "逐一弑战"
+    ],
+    "required_by_adv09": false,
+    "accepted_or_delivered_flags_read": false,
+    "reward_in_adv09": false,
+    "reward_boundary": "封印的江湖小助手（30天）（活动）仅属于可选逐一弑战，adv09不送。可选任务自身完整流程仍待采用，不能用本合同伪造已完成。"
+  },
+  "items": [
+    {
+      "item_id": "adv09_bandit_proof",
+      "name": "盗贼行踪证据（项目）",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 99,
+      "maximum_per_attempt": 20,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "origin": "名称冰魄水玉/刻有天字的灵珠为来源，其余名、堆叠/数量上限/权限/重量是项目值；灵珠交换产物1也是项目值"
+    },
+    {
+      "item_id": "adv09_pearl_order",
+      "name": "千国之器委任（项目）",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_attempt": 1,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "origin": "名称冰魄水玉/刻有天字的灵珠为来源，其余名、堆叠/数量上限/权限/重量是项目值；灵珠交换产物1也是项目值"
+    },
+    {
+      "item_id": "adv09_ice_jade",
+      "name": "冰魄水玉",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 99,
+      "maximum_per_attempt": 250,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "origin": "名称冰魄水玉/刻有天字的灵珠为来源，其余名、堆叠/数量上限/权限/重量是项目值；灵珠交换产物1也是项目值"
+    },
+    {
+      "item_id": "adv09_heaven_pearl",
+      "name": "刻有天字的灵珠",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_attempt": 1,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "origin": "名称冰魄水玉/刻有天字的灵珠为来源，其余名、堆叠/数量上限/权限/重量是项目值；灵珠交换产物1也是项目值"
+    }
+  ],
+  "item_policy": {
+    "binding": [
+      "character_id",
+      "adv_09",
+      "attempt_id",
+      "producer_id_or_stage_receipt"
+    ],
+    "permissions": {
+      "equip": false,
+      "use": false,
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false
+    },
+    "inventory": "全部真实inventory、0克；本地任务专用，不合并其他未来同名普通材料。仓库/待领取/队友物不能交。250玉真实99+99+52，不能合1堆。",
+    "transaction": "收完输入后预演全部产物空间；任何资格/不足/满包/修订冲突/保存失败整笔不扣不发不推进。",
+    "consume": "精确同角色同attempt/当前阶段凭证，委任由stage4收据产生，stage5交付时一并收回；灵珠只能唯一stage5产物。"
+  },
+  "collection": {
+    "producers": [
+      {
+        "producer_id": "adv09_bandit_evidence",
+        "required_stage_index": 3,
+        "monster_id": "huating_robber142",
+        "map_id": "huating_plain",
+        "item_id": "adv09_bandit_proof",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      },
+      {
+        "producer_id": "adv09_ice_jade",
+        "required_stage_index": 5,
+        "monster_id": "huating_mountain_thief143",
+        "map_id": "huating_plain",
+        "item_id": "adv09_ice_jade",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 250
+      }
+    ],
+    "qualification": "仅本主attempt已接取且精确活动stage，本人存活/连接/同图，solo死亡owner或19合格队员快照；不同阶段不预刷。",
+    "receipt": "死亡ID+个人+attempt+producer唯一；满包记该死亡未获得，不腾格/重连补发，不留地面副本。封顶后不继续发。",
+    "ordinary_rewards": "任务量不加福/终结/组队倍率，普通怪奖励另沿14/19，不因任务未接而取消普通收益。"
+  },
+  "monsters": [
+    {
+      "monster_id": "huating_robber142",
+      "source_reference_id": "MREF-53646-002",
+      "name": "山林抢贼",
+      "level": 142,
+      "map_id": "huating_plain",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 22720,
+      "max_mana": 0,
+      "attack_min": 852,
+      "attack_max": 994,
+      "ordinary_defense": 426,
+      "accuracy": 852,
+      "evasion": 284,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3200,
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "xp_reward": 43414634,
+      "practice_reward": 4341463,
+      "silver_reward": 142,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "rank>=6 and monster>=recipientLevel-10;14/19 separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "明确只有普通经验/历练/银和合格升天进度及本地任务producer，无其他普通物品",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "source_catalog_region": "花亭平原",
+      "source_spawn_location_as_published": "花亭平原",
+      "identity_policy": "来源原名/等级/地区保留；全部属性、奖励和producer/刷点为本地设计",
+      "aggression": "proactive",
+      "model_spec": {
+        "presentation_id": "huating_robber142",
+        "status": "source model/animation pending"
+      }
+    },
+    {
+      "monster_id": "huating_mountain_thief143",
+      "source_reference_id": "MREF-53646-001",
+      "name": "山林盗贼",
+      "level": 143,
+      "map_id": "huating_plain",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 22880,
+      "max_mana": 0,
+      "attack_min": 858,
+      "attack_max": 1001,
+      "ordinary_defense": 429,
+      "accuracy": 858,
+      "evasion": 286,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3200,
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "xp_reward": 45060240,
+      "practice_reward": 4506024,
+      "silver_reward": 143,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "rank>=6 and monster>=recipientLevel-10;14/19 separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "明确只有普通经验/历练/银和合格升天进度及本地任务producer，无其他普通物品",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "source_catalog_region": "花亭平原",
+      "source_spawn_location_as_published": "花亭平原",
+      "identity_policy": "来源原名/等级/地区保留；全部属性、奖励和producer/刷点为本地设计",
+      "aggression": "proactive",
+      "model_spec": {
+        "presentation_id": "huating_mountain_thief143",
+        "status": "source model/animation pending"
+      }
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "huating_robber142_01",
+      "monster_id": "huating_robber142",
+      "map_id": "huating_plain",
+      "home_feet_m": [
+        -120,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "huating_robber142_02",
+      "monster_id": "huating_robber142",
+      "map_id": "huating_plain",
+      "home_feet_m": [
+        -120,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "huating_robber142_03",
+      "monster_id": "huating_robber142",
+      "map_id": "huating_plain",
+      "home_feet_m": [
+        -120,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "huating_robber142_04",
+      "monster_id": "huating_robber142",
+      "map_id": "huating_plain",
+      "home_feet_m": [
+        -120,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "huating_mountain_thief143_01",
+      "monster_id": "huating_mountain_thief143",
+      "map_id": "huating_plain",
+      "home_feet_m": [
+        120,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "huating_mountain_thief143_02",
+      "monster_id": "huating_mountain_thief143",
+      "map_id": "huating_plain",
+      "home_feet_m": [
+        120,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "huating_mountain_thief143_03",
+      "monster_id": "huating_mountain_thief143",
+      "map_id": "huating_plain",
+      "home_feet_m": [
+        120,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "huating_mountain_thief143_04",
+      "monster_id": "huating_mountain_thief143",
+      "map_id": "huating_plain",
+      "home_feet_m": [
+        120,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "不得进入/攻击安全区，按路径回home，不瞬移"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "abandon": {
+    "confirmation": "显示当前已交材料/已消耗数量和四类凭证损失，确认后才执行；取消确认无变。",
+    "effect": "仅当前adv09未交付整轮：清同attempt四凭证/阶段与产物资格，保取消收据；不退款stage3已交20证明或stage5已交250玉，不赠新珠。重接stage1新attempt，不继承旧死亡或阶段请求。 当前attempt/branch/stage/final置null、stage_receipts清空，取消收据保留原attempt及其已支付阶段摘要。",
+    "atomicity": "清物/取消记录/主状态回not_accepted同笔提交，失败全不变；delivered不可取消。"
+  },
+  "final_reward": {
+    "required_rank_before": 8,
+    "completed_rank": 9,
+    "ascension_tier_after": 4,
+    "experience": 0,
+    "practice_granted": 0,
+    "silver_granted": 0,
+    "martial_merit_granted": 0,
+    "items": [],
+    "reason": "主要成本为20证据及250玉收集；本地不额外添加来源未知固定费用/钱物奖，0不是官网无奖励证据。",
+    "commit": "stage6/140/rank8/adv08delivered/本人固定branch/前五有序收据/唯一灵珠；消费珠、stage6收据、主delivered、rank8→9和final_receipt同05/19事务。",
+    "capabilities": "沿职业基础成长重算rank9核心增量，原rank8三式能力只保一次，不重领；不自动学书/发技能点或英雄武器，不恢复当前资源。"
+  },
+  "persistence": "真实库存/attempt/当前stage/阶段收据唯一，保存无另存收集数；新格式缺字段/乱序/无来源珠/库存归属矛盾拒绝，不自动补玉补珠或推完成。",
+  "initialization": "新角色/四已知旧档显式not_accepted、attempt/branch/stage/final为null，stage_receipts/cancelled_attempt_receipts空；无四凭证，不从旧等级推完成。已有目标角色不重置。",
+  "travel": "泫勃郊外→花亭固定公共往返minimum_level1/rank0，无adv09/可选任务前置；本地五服务在花亭，不要求九转装备。",
+  "pending": [
+    "Godot实际任务/库存事务/可达导航/战斗可胜性/保存与LAN",
+    "经济平衡/模型/界面/音效",
+    "官方逐步原始细节与可选任务完整采用仍未闭合",
+    "十至十二转及其余D1缺项"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "inventory_step_cases": 168,
+    "maximum_credential_slots": 4,
+    "boundary_review": "137接/140完成分离；249玉不足，250为99+99+52，251超过本attempt上限拒绝坏快照；满60格含委任+三玉堆，换珠后57格；仅独立规则算例，不是运行时事务测试。",
+    "source_and_services": "两来源名/级/地区与原198表精确匹配；六交互NPC/map/service索引匹配，全部服务ID唯一。",
+    "public_travel": "实际泫勃郊外→花亭边minimum_level1/rank0/无任务前置，137级rank8可达；不读两可选任务标记。",
+    "maps": [
+      {
+        "map_id": "huating_plain",
+        "reachable_grid_nodes": 84854,
+        "anchors_checked": 10,
+        "spawn_homes_checked": 8,
+        "geometry_and_targets_sha256": "e5b3fb6a6c3ebffe2ca613017e9b1694d3725be237562619e8faa308c43b3b32",
+        "rechecked_for_adv10": "新增孤傲杰返回锚与服务后，按既有0.45米方法重跑全部10锚及8home可达；home坐标/既有避障安全区证据未改。"
+      }
+    ],
+    "path_method": "0.45米保守胶囊扩张建筑/NPC/交通标记AABB，1米整数四邻BFS；两轴阻挡宽>1米，整数目标无近似端点；8home另查2米巡逻/安全区。",
+    "runtime_status": "未运行Godot真实库存/保存/取消/战斗/LAN/导航；可胜性和平衡仍待实现验证。"
+  }
+}

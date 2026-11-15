@@ -145,5 +145,19 @@
   },
   "protection_order": "pre-defense defensive-proc slot: sword/tan护身 choose one target-kind branch; build ordinary defense (including physician converted term), apply existing half-defense source, optional martialNPC guard50percent then formula23. Post-defense fixed protection includes fighter flat; armor extra once; percent protections by stable family ID (gasTan,critical,monster护身,otherexplicit) then Zhen shield/Mei barrier. Check all intermediate exact ranges.",
   "feedback_policy": "derived physician defense cannot feed an attack-to-defense-to-attack cycle; reject SCC before configuration activation, not iterate until stable or fallback0. Half-defense live reduction never re-grants equipment/point budget or changes slot ownership.",
-  "persistence": "continuous contributions recomputed, timed half-defense sources saved remaining steps, per-hit defensive/critical draws and armor extra receipt captured. Class-qualified passive IDs prevent same name merging; save/replay never doubles reduction or derived add."
+  "persistence": "continuous contributions recomputed, timed half-defense sources saved remaining steps, per-hit defensive/critical draws and armor extra receipt captured. Class-qualified passive IDs prevent same name merging; save/replay never doubles reduction or derived add.",
+  "persistent_half_defense_state": {
+    "target_field": "character.effects.half_ordinary_defense",
+    "schema_ref": {
+      "file": "无坚减防状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": [],
+    "legacy_import": "四已知旧来源显式空表；现行缺字段拒绝，不用当前防御一半反推来源。",
+    "fields": "固定无坚不摧qigong_sword_0eb0bff69140，仅source_actor_id/trigger_event_id/reduction_bp/remaining_steps1..180；trigger为原剑客攻击武功首合格主目标命中后真实成功落效结果。reduction_bp为原已接纳动作冻结的5000基础或乘胜增强后的5000+50*有效乘胜等级，最高7000；该动作接纳时原乘胜必须存活且来源合格，否则5000。原结果保乘胜来源及等级证据，不从落效时后来当前buff倒算；普通攻击/衍生攻击不合格。",
+    "identity": "每施放者最多一源，按source_actor_id排序；新成功落效替换同源凭证/原实际减防比例/180，不叠加；重放不刷新。多源独立计时，普通防御只用最高reduction_bp一次，同值按trigger_event_id/source_actor_id稳定选唯一源，不累乘。",
+    "timing": "原触发命中的防御已用旧状态完成，本次新源只影响后续命中；生成步不扣新180，后续世界步入口扣旧源，0先移再新伤害；暂停离线冻结。固定180，不套未明确采用的时长修正。",
+    "derivation": "对当前普通防御小计按原23与protection_order乘(10000-最强实际reduction_bp)/10000向下取整一次；基础50%，乘胜最高70%。不削怪物防护评级、不改装备/预算/最大HP，不保存减防后的面板副本。负防御/非法锚沿原配置校验拒绝，不读档改写基表。",
+    "lifecycle": "接收者死亡或原合法解除清对应源；施放者离线/死亡不补时或取消已付效果，0余时不保存。原触发/职业/同源唯一和逐步余时仍语义门槛，待复活必须空表。"
+  }
 }

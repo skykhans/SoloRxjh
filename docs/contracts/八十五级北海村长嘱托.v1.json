@@ -1,0 +1,274 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "source_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/130"
+    },
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/73/text"
+    },
+    "published": "85级共同/北海村长/魔法侍者的符籍20/5400000经验/一次/采集与结束两阶段；正文明确猎猞猁精，不按道具名改掉落怪。",
+    "local": "14职业/三路线/rank0，无其他北海/晋级前置；0克99堆/个人本轮100%每死亡1/20封顶及刷点/战斗普通收益为本地选择。"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63788-008",
+    "source_reference_id": "QREF-63788-008",
+    "name": "北海村长的嘱托",
+    "minimum_level": 85,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_beihai_village_head",
+    "npc_map_id": "beihai_ice",
+    "interaction_anchor_id": "npc_beihai_village_head_service",
+    "service_id": "village85_commission",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "qualification": "本人存活/脱战/空闲/无挑战，85级/14职业/三路线/rank0，原北海村长精确map/anchor/service<=2500mm，无83/75北海任务或晋级前置。",
+    "acceptance": "仅未接且未完成，新建唯一attempt，无起始物或费用；既有公共北海交通不变。",
+    "preaccept_items_count": false,
+    "requirements": [
+      {
+        "item_id": "quest_beihai85_attendant_talisman",
+        "quantity": 20
+      }
+    ],
+    "readiness": "当前attempt真实符籍0..19为in_progress，恰20派生ready；严格来源与真实持物，无影子计数。",
+    "reward": {
+      "experience": 5400000,
+      "practice": 0,
+      "silver": 0,
+      "items": [],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "repeat": "once per character across worlds; no daily/party/route/world reset",
+    "delivery": "原北海村长端点核本人/当前attempt/真实符籍20与原库存/来源/修订。报价5400000经验名义/实际/损失，正损失显式确认，原修订改变报价失效；取消保20。实际0可完成但无0资源腿；消费20、实际经验/实际升级基础属性/新covered_level发点、唯一完成及来源05/19同笔，角色库存修订各一次，无历练/银/物品/晋级改变。",
+    "capacity_failure": "资格/来源/原库存/修订/报价/保存失败整笔保20符籍与活跃attempt，不部分发经验或改其他资源。",
+    "modifiers": "固定完成经验不进普通击杀组队池，不受金银/修炼/终结者倍率。",
+    "deduplication": "角色/本任务完成跨世界唯一；同request同payload回原持久决定，改payload拒绝；旧结果不回装消费符籍或重发经验。",
+    "abandon": "确认只清本轮符籍/任务状态，未完成可新attempt重接；旧死亡不补，不影响同村长五转与其他任务。",
+    "save": "保存attempt/真实符籍来源/状态及最终经验实际损失与完成收据；超过20或缺源拒绝，不按等级/计数重建。存盘不确定先解析原05/19决定，不重跑奖励。",
+    "reward_identity": "固定5400000经验保源，约5%不动态换算；道具名魔法侍者的符籍保留，生产者按正文88猞猁精，不是86魔法侍者或可读秘籍。",
+    "xp_cap": "按公共经验上限报价/实际损失和实际升级发点，不附加历练或转换损失。",
+    "source_stage_interpretation": "原两阶段为猎猞猁精收20符籍与结束；本地达到真实20即ready，原NPC单次终交消费，不另加对白/回执/第二次采集。"
+  },
+  "item": {
+    "item_id": "quest_beihai85_attendant_talisman",
+    "name": "魔法侍者的符籍",
+    "source_reference_id": "QREF-63788-008",
+    "source_kind": "task_item_name_not_IREFcatalog_adoption",
+    "category": "quest_token",
+    "stack_limit": 99,
+    "weight_g": 0,
+    "maximum_per_active_attempt": 20,
+    "binding": "character/quest/attempt",
+    "permissions": {
+      "equip": false,
+      "direct_use": false,
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false,
+      "quest_delivery": true,
+      "abandon_cleanup": true
+    },
+    "sell_price": null,
+    "initial_grant": 0,
+    "identity_policy": "85级当前轮次符籍，0克/99堆/20封顶明确本地值；不能阅读学技能、装备或当作其他任务同名符。掉落目标按正文猞猁精，不按名称更改。"
+  },
+  "collection": {
+    "producers": [
+      {
+        "monster_id": "beihai_lynx88",
+        "map_id": "beihai_ice",
+        "item_id": "quest_beihai85_attendant_talisman",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      }
+    ],
+    "qualification": "本人活跃本轮/符籍<20，存活连接同世界图；solo原死亡归属或19原组队奖励成员快照30m/入队>=600步。只88猞猁精新原死亡合格，86魔法侍者明确不产。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "原完整库存/来源合堆/真实材料槽重预检，0克仍占槽；原死亡无物结果持久化，腾包/重连/新轮不补。",
+    "commit": "由shared_death_collection统一85符籍与87尾巴所有候选及普通收益，禁止第二次调用独立任务owner。",
+    "modifiers": "个人100%每合格死亡1，不受终结者/修炼物品倍率。",
+    "shared_death_owner": {
+      "file": "八十五级北海村长嘱托.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "monster": {
+    "monster_id": "beihai_lynx88",
+    "name": "猞猁精",
+    "level": 88,
+    "map_id": "beihai_ice",
+    "combat_kind": "monster",
+    "boss": false,
+    "is_npc_martial": false,
+    "max_hp": 14080,
+    "max_mana": 0,
+    "attack_min": 528,
+    "attack_max": 616,
+    "ordinary_defense": 264,
+    "accuracy": 528,
+    "evasion": 176,
+    "critical_chance_bp": 0,
+    "critical_multiplier_bp": 15000,
+    "movement_mm_per_second": 3000,
+    "collision_radius_mm": 450,
+    "height_mm": 1800,
+    "qigong_allocations": {},
+    "rage_enabled": false,
+    "supports_blood_devil": false,
+    "reward_profile": "explicit_beihai_lynx88",
+    "xp_reward": 2632727,
+    "practice_reward": 263272,
+    "silver_reward": 88,
+    "ascension_progress_reward": 500,
+    "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+    "fixed_loot": [],
+    "random_loot": [],
+    "empty_loot_reason": "普通经验/历练/银两及精确任务producer；无其他普通物品掉落",
+    "finisher_reward_components": [
+      "experience",
+      "practice",
+      "silver"
+    ],
+    "aggression": "active",
+    "model_spec": {
+      "presentation_id": "beihai_lynx88",
+      "status": "猞猁精模型/扑击/移动动作待美术制作"
+    },
+    "identity_policy": "保来源88级/主动/西南区，战斗为本地等级×160HP/×6～7攻击/×3防/×6命中/×2回避；不混同苍狼或魔法侍者。",
+    "source_reference_id": "MREF-39811-005",
+    "source_catalog_region": "北海冰宫",
+    "source_spawn_location_as_published": "西南区域",
+    "source_ref": {
+      "file": "../reference/怪物参数.json",
+      "pointer": "/monsters/175"
+    }
+  },
+  "spawns": [
+    {
+      "spawn_id": "beihai_lynx88_01",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_lynx88",
+      "home_feet_m": [
+        -136,
+        0,
+        40
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_lynx88_02",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_lynx88",
+      "home_feet_m": [
+        -136,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_lynx88_03",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_lynx88",
+      "home_feet_m": [
+        -136,
+        0,
+        56
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_lynx88_04",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_lynx88",
+      "home_feet_m": [
+        -136,
+        0,
+        64
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "active as source，明确本地9m主动侦测/既有仇恨与追击返home规则；安全区禁止追入。",
+      "safe_zone": "全部地图安全区禁止敌对出生/进入，按路径返home恢复，不瞬移。"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "travel_policy": "沿既有公共北海往返，不增加75/83任务或晋级门槛；复用北海村长与服务锚，独立服务不推进五转。",
+  "pending": [
+    "Godot猞猁原死亡/符籍来源/经验确认及实际发点/保存/LAN功能验证",
+    "猞猁精模型/主动AI/动态导航与85对88级战斗及奖励经济校准"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "spawn_clearance": "4home半径0.45+巡逻2米边界/墙/安全圈/全北海既有home点距通过，保原28home。",
+    "player_grid": {
+      "step_m": 1,
+      "radius_m": 0.35,
+      "npc_collisions_included": true,
+      "connected_cells": 84852,
+      "reachable_new_homes": 4,
+      "existing_service_reachable": true
+    },
+    "producer_boundary": "符籍名保魔法侍者，实际唯一producer88猞猁精，不是86魔法侍者。",
+    "runtime_boundary": "19→20/20封顶与真实来源、经验剩余0/1/5399999/5400000/5400001、取消/实际升级发点/保存/LAN及主动AI须Godot测试。"
+  },
+  "shared_death_collection": {
+    "monster_ids": [
+      "beihai_lynx88"
+    ],
+    "producer_refs": [
+      {
+        "file": "八十五级北海村长嘱托.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "八十七级北海灵丹研究.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "selection": "精确原猞猁actor过滤全部producer：85活跃符籍<20、87本轮stage1尾巴<10，独立资格与封顶，最多两不同定义候选；87熊胆不匹配猞猁，不纳本死亡。",
+    "capacity": "所有合格候选一起原库存/来源合堆/真实材料槽重预检，任一放不下全任务物不发，封顶/不合格不占候选槽；不按任务接取顺序偏袒。",
+    "commit": "05/19唯一原猞猁死亡及全成员结果，普通经验历练银一次，任务物来源与库存修订每有实际变化角色一次；不按任务份数重复普通收益。",
+    "replay": "原死亡成功/无物决定持久化，腾包/重连/新轮/推进不补；后续新死亡按新状态判定。"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:allocated-settlement-identity:v1",
+  "$comment": "仅通用计数分配的不可变结算身份片段，不是完整经济事件或pending journal。已有trade/session/buyback等专用ID不套本schema。摘要/token/计数水位及权威语义另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "settlement_id",
+    "authority_profile_id",
+    "allocation_index",
+    "request_id",
+    "request_digest"
+  ],
+  "properties": {
+    "settlement_id": {
+      "type": "string",
+      "pattern": "^settlement:[0-9a-f]{64}(?![\\s\\S])",
+      "minLength": 75,
+      "maxLength": 75
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "allocation_index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740990
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "request_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+      "minLength": 64,
+      "maxLength": 64
+    }
+  }
+}

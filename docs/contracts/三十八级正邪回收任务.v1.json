@@ -1,0 +1,540 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "two_full_local_quests_and_permanent_damage_design_not_implemented_not_balanced",
+  "source_policy": {
+    "body_refs": [
+      {
+        "file": "../reference/官网资料/目录正文.json",
+        "pointer": "/records/71/text"
+      },
+      {
+        "file": "../reference/官网资料/目录正文.json",
+        "pointer": "/records/72/text"
+      }
+    ],
+    "published": "38正柳絮/双枪鱼叉与网各10/+13追加损伤；38邪翅娟/长枪矛与大刀钢刀各10/+13追加伤害，各一次，无时长。",
+    "local": "14职业/rank0无37前置；永久/同族最高13及根动作主目标首次命中防御前一次是项目战斗采用。来源两40怪等级保留，主动/属性/8home与个人100%0克99堆均本地；38长枪复用37唯一实体。"
+  },
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-002",
+      "source_reference_id": "QREF-63790-002",
+      "name": "回收双枪渔贼的钓具",
+      "minimum_level": 38,
+      "minimum_rank": 0,
+      "class_scope": "all14classes",
+      "routes": [
+        "righteous"
+      ],
+      "npc_id": "npc_liu_xu",
+      "npc_map_id": "liuzheng_pass",
+      "interaction_anchor_id": "npc_liu_xu_service",
+      "service_id": "liu38_tools",
+      "interaction_distance_mm": 2500,
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "qualification": "本人存活脱战空闲无挑战，38级/14职业/本人精确路线/rank0，原NPCmap锚服务<=2500mm，无37或其他任务前置。",
+      "acceptance": "仅未接未完成，新唯一attempt，无初始物费用；实际先前击杀不计，新轮只认当前来源。",
+      "preaccept_items_count": false,
+      "requirements": [
+        {
+          "item_id": "quest_recover38_harpoon",
+          "quantity": 10
+        },
+        {
+          "item_id": "quest_recover38_net",
+          "quantity": 10
+        }
+      ],
+      "readiness": "本人当前attempt真实两种输入各恰10为ready，否则in_progress；不混其他任务/轮次或按计数补物。",
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "repeat": "once per character across worlds; no daily/party/route/world reset",
+      "delivery": "核本人当前attempt/精确路线与原NPC资格、两项真实输入各10和原合法库存来源修订；同笔消费两项20单位/写唯一delivered及完成来源收据、角色库存修订05/19。由完成历史派生本族+13，无额外数值字段/资源/物品或重复加13命令。若另一派已完成本族仍13，不因已有永久源拒绝当前合法任务完成。",
+      "capacity_failure": "资格/来源/原数量或修订/保存失败整笔保两项输入与活跃attempt，不部分交物或提前授永久资格。",
+      "modifiers": "任务输入和固定永久奖励不受组队普通收益/终结者修炼倍率。",
+      "deduplication": "character/quest跨世界一次完成，同request同payload回原结果、异payload拒绝，不返还已消费输入或重发资源。",
+      "abandon": "确认清本轮任务物与任务状态，已完成不能放弃；未完成可新attempt重接，旧死亡不补。",
+      "save": "保存attempt/两种实际输入来源、唯一完成及真实消费收据。完成资格必须验证本角色本任务正式终交，两项各10当前轮来源完整；缺链拒绝，不补13计数字段。保存不确定解析05/19原决定重存，不重消耗或叠加。",
+      "reward_identity": "保原追加伤害13，未载时长明确本地永久/同族取最高13；不把伤害当武器攻击、能力点或即时资源。",
+      "source_stage_interpretation": "原单次回收真实两项各10一次终交，无额外NPC/信件/终奖次数。",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/25"
+      },
+      "permanent_reward_ref": {
+        "file": "三十八级正邪回收任务.v1.json",
+        "pointer": "/permanent_damage_reward"
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63789-002",
+      "source_reference_id": "QREF-63789-002",
+      "name": "回收匪兵的武器",
+      "minimum_level": 38,
+      "minimum_rank": 0,
+      "class_scope": "all14classes",
+      "routes": [
+        "evil"
+      ],
+      "npc_id": "npc_chi_juan",
+      "npc_map_id": "sanxie_pass",
+      "interaction_anchor_id": "npc_chi_juan_service",
+      "service_id": "chi38_weapons",
+      "interaction_distance_mm": 2500,
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "qualification": "本人存活脱战空闲无挑战，38级/14职业/本人精确路线/rank0，原NPCmap锚服务<=2500mm，无37或其他任务前置。",
+      "acceptance": "仅未接未完成，新唯一attempt，无初始物费用；实际先前击杀不计，新轮只认当前来源。",
+      "preaccept_items_count": false,
+      "requirements": [
+        {
+          "item_id": "quest_recover38_spear",
+          "quantity": 10
+        },
+        {
+          "item_id": "quest_recover38_blade",
+          "quantity": 10
+        }
+      ],
+      "readiness": "本人当前attempt真实两种输入各恰10为ready，否则in_progress；不混其他任务/轮次或按计数补物。",
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "repeat": "once per character across worlds; no daily/party/route/world reset",
+      "delivery": "核本人当前attempt/精确路线与原NPC资格、两项真实输入各10和原合法库存来源修订；同笔消费两项20单位/写唯一delivered及完成来源收据、角色库存修订05/19。由完成历史派生本族+13，无额外数值字段/资源/物品或重复加13命令。若另一派已完成本族仍13，不因已有永久源拒绝当前合法任务完成。",
+      "capacity_failure": "资格/来源/原数量或修订/保存失败整笔保两项输入与活跃attempt，不部分交物或提前授永久资格。",
+      "modifiers": "任务输入和固定永久奖励不受组队普通收益/终结者修炼倍率。",
+      "deduplication": "character/quest跨世界一次完成，同request同payload回原结果、异payload拒绝，不返还已消费输入或重发资源。",
+      "abandon": "确认清本轮任务物与任务状态，已完成不能放弃；未完成可新attempt重接，旧死亡不补。",
+      "save": "保存attempt/两种实际输入来源、唯一完成及真实消费收据。完成资格必须验证本角色本任务正式终交，两项各10当前轮来源完整；缺链拒绝，不补13计数字段。保存不确定解析05/19原决定重存，不重消耗或叠加。",
+      "reward_identity": "保原追加伤害13，未载时长明确本地永久/同族取最高13；不把伤害当武器攻击、能力点或即时资源。",
+      "source_stage_interpretation": "原单次回收真实两项各10一次终交，无额外NPC/信件/终奖次数。",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/74"
+      },
+      "permanent_reward_ref": {
+        "file": "三十八级正邪回收任务.v1.json",
+        "pointer": "/permanent_damage_reward"
+      }
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_recover38_harpoon",
+      "name": "双枪渔贼的鱼叉",
+      "source_reference_id": "QREF-63790-002",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "38本人当前attempt凭证0克99堆封10，非装备/普通钓具，禁使用仓丢售交易加工，只终交与放弃清理。"
+    },
+    {
+      "item_id": "quest_recover38_net",
+      "name": "双枪渔贼的渔网",
+      "source_reference_id": "QREF-63790-002",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "38本人当前attempt凭证0克99堆封10，非装备/普通钓具，禁使用仓丢售交易加工，只终交与放弃清理。"
+    },
+    {
+      "item_id": "quest_recover38_spear",
+      "name": "长枪匪兵的长矛",
+      "source_reference_id": "QREF-63789-002",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "38本人当前attempt凭证0克99堆封10，非装备/普通钓具，禁使用仓丢售交易加工，只终交与放弃清理。"
+    },
+    {
+      "item_id": "quest_recover38_blade",
+      "name": "大刀匪兵的钢刀",
+      "source_reference_id": "QREF-63789-002",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "38本人当前attempt凭证0克99堆封10，非装备/普通钓具，禁使用仓丢售交易加工，只终交与放弃清理。"
+    }
+  ],
+  "monsters": [
+    {
+      "monster_id": "liuzheng_double_spear_thief40",
+      "source_reference_id": "MREF-39820-009",
+      "name": "双枪渔贼",
+      "level": 40,
+      "map_id": "liuzheng_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2800,
+      "max_mana": 0,
+      "attack_min": 120,
+      "attack_max": 160,
+      "ordinary_defense": 80,
+      "accuracy": 200,
+      "evasion": 80,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_capture_creature",
+      "xp_reward": 90322,
+      "practice_reward": 9032,
+      "silver_reward": 40,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liuzheng_double_spear_thief40",
+        "status": "来源具名40级怪独立模型动作待美术"
+      },
+      "identity_policy": "保来源40级/对应关周边，主动/战斗数值/精确home为本地，非NPC武者。",
+      "source_name_as_published": "双枪渔贼",
+      "aggression": "proactive",
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/106"
+      }
+    },
+    {
+      "monster_id": "sanxie_blade_bandit40",
+      "source_reference_id": "MREF-39819-011",
+      "name": "大刀匪兵",
+      "level": 40,
+      "map_id": "sanxie_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2800,
+      "max_mana": 0,
+      "attack_min": 120,
+      "attack_max": 160,
+      "ordinary_defense": 80,
+      "accuracy": 200,
+      "evasion": 80,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_capture_creature",
+      "xp_reward": 90322,
+      "practice_reward": 9032,
+      "silver_reward": 40,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "sanxie_blade_bandit40",
+        "status": "来源具名40级怪独立模型动作待美术"
+      },
+      "identity_policy": "保来源40级/对应关周边，主动/战斗数值/精确home为本地，非NPC武者。",
+      "source_name_as_published": "大刀匪兵",
+      "aggression": "proactive",
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/122"
+      }
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "liuzheng_double_spear_thief40_01",
+      "monster_id": "liuzheng_double_spear_thief40",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -152,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_double_spear_thief40_02",
+      "monster_id": "liuzheng_double_spear_thief40",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -152,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_double_spear_thief40_03",
+      "monster_id": "liuzheng_double_spear_thief40",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -152,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_double_spear_thief40_04",
+      "monster_id": "liuzheng_double_spear_thief40",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -152,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_blade_bandit40_01",
+      "monster_id": "sanxie_blade_bandit40",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -152,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_blade_bandit40_02",
+      "monster_id": "sanxie_blade_bandit40",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -152,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_blade_bandit40_03",
+      "monster_id": "sanxie_blade_bandit40",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -152,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_blade_bandit40_04",
+      "monster_id": "sanxie_blade_bandit40",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -152,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-002",
+        "required_route": "righteous",
+        "monster_id": "liuzheng_double_spear_thief40",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_recover38_harpoon",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63790-002",
+        "required_route": "righteous",
+        "monster_id": "liuzheng_double_spear_thief40",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_recover38_net",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-002",
+        "required_route": "evil",
+        "monster_id": "sanxie_pass_spear_bandit38",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_recover38_spear",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-002",
+        "required_route": "evil",
+        "monster_id": "sanxie_blade_bandit40",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_recover38_blade",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "qualification": "本人当前attempt活跃/精确路线/对应实际输入<10、存活连接同图world，solo原归属或19原成员30m/入队600步快照，按实际actor过滤。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "commit": "双枪本owner唯一原死亡同时鱼叉/网两候选各封10，共同槽重预检；大刀唯一原死亡钢刀候选。长枪按37原共享owner统一原任务与38长矛。全部普通收益一次与个人来源05/19同笔，失败无物决定持久，旧死亡不补。",
+    "shared_spear_owner": {
+      "file": "三十七级正邪缉拿任务.v1.json",
+      "pointer": "/shared_spear_death_collection"
+    },
+    "modifiers": "个人100%新死亡每合格项1，不受终结者修炼倍率。"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "no hostile spawn/entry,path return to home for healing,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "pending": [
+    "Godot任务/永久奖励来源与根动作去重/战斗保护顺序/保存LAN验证",
+    "两40怪模型动作、动态导航及永久13战斗经济校准"
+  ],
+  "spear_monster_owner": {
+    "file": "三十七级正邪缉拿任务.v1.json",
+    "pointer": "/monsters/1"
+  },
+  "spear_spawns_owner": {
+    "file": "三十七级正邪缉拿任务.v1.json",
+    "pointer": "/spawns"
+  },
+  "permanent_damage_reward": {
+    "family_id": "recovery38_extra_damage",
+    "value": 13,
+    "duration": "permanent",
+    "source_quest_ids": [
+      "ref_QREF-63790-002",
+      "ref_QREF-63789-002"
+    ],
+    "derive": "仅本角色正式delivered与两输入各10真实消费完成收据核验后作为候选；本族max(0,各候选13)，两派均完成仍13。没有可修改13计数/新持久字段；新角色及known1..4未完成即0，不能从等级/当前路线推断已完成。",
+    "route_and_world": "完成历史跨world持久，转派不删除已授资格，未完成另一任务仍须其当前路线；不因死亡/离线/装备切组或等级变化刷新/复制。",
+    "snapshot": "本人直接普通/直接攻击武功根动作接受时保存合格来源key/13及完成收据，含具名旧固定威力直接剑技；不授伙伴/召唤物，NPC无此玩家任务源。动作接受后完成任务不追改旧动作。",
+    "apply": "在现有首饰根主目标追伤阶段之后、防御前guard及普通防御前，根动作实际主目标首次合格命中加13一次，不再乘暴击/段倍率。主目标首段未命中不消费资格、后续首次合格命中可加；副目标/后续命中不加。",
+    "exclusions": "派生反伤/吸血/周期/状态爆发/治疗/费用不直接再加13；由实际伤害派生出血只沿原快照，不再次运行本源；无单独命中事件或回调。",
+    "deduplication": "原根动作收据保存选中sourcekey、命中segment/primary_target及applied一次决定；重发重连不重新加，未命中/几何无效不造追加命中事件。同族候选稳定quest_id字典序取一个，记录全部候选。",
+    "defense": "13仍走普通/PvE防御、具名罡气/固定及百分保护、护盾障力，最终生命损失上限原规则；不是无视防御真伤。"
+  }
+}

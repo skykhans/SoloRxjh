@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-identity:v1",
+  "$comment": "唯一character.identity严格五键。真实公历UTC整秒语法已严格；姓名NFC/Unicode大小写折叠重名、ID分配/不可变性及时间来源另验；外观目录是项目设计，不是已经交付的模型。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "character_id",
+    "name",
+    "class_id",
+    "appearance",
+    "created_at_utc"
+  ],
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "name": {
+      "$ref": "#/$defs/character_name"
+    },
+    "class_id": {
+      "$ref": "#/$defs/class_id"
+    },
+    "appearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "body_type",
+        "skin_tone_id",
+        "hairstyle_id",
+        "outfit_palette_id"
+      ],
+      "properties": {
+        "body_type": {
+          "enum": [
+            "male",
+            "female"
+          ]
+        },
+        "skin_tone_id": {
+          "enum": [
+            "ivory",
+            "warm",
+            "bronze",
+            "brown",
+            "deep"
+          ]
+        },
+        "hairstyle_id": {
+          "enum": [
+            "high_knot",
+            "half_tied",
+            "short_swept"
+          ]
+        },
+        "outfit_palette_id": {
+          "enum": [
+            "indigo",
+            "crimson",
+            "jade",
+            "ochre",
+            "plum",
+            "ink"
+          ]
+        }
+      }
+    },
+    "created_at_utc": {
+      "$ref": "#/$defs/utc_seconds"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "#/$defs/class_body_constraints"
+    }
+  ],
+  "$defs": {
+    "class_id": {
+      "enum": [
+        "blade",
+        "sword",
+        "spear",
+        "physician",
+        "archer",
+        "assassin",
+        "musician",
+        "fighter",
+        "han_feiguan",
+        "tan_hualing",
+        "mei_liuzhen",
+        "lu_fenglang",
+        "dongling_shennv",
+        "zhen_fengbai"
+      ]
+    },
+    "character_name": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 12,
+      "$ref": "#/$defs/display_name_text"
+    },
+    "utc_seconds": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 20,
+      "pattern": "^(?!0000)(?:[0-9]{4}-(?:(?:01|03|05|07|08|10|12)-(?:0[1-9]|[12][0-9]|3[01])|(?:04|06|09|11)-(?:0[1-9]|[12][0-9]|30)|02-(?:0[1-9]|1[0-9]|2[0-8]))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)T(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z(?![\\s\\S])",
+      "$comment": "真实公历UTC整秒，年份0001..9999；显式含世纪闰年/月份日数，不依赖可被JSON Schema实现忽略的format注释。原创建冻结来源仍另验。"
+    },
+    "class_body_constraints": {
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "enum": [
+                  "lu_fenglang",
+                  "zhen_fengbai"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "appearance": {
+                "properties": {
+                  "body_type": {
+                    "const": "male"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "enum": [
+                  "dongling_shennv"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "appearance": {
+                "properties": {
+                  "body_type": {
+                    "const": "female"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "display_name_text": {
+      "type": "string",
+      "pattern": "^[^\\s\\u0000-\\u001f\\u007f-\\u009f\\ud800-\\udfff][^\\u0000-\\u001f\\u007f-\\u009f\\ud800-\\udfff]*[^\\s\\u0000-\\u001f\\u007f-\\u009f\\ud800-\\udfff](?![\\s\\S])"
+    }
+  }
+}

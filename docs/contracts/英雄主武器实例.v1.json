@@ -1,0 +1,47 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_weapon_instance_shape_adopted_not_implemented_receipts_pending",
+  "scope": "107精确正式定义；含六初始封印，以原file/pointer解析，不复制定义。",
+  "catalog_ref": {
+    "file": "英雄主武器基础定义.v1.json",
+    "pointer": ""
+  },
+  "schema": "英雄主武器实例.schema.json",
+  "nested_schema": "武器成长结构.schema.json",
+  "root_fields": [
+    "instance_id",
+    "item_id",
+    "lineage_id",
+    "owner_character_id",
+    "binding",
+    "revision",
+    "creation_receipt_id",
+    "state_origin_receipt_id",
+    "enhancement",
+    "synthesis_entries",
+    "awakening_stage",
+    "evolution_tier",
+    "true_equipment",
+    "merit_equipment",
+    "jade_attributes",
+    "element_attribute",
+    "four_divine_state",
+    "enhancement_boost",
+    "exclusive_weapon_advancement_stage"
+  ],
+  "layout": "8身份/来源字段与现有成长字段平铺；不得嵌套growth，不存位置/数量/派生缓存。character.equipment_instances按instance_id登记且只占一个正式位置。",
+  "creation": "新ID、独立创建锚、revision=0；creation_receipt_id与state_origin_receipt_id均指实际创建结果。初态成长显式0/[]/null，true/merit及英雄stage取精确定义；新格式缺字段拒绝。英雄只由初始封印与具名替换链取得，不凭目录任意新生。",
+  "origin": "creation_receipt_id终身不变；state_origin_receipt_id指最近真实业务尝试/明确配置/自然到期，保留各嵌套成功凭证，完整前链另验。失败耗材料/费用/RNG但保成长仍更新本根state_origin及实例revision一次；拒绝/取消不变。",
+  "replacement": "具名转换消费旧ID并生成新ID，同血统/owner/绑定，目标revision=0且两根来源指转换结果。沿具名替换边保留合法旧成长证明，不把旧创建锚冒充新ID出生。具名双实例强化转移按其owner保目标身份和创建锚，来源消费，不转移源血统。",
+  "clock": "普通remaining_steps递减不变业务revision/state_origin、不逐步造命令收据；自然到期依附加提升owner产生一次状态结果并更新一次。准确剩余与权威时钟同快照保存。",
+  "semantic_validation": [
+    "严格整数token排除bool/float/string；标识非空白。",
+    "合成slot_index连续0..length-1；嵌套来源为对应普通/英雄成功加工，角色/血统/属性/值吻合。",
+    "非空提升逐定义资格及真实15、相应丹1..4层、有效1..108000步；origin_receipt_ids数量等于stacks且依次成功，不得借用防具丹。",
+    "普通提升仅64件；英雄仅24件。暂失角色穿戴资格按owner保物，不清零合法成长。",
+    "完整实例前版本、创建/替换/费用/RNG/配置及单一活血统、容器与权限另验。"
+  ],
+  "permissions": "均角色绑定，禁止NPC出售/复购/玩家交易；英雄唯一初始专属血统，具名消费不能泛化为普通丢弃/分解。",
+  "implementation_gate": "完整根及共享嵌套结构采用；完整档案/实例与经济收据、所有成长预算/高级配置及来源服务仍待，未实现Godot/文件/LAN，不代表D1完成。"
+}

@@ -1,0 +1,620 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_explicit_local_twelfth_design_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/十二转正文与采用边界.json",
+    "record_url": "http://rxjh.17game.com/data/tasks/202506/70086.htm",
+    "source_html_sha256": "afea0c4d5a77f46f98436e43f7d24cbac3a4de880f211e22f2c872c52a5978bf",
+    "text_sha256": "5e9b60a90f9aedfd0aaf88c48f61ca4c018e37ba759deae6de6482a49b31fc55"
+  },
+  "source_policy": "170/已六式、50亿银、三方各5亿历练/盟约、两菜单场景/魔灵鬼魔证明/最终回怪丐据正文。十交互状态、任意盟约顺序、凭证数量权限、扣费事务/取消不退、布局/敌属性/600秒及0附奖为项目采用，不冒充官方未知细节。",
+  "quest": {
+    "quest_id": "adv_12",
+    "minimum_level": 170,
+    "required_completed_rank": 11,
+    "requires_delivered": "adv_11",
+    "class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "branch_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "alliance_purchase_receipts",
+      "active_challenge_ref_or_null",
+      "trial_victory_receipt_or_null",
+      "cancelled_attempt_receipts",
+      "final_receipt_or_null"
+    ],
+    "stages": [
+      {
+        "stage_index": 1,
+        "npc_id": "npc_hyunbo_strange_beggar",
+        "name": "与武林高手的会面",
+        "consume": [],
+        "grant": [
+          {
+            "item_id": "adv12_beggar_letter",
+            "quantity": 1
+          }
+        ],
+        "next_stage_index": 2
+      },
+      {
+        "stage_index": 2,
+        "npc_id": "npc_tian_yunyue",
+        "name": "我的皮肤怎么办！",
+        "silver_fee": 5000000000,
+        "practice_fee": 0,
+        "consume": [],
+        "grant": [],
+        "next_stage_index": 3
+      },
+      {
+        "stage_index": 3,
+        "npc_id": "npc_sword_emperor",
+        "name": "真正的武林一统之意义：受托",
+        "consume": [],
+        "grant": [],
+        "next_stage_index": 4
+      },
+      {
+        "stage_index": 4,
+        "npc_id": "npc_sword_emperor",
+        "name": "收集并交齐三封盟约",
+        "consume": [
+          {
+            "item_id": "adv12_righteous_alliance",
+            "quantity": 1
+          },
+          {
+            "item_id": "adv12_evil_alliance",
+            "quantity": 1
+          },
+          {
+            "item_id": "adv12_neutral_alliance",
+            "quantity": 1
+          }
+        ],
+        "grant": [],
+        "next_stage_index": 5
+      },
+      {
+        "stage_index": 5,
+        "npc_id": "npc_tian_yunyue",
+        "name": "获得所有武林人士信赖之人：受托",
+        "consume": [],
+        "grant": [],
+        "next_stage_index": 6
+      },
+      {
+        "stage_index": 6,
+        "npc_id": "npc_heavenly_demon_lord",
+        "name": "天魔神君对话并开启挑战",
+        "consume": [],
+        "grant": [],
+        "next_stage_index": 7
+      },
+      {
+        "stage_index": 7,
+        "name": "击败魔灵鬼魔",
+        "consume": [],
+        "grant": [
+          {
+            "item_id": "adv12_victory_proof",
+            "quantity": 1
+          }
+        ],
+        "next_stage_index": 8
+      },
+      {
+        "stage_index": 8,
+        "npc_id": "npc_heavenly_demon_lord",
+        "name": "交还七式胜利证明",
+        "consume": [
+          {
+            "item_id": "adv12_victory_proof",
+            "quantity": 1
+          }
+        ],
+        "grant": [],
+        "next_stage_index": 9
+      },
+      {
+        "stage_index": 9,
+        "npc_id": "npc_tian_yunyue",
+        "name": "回报信赖委托",
+        "consume": [],
+        "grant": [],
+        "next_stage_index": 10
+      },
+      {
+        "stage_index": 10,
+        "npc_id": "npc_hyunbo_strange_beggar",
+        "name": "最终回报",
+        "consume": [
+          {
+            "item_id": "adv12_beggar_letter",
+            "quantity": 1
+          }
+        ],
+        "grant": [],
+        "next_state": "delivered"
+      }
+    ],
+    "acceptance": "精确怪丐2.5米，存活脱战空闲、无活动/传送及未结束派生，170/rank恰11/adv11已交付/固定职业正邪；预检书信1格，同笔主attempt/branch/stage1收据/书信并进入2。此时不要求/扣50亿或15亿，不改变本人路线。",
+    "ordinary_interaction": "每步精确NPC/地图2.5米、当前主attempt/固定branch/前序完整收据/本人存活空闲脱战无传送；公共服务还要求无活动，私场NPC仅允许属于本人本链的非战斗visit/awaiting_proof实例，不绕过活动锁给其他服务。怪丐书信从接取到最终保留且须合法在背包；不能代替盟约。",
+    "stage2_payment": "携带银>=5000000000，不用仓库钱；收据/checked_sub/阶段同笔，重发只返原提交结果。其他阶段不再扣银，不因重进剑皇/天魔场或挑战失败再扣。",
+    "repeat": "角色终身一次，已交付不可重接/取消；任一其他主attempt凭证和旧动作不合用。"
+  },
+  "items": [
+    {
+      "item_id": "adv12_beggar_letter",
+      "name": "怪丐的书信",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_main_attempt": 1,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "binding": [
+        "character_id",
+        "adv_12",
+        "main_attempt_id",
+        "producer_receipt"
+      ],
+      "permissions": {
+        "equip": false,
+        "use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false
+      },
+      "source_policy": "名称/用途据正文；1份/0克/绑定权限为项目设计"
+    },
+    {
+      "item_id": "adv12_righteous_alliance",
+      "name": "正派盟约书",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_main_attempt": 1,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "binding": [
+        "character_id",
+        "adv_12",
+        "main_attempt_id",
+        "producer_receipt"
+      ],
+      "permissions": {
+        "equip": false,
+        "use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false
+      },
+      "source_policy": "名称/用途据正文；1份/0克/绑定权限为项目设计"
+    },
+    {
+      "item_id": "adv12_evil_alliance",
+      "name": "邪派盟约书",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_main_attempt": 1,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "binding": [
+        "character_id",
+        "adv_12",
+        "main_attempt_id",
+        "producer_receipt"
+      ],
+      "permissions": {
+        "equip": false,
+        "use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false
+      },
+      "source_policy": "名称/用途据正文；1份/0克/绑定权限为项目设计"
+    },
+    {
+      "item_id": "adv12_neutral_alliance",
+      "name": "中立盟约书",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_main_attempt": 1,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "binding": [
+        "character_id",
+        "adv_12",
+        "main_attempt_id",
+        "producer_receipt"
+      ],
+      "permissions": {
+        "equip": false,
+        "use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false
+      },
+      "source_policy": "名称/用途据正文；1份/0克/绑定权限为项目设计"
+    },
+    {
+      "item_id": "adv12_victory_proof",
+      "name": "胜利的证明（升天7式）",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_main_attempt": 1,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "binding": [
+        "character_id",
+        "adv_12",
+        "main_attempt_id",
+        "producer_receipt"
+      ],
+      "permissions": {
+        "equip": false,
+        "use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false
+      },
+      "source_policy": "名称/用途据正文；1份/0克/绑定权限为项目设计"
+    }
+  ],
+  "alliance_acquisition": {
+    "required_stage": 4,
+    "offers": [
+      {
+        "alliance_id": "righteous",
+        "npc_id": "npc_yin_shiyu",
+        "map_id": "jianhuang_sanctuary",
+        "item_id": "adv12_righteous_alliance",
+        "quantity": 1,
+        "practice_fee": 500000000,
+        "silver_fee": 0
+      },
+      {
+        "alliance_id": "evil",
+        "npc_id": "npc_guo_jinxuan",
+        "map_id": "huxia_valley",
+        "item_id": "adv12_evil_alliance",
+        "quantity": 1,
+        "practice_fee": 500000000,
+        "silver_fee": 0
+      },
+      {
+        "alliance_id": "neutral",
+        "npc_id": "npc_hyunbo_master",
+        "map_id": "hyunbo_town",
+        "item_id": "adv12_neutral_alliance",
+        "quantity": 1,
+        "practice_fee": 500000000,
+        "silver_fee": 0
+      }
+    ],
+    "order": "三方任意顺序，任意正邪角色均需三方，外交服务不受本人路线互斥；不变更路线、不要求可选任务或击杀阵营NPC。",
+    "transaction": "精确本NPC/地图<=2.5米/公共无活动、本人存活脱战空闲，主stage4且本alliance尚无成功购买收据；预检1真实空格/0克，普通历练>=500000000，扣费/给该书1/具名购买收据同笔。失败全不变。",
+    "uniqueness": "alliance_purchase_receipts以alliance_id三选一具名，非重复列表；本attempt同方已付即拒绝新购买，不用当前背包缺书推断可再次购买，不另存purchased标志/计数。",
+    "turnin": "三份真实本人本主attempt盟约及三个成功购买收据在场才可向剑皇同笔收3书/记stage4/进入5；不收第二次历练。书已交后购买收据保留，不再发书。",
+    "expected_total_practice_fee": 1500000000,
+    "inventory_peak": "怪丐书信1+三封盟约3=4格/0克；交盟约后只书信1，胜利时书信+证明共2格/0克。无额外委任/回报道具。"
+  },
+  "visits": {
+    "canyon": {
+      "arena_id": "adv12_sword_canyon_visit",
+      "map_id": "instance_adv12_sword_canyon",
+      "entry_npc_id": "npc_tian_yunyue",
+      "entry_stage_indices": [
+        3,
+        4
+      ],
+      "talk_npc_id": "npc_sword_emperor",
+      "talk_stage_indices": [
+        3,
+        4
+      ],
+      "player_spawn_m": [
+        0,
+        0,
+        -12
+      ],
+      "npc_feet_m": [
+        0,
+        0,
+        8
+      ],
+      "npc_service_anchor_id": "adv12_sword_emperor_service",
+      "exit_anchor_id": "adv12_canyon_exit_service",
+      "layout_owner": {
+        "file": "第六次升职与单机武勋试练.v1.json",
+        "pointer": "/arena_layout"
+      },
+      "mode": "非战斗单人对话私场，无敌人/倒计时/费用/恢复；入场位置和服务NPC使怪物出生点不适用。stage3与剑皇对话→4，可退出公共地图买三封，再由天云岳重进4交付。stage4交齐后保非战斗私场至退出，不重做委托。"
+    },
+    "demon": {
+      "arena_id": "adv12_demon_trial",
+      "map_id": "instance_adv12_heavenly_demon",
+      "entry_npc_id": "npc_tian_yunyue",
+      "entry_stage_indices": [
+        6,
+        7,
+        8
+      ],
+      "talk_npc_id": "npc_heavenly_demon_lord",
+      "player_spawn_m": [
+        0,
+        0,
+        -12
+      ],
+      "npc_feet_m": [
+        -8,
+        0,
+        -10
+      ],
+      "npc_service_anchor_id": "adv12_heavenly_demon_service",
+      "exit_anchor_id": "adv12_demon_exit_service",
+      "layout_owner": {
+        "file": "第六次升职与单机武勋试练.v1.json",
+        "pointer": "/arena_layout"
+      },
+      "initial_modes": "stage6为awaiting_start不计时无敌；与神君2.5米对话预检全部通过，stage6→7/生成敌/active状态/挑战开始同笔。stage7失败后重进也为awaiting_start，须本人对话开始新trial；不降回6，不重复阶段收据。stage8重进为awaiting_proof无敌无计时，不再发证明。",
+      "battle": {
+        "enemy_id": "project_adv12_moling_guimo_170",
+        "spawn_key": "adv12_moling_guimo",
+        "enemy_spawn_m": [
+          0,
+          0,
+          8
+        ],
+        "time_limit_steps": 36000,
+        "start": "首局stage6→7与新trial开始同笔；失败重试stage7建立新trial，mode切combat时elapsed=0，生成预检失败不扣钱/改阶段/建立局。新敌下一步才可动作。",
+        "win": "按23动作/死亡结算后本人死亡优先失败；活着敌死胜先于同一步36000超时。魔灵鬼魔普通经验/历练/银/物/武勋/升天进度全0，仅本次胜利证明。",
+        "settlement": "战斗胜利→victory_unsettled，敌/本人动作派生终结且不继续受伤/计时，完整给证明1/胜利收据/stage7→8同笔后mode=awaiting_proof；空间不足保未结算现场和引用，重试一次发全，不再战斗。",
+        "proof_delivery": "stage8本实例神君<=2.5米，存活空闲，真实本主/本胜利证明1与胜利收据一致；收证明/stage8→9同笔。立即进入terminal_return_pending，自动回天云岳返回锚；精确返回受占则保引用等候，不重收证明。",
+        "early_leave": "awaiting_start可从退出装置退出，无费用。combat可退出/确认失败，保持stage7；stage8已结算证明但未交可退出保stage8/证明，之后免费重进awaiting_proof；victory_unsettled只准重试结算/整体取消，不能先清现场。"
+      }
+    }
+  },
+  "enemy": {
+    "max_mana": 0,
+    "critical_chance_bp": 0,
+    "critical_multiplier_bp": 15000,
+    "movement_mm_per_second": 3500,
+    "capsule_radius_mm": 450,
+    "capsule_height_mm": 1800,
+    "qigong_allocations": {},
+    "rage_enabled": false,
+    "supports_blood_devil": false,
+    "fixed_loot": [],
+    "random_loot": [],
+    "reward_xp": 0,
+    "reward_practice": 0,
+    "reward_silver": 0,
+    "reward_ascension_progress": 0,
+    "combat_random_owner": "23/19权威动作ID/命中随机/死亡收据；读档不再抽",
+    "target": "only exact living participant, no through-wall hits; not party members in another instance",
+    "definition_id": "project_adv12_moling_guimo_170",
+    "name": "魔灵鬼魔",
+    "level": 170,
+    "combat_kind": "monster",
+    "boss": true,
+    "is_npc_martial": false,
+    "max_hp": 200000,
+    "attack": 1500,
+    "defense": 750,
+    "accuracy": 1200,
+    "evasion": 350,
+    "presentation_ref": "dev_adv12_moling_guimo",
+    "source_policy": "名称来自十二转正文；170及全部属性/攻击/模型ID本地设计，非已核官方战斗数值",
+    "attack_programs": [
+      {
+        "action_id": "adv12_moling_action1",
+        "windup_steps": 36,
+        "hit_ordinals_per_target": 1,
+        "recovery_steps": 84,
+        "cooldown_steps": 120,
+        "range_mm": 2200,
+        "arc_degrees": 90,
+        "attack_multiplier_bp": 10000,
+        "facing_locked_at_windup": true,
+        "damage_kind": "ordinary_physical_root_melee",
+        "critical_enabled": false,
+        "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；只用本动作显式attack_multiplier_bp，不暗加武功威力。"
+      },
+      {
+        "action_id": "adv12_moling_action2",
+        "windup_steps": 90,
+        "hit_ordinals_per_target": 1,
+        "recovery_steps": 90,
+        "cooldown_steps": 600,
+        "range_mm": 5000,
+        "arc_degrees": 120,
+        "attack_multiplier_bp": 15000,
+        "facing_locked_at_windup": true,
+        "warning": "接受时锁朝向，在地面显示真实5米/120度扇形直至命中，不能用全屏不可躲伤害代替",
+        "damage_kind": "ordinary_physical_root_melee",
+        "critical_enabled": false,
+        "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；只用本动作显式attack_multiplier_bp，不暗加武功威力。"
+      }
+    ],
+    "action_cost_hp_mana_stamina": 0,
+    "qigong_and_status_programs": [],
+    "reward_martial_merit": 0
+  },
+  "private_lifecycle": {
+    "owner_file": "第六次升职与单机武勋试练.v1.json",
+    "inherited_members": [
+      "resource_policy",
+      "persistence"
+    ],
+    "entry": "天云岳/hyunbo_town<=2.5米，合法entry_stage，170/rank11/adv11、书信与前序收据，活着脱战空闲/无其他活动或传送/未结束派生；预检唯一world/character/main-attempt实例/NAV/模型/保存/入口与返回锚，挂adv12唯一活动引用并移入，同笔失败全不变。只本人，无伙伴/宠物/队友。",
+    "resource": "保留六转真实资源/状态/冷却/随机；私场无装备/配置/仓库/商店/其他挑战/便携，正常战斗药品与职业动作照owner允许。",
+    "exit": "两图退出装置同六转(0,0,-20)半径0.5、服务(0,0,-18)2.5米。活着终局/退出均回hyunbo_tian_yunyue_return，死亡按正常死亡去story_workcamp_start；本人死亡/超时/主动退出不退费用或回资源。canyon无战斗可退出不取消主阶段；demon仅combat开始后有600秒。",
+    "world_snapshot": "world.private_advancement_trials注册两arena，保存mode/arena/owner/main-attempt/visit_id/trial_attempt_id_or_null/elapsed/敌现场/动作派生/随机/胜利收据/终局返回。角色只持active_challenge_ref与本人权威资源，world持角色ID/修订引用，不复制角色面板。非combat无敌且elapsed=null，不伪造0秒战斗局；下一次combat建立新trial且elapsed=0。",
+    "save": "world+role同05/19修订保存；退出应用/断线只挂起原instance与mode、敌生命/elapsed/动作/随机，不算失败，不重开满血敌。个人断线仅挂其私场，外部world效果按原owner世界时钟。",
+    "cleanup": "返回成功且终局/角色/奖励同笔持久确认才清活跃现场/引用；返回失败保terminal_return_pending，禁再战斗/领奖/入其他场。各visit与trial收据唯一，保存重放不新扣费/生成敌/发证明。",
+    "portable": "两图逐ID加入便携/土灵排除表，不增加公共交通连接或土灵公共地图allowlist。",
+    "inheritance_scope": "仅继承六转真实资源/角色-world权威引用、同修订保存、退出挂起与返回受占等待等共用机制；六转资格/单敌胜利/adv06阶段与字段/elapsed非空校验/奖励/自动回月宫均由本合同对应entry、visits、world_snapshot、exit、final_reward明确覆盖，不能把六转专属验证再叠用于本链。两visit非combat允许elapsed=null，只有demon combat严格0..36000。"
+  },
+  "final_reward": {
+    "required_stage": 10,
+    "required_rank_before": 11,
+    "completed_rank": 12,
+    "ascension_tier_after": 7,
+    "minimum_level": 170,
+    "silver_fee": 0,
+    "practice_fee": 0,
+    "experience": 0,
+    "silver_granted": 0,
+    "practice_granted": 0,
+    "martial_merit_granted": 0,
+    "item_grants": [],
+    "policy": "正文只证明七式/反气功/四神外观，无明确附奖；本地明确0书/丹/石/资源，不沿十一转复制礼包；七式武功/气功走既有商店与学习条件，不自动学。",
+    "commit": "怪丐2.5米、170/rank11/adv11已交、固定branch/本主stage1..9与三个购买/试场胜利/证明交付收据一致；无私场或返回pending，存活脱战空闲且本主书信1真实存在。收书信/stage10/final收据/delivered/rank11→12与成长/反气功重算同05/19事务。写盘失败全不变。",
+    "growth_owner_file": "职业基础成长.v1.json",
+    "anti_qigong_owner_file": "反气功.v1.json",
+    "growth": "rank12核心按14重算，三式加成累计一次；反气功按既有170/rank12及原点数预算派生，不额外送点、自动分配或重复添加170以上补差。最终生命上限52000只封上限，不加52000或恢复当前资源。英雄武器晋阶独立，不自动升武器。"
+  },
+  "abandon": {
+    "confirmation": "整体取消须列已成功支付银/普通历练、本轮全部凭证/盟约及挑战损失；明确已付不退、重接须重做。只取消当前私场不是取消整主链。",
+    "transaction": "终结当前visit/trial、精确返回并清本主attempt全部5类凭证/阶段/盟约/胜利活动字段，保取消历史和已付收据供审计；不退已交50亿/各5亿，原费用本来购买本轮服务而非押金。stage2未支付则不记已付/退款。不能保旧盟约跨新attempt抵扣。",
+    "pending_return": "取消与返回若精确锚受占，保cancel_return_pending引用和取消意图；只重试返回/同笔最终取消，不先新接。delivered不可取消。"
+  },
+  "initialization": {
+    "state": "not_accepted",
+    "attempt_id_or_null": null,
+    "branch_id_or_null": null,
+    "stage_index_or_null": null,
+    "stage_receipts": [],
+    "alliance_purchase_receipts": {},
+    "active_challenge_ref_or_null": null,
+    "trial_victory_receipt_or_null": null,
+    "cancelled_attempt_receipts": [],
+    "final_receipt_or_null": null
+  },
+  "persistence_validation": "新模板/四已知旧档显式initialization，无信/盟约/证明/完成晋级；已有角色不重置。新格式缺字段、重复盟约收据、无来源凭证、费用/阶段缺口、mode不匹配、双活动引用、胜利无证明且无交付收据均拒绝，不补钱/补物/降级或自动修复。",
+  "pending": [
+    "Godot14职业两派真实战斗/全流程库存/保存/LAN",
+    "正式模型/四神外观/动作/UI/音效及平衡",
+    "源未公开战斗数值/道具规格/附奖的事实缺口",
+    "其余D1需求"
+  ],
+  "static_review": {
+    "date": "2026-11-14",
+    "kind": "static_design_structure_and_independent_arithmetic_not_runtime",
+    "profession_route_alliance_permutations": 168,
+    "inventory_peak_slots": 4,
+    "inventory_peak_weight_g": 0,
+    "silver_total": 5000000000,
+    "practice_total": 1500000000,
+    "hp_cap_arithmetic_cases": 4,
+    "geometry": [
+      {
+        "map_id": "hyunbo_town",
+        "grid_m": 0.5,
+        "capsule_radius_m": 0.45,
+        "reachable_cells": 52657,
+        "exact_anchor_count": 17,
+        "layout_actors_targets_sha256": "67b6961200783087f1d9e144f5a935de87a1b47059b5a7c2439106ff8ee61d68"
+      },
+      {
+        "map_id": "jianhuang_sanctuary",
+        "grid_m": 1,
+        "capsule_radius_m": 0.45,
+        "reachable_cells": 84858,
+        "exact_anchor_count": 5,
+        "layout_actors_targets_sha256": "25e2ccd954ea3f608d38701661dfad034c6f46cc0ef0fcb4ac84c2ac30c36ab0"
+      },
+      {
+        "map_id": "huxia_valley",
+        "grid_m": 1,
+        "capsule_radius_m": 0.45,
+        "reachable_cells": 84858,
+        "exact_anchor_count": 5,
+        "layout_actors_targets_sha256": "7cc6aaa184bbb64f97bea6c557bc8dbfed65fa59bf117785ca39f43ad54d335e"
+      },
+      {
+        "map_id": "instance_adv12_sword_canyon",
+        "grid_m": 0.5,
+        "capsule_radius_m": 0.45,
+        "reachable_cells": 8557,
+        "exact_anchor_count": 3,
+        "layout_actors_targets_sha256": "3d66d5cd9c6b6ffd0661c5f0e191e993654d890ac70564bab66f0bc3ad68fae4"
+      },
+      {
+        "map_id": "instance_adv12_heavenly_demon",
+        "grid_m": 0.5,
+        "capsule_radius_m": 0.45,
+        "reachable_cells": 8557,
+        "exact_anchor_count": 4,
+        "layout_actors_targets_sha256": "e2826fa3555040847b5cc6a7da5b44bb3df0d0c8a51dc9714997a08053a0b9b2"
+      }
+    ],
+    "world_map_count": 69,
+    "world_anchor_count": 217,
+    "world_npc_count": 63,
+    "unique_service_count": 184,
+    "initialization_owner_count": 15,
+    "excluded_private_map_count": 9,
+    "limitations": "No Godot combat, runtime inventory, save fault injection, dynamic navigation, LAN or playable balance evidence.",
+    "public_travel_graph": {
+      "level": 170,
+      "completed_rank": 11,
+      "start_map_id": "hyunbo_town",
+      "reachable_public_maps": 20,
+      "required_targets": [
+        "jianhuang_sanctuary",
+        "huxia_valley"
+      ],
+      "kind": "fixed_connection_gate_graph_not_runtime_traversal"
+    },
+    "document_checks": {
+      "json_files": 125,
+      "local_markdown_links": 651,
+      "heading_fragments": 66,
+      "explicit_json_pointers": 47,
+      "arena_pointers": 9,
+      "duplicate_json_members": "none",
+      "diff_check": "passed"
+    }
+  }
+}

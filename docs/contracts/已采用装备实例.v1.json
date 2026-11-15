@@ -1,0 +1,93 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "partial_equipment_catalog_exact_root_dispatch_adopted_not_full_inventory_not_implemented",
+  "scope": "2004精确ID=初始普通9+普通武器447+英雄107+防具1325+普通首饰79+新版武勋首饰9+装备宝珠20+旧兼容7+出尘戒1；不含披风/装饰/门派及任何未采用定义。",
+  "schema_ref": {
+    "file": "已采用装备实例.schema.json",
+    "pointer": ""
+  },
+  "branches": [
+    {
+      "instance_schema_ref": {
+        "file": "初始普通装备实例.schema.json",
+        "pointer": ""
+      },
+      "definition_count": 9,
+      "identity_rule": "精确根schema item_id枚举"
+    },
+    {
+      "instance_schema_ref": {
+        "file": "普通主武器实例.schema.json",
+        "pointer": ""
+      },
+      "definition_count": 447,
+      "identity_rule": "精确根schema item_id枚举"
+    },
+    {
+      "instance_schema_ref": {
+        "file": "英雄主武器实例.schema.json",
+        "pointer": ""
+      },
+      "definition_count": 107,
+      "identity_rule": "精确根schema item_id枚举"
+    },
+    {
+      "instance_schema_ref": {
+        "file": "普通防具实例.schema.json",
+        "pointer": ""
+      },
+      "definition_count": 1325,
+      "identity_rule": "精确根schema item_id枚举"
+    },
+    {
+      "instance_schema_ref": {
+        "file": "普通首饰实例.schema.json",
+        "pointer": ""
+      },
+      "definition_count": 79,
+      "identity_rule": "根分派限定66正式79 ID；原九字段schema单独通过仍须逐定义绑定/上限/来源校验"
+    },
+    {
+      "instance_schema_ref": {
+        "file": "新版武勋首饰实例.schema.json",
+        "pointer": ""
+      },
+      "definition_count": 9,
+      "identity_rule": "精确根schema item_id枚举"
+    },
+    {
+      "instance_schema_ref": {
+        "file": "装备宝珠实例.schema.json",
+        "pointer": ""
+      },
+      "definition_count": 20,
+      "identity_rule": "精确根schema item_id枚举"
+    },
+    {
+      "instance_schema_ref": {
+        "file": "旧装备实例.schema.json",
+        "pointer": ""
+      },
+      "definition_count": 7,
+      "identity_rule": "七个旧兼容精确ID，浮仙剑引用剧情唯一定义；导入与新建来源分别验证"
+    },
+    {
+      "instance_schema_ref": {
+        "file": "出尘戒实例.schema.json",
+        "pointer": ""
+      },
+      "definition_count": 1,
+      "identity_rule": "独立七键精确出尘戒ID；不进入普通首饰九键/加工目录，死亡终结和配置创建由出尘戒死亡消耗owner授权"
+    }
+  ],
+  "selection": "先精确item_id定位唯一正式定义及完整schema，再验证完整根，不抽字段、不按名称/外观/槽位/缺字段猜类型。普通首饰原schema只管形状，本分派另限定79个精确ID以禁止未知物品借九字段进入。各分支ID互斥，必须且只能命中一个。",
+  "registry": "只约束equipment_instances单条正文；注册表键等于instance_id，owner等于包含角色，全局实例/血统唯一及容器位置闭合由布局/来源owner另验。不得把单条oneOf当成完整equipment_instances表或档案。",
+  "validation": "各完整根owner的严格数字token、逐定义权限/资格/成长能力、配置例外及来源前链仍必需。数学整数1.0的schema接受不是token接受，不在读取时强转。",
+  "history": "旧历史已消费实例与当前活体不可混作现持注册表；终结和替换收据按原owner保完整旧正文，不因当前schema新增而修改旧创建历史。",
+  "implementation_gate": "仅2004已采用类型分派设计；未采用类型必须先独立完成定义/schema/来源再具名接入，不用anyOf空object或未知类型容器。完整档案/收据及其余类型仍待，未实现加载或Godot/LAN。",
+  "instance_flow_owner_ref": {
+    "file": "唯一实例来源流.v1.json",
+    "pointer": ""
+  }
+}

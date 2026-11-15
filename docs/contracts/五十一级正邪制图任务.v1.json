@@ -1,0 +1,343 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "two_full_local_quest_designs_not_implemented_not_balanced",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-009",
+      "source_reference_id": "QREF-63790-009",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/32"
+      },
+      "name": "制作万寿阁的地图",
+      "minimum_level": 51,
+      "route": "righteous",
+      "npc_id": "npc_liu_xu",
+      "npc_map_id": "liuzheng_pass",
+      "interaction_anchor_id": "npc_liu_xu_service",
+      "service_id": "map51_righteous",
+      "requirements": [
+        {
+          "item_id": "quest_map51_wanshou_fragment",
+          "quantity": 10
+        },
+        {
+          "item_id": "quest_map51_hu_yinhua_report",
+          "quantity": 1
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "quest_map51_wanshou_document",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "五十一级正邪制图任务.v1.json",
+              "pointer": "/reward_items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "single_npc"
+    },
+    {
+      "quest_id": "ref_QREF-63789-009",
+      "source_reference_id": "QREF-63789-009",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/81"
+      },
+      "name": "制作无天阁的地图",
+      "minimum_level": 51,
+      "route": "evil",
+      "npc_id": "npc_chi_juan",
+      "npc_map_id": "sanxie_pass",
+      "interaction_anchor_id": "npc_chi_juan_service",
+      "service_id": "map51_evil",
+      "requirements": [
+        {
+          "item_id": "quest_map51_wutian_fragment",
+          "quantity": 10
+        },
+        {
+          "item_id": "quest_map51_qian_xiaosheng_report",
+          "quantity": 1
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "quest_map51_wutian_document",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "五十一级正邪制图任务.v1.json",
+              "pointer": "/reward_items/1"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "single_npc"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_map51_wanshou_fragment",
+      "name": "万寿阁地图块",
+      "source_reference_id": "QREF-63790-009",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 10,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "独立角色/任务/当前轮次凭证；碎片仅对应怪物接后收集，报告仅对应报告服务签发一次，不从普通背包同名书或其他任务借用。"
+    },
+    {
+      "item_id": "quest_map51_hu_yinhua_report",
+      "name": "胡银花的报告书",
+      "source_reference_id": "QREF-63790-009",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 5,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "独立角色/任务/当前轮次凭证；碎片仅对应怪物接后收集，报告仅对应报告服务签发一次，不从普通背包同名书或其他任务借用。"
+    },
+    {
+      "item_id": "quest_map51_wutian_fragment",
+      "name": "无天阁地图块",
+      "source_reference_id": "QREF-63789-009",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 10,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "独立角色/任务/当前轮次凭证；碎片仅对应怪物接后收集，报告仅对应报告服务签发一次，不从普通背包同名书或其他任务借用。"
+    },
+    {
+      "item_id": "quest_map51_qian_xiaosheng_report",
+      "name": "千晓生的报告书",
+      "source_reference_id": "QREF-63789-009",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 5,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "独立角色/任务/当前轮次凭证；碎片仅对应怪物接后收集，报告仅对应报告服务签发一次，不从普通背包同名书或其他任务借用。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-009",
+        "monster_id": "liuzheng_pass_mountain_spirit45",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_map51_wanshou_fragment",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-009",
+        "monster_id": "sanxie_pass_bounty_huntress30",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_map51_wutian_fragment",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "eligibility": "own active attempt/correct current route/alive connected same room/map;solo unique death owner or exact19party member snapshot within30m/joined>=600steps;each token type below10",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "no token/progress,record original death no-item outcome;freeing space/reconnect/abandon/reaccept never replays it;later distinct death may grant",
+    "modifiers": "100%personal task output separate from public loot,no finisher/training multiplier",
+    "commit": "all actual registered43/51candidate outcomes and normal death result use shared_death_owner once;report is not a monster drop",
+    "shared_death_owner": {
+      "file": "四十三级正邪出尘戒任务.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "source_policy": "保QREF-63790-009/QREF-63789-009原51级/正邪/柳絮或翅娟/地图块10及具名报告书/具名地图/一次性。报告与地图数量原文未写，项目各1；报告领取顺序、产出者、堆重权限和只作任务文书的用途为明确项目采用。碎片本地取既有山精45/赏金女猎人30，保原等级区域，不冒充官方掉落或未建立阁内地形。",
+  "reward_items": [
+    {
+      "item_id": "quest_map51_wanshou_document",
+      "name": "万寿阁的地图",
+      "source_reference_id": "QREF-63790-009",
+      "kind": "quest_document",
+      "container": "inventory",
+      "max_stack": 1,
+      "weight_g": 5,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": false,
+      "purchase_allowed": false,
+      "sell_price": null,
+      "acquisition": "only this corresponding quest final delivery once per character;no other grant/shop/drop/craft",
+      "inspection": "只读物品详情显示原名、来源任务与制成说明，查看不消费或改变角色/世界。项目采用任务纪念文书，无已定义传送、入口钥匙、地图揭示或额外奖励效果；阁内地形仍不据此虚构。",
+      "discard_policy": "明确确认后可丢弃或存本人仓库；丢弃不清任务完成记录、不重新领奖，也不重启已完成轮次。"
+    },
+    {
+      "item_id": "quest_map51_wutian_document",
+      "name": "无天阁的地图",
+      "source_reference_id": "QREF-63789-009",
+      "kind": "quest_document",
+      "container": "inventory",
+      "max_stack": 1,
+      "weight_g": 5,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": false,
+      "purchase_allowed": false,
+      "sell_price": null,
+      "acquisition": "only this corresponding quest final delivery once per character;no other grant/shop/drop/craft",
+      "inspection": "只读物品详情显示原名、来源任务与制成说明，查看不消费或改变角色/世界。项目采用任务纪念文书，无已定义传送、入口钥匙、地图揭示或额外奖励效果；阁内地形仍不据此虚构。",
+      "discard_policy": "明确确认后可丢弃或存本人仓库；丢弃不清任务完成记录、不重新领奖，也不重启已完成轮次。"
+    }
+  ],
+  "report_services": [
+    {
+      "quest_id": "ref_QREF-63790-009",
+      "npc_id": "npc_hu_yinhua",
+      "map_id": "liuzheng_pass",
+      "interaction_anchor_id": "npc_hu_yinhua_service",
+      "service_id": "map51_hu_yinhua_report",
+      "fragment_item_id": "quest_map51_wanshou_fragment",
+      "required_fragment_quantity": 10,
+      "report_item_id": "quest_map51_hu_yinhua_report",
+      "report_quantity": 1
+    },
+    {
+      "quest_id": "ref_QREF-63789-009",
+      "npc_id": "npc_qian_xiaosheng",
+      "map_id": "sanxie_pass",
+      "interaction_anchor_id": "npc_qian_xiaosheng_service",
+      "service_id": "map51_qian_xiaosheng_report",
+      "fragment_item_id": "quest_map51_wutian_fragment",
+      "required_fragment_quantity": 10,
+      "report_item_id": "quest_map51_qian_xiaosheng_report",
+      "report_quantity": 1
+    }
+  ],
+  "report_acquisition": {
+    "scope": "本任务附加报告签发命令；接取和最终交付仍用quests声明的single_npc端点，不把报告人当最终领奖人。来源未列顺序，本地采用先收齐碎片再由具名报告人签发，回接取人交两类实物。",
+    "eligibility": "已接对应本人活跃轮次/未交付/当前路线和51级符合；活着脱战空闲无活动占用、同图指定报告服务锚2500mm内，原库存合法；本人本轮指定碎片实际携带恰10且报告0，原轮次无已提交报告签发收据。",
+    "command": "绑定character_id/quest_id/attempt_id/指定service_id/角色与库存预期修订/request_id；同request异参数拒绝。唯一签发键character_id+quest_id+attempt_id，从原正式签发收据推导，不新增镜像issued布尔值或影子进度。",
+    "commit": "不消费碎片、不收银或历练、不抽随机；预检一个材料背包新槽及5克后同笔发本轮报告1、quest_reward堆创建授权指本签发结算、签发收据和角色/库存修订各一次。无最终奖励/完成标记，真实实物满足两requirements后公共readiness派生就绪。",
+    "failure": "碎片未齐、满槽/重量不足、修订过期、错报告人或端点/路线失格整笔拒绝，保碎片/轮次/钱物与修订；报告不是杀怪产出，不因容量不足记录死亡失败。",
+    "deduplication": "同原request先返回原签发结果，不按当前报告数重发；已签发后新request拒绝，不能借丢弃/读档/交付清空或新世界重领。报告不允许丢弃/仓储/交易；缺实物而原收据已存在应判坏链，不恢复补发。",
+    "abandon_and_save": "公共放弃同笔清本轮碎片与报告、关闭attempt；旧签发收据保历史不作用新attempt，新接轮次可重新收集及签发一次。原保存失败/结果未知沿原结算重试，不再发报告；已完成不得放弃重接。"
+  },
+  "monster_owner": {
+    "file": "四十三级正邪出尘戒任务.v1.json",
+    "pointer": "/monsters",
+    "filter_monster_ids": [
+      "liuzheng_pass_mountain_spirit45",
+      "sanxie_pass_bounty_huntress30"
+    ]
+  },
+  "spawn_owner": {
+    "file": "四十三级正邪出尘戒任务.v1.json",
+    "pointer": "/spawns",
+    "expected_spawn_count": 8
+  },
+  "delivery_weight": "携带本轮碎片10/100克及报告1/5克，公共交付扣11实物后发地图文书1/5克，净减100克；输入来源与最终独立材料槽/重量仍须合法，不能用交付修复原超重。地图角色绑定且不带任务轮次，不能在放弃/后续读档时当本轮凭证清除；零银/经验/历练不造资源腿。",
+  "pending": [
+    "Godot report issuance/real source stack/final delivery/inspection/save/LAN implementation and tests",
+    "source creature models and51level against45/30difficulty/task economy calibration;no adopted interior geometry for either pavilion"
+  ]
+}

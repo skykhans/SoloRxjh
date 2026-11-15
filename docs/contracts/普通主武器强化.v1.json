@@ -1,0 +1,426 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "explicit_regular_enhancement_design_not_implemented_not_balanced",
+  "scope": "仅普通主武器基础定义items内447件；不含8初始武器、2倒置来源、英雄/防具/首饰/宝珠/剧情剑。伪造与未完成允许本项强化是项目选择，身份不变。",
+  "source_policy": {
+    "published": "8组具名刀武器14/15强化攻击行可与基础攻击相加复核；未公开普通完整概率、费用、低阶曲线或通用失败保护。",
+    "project_choices": "概率/材料数量/费用/失败保留/系数曲线为本地方案，独立版本；不因数字与英雄相同而继承其加工资格或保护依据。未采纳截图其他复合字段，不从四条40+9+20%推通用强化武功值。"
+  },
+  "eligibility_catalog_ref": {
+    "file": "普通主武器基础定义.v1.json",
+    "pointer": "/items"
+  },
+  "shared_material_ref": {
+    "file": "英雄主武器强化.v1.json",
+    "pointer": "/items/0"
+  },
+  "material_acquisition": {
+    "status": "design_pending_shop_registration",
+    "npc_id": "npc_daojianxiao",
+    "item_id": "enhancement_stone",
+    "definition_policy": "仅复用已有强化石唯一ID、价格500、堆99/重10g及权限，不复制或修改英雄商店职业筛选；普通商店适配器另以本合同职业资格售同ID。",
+    "class_ids": [
+      "blade",
+      "sword",
+      "assassin",
+      "spear",
+      "archer",
+      "physician",
+      "musician",
+      "fighter"
+    ],
+    "minimum_level": 1,
+    "minimum_rank": 0,
+    "quantity_range": [
+      1,
+      99
+    ],
+    "stock": "unlimited",
+    "transaction": "原库存合法且最终银两/格/重全部通过后原子买入；同物品/绑定/来源可堆按17合同，重复命令仅返回收据，保存失败只重存。"
+  },
+  "service_policy": {
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "requires_same_map_available_npc": true,
+    "requires_alive_idle_out_of_combat_no_challenge": true,
+    "source_location": "本人equipment_bag；主/备用装备先卸，仓库先取出。",
+    "qualification": "精确属于eligibility_catalog_ref；职业、等级、rank及路线符合定义，含40合同3个显式未选派例外；实例归属/绑定及全部已登记成长合法。",
+    "minimum_enhancement": 0,
+    "maximum_input_enhancement": 14,
+    "reject_scope": "初始8件、异常2候选、英雄/剧情/防具/首饰不进入此服务；未知/缺字段或非法成长拒绝，不清字段修复。",
+    "instance_policy": "同实例ID、同物品定义、同血统；仅真实强化变更，不自动完成/提真/晋级。",
+    "other_growth": "强化以外所有合法字段逐项保留，未知或尚无正式schema的非空成长拒绝。完整普通schema仍待，本合同不单独开放运行。",
+    "instance_growth_schema_owner_ref": {
+      "file": "普通主武器基础定义.v1.json",
+      "pointer": "/instance_growth_schema"
+    },
+    "enhancement_boost_guard_owner_ref": {
+      "file": "普通武器附加提升.v1.json",
+      "pointer": "/processing_guard"
+    }
+  },
+  "tiers": [
+    {
+      "recipe_id": "regular_weapon_enhance_01",
+      "from_enhancement": 0,
+      "to_enhancement": 1,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 100,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 0
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_02",
+      "from_enhancement": 1,
+      "to_enhancement": 2,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 300,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 1
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_03",
+      "from_enhancement": 2,
+      "to_enhancement": 3,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 2
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_04",
+      "from_enhancement": 3,
+      "to_enhancement": 4,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 3000,
+      "success_probability_bp": 9000,
+      "random_draw_required": true,
+      "failure_enhancement": 3
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_05",
+      "from_enhancement": 4,
+      "to_enhancement": 5,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 10000,
+      "success_probability_bp": 8500,
+      "random_draw_required": true,
+      "failure_enhancement": 4
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_06",
+      "from_enhancement": 5,
+      "to_enhancement": 6,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 30000,
+      "success_probability_bp": 8000,
+      "random_draw_required": true,
+      "failure_enhancement": 5
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_07",
+      "from_enhancement": 6,
+      "to_enhancement": 7,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 100000,
+      "success_probability_bp": 7500,
+      "random_draw_required": true,
+      "failure_enhancement": 6
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_08",
+      "from_enhancement": 7,
+      "to_enhancement": 8,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 300000,
+      "success_probability_bp": 6500,
+      "random_draw_required": true,
+      "failure_enhancement": 7
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_09",
+      "from_enhancement": 8,
+      "to_enhancement": 9,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 4,
+      "silver_fee": 600000,
+      "success_probability_bp": 5500,
+      "random_draw_required": true,
+      "failure_enhancement": 8
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_10",
+      "from_enhancement": 9,
+      "to_enhancement": 10,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 5,
+      "silver_fee": 1000000,
+      "success_probability_bp": 4500,
+      "random_draw_required": true,
+      "failure_enhancement": 9
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_11",
+      "from_enhancement": 10,
+      "to_enhancement": 11,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 6,
+      "silver_fee": 2000000,
+      "success_probability_bp": 3500,
+      "random_draw_required": true,
+      "failure_enhancement": 10
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_12",
+      "from_enhancement": 11,
+      "to_enhancement": 12,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 8,
+      "silver_fee": 3000000,
+      "success_probability_bp": 2500,
+      "random_draw_required": true,
+      "failure_enhancement": 11
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_13",
+      "from_enhancement": 12,
+      "to_enhancement": 13,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 10,
+      "silver_fee": 5000000,
+      "success_probability_bp": 2000,
+      "random_draw_required": true,
+      "failure_enhancement": 12
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_14",
+      "from_enhancement": 13,
+      "to_enhancement": 14,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 12,
+      "silver_fee": 8000000,
+      "success_probability_bp": 1500,
+      "random_draw_required": true,
+      "failure_enhancement": 13
+    },
+    {
+      "recipe_id": "regular_weapon_enhance_15",
+      "from_enhancement": 14,
+      "to_enhancement": 15,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 15,
+      "silver_fee": 10000000,
+      "success_probability_bp": 1000,
+      "random_draw_required": true,
+      "failure_enhancement": 14
+    }
+  ],
+  "enhancement_policy": {
+    "maximum_real_enhancement": 15,
+    "coefficient_by_minimum_rank": [
+      1,
+      1,
+      1,
+      2,
+      2,
+      3,
+      3,
+      4,
+      4,
+      5,
+      5,
+      6,
+      6
+    ],
+    "true_coefficient_add": 1,
+    "project_attack_units_by_enhancement": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      7,
+      10,
+      14,
+      19,
+      25,
+      32,
+      40,
+      50,
+      62,
+      77,
+      95
+    ],
+    "attack_selection": "先以精确(item_id,真实强化)查observed_attack_overrides，命中仅取该attack_flat；其他合法组合严格查项目曲线×(minimum_rank系数+真标识加1)。两者互斥，不叠加。此为显式完整分区，非缺值兜底。",
+    "attack_contribution": "攻击上下界各加同一真实强化平值一次；基础来源值保持。只计当前生效装备组，备用/包/仓不叠加；持久化定义ID和真实强化，不持久化派生攻击缓存。",
+    "martial_contribution": "本合同仅采用真实强化基础攻击；复合截图武功/气功/命中/无视等其他强化贡献未闭合，不能将缺资料解释为完整普通强化只有攻击或默认补零。",
+    "random": "未选符沿tier基础概率；选5%/10%/15%符按optional_luck_charm_owner_ref计算有效概率。有效10000不抽样，其余房主从0..9999均匀单抽，draw<有效bp成功；不另抽幸运符随机。",
+    "success": "扣具名石数和银费，同实例真实强化+1；其他字段不变。",
+    "failure": "同样扣材料和费用，真实强化不变，不毁/不降/不清成长；这是普通武器项目保护，不声称官网规则。",
+    "cap": "15拒绝预览与提交，不耗材料/钱/随机，不存在16配方。",
+    "derived_integration": "不得由本合同赠反气功、宝珠等级或临时15+[n]；相关owner尚未采用时禁止激活派生贡献，不未知补0。"
+  },
+  "observed_attack_overrides": [
+    {
+      "item_id": "weapon_regular_blade_4714350ddff3",
+      "enhancement": 14,
+      "attack_flat": 382,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/20"
+      },
+      "adopted_fields": [
+        "enhancement_attack_line"
+      ],
+      "excluded_fields": "复合截图武功四行、气功、防御无视、武功命中与火属性不归本次真实强化采用。"
+    },
+    {
+      "item_id": "weapon_regular_blade_be026311e027",
+      "enhancement": 14,
+      "attack_flat": 504,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/21"
+      },
+      "adopted_fields": [
+        "enhancement_attack_line"
+      ],
+      "excluded_fields": "复合截图武功四行、气功、防御无视、武功命中与火属性不归本次真实强化采用。"
+    },
+    {
+      "item_id": "weapon_regular_blade_b829bbd6a295",
+      "enhancement": 14,
+      "attack_flat": 382,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/22"
+      },
+      "adopted_fields": [
+        "enhancement_attack_line"
+      ],
+      "excluded_fields": "复合截图武功四行、气功、防御无视、武功命中与火属性不归本次真实强化采用。"
+    },
+    {
+      "item_id": "weapon_regular_blade_b699afddd7f6",
+      "enhancement": 14,
+      "attack_flat": 504,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/23"
+      },
+      "adopted_fields": [
+        "enhancement_attack_line"
+      ],
+      "excluded_fields": "复合截图武功四行、气功、防御无视、武功命中与火属性不归本次真实强化采用。"
+    },
+    {
+      "item_id": "weapon_regular_blade_4714350ddff3",
+      "enhancement": 15,
+      "attack_flat": 602,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/24"
+      },
+      "adopted_fields": [
+        "enhancement_attack_line"
+      ],
+      "excluded_fields": "复合截图武功四行、气功、防御无视、武功命中与火属性不归本次真实强化采用。"
+    },
+    {
+      "item_id": "weapon_regular_blade_be026311e027",
+      "enhancement": 15,
+      "attack_flat": 724,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/25"
+      },
+      "adopted_fields": [
+        "enhancement_attack_line"
+      ],
+      "excluded_fields": "复合截图武功四行、气功、防御无视、武功命中与火属性不归本次真实强化采用。"
+    },
+    {
+      "item_id": "weapon_regular_blade_b829bbd6a295",
+      "enhancement": 15,
+      "attack_flat": 602,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/26"
+      },
+      "adopted_fields": [
+        "enhancement_attack_line"
+      ],
+      "excluded_fields": "复合截图武功四行、气功、防御无视、武功命中与火属性不归本次真实强化采用。"
+    },
+    {
+      "item_id": "weapon_regular_blade_b699afddd7f6",
+      "enhancement": 15,
+      "attack_flat": 724,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/27"
+      },
+      "adopted_fields": [
+        "enhancement_attack_line"
+      ],
+      "excluded_fields": "复合截图武功四行、气功、防御无视、武功命中与火属性不归本次真实强化采用。"
+    }
+  ],
+  "field_contract": {
+    "field": "enhancement",
+    "type": "strict_integer_excluding_bool_float_string",
+    "minimum": 0,
+    "maximum": 15,
+    "fresh_value": 0,
+    "missing_policy": "拒绝，不补0；fresh_value只用于正式创建路径。",
+    "owner": "本合同维护447件真实强化字段；不是完整普通实例schema。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "from_enhancement",
+      "recipe_id",
+      "recipe_version",
+      "material_stack_ids_and_quantities",
+      "command_id",
+      "optional_charm_selector",
+      "base_success_probability_bp",
+      "effective_success_probability_bp"
+    ],
+    "preview": "显示成功率、精确石数/费用、成功与失败真实强化、两攻击界贡献、保留字段及全部派生变化；尚无完整owner的派生状态不得提供可提交报价。",
+    "commit": "房主按角色串行，先查收据；校验命令参数和修订/资格/完整实例/原库存合法，再在副本扣材料/银两并验证最终容量重量，复制RNG后抽样，费用/实例/RNG/修订/收据一起提交。",
+    "invalid_or_cancel": "不扣材料/银两，不抽随机、不变修订；报价不提前抽样。",
+    "deduplication": "同命令同参数只返回原收据，不能按当前强化重新开奖；同命令异参数拒绝。",
+    "save_failure": "保留已提交内存结果、RNG及未保存标记，重试同结果保存，不重跑事务。",
+    "load": "校验定义/归属/严格强化范围/唯一实例/收据一致；不裁剪、不补字段、不重掷。",
+    "preservation": "成功或失败均不替换物品ID；合法已登记非强化字段精确保留，不用材料扣除修复原超重。",
+    "optional_charm": "optional_charm_selector必须显式null或指定真实随身5%/10%/15%符堆及预期修订/数量1；报价/摘要/消费/有效概率/随机/收据沿optional_luck_charm_owner_ref，成功失败都消费一张；原必成档选符拒绝。",
+    "random_flow_binding_ref": {
+      "file": "强化幸运符.v1.json",
+      "pointer": "/processing/random_flow_binding"
+    }
+  },
+  "implementation_gate": "447基础定义合法不等于完整普通成长已闭合。合成/属性/觉醒/四神/奇玉/进化/反气功/附加显示及完整实例schema仍需明确采用；材料与装备商店及加工服务待世界注册。当前不激活运行、不增加世界服务数。",
+  "optional_luck_charm_owner_ref": {
+    "file": "强化幸运符.v1.json",
+    "pointer": "/processing"
+  }
+}

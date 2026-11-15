@@ -1,0 +1,1175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-effects-class-projection:v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "class_id",
+    "effects"
+  ],
+  "properties": {
+    "class_id": {
+      "$ref": "urn:solorxjh:character-identity:v1#/$defs/class_id"
+    },
+    "effects": {
+      "$ref": "urn:solorxjh:character-effects:v1"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "blade"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_blade_2aade2bf8086",
+                    "aux_blade_3e9228433e80"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "sword"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_sword_2aade2bf8086",
+                    "aux_sword_3e9228433e80"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "spear"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_spear_2aade2bf8086",
+                    "aux_spear_3e9228433e80"
+                  ]
+                }
+              },
+              "transfer_guard": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "source_ability_id": {
+                        "const": "qigong_spear_b8cdaf136e60"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "physician"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_physician_2aade2bf8086",
+                    "aux_physician_3e9228433e80"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "archer"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_archer_2aade2bf8086",
+                    "aux_archer_3e9228433e80"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "assassin"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_assassin_2aade2bf8086",
+                    "aux_assassin_3e9228433e80"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "musician"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "const": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "fighter"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_fighter_2aade2bf8086",
+                    "aux_fighter_3e9228433e80",
+                    "aux_fighter_fe3ba1631152"
+                  ]
+                }
+              },
+              "transfer_guard": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "source_ability_id": {
+                        "const": "qigong_fighter_b8cdaf136e60"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "han_feiguan"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_han_feiguan_918e9dcbe4c3",
+                    "aux_han_feiguan_7408263c1d83",
+                    "aux_han_feiguan_8fbb564b7c00",
+                    "aux_han_feiguan_ffba27e6ae4b"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "tan_hualing"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_tan_hualing_2aade2bf8086",
+                    "aux_tan_hualing_3e9228433e80",
+                    "aux_tan_hualing_fe3ba1631152"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "mei_liuzhen"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "const": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "lu_fenglang"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_lu_fenglang_2aade2bf8086",
+                    "aux_lu_fenglang_3e9228433e80",
+                    "aux_lu_fenglang_fe3ba1631152"
+                  ]
+                }
+              },
+              "transfer_guard": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "source_ability_id": {
+                        "const": "qigong_lu_fenglang_b8cdaf136e60"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "dongling_shennv"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_dongling_shennv_2aade2bf8086",
+                    "aux_dongling_shennv_3e9228433e80",
+                    "aux_dongling_shennv_fe3ba1631152"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class_id": {
+            "const": "zhen_fengbai"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "properties": {
+              "lu_star_power": {
+                "const": null
+              },
+              "assassin_evade_bonus": {
+                "const": null
+              },
+              "transfer_guard": {
+                "const": null
+              },
+              "music_timed": {
+                "properties": {
+                  "luanfeng": {
+                    "const": null
+                  }
+                }
+              },
+              "venom_kill": {
+                "properties": {
+                  "kill_defense_power": {
+                    "const": null
+                  }
+                }
+              },
+              "spear_fighter_timed": {
+                "properties": {
+                  "martial_duel_attack20": {
+                    "const": null
+                  }
+                }
+              },
+              "sword_timed": {
+                "properties": {
+                  "wujian_boost": {
+                    "const": null
+                  },
+                  "martial_power": {
+                    "const": null
+                  },
+                  "evaded_attack_token": {
+                    "const": null
+                  }
+                }
+              },
+              "defense": {
+                "properties": {
+                  "direct_attack_evasion_window": {
+                    "const": null
+                  },
+                  "distance_mana_shield": {
+                    "const": null
+                  },
+                  "bawang_lethal": {
+                    "const": null
+                  },
+                  "far_received_damage_bubble": {
+                    "const": null
+                  }
+                }
+              },
+              "lightness": {
+                "propertyNames": {
+                  "enum": [
+                    "aux_zhen_fengbai_2aade2bf8086",
+                    "aux_zhen_fengbai_3e9228433e80",
+                    "aux_zhen_fengbai_fe3ba1631152"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$comment": "仅原identity.class_id/effects校验投影，不保存镜像class_id。禁止借用自体职业效果；敌方负面与队友独立增益不按接收者职业误禁。来源施放者与原事件仍语义校验。"
+}

@@ -1,0 +1,46 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "custody_assignment_and_intact_transfer_design_not_implemented_full_economic_receipts_pending",
+  "scope": "当前堆输出及不改变正文的同角色持有/复购域迁移。域只分held/buyback，具体背包/装备/仓库槽仍由原布局唯一持有；不是跨角色所有权转移或完整经济收据。",
+  "owners": {
+    "schema": "物品域迁移.schema.json",
+    "stack_flow": "物品堆与来源.v1.json",
+    "buyback": "NPC复购.v1.json",
+    "layout": "容器与仓储.v1.json",
+    "readable": "../72-物品堆与数量来源校验合同.md"
+  },
+  "custody": "held精确kind一个字段；buyback精确kind/session_id/sale_receipt_id，绑定原角色会话及原出售记录。当前堆根不加域字段，历史flow输出额外custody明确产出时归属；当前域由最后已提交的赋域/迁移事件推导。",
+  "new_stack_outputs": "每个flow输出必须有custody，包括原ID余量/合并堆/新堆。正常授予、拾取、制作、玩家交易接收均held；只有合法可复购出售结果可首次产生buyback。复购余量保原session/sale，返回部分held；禁止普通配方把输出写buyback绕持有空间。来源授权/逐定义权限仍须验证。",
+  "intact_transfer_fields": [
+    "character_id",
+    "kind",
+    "target_id",
+    "body_revision",
+    "previous_custody_receipt_id",
+    "from",
+    "to"
+  ],
+  "intact": "整堆出售或无合堆全量复购、唯一实例保管/取回使用正式事件custody_transfers数组；本schema是其一条。from/to必须一held一buyback，character_id相同、target_id/kind/body_revision指实际当前完整正文；正文全部字段完全相同，不加实例或堆修订，不消耗/铸造数量。库存/角色修订仍按原事件各一次。此数组无独立经济提交权。",
+  "previous": "previous_custody_receipt_id引用该ID最后已提交的赋域/迁移投影所属结算ID；首次堆赋域可为flow receipt_id，唯一实例须由其真实创建/修改正式收据证明初始held。对同物同前状态只允许一个已提交后继，迁移还须按最新正文修订验证；旧版重放只能返回原事件结果，不能创建新后继。",
+  "flow_and_transfer": "同结算若物品正文因数量流变化，该ID域由flow输出custody决定，不再为该ID写intact迁移。消费旧版本查最新当前域，产出存续ID与新ID按输出赋域。全量消耗不产出时域随物退役，不保活体域条目；旧历史保持。",
+  "buyback_flow": "部分出售输入held，原ID余量输出held，新保管堆输出buyback绑定本售出事件；部分复购输入buyback及已有held合并目标，余量保原buyback描述符，返回/合并输出held。buyback_cleanup只能消费已验证保管域输入；npc_sale/普通使用/交付/制作/丢弃只能消费held。不能将持有物当遗留保管物清理。",
+  "ordering": "每个事件记录显式结算顺序与源角色/库存修订；最后迁移按已提交顺序而非保存时间/收据字符串排序。所有改动先校验完整前状态、候选域唯一和数量，再与钱/布局/正文/队列/水位/修订同笔发布，不允许先改域后保存钱物。",
+  "closure": "当前每个未消费物品ID恰处于held或一个buyback域。held精确闭合character正文表/正式位置；buyback精确闭合对应会话保管表/原售出记录。跨表重复、缺任一域、未知session/sale、同一前状态双后继、错误正文修订或缺迁移前链均拒绝，不从原创建owner推测物在背包。",
+  "recovery": "崩溃恢复验证同一正式收据序列推导原会话剩余buyback域，再按NPC复购唯一结束ID终结。未结束保管的完整正文与赋域/迁移/数量依赖不得压缩丢失；仅指针/哈希或当前持有快照不足恢复。不能因未持久队列就把旧域当held或无主丢弃。",
+  "unsupported": "唯一实例创建/修改/终结已有唯一实例来源流投影，仍限已采用2004定义；完整经济事件根、逐producer授权/时钟证据与provenance索引仍待。不得用不校验的object替代，不能据域或实例流schema通过宣布完整收据/库存可读。",
+  "tests_pending": [
+    "真实收据原子落盘与不确定替换",
+    "实际实例全部字段不变与类型校验",
+    "进程重开/跨机LAN回放与崩溃点",
+    "全部producer与复购物品适配"
+  ],
+  "instance_flow_owner_ref": {
+    "file": "唯一实例来源流.v1.json",
+    "pointer": ""
+  },
+  "current_heads_owner_ref": {
+    "file": "来源现态推导.v1.json",
+    "pointer": ""
+  }
+}

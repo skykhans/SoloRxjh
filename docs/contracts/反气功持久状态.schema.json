@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:anti-qigong-state:v1",
+  "$comment": "character.qigong中两个原反气功字段的联合持久组件；总预算/未分配/对怪防御派生不保存。实际来源、解锁/预算、成功触发和世界时钟另验，非完整qigong或角色根。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "anti_allocations",
+    "anti_cooldowns"
+  ],
+  "properties": {
+    "anti_allocations": {
+      "$ref": "#/$defs/allocations"
+    },
+    "anti_cooldowns": {
+      "$ref": "#/$defs/cooldowns"
+    }
+  },
+  "$defs": {
+    "anti_id": {
+      "enum": [
+        "anti_qigong_74a38cdd158f",
+        "anti_qigong_d8f756b022db",
+        "anti_qigong_6d603234b777",
+        "anti_qigong_7c96413b8e41",
+        "anti_qigong_0b579a03fe8e",
+        "anti_qigong_2c15293075bc",
+        "anti_qigong_5249ab67dbce",
+        "anti_qigong_41e0460c3c13",
+        "anti_qigong_aa5becbe63fb",
+        "anti_qigong_6d1165167f69",
+        "anti_qigong_167ea7fd998f",
+        "anti_qigong_553bafa572e9",
+        "anti_qigong_803f98edaa90",
+        "anti_qigong_ea35ae86b87a",
+        "anti_qigong_4797d2d80e08",
+        "anti_qigong_5379d77295dc",
+        "anti_qigong_323d9bba7a5f",
+        "anti_qigong_94b48df06da1",
+        "anti_qigong_c5c4820637c5",
+        "anti_qigong_2d8b8452200a",
+        "anti_qigong_a9e48b679c6b",
+        "anti_qigong_f280ff0956d7",
+        "anti_qigong_249ffca61b15",
+        "anti_qigong_0074f7010aad",
+        "anti_qigong_76d872601837",
+        "anti_qigong_a2a8a78140eb",
+        "anti_qigong_96724a75e902",
+        "anti_qigong_310557dac63e",
+        "anti_qigong_5aadbf4cd094"
+      ]
+    },
+    "allocations": {
+      "type": "object",
+      "maxProperties": 29,
+      "propertyNames": {
+        "$ref": "#/$defs/anti_id"
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 5
+      }
+    },
+    "cooldowns": {
+      "type": "object",
+      "maxProperties": 29,
+      "propertyNames": {
+        "$ref": "#/$defs/anti_id"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "remaining_steps",
+          "trigger_event_id"
+        ],
+        "properties": {
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 180
+          },
+          "trigger_event_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "current_registered_customization_root_and_timer_events_adopted_other_configuration_kinds_pending_not_implemented",
+  "scope": "18当前已登记配置根、修订及两计时来源原事件；其他U33覆盖/直接修改种类仍须采用，不授权未知字段。",
+  "persistent_field": "character.customization.revision",
+  "type": "strict JSON integer token, 0..9007199254740991; reject bool, decimal/exponent/string and nonfinite values",
+  "distinction": "revision is the monotone count of committed effective configuration changes for this character. Override format version describes serialization and is not this count. Character business revision and inventory revision retain their original separate owners; no mirrored top-level configuration_revision field.",
+  "initialization": {
+    "explicit_new_character": 0,
+    "known_legacy_1to4_import": 0,
+    "existing_new_format": "preserve validated actual value; missing field rejects, no load repair. Historical configured snapshots require their actual configuration proof, not a newly invented zero."
+  },
+  "effective_change": "Compare the validated original complete character to the complete candidate under the authorized configuration allowlist. Any actual change to an explicitly configurable business field or presence/value of a registered sparse override is an effective change, including clearing an override whose current numerical result happens to equal its rule value. UI draft metadata, preview time or recomputed derived displays are not business changes.",
+  "no_op": "If all authorized persistent business fields and override presence/value remain identical, do not reserve a configuration event, allocate a receipt, change latest configuration history or increment configuration/character/inventory revision. Viewing/exporting a plan, cancelling, editing then undoing, and importing an identical validated plan are no-ops.",
+  "commit": "For an effective authorized change, freeze before configuration revision in the original configuration command/plan, validate full source/target roots and all explicit conflict choices, then atomically commit revision+1 once with actual changes and original configuration source proof. Character business revision advances once. Inventory revision advances once iff actual inventory/equipment/item/container business state changes under its original owner; merely changing an advanced probability override does not advance inventory revision. Multiple fields in one confirmed operation do not increment revision per field.",
+  "overflow": "An effective change at MAX rejects before reserve, random/ID allocation or item mutation. A pure no-op at MAX remains no-op. Never wrap, clamp, reset to zero or advance format version to bypass exhaustion. Apply all other affected revision limits before reserve as well.",
+  "replay": "Resolve exact immutable original request/digest before current revision checks. Retry returns the original decision/result without incrementing revision again or restoring historical values over later legitimate changes. Same ID/different digest rejects. Uncertain save persists/retrieves the original decision, never allocates another configuration change.",
+  "normal_gameplay": "Normal rewards, learning, equipment processing, clocks, trades and protocol guard/ACK changes retain configuration revision. Their ordinary character/inventory revisions still advance when required. Normal gameplay cannot stamp itself configured to bypass provenance or eligibility.",
+  "quote_binding": "Every consumer before_configuration_revision reads this exact field from the same validated character snapshot as its business/inventory revisions. A different actual configuration revision invalidates any unprepared quote even if quoted numeric results happen to match. Same revision alone never proves source/clock/capacity validity; original semantic checks remain required.",
+  "prepared_trade": "Actual pending_player_trade guard or unresolved remote session prohibits configuration mutations per71/19. No-op viewing is allowed. A configuration command cannot clear/replace protocol guards. Until preparation, an effective configuration change invalidates the old quote; prepared decisions follow original authority recovery rather than editing around the lock.",
+  "retention": "Clearing all sparse overrides retains revision and original configuration history; it does not make the character unconfigured for normal-play evidence or erase directly edited resources/quests. Restore-rule-values only clears explicitly selected overrides under18.",
+  "consumer_refs": [
+    {
+      "file": "玩家交易.v1.json",
+      "pointer": "/preview"
+    },
+    {
+      "file": "普通首饰加工.v1.json",
+      "pointer": "/transaction"
+    },
+    {
+      "file": "新版武勋首饰.v1.json",
+      "pointer": "/configuration"
+    }
+  ],
+  "vectors": [
+    {
+      "before": 0,
+      "effective_change": true,
+      "expected": 1
+    },
+    {
+      "before": 17,
+      "effective_change": true,
+      "changed_field_count": 5,
+      "expected": 18
+    },
+    {
+      "before": 17,
+      "effective_change": false,
+      "expected": 17
+    },
+    {
+      "before": 9007199254740990,
+      "effective_change": true,
+      "expected": 9007199254740991
+    },
+    {
+      "before": 9007199254740991,
+      "effective_change": false,
+      "expected": 9007199254740991
+    },
+    {
+      "before": 9007199254740991,
+      "effective_change": true,
+      "expected": "reject_before_reserve"
+    }
+  ],
+  "remaining": "已采用四键根、计时及两组首饰覆盖原事件；其他U33字段/事件和完整profile/character/world/来源及运行仍待。",
+  "world_timer_source_protocol": {
+    "schema_ref": {
+      "file": "配置世界计时来源.schema.json",
+      "pointer": ""
+    },
+    "scope": "registered cave_anger_experience_boost and poetry_practice_boost configuration branches only; does not authorize unknown timer/effect fields",
+    "authorization": "Original committed configuration decision must bind exact profile/character, exact target character field path, before/after state, world_id, current authoritative observed step and explicit remaining steps. A receipt for another source slot, another character/world or merely same-shaped object cannot authorize this source. One multi-field configuration event may authorize both only when its actual allowed differences explicitly include both.",
+    "operations": "Explicit create/change duration/clear via18 preview; no normal quest/level/cost gates. Positive remaining1..MAX, requested0 means clear to null. Output configuration receipt ID generated by original event, not editable/imported as proof. Unchanged authorized state is no-op. Configuring a task source into a configuration source is an explicit provenance change, not rewriting its historical grant.",
+    "world": "Read actual original available authority clock; foreign source cannot be relabelled or discarded without original authority/protocol reconciliation. Bind new/replacement source to actual selected world only after explicit preview and original source authorization. No wall-time catch-up or guessed clock.",
+    "history": "Retain original task/configuration decisions and later accepted-action/death evidence after source clear/expiry/replacement. Source timers keep original gameplay clock/multiplier/single-slot rules; configuration does not mint quest rewards or completion history.",
+    "gates": "All original pending remote session/trade/configuration guards and revision limits apply before reserve. Full role/source/world and original strict configuration event journals remain required before runtime; schema alone is never a valid configuration receipt.",
+    "event_owner_ref": {
+      "file": "角色配置修订.v1.json",
+      "pointer": "/timed_source_events"
+    }
+  },
+  "timed_source_events": {
+    "field": "profile.timed_source_configuration_events",
+    "initial_value": [],
+    "schema_ref": {
+      "file": "计时来源配置事件.schema.json",
+      "pointer": ""
+    },
+    "request": "request_id=71 canonical JSON [\"timed_source_configuration\",play_session_identity.session_id,command_id]; digest=SHA256 of original full six-key command by71 canonical encoding. Exact request lookup precedes current-state checks; changed digest rejects.",
+    "admission": "Validate original request against request schema, actual session/authority permission and pending protocol guards, complete role/profile/world/source, exact expected three revisions. LAN original host permission under19 required; no normal quest/level/cost gate. Reconcile actual original clocks and derive authorized requested differences first. If all unchanged, return no-op even at MAX, without persistent event/counter/latest-reference change. Only for an effective change check character/configuration revision can each advance, other gates and foreign source authority, then validate narrower persistent command and reserve. UI0 normalizes to null before canonical request creation; malformed/unknown request or unauthorized sources never become a successful no-op.",
+    "plan": "rules_hash from original session rules; before_sources contains exactly changes keys and original valid source values after reconciliation. before_latest_event_ref freezes actual customization.latest_event_ref, null iff expected configuration revision0. Original prior configuration/source history must remain available. No unrelated role copies or client-filled receipt IDs.",
+    "reserve": "Original generic settlement counter+1 and reserved record in the same full authority save. Hold same character business mutation reservation across owners; role fields/revisions/inventory unchanged from frozen input. World clock may continue; no fee/item/RNG allocation. Source ticking does not grant refresh rights or allow another command to mutate frozen source.",
+    "commit": "Under same authority revalidate original frozen role/three revisions/sources/session/guards/rules and current original world clock T. Require no rewind against all original stamps. A positive selected output is exactly {world_id:session.world_id,remaining_world_steps:requested,observed_world_step:T,configuration_receipt_id:identity.settlement_id}; null clears only selected field. Configuration record committed_world_step=T binds duration start to actual commit, not preview/reservation wall time. Unselected source remains unchanged; reconcile its actual clock before later dependent action. Original character revision+1, customization.revision+1, inventory revision unchanged, original config record committed all in one authority replacement. Set customization.latest_event_ref={authority_profile_id:identity.authority_profile_id,settlement_id:identity.settlement_id}; record actual committed_at_utc once for display only. No second mutable configuration log or copied history payload.",
+    "no_op_boundary": "If at commit revalidation the requested operation no longer constitutes an effective change, abort state_changed; do not commit a receipt-only refresh. Task-to-configuration replacement is an explicit provenance change, not equal merely because remaining values match. Same-source same-duration preview with no actual edit remains pre-reserve no-op.",
+    "abort": "reserved to aborted only for enumerated reason, retain counter and original immutable command/plan. No target field/character/configuration/inventory revision change and no economic refund. World clock continues legitimately; later source reconciliation uses actual elapsed steps, not resetting timer from cancellation.",
+    "allowed_diff": "Only selected source slots, character.revision, customization.revision/latest_event_ref, original event/profile revision and required original network result/protocol metadata may change. Other role/customization fields, quests/rewards/items/location/resources/cooldowns/RNG/other roles unchanged. Full root and source joint validation remain required.",
+    "source_authentication": "configuration_receipt_id resolves this original committed event in its actual authority journal, exact character/world/path selected in changes, exact requested positive duration and committed_world_step. Reserved/aborted/wrong field or another character is never a grant. A multi-field event authorizes only the selected paths. Full original source validation and subsequent clock chain still required.",
+    "recovery": "Unknown save resolves original full authority record. Committed retry returns original immutable result, never recreates expired/cleared source or overwrites later configuration. Aborted remains aborted; reserved revalidates before same decision. Original proof retained after later source clear/expiry/role deletion under deletion/source closure.",
+    "network": "Original host freezes committed/aborted producer in original continuous result envelope, receiver saves same role/source/revisions/protocol state then ACK. Host save is not client save; no independent client-local source grant. No game/session result may be sent for reserved.",
+    "remaining": "Current customization four-key structure adopted; complete role/profile/world/source provenance and actual save/LAN/Godot remain pending. Timer event covers only two fields; other U33 kinds need original strict authorization.",
+    "request_schema_ref": {
+      "file": "计时来源配置事件.schema.json",
+      "pointer": "/$defs/request"
+    },
+    "no_op_comparison": {
+      "scope": "compare user-selected semantic target against fully validated original source reconciled to actual authority step; generated receipt ID/display time are not user changes",
+      "null": "requested null equals only actual reconciled null; explicit clear of positive task/configuration source is effective",
+      "positive": "requested positive equals existing current-world configured source only if its actual remaining equals requested value and no other selected semantic target changes. Existing task source replaced by configuration remains explicit provenance change even if numeric duration matches.",
+      "multi_field": "If any selected semantic target changes, one original confirmed transaction is effective and handles selected output fields per commit; never one revision per field. All selected same semantic targets means no-op.",
+      "ordering": "Authentication, schema/strict token/full source validation and exact expected revisions precede no-op. No-op then precedes revision exhaustion and persistent event allocation. Invalid/malformed/stale requests reject even if a guessed final numeric value would match.",
+      "reserve_wait": "At commit compare against actual original world time and frozen source inputs according to no_op_boundary; abort state_changed when no effective requested change remains. A cancelled or aborted reservation does not pause elapsed source time; later original reconcile uses actual delta.",
+      "request_vs_event": "Request revisions accept MAX for a legitimate no-op; persistent command revisions cap MAX-1 because every reserved event must have been able to commit its actual change. No-op has no journal phase, no settlement identity and no fabricated network business result."
+    }
+  },
+  "latest_configuration_reference": {
+    "field": "character.customization.latest_event_ref",
+    "explicit_new_character": null,
+    "known_legacy_1to4_import": null,
+    "schema_ref": {
+      "file": "计时来源配置事件.schema.json",
+      "pointer": "/$defs/latest_event_ref"
+    },
+    "metadata_projection_ref": {
+      "file": "计时来源配置事件.schema.json",
+      "pointer": "/$defs/configuration_metadata_projection"
+    },
+    "ownership": "Store only null or {authority_profile_id,settlement_id}; original committed configuration event owns timestamp/command changes/source proof. Do not duplicate time/field/value arrays or a mutable editor role snapshot under customization.",
+    "revision_link": "revision0 iff reference null. Positive revision requires exact latest committed original configuration event for this character with configuration_revision_after equal current customization.revision. No-op/reserved/abort does not replace latest reference. Never choose latest by wall-clock timestamp or settlement lexical order.",
+    "chain": "Each registered configuration plan freezes actual before_latest_event_ref; it must equal complete original role metadata and resolve the preceding committed configuration revision, or null iff before revision0. Successful next event advances revision exactly1 and replaces latest reference with its actual identity authority_profile_id/settlement_id in the same original full save/result. All predecessors remain available in original authority journals or validated immutable remote result proofs; references cannot be rebound to another authority by receiver.",
+    "history_validation": "Walk original registered configuration-event owners, checking same role identity, actual exact allowed differences, strictly decreasing configuration revisions and predecessor reference down to0/null. Reject missing/repeated/self/cyclic/wrong-role/aborted/unknown-owner proof. Current actual edited field values need not equal old event output after later legitimate gameplay. Only the explicitly registered timer, jewelry override and merit configuration owners are accepted; all other U33 event kinds require explicit adoption.",
+    "display": "Original committed_at_utc supplies display time only, using original strict Gregorian UTC seconds format. Clock correction may make times nonmonotone; revision and original predecessor establish order. Original command changes supplies field IDs; original event owner supplies configuration-source label. Clearing all overrides or timer expiry retains latest reference/history.",
+    "projection_boundary": "Two-key metadata projection is validation only, not a persistent metadata wrapper or a complete customization root. Validate complete root before extracting it; do not allOf this additionalProperties:false projection onto the full role/customization.",
+    "remaining": "计时与两组首饰覆盖原事件已登记；其余U33事件、实际完整根/来源与文件LAN仍待。",
+    "registered_event_owners": [
+      {
+        "file": "角色配置修订.v1.json",
+        "pointer": "/timed_source_events"
+      },
+      {
+        "file": "角色配置修订.v1.json",
+        "pointer": "/jewelry_override_events"
+      },
+      {
+        "file": "角色配置修订.v1.json",
+        "pointer": "/merit_configuration_events"
+      }
+    ]
+  },
+  "customization_root": {
+    "field": "character.customization",
+    "schema_ref": {
+      "file": "角色配置根.schema.json",
+      "pointer": ""
+    },
+    "fields": [
+      "format_version",
+      "revision",
+      "explicit",
+      "latest_event_ref"
+    ],
+    "explicit_new_character": {
+      "format_version": 1,
+      "revision": 0,
+      "explicit": {},
+      "latest_event_ref": null
+    },
+    "known_legacy_1to4_import": {
+      "format_version": 1,
+      "revision": 0,
+      "explicit": {},
+      "latest_event_ref": null
+    },
+    "format_version": "serialization format1, not an editable gameplay parameter or revision counter; unknown version rejects, never silently downgrade/ignore fields",
+    "explicit_registry": {
+      "ordinary_jewelry_processing": {
+        "file": "普通首饰实例.v1.json",
+        "pointer": "/configuration"
+      },
+      "merit_jewelry_processing": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/configuration"
+      }
+    },
+    "zero_revision": "revision0 requires empty explicit and null latest reference. Positive revision may have empty explicit after timer-only configuration or clearing all overrides, but must retain original latest reference/history. Actual source proof cannot be inferred merely from nonempty overrides.",
+    "direct_state": "配置直接改的角色资源/任务/计时等只在实际原字段持久化；explicit保存已登记规则覆盖，不能把同一源再复制到explicit或存全编辑器角色。",
+    "load": "Validate complete four-key customization root before deriving metadata/selected overrides; missing/unknown/malformed keys reject. Existing valid current-format object preserved exactly; never initialize zero to repair a configured current object.",
+    "remaining": "其他U33身份/最终属性/技能/高级规则覆盖和原事件仍未全登记；必须先扩原正式目录/schema与源授权再实现，不能将当前两组覆盖当U33全部完成。"
+  },
+  "jewelry_override_events": {
+    "field": "profile.jewelry_override_configuration_events",
+    "initial_value": [],
+    "schema_ref": {
+      "file": "首饰覆盖配置事件.schema.json",
+      "pointer": ""
+    },
+    "edit_protocol_ref": {
+      "file": "普通首饰实例.v1.json",
+      "pointer": "/configuration/override_edit_protocol"
+    },
+    "request": "request_id=71 canonical JSON [\"jewelry_override_configuration\",play_session_identity.session_id,command_id]; request_digest=SHA256完整六键request的71编码。先查原请求/摘要再检查当前修订，重复回原决定，同ID异摘要拒绝。",
+    "admission": "先验完整request、实际会话与房主授权、完整角色/配置根/历史和全部未决会话交易门禁，精确匹配三修订；按原edit_protocol构造完整候选。无变化不分配事件/counter，不改任何修订或最近引用，MAX亦然。有效变化才验角色/配置修订可各加1并符合持久command；库存修订可MAX且保原值。",
+    "plan": "冻结原rules_hash、before_latest_event_ref及before_overrides。before_overrides键集精确等changes选定两组子集，每值为实际完整原组或组不存在时null；null仅为事件输入投影，不写持久explicit。保原数组/字段存在性，不能将缺组替换空对象或全局默认。前驱null当且仅当expected_configuration_revision0，正修订解析同角色原配置链。",
+    "reserve": "完整候选与来源联验后，同原authority完整保存写通用counter+1及reserved。目标角色/所有修订/explicit/latest不变，同角色跨owner占用互斥；不冻结全世界，不收费、不抽随机、不分配物品。",
+    "commit": "持原authority锁重验会话/授权/守卫/rules、三冻结修订、选定原组与前驱逐字段一致，按原协议重建完整候选。必须仍有有效变化，否则abort state_changed。仅选定explicit字段与空父级移除、character.revision+1、customization.revision+1及latest_event_ref改为本原identity两键；inventory_revision_after等原值。committed_at_utc冻结一次仅用于展示。写原终态与所需网络结果/档案修订同一次完整替换。",
+    "allowed_diff": "除上述配置/角色修订与原事件、通用分配/档案修订及必要原网络协议元数据外，其他组/字段/数组顺序、实例/银/堆/任务/资源/计时/位置/技能/其他角色全部保持。不得重算有效参数后回填explicit，不因清覆盖修改实例或清反气功分配。",
+    "abort": "只用schema明确原因；保原command/plan/counter，目标与三修订/latest不变，无退钱/退物或补偿事件。缺来源/不确定写入不能猜成功。",
+    "history": "最新引用可解析本owner的同角色committed；configuration_revision_after精确expected+1，前驱对应expected修订，character_after精确expected+1，inventory_after精确expected。混合计时/首饰覆盖事件按原前驱递减至0/null，拒绝缺源/环/别角色/未知owner。正常加工可使用后来当前参数，原历史按冻结输入与changes重建，不与今天覆盖相等。角色删除仍保本原链。",
+    "recovery": "按原请求决定恢复；committed重试只回原结果，不将旧覆盖覆盖后来状态；aborted不重建，reserved仅原同笔恢复或合法取消。不可用新请求绕过待决；实际文件不确定性按05原协议。",
+    "network": "原房主权威保存后才发原终态producer，reserved拒绝；接收者同笔保存完整结果/原远端证明与head再ACK，不另造本地配置事件或改authority。",
+    "remaining": "仅两组概率/费用覆盖，不授权直接实例成长或其余U33字段；完整角色/profile/world/来源联验及实际文件/LAN/Godot待实现。"
+  },
+  "explicit_history_reconstruction": {
+    "scope": "验证当前已登记ordinary_jewelry_processing/merit_jewelry_processing实际稀疏覆盖来源；只在原加载/候选联合校验内派生，不持久化第二份覆盖表或可变历史缓存。完整角色根/事件/schema/token/原规则与来源授权先验仍必需。",
+    "chain_input": "先按latest_configuration_reference解析确切角色(profile_id,character_id)的原authority/settlement引用链。每事件须committed且配置after=command.expected_configuration_revision+1；本事件expected精确等前驱after，首事件expected0且前驱null。按引用而非数组/墙钟/authority计数排序；原角色业务修订可穿插普通玩法，不能要求相邻配置character_revision连续。",
+    "proof_identity": "本地原日志与已验证不可变远端结果中的同一(authority_profile_id,settlement_id)只代表一个原决定。比较完整原事件逐字段等值后可复用，不把传输副本当第二次配置；同键异owner/command/plan/阶段/输出拒绝。先核原会话角色与实际authority，不把来源authority改成本地profile。未知owner或无原决定的引用拒绝。",
+    "initial": "沿已验证链反向收集后从最早正向重放，revision0累积explicit={}。这只是已登记覆盖的初始证明，不重置角色资源/任务/计时或旧档来源；当前格式缺历史不得借known旧档初始化修复。",
+    "jewelry_step": "对原首饰覆盖事件每个changes选定组，累积状态存在该组时须与plan.before_overrides该组完整逐字段等值，不存在时投影必须null。计划组选定键集精确等changes。之后按原override_edit_protocol应用选定字段并移除空父级；必须产生有效稀疏存在性/数组变化，否则committed非法。未选定组保原。验证当时原规则版本/schema，不能用今天全局费用值替代或判无变化。",
+    "timer_step": "原计时事件仅推进配置链，累积explicit保持；它的源授权/扣时/原世界步仍按原owner另验。不能依据计时事件最近引用推断explicit应为空，也不能把计时changes写进explicit。",
+    "current_match": "完整链重放结束后累积explicit必须与当前已验证customization.explicit精确等值，最近修订/引用同时匹配。普通加工、交易、时钟/清来源不改explicit，不能解释差异；清覆盖事件合法时终值可为空但仍保正修订/最近引用。对预留候选原状态与实际提交候选分别按其原阶段验证，不提前执行reserved/aborted changes。",
+    "deleted_character": "原删除plan.final_configuration_metadata作为该角色已关闭链端点，仍按原链核每个覆盖事件冻结输入与有效变化。无当前角色explicit可比时不虚构空目标；完整原删除候选联验负责删除时实际根匹配。取消删除记录不作为永久链端点，后续合法配置可继续。",
+    "limits": "此重放不证明直接实例/任务/资源配置来源，不重放整角色，也不恢复已过期计时。未知未来配置owner必须先明确其对explicit的读写和历史重建规则再接入，不能一律当保持。实际Godot/完整来源/文件/LAN校验仍未实现。",
+    "merit_step": "原武勋配置事件只改余额/称号及配置链，重建explicit时保持原累积覆盖；其原余额/称号/时钟来源另验，不因相邻配置类型不同跳过前驱连续。"
+  },
+  "merit_configuration_events": {
+    "field": "profile.merit_configuration_events",
+    "initial_value": [],
+    "schema_ref": {
+      "file": "武勋配置事件.schema.json",
+      "pointer": ""
+    },
+    "request": "request_id=71确定JSON [\"merit_configuration\",play_session_identity.session_id,command_id]，digest=完整六键request的71编码SHA256。先查原请求/摘要再判现状态，不能重复推进配置修订。changes仅显式余额或无来源的称号stage/余时描述符/null，客户端不能提供origin。",
+    "admission": "先验完整request、权限/原会话/ACK、完整角色/原来源/三修订及无交易会话活动占用。当前称号先按实际原时钟对账，本步到期先结清。配置不要求正常余额门槛/选派/费用，但必须同笔处理真实资格与当前资源/预算冲突。无变化先于修订耗尽，request允许MAX无变化，持久command角色/配置需可加1。",
+    "no_op": "余额选定且精确同值、称号选null且实际null为无变化。正称号描述符仅当原合法来源已经是本owner配置、同stage与实际当前剩余步时才无变化；正常认证/续费来源转为配置是明确来源变更。多字段至少一个有效变化才预留。生成origin/展示时间不是用户变化，不借无变化成功掩盖坏来源/旧修订。",
+    "plan": "rules_hash原发行，before_values键集精确等changes且逐值等原同快照字段；before_latest_event_ref等实际原配置链末端，0修订null。只冻结选中字段，不存整个角色或第二余额；原未选称号/余额仍由完整角色与来源校验。",
+    "reserve": "完整候选/来源/冲突处理通过后counter+1及reserved同authority完整保存，角色/三修订/原配置链不变。跨owner同角色唯一业务占用；LAN时钟继续，不能借面板暂停或清未决收费。",
+    "commit": "重验原输入/来源/三修订/权限/rules/会话与实际原世界步。所选余额设精确请求值；正称号写{stage:请求stage,remaining_steps:请求值,origin_receipt_id:本identity.settlement_id}，null明确清除。所选新称号从committed_world_step实际步开始，原未选称号不刷新且后续按原时钟对账。char/config各+1，库存原值，latest指本authority/settlement，committed_at_utc只展示；同一次完整替换，不造试练胜利/认证/月费/正常收入。",
+    "allowed_diff": "只选中实际余额/称号、char/config修订/latest、原事件及必要原协议元数据；explicit两组覆盖保持。资格派生重算；预算/当前量需要实际冲突处理时必须在原可授权变化目录明确后才提交，不能静默删点/截断/回血或绕过完整候选。尚未登记的复合冲突候选拒绝而非部分提交。",
+    "abort": "沿schema原四原因，原请求/计划/计数保留，目标/三修订/链不变，不返正常续费或重新延长期限。后续按实际已模拟步对账原称号；写入存疑先重读原决定。",
+    "history": "仅同角色原committed授权配置余额变化或选定正称号的origin，精确字段/新值/原前驱和修订算术另验。配置称号正常到期仍按原8/9费用续期或不足清除，不能永久免月费。只改余额不自动发称号。原网络远端证明和全部配置前驱保留，重试只回原结果不覆盖后继。",
+    "remaining": "本owner仅余额/称号，不覆盖其他U33字段；完整武勋收入、实际时钟/资格冲突事件、角色/profile/world及文件LAN/Godot仍待。"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:rules-manifest:v1",
+  "$comment": "正式运行包规则身份的哈希payload，无自指rules_hash。排序/唯一/安全路径/完整包内集合/实际字节/代码加载与导出重映射另验；不是当前D1资料自动生成的运行清单。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest_version",
+    "protocol_version",
+    "content_version",
+    "engine_version",
+    "files"
+  ],
+  "properties": {
+    "manifest_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "protocol_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "content_version": {
+      "const": "jianghu-godot-1"
+    },
+    "engine_version": {
+      "const": "4.7.2"
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "kind",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 7,
+            "pattern": "^res://(?:[a-z0-9_](?:[a-z0-9_.-]*[a-z0-9_-])?/)*[a-z0-9_](?:[a-z0-9_.-]*[a-z0-9_-])?(?![\\s\\S])"
+          },
+          "kind": {
+            "enum": [
+              "config",
+              "rules_artifact"
+            ]
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+          }
+        }
+      }
+    }
+  }
+}

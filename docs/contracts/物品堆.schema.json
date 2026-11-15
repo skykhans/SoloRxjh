@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:item-stack:v1",
+  "$comment": "当前已采用堆物品完整根结构；定义上限、绑定维度、来源、严格整数token及容器唯一性须语义验证。未定义未来限时实物格式，不将任务日界清理复制成独立有效期。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "stack_id",
+    "item_id",
+    "binding",
+    "quest_scope",
+    "quantity",
+    "revision",
+    "origin_receipt_id"
+  ],
+  "properties": {
+    "stack_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "item_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "binding": {
+      "enum": [
+        "character",
+        "unbound"
+      ]
+    },
+    "quest_scope": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/questScope"
+        }
+      ]
+    },
+    "quantity": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9999
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "origin_receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "binding": {
+            "const": "unbound"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_scope": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "questScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "quest_id"
+      ],
+      "properties": {
+        "quest_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "attempt_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "branch_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "class_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "world_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "accepted_day_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "completion_receipt_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "accepted_day_index"
+            ]
+          },
+          "then": {
+            "required": [
+              "world_id"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "completion_receipt_id"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "attempt_id"
+                  ]
+                },
+                {
+                  "required": [
+                    "accepted_day_index"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

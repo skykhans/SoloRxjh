@@ -1,0 +1,5469 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_hero_base_definitions_acquisition_recipes_adopted_other_growth_open_not_implemented",
+  "scope": "六英雄封印至七式主武器基础装备定义，含来源已列真分支；不是全装备目录或完整成长系统。",
+  "identity_policy": {
+    "new_definition_count": 101,
+    "shared_initial_definition_count": 6,
+    "total_mainline_definition_count": 107,
+    "sealed_owner_file": "角色初始模板.v1.json",
+    "no_duplicate_sealed_definitions": true,
+    "source_table": "../reference/英雄主武器阶段映射.json",
+    "branches_excluded": "白龙刀、黑灵剑及青雨丸等独立分支不作为主武器换皮生成。",
+    "faction_policy": "项目主武器普通/真均允许正邪，一阶另允许unselected以衔接一转未选派；不复制派别成两件同名定义，具体动作/武功派别按能力合同校验。"
+  },
+  "profiles": {
+    "hero_mainline_weapon": {
+      "instance_kind": "unique_equipment",
+      "container": "equipment_bag_when_not_equipped",
+      "equip_slots": [
+        "primary.weapon",
+        "secondary.weapon"
+      ],
+      "unique_lineage": "each character owns exactly the initial exclusive main-weapon lineage across bags/warehouse/equipment; recipes consume source and replace lineage output atomically",
+      "property_contributors": "stats are source base weapon range only; enhancement/synthesis/awakening/element/jade/four-divine contributions belong to independently typed growth definitions, never included a second time in stats",
+      "source_limits": "15 is project permanent-enhancement design limit for these new base definitions; does not settle 15+[n] display boosts, recipes or probability tables",
+      "permissions_evidence": "血雨丸禁出售/丢弃/交易/分解保官方公开；其余五英雄采用同保护权限是项目选择，非声称官网一致。",
+      "permissions_scope": "named class progression/true conversion/hero-transfer may consume exact source despite generic decomposition disabled; ordinary materials and other weapon families cannot inherit that exception"
+    }
+  },
+  "items": [
+    {
+      "item_id": "weapon_blood_orb_rank01",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(1转)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "exclusive_weapon_advancement_stage": 1,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 72,
+        "weapon_attack_max": 90
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/1"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank02",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(2转)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "exclusive_weapon_advancement_stage": 2,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 139,
+        "weapon_attack_max": 157
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/2"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank03",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(3转)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "exclusive_weapon_advancement_stage": 3,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 199,
+        "weapon_attack_max": 221
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/3"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank04",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(4转)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "exclusive_weapon_advancement_stage": 4,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 263,
+        "weapon_attack_max": 286
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/4"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank05",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(5转)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "exclusive_weapon_advancement_stage": 5,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 328,
+        "weapon_attack_max": 351
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/5"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank06",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天1式)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 110,
+      "minimum_rank": 6,
+      "exclusive_weapon_advancement_stage": 6,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 483,
+        "weapon_attack_max": 506
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/6"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank07",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天2式)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "exclusive_weapon_advancement_stage": 7,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 602,
+        "weapon_attack_max": 626
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/7"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank08",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天3式)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 773,
+        "weapon_attack_max": 791
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/8"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank08_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天3式-真)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 781,
+        "weapon_attack_max": 814
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/9"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank09",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天4式)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 993,
+        "weapon_attack_max": 1015
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/10"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank09_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天4式-真)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1082,
+        "weapon_attack_max": 1096
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/11"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank10",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天5式)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1257,
+        "weapon_attack_max": 1281
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/12"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank10_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天5式-真)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1348,
+        "weapon_attack_max": 1361
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/13"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank11",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天6式)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1523,
+        "weapon_attack_max": 1546
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/14"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank11_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天6式-真)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1612,
+        "weapon_attack_max": 1626
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/15"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank12",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天7式)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1789,
+        "weapon_attack_max": 1811
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/16"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/0"
+      }
+    },
+    {
+      "item_id": "weapon_blood_orb_rank12_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "血雨丸(升天7式-真)(甄凤柏)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "zhen_fengbai",
+      "weapon_family": "blood_orb",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 200,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1878,
+        "weapon_attack_max": 1892
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_blood_orb",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/17"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/1"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank01",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀(1转)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "exclusive_weapon_advancement_stage": 1,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 70,
+        "weapon_attack_max": 110
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/19"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank02",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀(2转)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "exclusive_weapon_advancement_stage": 2,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 145,
+        "weapon_attack_max": 185
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/20"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank03",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀(3转)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "exclusive_weapon_advancement_stage": 3,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 218,
+        "weapon_attack_max": 248
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/21"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank04",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀(4转)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "exclusive_weapon_advancement_stage": 4,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 285,
+        "weapon_attack_max": 325
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/22"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank05",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀(5转)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "exclusive_weapon_advancement_stage": 5,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 341,
+        "weapon_attack_max": 381
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/23"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank06",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀(升天一式)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 110,
+      "minimum_rank": 6,
+      "exclusive_weapon_advancement_stage": 6,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 478,
+        "weapon_attack_max": 518
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/24"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank07",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀(升天二式)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "exclusive_weapon_advancement_stage": 7,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 570,
+        "weapon_attack_max": 610
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/25"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank08",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀(升天三式)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 732,
+        "weapon_attack_max": 772
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/26"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank09",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀（升天四)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1044,
+        "weapon_attack_max": 1096
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/27"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank09_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-火龙刀（升天四)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1138,
+        "weapon_attack_max": 1184
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/28"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank10",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀（升天五）",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1274,
+        "weapon_attack_max": 1324
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/29"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank10_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-火龙刀（升天五）",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1368,
+        "weapon_attack_max": 1412
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/30"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank11",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀（升天六）",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1550,
+        "weapon_attack_max": 1602
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/31"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank11_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-火龙刀（升天六）",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1636,
+        "weapon_attack_max": 1681
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/32"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank12",
+      "profile_id": "hero_mainline_weapon",
+      "name": "火龙刀(升天七)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1806,
+        "weapon_attack_max": 1860
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/33"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/2"
+      }
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank12_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-火龙刀(升天七)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "han_feiguan",
+      "weapon_family": "fire_dragon_blade",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1894,
+        "weapon_attack_max": 1940
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_fire_dragon_blade",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/34"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/3"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank01",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "exclusive_weapon_advancement_stage": 1,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 76,
+        "weapon_attack_max": 96
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/36"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank02",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "exclusive_weapon_advancement_stage": 2,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 140,
+        "weapon_attack_max": 170
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/37"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank03",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "exclusive_weapon_advancement_stage": 3,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 200,
+        "weapon_attack_max": 232
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/38"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank04",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "exclusive_weapon_advancement_stage": 4,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 263,
+        "weapon_attack_max": 303
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/39"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank05",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "exclusive_weapon_advancement_stage": 5,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 331,
+        "weapon_attack_max": 369
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/40"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank06",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 115,
+      "minimum_rank": 6,
+      "exclusive_weapon_advancement_stage": 6,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 478,
+        "weapon_attack_max": 518
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/41"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank07",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "exclusive_weapon_advancement_stage": 7,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 593,
+        "weapon_attack_max": 635
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/42"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank08",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 783,
+        "weapon_attack_max": 823
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/43"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank08_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-伏魔花灵剑",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 799,
+        "weapon_attack_max": 839
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/44"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank09",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑（升天四)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1022,
+        "weapon_attack_max": 1072
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/45"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank09_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-伏魔花灵剑（升天四)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1114,
+        "weapon_attack_max": 1157
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/46"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank10",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑（升天五）",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1265,
+        "weapon_attack_max": 1308
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/47"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank10_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-伏魔花灵剑（升天五）",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1357,
+        "weapon_attack_max": 1393
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/48"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank11",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑（升天六）",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1521,
+        "weapon_attack_max": 1564
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/49"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank11_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-伏魔花灵剑（升天六）",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1607,
+        "weapon_attack_max": 1643
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/50"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank12",
+      "profile_id": "hero_mainline_weapon",
+      "name": "伏魔花灵剑(升天七)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1777,
+        "weapon_attack_max": 1820
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/51"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/4"
+      }
+    },
+    {
+      "item_id": "weapon_flower_sword_rank12_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-伏魔花灵剑(升天七)",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "tan_hualing",
+      "weapon_family": "flower_sword",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1857,
+        "weapon_attack_max": 1893
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_flower_sword",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/52"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/5"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank01",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "exclusive_weapon_advancement_stage": 1,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 58,
+        "weapon_attack_max": 90
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/54"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank02",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "exclusive_weapon_advancement_stage": 2,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 102,
+        "weapon_attack_max": 150
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/55"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank03",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "exclusive_weapon_advancement_stage": 3,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 138,
+        "weapon_attack_max": 189
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/56"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank04",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "exclusive_weapon_advancement_stage": 4,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 189,
+        "weapon_attack_max": 253
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/57"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank05",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "exclusive_weapon_advancement_stage": 5,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 267,
+        "weapon_attack_max": 328
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/58"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank06",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 115,
+      "minimum_rank": 6,
+      "exclusive_weapon_advancement_stage": 6,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 400,
+        "weapon_attack_max": 464
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/59"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank07",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "exclusive_weapon_advancement_stage": 7,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 485,
+        "weapon_attack_max": 552
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/60"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank08",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 641,
+        "weapon_attack_max": 705
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/61"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank08_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 648,
+        "weapon_attack_max": 712
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/62"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank09",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 835,
+        "weapon_attack_max": 915
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/63"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank09_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 902,
+        "weapon_attack_max": 971
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/64"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank10",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 993,
+        "weapon_attack_max": 1069
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/65"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank10_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1060,
+        "weapon_attack_max": 1125
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/66"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank11",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1249,
+        "weapon_attack_max": 1325
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/67"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank11_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1335,
+        "weapon_attack_max": 1404
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/68"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank12",
+      "profile_id": "hero_mainline_weapon",
+      "name": "玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1505,
+        "weapon_attack_max": 1581
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/69"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/6"
+      }
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank12_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-玄武破天弓",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "mei_liuzhen",
+      "weapon_family": "black_tortoise_bow",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 900,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1600,
+        "weapon_attack_max": 1670
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_black_tortoise_bow",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/70"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/7"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank01",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "exclusive_weapon_advancement_stage": 1,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 63,
+        "weapon_attack_max": 99
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/72"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank02",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "exclusive_weapon_advancement_stage": 2,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 131,
+        "weapon_attack_max": 167
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/73"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank03",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "exclusive_weapon_advancement_stage": 3,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 179,
+        "weapon_attack_max": 200
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/74"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank04",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "exclusive_weapon_advancement_stage": 4,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 241,
+        "weapon_attack_max": 262
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/75"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank05",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "exclusive_weapon_advancement_stage": 5,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 311,
+        "weapon_attack_max": 333
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/76"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank06",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 115,
+      "minimum_rank": 6,
+      "exclusive_weapon_advancement_stage": 6,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 443,
+        "weapon_attack_max": 465
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/77"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank07",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "exclusive_weapon_advancement_stage": 7,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 546,
+        "weapon_attack_max": 567
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/78"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank08",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 714,
+        "weapon_attack_max": 738
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/79"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank08_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 721,
+        "weapon_attack_max": 759
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/80"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank09",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 927,
+        "weapon_attack_max": 963
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/81"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank09_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1010,
+        "weapon_attack_max": 1039
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/82"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank10",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1206,
+        "weapon_attack_max": 1227
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/83"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank10_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1286,
+        "weapon_attack_max": 1307
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/84"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank11",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1462,
+        "weapon_attack_max": 1483
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/85"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank11_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1548,
+        "weapon_attack_max": 1562
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/86"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank12",
+      "profile_id": "hero_mainline_weapon",
+      "name": "追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1718,
+        "weapon_attack_max": 1739
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/87"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/8"
+      }
+    },
+    {
+      "item_id": "weapon_soul_spear_rank12_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-追魂五星枪",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "lu_fenglang",
+      "weapon_family": "soul_spear",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1800,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1806,
+        "weapon_attack_max": 1817
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_soul_spear",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/88"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/9"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank01",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "exclusive_weapon_advancement_stage": 1,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 72,
+        "weapon_attack_max": 83
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/90"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank02",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "exclusive_weapon_advancement_stage": 2,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 141,
+        "weapon_attack_max": 152
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/91"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank03",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "exclusive_weapon_advancement_stage": 3,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 193,
+        "weapon_attack_max": 210
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/92"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank04",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "exclusive_weapon_advancement_stage": 4,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 241,
+        "weapon_attack_max": 258
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/93"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank05",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "exclusive_weapon_advancement_stage": 5,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 291,
+        "weapon_attack_max": 309
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/94"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank06",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 115,
+      "minimum_rank": 6,
+      "exclusive_weapon_advancement_stage": 6,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 448,
+        "weapon_attack_max": 465
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/95"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank07",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "exclusive_weapon_advancement_stage": 7,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 570,
+        "weapon_attack_max": 587
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/96"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank08",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 761,
+        "weapon_attack_max": 780
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/97"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank08_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "exclusive_weapon_advancement_stage": 8,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 768,
+        "weapon_attack_max": 803
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/98"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank09",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 999,
+        "weapon_attack_max": 1032
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/99"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank09_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "exclusive_weapon_advancement_stage": 9,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1090,
+        "weapon_attack_max": 1115
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/100"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank10",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1272,
+        "weapon_attack_max": 1306
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/101"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank10_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "exclusive_weapon_advancement_stage": 10,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1363,
+        "weapon_attack_max": 1389
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/102"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank11",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1528,
+        "weapon_attack_max": 1562
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/103"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank11_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "exclusive_weapon_advancement_stage": 11,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1614,
+        "weapon_attack_max": 1641
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/104"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank12",
+      "profile_id": "hero_mainline_weapon",
+      "name": "寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": false,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1784,
+        "weapon_attack_max": 1818
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/105"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/10"
+      }
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank12_true",
+      "profile_id": "hero_mainline_weapon",
+      "name": "真-寒玉神杖",
+      "kind": "weapon",
+      "slot": "weapon",
+      "class_id": "dongling_shennv",
+      "weapon_family": "cold_jade_staff",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "exclusive_weapon_advancement_stage": 12,
+      "true_equipment": true,
+      "merit_equipment": false,
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "stats": {
+        "weapon_attack_min": 1865,
+        "weapon_attack_max": 1893
+      },
+      "enhancement_limit": 15,
+      "generic_growth_modes": [],
+      "class_weapon_advancement_input_allowed": true,
+      "presentation_ref": "dev_weapon_cold_jade_staff",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/106"
+      },
+      "acquisition_policy_id": "exclusive_initial_lineage_recipe_only",
+      "growth_policy_id": "named_growth_contracts_required",
+      "source_policy": "攻击/等级保留目录；角色rank与独立武器stage映射、重量沿本职业封印、永久角色绑定及保护权限为项目采用。",
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/weapon_bindings/11"
+      }
+    }
+  ],
+  "shared_definition_refs": [
+    {
+      "item_id": "weapon_blood_orb_sealed",
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/13"
+    },
+    {
+      "item_id": "weapon_fire_dragon_sealed",
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/8"
+    },
+    {
+      "item_id": "weapon_flower_sword_sealed",
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/9"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_sealed",
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/10"
+    },
+    {
+      "item_id": "weapon_soul_spear_sealed",
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/11"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_sealed",
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/12"
+    }
+  ],
+  "equip_policy": {
+    "alive_and_normal_equipment_service_rules": "装备行为沿13/17合同，非商店服务；必须合法等级/rank/职业/路线并校验唯一归属。",
+    "level_and_rank_independent": "火龙刀与血雨丸六转目录装备门槛110、minimum_rank6；六转角色任务最低115，因此正常流程115后才可能装备。不得把目录110改写成官网115或降低角色门槛。",
+    "true_flag": "instance true_equipment must equal explicit definition.true_equipment, not name matching; merit_equipment false for this family",
+    "weight_policy": "all stages including true share that class sealed weight, explicitly project stable weight, not official table data",
+    "base_attack_policy": "add weapon_attack_min/max once into existing accepted-action attack snapshot; do not roll this range independently again",
+    "zero_growth_semantics": "a formally defined fresh upgraded instance at enhancement0 has base range; transfer outputs must validate every inherited growth field against its named growth contract before activation"
+  },
+  "acquisition_policies": {
+    "exclusive_initial_lineage_recipe_only": {
+      "direct_purchase": false,
+      "generic_monster_drop": false,
+      "generic_crafting": false,
+      "quest_rank_automatic_grant": false,
+      "allowed_recipe_families": [
+        "class_weapon_advancement",
+        "class_weapon_true_conversion",
+        "hero_weapon_transfer"
+      ],
+      "recipe_validation": "only explicitly adopted recipe with exact item output; family label alone never grants availability. New definition is not a free replacement or shop entry.",
+      "hero_transfer_owner_file": "英雄武器强化转移.v1.json",
+      "other_recipe_status": "95 advancement and29 true conversion recipes explicitly adopted; every nonzero inherited growth field still requires its owning schema.",
+      "progression_owner_file": "英雄主武器晋阶与提真.v1.json"
+    }
+  },
+  "growth_policies": {
+    "named_growth_contracts_required": {
+      "unlisted_processing": "configuration cannot advertise a generic smith option merely because enhancement_limit15; recipe/type/probability/material/fee must be explicitly adopted",
+      "registered_fields": "instance schema and every nonzero source contribution must have an owning growth definition. Unknown field or unsupported inherited state is configuration error, never silently deleted.",
+      "initial_seals": "六封印初始实例仍+0；强化上限15与具名英雄强化合同现已采用，首次+1需主动买石并付费，不自动发物。",
+      "remaining": [
+        "强化逐级属性/概率/费用/材料来源与失败保护已由英雄主武器强化.v1.json采用，运行与经济校准待P/T。",
+        "英雄合成/神物之石、火/毒武器属性石、觉醒/四神、奇玉与进化已采用；当前三名NPC武者投影已采用，其他属性/普通武器/防具成长仍待。",
+        "同阶段提真的29配方/材料/数量/费用/降2已由英雄主武器晋阶与提真.v1.json采用；完整目标成长兼容仍待。",
+        "英雄武器天池神丹附加提升由英雄武器附加提升.v1.json采用；其他道具/防具与属性显示提升仍待。",
+        "12件170级七式主武器与95件低阶段的反气功预算已由英雄武器反气功预算.v1.json明确；其他装备/首饰/道具完整预算仍待。"
+      ],
+      "enhancement_owner_ref": {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/enhancement_policy"
+      },
+      "synthesis_owner_ref": {
+        "file": "英雄武器合成与神物之石.v1.json",
+        "pointer": "/synthesis_schema"
+      },
+      "attribute_owner_ref": {
+        "file": "英雄武器属性石.v1.json",
+        "pointer": "/attribute_schema"
+      },
+      "awakening_owner_ref": {
+        "file": "英雄武器觉醒与四神.v1.json",
+        "pointer": "/awakening_schema"
+      },
+      "four_divine_owner_ref": {
+        "file": "英雄武器觉醒与四神.v1.json",
+        "pointer": "/four_divine_schema"
+      },
+      "jade_owner_ref": {
+        "file": "英雄武器奇玉.v1.json",
+        "pointer": "/jade_schema"
+      },
+      "evolution_owner_ref": {
+        "file": "英雄武器进化.v1.json",
+        "pointer": "/evolution_schema"
+      },
+      "anti_qigong_budget_owner_ref": {
+        "file": "英雄武器反气功预算.v1.json",
+        "pointer": "/budget_profiles"
+      },
+      "enhancement_boost_owner_ref": {
+        "file": "英雄武器附加提升.v1.json",
+        "pointer": "/boost_schema"
+      },
+      "instance_growth_schema_owner_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/instance_growth_schema"
+      }
+    }
+  },
+  "implementation_gate": "Formal base metadata is present; runtime activation still requires complete named growth schemas/recipes and acquisition paths. Never treat source rows or empty growth modes as a fully implemented weapon system.",
+  "instance_growth_schema": {
+    "applies_to": "all107 exact formal hero definitions including6 initial seals; validates logical set of flat instance growth fields, does not introduce a nested growth container or relocate existing fields; identity/ownership/provenance remains under05/17",
+    "required_fields": {
+      "enhancement": {
+        "type": "integer",
+        "owner_ref": {
+          "file": "英雄主武器强化.v1.json",
+          "pointer": "/enhancement_policy"
+        },
+        "minimum": 0,
+        "maximum": 15
+      },
+      "synthesis_entries": {
+        "type": "array",
+        "owner_ref": {
+          "file": "英雄武器合成与神物之石.v1.json",
+          "pointer": "/synthesis_schema"
+        },
+        "maximum_entries": 4
+      },
+      "awakening_stage": {
+        "type": "integer",
+        "owner_ref": {
+          "file": "英雄武器觉醒与四神.v1.json",
+          "pointer": "/awakening_schema"
+        },
+        "minimum": 0,
+        "maximum": 5
+      },
+      "element_attribute": {
+        "type": "null_or_object",
+        "owner_ref": {
+          "file": "英雄武器属性石.v1.json",
+          "pointer": "/attribute_schema"
+        }
+      },
+      "evolution_tier": {
+        "type": "integer",
+        "owner_ref": {
+          "file": "英雄武器进化.v1.json",
+          "pointer": "/evolution_schema"
+        },
+        "minimum": 0,
+        "maximum": 2
+      },
+      "true_equipment": {
+        "type": "boolean",
+        "owner_ref": {
+          "file": "英雄主武器基础定义.v1.json",
+          "pointer": "/equip_policy"
+        },
+        "must_equal": "exact definition.true_equipment"
+      },
+      "merit_equipment": {
+        "type": "boolean",
+        "owner_ref": {
+          "file": "英雄主武器基础定义.v1.json",
+          "pointer": "/equip_policy"
+        },
+        "must_equal": false
+      },
+      "exclusive_weapon_advancement_stage": {
+        "type": "integer",
+        "owner_ref": {
+          "file": "英雄主武器基础定义.v1.json",
+          "pointer": ""
+        },
+        "minimum": 0,
+        "maximum": 12,
+        "must_equal": "exact definition.exclusive_weapon_advancement_stage"
+      },
+      "four_divine_state": {
+        "type": "null_or_object",
+        "owner_ref": {
+          "file": "英雄武器觉醒与四神.v1.json",
+          "pointer": "/four_divine_schema"
+        }
+      },
+      "jade_attributes": {
+        "type": "array",
+        "owner_ref": {
+          "file": "英雄武器奇玉.v1.json",
+          "pointer": "/jade_schema"
+        },
+        "maximum_entries": 1
+      },
+      "enhancement_boost": {
+        "type": "null_or_object",
+        "owner_ref": {
+          "file": "英雄武器附加提升.v1.json",
+          "pointer": "/boost_schema"
+        }
+      }
+    },
+    "strict_types": "integer never accepts booleans/floats/numeric strings; boolean never accepts0/1. Arrays/objects must match named owner; null distinct from missing. No default insertion/coercion on new-format load or processing.",
+    "cross_field_rules": [
+      "exact instance stage/true/merit match definition, including initial sealed stage0",
+      "positive awakening/evolution requires stage>=5; nonnull four_divine requires awakening>=1",
+      "nonempty jade requires stage>=4",
+      "nonnull boost requires exact24 eligible definition and real enhancement15; target ownership/equip eligibility on use checked separately, temporary legal qualification loss does not corrupt saved boost",
+      "all nested property/value/ranges and receipt ancestry must pass owning contract; valid top-level types do not prove complete legal state"
+    ],
+    "known_identity_fields": "ownership/instance ID/lineage/lock/receipts are validated by existing05/17 and named transforms, not blindly copied as growth fields",
+    "unknown_field_policy": "unregistered growth field on a flat instance is an error under full05/17 instance schema; recognized root identity fields are not rejected for being outside this growth registry. No broad unknown-root allowance, deletion or default repair.",
+    "processing": "all named hero weapon services validate this same registry and own operation before quote/commit; guard active boost before any mutation. Craft without a weapon target does not invent/validate a phantom weapon.",
+    "transforms": "validate source and fully projected target before input consumption/output ID commit; preserve or explicitly transform every registered field per named recipe, recompute all derived contributions from target inputs once, no stale source cache",
+    "static_review": {
+      "kind": "abstract_top_level_and_cross_field_design_probes_not_nested_receipt_or_runtime_tests",
+      "baseline_definitions": 107,
+      "malformed_top_level_cases_rejected": 2140,
+      "named_transform_recipes": 171,
+      "minimum_maximum_enhancement_source_target_projections": 342,
+      "runtime_tests_executed": false
+    },
+    "full_instance_owner_ref": {
+      "file": "英雄主武器实例.v1.json",
+      "pointer": ""
+    }
+  }
+}

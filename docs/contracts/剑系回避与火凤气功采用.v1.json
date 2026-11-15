@@ -143,7 +143,11 @@
     "maxHP_below10": "explicitly noteligible/no random, no min(10,max) fix",
     "success": "do not transition awaiting_respawn or settle death; record interceptor once, no deathloot/refund/invulnerability/freecost beyond stated10HP",
     "failure": "normal death then死亡与复活保存, not allowed anothersameprofile retry for same lethal event",
-    "cross_profile": "one configured legal interceptor attempted per event, not only one may be learned. Tan dispatcher in谭花灵缩影与霸王气功 gives ready以柔霸王 priority, then火凤 only if first ineligible/notready; failed selectedroll never falls through."
+    "cross_profile": "one configured legal interceptor attempted per event, not only one may be learned. Tan dispatcher in谭花灵缩影与霸王气功 gives ready以柔霸王 priority, then火凤 only if first ineligible/notready; failed selectedroll never falls through.",
+    "result_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/lethal_interception_result"
+    }
   },
   "temporary_martial_power": {
     "trigger": "accepted own rootattackmartial,once/action after admission/fees",
@@ -157,5 +161,24 @@
   },
   "eligibility": "ownclass learned allocated positive effective grade; callback source seal consulted, timedsource/currentgrade gates no refund. Missing primary/combo/attack profile rejects formal config.",
   "persistence": "evade token/proc buffs/lethal internal cooldown + exact source event/accepted snapshot/root receipts saved. Pause/offline freeze, death clears temporary token/buffs but not successful cooldown. Failure-source death bypass interceptor remains per20blooddevil rule.",
-  "scope": "Tan缩影步/以柔克刚/惊涛 dependencies still separate pending, not substituted by ten local effect profiles."
+  "scope": "Tan缩影步/以柔克刚/惊涛 dependencies still separate pending, not substituted by ten local effect profiles.",
+  "persistent_timed_state": {
+    "target_field": "character.effects.sword_timed",
+    "schema_ref": {
+      "file": "剑系持续效果状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": {
+      "wujian_boost": null,
+      "evaded_attack_token": null,
+      "martial_power": null
+    },
+    "legacy_import": "四已知旧来源显式三null；现行缺字段拒绝，不能从防御或伤害推断增益。",
+    "boost": "wujian_boost仅剑客乘胜原成功触发结果/1..180余时。后续根攻击武功接纳时若原源存活、当前乘胜及无坚资格正，原动作冻结25*有效乘胜等级的概率增量和5000+50*等级的减防比例（各自4000/7000上限）；原无坚落效保存该冻结比例。生成本增益的同次命中不倒灌乘胜；临时资格0不应用但余时继续。",
+    "token": "天地token仅剑客/谭花灵，保存最后原合格未命中结果trigger_event_id、stacks1..3、原未增幅攻击上限attack_upper及余时1..600；不保存bonus/已消费布尔。本人下一合法根普通或攻击武功接纳且当前有效天地正时，原动作原子取token清null，并按原bonus_formula及该次有效等级冻结首主目标一次增量。拒绝不消费，资格暂0不应用不消费且计时继续。",
+    "outcome": "原动作持有所取token与唯一主目标命中结论。若本次攻击武功真实23命中失败，则原取层数+1至3、更新为本次原未增幅攻击上限并刷新600；普通攻击只有实际取了旧token才允许真实命中失败还原旧层+1，不凭初次普攻miss造层。主目标实际成功命中清已取token，即使护罩令实际HP损失0亦不按命中失败加层；取消/几何失效/目标丢失不返还。重放原动作不得二次归还/加层。若动作进行期间另有合法来源更新，必须沿原时序串行结算，不能旧结果覆盖新来源。",
+    "power": "martial_power仅剑客惊天动地，保存原接纳成功触发结果/有效等级1..40快照/1..180余时；本次动作可在成功后冻结100*原等级威力增量，后续动作仅在原buff存活及当前源资格正时使用已保存系数，不改变其他已接纳动作。新成功替换等级/凭证/180不叠加；同结果重放不刷新。",
+    "timing": "新生成/刷新步不扣新时长，后续世界步入口扣旧源，0先移后动作接纳；暂停离线冻结。接收者死亡清三null，洗掉天地清token；临时有效0不删token/退款。火凤仅原成功冷却，不生成额外持续buff。",
+    "validation": "完整effects白名单后验证职业、原触发、当前资格、实际动作取还及逐步计时；待复活三null。无坚实际减防字段原owner为唯一来源，不复制最强合并防御。"
+  }
 }

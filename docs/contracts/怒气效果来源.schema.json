@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:rage-effect-sources:v1",
+  "$comment": "唯一character.effects.rage_sources组件，不是完整effects根。目标为持有本组件的实体；来源同施加者/能力/profile唯一，原事件真实性及实际生效时长另作语义核验。自然怒气840为600+6*40静态上界，不证明任一角色均有40级延时。",
+  "type": "array",
+  "uniqueItems": true,
+  "items": {
+    "oneOf": [
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile_id",
+          "source_actor_id",
+          "source_ability_id",
+          "root_event_id",
+          "remaining_steps"
+        ],
+        "properties": {
+          "profile_id": {
+            "const": "natural"
+          },
+          "source_actor_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "source_ability_id": {
+            "type": "null"
+          },
+          "root_event_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 840
+          }
+        }
+      },
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile_id",
+          "source_actor_id",
+          "source_ability_id",
+          "root_event_id",
+          "remaining_steps"
+        ],
+        "properties": {
+          "profile_id": {
+            "const": "party_three_seconds"
+          },
+          "source_actor_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "source_ability_id": {
+            "enum": [
+              "qigong_blade_e20d6fefe7bb",
+              "qigong_sword_e20d6fefe7bb",
+              "qigong_assassin_e20d6fefe7bb",
+              "qigong_archer_e20d6fefe7bb",
+              "qigong_physician_e20d6fefe7bb",
+              "qigong_musician_e20d6fefe7bb",
+              "qigong_fighter_e20d6fefe7bb",
+              "qigong_mei_liuzhen_e20d6fefe7bb",
+              "qigong_dongling_shennv_e20d6fefe7bb",
+              "qigong_zhen_fengbai_e20d6fefe7bb"
+            ]
+          },
+          "root_event_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 180
+          }
+        }
+      },
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile_id",
+          "source_actor_id",
+          "source_ability_id",
+          "root_event_id",
+          "remaining_steps"
+        ],
+        "properties": {
+          "profile_id": {
+            "const": "instant_rage_bonus_seven_percent"
+          },
+          "source_actor_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "source_ability_id": {
+            "enum": [
+              "qigong_spear_ebc4db8590f4"
+            ]
+          },
+          "root_event_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 180
+          }
+        }
+      },
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile_id",
+          "source_actor_id",
+          "source_ability_id",
+          "root_event_id",
+          "remaining_steps"
+        ],
+        "properties": {
+          "profile_id": {
+            "const": "same_faction_rage_bonus_only"
+          },
+          "source_actor_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "source_ability_id": {
+            "enum": [
+              "qigong_lu_fenglang_d2afa6d6820e"
+            ]
+          },
+          "root_event_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 180
+          }
+        }
+      },
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile_id",
+          "source_actor_id",
+          "source_ability_id",
+          "root_event_id",
+          "remaining_steps"
+        ],
+        "properties": {
+          "profile_id": {
+            "const": "blood_devil_five_seconds"
+          },
+          "source_actor_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "source_ability_id": {
+            "enum": [
+              "qigong_zhen_fengbai_cffb2fa63225"
+            ]
+          },
+          "root_event_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300
+          }
+        }
+      }
+    ]
+  },
+  "$defs": {
+    "nonblank_id": {
+      "type": "string",
+      "pattern": "\\S"
+    }
+  }
+}

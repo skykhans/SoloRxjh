@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:profile-settings:v1",
+  "$comment": "profile.settings唯一九键。音量/镜头为有限JSON number，分辨率维度需严格整数token；实际设备可应用性、草稿与原子保存另验，不用默认修现行缺字段。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "master_volume",
+    "music_volume",
+    "sfx_volume",
+    "ui_volume",
+    "camera_distance",
+    "window_mode",
+    "window_resolution",
+    "graphics_preset",
+    "vsync_enabled"
+  ],
+  "properties": {
+    "master_volume": {
+      "$ref": "#/$defs/volume"
+    },
+    "music_volume": {
+      "$ref": "#/$defs/volume"
+    },
+    "sfx_volume": {
+      "$ref": "#/$defs/volume"
+    },
+    "ui_volume": {
+      "$ref": "#/$defs/volume"
+    },
+    "camera_distance": {
+      "type": "number",
+      "minimum": 3,
+      "maximum": 12
+    },
+    "window_mode": {
+      "enum": [
+        "windowed",
+        "borderless_fullscreen"
+      ]
+    },
+    "window_resolution": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 1280,
+          "maximum": 2560
+        },
+        {
+          "type": "integer",
+          "minimum": 720,
+          "maximum": 1440
+        }
+      ],
+      "enum": [
+        [
+          1280,
+          720
+        ],
+        [
+          1600,
+          900
+        ],
+        [
+          1920,
+          1080
+        ],
+        [
+          2560,
+          1440
+        ]
+      ]
+    },
+    "graphics_preset": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "vsync_enabled": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "volume": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

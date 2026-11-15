@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:physician-heal-defense-state:v1",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "source_actor_id",
+      "trigger_event_id",
+      "defense_add",
+      "remaining_steps"
+    ],
+    "properties": {
+      "source_actor_id": {
+        "type": "string",
+        "pattern": "\\S"
+      },
+      "trigger_event_id": {
+        "type": "string",
+        "pattern": "\\S"
+      },
+      "defense_add": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 40
+      },
+      "remaining_steps": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10800
+      }
+    }
+  },
+  "$comment": "唯一effects.physician_heal_defense；固定狂意技能，防御平量由原等级/无中修正冻结，怒气500只原触发时一次，不按buff重放。"
+}

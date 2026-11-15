@@ -1,0 +1,433 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "character_cooldown_root_adopted_source_events_and_runtime_pending",
+  "schema_ref": {
+    "file": "战斗冷却记录.schema.json",
+    "pointer": ""
+  },
+  "scope": "角色五键冷却根及共享/独立主动/内部触发/采集记录；反气功唯一归qigong.anti_cooldowns，装备组交互毫秒在根内单独字段，不与世界步混计。动作/效果不在此根复制。",
+  "record": "精确remaining_steps/trigger_event_id两键；只保存正剩余，已到期删除本组记录，缺键表示本组就绪。只有完整必需冷却集合已成功读取时才可解释缺键，不从缺timers字段当全就绪。来源事件保存原接受阶段/规则hash/实际冷却时长，不在记录重存初始时长/当前阶段/绝对到期或系统日期。",
+  "source": "trigger_event_id须解析本人原已提交动作接纳、成功触发或物品成功结算事件；须精确授权该组及当时实际时长。remaining_steps不得超过原事件冻结时长；加载当前规则/阶段变化不重算上限、不缩短或重开已付冷却。来源事件缺失、身份/组不符或剩余超原时长拒绝，不修0。",
+  "group_identity": "每个原owner明确的共享组恰一记录；无共享组的具名能力沿原独立组。不能以快捷槽/堆ID/阶段/武器实例/目标ID建立另一冷却。共享组成员ID不得再另建可用独立冷却；具体全组登记与timers映射仍须闭合。",
+  "known_group_rules": [
+    {
+      "group_id": "hp_restore",
+      "owner_ref": {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/item_profiles/initial_recovery_consumable"
+      },
+      "rule": "六恢复药按资源分组；生命组原180步，拒绝/满生命/封锁不消费不起冷却。",
+      "member_definition_refs": [
+        {
+          "file": "角色初始模板.v1.json",
+          "pointer": "/items/15"
+        },
+        {
+          "file": "常规消耗品.v1.json",
+          "pointer": "/items/0"
+        },
+        {
+          "file": "常规消耗品.v1.json",
+          "pointer": "/items/1"
+        },
+        {
+          "file": "九转丹任务恢复药.v1.json",
+          "pointer": "/items/0"
+        }
+      ]
+    },
+    {
+      "group_id": "mana_restore",
+      "owner_ref": {
+        "file": "常规消耗品.v1.json",
+        "pointer": "/use_policy"
+      },
+      "rule": "内力药各强度/堆/UI或键共原180步；独立于生命组。",
+      "member_definition_refs": [
+        {
+          "file": "角色初始模板.v1.json",
+          "pointer": "/items/16"
+        },
+        {
+          "file": "常规消耗品.v1.json",
+          "pointer": "/items/2"
+        },
+        {
+          "file": "常规消耗品.v1.json",
+          "pointer": "/items/3"
+        },
+        {
+          "file": "九转丹任务恢复药.v1.json",
+          "pointer": "/items/0"
+        }
+      ]
+    },
+    {
+      "group_id": "portable_return",
+      "owner_ref": {
+        "file": "便携传送与修炼限制.v1.json",
+        "pointer": "/portable_return"
+      },
+      "rule": "六回城符共原600步，成功移动及消费同笔启动；读条取消不启动。",
+      "member_definition_refs": [
+        {
+          "file": "便携传送与修炼限制.v1.json",
+          "pointer": "/items/0"
+        },
+        {
+          "file": "便携传送与修炼限制.v1.json",
+          "pointer": "/items/1"
+        },
+        {
+          "file": "便携传送与修炼限制.v1.json",
+          "pointer": "/items/2"
+        },
+        {
+          "file": "便携传送与修炼限制.v1.json",
+          "pointer": "/items/3"
+        },
+        {
+          "file": "便携传送与修炼限制.v1.json",
+          "pointer": "/items/4"
+        },
+        {
+          "file": "便携传送与修炼限制.v1.json",
+          "pointer": "/items/5"
+        }
+      ]
+    },
+    {
+      "group_id": "source_finishing_techniques",
+      "owner_ref": {
+        "file": "绝命技与终结收益.v1.json",
+        "pointer": "/cast_policy"
+      },
+      "rule": "仅该owner列明十二项共600步；三息绝击不并入。",
+      "member_definition_refs": [
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/0"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/1"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/2"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/3"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/4"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/5"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/6"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/7"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/8"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/9"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/10"
+        },
+        {
+          "file": "绝命技与终结收益.v1.json",
+          "pointer": "/abilities/11"
+        }
+      ]
+    },
+    {
+      "group_id": "barrier_recovery",
+      "owner_ref": {
+        "file": "英雄普通武功.v1.json",
+        "pointer": "/barrier_recovery"
+      },
+      "rule": "七项普通障力恢复共300步，不按招式阶段分组。",
+      "member_definition_refs": [
+        {
+          "file": "英雄普通武功.v1.json",
+          "pointer": "/abilities/49"
+        },
+        {
+          "file": "英雄普通武功.v1.json",
+          "pointer": "/abilities/52"
+        },
+        {
+          "file": "英雄普通武功.v1.json",
+          "pointer": "/abilities/55"
+        },
+        {
+          "file": "英雄普通武功.v1.json",
+          "pointer": "/abilities/58"
+        },
+        {
+          "file": "英雄普通武功.v1.json",
+          "pointer": "/abilities/61"
+        },
+        {
+          "file": "英雄普通武功.v1.json",
+          "pointer": "/abilities/64"
+        },
+        {
+          "file": "英雄普通武功.v1.json",
+          "pointer": "/abilities/67"
+        }
+      ]
+    },
+    {
+      "group_id": "ascended_barrier_recovery",
+      "owner_ref": {
+        "file": "升天武功与秘籍.v1.json",
+        "pointer": "/action_profiles/mei_barrier_recovery"
+      },
+      "rule": "升天障力恢复沿原具名共享组，不与普通障力恢复自行合并。",
+      "member_definition_refs": [
+        {
+          "file": "升天武功与秘籍.v1.json",
+          "pointer": "/abilities/214"
+        },
+        {
+          "file": "升天武功与秘籍.v1.json",
+          "pointer": "/abilities/217"
+        },
+        {
+          "file": "升天武功与秘籍.v1.json",
+          "pointer": "/abilities/220"
+        },
+        {
+          "file": "升天武功与秘籍.v1.json",
+          "pointer": "/abilities/223"
+        },
+        {
+          "file": "升天武功与秘籍.v1.json",
+          "pointer": "/abilities/226"
+        },
+        {
+          "file": "升天武功与秘籍.v1.json",
+          "pointer": "/abilities/229"
+        },
+        {
+          "file": "升天武功与秘籍.v1.json",
+          "pointer": "/abilities/232"
+        }
+      ]
+    }
+  ],
+  "lifecycle": "接受动作/成功触发/成功道具结算在原时点同事务写记录与费用或效果；中断/落空不退原已启动冷却，洗点/换槽/换装/死亡不重开。计时/失联/移除/重连边界统一按clock_policy，按源世界观察步的独立持久增益沿其owner，不混入一般冷却。",
+  "initialization": "新建与四已知旧来源按timers_root初始化完整五键，反气功保原qigong初始化；无现场来源不造触发历史，当前格式缺键拒绝。",
+  "boundary": "角色五键冷却根已采用；动作/成功触发/切换完整事件、效果与世界计时及运行验证仍待，D1未通过。",
+  "shared_group_state": {
+    "field": "character.timers.shared_cooldowns",
+    "schema_ref": {
+      "file": "共享战斗冷却.schema.json",
+      "pointer": ""
+    },
+    "initial": {},
+    "membership": "六组成员由known_group_rules.member_definition_refs精确原ability_id/item_id决定，共40条组成员关系、39个身份。每组内身份唯一；仅九转丹明确同时属于hp_restore/mana_restore两组，其他身份各属一组。引用须解析，不按显示名/类型猜组；新增多组关系须原owner明确授权，不能把所有重叠视为合法。",
+    "exclusivity": "成员只读取/启动原owner要求的对应共享键集合，双组九转丹按multi_group同笔处理，禁止在独立技能/道具冷却表另存同成员的有效冷却。升天/普通障力两组独立；不将未就绪成员换另一阶段/快捷槽/物品强度绕开。反气功仍原qigong字段，装备组毫秒仍原owner，不迁入本表。",
+    "time_bound": "原接纳/结算事件须冻结当时实际组与持续步数；remaining_steps<=冻结实际时长。正常六组时长180/180/600/600/300/14400，明确配置覆盖只按原已授权事件，不用当前配置重算旧记录。",
+    "initialization": "新角色及四已知旧来源新导入角色显式{}，原源无冷却现场，不造触发历史。导入已有profile其他角色保持；现行缺本字段拒绝。空表仅证明这六组就绪，不证明独立/内部/反气功冷却就绪。",
+    "boundary": "六共享组结构/精确成员已采用并接入timers_root；原动作/物品事件、来源闭包及配置授权/实际计时运行仍待。",
+    "multi_group": "九转丹沿原recovery.cooldown_groups：两组必须同时就绪，任一未就绪拒绝整笔；成功同一结算两组各写180步且trigger_event_id均指原一次使用事件。单资源满仍检查并启动两组，双满或生命恢复封锁按原owner拒绝，无部分消费/部分计时。普通单资源药仍只检查和启动本组；同事件可授权多组，不能据重复trigger_event_id误判重复使用。"
+  },
+  "independent_active_state": {
+    "field": "character.timers.ability_cooldowns",
+    "schema_ref": {
+      "file": "独立主动冷却.schema.json",
+      "pointer": ""
+    },
+    "initial": {},
+    "identity": "复用823学习身份，排除known_group_rules精确26共享技能成员，余797身份可表达独立冷却；不表示797项全部都有正冷却，必须有原owner与原实际正时长授权。普攻/采集/被动内部触发不是此学习身份域，不混入本表。",
+    "origin": "键为原ability_id，值复用精确冷却记录；触发事件须本人原接受动作/明确反应提交并含该ID、实际正时长与当时规则。核阶段/配置/成功触发前提，未接受/拒绝/零冷却不生成记录；当前已学列表不能替代原付费动作来源。",
+    "lifecycle": "原接受动作已启动冷却时同事务写入；原冷却未就绪拒绝再次使用，不用较短阶段/新武器覆盖旧记录。仅原owner明确允许刷新/重置时保真实授权事件。合法移除技能后仍保未到期原冷却，重学不重开；到期删除，不能因卸装/未学/洗点自动清零。",
+    "initialization": "新角色与四已知旧来源新导入角色显式{}；旧四剑技无原冷却现场不伪造事件。已有其他角色不变，现行缺字段拒绝。",
+    "boundary": "独立学习技能冷却已接入timers_root，普攻沿动作阶段且采集/内部触发各有既定分区；原动作事件/来源闭包与实际计时运行仍待。"
+  },
+  "internal_trigger_state": {
+    "field": "character.timers.internal_cooldowns",
+    "schema_ref": {
+      "file": "内部触发冷却.schema.json",
+      "pointer": ""
+    },
+    "initial": {},
+    "profiles": [
+      {
+        "profile_id": "lethal_keep10",
+        "owner_ref": {
+          "file": "剑系回避与火凤气功采用.v1.json",
+          "pointer": "/lethal_keep10"
+        },
+        "duration_ref": {
+          "file": "剑系回避与火凤气功采用.v1.json",
+          "pointer": "/lethal_keep10/success_internal_cooldown_steps"
+        }
+      },
+      {
+        "profile_id": "bawang_lethal",
+        "owner_ref": {
+          "file": "谭花灵缩影与霸王气功.v1.json",
+          "pointer": "/bawang_lethal"
+        },
+        "duration_ref": {
+          "file": "谭花灵缩影与霸王气功.v1.json",
+          "pointer": "/bawang_lethal/success_internal_cooldown_steps"
+        }
+      },
+      {
+        "profile_id": "direct_attack_evasion_window",
+        "owner_ref": {
+          "file": "医师形移与云心护罩气功.v1.json",
+          "pointer": "/direct_attack_evasion_window"
+        },
+        "duration_ref": {
+          "file": "医师形移与云心护罩气功.v1.json",
+          "pointer": "/direct_attack_evasion_window/success_internal_cooldown_steps"
+        }
+      },
+      {
+        "profile_id": "distance_mana_shield",
+        "owner_ref": {
+          "file": "医师形移与云心护罩气功.v1.json",
+          "pointer": "/distance_mana_shield"
+        },
+        "duration_ref": {
+          "file": "医师形移与云心护罩气功.v1.json",
+          "pointer": "/distance_mana_shield/success_internal_cooldown_steps"
+        }
+      },
+      {
+        "profile_id": "blood_devil",
+        "owner_ref": {
+          "file": "怒气出血与血雨恶魔.v1.json",
+          "pointer": "/blood_devil"
+        },
+        "duration_ref": {
+          "file": "怒气出血与血雨恶魔.v1.json",
+          "pointer": "/blood_devil/success_cooldown_steps"
+        }
+      },
+      {
+        "profile_id": "far_received_damage_bubble",
+        "owner_ref": {
+          "file": "枪格斗狂风与破甲气功.v1.json",
+          "pointer": "/far_received_damage_bubble"
+        },
+        "duration_ref": {
+          "file": "枪格斗狂风与破甲气功.v1.json",
+          "pointer": "/far_received_damage_bubble/internal_cooldown_steps"
+        }
+      }
+    ],
+    "identity": "六个profile_id为原owner已命名效果规则键，当前全局唯一；不是新气功ID或玩家学习字段。原触发事件须证明本人原气功/职业/有效等级、被攻击或濒死事件和最终成功结果，不能凭profile键或现有学习等级制造成功来源。火凤剑/谭适配共用同profile在本角色的一条记录。",
+    "activation": "只在原规则实际成功时与原防护/拦截/挑战效果和原RNG结果同笔写正剩余及原trigger_event_id；未就绪不抽触发随机，失败/不合资格不启动、不改原冷却。原事件记录实际正时长/规则版本，加载核剩余不超原时长，不复制时长到记录。",
+    "effect_boundary": "效果窗口/护罩容量/血魔挑战倒计时由效果或活动原owner保存，不与成功冷却合并；效果提前消失/被解除/护罩破裂/挑战完成仍保已启动内部冷却。死亡/复活、洗点降级、暂失气功、换装备或场景重建不清本表；到期删除原键。",
+    "lethal_dispatch": "谭霸王/火凤按原拦截器优先级只选择一个合资格且就绪者，已选失败不尝试另一项；成功只启动实际选中profile，不能两项同时写冷却或凭此生成死亡结算。血雨恶魔沿其独立原资格/挑战，禁止泛化为第二次同致死事件重抽。",
+    "initialization": "新角色与四已知旧来源新导入角色显式{}，旧快照无现场成功冷却不虚构触发历史；已有其他角色不变，现行缺字段拒绝。",
+    "boundary": "六内部成功冷却已接入timers_root；成功事件完整schema/效果快照/来源闭包与实际计时运行仍待。"
+  },
+  "timers_root": {
+    "field": "character.timers",
+    "schema_ref": {
+      "file": "角色冷却根.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "shared_cooldowns": {},
+      "ability_cooldowns": {},
+      "internal_cooldowns": {},
+      "intrinsic_cooldowns": {},
+      "loadout_switch_remaining_ms": 0
+    },
+    "partition": "精确shared_cooldowns/ability_cooldowns/internal_cooldowns/intrinsic_cooldowns/loadout_switch_remaining_ms五键。前三表沿已登记owner，intrinsic仅gathering/dodge；反气功仍qigong.anti_cooldowns，效果持续/血魔挑战/护罩容量/连击输入窗口/动作前后摇及体力恢复等待仍各原owner，不在此复制。",
+    "basic_attack": "14普攻profile依各combo_stages的windup_steps/active_steps/recovery_steps及原动作忙碌锁，当前无独立cooldown_steps声明；不制造basic_attack冷却。连击后60步衔接窗口不是释放冷却，动作快照另存。",
+    "gathering": {
+      "owner_ref": {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/gathering"
+      },
+      "key": "gathering",
+      "rule": "原有效采集动作接受时启动36世界步，与原动作/节点代次/请求同结算；中断不重置既已启动冷却。本节点三击/30秒再生是世界节点状态，不是角色采集冷却；换节点不绕过，普攻与技能不写此键。原事件须授权实际36步或明确配置值，余时不得超原冻结值。"
+    },
+    "loadout_switch": {
+      "owner_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/switch_events"
+      },
+      "rule": "合法切换提交与生效组/角色修订/原事件同笔将loadout_switch_remaining_ms设1000；非零拒绝新切换，失败/预览不启动。仅用运行中的单调交互时钟消耗实际整数毫秒，按max(0,remaining-elapsed)扣减；暂停世界时仍计，离线关闭冻结。不用60Hz世界步或保存日期推进，不持久绝对系统时钟；恢复从所存余时重新建立进程基线。",
+      "boundary": "原切换三阶段事件按装备组与宝珠switch_events，实际资格/资源/效果来源与交互时钟实现仍待。"
+    },
+    "initialization": "新建及四已知旧来源新导入角色一次性初始化本完整五键；原快照无冷却现场，不造触发。此前三个局部初始化登记合并到本根，不持久并行镜像。已有profile其他角色保持；现行缺任一键拒绝，不补空/零。",
+    "boundary": "完成角色冷却根结构与原规则分区；动作/成功触发/切换完整事件、配置授权、效果与LAN世界步基线及实际运行仍待，D1未通过。",
+    "dodge": {
+      "owner_ref": {
+        "file": "战斗命中与减伤.v1.json",
+        "pointer": "/dodge"
+      },
+      "key": "dodge",
+      "rule": "沿原dodge.cooldown_steps=60，合法闪避接受时与20体力支付/已接受方向/24步动作快照同笔启动；必须同时原动作可接纳且本键就绪，动作结束不等于冷却结束。非零拒绝新闪避，拒绝不消费体力/分配动作/启动冷却；接受后碰撞阻挡或中断不退费重开。记录正remaining_steps及原已提交闪避接纳trigger_event_id，原事件授权实际60步或明确配置值；余时不得超原冻结值。世界步沿clock_policy，暂停/离线冻结，死亡不清。换组/药品/UI/重放不删除或重新设满；不与采集或技能独立组共键，气功武功缩冷却不适用于本固有动作。"
+    }
+  },
+  "clock_policy": {
+    "origin": "沿19失联10秒实体/120秒席位、05的60Hz世界步及13独立交互时钟补齐的项目执行设计；不是官网机制。",
+    "world_step_order": "仅原authority处理实际推进的60Hz整数世界步。每一步先将进入本步前已存在的正冷却减1，减至0删除；之后判本步新动作/触发/物品成功并写原完整时长。新启动记录本步不再扣1。因此本步t启动N步，在t+N步入口可就绪，不因目标数/循环遍历次数重复扣时。反气功原qigong表沿相同世界步阶段，但仍独立存储。",
+    "pause": "单人普通菜单或房主显式全房暂停不推进世界步，四类世界步冷却及反气功均冻结；LAN任一玩家普通面板不暂停房主世界，角色存在时照常扣时。loadout_switch_remaining_ms仅在原authority当前运行并持有该角色模拟状态时按单调交互时钟扣，世界暂停仍推进；它不能推进任何世界步冷却/状态。",
+    "disconnect_grace": "普通公共场景确认失联后的前10秒，原房主保实体并按实际已推进世界步更新角色冷却，世界暂停则不扣世界步；10秒移除期限仍用19单调会话时钟，暂停不能延长。移除在原authority边界先完成此前实际发生的世界步，再捕获最终状态，移除后不继续推进该角色一般冷却或交互切换余时。已经死亡但仍保留的实体仍扣一般冷却，死亡不清记录。",
+    "removed_entity": "10秒后普通角色无模拟实体时，五键冷却和反气功余时按最终状态冻结；120秒释放席位不清零、不额外扣110秒。10秒前重连恢复原实体当前余时；10秒后重连先应用原最终有序结果/来源及新权威恢复状态，再从该余时继续，不按断开墙钟或当前房间步数补扣缺席时间。此为一般冷却的明确本地选择，不改变限时任务/活动失败及按源世界观察步持续的寿/吟诗/修炼等独立规则。",
+    "world_transfer": "正常换场景保原余时，换世界/模式须先结束原会话并补齐最终结果，随后新会话以原最终五键余时进入；不重绑触发来源、不按两个世界步差相减。停服/房主退出/进程关闭冻结全部余时，原结果存疑或未ACK不允许另起离线时钟继续玩法。",
+    "authority_and_save": "客户端显示可预测倒计时但不改正式角色/修订/水位，是否就绪由房主实际状态裁决。计时结果和原世界/角色逻辑快照须在相同已处理边界捕获，正式角色变更沿原有序状态/结果协议；加载先核原触发时长与从来源至快照的合法扣时链，不只看正数形状。不得先本地减正式值后应用原authority结果再减一次。完整时钟快照与结果封套schema仍待。",
+    "batching": "只有区间内无新启动/刷新/清理/实体进入移除/暂停改变时，才可将已有记录扣同一已证实际步数D，余时max(0,R-D)。区间有事件须按原边界拆段；不能把新启动的记录误扣整个批次。D来自本authority已实际模拟区间，不来自系统时间/收包次数/渲染帧。",
+    "clock_safety": "单调交互/会话基线只在活进程内保存，不跨启动持久系统绝对计时；负差/非有限/倒退拒绝本次计时并停止相关提交，不以0或墙钟补救。整数毫秒不足1ms的进程内余量累积，不因高帧率逐次向下取整永久丢时。",
+    "private_instance_suspension": {
+      "registered_owners": [
+        {
+          "file": "第六次升职与单机武勋试练.v1.json",
+          "pointer": "/persistence/disconnect"
+        },
+        {
+          "file": "第八次升职本地十一试练.v1.json",
+          "pointer": "/private_lifecycle_owner"
+        },
+        {
+          "file": "第十次升职五式与回忆录试练.v1.json",
+          "pointer": "/private_lifecycle_owner"
+        },
+        {
+          "file": "第十一次升职六式三首领.v1.json",
+          "pointer": "/private_lifecycle_owner"
+        },
+        {
+          "file": "第十二次升职七式与三方盟约.v1.json",
+          "pointer": "/private_lifecycle"
+        }
+      ],
+      "selection": "先解析实际活动引用/同authority完整world现场及精确原arena注册，确认属于所列owner且沿其明确挂起规则；不能按地图前缀、私场名称或只有角色引用就猜例外。来源/归属不明停止该角色相关推进及提交并保现场，不能按普通10秒规则继续受伤或清活动。未登记活动必须沿自身明确断线规则，不自动获得挂起豁免。",
+      "boundary": "房主确认失联后，在当前已接纳固定步完整完成的边界，持久捕获角色及本私场同一已处理快照；下一个角色步与该私场模拟不再接纳。已经处理的命中/死亡/支付/终局与到期决定不撤销；保存存疑先查原正式决定，不把内存挂起当成功保存。",
+      "world_step_timers": "冻结本角色一般技能/物品/内部冷却、独立反气功余时与本私场敌AI/动作/投射/波间等待/机关提示/elapsed。仅在本人实际被接纳的角色步推进的生命/内力/体力恢复、职业窗口/称号余时同样无新步可扣，不另造第二时钟或逐系统补扣表；它们各自死亡/触发/上限规则保持原owner。",
+      "interaction_timer": "loadout_switch_remaining_ms也停止：虽然同一房主进程继续运行，已挂起私场不再持有本角色的运行模拟状态。公共世界暂停但角色仍被接纳的既有交互规则不变；挂起期间不接受新换组/药品/动作来刷新余时。",
+      "room_clock": "19的单调会话10秒实体清理/120秒席位期限继续，其他房间角色/场景继续。私场挂起已停止本角色模拟，10秒不再追加一次角色扣步，也不清理原未决/活动引用或将其按讨伐退场失败；120秒席位释放不能解除角色原会话/活动锁而允许另一世界继续。",
+      "external_clocks": "原寿/吟诗/修炼等明确按源世界观察步计时的持久增益仍按各自owner结算；它们不是本角色一般冷却，不因本例外停止外部世界。失活/到期从真实源账本读取，不从本私场elapsed重建。",
+      "resume": "重连/原房主重开先完成原会话/连续结果/未决决定验证，恢复原instance及实际角色余时与资源，再从新的实际接纳步继续。断线缺席世界步和墙钟不得补扣，不重置技能/机关/敌生命，不因席位重新加入分配新活动轮次。",
+      "terminal": "本私场已终局只停止该arena战斗/elapsed；本人仍被接纳等待合法返回时一般角色时钟继续，不能把终局本身当断线挂起。到期/死亡等已提交结果保原来源，返回失败不退费或再发奖励。",
+      "limits": "登记既有五个owner的挂起计时边界，尚无完整接纳/移除/角色-world快照与网络保存运行实现；不证明D1全部来源闭合。"
+    }
+  }
+}

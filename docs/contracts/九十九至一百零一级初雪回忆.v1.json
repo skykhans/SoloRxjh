@@ -1,0 +1,620 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "source_refs": [
+      {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/137"
+      },
+      {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/138"
+      }
+    ],
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/73/text"
+    },
+    "published": "99问村长/小雪人25白冰交金蓉蓉/托金十龄转交/4步；101问村长/雪人40透明冰交王语然/信交吕孤城/60冰交吕孤城/药交王语然/6步；均共同一次，奖励空栏。",
+    "local": "14职业/三路线/rank0/两任务各无前置；99封装包1是明确项目交接物，101信药各1。0克/堆重/每新死亡100%1和阶段封顶为本地采用，奖励沿既有本地方案。"
+  },
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63788-015",
+      "source_reference_id": "QREF-63788-015",
+      "name": "第一场雪的回忆1",
+      "minimum_level": 99,
+      "minimum_rank": 0,
+      "class_scope": "all14classes",
+      "routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "npc_id": "npc_jin_rongrong",
+      "npc_map_id": "beihai_ice",
+      "interaction_anchor_id": "npc_jin_rongrong_service",
+      "service_id": "jin99_first_snow",
+      "interaction_distance_mm": 2500,
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "acceptance": "本人存活/脱战/空闲/无挑战，99级/14职业/三路线/rank0，原金蓉蓉精确端点，未接未完成；新attempt stage1无起始物/费用，无79/89/五转或其他前置。",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_beihai_village_head",
+          "map_id": "beihai_ice",
+          "interaction_anchor_id": "npc_beihai_village_head_service",
+          "service_id": "village99_ice_hint",
+          "consume": [],
+          "grant": [],
+          "grant_reason": null,
+          "requires_prior_stage_receipt_index": null,
+          "next_stage_index": 2,
+          "apply_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_jin_rongrong",
+          "map_id": "beihai_ice",
+          "interaction_anchor_id": "npc_jin_rongrong_service",
+          "service_id": "jin99_first_snow",
+          "consume": [
+            {
+              "item_id": "quest_beihai99_white_ice",
+              "quantity": 25
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "quest_beihai99_keepsake_parcel",
+              "quantity": 1
+            }
+          ],
+          "grant_reason": "quest_exchange",
+          "requires_prior_stage_receipt_index": 1,
+          "next_stage_index": 3,
+          "apply_final_reward": false
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_jin_shiling",
+          "map_id": "beihai_ice",
+          "interaction_anchor_id": "npc_jin_shiling_service",
+          "service_id": "jin_shiling99_forward",
+          "consume": [
+            {
+              "item_id": "quest_beihai99_keepsake_parcel",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grant_reason": null,
+          "requires_prior_stage_receipt_index": 2,
+          "next_stage_index": 4,
+          "apply_final_reward": true
+        },
+        {
+          "stage_index": 4,
+          "kind": "terminal_delivered",
+          "automatic_with_stage_index": 3,
+          "requires_additional_command": false,
+          "consume": [],
+          "grant": [],
+          "next_stage_index": null
+        }
+      ],
+      "inventory_by_stage": {
+        "1": {
+          "required_exact": {}
+        },
+        "2": {
+          "required_exact": {},
+          "collection_caps": {
+            "quest_beihai99_white_ice": 25
+          }
+        },
+        "3": {
+          "required_exact": {
+            "quest_beihai99_keepsake_parcel": 1
+          }
+        },
+        "4": {
+          "required_exact": {}
+        }
+      },
+      "source_stage_interpretation": "原4步：问村长→小雪人白冰25交金蓉蓉→交金十龄托转→结束。原步骤2已交25，步骤3不再索第二批；本地步骤2消费25后给封装定情冰块1，步骤3消费包完成托转。封装包为明确项目交接物，不冒称官网已列，不保留25可用副本。第4结束随第3同笔自动完成。",
+      "reward": {
+        "experience": 17000000,
+        "practice": 1700000,
+        "silver": 99000,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "local_reward_ref": {
+        "file": "源空栏任务本地奖励.v1.json",
+        "pointer": "/rewards/16"
+      },
+      "state_fields": [
+        "state",
+        "attempt_id_or_null",
+        "stage_index_or_null",
+        "stage_receipts",
+        "final_receipt_or_null"
+      ],
+      "delivery": "仅标apply_final_reward的最后行动，精确原NPC/当前attempt阶段与完整前缀/本人资格/真实最终凭证/原合法库存来源修订；奖励数额取reward与local_reward_ref同一方案。经验名义/实际/损失报价，正损失显式确认，修订变须重报价，取消不消费；历练和随身银必须全额容纳，上限9007199254740991，任一溢出整笔拒绝不截取/存仓/转移。消费最终凭证/实际经验和升级基础属性/新covered_level发点/全额历练银/唯一完成及自动终态05/19同笔；实际经验0无0经验腿。无物品或晋级奖励。",
+      "reward_identity": "官网奖励栏未载明，明确复用既有本地数额，不称官网奖励；中间问路/交物不提前给终奖。",
+      "repeat": "角色跨世界一次，不因路线/队伍/新轮重置；最终character/quest唯一。",
+      "abandon": "确认只清本人本轮现持此任务物和步骤；已交冰块/封装包/信/药不返，不退款；新attempt从stage1问村长开始，原失败死亡和旧阶段死亡不补。完成不可放弃。",
+      "save": "保存attempt/严格阶段持物来源与连续实际交接收据/最终经验报价确认和资源完成收据；缺链/旧轮/非法多余本任务物拒绝，不能按影子计数补物。不确定保存解析原05/19决定重存，不能再交换或重奖。",
+      "modifiers": "固定终奖不进普通击杀组队池或终结者/修炼倍率。",
+      "capacity_failure": "任一资格/阶段/前缀/来源/修订/交换最终槽重/经验确认/历练银全额容量/保存失败整笔保当前阶段与输入，不部分交物或发奖励。"
+    },
+    {
+      "quest_id": "ref_QREF-63788-016",
+      "source_reference_id": "QREF-63788-016",
+      "name": "第一场雪的回忆2",
+      "minimum_level": 101,
+      "minimum_rank": 0,
+      "class_scope": "all14classes",
+      "routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "npc_id": "npc_wang_yuran",
+      "npc_map_id": "beihai_ice",
+      "interaction_anchor_id": "npc_wang_yuran_service",
+      "service_id": "wang101_first_snow",
+      "interaction_distance_mm": 2500,
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "acceptance": "本人存活/脱战/空闲/无挑战，101级/14职业/三路线/rank0，原王语然精确端点，未接未完成；新attempt stage1无起始物/费用，来源未写99前置，本地明确无99/89/五转前置。",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_beihai_village_head",
+          "map_id": "beihai_ice",
+          "interaction_anchor_id": "npc_beihai_village_head_service",
+          "service_id": "village101_ice_hint",
+          "consume": [],
+          "grant": [],
+          "grant_reason": null,
+          "requires_prior_stage_receipt_index": null,
+          "next_stage_index": 2,
+          "apply_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_wang_yuran",
+          "map_id": "beihai_ice",
+          "interaction_anchor_id": "npc_wang_yuran_service",
+          "service_id": "wang101_first_snow",
+          "consume": [
+            {
+              "item_id": "quest_beihai101_clear_ice",
+              "quantity": 40
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "quest_beihai101_wang_letter",
+              "quantity": 1
+            }
+          ],
+          "grant_reason": "quest_exchange",
+          "requires_prior_stage_receipt_index": 1,
+          "next_stage_index": 3,
+          "apply_final_reward": false
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_lv_gucheng",
+          "map_id": "beihai_ice",
+          "interaction_anchor_id": "npc_lv_gucheng_service",
+          "service_id": "lv101_remedy",
+          "consume": [
+            {
+              "item_id": "quest_beihai101_wang_letter",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grant_reason": null,
+          "requires_prior_stage_receipt_index": 2,
+          "next_stage_index": 4,
+          "apply_final_reward": false
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_lv_gucheng",
+          "map_id": "beihai_ice",
+          "interaction_anchor_id": "npc_lv_gucheng_service",
+          "service_id": "lv101_remedy",
+          "consume": [
+            {
+              "item_id": "quest_beihai101_clear_ice",
+              "quantity": 60
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "quest_beihai101_lv_remedy",
+              "quantity": 1
+            }
+          ],
+          "grant_reason": "quest_exchange",
+          "requires_prior_stage_receipt_index": 3,
+          "next_stage_index": 5,
+          "apply_final_reward": false
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_wang_yuran",
+          "map_id": "beihai_ice",
+          "interaction_anchor_id": "npc_wang_yuran_service",
+          "service_id": "wang101_first_snow",
+          "consume": [
+            {
+              "item_id": "quest_beihai101_lv_remedy",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grant_reason": null,
+          "requires_prior_stage_receipt_index": 4,
+          "next_stage_index": 6,
+          "apply_final_reward": true
+        },
+        {
+          "stage_index": 6,
+          "kind": "terminal_delivered",
+          "automatic_with_stage_index": 5,
+          "requires_additional_command": false,
+          "consume": [],
+          "grant": [],
+          "next_stage_index": null
+        }
+      ],
+      "inventory_by_stage": {
+        "1": {
+          "required_exact": {}
+        },
+        "2": {
+          "required_exact": {},
+          "collection_caps": {
+            "quest_beihai101_clear_ice": 40
+          }
+        },
+        "3": {
+          "required_exact": {
+            "quest_beihai101_wang_letter": 1
+          }
+        },
+        "4": {
+          "required_exact": {},
+          "collection_caps": {
+            "quest_beihai101_clear_ice": 60
+          }
+        },
+        "5": {
+          "required_exact": {
+            "quest_beihai101_lv_remedy": 1
+          }
+        },
+        "6": {
+          "required_exact": {}
+        }
+      },
+      "source_stage_interpretation": "原6步：村长问路→雪人冰40交王语然→信交吕孤城→新采冰60交吕孤城→特效药交王语然→结束。信数1/药数1为明确本地；首40完整消费后stage3只持信，交信后stage4新死亡才给第二批60，不能提前攒100。第6结束随第5同笔自动完成。",
+      "reward": {
+        "experience": 19800000,
+        "practice": 1980000,
+        "silver": 101000,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "local_reward_ref": {
+        "file": "源空栏任务本地奖励.v1.json",
+        "pointer": "/rewards/17"
+      },
+      "state_fields": [
+        "state",
+        "attempt_id_or_null",
+        "stage_index_or_null",
+        "stage_receipts",
+        "final_receipt_or_null"
+      ],
+      "delivery": "仅标apply_final_reward的最后行动，精确原NPC/当前attempt阶段与完整前缀/本人资格/真实最终凭证/原合法库存来源修订；奖励数额取reward与local_reward_ref同一方案。经验名义/实际/损失报价，正损失显式确认，修订变须重报价，取消不消费；历练和随身银必须全额容纳，上限9007199254740991，任一溢出整笔拒绝不截取/存仓/转移。消费最终凭证/实际经验和升级基础属性/新covered_level发点/全额历练银/唯一完成及自动终态05/19同笔；实际经验0无0经验腿。无物品或晋级奖励。",
+      "reward_identity": "官网奖励栏未载明，明确复用既有本地数额，不称官网奖励；中间问路/交物不提前给终奖。",
+      "repeat": "角色跨世界一次，不因路线/队伍/新轮重置；最终character/quest唯一。",
+      "abandon": "确认只清本人本轮现持此任务物和步骤；已交冰块/封装包/信/药不返，不退款；新attempt从stage1问村长开始，原失败死亡和旧阶段死亡不补。完成不可放弃。",
+      "save": "保存attempt/严格阶段持物来源与连续实际交接收据/最终经验报价确认和资源完成收据；缺链/旧轮/非法多余本任务物拒绝，不能按影子计数补物。不确定保存解析原05/19决定重存，不能再交换或重奖。",
+      "modifiers": "固定终奖不进普通击杀组队池或终结者/修炼倍率。",
+      "capacity_failure": "任一资格/阶段/前缀/来源/修订/交换最终槽重/经验确认/历练银全额容量/保存失败整笔保当前阶段与输入，不部分交物或发奖励。"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_beihai99_white_ice",
+      "name": "白色冰块",
+      "source_reference_id": "QREF-63788-015",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 25,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本人任务轮次独立凭证，0克；冰99堆/其他1堆，禁装备/使用/仓丢售交易加工，仅指定NPC消费或放弃清理。药不是可用恢复药，冰不是五转或其他回忆材料。"
+    },
+    {
+      "item_id": "quest_beihai99_keepsake_parcel",
+      "name": "封装定情冰块",
+      "source_reference_id": "QREF-63788-015",
+      "source_kind": "explicit_project_handoff_parcel_not_source_item",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本人任务轮次独立凭证，0克；冰99堆/其他1堆，禁装备/使用/仓丢售交易加工，仅指定NPC消费或放弃清理。药不是可用恢复药，冰不是五转或其他回忆材料。",
+      "sealed_contents": "不是可开容器或嵌套背包；源元数据引用stage2已消费25白冰的具体来源，包1占材料槽，无可用25副本。"
+    },
+    {
+      "item_id": "quest_beihai101_clear_ice",
+      "name": "透明冰块",
+      "source_reference_id": "QREF-63788-016",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 60,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本人任务轮次独立凭证，0克；冰99堆/其他1堆，禁装备/使用/仓丢售交易加工，仅指定NPC消费或放弃清理。药不是可用恢复药，冰不是五转或其他回忆材料。",
+      "stage_cap_policy": "同时持有最多60；stage2封顶40、stage4封顶60。全程两批实际产出100，前40已完整消费，无累计100的可用物或影子采集计数。"
+    },
+    {
+      "item_id": "quest_beihai101_wang_letter",
+      "name": "王语然的信",
+      "source_reference_id": "QREF-63788-016",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本人任务轮次独立凭证，0克；冰99堆/其他1堆，禁装备/使用/仓丢售交易加工，仅指定NPC消费或放弃清理。药不是可用恢复药，冰不是五转或其他回忆材料。"
+    },
+    {
+      "item_id": "quest_beihai101_lv_remedy",
+      "name": "吕孤城的特效药",
+      "source_reference_id": "QREF-63788-016",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本人任务轮次独立凭证，0克；冰99堆/其他1堆，禁装备/使用/仓丢售交易加工，仅指定NPC消费或放弃清理。药不是可用恢复药，冰不是五转或其他回忆材料。"
+    }
+  ],
+  "stage_transaction": {
+    "eligibility": "本人当前attempt/精确NPCmap锚服务<=2500mm/存活脱战空闲无挑战/完整前缀收据与严格inventory_by_stage。stage1问路无物无费用仅角色修订一次，不能问路自动补冰或领奖。",
+    "custody": "非终奖交接按stages真实consume/grant，新定义quest_exchange写新来源，不能改原堆ID或保副本；信交吕孤城消费后无任务物也须保stage3原消费收据。",
+    "preflight": "先核原合法库存来源与修订，再按全部消费/输出预检真实材料槽重/来源合堆，可用真实释放输入槽；0克仍占槽，任一失败全保。",
+    "commit": "每行动05/19同笔来源/真实消费输出/阶段收据/角色及有物变化的库存修订各一次；纯问路不增库存修订，终奖按对应quest.delivery。",
+    "deduplication": "步骤character/quest/attempt/stage唯一，同request同payload回原持久决定，改payload拒绝；历史回执不回装已消费物，自动terminal不另接领奖命令。"
+  },
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63788-015",
+        "required_stage_index": 2,
+        "monster_id": "beihai_small_snowman103",
+        "map_id": "beihai_ice",
+        "item_id": "quest_beihai99_white_ice",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 25
+      },
+      {
+        "quest_id": "ref_QREF-63788-016",
+        "required_stage_index": 2,
+        "monster_id": "beihai_snowman105",
+        "map_id": "beihai_ice",
+        "item_id": "quest_beihai101_clear_ice",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 40
+      },
+      {
+        "quest_id": "ref_QREF-63788-016",
+        "required_stage_index": 4,
+        "monster_id": "beihai_snowman105",
+        "map_id": "beihai_ice",
+        "item_id": "quest_beihai101_clear_ice",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 60
+      }
+    ],
+    "qualification": "本人活跃本轮精确stage/本类真实持物未封顶，存活连接同世界同图；solo原死亡归属或19原奖励成员快照30m/入队>=600步。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ],
+    "shared_snowman_owner": {
+      "file": "第五次升职五册真经.v1.json",
+      "pointer": "/shared_snowman_death_collection"
+    },
+    "commit": "原雪人死亡仅五转共享owner汇总其原冰材料与99/101本轮候选，按实际actor和阶段过滤，原普通收益一次。101stage2和4互斥，不能同死给两批或推进后重算旧死亡。",
+    "capacity_failure": "所有本次合格候选一起原合法库存/来源合堆/真实槽重预检，任一不容纳全部任务物不发；原无物决定持久，不因腾包/重连/阶段/新轮补物。",
+    "modifiers": "个人100%每合格新死亡1，不受终结者/修炼倍率。"
+  },
+  "monster_owner": {
+    "file": "第五次升职五册真经.v1.json",
+    "pointer": "/monsters"
+  },
+  "spawns_owner": {
+    "file": "第五次升职五册真经.v1.json",
+    "pointer": "/spawns"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "travel_policy": "复用北海既有5NPC/服务锚与两雪人8home，独立服务不推进五转/79/89/87其他任务，不新增世界实体或交通。",
+  "pending": [
+    "Godot阶段物与来源交接/共享原死亡/经验确认及升级发点/历练银全额容量/保存故障/LAN测试",
+    "既有小雪人被动/雪人主动AI/动态导航/模型动作与99对103、101对105战斗及本地奖励经济校准"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "actual_definition_custody_snapshots": [
+      [
+        [
+          1,
+          {}
+        ],
+        [
+          2,
+          {
+            "quest_beihai99_keepsake_parcel": 1
+          }
+        ],
+        [
+          3,
+          {}
+        ],
+        [
+          4,
+          {}
+        ]
+      ],
+      [
+        [
+          1,
+          {}
+        ],
+        [
+          2,
+          {
+            "quest_beihai101_wang_letter": 1
+          }
+        ],
+        [
+          3,
+          {}
+        ],
+        [
+          4,
+          {
+            "quest_beihai101_lv_remedy": 1
+          }
+        ],
+        [
+          5,
+          {}
+        ],
+        [
+          6,
+          {}
+        ]
+      ]
+    ],
+    "stage_endpoint_bindings_checked": 8,
+    "distinct_existing_service_anchors_reachable": 5,
+    "existing_monster_homes_reachable": 8,
+    "player_grid": {
+      "step_m": 1,
+      "radius_m": 0.35,
+      "npc_collisions_included": true,
+      "connected_cells": 84849
+    },
+    "candidate_stage_cap_stack_arithmetic_combinations": 3024,
+    "resource_boundary_combinations": 160,
+    "runtime_boundary": "定义/算术与静态网格检查，不是Godot真实阶段交接/新旧死亡/来源/容量/升级/写盘或LAN测试。"
+  }
+}

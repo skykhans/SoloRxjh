@@ -1,0 +1,39 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "deletion_event_design_not_implemented_full_roots_pending",
+  "schema_ref": {
+    "file": "角色删除事件.schema.json",
+    "pointer": ""
+  },
+  "profile_state": {
+    "field": "profile.character_deletion_events",
+    "initial_value": [],
+    "policy": "唯一原数组，按allocation_index递增，预留追加、决定原位替换，最多一reserved；终态保留。"
+  },
+  "command": "command_id确认时系统CSPRNG16字节hex32，同确认重试稳定。request_id=71确定编码[\"delete_character\",authority_profile_id,command_id]字符串，request_digest=完整六键command的71编码SHA256。confirmed_name逐标量等目标当前规范姓名；三预期修订精确匹配，禁止以selected或排序邻项代替目标。",
+  "lookup": "持档案锁先查原请求索引，异摘要拒绝，同摘要恢复/回原终态，先于角色存在性检查；新请求指历史已删除ID只报告已删除，不再分配。缺角色且无原合法删除决定拒绝，不能补成功。",
+  "preconditions": "只在档案菜单，本档无活动玩法/未决会话交易导入创建或资源业务、待保存结果与房主未确认接收者。全量档案/来源图通过，先收束会话保管与活动退出。profile revision可加2、counter可加1；目标资源头/位置精确覆盖，无跨角色待决。完整删除候选验证后才预留。",
+  "plan": "rules_hash取原规则包，reservation_profile_revision=expected_profile_revision+1，selected_character_id_before取正式值。全档排他期间保目标原正文及业务/库存修订不变，不另存完整角色或资源镜像，不消费RNG/系统时间。 final_configuration_metadata仅提取已通过完整根与配置历史验证的目标customization.revision/latest_event_ref两键，与持锁目标精确相等；三阶段保原值，不保存完整覆盖或角色镜像。",
+  "reserve": "同一次完整档案替换写counter+1、reserved及profile revision+1。角色/资源/选择/凭证不变；全档其他业务写入冻结，只读/同笔恢复/明确取消允许。",
+  "commit": "重核原规则/目标两修订及selected，原reserved改committed，写终结流、移除恰一目标，selected等目标则null否则保原值；原导入目标凭证present改deleted，其余字段不变。profile revision=reservation+1，同笔完整档案替换。其他角色/world/历史保留，无已删除角色after业务修订。",
+  "silver": "流必有，receipt_id本结算。账户顺序随身/仓库，均目标，previous_output精确原当前来源头，before为原余额，after0，opening_authorization=null。索引升序仅正余额各一销毁腿from索引/to=null/amount全余额/kind=character_deletion/authority_receipt_id本结算，零余额无0腿仍保来源头。",
+  "stacks": "无堆则[]；有则一个原stack流，receipt_id本结算，inputs按stack_id字节序覆盖目标随身/仓库全部当前来源头，outputs=[]、mint_authorization=null；每输入恰一消费，input_index升序、quantity完整原数量、reason=character_deletion。",
+  "instances": "无实例则null；有则原instance流，receipt_id本结算，inputs按instance_id字节序覆盖装备/宝珠/随身/仓库全部当前来源头，outputs=[]；每输入恰一退役，索引升序、reason=character_deletion。已合法转移他人者不纳入。",
+  "authorization": "只有本owner committed授权专用character_deletion；reserved/aborted/单独字符串及其他业务不授权。当前资源集合与输入/销毁双向覆盖、所有权/未消费头/算术守恒必验。历史输出不重激活，已终结账户禁止重开、资源头禁止再消费。",
+  "abort": "只接受明确user_cancelled；原reserved改aborted及decision_profile_revision=reservation+1，目标/资源/选择/凭证不变，无流，不回收counter。缺规则/坏来源/写失败保待恢复。",
+  "recovery": "存疑立即冻结并重读同正式完整档案，原reserved按冻结输入恢复或明确取消，终态只返回原决定；身份/counter/修订/角色/选择/凭证/资源终结必须同阶段一致，不按缺角色/mtime/tmp/缓存/超时猜成功，不换请求。",
+  "legacy": "显式新profile及四旧导入的新目标初始化[]，已有目标保原数组。当前格式缺字段拒绝；删除保全部创建/导入/会话/来源依赖，不删档案文件、不复用角色ID。",
+  "remaining": "严格事件与三流删除枚举已采用；完整profile/角色/world根、来源终结与跨字段校验、实际文件/Godot/UI待，D1未完成且真实删除不可运行。",
+  "joint_validation": {
+    "source_snapshot": "仅对持锁读取且全部原根/来源已验证的当前正式快照A构造候选B；目标必须在A.characters中恰一，原身份/姓名及两业务修订匹配command。预留恢复仍须目标完整正文存在并与原冻结修订一致。不能只取UI旧快照或单独投影来声明前置有效。",
+    "stack_coverage": "从A目标item_stacks与正式布局双向遍历，正文每项恰一held位置，实例引用不混入堆集合。对每个stack_id解析唯一当前历史输出头及原完整stack快照，核quantity/revision/item/binding/quest_scope/owner与A一致。按ID UTF8字节序生成预期inputs，逐索引比较实际引用；另逐input核恰一消费、索引唯一连续、完整数量、专用原因且无outputs/mint。禁止先转set掩盖重复来源头，两个不同正文引用同头亦拒绝。",
+    "instance_coverage": "从A目标equipment_instances及全部正式位置双向遍历，包括两装备组、宝珠及背包/仓库，空槽不造输入。按instance_id UTF8字节序比较完整原input四键：previous_output、instance、previous_custody_receipt_id、custody；真实头/完整正文/最近域证明全部一致，custody必须held。退役索引精确0..N-1各一次，全部专用原因，无outputs。不能只比ID漏掉成长/血统/绑定或域版本。",
+    "silver_coverage": "恰两原账户，不按正余额筛账户；两来源头必须真实属于目标各账户且是最新未后继头。逐字段比原余额/头、账户序及零终值。预期销毁腿只由正余额生成，逐字段/顺序相等；两余额之和可能超过MAX，验证逐账户守恒或用精确整数，不经float或有界加总溢出。原零账户输出也被删除决定关闭，后续不能以余额0重开账户。",
+    "reservation_candidate": "A到B只允许profile revision+1、settlement_next_id+1及本数组末尾追加原reserved；其余完整语义字段及数组顺序不变。identity index等A counter，plan reservation等B revision。预留没有资源流，不改角色/库存/选中或导入状态。",
+    "decision_candidate": "A含恰一原reserved时，B counter保持，profile revision=A revision+1且等decision字段，identity/command/plan逐字段不变，本数组仅该位置改合法终态。aborted时除此无变化。committed时从A精确移除目标正文、按plan更新selected及目标导入present->deleted并写本事件三流；除此所有完整字段/数组顺序保持。删除后当前目标资源集合为空，其他持有人资源和后继完全保留。不得借排序、默认化或重算设置夹带修改。",
+    "historical_load": "前后候选比较仅验证实际发生的该次替换，不能拿今天角色/档案与旧事件冻结值要求相等。加载历史committed核原决定/来源输入/销毁授权与后继闭包，要求删除ID当前不存在且无后续新开户/消费/重建；profile当前revision可以大于原decision。后来的新角色、改selected、其他合法写入不使旧删除失效。aborted允许角色之后合法变更，不能要求它永远等原command修订。",
+    "limits": "有限投影与局部算例不能证明完整来源图或文件替换；任何未知当前资源族/缺位置/缺原头/未知owner均拒绝删除候选，不跳过未采用内容，也不推断为空。严格完整角色/profile/world根和来源校验实现仍是运行门禁。 计时配置历史保留不授权跳过未收束会话、活动、托管或其他权利；未知配置源/事件owner仍拒绝，不推断可退役。",
+    "configuration_history": "预留及决定时，plan.final_configuration_metadata逐字段等实际目标customization的原两键投影，原配置根/最近原决定/完整前驱链须先通过角色配置修订owner验证。committed删除正文后，以command.character_id和冻结投影继续定位该角色最后配置链；保留原本地日志、不可变远端结果证明及全部前驱，不因目标不存在跳过或清除。aborted投影只描述该次冻结输入，后来合法配置可推进，历史加载不得要求当前元数据仍等它。删除不生成配置清除事件、不递增已删除角色配置修订，不将删除结算当配置凭证。"
+  }
+}

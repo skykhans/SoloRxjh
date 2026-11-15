@@ -53,13 +53,90 @@
     "sourceposition": "sourceactualvalidsameinstancemomentdistance, no summingprojectiletravel or guessdistanceafterdisconnect",
     "onepool": "no stacking/refill/replacementwhileactive, newhitsonlyconsumeexistingcapacity",
     "break": "remainingcapacity becomes0 because positive eligible damageconsumed it; markbrokenandremove once, residualdamagecontinues then breakpenaltybeforepositivehealingcallbacks",
-    "break_penalty": "ceil(activation_maxHP5percent), one unavoidableHP-loss event linkedshield_instance; may cause death, no minimum1lifefallback, not an attack/selfcastfee; cannot reflect/absorb by anotherownshield or trigger sourceoffspringproc",
+    "break_penalty": "ceil(activation_maxHP5percent), one unavoidableHP-loss event linkedshield_instance after residual hostile HP event completes its normal lethal handling; if victim already dead record skipped with0actual loss, no second death. May kill a survivor, no leave1HP fix; not attack/selfcastfee and cannot reflect/absorb/waive by own defense sources or trigger offspringprocs.",
     "death_cause": "shield_break_penalty, explicituninterceptable for this local design; actualzero transitionsawaiting_respawn underlife contract",
     "expiry_dispel": "naturaltimeout/safeclear/death/sceneexplicitcleanup not broken => noHPpenalty",
-    "saved_state": "shield_instance_id/rootID/capacity_initial/current0..initial/remaining1..300/maxHPsnapshot/breaksettledflag; current0andactive is invalid, never regeneratecapacity"
+    "saved_state": "active shield_instance_id/trigger_event_id/capacity_initial/current positive<=initial/remaining1..300/activation_max_hp; broken/penalty settled facts only original break result, never current0 active or regeneratecapacity"
   },
   "eligibility": "ownclass learnedallocatedpositiveeffectivegrade and exactskill/actor tags; ordinary/ascended passiveproc seal blocksnewcreation. Anti reducesnewchance/capacity, paidstandalone currentwindow/shieldfinishesoriginalsnapshot, no freecancelheal.",
-  "ordering": "geometry/life/immunity -> ifnew形移eligible onechance -> avoidhit on success else normalaccuracy/crit/defense -> cloudgenerationifeligible -> explicitpercentprotection -> cloudpool once -> residualHP loss -> one linkedbreakpenalty -> completelethal handling -> recoverycallbacks onlyifalive. Need stabletyped ordering, no repeatedgeneration fromresidualdamage.",
+  "ordering": "geometry/life/immunity -> eligible new形移 chance -> avoidhit on success else normalaccuracy/crit/defense -> eligible cloud generation -> explicitpercentprotection -> cloudpool once -> residualHP event with its complete normal lethal handling -> if cloud broke, one linked uninterruptible penalty only if stillalive (else record skipped) -> recoverycallbacks onlyifalive. No repeatedgeneration fromresidualdamage.",
   "persistence": "window/shieldremaining/cooldowns and allbreak/death/rootreceipts same fixedstepresult, pause/offlinefreeze; crash/reload brokenresult never charges5percent twice or reloads fullpool. Ordinarysave waits descendantsettlements; fullactivitysnapshot cancapturephase.",
-  "scope": "newlocaldefensemodel only, notofficialcompleteglobeformula orruntimequality. No special revival/status immunity free from stated100percentdirectavoidance."
+  "scope": "newlocaldefensemodel only, notofficialcompleteglobeformula orruntimequality. No special revival/status immunity free from stated100percentdirectavoidance.",
+  "persistent_defense_state": {
+    "field": "character.effects.defense",
+    "world_entity_field": "原完整世界/活动实体effects同字段，受保护者隐含为本实体；只有各profile原职业/资格真实成功才能创建，不因共享读取组件取得他职业效果。",
+    "schema_ref": {
+      "file": "防护效果状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "direct_attack_evasion_window": null,
+      "distance_mana_shield": null,
+      "bawang_lethal": null,
+      "far_received_damage_bubble": null
+    },
+    "profiles": [
+      {
+        "profile_id": "direct_attack_evasion_window",
+        "owner_ref": {
+          "file": "医师形移与云心护罩气功.v1.json",
+          "pointer": "/direct_attack_evasion_window"
+        }
+      },
+      {
+        "profile_id": "distance_mana_shield",
+        "owner_ref": {
+          "file": "医师形移与云心护罩气功.v1.json",
+          "pointer": "/distance_mana_shield"
+        }
+      },
+      {
+        "profile_id": "bawang_lethal",
+        "owner_ref": {
+          "file": "谭花灵缩影与霸王气功.v1.json",
+          "pointer": "/bawang_lethal"
+        }
+      },
+      {
+        "profile_id": "far_received_damage_bubble",
+        "owner_ref": {
+          "file": "枪格斗狂风与破甲气功.v1.json",
+          "pointer": "/far_received_damage_bubble"
+        }
+      }
+    ],
+    "shape": "四精确profile键，未生效为null；三窗口只存原trigger_event_id/正remaining_steps。云心精确shield_instance_id/trigger_event_id/capacity_initial/capacity_current/remaining_steps/activation_max_hp六键，0池或broken标记不留在活跃表。不复制固定气功/职业/防护比例或成功冷却时长，不把火凤保10当有持续免伤窗口。",
+    "authorization": "每原触发结果须证明实际本人/职业、具名气功已投入且有效等级、原关系/距离/攻击或濒死与原随机/成功事实。效果与同profile内部成功冷却同笔启动且trigger_event_id相同；触发失败不创建。火凤只原拦截结果/内部冷却，血魔仍原挑战本体与独立怒气来源，不写此四表。未知实际配置须原授权，结构正数不能制造效果。",
+    "timing": "同原实际60Hz世界步，触发当步不扣首步且保护本次合格攻击；后续步入口先将原已有防护余时减1，0先移除再处理本步新攻击/接纳，不多给到期那一步防护。形移/远距泡60、云心最多300、霸王180分别沿原规则；云心破裂/提前清除不重开计时。暂停/离线与会话实体移除/最终状态边界统一冻结，不按墙钟补扣。",
+    "cooldown_relation": "原正常参数且效果仍活跃时，同根内部成功冷却余时分别为形移1740+效果余时、云心1500+效果余时、霸王35820+效果余时、远距泡1740+效果余时。须核原实际启动参数/扣时链，合法配置例外沿原授权冻结值，不复制差额到存档。效果自然到期/被清/破裂/死亡均保原成功冷却，不因表为null判定冷却已就绪。",
+    "cloud_identity": "shield_instance_id沿原成功生成结果分配的唯一实际池身份；原生成事件保存最大内力/有效等级/距离档与初始容量计算、最大HP快照和RNG，当前容量须1..capacity_initial且可追溯原实际合格吸收；同一池不重填/缩放/替换。换装/反气功/等级/上限变化不改原初始值和activation_max_hp，不能读档从现最大内力再生成。",
+    "cloud_break": "本次正合格伤害消耗到0即先移除原池，原盾实例/原生成/致破伤害事件绑定唯一破裂子结果；剩余敌伤先沿正常HP扣除/原致命拦截/唯一死亡完整结算。若仍存活，随后执行ceil(activation_max_hp*500/10000)一次不可拦截破罩HP损失，不被另一护罩/免敌伤/血魔零武功费用吸收或免掉，致死cause=shield_break_penalty；若已死则原破裂结果记录跳过原因及原死亡，实际罚血0，不再扣尸体/改写原因/制造第二次死亡。所有恢复回调须在两段都完成且仍存活后才执行。",
+    "cloud_receipt": "活跃池无需永远false的breaksettledflag；是否已破/罚血已结算由原唯一破裂结果与实际资源/死亡接收结果证明，不新增独立破罩日志。原结果持久前不得捕获0容量活跃池或把扣血留到加载补做；结果存疑先恢复原决定，不再吸收/扣罚。普通保存等原后代结清，完整活动边界亦须捕获同一个已完成结算状态。",
+    "cloud_safe_remove": "自然到期、合法安全解除、目标死亡或原场景显式清理只移除池，不登记破裂/罚血。洗点/暂失气功/换装备不擅自安全移除已付独立云心/形移；若正式配置显式清除则同原配置结果，不伪造破裂。",
+    "window_effects": "形移只原合格普攻/武功直接攻击回避含触发击，不拦周期/反伤/环境/自费/脚本或纯负面落效；远距泡拦原敌方HP伤含触发击，但不拦自费/环境/脚本/纯负面且不反弹。霸王只原截留10HP与180步攻防20%来源，无无敌/零费；增攻只供后续合法接纳快照，当前防御沿命中时原规则，不倒改原濒死事件。已有形移/远距泡/云心期间原新击不重抽/刷新，霸王仍依原成功冷却，不能凭每次受击复制来源。",
+    "death_and_replay": "目标死亡清四键为null且成功冷却保留；源/结果必须同本人，不允许队友源叠进本自体四键。重放成功/吸收/破裂/自然移除只应用原已提交结果，不重填容量/补满余时/重扣罚血/再留10。完整角色联合验证须核死亡空表与同根冷却，局部结构不能代替来源。",
+    "initialization": "14新角色与四已知旧来源sword新导入角色显式四键null；不制造防护或成功冷却，已有其他角色保持，现行缺键拒绝。",
+    "boundary": "四防护效果严格结构及原顺序关联采用；完整触发/吸收/破裂/原拦截与多接收结果、完整effects根与Godot仍待，D1未通过。",
+    "validation_projection_ref": {
+      "file": "防护效果联合.schema.json",
+      "pointer": ""
+    },
+    "validation_projection_policy": "仅原life_state/timers/effects.defense三字段投影，无持久包装；完整角色/effects先验全部字段白名单。结构要求死亡空防护/活跃有对应内部冷却，实际同trigger/余时差及current<=initial仍按本owner语义核验。",
+    "cloud_break_result": {
+      "schema_ref": {
+        "file": "云心破裂结果.schema.json",
+        "pointer": ""
+      },
+      "owner": "原致破伤害完整事务的12字段破裂子结果；不建立独立破盾日志、活跃broken标记、另一个通用reserved或延迟罚血任务。字段仅保原scope/目标/池、致破伤害、原生成冻结上限及罚血阶段历史输入/实际损失。",
+      "identity": "event_id=\"cloud-break:\"+SHA256(71确定JSON [\"cloud_shield_break\",world_id,authority_profile_id,map_id,instance_id_or_null,target_actor_id,shield_instance_id,breaking_damage_event_id] UTF8)。原池只能有一个真实破裂决定；核其生成到本次连续吸收链，不能换breaking_damage_event_id再破同一旧池。同ID异正文拒绝。",
+      "source": "breaking_damage_event_id解析真实同scope/旧目标生命的合格敌方伤害及本次吸收；其执行前实际原池capacity_current>0，本次合格吸收恰耗尽并同笔移除。activation_max_hp精确原池生成冻结值，不取当前上限。自然到期/安全解除/死亡清理不生成本结果；反伤/周期仅在原owner确允许该原池吸收时可致破，不擅自套直接攻击命中抽样。",
+      "ordering": "原池移除→剩余敌伤的实际HP损失/合法致命拦截/终态死亡→本罚血→最终仍存活才执行合格恢复回调。hp_before_penalty精确剩余敌伤完整处理后的HP，不能把盾吸收前HP或同步回血后的HP填入。敌伤与本罚血各损失只属于自己分量，不相互冒充实际受敌伤、反伤基数或击杀信用。",
+      "arithmetic": "原罚血上限P=activation_max_hp//20+(activation_max_hp%20!=0)，等ceil(原冻结maxHP*500/10000)，只用安全整数商余避免先乘溢出。hp_before_penalty>0时prior_death_event_id_or_null=null，actual_hp_loss=min(hp_before_penalty,P)，最终HP=hp_before_penalty-actual_hp_loss；不另存可推导的P/HPafter/余时。此分量不吸收、不拦截、不抽随机、不触发后代或受敌伤资源奖励。",
+      "skip_dead": "hp_before_penalty=0必须actual_hp_loss=0，prior_death_event_id_or_null精确本剩余敌伤已确定的原终态死亡身份及同一目标生命；不能填任意旧死亡或shield break自身。既有死亡原因/源/结算保持，不新分配死亡、不再耗出尘戒/装备耐久/清停止根或重发收益。",
+      "terminal": "正罚血恰耗尽HP时，角色原death_events.command.lethal_event_id精确本cloud-break event_id、pending death因shield_break_penalty，source_actor_id_or_null明确null：项目采用为自身破罩联动损失，敌方来源保在breaking_damage_event_id因果链，不伪造敌方直接/周期击杀或第二combat-damage ID。此罚血不可拦截，且不属于hostile_direct/hostile_status武勋耐久损耗；出尘戒仍按全部真实终态死因。若未耗尽HP，不生成死亡/停止本人进攻。",
+      "atomicity": "致破伤害、本结果、池移除、原拦截/唯一最终死亡及角色资源/装备与成功冷却在同一完整决定保存。若本罚血致死，由原死亡owner唯一协调并保正式before仍活体，不能先提交剩余敌伤的中间after或active HP0再补死亡。原剩余敌伤已终态死亡时同笔保该原死亡及零罚血结果，不第二次推进修订；整个事务只一份实际角色after。",
+      "replay": "已提交原破裂只回原结果，不用当前HP/池/最大内力重算，不罚新生命、不重新生成盾或刷新冷却。存疑先核完整原决定，不能从池已null猜罚血已完成；历史验证使用原生成/吸收/损失/死亡来源，所需链未闭合拒绝依赖推进。",
+      "boundary": "破裂子结果结构、两分支罚血和终态来源采用；完整生成/吸收/拦截/伤害与角色-world封套仍待，未据该结构完成Godot或D1。"
+    }
+  }
 }

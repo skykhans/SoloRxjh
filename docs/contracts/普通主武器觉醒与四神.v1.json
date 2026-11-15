@@ -1,0 +1,273 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_regular_awakening_four_divine_design_not_implemented",
+  "scope": "447新普通武器登记觉醒/四神；其中minimum_rank>=5的266件可加工，另181件仅觉醒0/四神null合法。8初始武器排除；两原异常已具名采用。不含英雄/剧情/防具/首饰。",
+  "source_policy": {
+    "references": [
+      {
+        "url": "http://rxjh.17game.com/data/tsplay/202203/66252.htm",
+        "text_sha256": "d6879de8eaf434d97c608581120e8538284d78ab50ed32b421af515a56c90c9f",
+        "facts": [
+          "玄武>朱雀>白虎>青龙>玄武，攻击取武器、防御取衣服。",
+          "四神独立于火毒；只对有灵魂觉醒的武器/衣服赋予，觉醒1阶段即可，已赋予后仍可继续觉醒。",
+          "赋予手续费500万两，可用幸运符；武器/防具四神变更券100%成功。",
+          "来源NPC司空揽杰，宝石原可从桃木枝皇特定boss及固定boss取得。",
+          "仅一方具有时也按相克处理，具体正负系数与方向完整算法未公布。"
+        ]
+      }
+    ],
+    "project_choices": "100级/rank5且武器minimum_rank>=5为本地普通武器门槛，非官网装备条件；觉醒上限5、每阶贡献/概率/费用及保护、商店取得、四神初赋概率和幸运符增量为项目采用。500万赋予费、四神相克环和变更券100%沿来源；相克幅度/单方方向和仅NPC比武作用为明确项目解释。"
+  },
+  "eligibility_catalog_ref": {
+    "file": "普通主武器基础定义.v1.json",
+    "pointer": "/items"
+  },
+  "eligibility_partition": {
+    "processing_predicate": "exact catalog member AND definition.minimum_rank>=5",
+    "processing_count": 266,
+    "zero_only_predicate": "exact catalog member AND definition.minimum_rank<5",
+    "zero_only_count": 181,
+    "true_and_unfinished": "真/普通/伪造/未完成按此明确谓词分区，不靠名称增删资格。",
+    "no_hero_stage": "普通武器不使用英雄exclusive_weapon_advancement_stage代替minimum_rank，不新增伪英雄阶段字段。"
+  },
+  "shared_material_refs": [
+    {
+      "item_id": "soul_collection_stone",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/0"
+    },
+    {
+      "item_id": "weapon_four_divine_change_ticket",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/1"
+    },
+    {
+      "item_id": "four_divine_luck_charm",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/2"
+    },
+    {
+      "item_id": "four_divine_gem_tortoise",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/3"
+    },
+    {
+      "item_id": "four_divine_gem_phoenix",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/4"
+    },
+    {
+      "item_id": "four_divine_gem_tiger",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/5"
+    },
+    {
+      "item_id": "four_divine_gem_dragon",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/6"
+    }
+  ],
+  "deities_ref": {
+    "file": "英雄武器觉醒与四神.v1.json",
+    "pointer": "/deities"
+  },
+  "awakening_projection_ref": {
+    "file": "英雄武器觉醒与四神.v1.json",
+    "pointer": "/awakening_projection"
+  },
+  "four_divine_damage_ref": {
+    "file": "英雄武器觉醒与四神.v1.json",
+    "pointer": "/four_divine_damage"
+  },
+  "shared_adoption": "七材料、四神ID/相克环、觉醒贡献和25格伤害矩阵显式共享唯一owner；普通资格/schema/配方与来源收据独立，不继承英雄stage要求或英雄商店职业过滤。",
+  "awakening_schema": {
+    "field": "awakening_stage",
+    "type": "strict_integer_excluding_bool_float_string",
+    "minimum": 0,
+    "maximum": 5,
+    "fresh_value": 0,
+    "positive_requires": "definition.minimum_rank>=5，且正向各次升级可追溯同角色/同血统普通觉醒成功收据；角色后续资格变化不篡改实例值，装备/加工分别检查。",
+    "zero_only": "minimum_rank<5只接受0，不能读档清除非法正值修复。",
+    "missing_or_invalid": "拒绝，不补0、不裁剪，正式新建路径才写0。"
+  },
+  "four_divine_schema": {
+    "field": "four_divine_state",
+    "empty_value": null,
+    "nonempty_fields": [
+      "deity_id",
+      "origin_receipt_id"
+    ],
+    "deity_id": "精确deities_ref成员；无未知中性神。",
+    "requirements": "definition.minimum_rank>=5且awakening_stage>=1；stage0+非空拒绝，不能补觉醒或删神修复。",
+    "origin_receipt_id": "同角色同血统普通赋予/变更已提交成功收据，所选神一致；不接受失败/英雄收据。",
+    "strictness": "对象只接受登记两字段；缺字段、额外字段、未知神或损坏收据拒绝，正式新建仅显式null。"
+  },
+  "material_acquisition": {
+    "status": "design_pending_shop_registration",
+    "npc_id": "npc_daojianxiao",
+    "class_ids": [
+      "blade",
+      "sword",
+      "assassin",
+      "spear",
+      "archer",
+      "physician",
+      "musician",
+      "fighter"
+    ],
+    "minimum_level": 100,
+    "minimum_rank": 5,
+    "allowed_routes": [
+      "righteous",
+      "evil"
+    ],
+    "quantity_range": [
+      1,
+      99
+    ],
+    "stock": "unlimited",
+    "definition_policy": "价格/堆99/10g及绑定权限以shared_material_refs为准；普通商店适配器独立资格，不修改英雄商店原筛选。",
+    "transaction": "先验证原库存合法，再检最终银两/格重与合堆；扣银两/材料入包/修订/收据原子提交，重复返回收据，保存失败只重存。"
+  },
+  "service_policy": {
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "requires_same_map_available_npc": true,
+    "requires_alive_idle_out_of_combat_no_challenge": true,
+    "minimum_level": 100,
+    "minimum_rank": 5,
+    "allowed_routes": [
+      "righteous",
+      "evil"
+    ],
+    "qualification": "精确属于264件加工分区；角色职业/等级/rank/路线同时满足物品定义及本服务门槛；无队伍代提供资格。",
+    "source_location": "本人equipment_bag，主/备用先卸、仓库先取，实例/归属/绑定/全部登记成长及原库存合法、无占用。",
+    "other_growth": "强化/合成/元素及其他合法字段保持；临时强化或元素显示提升非空、未知字段或缺schema状态拒绝，不通过加工清状态。",
+    "instance_growth_schema_owner_ref": {
+      "file": "普通主武器基础定义.v1.json",
+      "pointer": "/instance_growth_schema"
+    },
+    "enhancement_boost_guard_owner_ref": {
+      "file": "普通武器附加提升.v1.json",
+      "pointer": "/processing_guard"
+    }
+  },
+  "awakening_recipes": [
+    {
+      "recipe_id": "regular_weapon_awaken_1",
+      "source_awakening_stage": 0,
+      "target_awakening_stage": 1,
+      "consumed_item_id": "soul_collection_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 1000000,
+      "success_probability_bp": 7000,
+      "random_draw_required": true,
+      "failure": "source stage and all fields unchanged; consumed materials and fee, no destruction/downgrade"
+    },
+    {
+      "recipe_id": "regular_weapon_awaken_2",
+      "source_awakening_stage": 1,
+      "target_awakening_stage": 2,
+      "consumed_item_id": "soul_collection_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 2000000,
+      "success_probability_bp": 6000,
+      "random_draw_required": true,
+      "failure": "source stage and all fields unchanged; consumed materials and fee, no destruction/downgrade"
+    },
+    {
+      "recipe_id": "regular_weapon_awaken_3",
+      "source_awakening_stage": 2,
+      "target_awakening_stage": 3,
+      "consumed_item_id": "soul_collection_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 3000000,
+      "success_probability_bp": 5000,
+      "random_draw_required": true,
+      "failure": "source stage and all fields unchanged; consumed materials and fee, no destruction/downgrade"
+    },
+    {
+      "recipe_id": "regular_weapon_awaken_4",
+      "source_awakening_stage": 3,
+      "target_awakening_stage": 4,
+      "consumed_item_id": "soul_collection_stone",
+      "consumed_quantity": 4,
+      "silver_fee": 4000000,
+      "success_probability_bp": 4000,
+      "random_draw_required": true,
+      "failure": "source stage and all fields unchanged; consumed materials and fee, no destruction/downgrade"
+    },
+    {
+      "recipe_id": "regular_weapon_awaken_5",
+      "source_awakening_stage": 4,
+      "target_awakening_stage": 5,
+      "consumed_item_id": "soul_collection_stone",
+      "consumed_quantity": 5,
+      "silver_fee": 5000000,
+      "success_probability_bp": 3000,
+      "random_draw_required": true,
+      "failure": "source stage and all fields unchanged; consumed materials and fee, no destruction/downgrade"
+    }
+  ],
+  "four_divine_assign": {
+    "recipe_id": "regular_weapon_four_divine_assign",
+    "requires_current_four_divine_state": null,
+    "requires_awakening_stage_at_least": 1,
+    "chosen_deity": "exact deities member selected before quote; material gem must match",
+    "consumed_gem_quantity": 1,
+    "silver_fee": 5000000,
+    "base_success_probability_bp": 7000,
+    "optional_luck": {
+      "item_id": "four_divine_luck_charm",
+      "maximum_quantity": 1,
+      "additional_probability_bp": 1000,
+      "consumed_on_success_or_failure": true
+    },
+    "success": "same instance, set chosen deity and receipt only",
+    "failure": "keep null four_divine_state, preserve awakening/element/synthesis/every other legal field; consume gem, fee and optional charm",
+    "random": "one uniform integer[0,9999], success iff < final probability, no random deity draw"
+  },
+  "four_divine_change": {
+    "recipe_id": "regular_weapon_four_divine_change",
+    "requires_current_four_divine_state_nonnull": true,
+    "requires_awakening_stage_at_least": 1,
+    "target_deity": "one exact different deity chosen before quote",
+    "consumed_item_id": "weapon_four_divine_change_ticket",
+    "consumed_quantity": 1,
+    "silver_fee": 0,
+    "success_probability_bp": 10000,
+    "random_draw_required": false,
+    "gem_or_luck_allowed": false,
+    "same_deity": "reject no charge, no payable no-op",
+    "success": "same instance, replace deity and origin receipt only, retain awakening/element/synthesis and all other registered fields"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "recipe_id",
+      "recipe_version",
+      "selected_deity_if_any",
+      "optional_luck_quantity_if_assign",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "展示原觉醒/神、目标、概率、所有选定材料/费用、成功与失败状态及全部派生变化；缺完整派生owner不得产生可提交报价。",
+    "commit": "房主按角色串行先查命令收据，校验全部资格/schema/原库存合法与资源修订；副本扣费用和材料并检最终格重，复制RNG后依配方开奖，字段/成本/RNG/修订/收据原子提交。",
+    "rng": "觉醒与初赋只抽一次均匀[0,9999]，draw<bp成功；变更必成不抽，无随机神选择。幸运符是否使用在报价前锁定，最多1且只初赋可用。",
+    "preservation": "同实例同血统；觉醒升阶只改觉醒，已赋神继续觉醒保神；初赋/变更只改神及来源收据，其他合法字段精确保留。不得跨资格把字段洗掉。",
+    "failure": "消耗所选精确材料与费用，原实例全部字段保持；无损毁/降阶，不返幸运符。",
+    "invalid_or_cancel": "无成本/RNG/修订变化，报价不预抽；满觉醒、已有神再初赋、空神变更、同神变更或券附幸运符均拒绝。",
+    "deduplication": "同命令同参数返回原收据，先于当前神/阶段校验；同ID异参数拒绝。失败也有费用/RNG收据，但不能充作成长来源。",
+    "save_failure": "保留内存提交及未保存标记，重存同结果，不重抽/扣费。",
+    "load": "严格阶段/神/交叉前置/同角色血统成功收据/唯一实例；不补字段、不猜NPC无神、不伪造历史。"
+  },
+  "combat_integration": "显式采用four_divine_damage_ref全25格与其完整scope/pipeline：仅npc_martial_duel根直接普通攻击或攻击武功，攻击方取已接受生效武器神，防守方取命中时生效衣服神或明确NPC投影。野怪/非比武/DoT/反射/衍生额外命中不乘；所有对手必须有显式投影，缺失阻止活动配置，不当null。",
+  "implementation_gate": "当前10字段结构已由基础合同登记；奇玉/进化/其他元素/强化其他贡献/反气功/显示提升、衣服及全部NPC投影、世界服务注册与经济联审仍待。本合同不激活运行、不增加世界服务数、不代表D1完成。"
+}

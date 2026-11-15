@@ -670,5 +670,159 @@
       ],
       "source": "http://rxjh.17game.com/event/2026/content/index.html"
     }
-  ]
+  ],
+  "third_ascension_capability_bonus": {
+    "minimum_rank": 8,
+    "source_file": "../reference/官网资料/目录正文.json",
+    "record_url": "http://rxjh.17game.com/data/tasks/201907/63794.htm",
+    "rule": "正常角色rank>=8按本人class派生该一次性累计三式加成；rank9..12不重复领取。18配置降到rank<8失效，回升重算，不增一份可持久领取余额。额外于既有rank核心增量和一式等级补差；只增上限不补当前资源。",
+    "classes": [
+      {
+        "class_id": "blade",
+        "attack": 110,
+        "defense": 90,
+        "max_hp": 1400,
+        "max_mana": 1000,
+        "origin": "63794官方六职业能力表逐值采用"
+      },
+      {
+        "class_id": "sword",
+        "attack": 105,
+        "defense": 90,
+        "max_hp": 1000,
+        "max_mana": 1050,
+        "origin": "63794官方六职业能力表逐值采用"
+      },
+      {
+        "class_id": "spear",
+        "attack": 140,
+        "defense": 125,
+        "max_hp": 1150,
+        "max_mana": 1200,
+        "origin": "63794官方六职业能力表逐值采用"
+      },
+      {
+        "class_id": "physician",
+        "attack": 40,
+        "defense": 55,
+        "max_hp": 750,
+        "max_mana": 1500,
+        "origin": "63794官方六职业能力表逐值采用"
+      },
+      {
+        "class_id": "archer",
+        "attack": 85,
+        "defense": 35,
+        "max_hp": 850,
+        "max_mana": 550,
+        "origin": "63794官方六职业能力表逐值采用"
+      },
+      {
+        "class_id": "assassin",
+        "attack": 80,
+        "defense": 40,
+        "max_hp": 950,
+        "max_mana": 250,
+        "origin": "63794官方六职业能力表逐值采用"
+      },
+      {
+        "class_id": "musician",
+        "attack": 60,
+        "defense": 60,
+        "max_hp": 900,
+        "max_mana": 1200,
+        "origin": "明确项目补充；英雄四职业复用对应普通族量级，其余独立本地值，不伪称官网奖励"
+      },
+      {
+        "class_id": "fighter",
+        "attack": 120,
+        "defense": 100,
+        "max_hp": 1300,
+        "max_mana": 500,
+        "origin": "明确项目补充；英雄四职业复用对应普通族量级，其余独立本地值，不伪称官网奖励"
+      },
+      {
+        "class_id": "han_feiguan",
+        "attack": 110,
+        "defense": 90,
+        "max_hp": 1400,
+        "max_mana": 1000,
+        "origin": "明确项目补充；英雄四职业复用对应普通族量级，其余独立本地值，不伪称官网奖励"
+      },
+      {
+        "class_id": "tan_hualing",
+        "attack": 105,
+        "defense": 90,
+        "max_hp": 1000,
+        "max_mana": 1050,
+        "origin": "明确项目补充；英雄四职业复用对应普通族量级，其余独立本地值，不伪称官网奖励"
+      },
+      {
+        "class_id": "mei_liuzhen",
+        "attack": 85,
+        "defense": 35,
+        "max_hp": 850,
+        "max_mana": 550,
+        "origin": "明确项目补充；英雄四职业复用对应普通族量级，其余独立本地值，不伪称官网奖励"
+      },
+      {
+        "class_id": "lu_fenglang",
+        "attack": 140,
+        "defense": 125,
+        "max_hp": 1150,
+        "max_mana": 1200,
+        "origin": "明确项目补充；英雄四职业复用对应普通族量级，其余独立本地值，不伪称官网奖励"
+      },
+      {
+        "class_id": "dongling_shennv",
+        "attack": 40,
+        "defense": 55,
+        "max_hp": 750,
+        "max_mana": 1500,
+        "origin": "明确项目补充；英雄四职业复用对应普通族量级，其余独立本地值，不伪称官网奖励"
+      },
+      {
+        "class_id": "zhen_fengbai",
+        "attack": 90,
+        "defense": 60,
+        "max_hp": 1000,
+        "max_mana": 1000,
+        "origin": "明确项目补充；英雄四职业复用对应普通族量级，其余独立本地值，不伪称官网奖励"
+      }
+    ]
+  },
+  "seventh_ascension_hp_cap": {
+    "minimum_rank": 12,
+    "maximum_hp": 52000,
+    "source_url": "http://rxjh.17game.com/data/tasks/202506/70086.htm",
+    "application": "rank12时全部合法基础/装备/气功/状态/配置衍生生命上限计算完再取min(value,52000)，当前HP仅在超新上限时夹到上限；不是加52000或晋级回血。rank<12不借此设免费52000上限。配置不能绕过正常rank12硬上限；不将派生值存第二份。"
+  },
+  "persistent_progress": {
+    "field": "character.progress",
+    "schema_ref": {
+      "file": "角色成长进度.schema.json",
+      "pointer": ""
+    },
+    "fields": "唯一total_xp/hp/mana/stamina/completed_rank/route六键。经验用等级经验.maximum_total_xp上限；当前HP/内力按真实合法构筑上限验，体力0..100。实际晋级0..12独立经验等级；路线unselected/righteous/evil，资格沿真实晋级任务及明确配置事件。",
+    "derived": "level由累计经验逐表确定，基础核心与最大资源由本合同及正式构筑推导，不重复保存level或maximum；普通升级只升上限不补资源。当前资源合法下降/复活沿原owner。",
+    "separation": "随身银两唯一character.silver、仓银character.warehouse_silver沿银两来源流；任务唯一quests，普通/升天气功与点数唯一qigong；武勋沿现有character.martial_merit。此进度根不复制这些状态。",
+    "initialization": "14新角色total_xp=0/completed_rank=0/route=unselected，hp/mana/stamina按实际初始合法装备构筑填满；角色模板原字段为创建输入，不另存平铺镜像。四旧来源依原经验/资源/路线转换映射，不以本根覆盖为新角色。现行缺字段或未知字段拒绝。",
+    "life_state": "HP0仅awaiting_respawn且真实pending_death；active须HP>=1且pending_death null。结构容许0不能替代生命状态联验，配置HP0同样须原明确死亡事务。",
+    "source": "经验/晋级/路线/资源变化须真实原已提交收入、付费、伤害、恢复、晋级或配置事件；安全整数通过不证明来源。正式读取缺根不可从旧平铺字段拼凑修复。",
+    "owner_refs": [
+      {
+        "file": "等级经验.v1.json",
+        "pointer": ""
+      },
+      {
+        "file": "死亡与复活保存.v1.json",
+        "pointer": ""
+      },
+      {
+        "file": "银两来源流.v1.json",
+        "pointer": ""
+      }
+    ],
+    "boundary": "成长进度结构及归属采用，完整角色/任务/生命/配置与来源联审仍待，非完整角色schema，D1未通过。"
+  }
 }

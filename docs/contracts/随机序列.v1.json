@@ -1,0 +1,69 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "project_random_sequence_design_not_implemented",
+  "source_policy": "明确新增项目算法，旧实现无已采用同构随机序列，不称官网或旧版算法。",
+  "schema_ref": {
+    "file": "随机状态.schema.json",
+    "pointer": ""
+  },
+  "fields": "algorithm固定sha256_counter_53_v1，seed_hex精确64小写hex，next_block为下一个未消费块索引0..MAX安全整数；seed不可在普通玩法重设。无浮点随机状态或重复current_state。",
+  "block": "对ASCII字节 SoloRxjh/RNG/v1\n + seed_hex + \n + next_block无前导零十进制 + \n 求SHA256。取digest前7字节大端无符号整数再右移3位，得到0..2^53-1的sample53。以逐字节乘256累加前6字节、最后乘32加第7字节>>3实现，不先构造可能超安全范围的56位JSON整数。每生成一块next_block+1。",
+  "uniform_integer": "仅接受安全整数闭区间low<=high，width=high-low+1须1..2^53；计算先验范围不溢出。width=1返回low不消费。令M=2^53，limit=M-(M%width)；每块x<limit时返回low+(x%width)，否则消费该块后继续。不能简单取模而不拒绝，也不能浮点缩放。M只在内部64位整数计算，不写超安全JSON数。",
+  "probability": "普通概率基点整数0..10000；0/10000分别确定失败/成功且不消费，其他抽uniform_integer(0,9999)<p。具名互斥分区使用一次同域抽样，不能每分区重抽；有独立明确原owner抽数顺序必须遵守，无资格/安全区/无效几何等在抽样前拒绝。",
+  "ownership": {
+    "character": "character.random_state，创建本人攻击/技能接纳/命中及其明确后代、本人加工等业务。动作从接受起绑定实际原拥有者，派生不另取接收者流；多目标按原稳定顺序。",
+    "world": "world.random_state，世界NPC/怪物/伙伴AI与其动作、共享刷新/世界掉落和共享奖励随机。共享怪死亡奖励先冻结全部真实候选，按稳定角色ID顺序消费该world流，不因客户端到达/离开或重发改序。",
+    "atomicity": "一次根事件涉及多流时按稳定(owner_kind,owner_id)锁序复制全部原状态，计划记录每流before/after与逐次命名决定/拒绝块消费范围；全部资源/动作/接收者结果与流同笔提交。角色与世界同档/跨档保存沿原完整协议，协议未闭合不运行该分支。",
+    "no_reassignment": "本人行为永远由其原角色流，不临时借Host所选角色；世界事件永远原world流，单机也不切成角色流。旧来源的明示玩法事件另沿其真实owner，不按是否联网选流。"
+  },
+  "new_seed": "新角色及新世界各用系统CSPRNG生成32原始随机字节、编码小写hex。该seed在原创建预留中固定并同档持久，重试/重启复用，不以时间/昵称/同一固定常量生成。创建预留未有完整协议前不能先运行创建。预览不消费玩法随机。",
+  "legacy_seed": "四已知旧来源无新随机现场：导入seed_hex=SHA256(ASCII SoloRxjh/legacy-rng/v1\n + 原source_sha256小写hex + \n + 目标character_id原UTF-8 + \n)的hex，next_block=0。原目标ID/摘要已在导入身份固定，故同一原预留重建相同，不继承当前会话随机，不伪装旧算法继续。",
+  "exhaustion": "next_block=MAX时无可消费块；需抽样整笔拒绝，保持原所有状态。若拒绝抽样后到MAX而仍无有效样本，整笔不提交部分随机或业务。确定结果/单值区间可不消费，但仍须原业务资格。",
+  "persistence": "暂停/离线不推进，死亡/换组/升级/读档不重设。失败在正式业务提交前只丢候选，存疑提交先核原正式结果而不重抽；已提交重放直接回原决定。明确配置随机种子须独立授权/预览事件，不能当普通失败重试。",
+  "block_vectors": [
+    {
+      "seed_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "block_index": 0,
+      "sha256_hex": "a1bd4a3a63b8f8386a52097d7f078ca82761559661e2b995aeda876e2fd9b6f3",
+      "sample53": 5690699719407391
+    },
+    {
+      "seed_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "block_index": 1,
+      "sha256_hex": "0bbee26f47a5d2220ea552948f0addf253e5c532e2e913eaa63c5d2bb7e06c76",
+      "sample53": 413263060333754
+    },
+    {
+      "seed_hex": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "block_index": 42,
+      "sha256_hex": "80ad8748c38e72879819ea3cd05cba266da3fc6f13a3ed00942acc1483dfc065",
+      "sample53": 4527449196491214
+    },
+    {
+      "seed_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "block_index": 9007199254740990,
+      "sha256_hex": "2c9d33de0b82155754d3f9aa608af2d8d06c02fdaefd0a9c5999682502494af5",
+      "sample53": 1569718133682242
+    }
+  ],
+  "boundary": "算法/持久结构/所有者分区采用；完整动作与具体原事件随机流接入、创建预留及多接收者保存/实际Godot算法测试仍待，D1未通过。",
+  "decision_flow": {
+    "field": "原提交事件.random_flow",
+    "schema_ref": {
+      "file": "随机决定流.schema.json",
+      "pointer": ""
+    },
+    "identity": "receipt_id等实际拥有本次调用的原已提交事件ID；完整事务内具备原唯一身份的伤害等子结果可持其自己的random_flow，外层协调者不复制该子段或为它另抽。不另分配随机结算、不在profile建立第二份随机日志。原事件自身无任何实际块消费时streams=[]，即使其合法子结果确有消费也不能把子流汇总复制进本streams；确定概率/单值区间结果保原业务结果，不伪造draw。",
+    "stream_identity": "每个实际消费流仅一条，按(owner_kind,owner_id)字典序严格唯一，owner_id解析原拥有者，不与接收者混同。冻结原algorithm/seed_hex/next_block_before；seed是历史重算所需原快照，未来明确配置改seed不追改历史。原角色/世界当前seed及counter先与本次前状态核验。",
+    "draw_order": "draws按该流真实调用顺序，purpose为原已定义调用点稳定ID，包含实际根动作/目标/命中序号等原分派身份；同事件同流purpose唯一。未知用途或多段重复抽样拒绝。low/high/result均安全整数，low<high且width<=2^53，result处闭区间。",
+    "verification": "从next_block_before逐项按原seed/算法重算：第一合法样本前所有块必须拒绝，第一合法即采用，不允许跳过合法样本。每项result与next_block_after精确相等，计数递增且含拒绝块；下一draw从前项after开始，stream.next_block_after等最后项after。宽度1/确定概率不进入此流。结构通过不代替上述重算。",
+    "authority": "原用途的资格/概率/区间由原冻结动作/规则/材料与目标决定，不能让客户端提交合法区间但改概率；结果与概率比较/互斥分区/产物同原事件核验，流本身不授物或伤害。",
+    "commit": "所有流after及全部业务接收结果同原事务提交，逐流实际原状态必须仍等冻结before。不消费流不得变counter；拒绝/取消只丢候选，已提交仅回原决定。保存存疑先核原事件而非推进第二次，跨档未闭合不启用。",
+    "boundary": "可复用随机流结构与核验设计采用，具体动作/加工/世界奖励事件须逐一显式嵌入，当前未宣称全事件采用或Godot运行。"
+  },
+  "control_decision_owner_ref": {
+    "file": "神女状态技能.v1.json",
+    "pointer": "/persistent_control_state"
+  }
+}

@@ -1,0 +1,4231 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "ordinary_jewelry_base_adopted_not_implemented_growth_services_pending",
+  "scope": "89来源中的79款普通首饰基础身份、13类贡献及取得项目方案；其中8款原来源异常已逐款明确本地采用并保留原文。出尘戒由独立死亡消耗owner采用，另9款新版武勋由70独立目录采用，不并入本profile。",
+  "profile": {
+    "profile_id": "ordinary_catalog_jewelry_base",
+    "instance_kind": "unique_equipment",
+    "container_when_not_equipped": "equipment_bag",
+    "source_policy": "逐源行SHA身份，不合并同名或双位置实例。base_contributions十三字段全登记，源未列出的本profile基础贡献显式采用0，不以运行时缺字段补0。内功采用内力上限，命中/回避按源单位分开；以下结算次序和价格/堆重权限为项目选择。",
+    "growth": "独立processing_level0～10及最近尝试来源由67采用，完整单实例九字段及配置来源由68采用；完整档案/库存/收据日志schema及其他联审仍待，不创建运行实例。",
+    "display": "来源基础与加工/套装分栏，不拿加工10示例覆盖基础或倒推1～9。",
+    "processing_owner_ref": {
+      "file": "普通首饰加工.v1.json",
+      "pointer": ""
+    }
+  },
+  "contribution_policy": {
+    "scope": "仅当前生效组合法且资格满足的necklace/earring_a/earring_b/ring_a/ring_b各独立实例一次；备用/背包/仓库不贡献，重复实例/血统及坏定义拒绝。未知身份不能当0。",
+    "flat_attributes": "HP/MP只加上限，攻击平量同时加动作攻击上下界，防御加入普通防御，命中/回避平量加入相应rating。全部在既有最终倍率/显式覆盖前，不增加基础值缓存；增上限不回血回蓝，减少按新上限下裁。普通首饰不受烈日防具部位掩码移除。",
+    "rating_percent": "首饰命中/回避rating百分比各从五槽求和，普通平量锚含其平量和已采用气功平量后，按floor(anchor*(10000+sum_bp)/10000)一次；再按已有具名buff倍率顺序，最后18覆盖。不对命中概率乘该百分比，不乘全部角色属性。",
+    "all_qigong": "仅沿升级发点effective_level_policy：本人已学/已解锁/兼容且已分配至少1点的具名气功，五槽等级加量求和后交其有效等级上限与反气功压制owner。未学或未分配不凭装备解锁；不发拥有点、不加武功/状态主动等级、不增加反气功等级或预算。",
+    "martial_power": "武功攻击力百分比采用技能平量威力百分源，与武功威力气功同范围合法百分源求和一次，在显式平量威力加量后乘并向下取整，之后才加攻击区间及段倍率。仅root attack_martial_skill，不乘整段伤害/普通攻击/旧固定威力兼容技能/治疗/周期/派生追击。",
+    "martial_accuracy": "五槽武功命中概率加量与目标五槽武功回避概率减量按100bp每原百分数合成；只在直接root attack_martial_skill的唯一命中率计算中加减，和已具名气功概率修正一道在最终500～9900封顶前应用，不另抽闪避。不作用普通攻击/旧固定威力兼容/派生/周期。",
+    "extra_damage": "追伤采用root_primary_extra_damage_flat：接受根普通攻击或attack_martial_skill时快照五槽和，只有该根主目标第一次通过几何/资格/唯一命中判定的直接命中加一次，后续段/次目标/派生/周期/反射/状态/旧固定威力兼容均不加。加在已有段倍率/暴击/命中时伤害增幅之后、明确防御前guard及普通防御之前，不再乘暴击/段倍率/攻击增幅；仍受该次普通/PvE防御、罡气(武功)、平减、关系/百分保护/护盾/障力，不无视减伤。实际HP损失仍沿唯一owner派生吸血/怒气/奖励等，不为追加份额另发命中或触发事件。",
+    "extra_damage_once": "动作须保存此来源快照及主目标首个合格命中ordinal的使用收据。早段未命中不消费一次资格；后段首次命中可用，但同根不得再次兑现。几何失败/命中免疫不产生追加伤害；防御后0伤害仍已消费该次资格，不在后段重试。根取消/目标死亡不退款或转次目标。",
+    "snapshot": "攻击侧攻击/rating/武功百分/追加伤害沿已付费接受动作快照，防守侧回避/武功回避/防御按命中时权威当前合法构筑。换装不追改已接受动作；保存快照及一次性来源收据，重放不重复应用。18显式覆盖作用于其已登记字段最后阶段，不因本合同自行增加可覆盖字段。",
+    "anti_qigong": "本79款基础定义明确不直接提供反气功点数，所有气功加量不增加反气功。67仅4款青玄/鸿轩170耳环加工预算另行提供；70新版破天不继承这4款预算。",
+    "safety": "所有值为严格非负整数且有精确安全整数界检查，百分字段基点。比例合法封顶是玩法，不修补坏字段；缺属性/未知来源/非法单位或循环引用拒绝。"
+  },
+  "owner_refs": {
+    "combat": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": ""
+    },
+    "skill_power": {
+      "file": "武功威力气功采用.v1.json",
+      "pointer": "/skill_power_order"
+    },
+    "effective_qigong": {
+      "file": "升级发点.v1.json",
+      "pointer": "/effective_level_policy"
+    }
+  },
+  "items": [
+    {
+      "item_id": "jewelry_regular_earring_505819b29492",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "银耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/0/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/0"
+      },
+      "base_contributions": {
+        "max_hp_flat": 10,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_74f545848904",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "白玉耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/1/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/1"
+      },
+      "base_contributions": {
+        "max_hp_flat": 20,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_ee5ef4d1fe6f",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "金耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/2/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/2"
+      },
+      "base_contributions": {
+        "max_hp_flat": 30,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_b81d2d4306b2",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "天灵耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/3/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/3"
+      },
+      "base_contributions": {
+        "max_hp_flat": 40,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "quest_reward_acquisition_refs": [
+        {
+          "file": "八十七级正邪南明洞秘密任务.v1.json",
+          "pointer": "/quests/0/reward/items/1"
+        },
+        {
+          "file": "八十七级正邪南明洞秘密任务.v1.json",
+          "pointer": "/quests/1/reward/items/1"
+        }
+      ],
+      "quest_acquisition_policy": "87两路线终奖各一次天灵耳环1，源只写首饰，类型/数量为明确本地选择；四阶段来源（接取/两讲述/交100）与石及完成同笔，无其他任务授权。"
+    },
+    {
+      "item_id": "jewelry_regular_earring_014d409713f9",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "紫焰耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/4/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/4"
+      },
+      "base_contributions": {
+        "max_hp_flat": 50,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_10a61057ca27",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "玄天耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/5/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/5"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 1,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_856fbadba374",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "圣炎耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/6/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/6"
+      },
+      "base_contributions": {
+        "max_hp_flat": 50,
+        "max_mp_flat": 50,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_42e53a76a717",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "磐龙耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/7/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/7"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 2,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_b6b349ef2a75",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "青玉珠环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/8/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/8"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 3,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 640000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_4f27d0ff7dfe",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "金魄珠环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/9/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/9"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 3,
+        "martial_power_bonus_bp": 200,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1000000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_989c829c00c6",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "血玉珠环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/10/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/10"
+      },
+      "base_contributions": {
+        "max_hp_flat": 200,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1000000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_5caa54adb8c4",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "血红耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/12/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/12"
+      },
+      "base_contributions": {
+        "max_hp_flat": 80,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 3,
+        "martial_power_bonus_bp": 500,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1322500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_afebf17892b7",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "狱魔耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/13/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/13"
+      },
+      "base_contributions": {
+        "max_hp_flat": 120,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 3,
+        "martial_power_bonus_bp": 800,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1440000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_821dd89a04ba",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "星辰耳环",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/14/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/14"
+      },
+      "base_contributions": {
+        "max_hp_flat": 200,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 1000,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1960000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_d607a5666de0",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "绯蓝耳环-（魔）",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/15/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/15"
+      },
+      "base_contributions": {
+        "max_hp_flat": 240,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 1200,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 24
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2250000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_973e5cb021b4",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "绯蓝耳环-（碎）",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/16/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/16"
+      },
+      "base_contributions": {
+        "max_hp_flat": 280,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 12,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 24
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2250000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_94cee8fa09ad",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "黑月耳环-（魔）",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/17/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/17"
+      },
+      "base_contributions": {
+        "max_hp_flat": 320,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 1500,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 60
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2560000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_cf82dbc1c983",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "黑月耳环-（碎）",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/18/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/18"
+      },
+      "base_contributions": {
+        "max_hp_flat": 350,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 15,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 60
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2560000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_e9d1b32db423",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "黑月耳环碎片-(魔)",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/19/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/19"
+      },
+      "base_contributions": {
+        "max_hp_flat": 280,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 1400,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 30
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2560000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_c8fa9ec7970b",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "黑月耳环碎片-(碎)",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/20/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/20"
+      },
+      "base_contributions": {
+        "max_hp_flat": 320,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 14,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 30
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2560000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_49449c7aeebe",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "青玄耳环-(魔)",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/21/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/21"
+      },
+      "base_contributions": {
+        "max_hp_flat": 360,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 1800,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 80
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2890000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_a3e3e4f4e20b",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "青玄耳环-(碎)",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/22/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/22"
+      },
+      "base_contributions": {
+        "max_hp_flat": 400,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 18,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 80
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2890000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_f1f3e27b1427",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "鸿轩耳环-(魔)",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/23/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/23"
+      },
+      "base_contributions": {
+        "max_hp_flat": 400,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 2000,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 100
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2890000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_f1f7b47137ec",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "鸿轩耳环-(碎)",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/24/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/24"
+      },
+      "base_contributions": {
+        "max_hp_flat": 440,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 20,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 100
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2890000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_071e8ceed949",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "灵兽项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/25/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/25"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 3,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_378fb28aae86",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "幻身项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/26/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/26"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 4,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_d64fe1aea09d",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "玉影项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/27/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/27"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 5,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_dfc8993f791e",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "五毒链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/28/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/28"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 6,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_3b22a36b5a09",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "灵心链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/29/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/29"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 7,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_d047ec36ff8d",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "碧血护符",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/30/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/30"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 8,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_0303d877642f",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "金罡护符",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/31/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/31"
+      },
+      "base_contributions": {
+        "max_hp_flat": 10,
+        "max_mp_flat": 10,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 5,
+        "evasion_flat": 5,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_ca7b83b92e0f",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "金灵护符",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/32/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/32"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 9,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "quest_reward_acquisition_refs": [
+        {
+          "file": "七十六级正邪爱情故事任务.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "七十六级正邪爱情故事任务.v1.json",
+          "pointer": "/quests/1/reward/items/0"
+        }
+      ],
+      "quest_acquisition_policy": "76级两爱情故事各最终一次精确金灵护符1，回避固定+9/20克/九字段新实例；全部四阶段与历练实际/完成/来源同笔，非任意任务或首饰授权。"
+    },
+    {
+      "item_id": "jewelry_regular_necklace_0045fcbac4fe",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "圣光项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/33/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/33"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 10,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_dae8eaa3aa3b",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "天神护符",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/34/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/34"
+      },
+      "base_contributions": {
+        "max_hp_flat": 20,
+        "max_mp_flat": 20,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 10,
+        "evasion_flat": 10,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_10e45b33a449",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "金义灵珠",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/35/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/35"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 12,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 640000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_91db74a7fb5c",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "混元灵珠",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/36/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/36"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 15,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 640000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_0ba683bf30c0",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "至尊灵珠",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/37/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/37"
+      },
+      "base_contributions": {
+        "max_hp_flat": 50,
+        "max_mp_flat": 50,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 15,
+        "evasion_flat": 15,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 640000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_5f8a0bf1b7b8",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "暗之链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/38/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/38"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 25,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1000000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_68e46e99cd8d",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "影之链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/39/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/39"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 25,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1000000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_6584e810e522",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "血红项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/41/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/41"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 30,
+        "accuracy_flat": 0,
+        "evasion_flat": 30,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1322500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_b013799d0bd7",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "狱魔项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/42/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/42"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 35,
+        "accuracy_flat": 0,
+        "evasion_flat": 35,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1440000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_c822a65f87cb",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "星辰项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/43/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/43"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 50,
+        "accuracy_flat": 0,
+        "evasion_flat": 50,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 500,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1960000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_f46bbe46585e",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "黑月项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/45/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/45"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 150,
+        "accuracy_flat": 0,
+        "evasion_flat": 70,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 500,
+        "root_primary_extra_damage_flat": 100
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2560000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_94b23335d6cd",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "黑月项链碎片",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/46/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/46"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 70,
+        "accuracy_flat": 0,
+        "evasion_flat": 70,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 500,
+        "root_primary_extra_damage_flat": 30
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2560000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_46b631ea201f",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "银戒指",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/49/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/49"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 3,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_075c5968bd68",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "白金戒指",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/50/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/50"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 4,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_42fae48a2d53",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "紫玉戒指",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/51/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/51"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 5,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_7253860b9f12",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "地灵戒",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/52/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/52"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 6,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_38140e009d94",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "万寿戒",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/53/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/53"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 7,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_adc7210329ce",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "麒麟指环",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/54/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/54"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 8,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_e3bf71cf58de",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "权智指环",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/55/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/55"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 3,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 122500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_f08b5b1a7274",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "圣冠指环",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/57/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/57"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 9,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "quest_reward_acquisition_refs": [
+        {
+          "file": "六十四至六十五级正邪寻回任务.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "六十四至六十五级正邪寻回任务.v1.json",
+          "pointer": "/quests/2/reward/items/0"
+        }
+      ],
+      "quest_acquisition_policy": "64级正邪两独立任务各最终一次给1个九字段新实例；精确原15输入/任务完成/quest_reward实例来源/装备包一槽及5克同笔，命中固定+9，不重复发或授予其他首饰。"
+    },
+    {
+      "item_id": "jewelry_regular_ring_5e024d12c551",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "磬华指环",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/58/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/58"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 10,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_16c45cbd19ce",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "元始指环",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/59/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/59"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 5,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_8bda2786bba3",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "玉弹指环",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/60/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/60"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 12,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 640000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_2b419b20e2ac",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "太极指环",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/61/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/61"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 15,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 640000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_ae63b466ee0e",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "天战之戒",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/62/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/62"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 7,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 640000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_8e86a25013c9",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "潜能之戒",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/63/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/63"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 500,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 640000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_261b03a5f4e4",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "墨灵环",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/64/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/64"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 50,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 700,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1000000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_666e8adc977e",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "神力之环",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/65/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/65"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 20,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 300,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1000000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_97ca8b5b7135",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "血红戒指",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/67/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/67"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 30,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 700,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1322500,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_fccb8d7b4257",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "狱魔戒指",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/68/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/68"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 35,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 1100,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1440000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_c0fcb690b8e5",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "星辰戒指",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/69/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/69"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 50,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 1300,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 1960000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_713b4f76a2ac",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "绯蓝戒指-（魔）",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/70/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/70"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 55,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 1500,
+        "martial_hit_chance_bonus_bp": 700,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 24
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2250000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_d5397cd94058",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "绯蓝戒指-（碎）",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/71/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/71"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 70,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 1700,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 700,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 24
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2250000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_c6d3312e9585",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "黑月戒指-（魔）",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/72/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/72"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 90,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 2500,
+        "martial_hit_chance_bonus_bp": 700,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 100
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2560000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_f62e2ae97041",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "黑月戒指-（碎）",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/73/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/73"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 100,
+        "defense_flat": 0,
+        "accuracy_flat": 25,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 700,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 100
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2560000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_beafb989ae1f",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "黑月戒指碎片-(魔)",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/74/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/74"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 60,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 1700,
+        "martial_hit_chance_bonus_bp": 700,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 30
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2560000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_ring_3084fb26647d",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "黑月戒指碎片-(碎)",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/75/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/75"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 80,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 1900,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 700,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 30
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2560000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_earring_7a866af89a04",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "鬼眼灵珠",
+      "kind": "jewelry",
+      "equipment_category": "earring",
+      "equip_slot_ids": [
+        "earring_a",
+        "earring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/11/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/11"
+      },
+      "base_contributions": {
+        "max_hp_flat": 150,
+        "max_mp_flat": 100,
+        "attack_flat": 0,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 4,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 10,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_7c1b2d94e715",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "浴血魔链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/40/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/40"
+      },
+      "base_contributions": {
+        "max_hp_flat": 100,
+        "max_mp_flat": 50,
+        "attack_flat": 0,
+        "defense_flat": 15,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0
+    },
+    {
+      "item_id": "jewelry_regular_necklace_f8e125776b52",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "绯蓝项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/44/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/44"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 60,
+        "accuracy_flat": 0,
+        "evasion_flat": 60,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 500,
+        "root_primary_extra_damage_flat": 24
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2250000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "source_resolution": {
+        "status": "explicit_project_adoption_source_anomalies_retained",
+        "decisions": [
+          {
+            "token_index": 3,
+            "source_raw": "武功回避+5",
+            "adopted_property_id": "martial_evasion",
+            "adopted_value": 5,
+            "adopted_unit": "percent",
+            "basis": "项目显式采用概率百分数，与本目录已具名武功命中/回避贡献对齐；源未列单位，非官网确认。"
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "jewelry_regular_necklace_854c70ec29f6",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "青玄项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/47/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/47"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 170,
+        "accuracy_flat": 0,
+        "evasion_flat": 90,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 500,
+        "root_primary_extra_damage_flat": 120
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2890000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "source_resolution": {
+        "status": "explicit_project_adoption_source_anomalies_retained",
+        "decisions": [
+          {
+            "token_index": 3,
+            "source_raw": "武功回避5",
+            "adopted_property_id": "martial_evasion",
+            "adopted_value": 5,
+            "adopted_unit": "percent",
+            "basis": "项目显式采用概率百分数，与本目录已具名武功命中/回避贡献对齐；源未列单位，非官网确认。"
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "jewelry_regular_necklace_cbb31f3cca0d",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "鸿轩项链",
+      "kind": "jewelry",
+      "equipment_category": "necklace",
+      "equip_slot_ids": [
+        "necklace"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/48/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/48"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 0,
+        "defense_flat": 250,
+        "accuracy_flat": 0,
+        "evasion_flat": 90,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 500,
+        "root_primary_extra_damage_flat": 180
+      },
+      "weight_g": 20,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2890000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "source_resolution": {
+        "status": "explicit_project_adoption_source_anomalies_retained",
+        "decisions": [
+          {
+            "token_index": 3,
+            "source_raw": "武功回避5",
+            "adopted_property_id": "martial_evasion",
+            "adopted_value": 5,
+            "adopted_unit": "percent",
+            "basis": "项目显式采用概率百分数，与本目录已具名武功命中/回避贡献对齐；源未列单位，非官网确认。"
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "jewelry_regular_ring_722d3c4243a5",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "死灵之环",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/66/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/66"
+      },
+      "base_contributions": {
+        "max_hp_flat": 150,
+        "max_mp_flat": 100,
+        "attack_flat": 5,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 700,
+        "martial_hit_chance_bonus_bp": 0,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 360000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "source_resolution": {
+        "status": "explicit_project_adoption_source_anomalies_retained",
+        "decisions": [
+          {
+            "token_index": 0,
+            "source_raw": "武功攻击力+7&",
+            "adopted_property_id": "martial_attack",
+            "adopted_value": 7,
+            "adopted_unit": "percent",
+            "basis": "项目显式解释坏token，原文未更正；沿相邻同系列武功攻击百分字段采用，非官网确认。"
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "jewelry_regular_ring_a663fbbb4f8a",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "青玄戒指-(魔)",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/76/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/76"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 110,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 2700,
+        "martial_hit_chance_bonus_bp": 700,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 130
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2890000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "source_resolution": {
+        "status": "explicit_project_adoption_source_anomalies_retained",
+        "decisions": [
+          {
+            "token_index": 3,
+            "source_raw": "武功命中7",
+            "adopted_property_id": "martial_accuracy",
+            "adopted_value": 7,
+            "adopted_unit": "percent",
+            "basis": "项目显式采用概率百分数，与本目录已具名武功命中/回避贡献对齐；源未列单位，非官网确认。"
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "jewelry_regular_ring_00027db2126d",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "青玄戒指-(碎)",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/77/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/77"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 120,
+        "defense_flat": 0,
+        "accuracy_flat": 27,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 700,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 130
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2890000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "source_resolution": {
+        "status": "explicit_project_adoption_source_anomalies_retained",
+        "decisions": [
+          {
+            "token_index": 3,
+            "source_raw": "武功命中7",
+            "adopted_property_id": "martial_accuracy",
+            "adopted_value": 7,
+            "adopted_unit": "percent",
+            "basis": "项目显式采用概率百分数，与本目录已具名武功命中/回避贡献对齐；源未列单位，非官网确认。"
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "jewelry_regular_ring_ad123e0ed87a",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "鸿轩戒指-(魔)",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/78/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/78"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 140,
+        "defense_flat": 0,
+        "accuracy_flat": 0,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 3500,
+        "martial_hit_chance_bonus_bp": 700,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 200
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2890000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "source_resolution": {
+        "status": "explicit_project_adoption_source_anomalies_retained",
+        "decisions": [
+          {
+            "token_index": 0,
+            "source_raw": "功攻击力35%",
+            "adopted_property_id": "martial_attack",
+            "adopted_value": 35,
+            "adopted_unit": "percent",
+            "basis": "项目显式解释坏token，原文未更正；沿相邻同系列武功攻击百分字段采用，非官网确认。"
+          },
+          {
+            "token_index": 3,
+            "source_raw": "武功命中7",
+            "adopted_property_id": "martial_accuracy",
+            "adopted_value": 7,
+            "adopted_unit": "percent",
+            "basis": "项目显式采用概率百分数，与本目录已具名武功命中/回避贡献对齐；源未列单位，非官网确认。"
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "jewelry_regular_ring_6fd4eff525b0",
+      "profile_id": "ordinary_catalog_jewelry_base",
+      "name": "鸿轩戒指-(碎)",
+      "kind": "jewelry",
+      "equipment_category": "ring",
+      "equip_slot_ids": [
+        "ring_a",
+        "ring_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/79/eligibility_adoption"
+      },
+      "source_audit_ref": {
+        "file": "../reference/首饰来源采用审计.json",
+        "pointer": "/records/79"
+      },
+      "base_contributions": {
+        "max_hp_flat": 0,
+        "max_mp_flat": 0,
+        "attack_flat": 150,
+        "defense_flat": 0,
+        "accuracy_flat": 35,
+        "evasion_flat": 0,
+        "accuracy_rating_bonus_bp": 0,
+        "evasion_rating_bonus_bp": 0,
+        "all_qigong_levels": 0,
+        "martial_power_bonus_bp": 0,
+        "martial_hit_chance_bonus_bp": 700,
+        "martial_evasion_chance_bonus_bp": 0,
+        "root_primary_extra_damage_flat": 200
+      },
+      "weight_g": 5,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "purchase_allowed": true,
+      "buy_price": 2890000,
+      "acquisition_policy_id": "ordinary_catalog_jewelry_shop",
+      "processing_level_limit": 10,
+      "anti_qigong_base_points": 0,
+      "source_resolution": {
+        "status": "explicit_project_adoption_source_anomalies_retained",
+        "decisions": [
+          {
+            "token_index": 3,
+            "source_raw": "武功命中7",
+            "adopted_property_id": "martial_accuracy",
+            "adopted_value": 7,
+            "adopted_unit": "percent",
+            "basis": "项目显式采用概率百分数，与本目录已具名武功命中/回避贡献对齐；源未列单位，非官网确认。"
+          }
+        ]
+      }
+    }
+  ],
+  "blocked_sources": [],
+  "acquisition": {
+    "planned_service_id": "npc_yinjiaolong_ordinary_jewelry_shop",
+    "registered": false,
+    "npc_id": "npc_yinjiaolong",
+    "interaction_distance_mm": 2500,
+    "catalog": "仅本合同79款；出尘戒与9新版武勋不入本商店。",
+    "quantity_range": [
+      1,
+      99
+    ],
+    "stock": "unlimited",
+    "qualification": "本人存活脱战空闲、无占用，同图NPC会话与距离有效；可提前购买高阶首饰，穿戴仍逐件验全部资格。",
+    "price_policy": "逐件100*采用最低等级平方两；血红三款按115计算，不改来源110。耳环10g/戒指5g/项链20g，堆1，角色绑定及仓丢可/卖交易复购分解禁均项目方案。",
+    "transaction": "先完整检查原库存合法，再按数量逐件独立ID/血统/绑定，重算最终随身银两/装备包格数/重量，一次原子扣钱入包收据及修订；数量多不合堆。命令去重，保存失败只重存。",
+    "box_acquisition_ref": {
+      "file": "任务宝盒开启.v1.json",
+      "pointer": "/openings"
+    },
+    "box_scope": "仅任务宝盒表内六种既有定义允许对应box池loot创建，精确消耗实盒/单次区间/输出实例同笔；白银和黄金池各三款不混用，其余73款不因此开放箱掉落，装备资格仍按定义。"
+  },
+  "implementation_gate": "79款基础/贡献、67加工/材料/4款170预算和68单实例/配置已采用；另9款新版由70采用。8普通异常源已项目采用，原单位/坏token仍未官方确认；完整档案/库存/收据日志、其他高级配置字段及服务资源经济联审仍待。未注册运行，不代表D1通过。",
+  "instance_schema_owner_ref": {
+    "file": "普通首饰实例.v1.json",
+    "pointer": ""
+  },
+  "excluded_merit_catalog_ref": {
+    "file": "新版武勋首饰.v1.json",
+    "pointer": "/items"
+  },
+  "excluded_death_ring_ref": {
+    "file": "出尘戒死亡消耗.v1.json",
+    "pointer": "/item"
+  }
+}

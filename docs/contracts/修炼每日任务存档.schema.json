@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:training-gate-daily:v1",
+  "$comment": "character.training_gate_daily；八任务固定字段，不存收集数量。接取/交付日相等或先后、观察日/权威日、绑定实物及唯一来源收据由原owner联合校验；无现实时间追赶。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "by_world"
+  ],
+  "properties": {
+    "by_world": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/world"
+      }
+    }
+  },
+  "$defs": {
+    "quest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accepted_day_index_or_null",
+        "state",
+        "last_delivered_day_index_or_null"
+      ],
+      "properties": {
+        "accepted_day_index_or_null": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1737499856
+        },
+        "state": {
+          "enum": [
+            "not_accepted",
+            "in_progress",
+            "ready_to_turn_in",
+            "delivered"
+          ]
+        },
+        "last_delivered_day_index_or_null": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1737499856
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "not_accepted"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "accepted_day_index_or_null": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "accepted_day_index_or_null": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1737499856
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "delivered"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "last_delivered_day_index_or_null": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1737499856
+              }
+            }
+          }
+        }
+      ]
+    },
+    "world": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observed_world_step",
+        "quests"
+      ],
+      "properties": {
+        "observed_world_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "quests": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "training_daily_beihai_ordinary",
+            "training_daily_beihai_summoned",
+            "training_daily_nanlin_ordinary",
+            "training_daily_nanlin_summoned",
+            "training_daily_dongling_ordinary",
+            "training_daily_dongling_summoned",
+            "training_daily_huxia_ordinary",
+            "training_daily_huxia_summoned"
+          ],
+          "properties": {
+            "training_daily_beihai_ordinary": {
+              "$ref": "#/$defs/quest"
+            },
+            "training_daily_beihai_summoned": {
+              "$ref": "#/$defs/quest"
+            },
+            "training_daily_nanlin_ordinary": {
+              "$ref": "#/$defs/quest"
+            },
+            "training_daily_nanlin_summoned": {
+              "$ref": "#/$defs/quest"
+            },
+            "training_daily_dongling_ordinary": {
+              "$ref": "#/$defs/quest"
+            },
+            "training_daily_dongling_summoned": {
+              "$ref": "#/$defs/quest"
+            },
+            "training_daily_huxia_ordinary": {
+              "$ref": "#/$defs/quest"
+            },
+            "training_daily_huxia_summoned": {
+              "$ref": "#/$defs/quest"
+            }
+          }
+        }
+      }
+    }
+  }
+}

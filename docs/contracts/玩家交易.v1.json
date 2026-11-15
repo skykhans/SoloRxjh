@@ -1,0 +1,398 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "lan_two_player_trade_protocol_designed_not_implemented",
+  "scope": "真实同房两名玩家的面对面物品/银两交换及单向赠予，房主同样作为普通参与者。覆盖明确可交易定义，不扩角色绑定物、不把NPC商店当真实玩家交易。离线无第二玩家时只提供既有NPC交易。",
+  "source_policy": "用户完整物品/交易与LAN需求，以及67名匠符/70新版武勋首饰显式权限为依据；本合同距离/容量/时限、锁定确认、双方持久准备屏障与房主决定协议均为项目设计，不声称官网网络实现。",
+  "owner_refs": {
+    "containers": {
+      "file": "容器与仓储.v1.json",
+      "pointer": ""
+    },
+    "merit_items": {
+      "file": "新版武勋首饰.v1.json",
+      "pointer": ""
+    },
+    "shape": {
+      "file": "玩家交易结构.schema.json",
+      "pointer": ""
+    }
+  },
+  "limits": {
+    "interaction_distance_mm": 3000,
+    "invite_timeout_real_ms": 30000,
+    "editing_idle_timeout_real_ms": 120000,
+    "preparing_timeout_real_ms": 30000,
+    "offer_entry_limit_per_side": 8,
+    "maximum_exact_integer": 9007199254740991,
+    "tax_silver": 0,
+    "minimum_completed_rank": 0,
+    "minimum_level": 1
+  },
+  "allowed_map_ids": [
+    "story_valley_world",
+    "hyunbo_town",
+    "hyunbo_outskirts",
+    "liuzheng_pass",
+    "sanxie_pass",
+    "shenwu_gate",
+    "liushan_house",
+    "diling_cave_1",
+    "diling_cave_2",
+    "diling_cave_3",
+    "xuemo_cave_1",
+    "xuemo_cave_2",
+    "xuemo_cave_3",
+    "beihai_ice",
+    "nanlin_forest",
+    "huxia_valley",
+    "huating_plain",
+    "yanfei_city",
+    "jianhuang_sanctuary",
+    "anmi_village",
+    "nanming_lake"
+  ],
+  "map_policy": "本列表独立明确采用当前21公共地图可交易；仅借现有公共地图身份清单，不能把便携功能是否允许当动态交易权限。修炼房/私场/未知地图不开放；新增正式公共地图须显式补清单，不从缺字段推允许。本人合法入图门槛沿原world owner，不因交易传送或绕门槛。",
+  "eligible_items": [
+    {
+      "item_id": "jewelry_merit_earring_8da0d0a77c11",
+      "definition_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/items/0"
+      },
+      "adapter": "merit_jewelry_instance",
+      "transfer_effect_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/trade_policy"
+      }
+    },
+    {
+      "item_id": "jewelry_merit_necklace_2ddb51e2d34a",
+      "definition_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/items/1"
+      },
+      "adapter": "merit_jewelry_instance",
+      "transfer_effect_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/trade_policy"
+      }
+    },
+    {
+      "item_id": "jewelry_merit_ring_2c56eaf071db",
+      "definition_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/items/2"
+      },
+      "adapter": "merit_jewelry_instance",
+      "transfer_effect_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/trade_policy"
+      }
+    },
+    {
+      "item_id": "jewelry_merit_earring_071dd25e356c",
+      "definition_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/items/3"
+      },
+      "adapter": "merit_jewelry_instance",
+      "transfer_effect_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/trade_policy"
+      }
+    },
+    {
+      "item_id": "jewelry_merit_necklace_1622ab0eefd7",
+      "definition_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/items/4"
+      },
+      "adapter": "merit_jewelry_instance",
+      "transfer_effect_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/trade_policy"
+      }
+    },
+    {
+      "item_id": "jewelry_merit_ring_d1fcaf888d40",
+      "definition_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/items/5"
+      },
+      "adapter": "merit_jewelry_instance",
+      "transfer_effect_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/trade_policy"
+      }
+    },
+    {
+      "item_id": "jewelry_merit_earring_d75a6f78bce5",
+      "definition_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/items/6"
+      },
+      "adapter": "merit_jewelry_instance",
+      "transfer_effect_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/trade_policy"
+      }
+    },
+    {
+      "item_id": "jewelry_merit_necklace_198d823072ec",
+      "definition_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/items/7"
+      },
+      "adapter": "merit_jewelry_instance",
+      "transfer_effect_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/trade_policy"
+      }
+    },
+    {
+      "item_id": "jewelry_merit_ring_ebfa62954344",
+      "definition_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/items/8"
+      },
+      "adapter": "merit_jewelry_instance",
+      "transfer_effect_ref": {
+        "file": "新版武勋首饰.v1.json",
+        "pointer": "/trade_policy"
+      }
+    },
+    {
+      "item_id": "jewelry_master_crystal_charm",
+      "definition_ref": {
+        "file": "普通首饰加工.v1.json",
+        "pointer": "/items/1"
+      },
+      "adapter": "unbound_plain_material_stack",
+      "transfer_effect": "精确quantity转移，不带装备加工/耐久效果；保源取得前链与本次拆分/转让收据，接收方新堆ID与owner，不伪造商店购买。"
+    }
+  ],
+  "permission_policy": {
+    "definitions": "每个player_trade=true的已采用正式定义须有本合同精确item_id/adapter和完整实例/堆语义；本版本采用9首饰+1名匠符。其他明确false的物品不可交易；新出现true却无adapter属于配置错误，阻止该配置启用，不能静默默认或按类别全放。",
+    "ownership": "本人随身equipment_bag唯一实例或inventory真实堆，当前定义及实例实际binding均unbound，无任务/角色/到期归属、不可移动保护或其他占用。穿戴/备用/仓库/复购记录/队友/NPC库存不能作为输入；不自动卸装/取仓/解绑。未知/坏记录先拒绝，不按不可交易忽略。",
+    "item_override": "18交易权限覆盖仍须有明确适配器及结构安全规则；本合同不把未登记的覆盖当解除绑定命令。未采用的绑定转换/成长转让字段继续保留缺口。",
+    "recipient": "接收方不需物品穿戴等级/称号但须有合法容器/重量与完整定义；只取得所有权不自动装备/学技能/领奖。新版首饰实际转让沿70归0耐久，原实例和血统/加工历史保留。"
+  },
+  "admission": {
+    "participants": "同一当前LAN world、不同character_id及独立单写档案、均在线active存活/脱战/空闲、同允许map且脚位置平方距离<=3000²mm；角色无活动/传送/未结算经济/其他交易/待决准备守卫，双方规则/内容版本相同。房主认证连接所属角色，不能提交他人ID冒名。NPC/离线幽灵/同角色多开/跨房不参与。",
+    "invitation": "发起锁定双方角色交易占用至拒绝/过期/取消，避免交叉邀请产生两会话；接收方明确接受才开放报价。过期按房主会话单调实时时钟，不被暂停/菜单刷新；邀请前先验双方已确认经济水位。",
+    "session": "有交易占用时玩家可聊天/设置，角色不移动/攻击/用物/拾取/任务/仓储/配置/切组/接受其他邀请；世界继续，敌人伤害/合法时钟仍结算。受击/死亡、场景/距离/水位/有效修订改变在提交前取消该交易；不能以交易面板获得无敌或冻结称号。",
+    "semantic_revision": "任何影响钱物/容量/重量/资格/结果的角色/库存/配置修订或精确输入修订变化，在preparing之前使报价失效；固定步先处理时钟/伤害/外部事务，再收交易意图，最后提交。普通剩余步递减不虚增业务修订，但到期效果改变构筑须重验。",
+    "deadline": "仅实际有效报价/锁定/解锁/确认状态改变重设editing空闲期限，重复请求/状态查询/网络心跳不续时；preparing从持久计划发布后固定30秒，不因ACK重置。单调时钟仅当前进程使用、不跨重启保存绝对时间；重开按持久decision恢复，未决一律持久abort。"
+  },
+  "offer_policy": {
+    "shape_ref": {
+      "file": "玩家交易结构.schema.json",
+      "pointer": "/$defs/offer"
+    },
+    "entries": "每侧最多8条、稳定target_id只出现一次。instance条quantity精确1；stack条1..该真实源堆可用数量且<=定义max_stack。target_id/修订由房主解析精确定义，不让客户端报item_id/单价/品质当权威。",
+    "silver": "每侧silver严格0..安全整数且不超过本人随身余额；源仓银不参与。赠予允许一侧全空；双方所有条目/银都为空时不可最终确认。银同时双向时仍分别检查每侧原余额足够，不能用对方未入账钱充本方报价。",
+    "update": "完整替换本人报价，输入完全相同则无操作；本人或对方已锁定时拒绝修改，须显式unlock解除双方锁定/确认后再编辑。报价修订只在内容实际变化时增1，trade_revision每次有效协议状态改变增1；同命令重试先去重，不重复增。",
+    "reservation": "报价仅引用唯一原物并在房主会话中预留，不移到第二份托管背包，不扣银/拆堆/改耐久；预留银不可被并发业务使用。资源没有两个所有权。取消释放引用，输入及ID不变。"
+  },
+  "states": [
+    "invited",
+    "editing",
+    "reviewing",
+    "preparing",
+    "committed",
+    "completed",
+    "aborted"
+  ],
+  "transitions": [
+    {
+      "from": "invited",
+      "event": "accept",
+      "to": "editing",
+      "guard": "接收方认证、未超时且双方仍满足入场；发起方不能代接。"
+    },
+    {
+      "from": "editing",
+      "event": "replace_offer",
+      "to": "editing",
+      "guard": "双方均未锁定、合法完整新报价且实际有变化；清两方确认。"
+    },
+    {
+      "from": "editing",
+      "event": "lock",
+      "to": "editing",
+      "guard": "仅本人锁定，仍有另一方未锁；锁当前报价修订/摘要。"
+    },
+    {
+      "from": "editing",
+      "event": "lock_both",
+      "to": "reviewing",
+      "guard": "第二方锁定，原修订与完整预演有效；展示双方净变化和重置。"
+    },
+    {
+      "from": "reviewing",
+      "event": "confirm_one",
+      "to": "reviewing",
+      "guard": "本人确认当前审阅摘要与trade_revision，另一方未确认。"
+    },
+    {
+      "from": "reviewing",
+      "event": "confirm_both",
+      "to": "preparing",
+      "guard": "第二方明确确认，双方钱物/修订/格重重验成功，房主持久准备计划成功后才发送prepare。"
+    },
+    {
+      "from": "editing",
+      "event": "unlock",
+      "to": "editing",
+      "guard": "至少一方已锁，本人显式解除双方锁/确认；不改报价内容。"
+    },
+    {
+      "from": "reviewing",
+      "event": "unlock",
+      "to": "editing",
+      "guard": "解除双方锁/确认，旧审阅摘要/状态修订失效。"
+    },
+    {
+      "from": "preparing",
+      "event": "both_prepared_and_commit",
+      "to": "committed",
+      "guard": "双方本地持久guard成功ACK且摘要一致，仍在线且本步原状态无变，房主原子持久commit及双方结果成功。"
+    },
+    {
+      "from": "committed",
+      "event": "both_result_saved_ack",
+      "to": "completed",
+      "guard": "双方结果按19连续序号应用并保存ACK，房主连续确认水位持久成功。"
+    }
+  ],
+  "abort_from": [
+    "invited",
+    "editing",
+    "reviewing",
+    "preparing"
+  ],
+  "abort_policy": {
+    "before_prepare": "拒绝/取消/离开面板/超时/受伤死亡/位移换图/断开在准备前结束会话，释放未变原物引用；客户端不得把缺少最终结果显示为成交。旧命令返回已取消，不重开旧会话。",
+    "prepared": "preparing后任一取消/准备失败/超时/断开或状态改变，先房主持久abort决定，再向两方发解除守卫。准备阶段房主写失败不能回滚为内存已取消并通知释放；保未决并停止该交易新动作，等待同计划重试持久决定。",
+    "after_commit": "房主commit文件替换成功为不可逆业务决定。此后取消/断开/保存失败只进入结果待确认，禁止abort、退物退银或用反向补发修复。晚到abort请求回原commit。"
+  },
+  "preview": {
+    "view": "左右双方真实角色名/ID尾段、原物品精确详情及加工/耐久/绑定/数量、各侧银两、接收/送出及净格重/余额、赠予标识、税0和70耐久归0。全部引用房主同一计划。",
+    "confirmation": "锁定与最终确认是两步；确认按钮只绑定当前world/trade/offer_revision/trade_revision及canonical_digest，任何变化清两方确认。不会仅按中文名称/客户端截图确认，不允许单方确认代双方。",
+    "feedback": "明确显示等待对方锁定/最终确认/双方准备保存/房主决定/本地保存与对方确认。commit后显示已成交及各自保存状态；completed才显示双方保存完成，不能让一侧ACK冒充两侧完成。",
+    "configuration_revision_owner_ref": {
+      "file": "角色配置修订.v1.json",
+      "pointer": ""
+    }
+  },
+  "calculation": {
+    "final_balances": "A_final=A_before-A_offer+B_offer；B_final=B_before-B_offer+A_offer。分别先验两侧原余额可付，再安全整数范围检查最终量；拒绝溢出，不减到负值修复。税0，整个交易守恒，不产生经验/武勋/历练。",
+    "containers": "先在两侧副本同时移除各自输入，计算剩余布局，再加入对方输入。实例按对方报价条序放最低空槽，保ID/血统并更新owner/转让来源及修订。满包一换一可用送出腾出格；只剩单侧空间或重量不足整笔拒绝。不得先检查入包失败再扣物造成丢失。",
+    "stacks": "全量送出移除源堆，部分送出保源堆ID减量/修订+1；接收先按稳定slot/stack_id将同定义/不绑定/有效期/普通材料属性完全一致的合法堆填满，余量按定义上限生成新堆ID放最低空槽。源堆ID不作为接收方新堆ID，数量和来源流向均写本事件。多个源合一按物品堆与来源.v1.json记录每源分量及完整旧版本输入，不能只留一个来源。新ID在准备计划生成并持久，重试不再分配；取消不回收重用这些ID。 双方所有最终堆输出custody必须显式held，不能接收/产生buyback域；输入须验证最新已提交域而非原创建域。",
+    "weight": "双方最终随身重量含未动装备/库存、送出后与接收后的实际逐件重量；仓库不计，银两无重量。先完整原库存校验再预演，空容量/坏重量/未知定义不得视为0。",
+    "merit_effect": "新版9款每件真实所有权转移只在最终commit结果将durability设0，owner与ownership/durability来源更新为同settlement_id、实例修订+1；保加工/创建/血统，原来源链随有效转让证据到新owner。不同角色赠予同样触发，空转/取消不触发。",
+    "random": "本协议不消费玩法随机。报价/预演/准备无角色业务修订变化，commit双方各自业务修订+1及库存修订+1；每个存续变更实例/源堆/合并堆修订各+1，新接收堆从0。全量送出源堆移除并记原数量/修订消费收据，不保0数量空堆。ID分配沿identity，不用战斗/强化随机流。"
+  },
+  "canonical_digest": {
+    "algorithm": "SHA256 UTF8自定义确定JSON编码：对象键按Unicode代码点升序，数组按既定顺序，无空白；整数输出十进制最短形式、零为0；true/false/null为JSON小写字面量。字符串以双引号包裹，双引号与反斜杠分别用反斜杠转义，U+0000..001F一律小写\\u00xx，不用\\n等短转义；其余Unicode直接UTF8（含/及U+2028），不转ASCII、不作Unicode正规化。拒绝孤立代理码点、重复键、浮点/指数数字token和非有限数；不能用任意引擎JSON输出顺序替代。",
+    "scope": "world_id/protocol与规则哈希/trade_id/offer_revision、双方character_id/profile_id、前角色/库存/配置修订、原物摘要、报价、最终余额/布局/转让效果、确定新ID及原来源链证据摘要；trade_revision与本次审阅挑战另绑定确认消息，不因单方确认就改变同一计划摘要。",
+    "boundary": "摘要用于相同结果/确认与损坏检查，不是防恶意房主/手动改档/备份回滚的签名承诺。Peer重分配不改变trade_id或角色身份。"
+  },
+  "persistence": {
+    "host_location": "world.player_trade_journal按trade_id存唯一准备计划及decision(null/commit/abort)、参与者准备标记/双方结果/连续确认引用。它是19世界结算日志的trade类型记录；通用日志引用该记录，不再复制一份全量角色/物品结果。editing/invited草稿不持久。",
+    "host_record_fields": [
+      "trade_id",
+      "settlement_id",
+      "world_id",
+      "rules_hash",
+      "protocol_version",
+      "offer_revision",
+      "plan_digest",
+      "participants",
+      "plan",
+      "prepared_character_ids",
+      "decision",
+      "result_sequence_refs"
+    ],
+    "participant_plan_fields": [
+      "character_id",
+      "profile_id",
+      "before_character_revision",
+      "before_inventory_revision",
+      "before_configuration_revision",
+      "after_character_revision",
+      "after_inventory_revision",
+      "source_fingerprint",
+      "offered_silver",
+      "offered_entries",
+      "after_carried_silver",
+      "after_inventory_projection",
+      "after_equipment_bag_projection"
+    ],
+    "prepare_order": "双方最终确认后房主先把唯一完整计划decision=null持久到世界原文件，成功后才发prepare；候选结果不可发布或供玩法使用。两侧在自身档案原子保存character.pending_player_trade守卫并ACK成功；房主逐个准备ACK持久。guard不改变角色业务修订，属于协议元数据，档案整体写锁仍持有。房主自己也必须先写本角色guard。",
+    "guard_shape_ref": {
+      "file": "玩家交易结构.schema.json",
+      "pointer": "/$defs/persistentGuard"
+    },
+    "guard": "正常状态显式null，prepared时精确保存world/trade/settlement/角色/原修订/计划摘要及原物指纹；不复制全量物品/改余额。守卫必须先持久才ACK，失败保同一待保存状态且不ACK，不允许离线/别房/角色删除/物品配置使用该角色资源。UI可退出但只能以待决只读状态恢复，不能丢guard继续玩；同档其他角色可正常选择。",
+    "commit_order": "收到两方持久prepare ACK后，房主按固定步重验原状态/双方在线及引用，原子持久同计划decision=commit、双方19连续序号结果及世界修订。替换成功后才公开并应用两方权威结果；任何一侧断开不回滚。写失败不发布，保持同准备计划，无重新计算/随机/新ID；若本步前状态已变须走持久abort。 双方完整结果快照由commit当步当前角色复制后应用计划经济投影产生，保合法计时/其他未改字段，不把准备前整份角色覆盖回来。",
+    "apply": "各接收者先核guard世界/交易/摘要和连续序号/前修订；在同一自身档案替换中写入准确结果+network_receipts水位并清guard，保存成功后ACK。保存失败保未保存内存并禁止该角色新资源事务，重发只保存同一结果；不再次消耗/重置耐久。已应用同结果不要求仍有guard，只检查持久收据后回ACK。",
+    "abort_apply": "收到同一准备计划的房主持久abort，只清同guard和预留、不改变原业务钱物；清guard持久成功后ACK。若已持久commit结果，任何旧abort拒绝，不能清新guard或退物。接收者已有guard但房主准备ACK缺失时也以该host计划唯一decision处理。 解除只改协议元数据，不把准备前整份快照覆盖回当前，保留其间已提交的合法外部变化。",
+    "recovery": "同world房主重开先加载journal。decision=commit重发原结果到任一未确认者；abort重发解除；null一律先持久abort再通知解除，绝不根据一侧guard/时间戳/网络丢包推commit。守卫存在却原房主不可达/计划缺失时拒绝经济游玩与自动清除，明确错误并等待原日志恢复；不从缺日志重建新成交或退款。",
+    "compression": "当前网络owner无完整压缩证明协议，原交易准备/决定计划、双方结果与必要来源不裁剪；全部ACK仅是将来压缩的必要条件。未确认者不按120秒席位/超时清日志，磁盘不足在新业务前拒绝。",
+    "provenance_retention": "原准备计划/决定与接收者必要创建/加工/转让来源完整保留，紧凑摘要不替代证明。当前不采用丢弃全量计划/副本的压缩协议；完整角色/world及来源闭包仍须联审。",
+    "legacy": "新角色与四已知旧格式导入显式pending_player_trade=null，新世界player_trade_journal={}、player_trade_next_id=0；现有新格式缺字段拒绝。不因未实现过交易就对未知schema5自动补字段。",
+    "postcommit_role_lock": "commit后尚未应用并保存者继续禁止资源事务；已应用/保存并得到房主持久ACK确认的一侧释放本人交易占用，可继续玩法，不因另一侧未保存而冻结。原交易保持committed且结果不可删，双方都确认才completed，禁止拿一侧完成显示全体完成。",
+    "uncertain_replace": "权威文件替换返回不确定结果时，停止该交易新发布/解除；只重读同一正式档案内该journal并核完整格式/交易ID/摘要/决定。确认commit按原提交重发，确认null按未决恢复先持久abort，确认abort按解除；读取失败/坏档保守卫并报具体错误，不从tmp/备份猜决定、不盲重试新成交。持久性底层实现仍须按05/10实际Windows替换故障验证。",
+    "journal_schema_ref": {
+      "file": "玩家交易结构.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "decided_record_schema_ref": {
+      "file": "玩家交易结构.schema.json",
+      "pointer": "/$defs/decided_record"
+    }
+  },
+  "duplicate_policy": "所有命令认证world/角色+trade_id+request_id与严格payload；先查已记录结果，same ID/same payload回原状态，same ID/different payload拒绝。活会话命令须expected_trade_revision一致；迟到锁/确认/prepare ACK不能作用新计划或另一交易。旧会话已终态的取消/确认只回原决定，不重开。 未持久邀请/编辑会话在进程重启即过期，旧连接会话token不可在新连接重放创建邀请；重连只能凭原trade_id查持久决定，新邀请需新的显式命令。",
+  "implementation_gate": "双人协议、完整原journal/准备计划/决定结构、共同三流及10个适配器采用；完整角色/world/来源闭包、全部经济联审及真实Windows/跨机LAN尚未完成，不运行交易或宣称最终交付。",
+  "identity": "world.player_trade_next_id为独立严格非负安全整数，新世界0；发邀请前房主同world权威文件持久预留当前计数并+1，trade_id=world_id+\":trade:\"+该十进制计数，settlement_id与trade_id相同。计数耗尽拒绝，不回绕；取消/崩溃保已分配缺口、不重用。它不是19连续结算序号。接收方新堆ID按物品堆与来源.v1.json：stack:加71确定JSON编码[trade_id,接收角色ID,该角色新堆0起序号]的SHA256小写摘要；准备前固定并校验全局身份不冲突，不消费玩法随机。",
+  "session_fields": [
+    "trade_id",
+    "world_id",
+    "inviter_character_id",
+    "recipient_character_id",
+    "state",
+    "trade_revision",
+    "offer_revision",
+    "offers",
+    "locked_character_ids",
+    "confirmed_character_ids",
+    "review_digest",
+    "invite_deadline_monotonic_ms",
+    "editing_idle_deadline_monotonic_ms",
+    "preparing_deadline_monotonic_ms"
+  ],
+  "silver_flow_owner_ref": {
+    "file": "银两来源流.v1.json",
+    "pointer": ""
+  },
+  "rules_manifest_owner_ref": {
+    "file": "规则清单.v1.json",
+    "pointer": ""
+  },
+  "persistent_record_validation": {
+    "identity": "world.player_trade_journal的键、record.trade_id及settlement_id必须相同，按原world计数算法解析原已分配身份；record.world_id/authority与原world一致，protocol_version=原已验证1、rules_hash精确原包。participants按发起/接收原顺序恰两完整LAN会话identity，不同character/profile且同world/authority，原begin/active/接纳与真实成员闭合；Peer不当身份。",
+    "plan": "plan精确participant_plans/transfer_provenance两键；participant_plans按原participants顺序映射本人ID/profile/三before修订、报价与source_fingerprint及预演after两修订/随身银/两随身容器。共同银/堆/实例流只在transfer_provenance一处，不在每侧重复。库存正文由原flow及原未变正文构造，不在布局再复制实物。",
+    "digest": "plan_digest=71确定JSON编码对象{world_id,protocol_version,rules_hash,trade_id,offer_revision,participants,plan}的SHA256；恰七键，不含plan_digest自身、准备ACK/decision/result_sequence_refs或单调时钟。participants及所有plan内容完整冻结，原指纹须由真实输入/源头与报价重算；不只验合法hex。原reviewing确认与本摘要绑定。",
+    "preparing": "唯一完整计划decision=null持久后才发prepare，prepared_character_ids仅真实成功保存原guard并认证ACK者，0..2且严格按participants顺序；source_fingerprint/三修订/ID/摘要逐项等原guard。计划内after和三流尚未授权/不改变实物；无正式结果序号，result_sequence_refs=[]。",
+    "silver": "双方任何正银报价才有一个共同silver_flow，否则null且两原银头保持。两账户按participants序且仅随身，原非null来源头、不开账户；每个正报价恰一对应0→1或1→0移动且amount=该侧完整报价、authorization=null，无税/收入/销毁/仓银。逐侧先减本报价再加另一侧报价验安全范围与after，禁止先净额或把MAX两余额相加。",
+    "stacks": "有名匠符实际转让才有一个共同stack_flow，否则null；输入覆盖所有报价真实源和接收合堆受影响旧堆，输出仅名匠符unbound/nullscope/held、无mint/consumptions。每原输入数量按全部contributions守恒，不以接收者额外产物补差；源余堆/合堆修订与接收新ID/稳定最低槽沿原calculation。原布局未变堆不得无故进流。",
+    "instances": "有九首饰实际转让才有一个共同instance_flow，否则null；最多双方16件，每输入完整原12键首饰及最新held域/来源头，输出恰一ownership_transfer、held、无创建/退役，目标owner为对方且durability0。ID/血统/原创建与加工来源保留，revision+1及ownership/durability源本trade；错误新造/改品质/原owner输出或角色绑定拒绝。",
+    "commit": "prepared_character_ids须恰两本人且原guard成功保存证明齐；原资格/三修订/原输入/格重重核通过后decision=commit与双方world个人结果/原真实flow及world修订同笔。双方两业务修订各+1；结果序号引用按participants序各一且命中原网络封套，封套result_id=trade_id、producer.record为本已决定完整记录。原计划不可更改，commit后永不abort/completed改决定，completed只由两原ACK派生。",
+    "abort": "decision=abort同笔持久两正式解除结果引用，prepared子集可空/一/两；保全部原计划及候选流但绝不执行这些流。各解除结果从决定当步当前合法本人构造，仅清同trade原guard/占用、两业务修订保持；外部已合法死亡/计时/资源变化不被旧plan覆盖。双方未保存时保原决定与恢复证明，未准备者亦只回明确取消结果。",
+    "result_refs": "null决定空引用；commit/abort恰两character_id/sequence引用，按participants顺序唯一、指原world.character_result_journals中双方各一连续封套，不能另分配交易结果计数/重复记录全量角色。原producer冻结记录内只存这些小引用，不嵌套结果封套造成自包含。",
+    "candidate_and_history": "准备后允许原prepared子集单调增加、最后由null决定到唯一commit/abort并一次写结果引用，plan/参与者/身份/摘要不变。终态不可改写，ACK沿原网络owner外部记录。历史验证沿原决定/流及后继，不要求当前物品/耐久/余额等于旧plan.after，也不因已消耗或转送重放发物。",
+    "boundary": "原完整交易journal结构与共同三流计划采用；真实完整角色/world/通用来源闭包、双方存盘证明/成员认证及实际文件/LAN仍待，不能据结构运行交易。"
+  }
+}

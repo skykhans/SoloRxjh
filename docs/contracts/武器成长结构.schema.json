@@ -1,0 +1,298 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:weapon-growth-shapes:v1",
+  "$comment": "仅武器共享嵌套结构；普通/英雄成功来源及逐定义资格分别按各owner校验，不复用防具层数。",
+  "$defs": {
+    "synthesis_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_index",
+        "property_id",
+        "value",
+        "origin_receipt_id"
+      ],
+      "properties": {
+        "slot_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "property_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "origin_receipt_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "property_id": {
+              "const": "attack_flat"
+            },
+            "value": {
+              "const": 8
+            }
+          }
+        },
+        {
+          "properties": {
+            "property_id": {
+              "const": "martial_power_flat"
+            },
+            "value": {
+              "const": 20
+            }
+          }
+        },
+        {
+          "properties": {
+            "property_id": {
+              "const": "accuracy_flat"
+            },
+            "value": {
+              "const": 15
+            }
+          }
+        },
+        {
+          "properties": {
+            "property_id": {
+              "const": "evasion_flat"
+            },
+            "value": {
+              "const": 10
+            }
+          }
+        }
+      ]
+    },
+    "jade_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "property_id",
+        "value",
+        "origin_receipt_id"
+      ],
+      "properties": {
+        "property_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "origin_receipt_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "property_id": {
+              "const": "attack_flat"
+            },
+            "value": {
+              "const": 12
+            }
+          }
+        },
+        {
+          "properties": {
+            "property_id": {
+              "const": "martial_flat_power"
+            },
+            "value": {
+              "const": 30
+            }
+          }
+        },
+        {
+          "properties": {
+            "property_id": {
+              "const": "accuracy_flat"
+            },
+            "value": {
+              "const": 20
+            }
+          }
+        }
+      ]
+    },
+    "element": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "element_id",
+        "stage",
+        "origin_receipt_id"
+      ],
+      "properties": {
+        "element_id": {
+          "enum": [
+            "fire",
+            "poison"
+          ]
+        },
+        "stage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "origin_receipt_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "divine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deity_id",
+        "origin_receipt_id"
+      ],
+      "properties": {
+        "deity_id": {
+          "enum": [
+            "tortoise",
+            "phoenix",
+            "tiger",
+            "dragon"
+          ]
+        },
+        "origin_receipt_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "boost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boost_id",
+        "stacks",
+        "remaining_steps",
+        "origin_receipt_ids"
+      ],
+      "properties": {
+        "boost_id": {
+          "enum": [
+            "regular_tianchi_pill",
+            "hero_tianchi_pill"
+          ]
+        },
+        "stacks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "remaining_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 108000
+        },
+        "origin_receipt_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stacks": {
+                "const": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin_receipt_ids": {
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stacks": {
+                "const": 2
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin_receipt_ids": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stacks": {
+                "const": 3
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin_receipt_ids": {
+                "minItems": 3,
+                "maxItems": 3
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stacks": {
+                "const": 4
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin_receipt_ids": {
+                "minItems": 4,
+                "maxItems": 4
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

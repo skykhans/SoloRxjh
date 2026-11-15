@@ -1,0 +1,65 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_catalog_armor_instance_shape_adopted_not_implemented_profile_and_receipts_pending",
+  "scope": "51普通1219+55武勋106共1325正式防具完整根结构；不含77基础阻塞、21门派、初心短衫、旧兼容甲或其他实例类别。完整结构不表示其他元素/药品/特殊触发和所有来源已采用。",
+  "owners": {
+    "schema": "普通防具实例.schema.json",
+    "growth": "普通防具成长.v1.json",
+    "growth_schema": "普通防具成长.schema.json",
+    "readable": "../62-普通防具成长结构与校验合同.md",
+    "layout": "容器与仓储.v1.json",
+    "custody": "物品域迁移.v1.json"
+  },
+  "catalog_refs": [
+    {
+      "file": "普通防具基础定义.v1.json",
+      "pointer": "/items"
+    },
+    {
+      "file": "武勋防具基础定义.v1.json",
+      "pointer": "/items"
+    }
+  ],
+  "root_fields": [
+    "instance_id",
+    "item_id",
+    "lineage_id",
+    "owner_character_id",
+    "binding",
+    "revision",
+    "creation_receipt_id",
+    "state_origin_receipt_id",
+    "enhancement",
+    "synthesis_entries",
+    "awakening_stage",
+    "element_attribute",
+    "evolution_tier",
+    "true_equipment",
+    "merit_equipment",
+    "four_divine_state",
+    "jade_attributes",
+    "enhancement_boost"
+  ],
+  "layout": "8个身份/来源元字段及62十个平铺成长字段精确18键；不新增growth容器，不在根写quantity/location/slot/weight/derived stats。正文只在character.equipment_instances按instance_id持有，正式位置引用一次，实例owner与角色一致。",
+  "binding": "1325件全部按正式定义character绑定，角色/背包/仓库/主辅移动不解绑。全部现有NPC出售/复购及玩家交易权限为false，不能因引入通用域迁移schema而允许这些操作。",
+  "creation": "首次正式生成instance_id/lineage_id全新、owner绑定本角色、revision=0，creation_receipt_id与state_origin_receipt_id均为实际创建结算。十字段初态取62，true/merit严格复制精确定义布尔；未知路径/缺字段不生成默认实例。",
+  "state_origin": "state_origin_receipt_id引用最近一次本实例正式业务处理/明确配置/自然到期状态变更收据；它是完整前链入口，不是状态数值自证。沿实际收据校验所有前版本/费用/随机消费/结果/旧ID消费/明确配置及创建锚，既有嵌套origin继续指各自原成功来源，不能用最近入口覆盖原分量证明。",
+  "revision": "同一正式事件影响该实例业务状态或记录一次真实加工尝试时实例revision恰+1，角色/库存修订按各owner一次。失败保强化但实际耗材料/银费/RNG的强化尝试仍更新最近state_origin及实例修订，拒绝/取消/上限/无变化配置不更新。重放只返回原结果，不回装旧状态。",
+  "clock": "61共享clock普通remaining_steps递减不增加业务修订、不更新state_origin、不每步分配命令收据；保存同快照准确剩余及权威时钟。读档由合法boost代次/成功来源及权威快照校验剩余，不与最近业务收据中的初始时长强求相等。自然到期置null产生一次正式到期状态结果并更新state_origin/实例修订，沿61共享时钟的角色/库存修订规则，不额外递增第二次。完整时钟结果收据结构仍待。",
+  "replacement": "60提真消费旧实例，目标新instance_id、同lineage_id/owner/绑定、目标revision=0，creation_receipt_id和state_origin_receipt_id均指本次提真成功。该收据是新实例创建锚和同血统替换边；不改写旧实例创建历史，不把新ID指回最初商店创建冒充出生。保留成长嵌套原凭证沿60替换边核验，目标强化严格源减2，同血统只能一个活体。",
+  "transfer": "59强化转移的源实例被消费并保完整历史，目标保原instance_id/lineage_id/creation_receipt_id，目标revision+1、state_origin指本转移结果。typed元素导入与其他成长精确保留按59，不能转移源血统或覆盖目标创建锚。",
+  "custody": "同角色整物位置/域迁移若正文完全不变，保实例revision与两个根来源字段，仅按原位置/域事件改角色/库存及历史位置；1325当前无NPC复购/交易许可，禁止构造伪迁移来绕过。自然倒计时独立进行，操作取消不恢复旧剩余。",
+  "configuration": "仅18已登记且具明确来源的生成/修改可用独立配置收据；结构/身份/精确定义/唯一性不豁免。未登记的防具高级字段映射仍待，不能把本根schema当新配置入口。配置生成已知定义仍建立唯一创建锚，非零成长必须有对应明确配置修改链，不能伪造正常加工成功。",
+  "validation_order": [
+    "严格JSON/整数token及完整18键白名单，不抽字段隐藏坏根",
+    "item_id必须在1325精确目录且按本profile解析完整根",
+    "owner/binding/注册表身份/唯一位置与单一活血统",
+    "62成长结构及逐定义能力/静态标识/交叉约束",
+    "创建/最新业务前链及各嵌套原来源、59typed和60替换边",
+    "正常与明确配置来源区分，合法暂失资格保物；操作资格另验",
+    "候选提交前重验格重/来源/最终预算并同笔保存，恢复不重放加工"
+  ],
+  "legacy": "该1325目录没有已采用真实旧运行实例迁移；四已知旧档的护甲沿旧装备兼容独立profile，不能凭同名/相同防御套18键补0/null。新格式缺字段拒绝，未来真实迁移须单列。",
+  "implementation_gate": "完整1325根schema及已有十字段组件已采用；完整档案/经济与实例收据/provenance根、其他元素/药品/特殊触发、预算/高级配置、全部资源经济服务及Godot/LAN仍待，不注册运行或创建实际实例。"
+}

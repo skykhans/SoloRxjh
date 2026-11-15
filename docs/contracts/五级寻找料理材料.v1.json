@@ -1,0 +1,282 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "source_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/0"
+    },
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/70/text"
+    },
+    "published": "5级金香玉，猎蛤蟆收后腿10，香木宝盒5，执行1次。",
+    "local": "14职业/三路线/rank0/无前任务；个人本轮100%每死亡1/0克99堆10封顶、怪物战斗与4刷点/盒内容均为本地采用。"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63791-001",
+    "source_reference_id": "QREF-63791-001",
+    "name": "寻找烹饪材料【寻找料理材料】",
+    "minimum_level": 5,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_jinxiangyu",
+    "npc_map_id": "hyunbo_town",
+    "interaction_anchor_id": "npc_jinxiangyu_service",
+    "service_id": "cooking_materials_1",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "acceptance": "5级/14职业/任一路线/rank0，精确NPC与锚<=2500mm，未完成且未接；无前任务/晋级门槛，新建唯一attempt，不收费/发物。",
+    "preaccept_items_count": false,
+    "requirements": [
+      {
+        "item_id": "quest_frog_hindleg",
+        "quantity": 10
+      }
+    ],
+    "readiness": "自己当前attempt真实后腿恰10，无影子计数；未接死亡不累计。",
+    "reward": {
+      "experience": 0,
+      "practice": 0,
+      "silver": 0,
+      "items": [
+        {
+          "item_id": "quest_reward_aromatic_wood_box",
+          "quantity": 5,
+          "definition_ref": {
+            "file": "香木宝盒固定开启.v1.json",
+            "pointer": "/item"
+          }
+        }
+      ],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "repeat": "角色跨世界一次，无路线/组队/日常重置。",
+    "delivery": "本人存活/脱战/空闲/无挑战/精确NPC锚<=2500mm、等级>=5/14职业/三路线/rank0、当前attempt；消费真实后腿10，预检香木宝盒5/100克/99堆/角色绑定的来源合堆或新inventory槽。原库存合法且最终重量/槽均合法，才05/19同笔消费10/发5盒/完成收据/角色库存修订各一次。无即时XP/历练/银/晋级/治疗/冷却改变。",
+    "capacity_failure": "少1克/最终材料槽不足/非法来源/保存失败整笔保后腿10，不部分给盒；释放后腿槽可放盒，但0克输入仍须承载100克输出。",
+    "modifiers": "5盒固定任务奖不受组队池/修炼/终结者倍率。",
+    "deduplication": "角色/任务跨世界唯一完成；同request同payload回原决定，改payload拒绝；旧结果不回装已开或移走盒。",
+    "abandon": "显式确认只清当前attempt后腿，重置未接；重接新attempt，旧死亡不补；完成后不能放弃。",
+    "save": "保存状态/attempt/真实后腿及盒来源/唯一完成收据，存盘不确定先解析原05/19决定，不能再发5盒。",
+    "reward_identity": "香木盒为本任务独立名称物，非白银/黄金/银宝盒，固定开盒由其唯一owner定义。",
+    "qualification": "alive/outofcombat/idle/nochallenge，14职业/三路线/level>=5/rank0，原金香玉精确锚<=2500mm。"
+  },
+  "item": {
+    "item_id": "quest_frog_hindleg",
+    "name": "蛤蟆后腿",
+    "source_reference_id": "QREF-63791-001",
+    "source_kind": "task_item_name_not_IREFcatalog_adoption",
+    "category": "quest_token",
+    "stack_limit": 99,
+    "weight_g": 0,
+    "maximum_per_active_attempt": 10,
+    "binding": "character/quest/attempt",
+    "permissions": {
+      "equip": false,
+      "direct_use": false,
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false,
+      "quest_delivery": true,
+      "abandon_cleanup": true
+    },
+    "sell_price": null,
+    "initial_grant": 0,
+    "identity_policy": "本轮个人任务物，不作恢复食物或普通食材；0克/99堆明确本地值。"
+  },
+  "collection": {
+    "producers": [
+      {
+        "monster_id": "hyunbo_frog5",
+        "map_id": "hyunbo_outskirts",
+        "item_id": "quest_frog_hindleg",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "qualification": "本人活跃attempt/存活连接同世界同图，solo原归属或19原组队奖励成员快照30m/入队>=600步，真实后腿<10。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "个人后腿新堆/来源合堆及重量统一预检；原死亡无物结果持久化，腾包/重连/新轮不补发。",
+    "commit": "本owner蛤蟆唯一原死亡事务，普通经验历练银一次及个人任务物05/19同笔，任务物不受终结者/修炼倍率。"
+  },
+  "monster": {
+    "monster_id": "hyunbo_frog5",
+    "source_reference_id": "MREF-39821-002",
+    "name": "蛤蟆",
+    "level": 5,
+    "map_id": "hyunbo_outskirts",
+    "combat_kind": "monster",
+    "boss": false,
+    "is_npc_martial": false,
+    "max_hp": 300,
+    "max_mana": 0,
+    "attack_min": 15,
+    "attack_max": 20,
+    "ordinary_defense": 10,
+    "accuracy": 25,
+    "evasion": 10,
+    "critical_chance_bp": 0,
+    "critical_multiplier_bp": 15000,
+    "movement_mm_per_second": 3000,
+    "qigong_allocations": {},
+    "rage_enabled": false,
+    "supports_blood_devil": false,
+    "reward_profile": "explicit_frog5",
+    "xp_reward": 642,
+    "practice_reward": 64,
+    "silver_reward": 5,
+    "ascension_progress_reward": 500,
+    "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+    "fixed_loot": [],
+    "random_loot": [],
+    "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+    "finisher_reward_components": [
+      "experience",
+      "practice",
+      "silver"
+    ],
+    "model_spec": {
+      "presentation_id": "hyunbo_frog5",
+      "status": "蛤蟆模型/跳跃移动与攻击动画待制作"
+    },
+    "identity_policy": "来源蛤蟆5级/泫勃村庄及桥周边；本地郊野4home不是官网坐标。全部战斗数值为项目值。",
+    "source_ref": {
+      "file": "../reference/怪物参数.json",
+      "pointer": "/monsters/80"
+    }
+  },
+  "spawns": [
+    {
+      "spawn_id": "hyunbo_frog5_01",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_frog5",
+      "home_feet_m": [
+        -32,
+        0,
+        -16
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_frog5_02",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_frog5",
+      "home_feet_m": [
+        -32,
+        0,
+        16
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_frog5_03",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_frog5",
+      "home_feet_m": [
+        32,
+        0,
+        -16
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_frog5_04",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_frog5",
+      "home_feet_m": [
+        32,
+        0,
+        16
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "明确本地被动，仅被攻击才仇恨，不借来源空值称官方被动；脱战沿原规则。",
+      "safe_zone": "地图全部安全区禁止敌对进入/出生，沿路返home恢复，不瞬移。"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "pending": [
+    "Godot收集/终交/盒开启/真实来源/存档/LAN测试",
+    "蛤蟆模型/动画/动态导航与5级经济校准"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "spawn_clearance": "4home半径0.45+巡逻2米，边界/阻挡/安全区及所有郊野home点距检查通过。",
+    "player_grid": {
+      "step_m": 1,
+      "radius_m": 0.35,
+      "connected_cells": 84861,
+      "reachable_new_homes": 4
+    },
+    "quest_capacity": "交10个0克后腿→5盒100克；100克可行/99克拒绝，必须原库存合法与真实最终材料槽。",
+    "opening_capacity_cases": [
+      {
+        "existing_partial_potion_stack": 0,
+        "merge_quantity": 0,
+        "new_stack_quantity": 5,
+        "new_potion_slots_required": 1
+      },
+      {
+        "existing_partial_potion_stack": 94,
+        "merge_quantity": 5,
+        "new_stack_quantity": 0,
+        "new_potion_slots_required": 0
+      },
+      {
+        "existing_partial_potion_stack": 95,
+        "merge_quantity": 4,
+        "new_stack_quantity": 1,
+        "new_potion_slots_required": 1
+      },
+      {
+        "existing_partial_potion_stack": 98,
+        "merge_quantity": 1,
+        "new_stack_quantity": 4,
+        "new_potion_slots_required": 1
+      },
+      {
+        "existing_partial_potion_stack": 99,
+        "merge_quantity": 0,
+        "new_stack_quantity": 5,
+        "new_potion_slots_required": 1
+      }
+    ],
+    "opening_weight": "每开1净增30克，30克可行/29克拒绝；原盒数量1或>1均不得以释放材料槽代药品槽。",
+    "five_box_total": "5盒100克全部开启→小药25/250克，累计净增150克，无RNG/即时治疗。"
+  }
+}

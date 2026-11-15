@@ -1,0 +1,880 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:hero-weapon-instance:v1",
+  "$comment": "完整平铺根白名单；JSON Schema不区分1与1.0，严格数字token、成功收据/血统/费用/RNG及业务修订另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "instance_id",
+    "item_id",
+    "lineage_id",
+    "owner_character_id",
+    "binding",
+    "revision",
+    "creation_receipt_id",
+    "state_origin_receipt_id",
+    "enhancement",
+    "synthesis_entries",
+    "awakening_stage",
+    "evolution_tier",
+    "true_equipment",
+    "merit_equipment",
+    "jade_attributes",
+    "element_attribute",
+    "four_divine_state",
+    "enhancement_boost",
+    "exclusive_weapon_advancement_stage"
+  ],
+  "properties": {
+    "instance_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "item_id": {
+      "enum": [
+        "weapon_blood_orb_rank01",
+        "weapon_blood_orb_rank02",
+        "weapon_blood_orb_rank03",
+        "weapon_blood_orb_rank04",
+        "weapon_blood_orb_rank05",
+        "weapon_blood_orb_rank06",
+        "weapon_blood_orb_rank07",
+        "weapon_blood_orb_rank08",
+        "weapon_blood_orb_rank08_true",
+        "weapon_blood_orb_rank09",
+        "weapon_blood_orb_rank09_true",
+        "weapon_blood_orb_rank10",
+        "weapon_blood_orb_rank10_true",
+        "weapon_blood_orb_rank11",
+        "weapon_blood_orb_rank11_true",
+        "weapon_blood_orb_rank12",
+        "weapon_blood_orb_rank12_true",
+        "weapon_fire_dragon_rank01",
+        "weapon_fire_dragon_rank02",
+        "weapon_fire_dragon_rank03",
+        "weapon_fire_dragon_rank04",
+        "weapon_fire_dragon_rank05",
+        "weapon_fire_dragon_rank06",
+        "weapon_fire_dragon_rank07",
+        "weapon_fire_dragon_rank08",
+        "weapon_fire_dragon_rank09",
+        "weapon_fire_dragon_rank09_true",
+        "weapon_fire_dragon_rank10",
+        "weapon_fire_dragon_rank10_true",
+        "weapon_fire_dragon_rank11",
+        "weapon_fire_dragon_rank11_true",
+        "weapon_fire_dragon_rank12",
+        "weapon_fire_dragon_rank12_true",
+        "weapon_flower_sword_rank01",
+        "weapon_flower_sword_rank02",
+        "weapon_flower_sword_rank03",
+        "weapon_flower_sword_rank04",
+        "weapon_flower_sword_rank05",
+        "weapon_flower_sword_rank06",
+        "weapon_flower_sword_rank07",
+        "weapon_flower_sword_rank08",
+        "weapon_flower_sword_rank08_true",
+        "weapon_flower_sword_rank09",
+        "weapon_flower_sword_rank09_true",
+        "weapon_flower_sword_rank10",
+        "weapon_flower_sword_rank10_true",
+        "weapon_flower_sword_rank11",
+        "weapon_flower_sword_rank11_true",
+        "weapon_flower_sword_rank12",
+        "weapon_flower_sword_rank12_true",
+        "weapon_black_tortoise_bow_rank01",
+        "weapon_black_tortoise_bow_rank02",
+        "weapon_black_tortoise_bow_rank03",
+        "weapon_black_tortoise_bow_rank04",
+        "weapon_black_tortoise_bow_rank05",
+        "weapon_black_tortoise_bow_rank06",
+        "weapon_black_tortoise_bow_rank07",
+        "weapon_black_tortoise_bow_rank08",
+        "weapon_black_tortoise_bow_rank08_true",
+        "weapon_black_tortoise_bow_rank09",
+        "weapon_black_tortoise_bow_rank09_true",
+        "weapon_black_tortoise_bow_rank10",
+        "weapon_black_tortoise_bow_rank10_true",
+        "weapon_black_tortoise_bow_rank11",
+        "weapon_black_tortoise_bow_rank11_true",
+        "weapon_black_tortoise_bow_rank12",
+        "weapon_black_tortoise_bow_rank12_true",
+        "weapon_soul_spear_rank01",
+        "weapon_soul_spear_rank02",
+        "weapon_soul_spear_rank03",
+        "weapon_soul_spear_rank04",
+        "weapon_soul_spear_rank05",
+        "weapon_soul_spear_rank06",
+        "weapon_soul_spear_rank07",
+        "weapon_soul_spear_rank08",
+        "weapon_soul_spear_rank08_true",
+        "weapon_soul_spear_rank09",
+        "weapon_soul_spear_rank09_true",
+        "weapon_soul_spear_rank10",
+        "weapon_soul_spear_rank10_true",
+        "weapon_soul_spear_rank11",
+        "weapon_soul_spear_rank11_true",
+        "weapon_soul_spear_rank12",
+        "weapon_soul_spear_rank12_true",
+        "weapon_cold_jade_staff_rank01",
+        "weapon_cold_jade_staff_rank02",
+        "weapon_cold_jade_staff_rank03",
+        "weapon_cold_jade_staff_rank04",
+        "weapon_cold_jade_staff_rank05",
+        "weapon_cold_jade_staff_rank06",
+        "weapon_cold_jade_staff_rank07",
+        "weapon_cold_jade_staff_rank08",
+        "weapon_cold_jade_staff_rank08_true",
+        "weapon_cold_jade_staff_rank09",
+        "weapon_cold_jade_staff_rank09_true",
+        "weapon_cold_jade_staff_rank10",
+        "weapon_cold_jade_staff_rank10_true",
+        "weapon_cold_jade_staff_rank11",
+        "weapon_cold_jade_staff_rank11_true",
+        "weapon_cold_jade_staff_rank12",
+        "weapon_cold_jade_staff_rank12_true",
+        "weapon_blood_orb_sealed",
+        "weapon_fire_dragon_sealed",
+        "weapon_flower_sword_sealed",
+        "weapon_black_tortoise_bow_sealed",
+        "weapon_soul_spear_sealed",
+        "weapon_cold_jade_staff_sealed"
+      ]
+    },
+    "lineage_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "owner_character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "binding": {
+      "const": "character"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "creation_receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "state_origin_receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "enhancement": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 15
+    },
+    "synthesis_entries": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "$ref": "urn:solorxjh:weapon-growth-shapes:v1#/$defs/synthesis_entry"
+      }
+    },
+    "awakening_stage": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "evolution_tier": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "true_equipment": {
+      "type": "boolean"
+    },
+    "merit_equipment": {
+      "const": false
+    },
+    "jade_attributes": {
+      "type": "array",
+      "maxItems": 1,
+      "items": {
+        "$ref": "urn:solorxjh:weapon-growth-shapes:v1#/$defs/jade_entry"
+      }
+    },
+    "element_attribute": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:weapon-growth-shapes:v1#/$defs/element"
+        }
+      ]
+    },
+    "four_divine_state": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:weapon-growth-shapes:v1#/$defs/divine"
+        }
+      ]
+    },
+    "enhancement_boost": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:weapon-growth-shapes:v1#/$defs/boost"
+            },
+            {
+              "properties": {
+                "boost_id": {
+                  "const": "hero_tianchi_pill"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "exclusive_weapon_advancement_stage": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank01",
+              "weapon_blood_orb_rank02",
+              "weapon_blood_orb_rank03",
+              "weapon_blood_orb_rank04",
+              "weapon_blood_orb_rank05",
+              "weapon_blood_orb_rank06",
+              "weapon_blood_orb_rank07",
+              "weapon_blood_orb_rank08",
+              "weapon_blood_orb_rank09",
+              "weapon_blood_orb_rank10",
+              "weapon_blood_orb_rank11",
+              "weapon_blood_orb_rank12",
+              "weapon_fire_dragon_rank01",
+              "weapon_fire_dragon_rank02",
+              "weapon_fire_dragon_rank03",
+              "weapon_fire_dragon_rank04",
+              "weapon_fire_dragon_rank05",
+              "weapon_fire_dragon_rank06",
+              "weapon_fire_dragon_rank07",
+              "weapon_fire_dragon_rank08",
+              "weapon_fire_dragon_rank09",
+              "weapon_fire_dragon_rank10",
+              "weapon_fire_dragon_rank11",
+              "weapon_fire_dragon_rank12",
+              "weapon_flower_sword_rank01",
+              "weapon_flower_sword_rank02",
+              "weapon_flower_sword_rank03",
+              "weapon_flower_sword_rank04",
+              "weapon_flower_sword_rank05",
+              "weapon_flower_sword_rank06",
+              "weapon_flower_sword_rank07",
+              "weapon_flower_sword_rank08",
+              "weapon_flower_sword_rank09",
+              "weapon_flower_sword_rank10",
+              "weapon_flower_sword_rank11",
+              "weapon_flower_sword_rank12",
+              "weapon_black_tortoise_bow_rank01",
+              "weapon_black_tortoise_bow_rank02",
+              "weapon_black_tortoise_bow_rank03",
+              "weapon_black_tortoise_bow_rank04",
+              "weapon_black_tortoise_bow_rank05",
+              "weapon_black_tortoise_bow_rank06",
+              "weapon_black_tortoise_bow_rank07",
+              "weapon_black_tortoise_bow_rank08",
+              "weapon_black_tortoise_bow_rank09",
+              "weapon_black_tortoise_bow_rank10",
+              "weapon_black_tortoise_bow_rank11",
+              "weapon_black_tortoise_bow_rank12",
+              "weapon_soul_spear_rank01",
+              "weapon_soul_spear_rank02",
+              "weapon_soul_spear_rank03",
+              "weapon_soul_spear_rank04",
+              "weapon_soul_spear_rank05",
+              "weapon_soul_spear_rank06",
+              "weapon_soul_spear_rank07",
+              "weapon_soul_spear_rank08",
+              "weapon_soul_spear_rank09",
+              "weapon_soul_spear_rank10",
+              "weapon_soul_spear_rank11",
+              "weapon_soul_spear_rank12",
+              "weapon_cold_jade_staff_rank01",
+              "weapon_cold_jade_staff_rank02",
+              "weapon_cold_jade_staff_rank03",
+              "weapon_cold_jade_staff_rank04",
+              "weapon_cold_jade_staff_rank05",
+              "weapon_cold_jade_staff_rank06",
+              "weapon_cold_jade_staff_rank07",
+              "weapon_cold_jade_staff_rank08",
+              "weapon_cold_jade_staff_rank09",
+              "weapon_cold_jade_staff_rank10",
+              "weapon_cold_jade_staff_rank11",
+              "weapon_cold_jade_staff_rank12",
+              "weapon_blood_orb_sealed",
+              "weapon_fire_dragon_sealed",
+              "weapon_flower_sword_sealed",
+              "weapon_black_tortoise_bow_sealed",
+              "weapon_soul_spear_sealed",
+              "weapon_cold_jade_staff_sealed"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "true_equipment": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank08_true",
+              "weapon_blood_orb_rank09_true",
+              "weapon_blood_orb_rank10_true",
+              "weapon_blood_orb_rank11_true",
+              "weapon_blood_orb_rank12_true",
+              "weapon_fire_dragon_rank09_true",
+              "weapon_fire_dragon_rank10_true",
+              "weapon_fire_dragon_rank11_true",
+              "weapon_fire_dragon_rank12_true",
+              "weapon_flower_sword_rank08_true",
+              "weapon_flower_sword_rank09_true",
+              "weapon_flower_sword_rank10_true",
+              "weapon_flower_sword_rank11_true",
+              "weapon_flower_sword_rank12_true",
+              "weapon_black_tortoise_bow_rank08_true",
+              "weapon_black_tortoise_bow_rank09_true",
+              "weapon_black_tortoise_bow_rank10_true",
+              "weapon_black_tortoise_bow_rank11_true",
+              "weapon_black_tortoise_bow_rank12_true",
+              "weapon_soul_spear_rank08_true",
+              "weapon_soul_spear_rank09_true",
+              "weapon_soul_spear_rank10_true",
+              "weapon_soul_spear_rank11_true",
+              "weapon_soul_spear_rank12_true",
+              "weapon_cold_jade_staff_rank08_true",
+              "weapon_cold_jade_staff_rank09_true",
+              "weapon_cold_jade_staff_rank10_true",
+              "weapon_cold_jade_staff_rank11_true",
+              "weapon_cold_jade_staff_rank12_true"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "true_equipment": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_sealed",
+              "weapon_fire_dragon_sealed",
+              "weapon_flower_sword_sealed",
+              "weapon_black_tortoise_bow_sealed",
+              "weapon_soul_spear_sealed",
+              "weapon_cold_jade_staff_sealed"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank01",
+              "weapon_fire_dragon_rank01",
+              "weapon_flower_sword_rank01",
+              "weapon_black_tortoise_bow_rank01",
+              "weapon_soul_spear_rank01",
+              "weapon_cold_jade_staff_rank01"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank02",
+              "weapon_fire_dragon_rank02",
+              "weapon_flower_sword_rank02",
+              "weapon_black_tortoise_bow_rank02",
+              "weapon_soul_spear_rank02",
+              "weapon_cold_jade_staff_rank02"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank03",
+              "weapon_fire_dragon_rank03",
+              "weapon_flower_sword_rank03",
+              "weapon_black_tortoise_bow_rank03",
+              "weapon_soul_spear_rank03",
+              "weapon_cold_jade_staff_rank03"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 3
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank04",
+              "weapon_fire_dragon_rank04",
+              "weapon_flower_sword_rank04",
+              "weapon_black_tortoise_bow_rank04",
+              "weapon_soul_spear_rank04",
+              "weapon_cold_jade_staff_rank04"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 4
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank05",
+              "weapon_fire_dragon_rank05",
+              "weapon_flower_sword_rank05",
+              "weapon_black_tortoise_bow_rank05",
+              "weapon_soul_spear_rank05",
+              "weapon_cold_jade_staff_rank05"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 5
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank06",
+              "weapon_fire_dragon_rank06",
+              "weapon_flower_sword_rank06",
+              "weapon_black_tortoise_bow_rank06",
+              "weapon_soul_spear_rank06",
+              "weapon_cold_jade_staff_rank06"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 6
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank07",
+              "weapon_fire_dragon_rank07",
+              "weapon_flower_sword_rank07",
+              "weapon_black_tortoise_bow_rank07",
+              "weapon_soul_spear_rank07",
+              "weapon_cold_jade_staff_rank07"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 7
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank08",
+              "weapon_blood_orb_rank08_true",
+              "weapon_fire_dragon_rank08",
+              "weapon_flower_sword_rank08",
+              "weapon_flower_sword_rank08_true",
+              "weapon_black_tortoise_bow_rank08",
+              "weapon_black_tortoise_bow_rank08_true",
+              "weapon_soul_spear_rank08",
+              "weapon_soul_spear_rank08_true",
+              "weapon_cold_jade_staff_rank08",
+              "weapon_cold_jade_staff_rank08_true"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 8
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank09",
+              "weapon_blood_orb_rank09_true",
+              "weapon_fire_dragon_rank09",
+              "weapon_fire_dragon_rank09_true",
+              "weapon_flower_sword_rank09",
+              "weapon_flower_sword_rank09_true",
+              "weapon_black_tortoise_bow_rank09",
+              "weapon_black_tortoise_bow_rank09_true",
+              "weapon_soul_spear_rank09",
+              "weapon_soul_spear_rank09_true",
+              "weapon_cold_jade_staff_rank09",
+              "weapon_cold_jade_staff_rank09_true"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 9
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank10",
+              "weapon_blood_orb_rank10_true",
+              "weapon_fire_dragon_rank10",
+              "weapon_fire_dragon_rank10_true",
+              "weapon_flower_sword_rank10",
+              "weapon_flower_sword_rank10_true",
+              "weapon_black_tortoise_bow_rank10",
+              "weapon_black_tortoise_bow_rank10_true",
+              "weapon_soul_spear_rank10",
+              "weapon_soul_spear_rank10_true",
+              "weapon_cold_jade_staff_rank10",
+              "weapon_cold_jade_staff_rank10_true"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 10
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank11",
+              "weapon_blood_orb_rank11_true",
+              "weapon_fire_dragon_rank11",
+              "weapon_fire_dragon_rank11_true",
+              "weapon_flower_sword_rank11",
+              "weapon_flower_sword_rank11_true",
+              "weapon_black_tortoise_bow_rank11",
+              "weapon_black_tortoise_bow_rank11_true",
+              "weapon_soul_spear_rank11",
+              "weapon_soul_spear_rank11_true",
+              "weapon_cold_jade_staff_rank11",
+              "weapon_cold_jade_staff_rank11_true"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 11
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank12",
+              "weapon_blood_orb_rank12_true",
+              "weapon_fire_dragon_rank12",
+              "weapon_fire_dragon_rank12_true",
+              "weapon_flower_sword_rank12",
+              "weapon_flower_sword_rank12_true",
+              "weapon_black_tortoise_bow_rank12",
+              "weapon_black_tortoise_bow_rank12_true",
+              "weapon_soul_spear_rank12",
+              "weapon_soul_spear_rank12_true",
+              "weapon_cold_jade_staff_rank12",
+              "weapon_cold_jade_staff_rank12_true"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exclusive_weapon_advancement_stage": {
+            "const": 12
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank01",
+              "weapon_blood_orb_rank02",
+              "weapon_blood_orb_rank03",
+              "weapon_fire_dragon_rank01",
+              "weapon_fire_dragon_rank02",
+              "weapon_fire_dragon_rank03",
+              "weapon_flower_sword_rank01",
+              "weapon_flower_sword_rank02",
+              "weapon_flower_sword_rank03",
+              "weapon_black_tortoise_bow_rank01",
+              "weapon_black_tortoise_bow_rank02",
+              "weapon_black_tortoise_bow_rank03",
+              "weapon_soul_spear_rank01",
+              "weapon_soul_spear_rank02",
+              "weapon_soul_spear_rank03",
+              "weapon_cold_jade_staff_rank01",
+              "weapon_cold_jade_staff_rank02",
+              "weapon_cold_jade_staff_rank03",
+              "weapon_blood_orb_sealed",
+              "weapon_fire_dragon_sealed",
+              "weapon_flower_sword_sealed",
+              "weapon_black_tortoise_bow_sealed",
+              "weapon_soul_spear_sealed",
+              "weapon_cold_jade_staff_sealed"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "jade_attributes": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank01",
+              "weapon_blood_orb_rank02",
+              "weapon_blood_orb_rank03",
+              "weapon_blood_orb_rank04",
+              "weapon_fire_dragon_rank01",
+              "weapon_fire_dragon_rank02",
+              "weapon_fire_dragon_rank03",
+              "weapon_fire_dragon_rank04",
+              "weapon_flower_sword_rank01",
+              "weapon_flower_sword_rank02",
+              "weapon_flower_sword_rank03",
+              "weapon_flower_sword_rank04",
+              "weapon_black_tortoise_bow_rank01",
+              "weapon_black_tortoise_bow_rank02",
+              "weapon_black_tortoise_bow_rank03",
+              "weapon_black_tortoise_bow_rank04",
+              "weapon_soul_spear_rank01",
+              "weapon_soul_spear_rank02",
+              "weapon_soul_spear_rank03",
+              "weapon_soul_spear_rank04",
+              "weapon_cold_jade_staff_rank01",
+              "weapon_cold_jade_staff_rank02",
+              "weapon_cold_jade_staff_rank03",
+              "weapon_cold_jade_staff_rank04",
+              "weapon_blood_orb_sealed",
+              "weapon_fire_dragon_sealed",
+              "weapon_flower_sword_sealed",
+              "weapon_black_tortoise_bow_sealed",
+              "weapon_soul_spear_sealed",
+              "weapon_cold_jade_staff_sealed"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "awakening_stage": {
+            "const": 0
+          },
+          "evolution_tier": {
+            "const": 0
+          },
+          "four_divine_state": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "awakening_stage": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "four_divine_state": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "enhancement_boost": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "enhancement": {
+            "const": 15
+          },
+          "item_id": {
+            "enum": [
+              "weapon_blood_orb_rank11",
+              "weapon_blood_orb_rank11_true",
+              "weapon_blood_orb_rank12",
+              "weapon_blood_orb_rank12_true",
+              "weapon_fire_dragon_rank11",
+              "weapon_fire_dragon_rank11_true",
+              "weapon_fire_dragon_rank12",
+              "weapon_fire_dragon_rank12_true",
+              "weapon_flower_sword_rank11",
+              "weapon_flower_sword_rank11_true",
+              "weapon_flower_sword_rank12",
+              "weapon_flower_sword_rank12_true",
+              "weapon_black_tortoise_bow_rank11",
+              "weapon_black_tortoise_bow_rank11_true",
+              "weapon_black_tortoise_bow_rank12",
+              "weapon_black_tortoise_bow_rank12_true",
+              "weapon_soul_spear_rank11",
+              "weapon_soul_spear_rank11_true",
+              "weapon_soul_spear_rank12",
+              "weapon_soul_spear_rank12_true",
+              "weapon_cold_jade_staff_rank11",
+              "weapon_cold_jade_staff_rank11_true",
+              "weapon_cold_jade_staff_rank12",
+              "weapon_cold_jade_staff_rank12_true"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

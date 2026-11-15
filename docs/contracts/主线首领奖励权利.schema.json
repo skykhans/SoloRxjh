@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:story-boss-fixed-reward-entitlement:v1",
+  "$comment": "原个人首领attempt记录内固定物品奖励权利片段，非完整活动/死亡/领取事件。真实死亡、唯一源/当前权威/原规则及领取流闭合另验；不保存奖励数量镜像，不从旧主线阶段补建。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "character_id",
+    "attempt_id",
+    "death_receipt_id",
+    "encounter_id",
+    "rules_hash",
+    "phase",
+    "claim_settlement_id"
+  ],
+  "properties": {
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "attempt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "death_receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "encounter_id": {
+      "enum": [
+        "story_boss_q003",
+        "story_boss_q004",
+        "story_boss_q005"
+      ]
+    },
+    "rules_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "phase": {
+      "enum": [
+        "pending",
+        "claimed"
+      ]
+    },
+    "claim_settlement_id": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^settlement:[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 75,
+          "maxLength": 75
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "pending"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "claim_settlement_id": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "claim_settlement_id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

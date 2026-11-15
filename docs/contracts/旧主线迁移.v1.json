@@ -1,9 +1,9 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
-  "status": "migration_design_not_implemented_full_world_items_pending",
+  "updated_on": "2026-11-15",
+  "status": "retained_mainline_mapping_adopted_runtime_step_and_reward_events_pending_not_implemented",
   "source_archive": "../reference/旧主线任务基线.json",
-  "scope": "原Q001～Q005阶段、计数和奖励数值承接；新职业物品/剧情适配与任务逐项正式场景引用另需闭合。",
+  "scope": "原Q001～Q005阶段/计数/奖励采用，旧装备与进度严格映射沿原owner，Q003～Q005个人首领按原遭遇；完整任务/死亡/奖励原事件与来源及实际迁移仍待。",
   "initial_pack_owner": "角色初始模板.v1.json; legacy starting_potions=3 is evidence only, never grant in addition to new 5+5 pack",
   "quests": [
     {
@@ -17,7 +17,11 @@
       "reward_silver": 0,
       "reward_xp": 0,
       "reward_potions": 0,
-      "completion": "binding completed once; unlock Q002; no rank/skill grants"
+      "completion": "binding completed once; unlock Q002; only new sword role receives legacy_sword_energy rank1 in the same original binding settlement; valid imported ranks/origin remain unchanged; no promotion rank grant",
+      "binding_settlement_ref": {
+        "file": "剧情剑与玲珑竹.v1.json",
+        "pointer": "/binding_settlement"
+      }
     },
     {
       "quest_id": "Q002",
@@ -98,13 +102,36 @@
     "class_equipping": "sword-class compatible use explicit equip transaction only; other classes keep story sword as quest artifact and use their own weapon for combat/gathering",
     "binding_does_not_require_equipped_sword": true,
     "duplicate_grant": "stage/request guard; import preserves existing instance and does not grant again",
-    "formal_item_definition_status": "剧情剑与玲珑竹.v1.json defines ownership/stats/permissions and all3 explicit enhancement recipes; legacy instance mapping still pending"
+    "formal_item_definition_status": "剧情剑与玲珑竹.v1.json保原定义/权限/三强化配方，旧装备兼容.instance_root及旧档导入原实例流保来源路径/强化/血统/创建锚。目标每角色浮仙剑唯一，源重复冲突按原导入校验明确拒绝，不静默丢弃或合并；正式映射已采用，真实导入未实现。"
   },
   "transactions": "step/real items/XP/silver/potions/claimed round counters and result IDs commit once; validate output capacity after input removal; insufficient space retains deliverable state; save failure re-saves same committed result",
   "rule_changes": "new gameplay XP uses explicit180 table, level-up never refills resources; initial potion/new class rules override old starting3 grant only for new roles; original rewards retained as starter quest rewards not high-level economy proof",
   "open_dependencies": [
-    "old story sword instance mapping",
-    "all5 monster/source entity/reward/boss gate bindings",
-    "full old save story-stage mapping without resource loss"
-  ]
+    "Q001回报/取剑、Q002真实竹交付、Q003～Q005回报及两重复狩猎领取的完整严格原事件/授权与profile日志；Q001认主只沿已有独立原事件，不重建第二owner。",
+    "普通猎物与个人首领真实死亡/参与者归属及计数更新原结果，怪物经验/历练与任务回报分开；完整world/activity及多接收者保存封套。",
+    "个人首领奖励九键权利及三阶段领取事件/日志已采用；完整attempt/死亡来源、延后领取/返回的活动根与物品产出联合证明仍待；旧阶段导入不制造待领奖权。",
+    "完整角色/profile根与规则配置例外、四旧格式实际导入/读写失败/重放及Godot整链测试；已有片段映射不等于迁移无损已验证。"
+  ],
+  "adopted_dependency_refs": {
+    "equipment_instance": {
+      "file": "旧装备兼容.v1.json",
+      "pointer": "/instance_root"
+    },
+    "legacy_instance_flow": {
+      "file": "旧档导入.v1.json",
+      "pointer": "/receipt_policy"
+    },
+    "retained_progress": {
+      "file": "故事冒险门派进度.v1.json",
+      "pointer": ""
+    },
+    "normal_character_validation": {
+      "file": "故事冒险门派进度.schema.json",
+      "pointer": "/$defs/normal_character_projection"
+    },
+    "personal_boss_encounters": {
+      "file": "主线首领遭遇.v1.json",
+      "pointer": "/encounters"
+    }
+  }
 }

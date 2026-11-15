@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:legacy-sword-learning-state:v1",
+  "$comment": "character.skills.legacy_sword唯一四技能等级/原起点与后续等级事件引用。预算按原等级/认主来源推导不存第二余额；结构不替代旧档/故事授予与真实支付来源。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ranks",
+    "origin_ref",
+    "rank_change_receipt_ids"
+  ],
+  "properties": {
+    "ranks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacy_sword_energy",
+        "legacy_sword_piercing",
+        "legacy_sword_guard",
+        "legacy_sword_mend"
+      ],
+      "properties": {
+        "legacy_sword_energy": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "legacy_sword_piercing": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "legacy_sword_guard": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "legacy_sword_mend": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      }
+    },
+    "origin_ref": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "receipt_id"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "legacy_import",
+                "story_grant"
+              ]
+            },
+            "receipt_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        }
+      ]
+    },
+    "rank_change_receipt_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "origin_ref": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "ranks": {
+            "properties": {
+              "legacy_sword_energy": {
+                "const": 0
+              },
+              "legacy_sword_piercing": {
+                "const": 0
+              },
+              "legacy_sword_guard": {
+                "const": 0
+              },
+              "legacy_sword_mend": {
+                "const": 0
+              }
+            }
+          },
+          "rank_change_receipt_ids": {
+            "maxItems": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "ranks": {
+            "properties": {
+              "legacy_sword_energy": {
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

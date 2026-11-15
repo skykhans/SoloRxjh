@@ -174,5 +174,47 @@
         "dead_actor": "never resurrect"
       }
     }
-  ]
+  ],
+  "persistent_learning_state": {
+    "field": "character.skills.legacy_sword",
+    "schema_ref": {
+      "file": "旧剑技学习状态.schema.json",
+      "pointer": ""
+    },
+    "new_character_initial": {
+      "ranks": {
+        "legacy_sword_energy": 0,
+        "legacy_sword_piercing": 0,
+        "legacy_sword_guard": 0,
+        "legacy_sword_mend": 0
+      },
+      "origin_ref": null,
+      "rank_change_receipt_ids": []
+    },
+    "identity": "四稳定ID精确全键等级0～3，显式0表示未学；不能按名称/数组位置加载现行档或复制成普通技能。新建各职业初始同零表/空来源/空变化列表，不提前送剑气。",
+    "origin": "origin_ref=null时必须四零/空变化。新剑客Q001认主真实已提交原事件一次授剑气1，origin_ref={kind:story_grant,receipt_id:原Q001授予}；其他三项仍0。四已知旧来源导入引用真实导入收据kind=legacy_import，按原数组索引完整保四级；energy至少1，未认主原默认[1,0,0,0]可保留但禁用，不能反推Q001已完成。其他职业不得借本结构获得剑技。",
+    "history": "后续rank_change_receipt_ids按本技能组已提交训练/明确配置调整原序引用，逐原事件核本人/ID/前后等级、原2/4/8实际银费/规则与资格；收据全局本列表唯一。自origin原四级快照重放到当前ranks，不按当前等级/现价补历史、不复制费用总账；旧导入起点不虚构过去训练费或剑气授予事件。配置直接授予未知分支尚未定义，不能无原起点用配置兜底。",
+    "budget": "旧修行总量min(11,推导人物等级−1)，认主且有合法免费剑气起点后spent=sum(ranks)−1，未分配=总量−spent，仅内存派生，不保存legacy_points第二币。新增每级耗一个预算及原银费，普通/升天/反气功点池不能支付。加载超预算或缺来源拒绝；配置降等级的冲突处理仍须18明确原事件，不自动剪级/补点/调用山参修坏档。",
+    "lifecycle": "训练/故事授予/导入与等级记录及角色/原来源同事务。原Q001授予重复仅重放，已导入有剑气1不再送第二级或重发币。升天初始化/气功洗点不改本组件；合法失装备/暂失使用资格保原等级/来源，效果与冷却按战斗owner不在本表。",
+    "legacy_initialization": "四已知旧来源先核原数组length4/整数范围/原解锁等级/认主与sum(ranks)−1<旧等级，之后按原兼容规则映射ranks。origin_ref指同一真实导入收据、rank_change_receipt_ids=[]；来源快照/凭证保原值。导入已有profile其他角色不变，现行缺字段拒绝。",
+    "boundary": "完整旧剑技训练/故事授予/配置事件与角色、战斗/冷却、快捷栏、档案/来源和结果封套仍待，本组件不授权实际导入或业务。"
+  },
+  "training_events": {
+    "field": "profile.legacy_sword_training_events",
+    "schema_ref": {
+      "file": "旧剑技训练事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "initial": [],
+    "command": "原会话identity/command_id/两预期修订/ability_id/精确曹彬legacy_sword_training服务上下文；只付费升一个原等级，不传预算/退款或已认主标记。",
+    "identity": "request_id为71确定编码[\"legacy_sword_training\",play_session_identity.session_id,command_id]，摘要为71完整command的SHA256。先查原请求，同键同摘要回原阶段/决定，改参数拒绝，不重复取counter。",
+    "reservation": "完整档案、原active会话/ACK、两修订、真实sword职业/已认主/合法剑气起点、曹彬原窗口/同世界本人/距离<=2500mm/视线、存活/非战斗/空闲/无挑战先验。按原能力最低人物等级、rank<3及原预算min(11,L−1)核sum(四级)−1+1不超预算；缺原来源或已有超预算拒绝。原rank0/1/2银费2/4/8，剑气0只能Q001免费授予，不能在此付费补起点。核本人随身银实际来源/余额，authority锁内冻结rules_hash/rank_before/silver_cost/silver_input，counter+1与reserved同笔保存，业务不变；跨owner本角色唯一未决业务，不用随机。",
+    "commit": "同锁重核全部原条件/来源/规则/两修订/窗口/等级预算与银头。原位committed与唯一能力等级+1、rank_change_receipt_ids追加本结算、实际随身银扣原2/4/8及角色修订+1同档提交；库存修订保持，不改历练/气功/升天/反气功或其他旧等级。免费剑气与导入原起点不重发、不改。",
+    "binding": "rank_after=plan.rank_before+1，原价格按rank_before精确索引learning.prices_by_current_rank。唯一silver_flow/账户本人carried_silver、previous_output等plan.silver_input、opening_authorization=null；唯一movement从0到null/amount=plan.silver_cost/service_fee且authority_receipt_id与flow.receipt_id均等本结算，after=before−cost。角色after修订=命令+1/库存after=原命令，原变化列表仅追加本结算一次。预算和原银来源仍须语义核验。",
+    "abort": "四原原因state_changed/rules_changed/session_invalid/explicit_cancel原位终止，无扣银/等级/业务修订变化，身份/命令/计划不变；已提交仅重放，不取消返费保等级。",
+    "recovery": "先重读完整正式档案，旧会话不恢复active，旧reserved按session_invalid持久abort；存疑保存暂停并重读，不覆盖可能committed。持久确认后发布，LAN沿原连续结果/接收者保存/ACK，完整封套仍待。",
+    "journal": "唯一原数组预留追加/终态一次原位替换；身份/命令/计划不可变，终态不可改删。allocation_index递增、身份/请求唯一，与所有owner联合覆盖counter；保原付费/等级依赖，无压缩协议不裁剪，空间不足停止预留。",
+    "initialization": "新profile及四已知旧来源新profile显式[]；已有profile保原日志/计数，不为旧导入起点伪造历史银费，现行缺字段拒绝。",
+    "boundary": "原Q001免费授予/配置完整事件、真实窗口/原预算/来源、角色/profile/world/结果封套及Godot/LAN运行尚待，D1未通过。"
+  }
 }

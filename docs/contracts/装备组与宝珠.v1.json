@@ -178,7 +178,19 @@
       "sell_to_npc_allowed": false,
       "discard_allowed": false,
       "personal_storage_allowed": true,
-      "gem_instances_nonstackable_project_choice": true
+      "gem_instances_nonstackable_project_choice": true,
+      "catalog_owner_ref": {
+        "file": "装备宝珠基础定义.v1.json",
+        "pointer": ""
+      },
+      "instance_owner_ref": {
+        "file": "装备宝珠实例.v1.json",
+        "pointer": ""
+      },
+      "materials_and_acquisition_owner_ref": {
+        "file": "装备宝珠材料与取得.v1.json",
+        "pointer": ""
+      }
     },
     "gem_effect_formula": {
       "evidence": "project_design_not_official_formula",
@@ -305,7 +317,11 @@
       "pve_stat_applies_to": "explicit_pve_combat_ruleset_not_visual_humanoid_test",
       "max_hp_increase_heals_current_hp": false,
       "max_hp_decrease_rule": "during_legal_state_transition_reduce_current_hp_to_new_max_without_healing_on_restore",
-      "load_bad_hp_policy": "reject_inconsistent_snapshot_not_repair_by_clamping"
+      "load_bad_hp_policy": "reject_inconsistent_snapshot_not_repair_by_clamping",
+      "hero_boost_exclusion_owner_ref": {
+        "file": "英雄武器附加提升.v1.json",
+        "pointer": "/projection_policy"
+      }
     },
     "gem_evolution": {
       "service": "gem_admin",
@@ -442,8 +458,46 @@
     "all_equipment_definition_requirements_and_growth_contract",
     "all_role_initialization_and_progression_contract",
     "global_inventory_capacity_weight_and_stack_contract",
-    "raid_proof_and_normal_gem_real_acquisition_contract",
+    "raid_encounter_and_personal_reward_full_receipts_implementation",
     "complete_role_core_stats_combat_and_caps_contract",
     "final_world_NPC_location_mapping"
-  ]
+  ],
+  "switch_events": {
+    "field": "profile.loadout_switch_events",
+    "schema_ref": {
+      "file": "装备组切换事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "initial": [],
+    "command": "严格原会话identity/command_id/两预期修订/target_loadout_id/confirm_anti_allocation_clear；仅primary/secondary目标，不接受客户端装备/预算/属性/当前组覆盖。UI/PageDown同命令，有预算清空风险先明确预览确认，未确认拒绝不预留。",
+    "identity": "request_id为71确定编码[\"loadout_switch\",play_session_identity.session_id,command_id]，摘要为71完整command的SHA256。先查原request_index，同键同摘要回原阶段/决定，同键改参拒绝，不重复分配counter。",
+    "reservation": "原完整档案/active会话与ACK/两修订合法，存活/动作空闲/无其他待提交业务；本地聊天或非装备模态输入不发命令，authority不信其可绕过资格。当前组!=目标，切换余ms=0；核目标14槽全部非空实例真实本人位置/来源、职业/路线/等级/晋级/原限制，任一失败整笔拒绝。新组重算宝珠/反气功预算与负重资格，不从备用组加属性；需全清反气功且命令未确认拒绝。冻结原rules_hash/实际class_id/当前组/原反气功表/是否全清，counter与reserved同档保存，无业务变化。",
+    "commit": "同锁重核所有原条件/两修订/规则/组与反气功表。active_loadout_id改目标，角色及库存revision均=命令预期+1；库存根含active_loadout_id改变，虽不搬物仍增加库存修订。loadouts/容器/实例/宝珠位置与成长/来源均不变，无堆或实例流/银费/RNG。反气功仍足预算则表原样；不足则保持原全部键且各值0，同笔提交，成功冷却不变。当前HP/内力/体力各按新合法上限仅向下裁，不回血/补蓝/复活；hp_after>=1。原位committed与全部角色投影/1000ms切换冷却同档提交。",
+    "effects": "不清负面或普通技能/药品/内部成功冷却；原武器/装备依赖自有持续效果按各owner失资格规则处理并重算，不保已失合法支撑的自增益。独立已付投射/敌方状态沿原接受快照。多角色效果影响仍须原同结算完整接收者封套，未闭合前不运行该分支。",
+    "binding": "结果active_loadout_after=command.target_loadout_id，必须与plan.active_loadout_before相反；plan.clear_anti_allocations须原预算重算证明，true要求明确确认，结果表全键0；false结果逐键等原表。角色/库存修订各+1，资源结果等原值与新合法上限取小，非改基础/派生缓存。 special_resources_after按plan.class_id校验职业严格分支，class_id必须等原角色职业；值按derived_state同笔计算，结构通过不替代实际资格/来源校验。",
+    "abort": "state_changed/rules_changed/session_invalid/explicit_cancel原位终止，无换组/清点/资源/冷却/业务修订变化。身份/命令/计划不变；已提交仅重放不撤销或重启1000ms。",
+    "recovery": "存疑保存先核原正式档案/日志，不另分配或执行；重启旧会话不恢复active，旧reserved按session_invalid持久终止。确认持久后沿原结果链发布/ACK。",
+    "journal": "原数组预留追加/终态原位替换，原allocation_index递增，与全部owner完整覆盖counter。身份/请求/终态及依赖不改删，无压缩协议不裁剪。",
+    "initialization": "新profile/四已知旧来源新profile显式[]，已有profile保日志/计数；原导入生效组不虚构切换历史，现行缺字段拒绝。",
+    "boundary": "原事件与冷却授权设计采用；装备完整跨合同资格/效果/配置来源、角色/profile/多接收者封套及Godot运行仍待，D1未通过。",
+    "derived_state_refs": [
+      {
+        "file": "职业特殊资源.v1.json",
+        "pointer": "/mei_liuzhen/barrier/equipment_capacity_policy"
+      },
+      {
+        "file": "职业特殊资源.v1.json",
+        "pointer": "/musician/chord"
+      },
+      {
+        "file": "职业特殊资源.v1.json",
+        "pointer": "/zhen_fengbai/charge_shield"
+      },
+      {
+        "file": "弓手箭矢与距离气功.v1.json",
+        "pointer": "/carry_overload_policy"
+      }
+    ],
+    "derived_state": "切换不改变实际携带重量，但气功有效等级/装备源变化可能降低容量，沿原carry_overload_policy同笔生成合法容量变化凭证并保物，仅行走/可减重，不丢物或补容量；原无合法来源的超重快照仍拒绝。梅柳真障力新上限变化时仅下裁原当前量并清恢复余数，上限增加不补量，不改变独立愤怒点。乐师若失去有效乐器按原chord规则清当前和弦并保循环设置及下一位置游标，不重新抽和弦。甄凤柏已有合法充能/护盾不因换组重置或延长。所有投影与原切换同结算，不创建伪造触发/复活/回满事件；类型化special_resources_after纳入原committed结果，完整效果封套仍须闭合。 刺客连击点沿原合法值保留，不因换组清点、补点或重放必杀保点判定。 韩飞官血系窗口/来源与通用rage_meter保原合法值，不重开窗口或授怒气；已接受血系动作增幅保原快照。"
+  }
 }

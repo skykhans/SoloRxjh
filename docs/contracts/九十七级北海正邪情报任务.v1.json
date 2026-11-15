@@ -1,0 +1,276 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "source_refs": [
+      {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/135"
+      },
+      {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/136"
+      }
+    ],
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/73/text"
+    },
+    "published": "97级正派光之使者猎邪派侦察兵交邪派记录20；邪派暗之使者猎正派侦察兵交正派记录20；各一次/两步，奖励空栏。",
+    "local": "14职业/rank0/无其他前置，0克99堆20封顶/个人100%每合格死亡1及NPC位置为本地；奖励引用既有明确本地方案，不能把空栏写成官方0或所采用数值。"
+  },
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63788-013",
+      "source_reference_id": "QREF-63788-013",
+      "name": "情报争夺战（正派）",
+      "minimum_level": 97,
+      "minimum_rank": 0,
+      "class_scope": "all14classes",
+      "routes": [
+        "righteous"
+      ],
+      "npc_id": "npc_beihai_light_envoy",
+      "npc_map_id": "beihai_ice",
+      "interaction_anchor_id": "npc_beihai_light_envoy_service",
+      "service_id": "beihai97_intelligence_righteous",
+      "interaction_distance_mm": 2500,
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "qualification": "本人存活/脱战/空闲/无挑战，97级/14职业/rank0且当前路线righteous，精确光之使者map/anchor/service<=2500mm，无75/五转或其他北海任务前置。",
+      "acceptance": "仅未接且未完成，新建唯一attempt；无起始物/收费。公共北海交通原规则不变。",
+      "preaccept_items_count": false,
+      "requirements": [
+        {
+          "item_id": "quest_beihai97_evil_scout_record",
+          "quantity": 20
+        }
+      ],
+      "readiness": "本轮真实侦察记录0..20，恰20派生ready，不存影子计数或按计数补物。",
+      "reward": {
+        "experience": 15000000,
+        "practice": 1500000,
+        "silver": 97000,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "repeat": "once per character across worlds; no daily/party/route/world reset",
+      "delivery": "精确原NPC端点和本人路线/当前attempt/实际记录20/原库存来源修订合法；15000000经验沿公共封顶报价名义/实际/损失，正损失显式确认，修订变化须重报价，取消不消费。历练1500000和随身银97000必须分别全额容纳（合法上限9007199254740991），任一溢出整笔拒绝，不截取/存仓/转移；遵原本地奖励owner。消费20/实际经验/实际升级基础属性与新covered_level发点/全额历练银/唯一完成及05/19来源收据同笔，角色库存修订各一次；经验实际0无0经验腿，历练和银仍全额，不发物/晋级/路线改变。",
+      "capacity_failure": "资格/本人路线/来源/原状态修订/经验报价确认/历练或银全额容量/保存任一失败整笔保记录20与任务，不部分消费或发资源。",
+      "modifiers": "固定完成奖励不进组队普通池，不受金银/修炼/终结者倍率。",
+      "deduplication": "最终character/quest跨世界唯一；同request同payload回持久决定，改payload拒绝，历史结果不回装记录或重复发三资源。",
+      "abandon": "确认仅清本人当前attempt侦察记录和状态；重接新attempt从0采20，旧死亡不补，完成不能放弃。",
+      "save": "保存状态/attempt/实际记录来源/经验名义实际损失确认、历练银全额收入与最终收据；缺链/错轮/多余物拒绝，不确定保存解析原05/19决定重存，不重结算。",
+      "reward_identity": "官网奖励空栏仍保空；明确引用既有本地奖励方案1500万经验/150万历练/97000银，不冒称官方奖励。",
+      "xp_cap": "沿原本地奖励owner：仅经验封顶报价损失须确认；历练和银须全额容纳，否则整笔拒绝。",
+      "source_stage_interpretation": "来源2阶段为交对派侦察记录20与结束；本地accept→实际持20派生ready→终交消费/奖励同笔完成，不加额外消耗/对白/领取。",
+      "local_reward_ref": {
+        "file": "源空栏任务本地奖励.v1.json",
+        "pointer": "/rewards/14"
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63788-014",
+      "source_reference_id": "QREF-63788-014",
+      "name": "情报争夺战（邪派）",
+      "minimum_level": 97,
+      "minimum_rank": 0,
+      "class_scope": "all14classes",
+      "routes": [
+        "evil"
+      ],
+      "npc_id": "npc_beihai_dark_envoy",
+      "npc_map_id": "beihai_ice",
+      "interaction_anchor_id": "npc_beihai_dark_envoy_service",
+      "service_id": "beihai97_intelligence_evil",
+      "interaction_distance_mm": 2500,
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "qualification": "本人存活/脱战/空闲/无挑战，97级/14职业/rank0且当前路线evil，精确暗之使者map/anchor/service<=2500mm，无75/五转或其他北海任务前置。",
+      "acceptance": "仅未接且未完成，新建唯一attempt；无起始物/收费。公共北海交通原规则不变。",
+      "preaccept_items_count": false,
+      "requirements": [
+        {
+          "item_id": "quest_beihai97_righteous_scout_record",
+          "quantity": 20
+        }
+      ],
+      "readiness": "本轮真实侦察记录0..20，恰20派生ready，不存影子计数或按计数补物。",
+      "reward": {
+        "experience": 15000000,
+        "practice": 1500000,
+        "silver": 97000,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "repeat": "once per character across worlds; no daily/party/route/world reset",
+      "delivery": "精确原NPC端点和本人路线/当前attempt/实际记录20/原库存来源修订合法；15000000经验沿公共封顶报价名义/实际/损失，正损失显式确认，修订变化须重报价，取消不消费。历练1500000和随身银97000必须分别全额容纳（合法上限9007199254740991），任一溢出整笔拒绝，不截取/存仓/转移；遵原本地奖励owner。消费20/实际经验/实际升级基础属性与新covered_level发点/全额历练银/唯一完成及05/19来源收据同笔，角色库存修订各一次；经验实际0无0经验腿，历练和银仍全额，不发物/晋级/路线改变。",
+      "capacity_failure": "资格/本人路线/来源/原状态修订/经验报价确认/历练或银全额容量/保存任一失败整笔保记录20与任务，不部分消费或发资源。",
+      "modifiers": "固定完成奖励不进组队普通池，不受金银/修炼/终结者倍率。",
+      "deduplication": "最终character/quest跨世界唯一；同request同payload回持久决定，改payload拒绝，历史结果不回装记录或重复发三资源。",
+      "abandon": "确认仅清本人当前attempt侦察记录和状态；重接新attempt从0采20，旧死亡不补，完成不能放弃。",
+      "save": "保存状态/attempt/实际记录来源/经验名义实际损失确认、历练银全额收入与最终收据；缺链/错轮/多余物拒绝，不确定保存解析原05/19决定重存，不重结算。",
+      "reward_identity": "官网奖励空栏仍保空；明确引用既有本地奖励方案1500万经验/150万历练/97000银，不冒称官方奖励。",
+      "xp_cap": "沿原本地奖励owner：仅经验封顶报价损失须确认；历练和银须全额容纳，否则整笔拒绝。",
+      "source_stage_interpretation": "来源2阶段为交对派侦察记录20与结束；本地accept→实际持20派生ready→终交消费/奖励同笔完成，不加额外消耗/对白/领取。",
+      "local_reward_ref": {
+        "file": "源空栏任务本地奖励.v1.json",
+        "pointer": "/rewards/15"
+      }
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_beihai97_evil_scout_record",
+      "name": "北海冰宫侦察记录（邪派）",
+      "source_reference_id": "QREF-63788-013",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "97本人路线独立记录，0克/99堆/本轮20封顶为本地采用，不能混交五转金袋/木头或对派任务。"
+    },
+    {
+      "item_id": "quest_beihai97_righteous_scout_record",
+      "name": "北海冰宫侦察记录（正派）",
+      "source_reference_id": "QREF-63788-014",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "97本人路线独立记录，0克/99堆/本轮20封顶为本地采用，不能混交五转金袋/木头或对派任务。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63788-013",
+        "required_route": "righteous",
+        "monster_id": "beihai_evil_scout100",
+        "map_id": "beihai_ice",
+        "item_id": "quest_beihai97_evil_scout_record",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      },
+      {
+        "quest_id": "ref_QREF-63788-014",
+        "required_route": "evil",
+        "monster_id": "beihai_righteous_scout100",
+        "map_id": "beihai_ice",
+        "item_id": "quest_beihai97_righteous_scout_record",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      }
+    ],
+    "qualification": "本人当前对应路线/活跃attempt/真实本任务记录<20，存活连接同世界同图，solo原死亡归属或19原成员快照30m/入队>=600步。未接/满20/错误actor/旧轮/旧死亡不补。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "shared_scout_owner": {
+      "file": "第五次升职五册真经.v1.json",
+      "pointer": "/shared_scout_death_collection"
+    },
+    "commit": "侦察兵原死亡仅五转共享owner汇总五转原材料与本97路线对应记录，每个实际actor最多两候选，全部原槽重/来源预检，普通收益一次，全部成员结果/实际来源同05/19事务。",
+    "capacity_failure": "任一合格候选不容纳则全部任务物不发，封顶/不合格不占槽；原失败死亡持久无物决定，不因腾包/重连/新轮重算。",
+    "modifiers": "个人任务物100%1，不受终结者/修炼倍率；两侦察兵保持既有被动/可攻击战斗身份，不因接任务改阵营或成为服务NPC。"
+  },
+  "monster_owner": {
+    "file": "第五次升职五册真经.v1.json",
+    "pointer": "/monsters"
+  },
+  "spawns_owner": {
+    "file": "第五次升职五册真经.v1.json",
+    "pointer": "/spawns"
+  },
+  "npc_source_refs": [
+    {
+      "file": "../reference/NPC名称与入口.json",
+      "pointer": "/npcs/78"
+    },
+    {
+      "file": "../reference/NPC名称与入口.json",
+      "pointer": "/npcs/71"
+    }
+  ],
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "travel_policy": "公共北海交通不增等级/前任务门槛；光/暗两来源服务NPC本地北海安全区布局，原两侦察兵8home与其他NPC保留。",
+  "pending": [
+    "Godot三资源报价与实际升级发点/记录来源/五转共用死亡/保存故障/LAN验证",
+    "既有侦察兵动态导航/模型动作与97对100战斗及本地奖励经济校准"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "source_and_reward": "两source行/派别与对派actor/既有本地奖励三资源数额/精确服务绑定通过；仅XP允许正损失确认，历练银全额溢出拒绝。",
+    "player_grid": {
+      "step_m": 1,
+      "radius_m": 0.35,
+      "npc_collisions_included": true,
+      "connected_cells": 84849,
+      "new_services_reachable": 2,
+      "existing_scout_homes_reachable": 8
+    },
+    "northern_route_samples": {
+      "public_layout_to_beihai_ice_to_hyunbo_outskirts_arrival": 1423,
+      "public_layout_to_beihai_ice_to_hyunbo_outskirts_interact": 1463,
+      "warehouse_layout_to_npc_jin_shiling_service": 202,
+      "public_layout_to_npc_jin_rongrong_service": 383,
+      "public_layout_to_npc_lv_gucheng_service": 383,
+      "public_layout_to_npc_beihai_light_envoy_service": 503,
+      "public_layout_to_npc_beihai_dark_envoy_service": 503
+    },
+    "existing_port_route_correction": "两条旧港口路线穿村长本体，改经x4绕行后所有7条含NPC碰撞路线采样通过。",
+    "resource_boundary_combinations": 80,
+    "runtime_boundary": "静态几何/定义和算术不是Godot真实采集/共享容量/封顶/写盘/LAN测试。"
+  }
+}

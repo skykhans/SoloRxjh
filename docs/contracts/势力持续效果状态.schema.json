@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:faction-timed-state:v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "boon",
+    "stamina_reduction"
+  ],
+  "properties": {
+    "boon": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_actor_id",
+          "source_ability_id",
+          "trigger_event_id",
+          "remaining_steps"
+        ],
+        "properties": {
+          "source_actor_id": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "source_ability_id": {
+            "enum": [
+              "qigong_han_feiguan_418fa30bb1a7",
+              "qigong_tan_hualing_45a2d7927f05"
+            ]
+          },
+          "trigger_event_id": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 180
+          }
+        }
+      }
+    },
+    "stamina_reduction": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_actor_id",
+          "source_ability_id",
+          "trigger_event_id",
+          "remaining_steps"
+        ],
+        "properties": {
+          "source_actor_id": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "source_ability_id": {
+            "enum": [
+              "qigong_han_feiguan_76ec4b44f3c1",
+              "qigong_tan_hualing_76ec4b44f3c1"
+            ]
+          },
+          "trigger_event_id": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 180
+          }
+        }
+      }
+    }
+  },
+  "$comment": "唯一effects.faction_timed两族；派别/队伍/原名单由实际落效结果证明，不能从当前称号/名字重建或重复补量。"
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:hp-recovery-block-state:v1",
+  "$comment": "持有实体隐含为接收者；仅原来源与正余时，来源唯一/原触发/职业/扣时链另语义核验。",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "source_actor_id",
+      "trigger_event_id",
+      "remaining_steps",
+      "source_ability_id"
+    ],
+    "properties": {
+      "source_actor_id": {
+        "type": "string",
+        "pattern": "\\S"
+      },
+      "trigger_event_id": {
+        "type": "string",
+        "pattern": "\\S"
+      },
+      "remaining_steps": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 180
+      },
+      "source_ability_id": {
+        "enum": [
+          "qigong_blade_f7e00df50117",
+          "qigong_sword_f7e00df50117",
+          "qigong_assassin_f7e00df50117",
+          "qigong_spear_f7e00df50117",
+          "qigong_archer_f7e00df50117",
+          "qigong_physician_f7e00df50117",
+          "qigong_musician_f7e00df50117",
+          "qigong_han_feiguan_f7e00df50117",
+          "qigong_tan_hualing_f7e00df50117",
+          "qigong_fighter_f7e00df50117",
+          "qigong_mei_liuzhen_f7e00df50117",
+          "qigong_lu_fenglang_f7e00df50117",
+          "qigong_dongling_shennv_f7e00df50117",
+          "qigong_zhen_fengbai_f7e00df50117"
+        ]
+      }
+    }
+  }
+}

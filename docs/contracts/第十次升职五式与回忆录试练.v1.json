@@ -1,0 +1,529 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_explicit_local_tenth_design_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "record_url": "http://rxjh.17game.com/data/tasks/201907/63792.htm",
+    "source_html_sha256": "8e19a4ff3038b6521c89fb20789da1d09d93696197fdccf42cd69598cabca23f",
+    "text_sha256": "a31dafaef7dec93a93c9967bf157d4551b571249fca2526a827957f228d864bb",
+    "image_review_file": "../reference/高阶转职图示核对.json",
+    "published_facts": "三任务英雄资格名声/信念/英雄出世，孤傲杰收25势力证物，可提前积攒；用孤傲杰的回忆录进入先剧情不可操作、后BOSS战，单体/范围提示含卢/弓例外，正确计5胜；回孤傲杰再去燕飞阁阁主交材料晋级。",
+    "gaps_retained": [
+      "来源未列完整最终材料/费用/额外奖，不以截图余额反推",
+      "BOSS属性/剧情长度/提示序列窗口与总期限未公布",
+      "提前接取等级未确认，项目150接取与最终，不从截图猜提前等级"
+    ]
+  },
+  "source_policy": "沿来源25证物/回忆录/五次正确机制与NPC链，单机证物试练每胜5/限25、五交互、150门槛、5秒剧情/提示40秒/2秒间隔/300秒总限、怪属性及最终100天机石无额外钱费/资源奖励均为明确本地值。100石是既有可取得成长材料的本地最终成本，不冒称官网真实材料清单。",
+  "quest": {
+    "quest_id": "adv_10",
+    "minimum_level": 150,
+    "required_completed_rank": 9,
+    "requires_delivered": "adv_09",
+    "class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "branch_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "active_challenge_ref_or_null",
+      "trial_victory_receipt_or_null",
+      "cancelled_attempt_receipts",
+      "final_receipt_or_null"
+    ],
+    "stages": [
+      {
+        "stage_index": 1,
+        "name": "英雄的资格－名声：接取",
+        "npc_id": "npc_gu_aojie",
+        "map_id": "huating_plain",
+        "consume": [],
+        "grant": [],
+        "next_stage_index": 2
+      },
+      {
+        "stage_index": 2,
+        "name": "英雄的资格－名声：交证物",
+        "npc_id": "npc_gu_aojie",
+        "map_id": "huating_plain",
+        "consume": [
+          {
+            "item_id": "adv10_faction_proof",
+            "quantity": 25
+          }
+        ],
+        "grant": [
+          {
+            "item_id": "adv10_gu_memoir",
+            "quantity": 1
+          }
+        ],
+        "next_stage_index": 3
+      },
+      {
+        "stage_index": 3,
+        "name": "英雄的资格－信念：回忆录挑战",
+        "interaction_item_id": "adv10_gu_memoir",
+        "near_npc_id": "npc_gu_aojie",
+        "map_id": "huating_plain",
+        "consume": [],
+        "grant": [],
+        "completion": "本attempt五次正确挑战唯一胜利收据，stage3→4；仍须终局返回成功才能办理下一步",
+        "next_stage_index": 4
+      },
+      {
+        "stage_index": 4,
+        "name": "英雄出世：孤傲杰回报",
+        "npc_id": "npc_gu_aojie",
+        "map_id": "huating_plain",
+        "consume": [],
+        "grant": [],
+        "next_stage_index": 5
+      },
+      {
+        "stage_index": 5,
+        "name": "英雄出世：阁主交付",
+        "npc_id": "npc_yanfei_lord",
+        "map_id": "yanfei_city",
+        "consume": [
+          {
+            "item_id": "adv10_gu_memoir",
+            "quantity": 1
+          },
+          {
+            "item_id": "heavenly_stone",
+            "quantity": 100,
+            "owner_file": "历练与洗点.v1.json"
+          }
+        ],
+        "grant": [],
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "next_state": "delivered"
+      }
+    ],
+    "acceptance": "精确NPC/地图<=2.5米，本人150/rank恰9/adv09delivered/合法class正邪，存活脱战空闲、无活动或未结束派生；stage1建立新attempt和固定branch，stage2不预扣。",
+    "progression": "除stage3活动外逐次NPC交互同资格/修订检查；stage2输入收据不要求证物属于本主attempt，证物来自独立个人试练。每步收输入/发输出/阶段及收据同05/19事务；缺物/满包/写盘失败整笔不变。",
+    "repeat": "角色跨世界一次，delivered不可重接；主stage3胜利后不可再开回忆录刷目标，终局pendingreturn不得重复入场。"
+  },
+  "items": [
+    {
+      "item_id": "adv10_faction_proof",
+      "name": "势力活动证物（单机试练）",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 99,
+      "maximum_owned": 25,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "binding": [
+        "character_id",
+        "proof_trial_receipt_id"
+      ],
+      "permissions": {
+        "equip": false,
+        "use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false
+      },
+      "origin": "源需求名与25数量；单机试练来源/封25/权限为项目设计"
+    },
+    {
+      "item_id": "adv10_gu_memoir",
+      "name": "孤傲杰的回忆录",
+      "kind": "bound_quest_entry_item",
+      "stack_limit": 1,
+      "maximum_per_attempt": 1,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "binding": [
+        "character_id",
+        "adv_10",
+        "main_attempt_id",
+        "stage2_receipt"
+      ],
+      "permissions": {
+        "equip": false,
+        "use": true,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false
+      },
+      "use_policy": "仅本主stage3、花亭本人距孤傲杰<=2.5米、合法入场预检；不消费，失败/保存恢复保同册，其他stage拒绝。权限use只授此入口，不是普通增益。",
+      "origin": "名称/附近使用据已核图，1本/0克/2.5米与不消耗为项目规则"
+    }
+  ],
+  "proof_trial_profile": {
+    "state_fields": [
+      "active_challenge_ref_or_null",
+      "attempt_receipts"
+    ],
+    "initial": {
+      "active_challenge_ref_or_null": null,
+      "attempt_receipts": []
+    },
+    "npc_id": "npc_gu_aojie",
+    "map_id": "huating_plain",
+    "minimum_level": 150,
+    "required_completed_rank": 9,
+    "requires_delivered": "adv_09",
+    "requires_adv10_accepted": false,
+    "inventory_preflight": "本人证物必须为0/5/10/15/20才可入场，预演完整5件背包空间；25封顶拒绝。其他数量与唯一来源每局5不符，按坏快照拒绝，不做部分发放/超额截断。",
+    "win_grant": {
+      "item_id": "adv10_faction_proof",
+      "quantity": 5
+    },
+    "reward_policy": "真实击败当前新attempt教头才给5，一次收据，同笔库存；不发武勋/经验/历练/银/天机石/其他物；五次独立胜利可积25。",
+    "preaccumulation": "无需接adv10可积攒；尚未交的独立证物在主取消时保留。stage2已收后当前轮不可再开证物局；取消重接stage2之前可重新积25。不退款已交。rank10后不开放。",
+    "win_capacity_change": "场内禁止仓储/配置/装备/购物，普通药消耗不会占用更多空格；若合法其他事件使发5空间不足，保victory_unsettled终局和引用，允许显式重试同一全量结算，不重战不拆发、不重领；返回成功前不清引用。"
+  },
+  "arenas": [
+    {
+      "arena_id": "adv10_faction_proof_trial",
+      "map_id": "instance_adv10_faction_proof",
+      "time_limit_steps": 10800,
+      "enemy_id": "project_adv10_faction_veteran150",
+      "layout_owner": {
+        "file": "第六次升职与单机武勋试练.v1.json",
+        "pointer": "/arena_layout"
+      },
+      "win_condition": "本人存活且当前教头死亡；末步胜利优先超时，双方同死失败",
+      "combat_policy": "只一个教头，3.5米/秒追逐，<=2.2米普通击，原动作/LOS/导航；无额外阶段。"
+    },
+    {
+      "arena_id": "adv10_memoir_trial",
+      "map_id": "instance_adv10_memoir",
+      "time_limit_steps": 18000,
+      "enemy_id": "project_adv10_memory_guard150",
+      "layout_owner": {
+        "file": "第六次升职与单机武勋试练.v1.json",
+        "pointer": "/arena_layout"
+      },
+      "mechanism_owner": {
+        "file": "十转技能判定与职业绑定.v1.json",
+        "pointer": ""
+      },
+      "win_condition": "本人存活且五提示全部各一次正确打断；BOSS撤场非死亡，不从HP归零获胜",
+      "combat_policy": "剧情阶段禁止新动作/敌人新伤害，既有本人状态仍按mechanism.prelude；战斗后普通BOSS近身攻击本人，机制锁生命，按mechanism执行。"
+    }
+  ],
+  "enemies": [
+    {
+      "max_mana": 0,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3500,
+      "capsule_radius_mm": 450,
+      "capsule_height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "fixed_loot": [],
+      "random_loot": [],
+      "reward_xp": 0,
+      "reward_practice": 0,
+      "reward_silver": 0,
+      "reward_ascension_progress": 0,
+      "combat_random_owner": "23/19权威动作ID/命中随机/死亡收据；读档不再抽",
+      "target": "only exact living participant, no through-wall hits; not party members in another instance",
+      "definition_id": "project_adv10_faction_veteran150",
+      "duel_equipment_projection": {
+        "activity_combat_kind": "npc_martial_duel",
+        "profile_version": 1,
+        "weapon": {
+          "equipment_kind": "fixed_stat_npc_weapon",
+          "awakening_stage": 0,
+          "deity_id": null
+        },
+        "body": {
+          "equipment_kind": "fixed_stat_npc_body",
+          "awakening_stage": 0,
+          "deity_id": null
+        },
+        "source_policy": "项目明确采用无觉醒/无四神的固定属性试练装备；并非缺字段推断，也不复制玩家装备。不生成可掉落物品，不改变既有attack/defense/AI。",
+        "damage_owner_ref": {
+          "file": "英雄武器觉醒与四神.v1.json",
+          "pointer": "/four_divine_damage"
+        },
+        "snapshot_policy": "入场固定此版本武器/衣服投影并存入敌人快照；恢复必须有完整原投影，不重新读取新版模板，不按玩家装备改神。未知版本/非法神/觉醒0有神/缺投影拒绝活动配置或读档；已接受根动作保武器快照，命中取本局敌人衣服投影。",
+        "scope_policy": "仅本私场本人和该敌人的敌对根直接攻击，双向使用35矩阵；普通BOSS、队友/其他实例、状态/反伤/衍生攻击不继承。",
+        "merit_jewelry": {
+          "item_ids": [],
+          "set_ids": [],
+          "npc_duel_damage_bonus_bp": 0,
+          "source_policy": "本具名NPC明确采用空首饰投影，无70基础/加工/套装贡献；保既有固定面板。与原武器/衣服投影同入场快照保存，缺字段拒绝，不从缺字段补空。",
+          "owner_ref": {
+            "file": "新版武勋首饰.v1.json",
+            "pointer": "/npc_duel_damage"
+          }
+        }
+      },
+      "name": "势力证物试练教头（项目）",
+      "level": 150,
+      "combat_kind": "martial_npc",
+      "is_npc_martial": true,
+      "weapon_family": "sword",
+      "max_hp": 50000,
+      "attack": 1100,
+      "defense": 550,
+      "accuracy": 950,
+      "evasion": 300,
+      "presentation_ref": "dev_project_adv10_faction_veteran150",
+      "source_policy": "本地150级试练敌及属性/动作；不伪造MREF、不计198来源怪，不发武勋",
+      "attack_programs": [
+        {
+          "action_id": "project_adv10_faction_veteran150_strike",
+          "windup_steps": 36,
+          "hit_ordinals_per_target": 1,
+          "recovery_steps": 84,
+          "cooldown_steps": 120,
+          "range_mm": 2200,
+          "arc_degrees": 90,
+          "attack_multiplier_bp": 10000,
+          "facing_locked_at_windup": true,
+          "damage_kind": "ordinary_physical_root_melee",
+          "critical_enabled": false,
+          "hit_resolution": "一次普通根攻击/每目标一次，按23真实几何/视线/闪避/命中/防御/保护；无隐藏重击。"
+        }
+      ],
+      "action_cost_hp_mana_stamina": 0,
+      "qigong_and_status_programs": []
+    },
+    {
+      "max_mana": 0,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3500,
+      "capsule_radius_mm": 450,
+      "capsule_height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "fixed_loot": [],
+      "random_loot": [],
+      "reward_xp": 0,
+      "reward_practice": 0,
+      "reward_silver": 0,
+      "reward_ascension_progress": 0,
+      "combat_random_owner": "23/19权威动作ID/命中随机/死亡收据；读档不再抽",
+      "target": "only exact living participant, no through-wall hits; not party members in another instance",
+      "definition_id": "project_adv10_memory_guard150",
+      "name": "回忆录守阵者（项目）",
+      "level": 150,
+      "combat_kind": "monster",
+      "boss": true,
+      "is_npc_martial": false,
+      "max_hp": 1,
+      "attack": 1000,
+      "defense": 500,
+      "accuracy": 900,
+      "evasion": 250,
+      "presentation_ref": "dev_project_adv10_memory_guard150",
+      "source_policy": "本地150级试练敌及属性/动作；不伪造MREF、不计198来源怪，不发武勋",
+      "attack_programs": [
+        {
+          "action_id": "project_adv10_memory_guard150_strike",
+          "windup_steps": 36,
+          "hit_ordinals_per_target": 1,
+          "recovery_steps": 84,
+          "cooldown_steps": 120,
+          "range_mm": 2200,
+          "arc_degrees": 90,
+          "attack_multiplier_bp": 10000,
+          "facing_locked_at_windup": true,
+          "damage_kind": "ordinary_physical_root_melee",
+          "critical_enabled": false,
+          "hit_resolution": "一次普通根攻击/每目标一次，按23真实几何/视线/闪避/命中/防御/保护；无隐藏重击。"
+        }
+      ],
+      "action_cost_hp_mana_stamina": 0,
+      "qigong_and_status_programs": [],
+      "health_policy": "本owner mechanism.health_lock，HP固定1；五正确时撤场非死亡"
+    }
+  ],
+  "mechanism": {
+    "prelude_steps": 300,
+    "prelude": "从实际入场起计入总时限；锁本人移动/技能/物品/退出装置交互，允许确认退出/保存命令，不加怪/不给恢复；BOSS也不攻击。本人/既有状态时钟在剧情内继续计步，既有本人周期仍按原规则，若导致本人死亡即失败；剧情保护仅屏蔽敌人直接新伤害，不暂停个人既有效果。",
+    "prompt_sequence": [
+      "single",
+      "area",
+      "single",
+      "area",
+      "single"
+    ],
+    "prompt_window_steps": 2400,
+    "between_prompt_steps": 120,
+    "prompt_state_fields": [
+      "prelude_remaining_steps",
+      "prompt_id_or_null",
+      "prompt_remaining_steps",
+      "between_remaining_steps",
+      "prompt_attempt_generation",
+      "completed_prompt_receipts",
+      "expired_prompt_receipts",
+      "root_to_accepted_prompt_bindings"
+    ],
+    "authoritative_progress": "已完成completed_prompt_receipts有序序列前缀长度是唯一正确次数，下一项index由长度+1派生，不另存index/current_success_count。expired_prompt_receipts只记失效代次，不混入成功前缀。每成功收据含prompt_id/sequence_index/root_action_id/step与匹配类型，唯一且不可乱序。活动提示生成代次持久递增，不从读档重抽序列。",
+    "window": "每个活动提示最多2400步；前一提示成功当步关闭，从后续120个固定步等待，下一步开新提示。等待也扣总期限。初次剧情结束下一步即开single，无额外120等待。",
+    "window_expired": "本人仍活且无正确接触，关闭该prompt并保失效收据，120步后以新prompt_id重开同一序列项；不增成功数、不发物、不额外强制造成伤害。持续普通BOSS攻击与总300秒期限形成失败压力。",
+    "contact_order": "每固定步沿23接受/处理动作、接触及本人伤害与死亡，再判本人死亡失败；本人活且第5成功则胜先于总超时；同一步窗口剩余到0时有效接触先于该提示过期。既有出血/派生等不会抢触发。",
+    "health_lock": "BOSS max_hp=1且保持1，具名活动damage_gate在合法命中/接触后拦所有生命伤害、敌方状态与死亡奖励回调。仅机制owner认可的真实根contact可打断；错类型/普通攻击不扣BOSS血不加次数，但真实本人动作费用/冷却仍支付。拒绝伤害不得伪发吸血/反伤/终结/击杀/命中伤害奖励；本次geometry_contact机制收据独立于造成伤害回调。",
+    "lu_cooldown_design": "护身1800步冷却，窗口2400步；即使只用护身回应卢的两种提示，每次从冷却刚开始等到可施放再24步active也小于2400。五次合法根理论120秒加5秒剧情/间隔仍小于300秒；仅时间可行，不证明实际生存/资源/走位胜率。",
+    "save": "保存剧情剩余/提示代次/窗口/间隔/已完成前缀/根绑定、敌人与派生/随机；旧prompt投射不得换新提示，持续护身不重复打断。",
+    "terminal_queues": "完成同固定步双方伤害/死亡优先级后锁终局；后续停止本局BOSS与全部实例内根/派生队列执行，记终局取消收据，不退已付动作成本、不让在途飞弹跟回公共地图。本人持续资源/状态仍沿角色原owner，不把终局清理变成全技能/冷却重置。"
+  },
+  "private_lifecycle_owner": {
+    "file": "第六次升职与单机武勋试练.v1.json",
+    "members": [
+      "entry_transaction",
+      "resource_policy",
+      "failure_and_exit",
+      "persistence"
+    ],
+    "explicit_overrides": {
+      "entry": "从孤傲杰精确2.5米/花亭；证物用proof_profile，回忆录用主stage3/真实本册及十转技能owner入场候选预检。新世界/角色/活动唯一引用，预检NAV/模型/存档完整才提交，无帮手/宠物。",
+      "timing": "证物沿六转死亡胜负/180秒；回忆录沿本mechanism/300秒和提示胜利，不能套敌人死亡获胜。",
+      "world_snapshot": "沿world.private_advancement_trials命名空间，arena注册读取本owner；回忆录多存mechanism字段，角色真实资源唯一在角色。",
+      "role_references": "adv10.active_challenge_ref与proof_trial_profile.active_challenge_ref互斥，且与所有其他活动全角色最多一条。主stage3只允许一个活跃子局。",
+      "victory": "证物完整5件与唯一收据；回忆录主stage3→4/唯一trial_victory_receipt同事务。普通战斗资源奖励全部0，无武勋。",
+      "alive_return_anchor_id": "huating_gu_aojie_return",
+      "death_return_anchor_id": "story_workcamp_start",
+      "failure": "保主stage3/真实回忆录，失败局终结后可用新trial_attempt重入，五提示从头；不恢复任何本人资源/冷却。主取消才销本册。",
+      "return": "未完成全量奖励或精确返回点不合法时保终局与引用锁，不重放胜利/阶段。返回成功且结算落盘才清live snapshot并保历史。",
+      "portable": "两场源/目标全部便携禁用，沿公共便携owner明确注册，不按前缀推断。",
+      "states": "沿准备/剧情/战斗/终局待结算/待返回/已清理生命周期；证物胜利发物空间失败专用victory_unsettled，不能套普通失败退款。回忆录剧情剩余和提示现场始终同一trial_attempt，成功收据与主stage4同笔。"
+    }
+  },
+  "abandon": {
+    "confirmation": "展示已交25证物与本册损失；取消确认不变，确认先按活动owner终结返回，再同笔销毁该主attempt回忆录/清阶段与成功资格、保取消历史。",
+    "proofs": "保独立试练取得且尚未交付证物，不退款stage2已交25；不清武勋/天机石。重接新主attempt重新收25换新册，旧胜利/消息不继承。",
+    "final": "已delivered不能取消/重领奖。"
+  },
+  "final_reward": {
+    "required_rank_before": 9,
+    "completed_rank": 10,
+    "ascension_tier_after": 5,
+    "silver_fee": 0,
+    "practice_fee": 0,
+    "experience": 0,
+    "practice_granted": 0,
+    "silver_granted": 0,
+    "martial_merit_granted": 0,
+    "items": [],
+    "input_reason": "100个实际heavenly_stone来自既有rank6后成长循环；以已有可获得材料设明确单机成本，不新增未知掉落或无来源巨额货币费用。100与0额外资源奖励都为本地选择，不是官方原值。",
+    "commit": "stage5/150/rank9/adv09delivered/固定本人branch/前四有序收据/本主试练胜利且无活动引用/真实本册+背包100天机石；收输入、stage5及final收据、主delivered和rank9→10同05/19事务。仓库石/待领取/点数/进度不能代替，不自动取钱物。",
+    "capabilities": "按成长owner重算rank10核心，三式累计能力只保一次，不回复当前生命/内力/体力，不自动学书/授点或英雄武器。"
+  },
+  "persistence": "主attempt/branch/精确stage/阶段与胜利/取消/最终收据、独立proof_profile和真实两物库存唯一；不另存证物数/正确次数。world+角色权威同修订保存完整活动，退出/断线挂起原局/提示/期限，不当失败或开新满局。新格式缺字段/主子引用断裂/前缀乱序/无来源册拒绝，不补书或推已完成。",
+  "initialization": "新角色/四已知旧档adv10未接、attempt/branch/stage/active/victory/final=null、stage/cancel收据空；proof_profile空active/attempt_receipts；无两物。已有目标角色/world不重置。",
+  "pending": [
+    "Godot实际两试练/14职业两派可胜性/完整库存事务/保存/LAN",
+    "正式模型/剧情/提示图标/音效/UI及经济平衡",
+    "官方最终完整材料/费用/附奖事实缺口保留",
+    "十一至十二转及其余D1缺项"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "inventory_boundary_cases": 252,
+    "coverage": "14职业×两派×接取前0/2/5胜三种实际事件排程×99/100/101石；每局胜利重复消息不再加，五局恰25、换一册/终付输入与不足时全不变。独立静态模型，不是游戏库存事务测试。",
+    "lu_guard_only_timing_trace": [
+      {
+        "sequence_index": 1,
+        "prompt_start_step": 301,
+        "guard_accepted_step": 661,
+        "active_contact_step": 685
+      },
+      {
+        "sequence_index": 2,
+        "prompt_start_step": 806,
+        "guard_accepted_step": 2461,
+        "active_contact_step": 2485
+      },
+      {
+        "sequence_index": 3,
+        "prompt_start_step": 2606,
+        "guard_accepted_step": 4261,
+        "active_contact_step": 4285
+      },
+      {
+        "sequence_index": 4,
+        "prompt_start_step": 4406,
+        "guard_accepted_step": 6061,
+        "active_contact_step": 6085
+      },
+      {
+        "sequence_index": 5,
+        "prompt_start_step": 6206,
+        "guard_accepted_step": 7861,
+        "active_contact_step": 7885
+      }
+    ],
+    "timing_limit": "该trace含首次360步接近余量，末次7885步<18000，窗口各<=2400；只证明声明的冷却/窗口不互相排斥，不证明真实战斗存活/蓝量/走位可胜。",
+    "service_count_unique": 174,
+    "maps": [
+      {
+        "map_id": "huating_plain",
+        "reachable_grid_nodes": 84854,
+        "targets_checked": 10,
+        "geometry_and_targets_sha256": "e1bbab28097388184abf1627664697cfe871061d5d8df4183cfbaf3e3586ebdf"
+      },
+      {
+        "map_id": "yanfei_city",
+        "reachable_grid_nodes": 84858,
+        "targets_checked": 5,
+        "geometry_and_targets_sha256": "e0406ba26a92f879f1a24469fb1da2c44f55e98ab33be6d88c27fae578b5afbc"
+      },
+      {
+        "map_id": "instance_adv10_faction_proof",
+        "reachable_grid_nodes": 2078,
+        "targets_checked": 3,
+        "geometry_and_targets_sha256": "e664f98dc89c526d58b4b6be937d775d53cb7920871bc3caef61f10fb4e88366"
+      },
+      {
+        "map_id": "instance_adv10_memoir",
+        "reachable_grid_nodes": 2078,
+        "targets_checked": 3,
+        "geometry_and_targets_sha256": "e664f98dc89c526d58b4b6be937d775d53cb7920871bc3caef61f10fb4e88366"
+      }
+    ],
+    "path_method": "0.45米胶囊扩张建筑/NPC/交通标记AABB，1米整数四邻BFS；两轴阻挡宽>1米，整数目标无近似接入。",
+    "world_counts": {
+      "maps": 66,
+      "anchors": 205,
+      "npcs": 57
+    },
+    "portable_maps": 6,
+    "runtime_status": "未运行Godot/LAN/实际库存/提示/剧情/完整保存/模型/UI/胜率；全为D1静态证据。"
+  }
+}

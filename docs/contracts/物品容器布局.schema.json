@@ -1,0 +1,1308 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:item-locations:v1",
+  "$comment": "角色全部正式持有位置与库存修订结构片段，正文由item_stacks/equipment_instances唯一持有。不是完整角色schema；全局唯一、注册表闭合、类别/资格/负重及来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "inventory_revision",
+    "inventory",
+    "equipment_bag",
+    "warehouse",
+    "loadouts",
+    "active_loadout_id",
+    "gems"
+  ],
+  "properties": {
+    "inventory_revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expansion_level",
+        "slots"
+      ],
+      "properties": {
+        "expansion_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "slots": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "slot_index",
+              "kind",
+              "target_id"
+            ],
+            "properties": {
+              "slot_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 199
+              },
+              "kind": {
+                "enum": [
+                  "stack"
+                ]
+              },
+              "target_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 0
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 60,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 59
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 80,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 79
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 2
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 100,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 99
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 3
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 120,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 119
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 4
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 140,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 139
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 5
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 160,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 159
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 6
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 180,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 179
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 7
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 200,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 199
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "equipment_bag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expansion_level",
+        "slots"
+      ],
+      "properties": {
+        "expansion_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "slots": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "slot_index",
+              "kind",
+              "target_id"
+            ],
+            "properties": {
+              "slot_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 199
+              },
+              "kind": {
+                "enum": [
+                  "instance"
+                ]
+              },
+              "target_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 0
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 40,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 39
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 60,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 59
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 2
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 80,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 79
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 3
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 100,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 99
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 4
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 120,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 119
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 5
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 140,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 139
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 6
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 160,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 159
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 7
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 180,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 179
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 8
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 200,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 199
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "warehouse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expansion_level",
+        "slots"
+      ],
+      "properties": {
+        "expansion_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "slots": {
+          "type": "array",
+          "maxItems": 500,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "slot_index",
+              "kind",
+              "target_id"
+            ],
+            "properties": {
+              "slot_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 499
+              },
+              "kind": {
+                "enum": [
+                  "stack",
+                  "instance"
+                ]
+              },
+              "target_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 0
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 100,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 99
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 150,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 149
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 2
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 200,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 199
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 3
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 250,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 249
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 4
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 300,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 299
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 5
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 350,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 349
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 6
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 400,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 399
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 7
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 450,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 449
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "expansion_level": {
+                "const": 8
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "slots": {
+                "maxItems": 500,
+                "items": {
+                  "properties": {
+                    "slot_index": {
+                      "maximum": 499
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "loadouts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary",
+        "secondary"
+      ],
+      "properties": {
+        "primary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "weapon",
+            "body",
+            "inner_armor",
+            "glove_a",
+            "glove_b",
+            "boots",
+            "necklace",
+            "earring_a",
+            "earring_b",
+            "ring_a",
+            "ring_b",
+            "cape",
+            "sect_uniform",
+            "decoration"
+          ],
+          "properties": {
+            "weapon": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "body": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "inner_armor": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "glove_a": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "glove_b": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "boots": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "necklace": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "earring_a": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "earring_b": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "ring_a": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "ring_b": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "cape": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "sect_uniform": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "decoration": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            }
+          }
+        },
+        "secondary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "weapon",
+            "body",
+            "inner_armor",
+            "glove_a",
+            "glove_b",
+            "boots",
+            "necklace",
+            "earring_a",
+            "earring_b",
+            "ring_a",
+            "ring_b",
+            "cape",
+            "sect_uniform",
+            "decoration"
+          ],
+          "properties": {
+            "weapon": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "body": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "inner_armor": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "glove_a": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "glove_b": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "boots": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "necklace": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "earring_a": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "earring_b": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "ring_a": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "ring_b": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "cape": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "sect_uniform": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "decoration": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "active_loadout_id": {
+      "enum": [
+        "primary",
+        "secondary"
+      ]
+    },
+    "gems": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weapon",
+        "body",
+        "inner_armor",
+        "glove_a",
+        "glove_b",
+        "boots"
+      ],
+      "properties": {
+        "weapon": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "body": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "inner_armor": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "glove_a": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "glove_b": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "boots": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "owned_inventory_state": {
+      "$comment": "九个平铺角色库存字段的完整联合校验组件，非新持久包装对象。每条正文都经原完整schema；身份/位置闭合、权限重量和来源另验。",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inventory_revision",
+        "inventory",
+        "equipment_bag",
+        "warehouse",
+        "loadouts",
+        "active_loadout_id",
+        "gems",
+        "item_stacks",
+        "equipment_instances"
+      ],
+      "properties": {
+        "inventory_revision": {
+          "$ref": "#/properties/inventory_revision"
+        },
+        "inventory": {
+          "$ref": "#/properties/inventory"
+        },
+        "equipment_bag": {
+          "$ref": "#/properties/equipment_bag"
+        },
+        "warehouse": {
+          "$ref": "#/properties/warehouse"
+        },
+        "loadouts": {
+          "$ref": "#/properties/loadouts"
+        },
+        "active_loadout_id": {
+          "$ref": "#/properties/active_loadout_id"
+        },
+        "gems": {
+          "$ref": "#/properties/gems"
+        },
+        "item_stacks": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "additionalProperties": {
+            "$ref": "urn:solorxjh:item-stack:v1"
+          }
+        },
+        "equipment_instances": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "additionalProperties": {
+            "$ref": "urn:solorxjh:adopted-equipment-instance:v1"
+          }
+        }
+      }
+    }
+  }
+}

@@ -586,5 +586,19 @@
     "bad_rank_or_missing_definition": "reject before resource changes",
     "rank3": "reject no charge",
     "old_zero_buy_price": "not purchasable, never interpret as free starter robe"
+  },
+  "instance_root": {
+    "schema_ref": {
+      "file": "旧装备实例.schema.json",
+      "pointer": ""
+    },
+    "scope": "七件完整九键；浮仙剑仍引用剧情剑与玲珑竹唯一定义，其余六件由本owner定义，不复制属性或价格进实例。",
+    "fields": "instance_id/item_id/lineage_id/owner_character_id/binding/revision/creation_receipt_id/state_origin_receipt_id/enhancement；binding固定character，enhancement严格整数0..3。没有合成/觉醒/元素/进化/提真/武勋/限时强化字段，不能借普通武器/防具schema放行。",
+    "new_creation": "新剧情授予/商店购买/明确配置的正常出生为revision0、enhancement0、创建锚与state_origin均本结算，ID/血统按73 instance_identity_v1；真实取得授权及权限须逐定义核验。浮仙剑不得购买/卖出/丢弃/仓储，沿剧情唯一授予与每角色唯一约束。",
+    "legacy_import": "仅四已知旧格式合法导入允许出生enhancement为原source_rank0..3，不伪造升级支出或补造旧强化事件；revision=0、两个来源锚同原导入正式结算，creation_authorization.kind=legacy_import。逐实例对应原导入凭证source_equipment中的source_path/source_definition_id/source_rank/target_instance_id，完整源字节摘要与已知版本校验仍必需。",
+    "legacy_identity": "导入instance_id保持旧档导入既定legacy_item_+SHA256(imported_role_id UTF8 + ASCII0 + original_container_path_and_index UTF8)。lineage_id为legacy_lineage_+相同64位摘要；每个原路径独立，不能按item_id/强化合并；新正式非导入实例不使用该前缀算法。导入同源去重返回原结果，不重复分配身份。",
+    "upgrade": "仅原具名21条配方（三条浮仙剑、十八条其他六件），按原费用/材料/保护量一次消费；成功保持instance_id/lineage/owner/binding/创建锚，enhancement从from_rank到to_rank恰+1，revision恰+1、state_origin改本结算。配方成功率10000且无需随机，不套高阶失败/保底/耐久字段；满3拒绝不扣费。配置显式改强化亦须独立revise保来源，不能改原创建历史。",
+    "sale": "六件普通兼容装备按sell_to_npc/sell_price实际出售，buyback=false，因此同一正式出售结果以npc_sale终结该实例版本并记录npc_sale银两收入，不创建复购保管记录/迁移。不把出售写成丢弃；浮仙剑禁止该操作。完整商店事件根仍待。",
+    "closure": "持有注册表/装备或包唯一位置与73来源头闭合；导入/购买/强化/出售与原材料、银两、位置、角色及库存修订同事务。完整事件授权/导入根/档案与真实Godot保存测试仍待。"
   }
 }

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:profile-journal-projection:v1",
+  "$comment": "仅校验原profile日志与分配计数器投影，禁止保存额外包装对象。必须先验证完整档案白名单再提取，缺字段不得补空。原事件owner仍负责身份重算、跨日志唯一性、分配编号完整覆盖、请求摘要、修订次序、来源授权及恢复。各数组允许的reserved上限不代表整个档案允许并发预留；全档案写锁与原事务互斥另验。会话begin与通用结算分属两套计数，LAN远端证明不计本地分配。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "warehouse_silver_events",
+    "story_sword_binding_events",
+    "ascended_martial_upgrade_events",
+    "ascended_martial_learning_events",
+    "heavenly_stone_conversion_events",
+    "ascended_martial_reset_events",
+    "qigong_respec_events",
+    "quickbar_binding_events",
+    "legacy_sword_training_events",
+    "ordinary_active_training_events",
+    "qigong_manual_events",
+    "qigong_allocation_events",
+    "chord_cycle_setting_events",
+    "loadout_switch_events",
+    "character_creation_events",
+    "character_session_next_id",
+    "settlement_next_id",
+    "character_session_begins",
+    "lan_session_proofs",
+    "legacy_import_pending",
+    "legacy_import_receipts",
+    "character_deletion_events",
+    "story_boss_reward_claim_events",
+    "story_boss_entry_events",
+    "story_boss_return_events",
+    "lan_result_proofs",
+    "timed_source_configuration_events",
+    "jewelry_override_configuration_events",
+    "merit_title_certification_events",
+    "merit_title_expiry_events",
+    "merit_configuration_events",
+    "story_boss_abandon_events",
+    "respawn_events",
+    "death_events",
+    "ordinary_armor_purchase_events",
+    "heavenly_stone_claim_events"
+  ],
+  "properties": {
+    "warehouse_silver_events": {
+      "$ref": "urn:solorxjh:warehouse-silver-event:v1#/$defs/journal"
+    },
+    "story_sword_binding_events": {
+      "$ref": "urn:solorxjh:story-sword-binding-event:v1#/$defs/journal"
+    },
+    "ascended_martial_upgrade_events": {
+      "$ref": "urn:solorxjh:ascended-martial-upgrade-event:v1#/$defs/journal"
+    },
+    "ascended_martial_learning_events": {
+      "$ref": "urn:solorxjh:ascended-martial-learning-event:v1#/$defs/journal"
+    },
+    "heavenly_stone_conversion_events": {
+      "$ref": "urn:solorxjh:heavenly-stone-conversion-event:v1#/$defs/journal"
+    },
+    "ascended_martial_reset_events": {
+      "$ref": "urn:solorxjh:ascended-martial-reset-event:v1#/$defs/journal"
+    },
+    "qigong_respec_events": {
+      "$ref": "urn:solorxjh:qigong-respec-event:v1#/$defs/journal"
+    },
+    "quickbar_binding_events": {
+      "$ref": "urn:solorxjh:quickbar-binding-event:v1#/$defs/journal"
+    },
+    "legacy_sword_training_events": {
+      "$ref": "urn:solorxjh:legacy-sword-training-event:v1#/$defs/journal"
+    },
+    "ordinary_active_training_events": {
+      "$ref": "urn:solorxjh:ordinary-active-training-event:v1#/$defs/journal"
+    },
+    "qigong_manual_events": {
+      "$ref": "urn:solorxjh:qigong-manual-event:v1#/$defs/journal"
+    },
+    "qigong_allocation_events": {
+      "$ref": "urn:solorxjh:qigong-allocation-event:v1#/$defs/journal"
+    },
+    "chord_cycle_setting_events": {
+      "$ref": "urn:solorxjh:chord-cycle-setting-event:v1#/$defs/journal"
+    },
+    "loadout_switch_events": {
+      "$ref": "urn:solorxjh:loadout-switch-event:v1#/$defs/journal"
+    },
+    "character_creation_events": {
+      "$ref": "urn:solorxjh:character-creation-event:v1#/$defs/journal"
+    },
+    "character_session_next_id": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "settlement_next_id": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "character_session_begins": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/begin_journal"
+    },
+    "lan_session_proofs": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/client_session_proofs"
+    },
+    "legacy_import_pending": {
+      "$ref": "urn:solorxjh:legacy-import-pending:v1"
+    },
+    "legacy_import_receipts": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:solorxjh:legacy-import-receipt:v1"
+      }
+    },
+    "character_deletion_events": {
+      "$ref": "urn:solorxjh:character-deletion-event:v1#/$defs/journal"
+    },
+    "story_boss_reward_claim_events": {
+      "$ref": "urn:solorxjh:story-boss-reward-claim-event:v1#/$defs/journal"
+    },
+    "story_boss_entry_events": {
+      "$ref": "urn:solorxjh:story-boss-entry-event:v1#/$defs/journal"
+    },
+    "story_boss_return_events": {
+      "$ref": "urn:solorxjh:story-boss-return-event:v1#/$defs/journal"
+    },
+    "lan_result_proofs": {
+      "$ref": "urn:solorxjh:network-receipts:v1#/$defs/client_result_proofs"
+    },
+    "timed_source_configuration_events": {
+      "$ref": "urn:solorxjh:timed-source-configuration-event:v1#/$defs/journal"
+    },
+    "jewelry_override_configuration_events": {
+      "$ref": "urn:solorxjh:jewelry-override-configuration-event:v1#/$defs/journal"
+    },
+    "merit_title_certification_events": {
+      "$ref": "urn:solorxjh:merit-title-certification-event:v1#/$defs/journal"
+    },
+    "merit_title_expiry_events": {
+      "$ref": "urn:solorxjh:merit-title-expiry-event:v1#/$defs/journal"
+    },
+    "merit_configuration_events": {
+      "$ref": "urn:solorxjh:merit-configuration-event:v1#/$defs/journal"
+    },
+    "story_boss_abandon_events": {
+      "$ref": "urn:solorxjh:story-boss-abandon-event:v1#/$defs/journal"
+    },
+    "respawn_events": {
+      "$ref": "urn:solorxjh:character-respawn-event:v1#/$defs/journal"
+    },
+    "death_events": {
+      "$ref": "urn:solorxjh:character-death-event:v1#/$defs/journal"
+    },
+    "ordinary_armor_purchase_events": {
+      "$ref": "urn:solorxjh:ordinary-armor-purchase-event:v1#/$defs/journal"
+    },
+    "heavenly_stone_claim_events": {
+      "$ref": "urn:solorxjh:heavenly-stone-claim-event:v1#/$defs/journal"
+    }
+  }
+}

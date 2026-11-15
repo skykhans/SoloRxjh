@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:transfer-guard-state:v1",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ability_id",
+        "trigger_event_id",
+        "effective_grade",
+        "transfer_amount",
+        "remaining_steps"
+      ],
+      "properties": {
+        "source_ability_id": {
+          "enum": [
+            "qigong_spear_b8cdaf136e60",
+            "qigong_fighter_b8cdaf136e60",
+            "qigong_lu_fenglang_b8cdaf136e60"
+          ]
+        },
+        "trigger_event_id": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "effective_grade": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 40
+        },
+        "transfer_amount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "remaining_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 180
+        }
+      }
+    }
+  ],
+  "$comment": "唯一effects.transfer_guard自体一源；三职业具名来源精确分派，原预演/攻击锚在原结果，活跃只保金额/等级/余时。"
+}

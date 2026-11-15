@@ -1,0 +1,919 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "ordinary_jewelry_processing_project_design_not_implemented",
+  "scope": "仅66正式79款普通首饰0～10加工、普通/名匠双栏及170具名预算；8普通异常已沿66本地采用，独立出尘戒不开放。70新版武勋9款独立页签复用本概率/条件分布/失败/材料，但费用及属性/耐久按70，不将其加入本贡献曲线或4款预算。",
+  "source_policy": {
+    "master_source_ref": {
+      "file": "../reference/名匠水晶符首饰规则.json",
+      "pointer": "/official_values"
+    },
+    "anti_source": {
+      "file": "../reference/官网资料/目录正文.json",
+      "record_url": "http://rxjh.17game.com/data/qgwg/202506/70090.htm",
+      "text_sha256": "33e2811fa43a1f0a5c524da08f611a7657f001ae6587a23e5176933bb6edf133",
+      "fact": "170青玄/鸿轩首饰加工5及以上随加工增加反气功点，未给逐级值。"
+    },
+    "project_adoption": "名匠成功后增1/2/3条件权重采用原80/10/10与170七式85/10/5；不是整体成功率，原表语义未公开。整体概率、普通失败保级、0失败下限、上限10/超档归10、材料银价/手续费/永久取得及普通逐级贡献/预算全部为项目方案。名匠6以上失败5、5以下失败降1保护实例及符禁丢禁卖可交易沿原事实。"
+  },
+  "catalog_ref": {
+    "file": "普通首饰基础定义.v1.json",
+    "pointer": "/items"
+  },
+  "items": [
+    {
+      "item_id": "jewelry_crystal_charm",
+      "name": "水晶符〔首饰〕（普通本地采用）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 1000000,
+      "stock": "unlimited",
+      "minimum_purchase_level": 35,
+      "minimum_purchase_rank": 2,
+      "purchase_class_filter": "all_14_classes"
+    },
+    {
+      "item_id": "jewelry_master_crystal_charm",
+      "name": "名匠水晶符〔首饰〕（本地采用）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "unbound",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": true,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 5000000,
+      "stock": "unlimited",
+      "minimum_purchase_level": 35,
+      "minimum_purchase_rank": 2,
+      "purchase_class_filter": "all_14_classes"
+    }
+  ],
+  "processing_profiles": {
+    "ordinary": {
+      "consumed_item_id": "jewelry_crystal_charm",
+      "consumed_quantity": 1,
+      "overall_success_probability_bp_by_source_level": [
+        10000,
+        9500,
+        9000,
+        8500,
+        8000,
+        7000,
+        6000,
+        5000,
+        4000,
+        3000
+      ],
+      "silver_fee_by_source_level": [
+        10000,
+        40000,
+        90000,
+        160000,
+        250000,
+        360000,
+        490000,
+        640000,
+        810000,
+        1000000
+      ],
+      "failure_result_level_by_source_level": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "success_distributions": {
+        "ordinary_jewelry": [
+          [
+            {
+              "target_level": 1,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 2,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 3,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 4,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 5,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 6,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 7,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 8,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 9,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 10,
+              "conditional_probability_bp": 10000
+            }
+          ]
+        ],
+        "level170_rank12_jewelry": [
+          [
+            {
+              "target_level": 1,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 2,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 3,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 4,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 5,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 6,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 7,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 8,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 9,
+              "conditional_probability_bp": 10000
+            }
+          ],
+          [
+            {
+              "target_level": 10,
+              "conditional_probability_bp": 10000
+            }
+          ]
+        ]
+      }
+    },
+    "master": {
+      "consumed_item_id": "jewelry_master_crystal_charm",
+      "consumed_quantity": 1,
+      "overall_success_probability_bp_by_source_level": [
+        10000,
+        10000,
+        9500,
+        9000,
+        8500,
+        8000,
+        7500,
+        6500,
+        5500,
+        4500
+      ],
+      "silver_fee_by_source_level": [
+        100000,
+        400000,
+        900000,
+        1600000,
+        2500000,
+        3600000,
+        4900000,
+        6400000,
+        8100000,
+        10000000
+      ],
+      "failure_result_level_by_source_level": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "success_distributions": {
+        "ordinary_jewelry": [
+          [
+            {
+              "target_level": 1,
+              "conditional_probability_bp": 8000
+            },
+            {
+              "target_level": 2,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 3,
+              "conditional_probability_bp": 1000
+            }
+          ],
+          [
+            {
+              "target_level": 2,
+              "conditional_probability_bp": 8000
+            },
+            {
+              "target_level": 3,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 4,
+              "conditional_probability_bp": 1000
+            }
+          ],
+          [
+            {
+              "target_level": 3,
+              "conditional_probability_bp": 8000
+            },
+            {
+              "target_level": 4,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 5,
+              "conditional_probability_bp": 1000
+            }
+          ],
+          [
+            {
+              "target_level": 4,
+              "conditional_probability_bp": 8000
+            },
+            {
+              "target_level": 5,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 6,
+              "conditional_probability_bp": 1000
+            }
+          ],
+          [
+            {
+              "target_level": 5,
+              "conditional_probability_bp": 8000
+            },
+            {
+              "target_level": 6,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 7,
+              "conditional_probability_bp": 1000
+            }
+          ],
+          [
+            {
+              "target_level": 6,
+              "conditional_probability_bp": 8000
+            },
+            {
+              "target_level": 7,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 8,
+              "conditional_probability_bp": 1000
+            }
+          ],
+          [
+            {
+              "target_level": 7,
+              "conditional_probability_bp": 8000
+            },
+            {
+              "target_level": 8,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 9,
+              "conditional_probability_bp": 1000
+            }
+          ],
+          [
+            {
+              "target_level": 8,
+              "conditional_probability_bp": 8000
+            },
+            {
+              "target_level": 9,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 10,
+              "conditional_probability_bp": 1000
+            }
+          ],
+          [
+            {
+              "target_level": 9,
+              "conditional_probability_bp": 8000
+            },
+            {
+              "target_level": 10,
+              "conditional_probability_bp": 2000
+            }
+          ],
+          [
+            {
+              "target_level": 10,
+              "conditional_probability_bp": 10000
+            }
+          ]
+        ],
+        "level170_rank12_jewelry": [
+          [
+            {
+              "target_level": 1,
+              "conditional_probability_bp": 8500
+            },
+            {
+              "target_level": 2,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 3,
+              "conditional_probability_bp": 500
+            }
+          ],
+          [
+            {
+              "target_level": 2,
+              "conditional_probability_bp": 8500
+            },
+            {
+              "target_level": 3,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 4,
+              "conditional_probability_bp": 500
+            }
+          ],
+          [
+            {
+              "target_level": 3,
+              "conditional_probability_bp": 8500
+            },
+            {
+              "target_level": 4,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 5,
+              "conditional_probability_bp": 500
+            }
+          ],
+          [
+            {
+              "target_level": 4,
+              "conditional_probability_bp": 8500
+            },
+            {
+              "target_level": 5,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 6,
+              "conditional_probability_bp": 500
+            }
+          ],
+          [
+            {
+              "target_level": 5,
+              "conditional_probability_bp": 8500
+            },
+            {
+              "target_level": 6,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 7,
+              "conditional_probability_bp": 500
+            }
+          ],
+          [
+            {
+              "target_level": 6,
+              "conditional_probability_bp": 8500
+            },
+            {
+              "target_level": 7,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 8,
+              "conditional_probability_bp": 500
+            }
+          ],
+          [
+            {
+              "target_level": 7,
+              "conditional_probability_bp": 8500
+            },
+            {
+              "target_level": 8,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 9,
+              "conditional_probability_bp": 500
+            }
+          ],
+          [
+            {
+              "target_level": 8,
+              "conditional_probability_bp": 8500
+            },
+            {
+              "target_level": 9,
+              "conditional_probability_bp": 1000
+            },
+            {
+              "target_level": 10,
+              "conditional_probability_bp": 500
+            }
+          ],
+          [
+            {
+              "target_level": 9,
+              "conditional_probability_bp": 8500
+            },
+            {
+              "target_level": 10,
+              "conditional_probability_bp": 1500
+            }
+          ],
+          [
+            {
+              "target_level": 10,
+              "conditional_probability_bp": 10000
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "field_policy": {
+    "fields": [
+      "processing_level",
+      "processing_origin_receipt_id"
+    ],
+    "processing_level": "严格整数0～definition.processing_level_limit且上限10，拒绝bool/float/string或小数/指数token，不用enhancement。",
+    "processing_origin_receipt_id": "新建0级显式null且须正式创建来源；任何已提交加工后为非空字符串，指向同角色/同实例血统的最近加工成功或失败收据。收据输入等级/材料/栏位/概率分支/结果等级与前链一致。失败降0可非空，不把级别0等同没历史。 明确配置来源另按instance_schema_owner_ref核验，不伪造正常尝试；后续加工保配置前缀。",
+    "fresh": "只正式新建路径写0/null；旧档缺失拒绝，不能按本模板修复。完整单实例九字段按68；完整档案/库存/收据日志schema仍待。",
+    "preservation": "同定义/实例/血统/绑定及其余合法状态保留，仅两加工字段按结果改变；任何未知成长/损坏来源或未采用非空状态先拒绝，不清字段让输入通过。"
+  },
+  "distribution_policy": {
+    "table_selector": "精确静态定义资格minimum_level==170且minimum_completed_rank==12取level170_rank12_jewelry，其余71目录成员取ordinary_jewelry；不按操作者等级170/当前转职改变低阶首饰权重。坏定义或未知身份拒绝。",
+    "random_order": "先完整校验、锁修订及费用可付；应用68所选角色同修订有效参数，整体概率0必失败/10000必成功均不抽，否则一次0～9999比较。失败不抽跨阶；成功仅当本行有两个及以上不同结果时再抽条件结果，否则不抽。条件区间按target_level升序，历史保存有效参数快照，不按后来覆盖重判。",
+    "cap": "项目明确成功超过上限的档位归10且不额外补偿。表已合并相同目标：8级普通池9/10为80/20，170池85/15；9级只到10且无条件随机。不是修复非法输入，输入10已拒绝，非法11不截回10。",
+    "material_and_fee": "已提交尝试不论成功失败消费本栏符1及本行手续费；取消/过期/坏输入/不够费拒绝前不耗/不抽。首饰任何失败不销毁。无其他隐含材料、幸运符或概率补偿。"
+  },
+  "contributions_by_category": {
+    "earring": [
+      {
+        "processing_level": 0,
+        "max_hp_flat": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      {
+        "processing_level": 1,
+        "max_hp_flat": 20,
+        "root_primary_extra_damage_flat": 2
+      },
+      {
+        "processing_level": 2,
+        "max_hp_flat": 40,
+        "root_primary_extra_damage_flat": 4
+      },
+      {
+        "processing_level": 3,
+        "max_hp_flat": 60,
+        "root_primary_extra_damage_flat": 6
+      },
+      {
+        "processing_level": 4,
+        "max_hp_flat": 80,
+        "root_primary_extra_damage_flat": 8
+      },
+      {
+        "processing_level": 5,
+        "max_hp_flat": 100,
+        "root_primary_extra_damage_flat": 10
+      },
+      {
+        "processing_level": 6,
+        "max_hp_flat": 120,
+        "root_primary_extra_damage_flat": 12
+      },
+      {
+        "processing_level": 7,
+        "max_hp_flat": 140,
+        "root_primary_extra_damage_flat": 14
+      },
+      {
+        "processing_level": 8,
+        "max_hp_flat": 160,
+        "root_primary_extra_damage_flat": 16
+      },
+      {
+        "processing_level": 9,
+        "max_hp_flat": 180,
+        "root_primary_extra_damage_flat": 18
+      },
+      {
+        "processing_level": 10,
+        "max_hp_flat": 200,
+        "root_primary_extra_damage_flat": 20
+      }
+    ],
+    "necklace": [
+      {
+        "processing_level": 0,
+        "defense_flat": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      {
+        "processing_level": 1,
+        "defense_flat": 5,
+        "root_primary_extra_damage_flat": 2
+      },
+      {
+        "processing_level": 2,
+        "defense_flat": 10,
+        "root_primary_extra_damage_flat": 4
+      },
+      {
+        "processing_level": 3,
+        "defense_flat": 15,
+        "root_primary_extra_damage_flat": 6
+      },
+      {
+        "processing_level": 4,
+        "defense_flat": 20,
+        "root_primary_extra_damage_flat": 8
+      },
+      {
+        "processing_level": 5,
+        "defense_flat": 25,
+        "root_primary_extra_damage_flat": 10
+      },
+      {
+        "processing_level": 6,
+        "defense_flat": 30,
+        "root_primary_extra_damage_flat": 12
+      },
+      {
+        "processing_level": 7,
+        "defense_flat": 35,
+        "root_primary_extra_damage_flat": 14
+      },
+      {
+        "processing_level": 8,
+        "defense_flat": 40,
+        "root_primary_extra_damage_flat": 16
+      },
+      {
+        "processing_level": 9,
+        "defense_flat": 45,
+        "root_primary_extra_damage_flat": 18
+      },
+      {
+        "processing_level": 10,
+        "defense_flat": 50,
+        "root_primary_extra_damage_flat": 20
+      }
+    ],
+    "ring": [
+      {
+        "processing_level": 0,
+        "attack_flat": 0,
+        "root_primary_extra_damage_flat": 0
+      },
+      {
+        "processing_level": 1,
+        "attack_flat": 3,
+        "root_primary_extra_damage_flat": 2
+      },
+      {
+        "processing_level": 2,
+        "attack_flat": 6,
+        "root_primary_extra_damage_flat": 4
+      },
+      {
+        "processing_level": 3,
+        "attack_flat": 9,
+        "root_primary_extra_damage_flat": 6
+      },
+      {
+        "processing_level": 4,
+        "attack_flat": 12,
+        "root_primary_extra_damage_flat": 8
+      },
+      {
+        "processing_level": 5,
+        "attack_flat": 15,
+        "root_primary_extra_damage_flat": 10
+      },
+      {
+        "processing_level": 6,
+        "attack_flat": 18,
+        "root_primary_extra_damage_flat": 12
+      },
+      {
+        "processing_level": 7,
+        "attack_flat": 21,
+        "root_primary_extra_damage_flat": 14
+      },
+      {
+        "processing_level": 8,
+        "attack_flat": 24,
+        "root_primary_extra_damage_flat": 16
+      },
+      {
+        "processing_level": 9,
+        "attack_flat": 27,
+        "root_primary_extra_damage_flat": 18
+      },
+      {
+        "processing_level": 10,
+        "attack_flat": 30,
+        "root_primary_extra_damage_flat": 20
+      }
+    ]
+  },
+  "contribution_policy": "当前加工等级总贡献一次，不累计0到n各行。与66基础来源分栏相加，HP只上限/攻击平加上下界/防御普通栏/追伤仍走66根主目标一次规则；加工降级立即减少当前贡献，不回血回蓝。全部气功、武功百分/命中回避本加工曲线明确无新增项；不改源基础值。",
+  "budget_application": {
+    "bindings": [
+      {
+        "item_id": "jewelry_regular_earring_49449c7aeebe",
+        "definition_ref": {
+          "file": "普通首饰基础定义.v1.json",
+          "pointer": "/items/20"
+        }
+      },
+      {
+        "item_id": "jewelry_regular_earring_a3e3e4f4e20b",
+        "definition_ref": {
+          "file": "普通首饰基础定义.v1.json",
+          "pointer": "/items/21"
+        }
+      },
+      {
+        "item_id": "jewelry_regular_earring_f1f3e27b1427",
+        "definition_ref": {
+          "file": "普通首饰基础定义.v1.json",
+          "pointer": "/items/22"
+        }
+      },
+      {
+        "item_id": "jewelry_regular_earring_f1f7b47137ec",
+        "definition_ref": {
+          "file": "普通首饰基础定义.v1.json",
+          "pointer": "/items/23"
+        }
+      }
+    ],
+    "explicit_no_contribution_item_ids": [
+      "jewelry_regular_earring_505819b29492",
+      "jewelry_regular_earring_74f545848904",
+      "jewelry_regular_earring_ee5ef4d1fe6f",
+      "jewelry_regular_earring_b81d2d4306b2",
+      "jewelry_regular_earring_014d409713f9",
+      "jewelry_regular_earring_10a61057ca27",
+      "jewelry_regular_earring_856fbadba374",
+      "jewelry_regular_earring_42e53a76a717",
+      "jewelry_regular_earring_b6b349ef2a75",
+      "jewelry_regular_earring_4f27d0ff7dfe",
+      "jewelry_regular_earring_989c829c00c6",
+      "jewelry_regular_earring_5caa54adb8c4",
+      "jewelry_regular_earring_afebf17892b7",
+      "jewelry_regular_earring_821dd89a04ba",
+      "jewelry_regular_earring_d607a5666de0",
+      "jewelry_regular_earring_973e5cb021b4",
+      "jewelry_regular_earring_94cee8fa09ad",
+      "jewelry_regular_earring_cf82dbc1c983",
+      "jewelry_regular_earring_e9d1b32db423",
+      "jewelry_regular_earring_c8fa9ec7970b",
+      "jewelry_regular_necklace_071e8ceed949",
+      "jewelry_regular_necklace_378fb28aae86",
+      "jewelry_regular_necklace_d64fe1aea09d",
+      "jewelry_regular_necklace_dfc8993f791e",
+      "jewelry_regular_necklace_3b22a36b5a09",
+      "jewelry_regular_necklace_d047ec36ff8d",
+      "jewelry_regular_necklace_0303d877642f",
+      "jewelry_regular_necklace_ca7b83b92e0f",
+      "jewelry_regular_necklace_0045fcbac4fe",
+      "jewelry_regular_necklace_dae8eaa3aa3b",
+      "jewelry_regular_necklace_10e45b33a449",
+      "jewelry_regular_necklace_91db74a7fb5c",
+      "jewelry_regular_necklace_0ba683bf30c0",
+      "jewelry_regular_necklace_5f8a0bf1b7b8",
+      "jewelry_regular_necklace_68e46e99cd8d",
+      "jewelry_regular_necklace_6584e810e522",
+      "jewelry_regular_necklace_b013799d0bd7",
+      "jewelry_regular_necklace_c822a65f87cb",
+      "jewelry_regular_necklace_f46bbe46585e",
+      "jewelry_regular_necklace_94b23335d6cd",
+      "jewelry_regular_ring_46b631ea201f",
+      "jewelry_regular_ring_075c5968bd68",
+      "jewelry_regular_ring_42fae48a2d53",
+      "jewelry_regular_ring_7253860b9f12",
+      "jewelry_regular_ring_38140e009d94",
+      "jewelry_regular_ring_adc7210329ce",
+      "jewelry_regular_ring_e3bf71cf58de",
+      "jewelry_regular_ring_f08b5b1a7274",
+      "jewelry_regular_ring_5e024d12c551",
+      "jewelry_regular_ring_16c45cbd19ce",
+      "jewelry_regular_ring_8bda2786bba3",
+      "jewelry_regular_ring_2b419b20e2ac",
+      "jewelry_regular_ring_ae63b466ee0e",
+      "jewelry_regular_ring_8e86a25013c9",
+      "jewelry_regular_ring_261b03a5f4e4",
+      "jewelry_regular_ring_666e8adc977e",
+      "jewelry_regular_ring_97ca8b5b7135",
+      "jewelry_regular_ring_fccb8d7b4257",
+      "jewelry_regular_ring_c0fcb690b8e5",
+      "jewelry_regular_ring_713b4f76a2ac",
+      "jewelry_regular_ring_d5397cd94058",
+      "jewelry_regular_ring_c6d3312e9585",
+      "jewelry_regular_ring_f62e2ae97041",
+      "jewelry_regular_ring_beafb989ae1f",
+      "jewelry_regular_ring_3084fb26647d",
+      "jewelry_regular_earring_7a866af89a04",
+      "jewelry_regular_necklace_7c1b2d94e715",
+      "jewelry_regular_necklace_f8e125776b52",
+      "jewelry_regular_necklace_854c70ec29f6",
+      "jewelry_regular_necklace_cbb31f3cca0d",
+      "jewelry_regular_ring_722d3c4243a5",
+      "jewelry_regular_ring_a663fbbb4f8a",
+      "jewelry_regular_ring_00027db2126d",
+      "jewelry_regular_ring_ad123e0ed87a",
+      "jewelry_regular_ring_6fd4eff525b0"
+    ],
+    "points_by_processing_level": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "rule": "仅具名4款170青玄/鸿轩耳环按真实加工5～10贡献1～6项目点，67其他正式身份此来源0；新增青玄/鸿轩项链与戒指明确项目采用本项预算0，加入排除表，不将耳环预算扩展为全首饰。生效组每合法实例一次，双耳不同实例各计；不拿武勋三套170图推本名单。",
+    "qualification": "沿各定义等级/实际转职及反气功170/十二转开放；失资格或备用/仓储不贡献，损坏实例拒绝。",
+    "formula": "本来源与14等级/38英雄或46普通武器/63防具/64临时药品等明确来源合成，最后18覆盖；最终预算含未分配部分只由反气功owner每点转2防御一次。",
+    "shrink": "加工前预览所有可能结果及完整预算；名匠可能降级致预算不足时，本次确认须明确同意相应结果会清全部反气功分配。选定失败/成功结果后，材料费用/加工/新预算及必要的清分配同事务提交；不同意则尝试前取消，无消费/随机。合法外部资格丧失沿14固定步规则。",
+    "cooldowns_effects": "清分配不重置冷却、不刷新已成功效果；预算恢复不恢复旧分配。"
+  },
+  "services": {
+    "registered": false,
+    "minimum_level": 35,
+    "minimum_rank": 2,
+    "providers": [
+      {
+        "npc_id": "npc_xiao_chunshui",
+        "route": "righteous",
+        "ordinary_service_id": "npc_xiao_chunshui_jewelry_processing",
+        "master_service_id": "npc_xiao_chunshui_jewelry_master_processing",
+        "material_shop_service_id": "npc_xiao_chunshui_jewelry_charms"
+      },
+      {
+        "npc_id": "npc_lu_xiaohuang",
+        "route": "evil",
+        "ordinary_service_id": "npc_lu_xiaohuang_jewelry_processing",
+        "master_service_id": "npc_lu_xiaohuang_jewelry_master_processing",
+        "material_shop_service_id": "npc_lu_xiaohuang_jewelry_charms"
+      }
+    ],
+    "interaction_distance_mm": 2500,
+    "qualification": "本人已选对应正邪、存活脱战空闲、无挑战/传送/未结算队列或占用，同图NPC会话有效且2.5米内；加工还须满足目标首饰全部资格，在本人装备背包且无占用，完整实例/归属/修订/原库存合法。装备中/仓储/备用不能直接加工。",
+    "separate_tabs": "普通栏只认普通符，名匠栏只认名匠符，不能互替或自动切栏。",
+    "material_purchase": "两NPC按对应路线售两符，数量1～99，先验原库存及最终银两/格重，原子扣费入包收据修订。无元宝或现实付费，常驻银价是项目采用，不称官网当前仍出售。",
+    "trade": "名匠符明确unbound且可玩家交易，普通符角色绑定不可交易；玩家交易协议尚待，不能因此改名匠符权限或据此启用交易。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "command_id",
+      "target_instance_id",
+      "target_revision",
+      "inventory_revision",
+      "character_revision",
+      "profile_id",
+      "material_stack_id"
+    ],
+    "preview": "明确当前等级、各成功/失败结果、整体及条件概率、符/费用、全部结果贡献与预算缩减风险，确认原请求payload后提交。",
+    "commit": "房主同修订重新核输入/原库存/可付费及预算预授权，先选择一次随机结果，再在副本完整校验最终字段/来源/格重，原子提交符/银/首饰/收据/预算/分配/修订。任何失败不半扣或将已抽结果重抽为可提交分支。",
+    "duplicate": "先查同命令结果再验当前等级/符/修订；同payload返回原收据及原结果，不再扣/抽/升级或降级；同ID异参拒绝。保存失败只重存，不重试抽签。",
+    "persistence": "保存两加工字段及完整尝试/随机/预算清分配授权来源链，不只存最终等级或成功收据；普通失败保级也有消费和修订，不能丢失败记录。",
+    "configuration_revision_owner_ref": {
+      "file": "角色配置修订.v1.json",
+      "pointer": ""
+    },
+    "effective_parameter_resolution_ref": {
+      "file": "普通首饰实例.v1.json",
+      "pointer": "/configuration/effective_parameter_resolution"
+    }
+  },
+  "implementation_gate": "79普通加工/材料/贡献/4款170预算及68实例配置已采用；新版9款由70独立采用。原异常已项目采用，完整档案/库存/收据日志、其他高级配置字段、71交易协议已采用，完整适配数据及全经济服务联审仍待。",
+  "instance_schema_owner_ref": {
+    "file": "普通首饰实例.v1.json",
+    "pointer": ""
+  },
+  "player_trade_protocol_owner_ref": {
+    "file": "玩家交易.v1.json",
+    "pointer": ""
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_common_quest_design_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "pointer": "/records/70/text"
+  },
+  "source_policy": "保共同88级/平十指接取/南明洞入口守卫/冥土战士15冥土之刃/九转丹/一次。物品栏冥土之刃与正文冥土之刃的枪差异保留，本地独立同一任务凭证，不作装备。源未明写守卫初次讲述，本地stage1守卫交代后stage2才收15；药数1与既有双恢复效果/0克/99堆/15封顶/100%为项目值。无87任务/转职/派别前置，三路线全14职业，不把87或神女90任务完成当自动领取。",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63791-024",
+      "source_reference_id": "QREF-63791-024",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/23"
+      },
+      "name": "地灵和血魔的传说",
+      "minimum_level": 88,
+      "routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "accept_npc_id": "npc_pingshizhi",
+      "accept_map_id": "hyunbo_town",
+      "accept_interaction_anchor_id": "hyunbo_physician_service",
+      "accept_service_id": "legend88_accept",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "project_npc_nanming_cave_guard87",
+          "npc_map_id": "nanming_lake",
+          "interaction_anchor_id": "nanming_cave_guard87_service",
+          "service_id": "legend88_stage1",
+          "consume": [],
+          "grant": [],
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "project_npc_nanming_cave_guard87",
+          "npc_map_id": "nanming_lake",
+          "interaction_anchor_id": "nanming_cave_guard87_service",
+          "service_id": "legend88_stage2",
+          "consume": [
+            {
+              "item_id": "legend88_nether_blade",
+              "quantity": 15
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "consumable_quest_jiuzhuan_pill",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "九转丹任务恢复药.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      }
+    }
+  ],
+  "items": [
+    {
+      "item_id": "legend88_nether_blade",
+      "name": "冥土之刃",
+      "source_reference_id": "QREF-63791-024",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 15,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "角色/本任务/本轮attempt绑定，stage2精确南明洞91怪原死亡产15封顶；刃或枪源名称差异不产生第二定义，不可装备/当普通武器或87珠。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63791-024",
+        "stage_index": 2,
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "monster_id": "nanming_cave_warrior91",
+        "map_id": "nanming_cave",
+        "item_id": "legend88_nether_blade",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 15
+      }
+    ],
+    "death_owner_ref": {
+      "file": "八十七级正邪南明洞秘密任务.v1.json",
+      "pointer": "/collection"
+    },
+    "eligibility": "own active attempt/stage2,alive connected sameworld/map,solo original owner or19original party eligible within30m/joined>=600steps;all3routes,real token below15",
+    "capacity": "87共享原死亡owner统一87当前路线珠+88刃最多两零克候选共同预检；任一所需槽不足该人两候选全不发，普通收益一次，独立100/15封顶。",
+    "replay": "原死亡不可变，未听守卫/新阶段/腾包/重连/放弃重接不补发；路线改变不重置共同任务。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ]
+  },
+  "lifecycle": {
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "class_scope": "all14classes",
+    "minimum_rank": 0,
+    "interaction_distance_mm": 2500,
+    "repeat": "each quest once per character across worlds;route/configuration changes preserve completion and histories,do not reset rewards or bypass current route/stage",
+    "deduplication": "same character/request same payload returns original durable step/final result before current checks,never reinstalls consumed documents or XP/points;changed payload same request rejects. Step unique character/quest/attempt/stage,final unique character/quest across worlds",
+    "qualification": "本人存活脱战空闲无挑战，等级>=88/all14/rank0，三路线均可，精确NPC/map/anchor/service内2500mm，原库存/来源/数量/修订/attempt/阶段合法，无87/adv04前置。",
+    "acceptance": "平十指not_accepted/从未delivered，新attempt/stage1，无费用或初始物。",
+    "readiness": "stage1无原物，stage2仅本轮真实刃0..15，终交恰15，错误阶段/多余或异源物拒绝不修复。",
+    "final_delivery": "stage2守卫quest_delivery消费本轮15，消费后预检九转丹1/10克/99堆/角色绑定及最终实际材料槽，合堆只合法同定义绑定。05/19消费/药quest_reward来源/完成/收据/角色库存修订同笔各一次，无即时恢复/资源/RNG/晋级/升天/冷却或其他任务完成变化。",
+    "abandon": "确认只清本人本任务本轮刃，清attempt/stage回not_accepted；新轮从守卫交代重收15，无退款/奖，完成不可放弃，三路线变化不清完成。",
+    "failure_and_save": "任一端点/原来源/阶段/数量/修订/原库存或最终槽重错误整笔保15与未完成；05/19保存不确定解析原决定重存，不重跑发药。",
+    "initialization": "新角色/known1..4显式not_accepted/nullattempt/nullstage/无刃收据，新格式缺字段拒绝，等级或其他传说任务完成不补本任务。",
+    "dialogues": "stage1独立87洞口守卫本地交代，唯一步骤收据/推进2/角色修订一次，无库存/来源/资源变化，不解锁交通。"
+  },
+  "pending": [
+    "Godot共同任务/共享死亡候选/真实药取得与使用/保存/LAN验证",
+    "88对91战斗与药品经济校准"
+  ]
+}

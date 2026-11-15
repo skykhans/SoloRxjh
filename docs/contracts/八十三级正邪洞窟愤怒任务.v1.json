@@ -1,0 +1,408 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "pointer": ""
+  },
+  "status": "two_full_local_quests_and_timed_experience_reward_not_implemented_not_balanced",
+  "source_policy": "保83级/路线/上官音或风清飘接取、三层玉扇地灵舞女修炼之剑30或红衣血魔侍女修炼之枪30交原NPC、修理委托书转交令狐二中或萧十二郎/一次/出尘戒及120分钟经验1.2倍。源未写委托书发放细节与奖励发放节点，本地在交30时交换本轮委托书1，修理NPC终交才一次发戒1及经验计时源；不声称官方中间奖励时点。无82/四转前置。物品数量、0克/堆叠/100%、戒指既有5克七键规则、60Hz模拟432000步与同类取高/范围/跨世界均明确本地值。",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-045",
+      "source_reference_id": "QREF-63790-045",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/68"
+      },
+      "name": "地灵的愤怒",
+      "minimum_level": 83,
+      "route": "righteous",
+      "accept_npc_id": "npc_shangguan_yin",
+      "accept_map_id": "shenwu_gate",
+      "accept_interaction_anchor_id": "npc_shangguan_yin_service",
+      "accept_service_id": "anger83_righteous_accept",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shangguan_yin",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_shangguan_yin_service",
+          "service_id": "anger83_righteous_stage1",
+          "consume": [
+            {
+              "item_id": "anger83_righteous_raw",
+              "quantity": 30
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "anger83_righteous_commission",
+              "quantity": 1
+            }
+          ],
+          "grants_final_reward": false,
+          "handoff_policy": "本地明确提交30件修炼武器后领取本轮修理委托书；不是普通可装备武器，不发主奖。"
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_linghu_erzhong",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_linghu_erzhong_service",
+          "service_id": "anger83_righteous_stage2",
+          "consume": [
+            {
+              "item_id": "anger83_righteous_commission",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "jewelry_death_ring_5164091a0f5f",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "出尘戒死亡消耗.v1.json",
+              "pointer": "/item"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "timed_reward_ref": {
+        "file": "八十三级正邪洞窟愤怒任务.v1.json",
+        "pointer": "/timed_reward"
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63789-046",
+      "source_reference_id": "QREF-63789-046",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/118"
+      },
+      "name": "血魔的愤怒",
+      "minimum_level": 83,
+      "route": "evil",
+      "accept_npc_id": "npc_feng_qingpiao",
+      "accept_map_id": "liushan_house",
+      "accept_interaction_anchor_id": "npc_feng_qingpiao_service",
+      "accept_service_id": "anger83_evil_accept",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_feng_qingpiao",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_feng_qingpiao_service",
+          "service_id": "anger83_evil_stage1",
+          "consume": [
+            {
+              "item_id": "anger83_evil_raw",
+              "quantity": 30
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "anger83_evil_commission",
+              "quantity": 1
+            }
+          ],
+          "grants_final_reward": false,
+          "handoff_policy": "本地明确提交30件修炼武器后领取本轮修理委托书；不是普通可装备武器，不发主奖。"
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_xiao_shierlang",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xiao_shierlang_service",
+          "service_id": "anger83_evil_stage2",
+          "consume": [
+            {
+              "item_id": "anger83_evil_commission",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "jewelry_death_ring_5164091a0f5f",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "出尘戒死亡消耗.v1.json",
+              "pointer": "/item"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "timed_reward_ref": {
+        "file": "八十三级正邪洞窟愤怒任务.v1.json",
+        "pointer": "/timed_reward"
+      }
+    }
+  ],
+  "items": [
+    {
+      "item_id": "anger83_righteous_raw",
+      "name": "修炼之剑",
+      "source_reference_id": "QREF-63790-045",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 30,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "角色/本任务/本轮attempt绑定；修炼武器仅阶段1指定三层怪原死亡，委托书仅阶段1消费30真实交换产生；不装备、不作普通修理费用或其他委托书。"
+    },
+    {
+      "item_id": "anger83_righteous_commission",
+      "name": "神武门修理委托书",
+      "source_reference_id": "QREF-63790-045",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "角色/本任务/本轮attempt绑定；修炼武器仅阶段1指定三层怪原死亡，委托书仅阶段1消费30真实交换产生；不装备、不作普通修理费用或其他委托书。"
+    },
+    {
+      "item_id": "anger83_evil_raw",
+      "name": "修炼之枪",
+      "source_reference_id": "QREF-63789-046",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 30,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "角色/本任务/本轮attempt绑定；修炼武器仅阶段1指定三层怪原死亡，委托书仅阶段1消费30真实交换产生；不装备、不作普通修理费用或其他委托书。"
+    },
+    {
+      "item_id": "anger83_evil_commission",
+      "name": "柳善府修理委托书",
+      "source_reference_id": "QREF-63789-046",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "角色/本任务/本轮attempt绑定；修炼武器仅阶段1指定三层怪原死亡，委托书仅阶段1消费30真实交换产生；不装备、不作普通修理费用或其他委托书。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-045",
+        "stage_index": 1,
+        "route": "righteous",
+        "monster_id": "diling_cave_attendant85",
+        "map_id": "diling_cave_3",
+        "item_id": "anger83_righteous_raw",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 30
+      },
+      {
+        "quest_id": "ref_QREF-63789-046",
+        "stage_index": 1,
+        "route": "evil",
+        "monster_id": "xuemo_cave_attendant85",
+        "map_id": "xuemo_cave_3",
+        "item_id": "anger83_evil_raw",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 30
+      }
+    ],
+    "death_owner_ref": {
+      "file": "第四次升职洞窟试练.v1.json",
+      "pointer": "/collection"
+    },
+    "eligibility": "own activequest/currentroute/attempt/stage1/exact actor map;alive connected sameworld/map,original solo owner or19party original eligible member within30m/joined>=600steps;real raw below30",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ],
+    "capacity": "四转唯一死亡owner原状态统一预检所有个人候选；attendant85最多04当前阶段材料+82头饰+83修炼武器三项，独立5/10/30封顶（04仅stage17侍者材料5），0克但新堆占真实槽，失败不部分发任务物，普通收益一次。",
+    "replay": "原死亡结果不可变；换阶段/腾包/重连/路线世界/重接不补发。个人100%不进公共掉落/训练/最后击杀倍数。"
+  },
+  "lifecycle": {
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "class_scope": "all14classes",
+    "minimum_rank": 0,
+    "interaction_distance_mm": 2500,
+    "repeat": "each quest once per character across worlds;route/configuration changes preserve completion and histories,do not reset rewards or bypass current route/stage",
+    "deduplication": "same character/request same payload returns original durable step/final result before current checks,never reinstalls consumed documents or XP/points;changed payload same request rejects. Step unique character/quest/attempt/stage,final unique character/quest across worlds",
+    "qualification": "本人存活脱战空闲无挑战，等级>=83/当前精确路线，精确NPC/map/anchor/service内2500mm，原库存/来源/数量/修订/attempt/阶段有效；无82/adv04/rank前置。",
+    "acceptance": "本人上官音或风清飘not_accepted/从未delivered，新attempt/stage1，无费用/初始物/前置杀怪信用。",
+    "readiness": "stage1仅本轮修炼武器0..30，交恰30；stage2仅本轮修理委托书1。来源派生，无ready/杀怪计数，跨派/旧轮/错误阶段/多余物拒绝，不修复。",
+    "stage_exchange": "stage1原NPC quest_delivery消费修炼武器30，quest_exchange新建本轮委托书1，推进2。最终槽重/真实来源预检后05/19消费/新堆来源/步骤收据/角色库存修订同笔各一次，不改原堆item_id，不发戒/经验源。",
+    "final_delivery": "stage2本人修理NPC消费委托书1，按reward_creation预检全新戒指装备槽及5克，同时核timed_reward槽/原世界时钟。唯一05/19事务输入消费、新实例与来源、432000步经验源、完成/收据/角色库存修订各一次；无即时XP/历练/银/晋级/升天/自动装备/治疗/冷却变化。",
+    "abandon": "确认仅清本人本任务本轮两定义，清attempt/stage回not_accepted，重接重新收集30，不退物/奖；完成不可放弃，不改其他已授来源。",
+    "failure_and_save": "任一端点/原来源/阶段/路线/数量/修订/原库存或最终槽重/计时源或时钟错误整笔拒绝保委托书/未完成，无只发戒或只发源。05/19保存不确定解析原决定重存，不重跑业务/分配实例/刷新432000步。",
+    "initialization": "新角色/已知旧档1..4显式not_accepted/nullattempt/nullstage/无两任务物或收据，cave_anger_experience_boost=null；等级位置不补完成，新格式缺字段拒绝。"
+  },
+  "pending": [
+    "Godot两阶段任务/出尘戒实例与计时源原子发奖/个人经验倍率/来源/存档/LAN实现测试",
+    "83级对85怪战斗与奖励校准"
+  ],
+  "timed_reward": {
+    "character_field": "cave_anger_experience_boost",
+    "empty_value": null,
+    "schema_ref": {
+      "file": "洞窟愤怒经验加成.schema.json",
+      "pointer": ""
+    },
+    "multiplier_bp": 12000,
+    "duration_world_steps": 432000,
+    "clock_ref": {
+      "file": "修炼之门.v1.json",
+      "pointer": "/timed_buffs/clock"
+    },
+    "grant": "同角色唯一完成事务消费委托书1、写delivered/完成收据及非空五字段对象，world_id=currentworld,remaining_world_steps432000,observed_world_step=当前权威world.training_gate_clock_steps,source_quest_id=本任务,grant_receipt_id=本次完成收据；不即时给XP；戒指由同笔reward_creation一次创建。",
+    "existing_source": "只有null或按本world权威时钟已自然到期才能领；任何仍有效本/异世界同槽源拒绝终交，保委托书1和未完成，不覆盖/刷新/叠时。坏源对象拒绝不能当null。",
+    "tick": "本来源世界起始固定步先扣current-observed，时钟倒退拒绝，剩余<=0同笔置null，不保零对象/第二绝对到期缓存；到期步死亡收益不加成。",
+    "persistence": "新建与已知旧档1..4显式null；新格式缺字段/额外字段/非整数token/非法世界或来源历史不一致拒绝。五键任务分支必须核本角色两正式83任务或67任务完成收据、原始world/按source_duration_world_steps精确授予及后续单调扣时链。四键配置分支必须核本角色原配置事件与其明确时长、world/观察步及后继扣时；两者不混用授权。不能加载null后按旧完成或旧配置重新授予。",
+    "death_pause_disconnect": "死亡保源但不作用死亡者结算，源世界仍运行就扣时；整世界离线/暂停冻结，无墙钟补时。LAN断开源世界仍前进，重连按权威步差扣，不按客户端时钟重启。",
+    "cross_world": "单一来源对象绑定发奖world，异世界不生效且不得改world_id或复制；离开前保存观察步，回来按源世界当前权威步差扣，源世界离线按原规则冻结，未知/倒退世界状态拒绝。不把在异世界的经过时间重复扣成源世界步。",
+    "route_change": "已授予来源在原世界余时内不因路线/等级变化刷新或复制；后续另一派同槽终交仍受已有源拒绝规则。",
+    "configuration": "按U33允许独立配置来源创建/修改时长/清除本槽；配置对象为独立四键分支，不填source_quest_id/grant_receipt_id，不伪造任务完成。细则沿configuration_source；原任务授予仍仅用原五键分支及真实完成来源。",
+    "source_duration_world_steps": {
+      "ref_QREF-63790-045": 432000,
+      "ref_QREF-63789-046": 432000,
+      "ref_QREF-63791-019": 324000
+    },
+    "supported_other_source_ref": {
+      "file": "六十七级匠人自尊心.v1.json",
+      "pointer": "/timed_reward"
+    },
+    "configuration_source": {
+      "origin": "explicit18 configuration transaction, subject to original session/trade protocol guards, full role/source validation and角色配置修订owner; no normal level/task/cost gate",
+      "schema_branch": {
+        "file": "配置世界计时来源.schema.json",
+        "pointer": ""
+      },
+      "fields": [
+        "world_id",
+        "remaining_world_steps",
+        "observed_world_step",
+        "configuration_receipt_id"
+      ],
+      "values": "remaining strict integer1..9007199254740991;0 requested means explicit clear to null, never persist zero object. world_id binds actual available original authority world; observation=current authoritative world step. configuration_receipt_id is generated by original committed configuration event, never an imported arbitrary receipt ID.",
+      "create_or_edit": "User may explicitly create a source, replace existing current-world source, or change its remaining time after preview. Result uses configuration branch and original new configuration proof even when replacing a task source; retain original task/grant/death history. Same requested actual state with no effective edit remains no-op under revision owner, not a receipt-only refresh.",
+      "clear": "Explicit removal sets null and records original configuration state transition; original historical grant/configuration proof remains. No refund, ring, XP, task completion, receipt deletion or automatic regrant.",
+      "cross_world": "Foreign-world source remains bound and inactive; cannot relabel it by merely editing world_id. Replacement/clear requires the original source authority and protocol reconciliation first, then explicit confirmed configuration transaction. Missing authority is not permission to discard source or reset its clock.",
+      "behavior": "Configured source uses same12000 multiplier, original simulation clock/tick/expiry/death/cross-world rules and same single slot; no stacking with task source. Positive configured source also blocks normal task final delivery under existing_source until explicitly removed or naturally expired. This does not add a second timer or alter normal reward duration.",
+      "evidence": "Original death result tags configured candidate key and original configuration receipt, and retains configured provenance in accepted snapshots/results after later source expiry/clear. This source cannot certify normal unconfigured gameplay acceptance.",
+      "remaining": "Strict original configuration event/source journal and complete role/world roots still required before runtime; this branch is not self-authorizing merely because a string receipt passes schema.",
+      "revision_owner_ref": {
+        "file": "角色配置修订.v1.json",
+        "pointer": ""
+      },
+      "shared_protocol_ref": {
+        "file": "角色配置修订.v1.json",
+        "pointer": "/world_timer_source_protocol"
+      }
+    },
+    "source_validation_order": [
+      "先验完整原角色/来源槽白名单，再由严格schema唯一分支区分null、任务或配置；不能按缺source_quest_id判空，不能先抽共同三字段隐藏混源。",
+      "任务分支仅解析source_quest_id精确三任务及grant_receipt_id的本角色原committed完成，核原world/原始固定时长和授予观察步；配置分支仅解析configuration_receipt_id的本角色原committed配置决定、该槽允许差异及明确world/时长/观察步。类型不同的收据不能互相代替。",
+      "沿原不可变决定及后继时钟验证实际余时，先核世界/authority与单调观察步，再对当前源世界T扣差。历史原决定中保存的初始时长不要求等于当前剩余；后来的明确配置替换沿配置前后链核验，不改原任务凭证。",
+      "原决定缺失、别角色/别世界、reserved/aborted、差异不授权该槽或时钟不可用均拒绝激活/收益；只通过字符串/schema不视作授权。null也不能根据旧完成/旧配置重新生成源。",
+      "原死亡候选/历史收益核原接受快照的来源分支和决定，不拿当前已清除/已换源的槽否定合法历史；同原事件不重复应用12000收益。"
+    ]
+  },
+  "bonus_application": {
+    "eligible_scope": "本人普通怪物原死亡经验，所有已采用公共/私场/修炼地图精确允许experience分量的怪；不含任务/活动完成奖、配置/交易/退款/升天进度/历练/银/物，不传给伙伴召唤物。",
+    "component_gate": "普通怪finisher_reward_components、注册修炼怪training_reward_components明确含experience；按实际地图owner选唯一字段，缺配置拒绝导出，不按名字推断。",
+    "snapshot": "原死亡先按源世界当前步扣时，再对各收件人快照存活/连接/地图/有效同世界本槽来源（83/67真实任务或独立配置），原来源各自核真实授权；修炼金独立依原主题房间周期资格选源。事后拾取/交任务/重连/复活不重评。",
+    "family": "同个人经验倍率族effective_bp=max(10000,有效本槽任务或配置源12000,有效training_gold15000)；不可相乘成1.8。修炼金15000时仍扣愤怒源时间，无延后/暂停/退还。",
+    "order": "26最后击杀先修正普通经验基数→19队伍独立经验池与等级权重分配base_share→每人floor(base_share*effective_bp/10000)一次→14经验上限实际/损失及升级基础属性/new covered_level发点；bonus=scaled-base_share独立生成，不回灌队伍池。",
+    "receipt": "原死亡保存全部有效候选/来源余时/稳定key/selected key/effective_bp/base_share/personal_bonus/scaled/actual/cap_loss及对应原授予或配置收据；sum(base_share)=pool,sum(actual+loss)=pool+sum(personal_bonus)。配置来源须保配置标记，不能仅记录任务收据槽。",
+    "source_key": "任务anger候选key=(anger83,world_id,source_quest_id,grant_receipt_id)；配置anger候选key=(anger_configuration,world_id,configuration_receipt_id)，两者只取当前单槽合法分支；金key=(training,world_id,theme_id,cycle_index)。同最大倍率字典序取一个源，候选仍全记；不得从配置凭证编造任务ID。",
+    "atomicity": "05/19同原死亡权威全收件人事务扣时快照/任务物及普通收益/个人经验等级发点/来源与收据；重放原结果，不重新加源/发点。",
+    "integer_safety": "任意精度整数中间值，最终scaled/actual/loss须各owner合法范围内严格整数token；不float/回绕/截断非法输入。"
+  },
+  "reward_creation": "交付先验证原合法库存与本轮委托书1，候选扣委托书1后创建一枚独立七键戒指，实例/血统ID按同一交付结算固定输出顺序分配，全新revision0、character绑定、creation_receipt_id为该正式交付ID；instance_flow create附quest_reward授权并指真实交付收据。本次最终背包需一个独立装备槽及额外5克，不可与已有戒指合堆、直接替换穿戴或发入仓库。戒指所有权不要求已满足实际二转，但装备须40级及实际rank2。计时源槽及世界时钟校验/计时源授予/完成标记/凭证来源消费/新实例来源及角色库存修订同笔，任何一步不合法整笔拒绝；重放原结算不新分配实例或再次发奖。"
+}

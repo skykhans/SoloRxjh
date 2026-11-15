@@ -1,0 +1,1288 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_local_fifth_advancement_design_not_implemented_not_balanced",
+  "source_evidence": "../reference/五转原文与路径核对.json",
+  "source_policy": "63797步骤/银两/材料数量/五转2500万经验2万历练保留。14职业四转及adv04前置、前四册独立顺序、材料一对一对应/100%个人发放、怪物属性刷点/任务物权限/传闻符1张、逐步原子保存及放弃策略均为明确本地采用；不冒充官网缺失数值。",
+  "quest": {
+    "quest_id": "adv_05",
+    "minimum_level": 100,
+    "required_completed_rank": 4,
+    "requires_delivered": "adv_04",
+    "class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "accept_npc_id": "npc_beihai_village_head",
+    "map_id": "beihai_ice",
+    "acceptance": "alive/outofcombat/idle/nochallenge/exactNPC<=2500mm，rank4/adv04delivered/100级/固定正邪及14职业；传闻非必需。生成唯一attempt，各book初始stage1、final_stage1，路径均null，无免费物品。",
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "branch_id_or_null",
+      "book_stages",
+      "book_2_path_or_null",
+      "book_4_path_or_null",
+      "final_stage_or_null",
+      "stage_receipts",
+      "final_receipt_or_null"
+    ],
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "book_order": "第一至第四册可独立推进；最终链stage1必须四册实物和四个完成收据均在，完成后四子链不可再交。",
+    "readiness": "从各book当前阶段、真实携带库存/银两和收据派生，无独立击杀/书册数量缓存。",
+    "repeat": "每角色跨世界一次；放弃后新attempt，不复用旧阶段/已付款收据。"
+  },
+  "rumor_quest": {
+    "quest_id": "adv_05_rumor",
+    "minimum_level": 100,
+    "required_completed_rank": 4,
+    "requires_delivered": "adv_04",
+    "class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "branches": [
+      {
+        "branch_id": "righteous",
+        "npc_id": "npc_mu_xinlan",
+        "map_id": "shenwu_gate"
+      },
+      {
+        "branch_id": "evil",
+        "npc_id": "npc_mu_pingzhi",
+        "map_id": "liushan_house"
+      }
+    ],
+    "states": [
+      "not_accepted",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "branch_id_or_null",
+      "final_receipt_or_null"
+    ],
+    "reward": [
+      {
+        "item_id": "return_beihai",
+        "quantity": 1
+      }
+    ],
+    "quantity_policy": "官网仅写回城符(北海)，本地明确1张，复用正式5克/99堆权限。",
+    "commit": "接取即完成，角色等级/四转/adv04/固定派别/实体地图<=2500mm/存活空闲检查，最终库存预检；给1符/状态/收据同事务。容量失败全不变，可重新提交。",
+    "repeat": "角色跨世界仅一次；非主任务前置，主任务放弃或完成不重置传闻收据。",
+    "placement_policy": "NPC名字据任务页；原107目录无精确记录，神武门/柳善本地放置，不伪造NREF。"
+  },
+  "books": [
+    {
+      "book_id": "book_1",
+      "acceptance": "主任务向北海村长接取时启用stage1",
+      "initial_stage": 1,
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_sikong_lanyue",
+          "map_id": "beihai_ice",
+          "action": "领武器箱",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv05_weapon_box",
+              "quantity": 1
+            }
+          ],
+          "silver_fee": 0,
+          "next_stage": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_beihai_guard",
+          "map_id": "beihai_ice",
+          "action": "交付武器箱",
+          "consume": [
+            {
+              "item_id": "adv05_weapon_box",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "silver_fee": 0,
+          "next_stage": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_beihai_village_head",
+          "map_id": "beihai_ice",
+          "action": "报告大玄真经存在",
+          "consume": [],
+          "grant": [],
+          "silver_fee": 0,
+          "next_stage": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_beihai_guard",
+          "map_id": "beihai_ice",
+          "action": "支付5000万两领取第一册",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv05_book_1",
+              "quantity": 1
+            }
+          ],
+          "silver_fee": 50000000,
+          "next_stage": "complete"
+        }
+      ]
+    },
+    {
+      "book_id": "book_2",
+      "initial_stage": 1,
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_yu_linlang",
+          "map_id": "beihai_ice",
+          "action": "选择且只执行一条取书路径",
+          "consume": [],
+          "grant": [],
+          "silver_fee": 0,
+          "next_stage": "path_specific",
+          "choices": [
+            {
+              "path_id": "silver",
+              "silver_fee": 100000000,
+              "consume": [],
+              "grant": [
+                {
+                  "item_id": "adv05_book_2",
+                  "quantity": 1
+                }
+              ],
+              "next_stage": "complete"
+            },
+            {
+              "path_id": "materials",
+              "silver_fee": 0,
+              "consume": [],
+              "grant": [],
+              "next_stage": 2
+            }
+          ]
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_yu_linlang",
+          "map_id": "beihai_ice",
+          "action": "交重建材料取得第二册",
+          "consume": [
+            {
+              "item_id": "adv05_gold_bag",
+              "quantity": 200
+            },
+            {
+              "item_id": "adv05_wood",
+              "quantity": 200
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv05_book_2",
+              "quantity": 1
+            }
+          ],
+          "silver_fee": 0,
+          "next_stage": "complete",
+          "required_path": "materials"
+        }
+      ]
+    },
+    {
+      "book_id": "book_3",
+      "initial_stage": 1,
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shi_jingtian",
+          "map_id": "beihai_ice",
+          "action": "接取同僚遗物委托",
+          "consume": [],
+          "grant": [],
+          "silver_fee": 0,
+          "next_stage": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_shi_jingtian",
+          "map_id": "beihai_ice",
+          "action": "交折断枪及5000万两取得第三册",
+          "consume": [
+            {
+              "item_id": "adv05_broken_spear",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv05_book_3",
+              "quantity": 1
+            }
+          ],
+          "silver_fee": 50000000,
+          "next_stage": "complete"
+        }
+      ]
+    },
+    {
+      "book_id": "book_4",
+      "initial_stage": 1,
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_jin_shiling",
+          "map_id": "beihai_ice",
+          "action": "选择且只执行一条取书路径",
+          "consume": [],
+          "grant": [],
+          "silver_fee": 0,
+          "next_stage": "path_specific",
+          "choices": [
+            {
+              "path_id": "silver",
+              "silver_fee": 100000000,
+              "consume": [],
+              "grant": [
+                {
+                  "item_id": "adv05_book_4",
+                  "quantity": 1
+                }
+              ],
+              "next_stage": "complete"
+            },
+            {
+              "path_id": "materials",
+              "silver_fee": 0,
+              "consume": [],
+              "grant": [],
+              "next_stage": 2
+            }
+          ]
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_jin_shiling",
+          "map_id": "beihai_ice",
+          "action": "交冰块取得第四册",
+          "consume": [
+            {
+              "item_id": "adv05_white_ice",
+              "quantity": 200
+            },
+            {
+              "item_id": "adv05_clear_ice",
+              "quantity": 200
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv05_book_4",
+              "quantity": 1
+            }
+          ],
+          "silver_fee": 0,
+          "next_stage": "complete",
+          "required_path": "materials"
+        }
+      ]
+    }
+  ],
+  "final_chain": [
+    {
+      "stage_index": 1,
+      "npc_id": "npc_wang_yuran",
+      "map_id": "beihai_ice",
+      "action": "接取走向五转",
+      "consume": [],
+      "grant": [],
+      "silver_fee": 0,
+      "next_stage": 2,
+      "required_books_in_inventory": [
+        {
+          "item_id": "adv05_book_1",
+          "quantity": 1
+        },
+        {
+          "item_id": "adv05_book_2",
+          "quantity": 1
+        },
+        {
+          "item_id": "adv05_book_3",
+          "quantity": 1
+        },
+        {
+          "item_id": "adv05_book_4",
+          "quantity": 1
+        }
+      ],
+      "required_completed_books": [
+        "book_1",
+        "book_2",
+        "book_3",
+        "book_4"
+      ]
+    },
+    {
+      "stage_index": 2,
+      "npc_id": "npc_wei_dabao",
+      "map_id": "hyunbo_town",
+      "action": "询问第五册",
+      "consume": [],
+      "grant": [],
+      "silver_fee": 0,
+      "next_stage": 3
+    },
+    {
+      "stage_index": 3,
+      "npc_id": "npc_wei_dabao",
+      "map_id": "hyunbo_town",
+      "action": "支付5000万两购买第五册",
+      "consume": [],
+      "grant": [
+        {
+          "item_id": "adv05_book_5",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 50000000,
+      "next_stage": 4
+    },
+    {
+      "stage_index": 4,
+      "npc_id": "npc_beihai_village_head",
+      "map_id": "beihai_ice",
+      "action": "交五册真经",
+      "consume": [
+        {
+          "item_id": "adv05_book_1",
+          "quantity": 1
+        },
+        {
+          "item_id": "adv05_book_2",
+          "quantity": 1
+        },
+        {
+          "item_id": "adv05_book_3",
+          "quantity": 1
+        },
+        {
+          "item_id": "adv05_book_4",
+          "quantity": 1
+        },
+        {
+          "item_id": "adv05_book_5",
+          "quantity": 1
+        }
+      ],
+      "grant": [],
+      "silver_fee": 0,
+      "next_stage": 5
+    },
+    {
+      "stage_index": 5,
+      "npc_id": "npc_beihai_beggar",
+      "map_id": "beihai_ice",
+      "action": "请教领悟方法",
+      "consume": [],
+      "grant": [],
+      "silver_fee": 0,
+      "next_stage": 6
+    },
+    {
+      "stage_index": 6,
+      "npc_id": "npc_beihai_village_head",
+      "map_id": "beihai_ice",
+      "action": "完成五转及最终奖励",
+      "consume": [],
+      "grant": [],
+      "silver_fee": 0,
+      "next_stage": "delivered"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "adv05_weapon_box",
+      "name": "装有武器的箱子",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    },
+    {
+      "item_id": "adv05_book_1",
+      "name": "大玄真经1册",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    },
+    {
+      "item_id": "adv05_book_2",
+      "name": "大玄真经2册",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    },
+    {
+      "item_id": "adv05_book_3",
+      "name": "大玄真经3册",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    },
+    {
+      "item_id": "adv05_book_4",
+      "name": "大玄真经4册",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    },
+    {
+      "item_id": "adv05_book_5",
+      "name": "大玄真经5册",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    },
+    {
+      "item_id": "adv05_gold_bag",
+      "name": "金块袋子",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 200,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    },
+    {
+      "item_id": "adv05_wood",
+      "name": "木头",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 200,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    },
+    {
+      "item_id": "adv05_broken_spear",
+      "name": "折断的枪",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 10,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    },
+    {
+      "item_id": "adv05_white_ice",
+      "name": "白色冰块",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 200,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    },
+    {
+      "item_id": "adv05_clear_ice",
+      "name": "透明冰块",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 200,
+      "weight_g": 0,
+      "source_policy": "名称据63797任务正文；背包定义/权限/数量封顶为明确本地设计"
+    }
+  ],
+  "item_policy": {
+    "binding": [
+      "character_id",
+      "adv_05",
+      "attempt_id",
+      "branch_id"
+    ],
+    "weight_g": 0,
+    "permissions": {
+      "equip": false,
+      "use": false,
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false
+    },
+    "consumption": "仅精确阶段消费或确认放弃清本轮；不合并普通木柴、银袋、可装备枪、普通冰块。",
+    "scope": "允许角色带同一attempt在世界间继续，收据保留原死亡world身份；无跨角色转移。",
+    "container_id": "inventory",
+    "container_scope": "全部11种凭证存材料/消耗品背包；1件单堆凭证仍是任务物品，不进装备背包。"
+  },
+  "collection": {
+    "producers": [
+      {
+        "book_id": "book_2",
+        "required_stage": 2,
+        "required_path": "materials",
+        "monster_id": "beihai_righteous_scout100",
+        "map_id": "beihai_ice",
+        "item_id": "adv05_gold_bag",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 200
+      },
+      {
+        "book_id": "book_2",
+        "required_stage": 2,
+        "required_path": "materials",
+        "monster_id": "beihai_evil_scout100",
+        "map_id": "beihai_ice",
+        "item_id": "adv05_wood",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 200
+      },
+      {
+        "book_id": "book_3",
+        "required_stage": 2,
+        "required_path": null,
+        "monster_id": "project_beihai_flying_zombie100",
+        "map_id": "beihai_ice",
+        "item_id": "adv05_broken_spear",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "book_id": "book_4",
+        "required_stage": 2,
+        "required_path": "materials",
+        "monster_id": "beihai_small_snowman103",
+        "map_id": "beihai_ice",
+        "item_id": "adv05_white_ice",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 200
+      },
+      {
+        "book_id": "book_4",
+        "required_stage": 2,
+        "required_path": "materials",
+        "monster_id": "beihai_snowman105",
+        "map_id": "beihai_ice",
+        "item_id": "adv05_clear_ice",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 200
+      }
+    ],
+    "adoption_policy": "正派侦察兵→金块袋子、邪派侦察兵→木头、小雪人→白色冰块、雪人→透明冰块为明确本地一对一，不称官网给定；任一合法派别角色可打两侦察兵，monster不是不可攻击服务NPC。",
+    "qualification": "exactactiveattempt/branch,bookstage2,所选materials路径(书3无路径),alive/connected/samescene,soloowner或19精确组队资格快照；两并行材料链分别逐项检查。",
+    "capacity_failure": "按本次死亡记录未获物，不因重连/腾格重发原死亡；不追加普通地面副本。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "adv_05",
+      "attempt_id",
+      "book_id",
+      "item_id"
+    ],
+    "modifiers": "倍率/福及终结不改任务数量，普通战斗奖励按19另结算。",
+    "death_routing": "两侦察兵仅本owner/shared_scout_death_collection统一五转材料及97记录；两雪人仅本owner/shared_snowman_death_collection统一五转冰、99/101冰及103雪花结晶；飞天僵尸仅本owner/shared_zombie_death_collection统一五转断枪、95指甲与93符，普通收益一次。"
+  },
+  "stage_transaction": "检查权威角色/本轮/派别/子链阶段或最终阶段/路径/先前收据、精确NPC/地图<=2500mm、存活脱战空闲无挑战；仅携带银两及材料。用消费后最终布局预检全部格/重量和整数上限，再一次扣银/收物/发书/推进/保存收据，任一步失败全不变，不先扣费。",
+  "payment_paths": {
+    "book_2": [
+      "silver",
+      "materials"
+    ],
+    "book_4": [
+      "silver",
+      "materials"
+    ],
+    "selection": "stage1提交选择：silver同时付款取书并complete，失败保持stage1/null；materials只锁定路径并进stage2。选择后本轮不可改；想重选必须明确放弃整轮。",
+    "deduplication": "同attempt/book/stage只有一个接受命令与收据；两条路径的并发请求只能一条胜出。旧revision/旧阶段/旧attempt拒绝，无第二本或第二次扣费。",
+    "silver_sources": "仅角色携带银两，不自动从仓库或他角色扣款。",
+    "display": "付款前展示本次精确费用；放弃确认显示已扣费总额(从阶段收据派生)及全部将销毁凭证，无退款。",
+    "total_silver_by_paths": [
+      {
+        "book_2": "materials",
+        "book_4": "materials",
+        "silver": 150000000
+      },
+      {
+        "book_2": "materials",
+        "book_4": "silver",
+        "silver": 250000000
+      },
+      {
+        "book_2": "silver",
+        "book_4": "materials",
+        "silver": 250000000
+      },
+      {
+        "book_2": "silver",
+        "book_4": "silver",
+        "silver": 350000000
+      }
+    ]
+  },
+  "final_reward": {
+    "required_rank_before": 4,
+    "completed_rank": 5,
+    "experience": 25000000,
+    "practice": 20000,
+    "silver": 0,
+    "items": [],
+    "commit": "仅finalstage6；四册完成及第五册购买/五册已消费/领悟询问收据完整、adv04delivered、rank4；rank4→5/固定派别保持/经验历练受既有上限与升级规则/任务delivered/唯一收据同05/19持久事务。",
+    "stat_policy": "按14正常资格重算，不补当前生命内力体力、不清冷却、不送技能/气功点/书/英雄武器；经验升级也按既有升级不补资源规则。"
+  },
+  "abandon": "明确确认后清本轮所有11凭证、留本轮取消收据，状态设not_accepted，attempt/branch/finalstage及两路径归null、book_stages清空；历史收据仍归原attempt。已付款和已交材料不退款，传闻符/收据不动。重接新attempt从全部初始阶段开始，旧请求无效；delivered不可放弃。",
+  "save": "仅保存声明的book阶段/路径/最终阶段/真实凭证与收据；书1～4complete在finalstage1～4保有对应实物，finalstage4保有5册，finalstage5/6五册已消耗且收据证明；拒绝阶段/路径/物品/收据/rank矛盾，不按等级/缺物重建或补发。非激活时stage/路径为空，取消历史收据保留。",
+  "initialization": {
+    "main": "新角色/四已知旧档：not_accepted，attempt/branch/finalstage为null，book_stages为空对象、两path为null，阶段/最终收据空，无凭证；新格式缺字段拒绝。",
+    "rumor": "not_accepted，branch/finalreceipt为null，无免费符；不按导入等级补完成。"
+  },
+  "monsters": [
+    {
+      "monster_id": "beihai_righteous_scout100",
+      "name": "正派侦察兵",
+      "level": 100,
+      "map_id": "beihai_ice",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 16000,
+      "max_mana": 0,
+      "attack_min": 600,
+      "attack_max": 700,
+      "ordinary_defense": 300,
+      "accuracy": 600,
+      "evasion": 200,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv05_creature",
+      "xp_reward": 5901639,
+      "practice_reward": 590163,
+      "silver_reward": 100,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "普通经验/历练/银两及精确任务producer；无其他普通物品掉落",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "aggression": "passive",
+      "model_spec": {
+        "presentation_id": "beihai_righteous_scout100",
+        "status": "model/animation not implemented"
+      },
+      "identity_policy": "source name/level/aggression retained;stats/spawns/rewards local",
+      "source_reference_id": "MREF-39811-008",
+      "source_catalog_region": "北海冰宫",
+      "source_spawn_location_as_published": "北方区域"
+    },
+    {
+      "monster_id": "beihai_evil_scout100",
+      "name": "邪派侦察兵",
+      "level": 100,
+      "map_id": "beihai_ice",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 16000,
+      "max_mana": 0,
+      "attack_min": 600,
+      "attack_max": 700,
+      "ordinary_defense": 300,
+      "accuracy": 600,
+      "evasion": 200,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv05_creature",
+      "xp_reward": 5901639,
+      "practice_reward": 590163,
+      "silver_reward": 100,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "普通经验/历练/银两及精确任务producer；无其他普通物品掉落",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "aggression": "passive",
+      "model_spec": {
+        "presentation_id": "beihai_evil_scout100",
+        "status": "model/animation not implemented"
+      },
+      "identity_policy": "source name/level/aggression retained;stats/spawns/rewards local",
+      "source_reference_id": "MREF-39811-009",
+      "source_catalog_region": "北海冰宫",
+      "source_spawn_location_as_published": "北方区域"
+    },
+    {
+      "monster_id": "project_beihai_flying_zombie100",
+      "name": "飞天僵尸",
+      "level": 100,
+      "map_id": "beihai_ice",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 16000,
+      "max_mana": 0,
+      "attack_min": 600,
+      "attack_max": 700,
+      "ordinary_defense": 300,
+      "accuracy": 600,
+      "evasion": 200,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv05_creature",
+      "xp_reward": 5901639,
+      "practice_reward": 590163,
+      "silver_reward": 100,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "普通经验/历练/银两及精确任务producer；无其他普通物品掉落",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "aggression": "proactive",
+      "model_spec": {
+        "presentation_id": "project_beihai_flying_zombie100",
+        "status": "model/animation not implemented"
+      },
+      "identity_policy": "仅63797任务正文同名怪；100级/主动性/全部属性刷点为本地设计，不捏造MREF或计入198已采用",
+      "source_task_url": "http://rxjh.17game.com/data/tasks/201907/63797.htm"
+    },
+    {
+      "monster_id": "beihai_small_snowman103",
+      "name": "小雪人",
+      "level": 103,
+      "map_id": "beihai_ice",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 16480,
+      "max_mana": 0,
+      "attack_min": 618,
+      "attack_max": 721,
+      "ordinary_defense": 309,
+      "accuracy": 618,
+      "evasion": 206,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv05_creature",
+      "xp_reward": 7428571,
+      "practice_reward": 742857,
+      "silver_reward": 103,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "普通经验/历练/银两及精确任务producer；无其他普通物品掉落",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "aggression": "passive",
+      "model_spec": {
+        "presentation_id": "beihai_small_snowman103",
+        "status": "model/animation not implemented"
+      },
+      "identity_policy": "source name/level/aggression retained;stats/spawns/rewards local",
+      "source_reference_id": "MREF-39811-010",
+      "source_catalog_region": "北海冰宫",
+      "source_spawn_location_as_published": null
+    },
+    {
+      "monster_id": "beihai_snowman105",
+      "name": "雪人",
+      "level": 105,
+      "map_id": "beihai_ice",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 16800,
+      "max_mana": 0,
+      "attack_min": 630,
+      "attack_max": 735,
+      "ordinary_defense": 315,
+      "accuracy": 630,
+      "evasion": 210,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv05_creature",
+      "xp_reward": 8437500,
+      "practice_reward": 843750,
+      "silver_reward": 105,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "普通经验/历练/银两及精确任务producer；无其他普通物品掉落",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "aggression": "proactive",
+      "model_spec": {
+        "presentation_id": "beihai_snowman105",
+        "status": "model/animation not implemented"
+      },
+      "identity_policy": "source name/level/aggression retained;stats/spawns/rewards local",
+      "source_reference_id": "MREF-39811-011",
+      "source_catalog_region": "北海冰宫",
+      "source_spawn_location_as_published": "北方区域"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "beihai_righteous_scout100_01",
+      "monster_id": "beihai_righteous_scout100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        -28,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_righteous_scout100_02",
+      "monster_id": "beihai_righteous_scout100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        -20,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_righteous_scout100_03",
+      "monster_id": "beihai_righteous_scout100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        -12,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_righteous_scout100_04",
+      "monster_id": "beihai_righteous_scout100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        -4,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_evil_scout100_01",
+      "monster_id": "beihai_evil_scout100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        12,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_evil_scout100_02",
+      "monster_id": "beihai_evil_scout100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        20,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_evil_scout100_03",
+      "monster_id": "beihai_evil_scout100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        28,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_evil_scout100_04",
+      "monster_id": "beihai_evil_scout100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        36,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_beihai_flying_zombie100_01",
+      "monster_id": "project_beihai_flying_zombie100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        120,
+        0,
+        -20
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_beihai_flying_zombie100_02",
+      "monster_id": "project_beihai_flying_zombie100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        120,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_beihai_flying_zombie100_03",
+      "monster_id": "project_beihai_flying_zombie100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        120,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_beihai_flying_zombie100_04",
+      "monster_id": "project_beihai_flying_zombie100",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        120,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_small_snowman103_01",
+      "monster_id": "beihai_small_snowman103",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        -120,
+        0,
+        -20
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_small_snowman103_02",
+      "monster_id": "beihai_small_snowman103",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        -120,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_small_snowman103_03",
+      "monster_id": "beihai_small_snowman103",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        -120,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_small_snowman103_04",
+      "monster_id": "beihai_small_snowman103",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        -120,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_snowman105_01",
+      "monster_id": "beihai_snowman105",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        -12,
+        0,
+        120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_snowman105_02",
+      "monster_id": "beihai_snowman105",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        -4,
+        0,
+        120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_snowman105_03",
+      "monster_id": "beihai_snowman105",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        4,
+        0,
+        120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_snowman105_04",
+      "monster_id": "beihai_snowman105",
+      "map_id": "beihai_ice",
+      "home_feet_m": [
+        12,
+        0,
+        120
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "按各monster字段；passive仅受到有效敌方伤害后仇恨，proactive按9米感知；脱战返回home清仇恨，所有普通攻击时序/巡逻/拴绳继承owner。",
+      "safe_zones": "禁止进入/攻击安全区；合法可达路径回家，不瞬移。"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "travel_policy": "复用船夫金氏及46公共交通，不设100级/四转进北海门槛；任务独立检查资格。首次进北海不依赖传闻/五转奖励符，回泫勃找韦大宝后可再次乘船。",
+  "pending": [
+    "Godot14职业两派×四支付组合/流程/战斗/容量/存档/LAN验证",
+    "正式模型动画、UI与成长经济校准",
+    "六至十二转完整本地采用"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "conservation_cases": 2688,
+    "coverage": "14职业×2派×4支付组合×前四册24种顺序；按合同精确阶段消费/发物、银两总额、最终全凭证消耗和一次奖励键做独立静态模拟，无游戏运行。",
+    "slot_limit_boundary": "每种200材料为99+99+2三堆；两种共6堆，不能把200合并成1堆。全部并行收集最大格数另按真实最终库存预检。",
+    "source_and_service_checks": "4来源怪名字/等级、5producer封顶与11定义、各阶段NPC/map/2.5米/精确service全部吻合",
+    "travel": "实际固定公共交通双向可达100级4转四目标城市，不用adv05或传闻符",
+    "path_method": "1米四邻BFS、0.35米半径，扩张建筑矩形和NPC/交通装置保守方形；每个阻挡两轴宽>1米，整数轴向单位边不可越过阻挡条；所有目标为整数网格，无未验证端点接入。20home另核0.45米胶囊+2米巡逻余量/安全区。",
+    "maps": [
+      {
+        "map_id": "beihai_ice",
+        "origin_xz_m": [
+          0,
+          134
+        ],
+        "reachable_grid_nodes": 84852,
+        "anchors_checked": 10,
+        "spawn_homes_checked": 20,
+        "geometry_and_targets_sha256": "06e78974fcdfee4bc269d043a5d3336988b5ebc20cfb307a0987d4ff78c813e7",
+        "service_only_hash_refresh": "2026-11-14：仅增加adv08服务；几何/目标未变，沿用既有BFS记录，本次未重测该图导航。"
+      },
+      {
+        "map_id": "shenwu_gate",
+        "origin_xz_m": [
+          0,
+          0
+        ],
+        "reachable_grid_nodes": 84851,
+        "anchors_checked": 12,
+        "spawn_homes_checked": 0,
+        "geometry_and_targets_sha256": "1e436767e6f025e1655caf6973a95d742c211ba055f644436ef0074d329f6cb8"
+      },
+      {
+        "map_id": "liushan_house",
+        "origin_xz_m": [
+          0,
+          0
+        ],
+        "reachable_grid_nodes": 84851,
+        "anchors_checked": 12,
+        "spawn_homes_checked": 0,
+        "geometry_and_targets_sha256": "55d75af508766f97b20f65fd6d21c7a1994c7ee331424760d4275e99123b7b22"
+      }
+    ],
+    "runtime_status": "not run; all Godot/actual inventory/persistence/LAN tests pending",
+    "inventory_boundaries": {
+      "maximum_simultaneous_quest_credential_slots_before_final": 14,
+      "method": "枚举四子链初始/收集中达到封顶/完成的所有独立布局；书1箱占1，书2两类各200占6，书3枪10占1，书4两类各200占6。最终阶段4之前至多5本；上限14。",
+      "full_bag_material_exchange": "60格中54其他+6材料，先收材料后给1书为55格，允许；付银取书不释放格，60格满包则全事务拒绝不扣费。",
+      "stack_growth": "99→100和198→199需新格；98→99可合并，199→200在第三堆可合并；任务最大200，不能静默丢超额。",
+      "runtime": "仅静态算例，真实背包事务尚未实现。"
+    }
+  },
+  "shared_scout_death_collection": {
+    "monster_ids": [
+      "beihai_righteous_scout100",
+      "beihai_evil_scout100"
+    ],
+    "producer_refs": [
+      {
+        "file": "第五次升职五册真经.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "九十七级北海正邪情报任务.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "selection": "按实际actor过滤：正派侦察兵只五转book2/materials/stage2金块袋子<200与97邪派正派记录<20；邪派侦察兵只五转对应木头<200与97正派邪派记录<20。五转任一本人合法派别均可采其选定材料，97另核本人路线，不把97路线条件套到五转。其他五转producer不匹配本actor。",
+    "capacity": "精确同一成员快照核各attempt/阶段/路径/独立封顶，最多两不同候选一起原合法库存/来源合堆/真实槽重预检，任一不容纳全任务物不发。",
+    "commit": "唯一原侦察兵死亡/普通经验历练银一次/所有成员任务结果与来源05/19同笔，每实际变化角色库存修订一次，不按两任务重复普通收益。",
+    "replay": "原死亡成功/无物决定持久化，腾包/重连/推进/新轮不补；后续新死亡按新状态判定。"
+  },
+  "shared_snowman_death_collection": {
+    "monster_ids": [
+      "beihai_small_snowman103",
+      "beihai_snowman105"
+    ],
+    "producer_refs": [
+      {
+        "file": "第五次升职五册真经.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "九十九至一百零一级初雪回忆.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "一百零三至一百零七级北海回忆任务.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "selection": "按实际actor过滤：小雪人仅五转book4/materials/stage2白冰<200与99stage2白冰<25；105雪人仅五转透明冰<200、101stage2<40或stage4<60（互斥）及103stage2雪花结晶<10。分别核书/阶段/路径/attempt，105最多三不同定义候选，小雪人最多二；110/111守护卫producer不匹配。",
+    "capacity": "同一成员快照全部合格候选一起原合法库存/来源合堆/真实槽重预检，任一不容纳全部任务物不发；五转99堆的99→100/198→199需真实新槽，封顶或不合格不占候选槽。",
+    "commit": "唯一原雪人死亡及全成员任务结果/来源05/19同笔，普通经验历练银一次，实际有物变化库存修订每角色一次；不按任务owner重复普通收益。",
+    "replay": "原死亡成功/无物决定持久，不随腾包/重连/推进阶段/新轮重算；后续新死亡按新状态判定。"
+  },
+  "shared_zombie_death_collection": {
+    "monster_id": "project_beihai_flying_zombie100",
+    "producer_refs": [
+      {
+        "file": "第五次升职五册真经.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "九十五级灵魂自由任务.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "九十三级北海艰难任务.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "selection": "实际僵尸actor五转book3stage2断枪<10、95stage3或4指甲<20（两阶段互斥）、93stage2符<20最多三候选，各独立封顶。",
+    "capacity": "全部合格候选共同实际槽重/来源预检，任一不足全任务物无物；普通收益一次。",
+    "commit": "05/19唯一原死亡与所有成员个人候选来源/普通奖励同笔，93第20符的stage2来源门槛收据/推进3亦同笔；任务物容量失败全不发且不推进，原决定持久，旧死亡不补。"
+  }
+}

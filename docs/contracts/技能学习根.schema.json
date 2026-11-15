@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:skill-learning-root:v1",
+  "$comment": "character.skills唯一学习根，精确普通主动/升天主动/旧剑技三类。qigong、实际战斗状态/冷却/快捷栏各属原owner，不复制入此根。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ordinary_active",
+    "ascended_martial",
+    "legacy_sword"
+  ],
+  "properties": {
+    "ordinary_active": {
+      "$ref": "urn:solorxjh:ordinary-active-learning-state:v1"
+    },
+    "ascended_martial": {
+      "$ref": "urn:solorxjh:ascended-martial-learning-state:v1"
+    },
+    "legacy_sword": {
+      "$ref": "urn:solorxjh:legacy-sword-learning-state:v1"
+    }
+  }
+}

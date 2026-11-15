@@ -1,0 +1,627 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "ten_stage_rank1_design_not_implemented_not_balanced",
+  "source_policy": "63801exact ten-step sequence and10level/10000silver/rank1;QREF-63791-002same task summary,not separate reward. Source005/006monsters12level/names/hyunbo region preserved. Stage consuming/custody,all14class scope,token permissions,drop rates/stats/positions are local adoption.",
+  "quest": {
+    "quest_id": "adv_01",
+    "merged_source_reference_ids": [
+      "QREF-63791-002"
+    ],
+    "detailed_source_url": "http://rxjh.17game.com/data/tasks/201907/63801.htm",
+    "name": "申请第一次升职任务",
+    "minimum_level": 10,
+    "required_completed_rank": 0,
+    "class_scope": "all14classes,explicit local1level0rank creation adaptation including heroes/bard",
+    "routes": [
+      "unselected"
+    ],
+    "route_policy": "first advancement preserves unselected; second advancement selects faction; inconsistent rank0righteous/evil rejects,never silently clears route",
+    "accept_npc_id": "npc_hyunbo_master",
+    "npc_map_id": "hyunbo_town",
+    "interaction_range_mm": 2500,
+    "acceptance": "alive,out of combat,idle,no active challenge,level>=10,rank0,valid class/route; once per character across worlds",
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "state_fields": [
+      "attempt_id_or_null",
+      "stage_index_or_null",
+      "state",
+      "last_settlement_id_or_null"
+    ],
+    "initial": "not_accepted/null attempt/null stage,no tokens; accepted creates unique attempt andstage1",
+    "stage_readiness": "current selected step conditions and real bound carried tokens,derived view not duplicate inventory count; stages1/2/6/10dialogue require explicit submit too",
+    "advance": "only exact current stage,qualify required NPC/2.5m/alive/out-of-combat/idle/nochallenge; validate all inputs and final output capacity then consume/grant/advance once; no accepting UI click as stage completion",
+    "custody": "stage5consumes armor into blacksmith quest custody represented by stage/receipt; stage8returns exactly one armor with sword; no separate mutable custody inventory or auto-reclaim on reconnect",
+    "final_reward": {
+      "stage_index": 10,
+      "completed_rank": 1,
+      "silver": 10000,
+      "experience": 0,
+      "practice": 0,
+      "items": [],
+      "route_after": "unselected"
+    },
+    "final_commit": "require stage10and rank0,all earlier stage receipts/attempt consistent; no remaining quest tokens; atomically rank0->1,credit10000 and14normal derived-stat eligibility recalculation,mark delivered/receipt",
+    "resource_policy": "rank stat maximum increases do not fill current resources; preserve cooldowns/effects; no extra level-qigong points/initial pack/manual",
+    "currency_failure": "10000silver cannot fit17limit rejects stage10only,keeps final pending state; no earlier-stage reset or partial reward",
+    "modifiers": "quest reward outside19team pool/26finisher/training; no duplicate QREFsummary reward",
+    "abandon": "explicit confirmation cancels active attempt and clears only six own-attempt quest token types; no fees/refund/equipment reclaim or reward; can accept new attempt if rank0/not delivered; prior receipts retain deduplication",
+    "invalid_state": "rank1without final delivery evidence or active rank0with forbidden later-stage tokens rejects; no automatic completion by being level10",
+    "save": "05/19one durable character transaction per stage/final; restore same attempt/stage/inputs and receipts,never regrant stage outputs",
+    "deduplication": "character/quest/attempt/stage unique stage event plus request/current revision; repeat returns original result,old attempt request cannot act on new attempt",
+    "initialization": "explicit new role and known legacy1..4import rank0/not_accepted/no new token; preserve existing legacy progress,not auto claim10000",
+    "weapon_progression_note": "no completed advanced weapon task implied; source guard sword/armor remain tokens,not actual character weapon grants",
+    "allowed_inventory_by_stage": {
+      "1": {},
+      "2": {},
+      "3": {
+        "adv01_boar_leg": 1
+      },
+      "4": {
+        "adv01_boar_bbq": 1
+      },
+      "5": {
+        "adv01_guard_armor": 1
+      },
+      "6": {},
+      "7": {
+        "adv01_wolf_bone": 3
+      },
+      "8": {
+        "adv01_smith_medicine": 1
+      },
+      "9": {
+        "adv01_guard_sword": 1,
+        "adv01_guard_armor": 1
+      },
+      "10": {}
+    },
+    "inventory_validation": "only listed token IDs allowed for current stage and active attempt,quantity0..listed max; entry to stages4/5/8/9requires exact prior grants,not optional missing outputs; stages3/7may collect0..cap; stage6/10no carried quest tokens; stage output references immutable stage receipt"
+  },
+  "stages": [
+    {
+      "stage_index": 1,
+      "npc_id": "npc_yinjiaolong",
+      "action_label": "打听内甲",
+      "consume": [],
+      "grant": [],
+      "next_stage_index": 2,
+      "grant_order": "preflight final layout,consume/grant atomically; no extra resource restoration"
+    },
+    {
+      "stage_index": 2,
+      "npc_id": "npc_jinxiangyu",
+      "action_label": "询问料理",
+      "consume": [],
+      "grant": [],
+      "next_stage_index": 3,
+      "grant_order": "preflight final layout,consume/grant atomically; no extra resource restoration"
+    },
+    {
+      "stage_index": 3,
+      "npc_id": "npc_jinxiangyu",
+      "action_label": "交野猪后腿",
+      "consume": [
+        {
+          "item_id": "adv01_boar_leg",
+          "quantity": 1
+        }
+      ],
+      "grant": [
+        {
+          "item_id": "adv01_boar_bbq",
+          "quantity": 1
+        }
+      ],
+      "next_stage_index": 4,
+      "grant_order": "preflight final layout,consume/grant atomically; no extra resource restoration"
+    },
+    {
+      "stage_index": 4,
+      "npc_id": "npc_yinjiaolong",
+      "action_label": "以烧烤换内甲",
+      "consume": [
+        {
+          "item_id": "adv01_boar_bbq",
+          "quantity": 1
+        }
+      ],
+      "grant": [
+        {
+          "item_id": "adv01_guard_armor",
+          "quantity": 1
+        }
+      ],
+      "next_stage_index": 5,
+      "grant_order": "preflight final layout,consume/grant atomically; no extra resource restoration"
+    },
+    {
+      "stage_index": 5,
+      "npc_id": "npc_daojianxiao",
+      "action_label": "交内甲暂存修理",
+      "consume": [
+        {
+          "item_id": "adv01_guard_armor",
+          "quantity": 1
+        }
+      ],
+      "grant": [],
+      "next_stage_index": 6,
+      "grant_order": "preflight final layout,consume/grant atomically; no extra resource restoration"
+    },
+    {
+      "stage_index": 6,
+      "npc_id": "npc_pingshizhi",
+      "action_label": "询问刀剑笑药方",
+      "consume": [],
+      "grant": [],
+      "next_stage_index": 7,
+      "grant_order": "preflight final layout,consume/grant atomically; no extra resource restoration"
+    },
+    {
+      "stage_index": 7,
+      "npc_id": "npc_pingshizhi",
+      "action_label": "交三灰狼骨制药",
+      "consume": [
+        {
+          "item_id": "adv01_wolf_bone",
+          "quantity": 3
+        }
+      ],
+      "grant": [
+        {
+          "item_id": "adv01_smith_medicine",
+          "quantity": 1
+        }
+      ],
+      "next_stage_index": 8,
+      "grant_order": "preflight final layout,consume/grant atomically; no extra resource restoration"
+    },
+    {
+      "stage_index": 8,
+      "npc_id": "npc_daojianxiao",
+      "action_label": "交药取回剑甲",
+      "consume": [
+        {
+          "item_id": "adv01_smith_medicine",
+          "quantity": 1
+        }
+      ],
+      "grant": [
+        {
+          "item_id": "adv01_guard_sword",
+          "quantity": 1
+        },
+        {
+          "item_id": "adv01_guard_armor",
+          "quantity": 1
+        }
+      ],
+      "next_stage_index": 9,
+      "grant_order": "preflight final layout,consume/grant atomically; no extra resource restoration"
+    },
+    {
+      "stage_index": 9,
+      "npc_id": "npc_hyunbo_master",
+      "action_label": "交回剑甲",
+      "consume": [
+        {
+          "item_id": "adv01_guard_sword",
+          "quantity": 1
+        },
+        {
+          "item_id": "adv01_guard_armor",
+          "quantity": 1
+        }
+      ],
+      "grant": [],
+      "next_stage_index": 10,
+      "grant_order": "preflight final layout,consume/grant atomically; no extra resource restoration"
+    },
+    {
+      "stage_index": 10,
+      "npc_id": "npc_hyunbo_master",
+      "action_label": "最终确认第一次升职",
+      "consume": [],
+      "grant": [],
+      "next_stage_index": null,
+      "grant_order": "preflight final layout,consume/grant atomically; no extra resource restoration"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "adv01_boar_leg",
+      "name": "野猪后腿",
+      "source_reference_id": "QREF-63791-002",
+      "source_page": "http://rxjh.17game.com/data/tasks/201907/63801.htm",
+      "category": "advancement_quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character_id + adv_01 + attempt_id",
+      "permissions": {
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "equip": false,
+        "direct_use": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "identity_policy": "stage quest token,not normal equipment or food; no equip stats or inventory conversion; published names preserved",
+      "maximum_per_active_attempt": 1
+    },
+    {
+      "item_id": "adv01_boar_bbq",
+      "name": "野猪烧烤",
+      "source_reference_id": "QREF-63791-002",
+      "source_page": "http://rxjh.17game.com/data/tasks/201907/63801.htm",
+      "category": "advancement_quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character_id + adv_01 + attempt_id",
+      "permissions": {
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "equip": false,
+        "direct_use": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "identity_policy": "stage quest token,not normal equipment or food; no equip stats or inventory conversion; published names preserved",
+      "maximum_per_active_attempt": 1
+    },
+    {
+      "item_id": "adv01_guard_armor",
+      "name": "警备团的甲衣",
+      "source_reference_id": "QREF-63791-002",
+      "source_page": "http://rxjh.17game.com/data/tasks/201907/63801.htm",
+      "category": "advancement_quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character_id + adv_01 + attempt_id",
+      "permissions": {
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "equip": false,
+        "direct_use": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "identity_policy": "stage quest token,not normal equipment or food; no equip stats or inventory conversion; published names preserved",
+      "maximum_per_active_attempt": 1
+    },
+    {
+      "item_id": "adv01_wolf_bone",
+      "name": "灰狼之骨",
+      "source_reference_id": "QREF-63791-002",
+      "source_page": "http://rxjh.17game.com/data/tasks/201907/63801.htm",
+      "category": "advancement_quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "binding": "character_id + adv_01 + attempt_id",
+      "permissions": {
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "equip": false,
+        "direct_use": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "identity_policy": "stage quest token,not normal equipment or food; no equip stats or inventory conversion; published names preserved",
+      "maximum_per_active_attempt": 3
+    },
+    {
+      "item_id": "adv01_smith_medicine",
+      "name": "刀剑笑的药",
+      "source_reference_id": "QREF-63791-002",
+      "source_page": "http://rxjh.17game.com/data/tasks/201907/63801.htm",
+      "category": "advancement_quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character_id + adv_01 + attempt_id",
+      "permissions": {
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "equip": false,
+        "direct_use": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "identity_policy": "stage quest token,not normal equipment or food; no equip stats or inventory conversion; published names preserved",
+      "maximum_per_active_attempt": 1
+    },
+    {
+      "item_id": "adv01_guard_sword",
+      "name": "警备团的剑",
+      "source_reference_id": "QREF-63791-002",
+      "source_page": "http://rxjh.17game.com/data/tasks/201907/63801.htm",
+      "category": "advancement_quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character_id + adv_01 + attempt_id",
+      "permissions": {
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "equip": false,
+        "direct_use": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "identity_policy": "stage quest token,not normal equipment or food; no equip stats or inventory conversion; published names preserved",
+      "maximum_per_active_attempt": 1
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "monster_id": "hyunbo_boar12",
+        "required_stage_index": 3,
+        "item_id": "adv01_boar_leg",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 1
+      },
+      {
+        "monster_id": "hyunbo_graywolf12",
+        "required_stage_index": 7,
+        "item_id": "adv01_wolf_bone",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 3
+      }
+    ],
+    "qualification": "current own accepted attempt/exact stage,alive/connected/same scene,solo kill owner or exact19party valid-member snapshot; NPC companions none",
+    "ownership": "personal quest award,not copies of public loot; inventory bound to own attempt",
+    "modifiers": "fixed100%task drop,no26/training bonus",
+    "capacity_failure": "no item/no progress and save failed-capacity outcome with death,never retry original death on pickup/reconnect; next distinct death may award",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "adv_01",
+      "attempt_id",
+      "item_id"
+    ],
+    "commit": "same05/19host unique monster death transaction and all per-recipient outcomes"
+  },
+  "monsters": [
+    {
+      "monster_id": "hyunbo_boar12",
+      "source_reference_id": "MREF-39821-005",
+      "name": "野猪",
+      "level": 12,
+      "map_id": "hyunbo_outskirts",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 250,
+      "max_mana": 0,
+      "attack_min": 25,
+      "attack_max": 35,
+      "ordinary_defense": 24,
+      "accuracy": 60,
+      "evasion": 24,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 2600,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv01_creature",
+      "xp_reward": 3435,
+      "practice_reward": 343,
+      "silver_reward": 12,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "hyunbo_boar12",
+        "status": "source creature model/animations required,not final art"
+      },
+      "identity_policy": "not legacy boar/mountain_wolf;source12level definitions stay independent"
+    },
+    {
+      "monster_id": "hyunbo_graywolf12",
+      "source_reference_id": "MREF-39821-006",
+      "name": "灰狼",
+      "level": 12,
+      "map_id": "hyunbo_outskirts",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 250,
+      "max_mana": 0,
+      "attack_min": 25,
+      "attack_max": 35,
+      "ordinary_defense": 24,
+      "accuracy": 60,
+      "evasion": 24,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3200,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv01_creature",
+      "xp_reward": 3435,
+      "practice_reward": 343,
+      "silver_reward": 12,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "hyunbo_graywolf12",
+        "status": "source creature model/animations required,not final art"
+      },
+      "identity_policy": "not legacy boar/mountain_wolf;source12level definitions stay independent"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "hyunbo_boar12_01",
+      "monster_id": "hyunbo_boar12",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -12,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_boar12_02",
+      "monster_id": "hyunbo_boar12",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -4,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_boar12_03",
+      "monster_id": "hyunbo_boar12",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        4,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_boar12_04",
+      "monster_id": "hyunbo_boar12",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        12,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_graywolf12_01",
+      "monster_id": "hyunbo_graywolf12",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -12,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_graywolf12_02",
+      "monster_id": "hyunbo_graywolf12",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -4,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_graywolf12_03",
+      "monster_id": "hyunbo_graywolf12",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        4,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_graywolf12_04",
+      "monster_id": "hyunbo_graywolf12",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        12,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "project proactive9m",
+      "safe_zones": "all map safe zones disallow hostile spawn/entry; path return,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn",
+    "scope": "ordinary120s/5m exclusion/shared LAN/monotone last-issued generation even on offline rebuild"
+  },
+  "static_review": {
+    "reviewed_on": "2026-11-14",
+    "kind": "document_inventory_simulation_and_static_geometry_not_Godot_runtime",
+    "stage_flow": "simulate all10stages with stage3/7collection caps; exact allowed inventory before each stage; final empty tokens and stage10only10000silver/rank1",
+    "spawn_review": "all8homes:0.45m capsule plus2m patrol margin within bounds/outside expanded solids and safe circles; central z then x path clear at0.35m actor radius",
+    "town_review": {
+      "grid_spacing_m": 1,
+      "actor_radius_m": 0.35,
+      "origin_xz_m": [0, 25],
+      "reachable_grid_cells": 12999,
+      "checked_anchor_count": 11,
+      "collision_scope": "four expanded buildings and six actual town NPC circles; all town service/travel anchors reachable; fractional return anchor checked through adjacent reachable grid and midpoint",
+      "npc_review": "six NPCs fit map/solids without mutual overlap; own service anchors within2.5m"
+    },
+    "scope_note": "separate supplementary review for rank1 additions; does not extend the older public_route_static_review or prove dynamic navigation"
+  },
+  "pending": [
+    "Godot ten-stage UI and save/abandon/LAN runtime tests",
+    "source creature/NPC art and full early-growth calibration"
+  ]
+}

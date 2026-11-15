@@ -1,0 +1,355 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "two_full_local_staged_quest_designs_not_implemented_not_balanced",
+  "source_policy": "保QREF-63790-017/QREF-63789-017原59级/路线/红凤凰→谢晓风或周叔通→轩辕二光→周叔通/毛皮20或毒牙20/历练10000及随机金刚石或寒玉石/一次性。归档正派流程明确20，简表未列数，不凭简表省略。来源未列怪，本地从两关既有竹林盗伐者58/竹节武士58寻回携带货物；不是将人形怪身体当毛皮/毒牙，也不新增未知兽类。0克/99堆/20封顶、个人100%及两石各5000基点/数量1为项目值；石为现有通用催化石，非防+7/攻击属性石。",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "pointer": ""
+  },
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-017",
+      "source_reference_id": "QREF-63790-017",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/40"
+      },
+      "name": "红凤凰的嘱托",
+      "minimum_level": 59,
+      "route": "righteous",
+      "accept_npc_id": "npc_hong_fenghuang",
+      "accept_map_id": "liuzheng_pass",
+      "accept_interaction_anchor_id": "npc_hong_fenghuang_service",
+      "accept_service_id": "entrust59_righteous_accept",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_hong_fenghuang",
+          "npc_map_id": "liuzheng_pass",
+          "interaction_anchor_id": "npc_hong_fenghuang_service",
+          "service_id": "entrust59_righteous_1",
+          "consume": [
+            {
+              "item_id": "quest_entrust59_fur_raw",
+              "quantity": 20
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "quest_entrust59_fur_checked",
+              "quantity": 20
+            }
+          ],
+          "action": "红凤凰检查并封签20张毛皮",
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_xie_xiaofeng",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_xie_xiaofeng_service",
+          "service_id": "entrust59_righteous_2",
+          "consume": [
+            {
+              "item_id": "quest_entrust59_fur_checked",
+              "quantity": 20
+            }
+          ],
+          "grant": [],
+          "action": "把封签毛皮交谢晓风，最终领奖",
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 10000,
+        "silver": 0,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "random_item_reward": {
+        "selection": "exactly_one",
+        "roll_min": 0,
+        "roll_max": 9999,
+        "outcomes": [
+          {
+            "item_id": "diamond_synthesis_stone",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "英雄武器合成与神物之石.v1.json",
+              "pointer": "/items/0"
+            },
+            "roll_min": 0,
+            "roll_max": 4999,
+            "probability_bp": 5000
+          },
+          {
+            "item_id": "cold_jade_synthesis_stone",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "普通防具合成.v1.json",
+              "pointer": "/items/0"
+            },
+            "roll_min": 5000,
+            "roll_max": 9999,
+            "probability_bp": 5000
+          }
+        ]
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63789-017",
+      "source_reference_id": "QREF-63789-017",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/89"
+      },
+      "name": "周叔通的嘱托",
+      "minimum_level": 59,
+      "route": "evil",
+      "accept_npc_id": "npc_zhou_shutong",
+      "accept_map_id": "sanxie_pass",
+      "accept_interaction_anchor_id": "npc_zhou_shutong_service",
+      "accept_service_id": "entrust59_evil_accept",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xuanyuan_erguang",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xuanyuan_erguang_service",
+          "service_id": "entrust59_evil_1",
+          "consume": [],
+          "grant": [],
+          "action": "拜访轩辕二光，记录当前轮次证言",
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_zhou_shutong",
+          "npc_map_id": "sanxie_pass",
+          "interaction_anchor_id": "npc_zhou_shutong_service",
+          "service_id": "entrust59_evil_2",
+          "consume": [
+            {
+              "item_id": "quest_entrust59_fang",
+              "quantity": 20
+            }
+          ],
+          "grant": [],
+          "action": "向周叔通交毒牙，最终领奖",
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 10000,
+        "silver": 0,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "random_item_reward": {
+        "selection": "exactly_one",
+        "roll_min": 0,
+        "roll_max": 9999,
+        "outcomes": [
+          {
+            "item_id": "diamond_synthesis_stone",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "英雄武器合成与神物之石.v1.json",
+              "pointer": "/items/0"
+            },
+            "roll_min": 0,
+            "roll_max": 4999,
+            "probability_bp": 5000
+          },
+          {
+            "item_id": "cold_jade_synthesis_stone",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "普通防具合成.v1.json",
+              "pointer": "/items/0"
+            },
+            "roll_min": 5000,
+            "roll_max": 9999,
+            "probability_bp": 5000
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_entrust59_fur_raw",
+      "name": "珍贵的毛皮",
+      "source_reference_id": "QREF-63790-017",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "角色/任务/attempt实物凭证，不可直接用或当合成材料；毛皮须检查替换为专用封签定义，毒牙只在已拜访的邪派阶段2收集。"
+    },
+    {
+      "item_id": "quest_entrust59_fang",
+      "name": "锋利的毒牙",
+      "source_reference_id": "QREF-63789-017",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "角色/任务/attempt实物凭证，不可直接用或当合成材料；毛皮须检查替换为专用封签定义，毒牙只在已拜访的邪派阶段2收集。"
+    },
+    {
+      "item_id": "quest_entrust59_fur_checked",
+      "name": "经红凤凰检查的珍贵毛皮",
+      "source_reference_id": "QREF-63790-017",
+      "source_kind": "project_inspected_variant_of_source_task_item",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅正派阶段1本轮20原毛皮交换产物；真实不同item_id，不原地改原堆，不来自怪物/商店/配置初始化；最终谢晓风仅收此定义20。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-017",
+        "stage_index": 1,
+        "monster_id": "project_righteous_bamboo_logger58",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_entrust59_fur_raw",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      },
+      {
+        "quest_id": "ref_QREF-63789-017",
+        "stage_index": 2,
+        "monster_id": "project_evil_bamboo_warrior58",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_entrust59_fang",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      }
+    ],
+    "eligibility": "own active quest/current exact route/attempt;only righteous stage1 or evil stage2;alive connected same room/map,solo unique death owner or19party original eligible member snapshot within30m/joined>=600steps;actual raw token below20",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ],
+    "capacity_failure": "all actual58/59candidate outputs preflight together through shared_death_owner;any invalid/no fit records no-item outcomes,never replay same death after freeing space/reconnect/reaccept",
+    "commit": "shared_death_owner commits original death result/ordinary rewards once and all actual recipient token outputs/inventory revision once;inactive/stage-mismatched/capped producers add nothing",
+    "modifiers": "personal100%task output,outside public loot/party finisher/training modifiers",
+    "shared_death_owner": {
+      "file": "五十八级正邪竹木任务.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "monster_owner": {
+    "file": "五十八级正邪竹木任务.v1.json",
+    "pointer": "/monsters",
+    "filter_monster_ids": [
+      "project_righteous_bamboo_logger58",
+      "project_evil_bamboo_warrior58"
+    ]
+  },
+  "spawn_owner": {
+    "file": "五十八级正邪竹木任务.v1.json",
+    "pointer": "/spawns",
+    "expected_spawn_count": 8
+  },
+  "lifecycle": {
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "stage_indices": [
+      1,
+      2
+    ],
+    "class_scope": "all14classes",
+    "minimum_rank": 0,
+    "minimum_level": 59,
+    "interaction_distance_mm": 2500,
+    "qualification": "own alive idle out-of-combat no challenge,minimum59 and exact current route before any reward;operation exact declared NPC/map/anchor/service within2500mm,full original state valid. Public map travel remains minimum1/rank0 and never substitutes quest qualifications",
+    "acceptance": "only own not_accepted and never delivered;at declared accept endpoint create unique attempt/stage1,no fee or initial item. Active/delivered reject",
+    "readiness": "derive declared current stage real carried requirements from exact owner/quest/attempt;dialogue-only evil stage1 needs no inventory counter. Checked fur is distinct definition created only by righteous inspection receipt,not mutable checked flag",
+    "stage_transition": "stage1 exact consume/grant then stage2/receipt in one05/19transaction;no XP/practice/silver/RNG or final completion at this stage. Righteous raw20=>checked20,zero net weight and one replaced material stack;evil visit records stage receipt only,inventory revision unchanged because no inventory output,character revision once. No repeated visit/exchange under new request",
+    "final_delivery": "stage2 consumes declared20 checked fur or raw fangs;preflight both random candidate material layouts/10g weight and practice actual/loss using original state. After any required loss confirmation,one authoritative logical uniform0..9999 roll chooses one exact outcome,commit consumed inputs/selected material1/practice actual/loss/final delivered/completion/receipts/RNG and source flows atomically. Character and inventory revisions each+1 once;no second probability draw,nonselected item never created",
+    "practice_rule_ref": {
+      "file": "正邪收集任务公共规则.v1.json",
+      "pointer": "/lifecycle/practice"
+    },
+    "practice_reuse": "only explicit capped practice semantics reused;10000 fixed,show actual/loss with explicit confirmation for positive loss,no conversion/deferred payout/refund. Applied0 at cap may still receive one stone after loss confirmation;do not emit fake practice change",
+    "reward_scope": "reward.experience0/silver0/items[]/rank_change null/ascension_progress0;practice10000 and exactly one random item declared separately,never both stones. No XP/level awards/money leg or service fee",
+    "random": "same05/19persistent gameplay RNG as other economic draws;original server receipt binds pre/post state,roll,exact table/version,selected definition/quantity1,source inputs/attempt/stage/revisions. Preflight all candidates before randomness;cancel/reject consumes no RNG or input;save uncertainty resolves original settlement and retries same persistence,never redraws",
+    "failure": "any missing/wrong attempt/inspection/source/stage/route/endpoint/original/final inventory or practice inconsistency rejects whole command;all items/state/RNG/revisions unchanged,no partial/warehouse/ground reward",
+    "abandon": "explicit confirmation cleans only all three declared input definitions belonging to this active quest/attempt,clears stage/attempt and returns not_accepted atomically,no refund/reward;new accept new attempt/stage1. Checked fur never reusable across attempts;completed cannot abandon",
+    "repeat": "once per character per quest across worlds;route/configuration changes preserve all completion and stage receipts,do not authorize wrong current route or reset reward",
+    "deduplication": "same character/request same payload returns original durable stage/final result before present checks,never reinstalls historical inventory. Changed payload same ID rejects;stage unique character/quest/attempt/stage,final completion unique character/quest across worlds;old death/stage command never targets new attempt",
+    "save": "persist actual current stage/attempt/items and durable step results in05/19;evil completed visit with zero item must retain original receipt to prove stage2,not inferred from location;random result replay only original outcome",
+    "initialization": "new role and known legacy1..4 explicitly not_accepted/null attempt/null stage/no tokens or receipts;new-format missing fields rejects,level/rank/location never auto-visits or completes",
+    "inspection_exchange": "仅正派stage1红凤凰：20原毛皮全量以quest_delivery消费流终结、20封签毛皮以quest_exchange授权铸造，绑定同角色/quest/attempt，grant新堆ID/新来源，消费与产出同一正式结算。不原地改item_id/来源，不创建普通奖励或第二份原毛皮。"
+  },
+  "pending": [
+    "Godot staged quests/shared death/RNG/practice/material inventory/save/LAN implementation and tests",
+    "59level travel duration/58creature rewards/practice10000/two-stone probabilities economic calibration"
+  ]
+}

@@ -123,7 +123,11 @@
     "chance_bp_per_effective_grade": 100,
     "max_chance_bp": 4000,
     "not_double_real_enhancement": true,
-    "snapshot": "wholeacceptedaction includingderived projectiles receives source differential once, no per-targetredraw"
+    "snapshot": "wholeacceptedaction includingderived projectiles receives source differential once, no per-targetredraw",
+    "typed_pool_owner_ref": {
+      "file": "英雄武器属性石.v1.json",
+      "pointer": "/projection_policy"
+    }
   },
   "star_chance_gain": {
     "requires_ownpositive流星": true,
@@ -132,5 +136,24 @@
   },
   "learning": "气功学习与秘籍 retains90quest弱点/90level+5rankarmor earliest100/110+一式weapon earliest115; effect adoption never removes those prerequisites.",
   "persistence": "rootstar/weakpoint/powerbranch/stoneproc receipts, queue originaltarget/vector/interval/range/launchsteps, transientpowermode andremaining180 saved. No repeatedlaunch/stone boost fromview redraw orload; pause/offlinefreeze, deathstopsunemitted attacks notcooldowns.",
-  "scope": "NPCduelactivities/actualattributestone definitions andall officialLuactives arestilldependencies, not filledbyfakepool or duplicatedsourceitem."
+  "scope": "英雄主武器火/毒两元素池已采用并具名接入卢武器翻倍；防具属性池、其他元素、NPCduel完整活动及其他Luactives仍为依赖，不填假池或复用合成/强化。",
+  "persistent_star_power_state": {
+    "target_field": "character.effects.lu_star_power",
+    "schema_ref": {
+      "file": "卢风郎星力状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": null,
+    "legacy_import": "四已知旧来源无此效果，显式null；现行缺字段拒绝，不造触发结果或刷新余时。",
+    "fields": "仅trigger_event_id与remaining_steps1..180；原触发结果须证明同根流星成功、技冠有效且非集中弱点分支。原动作结果持有生成者与阶段快照，字段不复制。",
+    "admission": "只允许卢风郎持有非null。合法接纳下一次自身根攻击武功时，原接纳结果原子记录所消费触发凭证/剩余时长和flat skillpower翻倍快照并清空效果；费用/资格/目标/空闲/冷却失败不消费。普通攻击、治疗、辅助、衍生投射物不消费。接受后打空/中断不退还；多目标/多段只消费一次，整动作沿同快照，不翻倍攻击力或最终伤害。",
+    "ordering": "动作接纳时先消费既有星力；后续该动作实际首主目标伤害才可生成新星力，因此不能消费自己的新触发。若原根已有星力快照，其弱点击破分支不合格且不抽样；后续流星成功仍依原技冠条件刷新新180步。",
+    "timing": "生成步不扣新时长；后续世界步入口对既有效果扣1，归0先移除再接纳新动作。暂停/离线冻结，死亡/原场景安全清除设null，无结束补伤。有效技冠临时变0不刷新/取消已取得一次效果，不凭装备恢复补建。",
+    "refresh": "未消费的同自身星力由新的合格原触发替换trigger_event_id并重置180，不叠次数；重放同原结果不刷新。",
+    "validation": "完整角色/effects须先验白名单；原触发/实际接纳消费/职业与逐步扣时为语义校验。无单独星力成功冷却，不凭此组件造新冷却。"
+  },
+  "death_stop_owner_ref": {
+    "file": "死亡与复活保存.v1.json",
+    "pointer": "/offensive_stop"
+  }
 }

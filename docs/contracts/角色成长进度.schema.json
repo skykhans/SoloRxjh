@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-progress:v1",
+  "$comment": "character.progress严格六键，不保存推导level/上限、银两、任务或点数镜像。HP与生命状态/合法当前上限、实际晋级/路线资格和配置例外须角色联合校验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "total_xp",
+    "hp",
+    "mana",
+    "stamina",
+    "completed_rank",
+    "route"
+  ],
+  "properties": {
+    "total_xp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 371126840985
+    },
+    "hp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "mana": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "stamina": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "completed_rank": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12
+    },
+    "route": {
+      "enum": [
+        "unselected",
+        "righteous",
+        "evil"
+      ]
+    }
+  }
+}

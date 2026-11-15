@@ -1,0 +1,1925 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "six_full_local_staged_quest_designs_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "pointer": ""
+  },
+  "source_policy": "六来源61/62/63级、对应派别/NPC/完整访谈归还流程与固定奖励/委托书沿来源。62正派简表银袋10与完整流程15冲突，项目明确完整流程15并保原参考不改。61正派泛称飞虎贼明确由目录驼背飞虎贼61产刀；两黑松红眼名称按同区域同等级目录盗匪身份统一，别名仅任务文字映射。各链同一角色严格依序，以前段已完成且真实委托书1/2作后段准入，前书保留至后段终交才消费；封包物/0克99堆/个人100%/战斗收益刷点为项目设计。奖励统一在最后归还NPC结算，归还前不给主奖，不额外重复回门主领取。",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-024",
+      "source_reference_id": "QREF-63790-024",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/47"
+      },
+      "name": "讨伐飞虎贼 (1/3)",
+      "minimum_level": 61,
+      "route": "righteous",
+      "accept_npc_id": "npc_che_jingmo",
+      "accept_map_id": "shenwu_gate",
+      "accept_interaction_anchor_id": "npc_che_jingmo_service",
+      "accept_service_id": "bandit61_righteous_accept",
+      "required_previous_quest_id": null,
+      "retained_previous_commission": null,
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_wei_baibaibai",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_wei_baibaibai_service",
+          "service_id": "ref_QREF-63790-024_stage1",
+          "consume": [],
+          "grant": [],
+          "action": "向钱庄打听位置",
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_che_jingmo",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_che_jingmo_service",
+          "service_id": "ref_QREF-63790-024_stage2",
+          "consume": [
+            {
+              "item_id": "bandit61_righteous_token",
+              "quantity": 10
+            }
+          ],
+          "grant": [],
+          "action": "向门主交10证物，最终领奖",
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "quest_reward_gold_treasure_box",
+            "quantity": 10,
+            "definition_ref": {
+              "file": "任务宝盒开启.v1.json",
+              "pointer": "/items/1"
+            }
+          },
+          {
+            "item_id": "bandit61_righteous_commission",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "六十一至六十三级正邪讨伐链.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "collect_stage_index": 2,
+      "raw_requirements": [
+        {
+          "item_id": "bandit61_righteous_token",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "quest_id": "ref_QREF-63790-025",
+      "source_reference_id": "QREF-63790-025",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/48"
+      },
+      "name": "讨伐飞虎贼 (2/3)",
+      "minimum_level": 62,
+      "route": "righteous",
+      "accept_npc_id": "npc_che_jingmo",
+      "accept_map_id": "shenwu_gate",
+      "accept_interaction_anchor_id": "npc_che_jingmo_service",
+      "accept_service_id": "bandit62_righteous_accept",
+      "required_previous_quest_id": "ref_QREF-63790-024",
+      "retained_previous_commission": {
+        "item_id": "bandit61_righteous_commission",
+        "quantity": 1
+      },
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_che_jingmo",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_che_jingmo_service",
+          "service_id": "ref_QREF-63790-025_stage1",
+          "consume": [
+            {
+              "item_id": "bandit62_righteous_raw0",
+              "quantity": 15
+            },
+            {
+              "item_id": "bandit62_righteous_raw1",
+              "quantity": 5
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "bandit62_righteous_sealed",
+              "quantity": 1
+            }
+          ],
+          "action": "门主核验并封包",
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_wei_baibaibai",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_wei_baibaibai_service",
+          "service_id": "ref_QREF-63790-025_stage2",
+          "consume": [
+            {
+              "item_id": "bandit62_righteous_sealed",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "action": "归还财物，最终领奖",
+          "grants_final_reward": true,
+          "consume_previous_commission": {
+            "item_id": "bandit61_righteous_commission",
+            "quantity": 1,
+            "source_quest_id": "ref_QREF-63790-024",
+            "scope": "source quest completion_receipt_id,not current attempt"
+          }
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 1200000,
+        "items": [
+          {
+            "item_id": "bandit62_righteous_commission",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "六十一至六十三级正邪讨伐链.v1.json",
+              "pointer": "/items/2"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "collect_stage_index": 1,
+      "raw_requirements": [
+        {
+          "item_id": "bandit62_righteous_raw0",
+          "quantity": 15
+        },
+        {
+          "item_id": "bandit62_righteous_raw1",
+          "quantity": 5
+        }
+      ]
+    },
+    {
+      "quest_id": "ref_QREF-63790-026",
+      "source_reference_id": "QREF-63790-026",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/49"
+      },
+      "name": "讨伐飞虎贼 (3/3)",
+      "minimum_level": 63,
+      "route": "righteous",
+      "accept_npc_id": "npc_che_jingmo",
+      "accept_map_id": "shenwu_gate",
+      "accept_interaction_anchor_id": "npc_che_jingmo_service",
+      "accept_service_id": "bandit63_righteous_accept",
+      "required_previous_quest_id": "ref_QREF-63790-025",
+      "retained_previous_commission": {
+        "item_id": "bandit62_righteous_commission",
+        "quantity": 1
+      },
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_che_jingmo",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_che_jingmo_service",
+          "service_id": "ref_QREF-63790-026_stage1",
+          "consume": [
+            {
+              "item_id": "bandit63_righteous_raw0",
+              "quantity": 5
+            },
+            {
+              "item_id": "bandit63_righteous_raw1",
+              "quantity": 5
+            },
+            {
+              "item_id": "bandit63_righteous_raw2",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "bandit63_righteous_sealed1",
+              "quantity": 1
+            },
+            {
+              "item_id": "bandit63_righteous_sealed2",
+              "quantity": 1
+            }
+          ],
+          "action": "交全部证物，首类归门主，其余两类封包",
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_wei_baibaibai",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_wei_baibaibai_service",
+          "service_id": "ref_QREF-63790-026_stage2",
+          "consume": [
+            {
+              "item_id": "bandit63_righteous_sealed1",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "action": "归还第一封包",
+          "grants_final_reward": false,
+          "retained_inputs": [
+            {
+              "item_id": "bandit63_righteous_sealed2",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_xie_xiaofeng",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_xie_xiaofeng_service",
+          "service_id": "ref_QREF-63790-026_stage3",
+          "consume": [
+            {
+              "item_id": "bandit63_righteous_sealed2",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "action": "归还最后封包，最终领奖",
+          "grants_final_reward": true,
+          "consume_previous_commission": {
+            "item_id": "bandit62_righteous_commission",
+            "quantity": 1,
+            "source_quest_id": "ref_QREF-63790-025",
+            "scope": "source quest completion_receipt_id,not current attempt"
+          }
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "diamond_synthesis_stone",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "英雄武器合成与神物之石.v1.json",
+              "pointer": "/items/0"
+            }
+          },
+          {
+            "item_id": "cold_jade_synthesis_stone",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "普通防具合成.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "collect_stage_index": 1,
+      "raw_requirements": [
+        {
+          "item_id": "bandit63_righteous_raw0",
+          "quantity": 5
+        },
+        {
+          "item_id": "bandit63_righteous_raw1",
+          "quantity": 5
+        },
+        {
+          "item_id": "bandit63_righteous_raw2",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "quest_id": "ref_QREF-63789-024",
+      "source_reference_id": "QREF-63789-024",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/96"
+      },
+      "name": "讨伐黑松贼 (1/3)",
+      "minimum_level": 61,
+      "route": "evil",
+      "accept_npc_id": "npc_shi_wei",
+      "accept_map_id": "liushan_house",
+      "accept_interaction_anchor_id": "npc_shi_wei_service",
+      "accept_service_id": "bandit61_evil_accept",
+      "required_previous_quest_id": null,
+      "retained_previous_commission": null,
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xuanyuan_erguang",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xuanyuan_erguang_service",
+          "service_id": "ref_QREF-63789-024_stage1",
+          "consume": [],
+          "grant": [],
+          "action": "向钱庄打听位置",
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_shi_wei",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_shi_wei_service",
+          "service_id": "ref_QREF-63789-024_stage2",
+          "consume": [
+            {
+              "item_id": "bandit61_evil_token",
+              "quantity": 10
+            }
+          ],
+          "grant": [],
+          "action": "向门主交10证物，最终领奖",
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "quest_reward_gold_treasure_box",
+            "quantity": 10,
+            "definition_ref": {
+              "file": "任务宝盒开启.v1.json",
+              "pointer": "/items/1"
+            }
+          },
+          {
+            "item_id": "bandit61_evil_commission",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "六十一至六十三级正邪讨伐链.v1.json",
+              "pointer": "/items/11"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "collect_stage_index": 2,
+      "raw_requirements": [
+        {
+          "item_id": "bandit61_evil_token",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "quest_id": "ref_QREF-63789-025",
+      "source_reference_id": "QREF-63789-025",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/97"
+      },
+      "name": "讨伐黑松贼 (2/3)",
+      "minimum_level": 62,
+      "route": "evil",
+      "accept_npc_id": "npc_shi_wei",
+      "accept_map_id": "liushan_house",
+      "accept_interaction_anchor_id": "npc_shi_wei_service",
+      "accept_service_id": "bandit62_evil_accept",
+      "required_previous_quest_id": "ref_QREF-63789-024",
+      "retained_previous_commission": {
+        "item_id": "bandit61_evil_commission",
+        "quantity": 1
+      },
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shi_wei",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_shi_wei_service",
+          "service_id": "ref_QREF-63789-025_stage1",
+          "consume": [
+            {
+              "item_id": "bandit62_evil_raw0",
+              "quantity": 10
+            },
+            {
+              "item_id": "bandit62_evil_raw1",
+              "quantity": 5
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "bandit62_evil_sealed",
+              "quantity": 1
+            }
+          ],
+          "action": "门主核验并封包",
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_xiao_shierlang",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xiao_shierlang_service",
+          "service_id": "ref_QREF-63789-025_stage2",
+          "consume": [
+            {
+              "item_id": "bandit62_evil_sealed",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "action": "归还财物，最终领奖",
+          "grants_final_reward": true,
+          "consume_previous_commission": {
+            "item_id": "bandit61_evil_commission",
+            "quantity": 1,
+            "source_quest_id": "ref_QREF-63789-024",
+            "scope": "source quest completion_receipt_id,not current attempt"
+          }
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 1200000,
+        "items": [
+          {
+            "item_id": "bandit62_evil_commission",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "六十一至六十三级正邪讨伐链.v1.json",
+              "pointer": "/items/13"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "collect_stage_index": 1,
+      "raw_requirements": [
+        {
+          "item_id": "bandit62_evil_raw0",
+          "quantity": 10
+        },
+        {
+          "item_id": "bandit62_evil_raw1",
+          "quantity": 5
+        }
+      ]
+    },
+    {
+      "quest_id": "ref_QREF-63789-026",
+      "source_reference_id": "QREF-63789-026",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/98"
+      },
+      "name": "讨伐黑松贼 (3/3)",
+      "minimum_level": 63,
+      "route": "evil",
+      "accept_npc_id": "npc_shi_wei",
+      "accept_map_id": "liushan_house",
+      "accept_interaction_anchor_id": "npc_shi_wei_service",
+      "accept_service_id": "bandit63_evil_accept",
+      "required_previous_quest_id": "ref_QREF-63789-025",
+      "retained_previous_commission": {
+        "item_id": "bandit62_evil_commission",
+        "quantity": 1
+      },
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shi_wei",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_shi_wei_service",
+          "service_id": "ref_QREF-63789-026_stage1",
+          "consume": [
+            {
+              "item_id": "bandit63_evil_raw0",
+              "quantity": 5
+            },
+            {
+              "item_id": "bandit63_evil_raw1",
+              "quantity": 5
+            },
+            {
+              "item_id": "bandit63_evil_raw2",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "bandit63_evil_sealed1",
+              "quantity": 1
+            },
+            {
+              "item_id": "bandit63_evil_sealed2",
+              "quantity": 1
+            }
+          ],
+          "action": "交全部证物，首类归门主，其余两类封包",
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_shangguan_xiaoxian",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_shangguan_xiaoxian_service",
+          "service_id": "ref_QREF-63789-026_stage2",
+          "consume": [
+            {
+              "item_id": "bandit63_evil_sealed1",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "action": "归还第一封包",
+          "grants_final_reward": false,
+          "retained_inputs": [
+            {
+              "item_id": "bandit63_evil_sealed2",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_ding_dongxia",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_ding_dongxia_service",
+          "service_id": "ref_QREF-63789-026_stage3",
+          "consume": [
+            {
+              "item_id": "bandit63_evil_sealed2",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "action": "归还最后封包，最终领奖",
+          "grants_final_reward": true,
+          "consume_previous_commission": {
+            "item_id": "bandit62_evil_commission",
+            "quantity": 1,
+            "source_quest_id": "ref_QREF-63789-025",
+            "scope": "source quest completion_receipt_id,not current attempt"
+          }
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "diamond_synthesis_stone",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "英雄武器合成与神物之石.v1.json",
+              "pointer": "/items/0"
+            }
+          },
+          {
+            "item_id": "cold_jade_synthesis_stone",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "普通防具合成.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "collect_stage_index": 1,
+      "raw_requirements": [
+        {
+          "item_id": "bandit63_evil_raw0",
+          "quantity": 5
+        },
+        {
+          "item_id": "bandit63_evil_raw1",
+          "quantity": 5
+        },
+        {
+          "item_id": "bandit63_evil_raw2",
+          "quantity": 10
+        }
+      ]
+    }
+  ],
+  "items": [
+    {
+      "item_id": "bandit61_righteous_commission",
+      "name": "讨伐飞虎贼委托书1",
+      "source_reference_id": "QREF-63790-024",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_commission",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character/quest/completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "完成书绑定来源任务/角色/完成收据，无attempt维度，后段终交才消费；封包与原物均独立定义，非可用货币/披风/装备。",
+      "maximum_owned": 1
+    },
+    {
+      "item_id": "bandit61_righteous_token",
+      "name": "飞虎贼的刀",
+      "source_reference_id": "QREF-63790-024",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit62_righteous_commission",
+      "name": "讨伐飞虎贼委托书2",
+      "source_reference_id": "QREF-63790-025",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_commission",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character/quest/completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "完成书绑定来源任务/角色/完成收据，无attempt维度，后段终交才消费；封包与原物均独立定义，非可用货币/披风/装备。",
+      "maximum_owned": 1
+    },
+    {
+      "item_id": "bandit62_righteous_raw0",
+      "name": "银袋子",
+      "source_reference_id": "QREF-63790-025",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 15,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit62_righteous_raw1",
+      "name": "银块",
+      "source_reference_id": "QREF-63790-025",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit62_righteous_sealed",
+      "name": "门主封签的寻回财物包",
+      "source_reference_id": "QREF-63790-025",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit63_righteous_raw0",
+      "name": "驼背飞虎贼的发带",
+      "source_reference_id": "QREF-63790-026",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit63_righteous_raw1",
+      "name": "宝石袋子",
+      "source_reference_id": "QREF-63790-026",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit63_righteous_raw2",
+      "name": "神掌飞虎贼的护手",
+      "source_reference_id": "QREF-63790-026",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit63_righteous_sealed1",
+      "name": "门主封签的宝石袋子",
+      "source_reference_id": "QREF-63790-026",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit63_righteous_sealed2",
+      "name": "门主封签的神掌飞虎贼的护手",
+      "source_reference_id": "QREF-63790-026",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit61_evil_commission",
+      "name": "讨伐黑松贼委托书1",
+      "source_reference_id": "QREF-63789-024",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_commission",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character/quest/completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "完成书绑定来源任务/角色/完成收据，无attempt维度，后段终交才消费；封包与原物均独立定义，非可用货币/披风/装备。",
+      "maximum_owned": 1
+    },
+    {
+      "item_id": "bandit61_evil_token",
+      "name": "黑松巡路贼的披风",
+      "source_reference_id": "QREF-63789-024",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit62_evil_commission",
+      "name": "讨伐黑松贼委托书2",
+      "source_reference_id": "QREF-63789-025",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_commission",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character/quest/completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "完成书绑定来源任务/角色/完成收据，无attempt维度，后段终交才消费；封包与原物均独立定义，非可用货币/披风/装备。",
+      "maximum_owned": 1
+    },
+    {
+      "item_id": "bandit62_evil_raw0",
+      "name": "黑松红眼盗匪的铁锤",
+      "source_reference_id": "QREF-63789-025",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit62_evil_raw1",
+      "name": "铁柜",
+      "source_reference_id": "QREF-63789-025",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit62_evil_sealed",
+      "name": "门主封签的寻回财物包",
+      "source_reference_id": "QREF-63789-025",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit63_evil_raw0",
+      "name": "黑松巡路贼的帽子",
+      "source_reference_id": "QREF-63789-026",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit63_evil_raw1",
+      "name": "黑松红眼盗贼的帽子",
+      "source_reference_id": "QREF-63789-026",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit63_evil_raw2",
+      "name": "黑松鬼面贼的帽子",
+      "source_reference_id": "QREF-63789-026",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit63_evil_sealed1",
+      "name": "门主封签的黑松红眼盗贼的帽子",
+      "source_reference_id": "QREF-63789-026",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "bandit63_evil_sealed2",
+      "name": "门主封签的黑松鬼面贼的帽子",
+      "source_reference_id": "QREF-63789-026",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    }
+  ],
+  "monsters": [
+    {
+      "monster_id": "shenwu_hunchback_bandit61",
+      "source_reference_id": "MREF-39818-004",
+      "name": "驼背飞虎贼",
+      "level": 61,
+      "map_id": "shenwu_gate",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6100,
+      "max_mana": 0,
+      "attack_min": 244,
+      "attack_max": 305,
+      "ordinary_defense": 122,
+      "accuracy": 305,
+      "evasion": 122,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_headquarters_bandit",
+      "xp_reward": 345864,
+      "practice_reward": 34586,
+      "silver_reward": 61,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "shenwu_hunchback_bandit61",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "保来源身份/等级/地图，战斗值/普通收益与空普通掉落/刷点为明确项目值；完整任务掉落另按producer",
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/129"
+      }
+    },
+    {
+      "monster_id": "shenwu_miser62",
+      "source_reference_id": "MREF-39818-005",
+      "name": "吝啬鬼",
+      "level": 62,
+      "map_id": "shenwu_gate",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6200,
+      "max_mana": 0,
+      "attack_min": 248,
+      "attack_max": 310,
+      "ordinary_defense": 124,
+      "accuracy": 310,
+      "evasion": 124,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_headquarters_bandit",
+      "xp_reward": 406015,
+      "practice_reward": 40601,
+      "silver_reward": 62,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "shenwu_miser62",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "保来源身份/等级/地图，战斗值/普通收益与空普通掉落/刷点为明确项目值；完整任务掉落另按producer",
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/130"
+      }
+    },
+    {
+      "monster_id": "shenwu_divine_palm_bandit63",
+      "source_reference_id": "MREF-39818-006",
+      "name": "神掌飞虎贼",
+      "level": 63,
+      "map_id": "shenwu_gate",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6300,
+      "max_mana": 0,
+      "attack_min": 252,
+      "attack_max": 315,
+      "ordinary_defense": 126,
+      "accuracy": 315,
+      "evasion": 126,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_headquarters_bandit",
+      "xp_reward": 455324,
+      "practice_reward": 45532,
+      "silver_reward": 63,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "shenwu_divine_palm_bandit63",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "保来源身份/等级/地图，战斗值/普通收益与空普通掉落/刷点为明确项目值；完整任务掉落另按producer",
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/131"
+      }
+    },
+    {
+      "monster_id": "liushan_black_pine_patrol61",
+      "source_reference_id": "MREF-39817-004",
+      "name": "黑松巡路贼",
+      "level": 61,
+      "map_id": "liushan_house",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6100,
+      "max_mana": 0,
+      "attack_min": 244,
+      "attack_max": 305,
+      "ordinary_defense": 122,
+      "accuracy": 305,
+      "evasion": 122,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_headquarters_bandit",
+      "xp_reward": 345864,
+      "practice_reward": 34586,
+      "silver_reward": 61,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liushan_black_pine_patrol61",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "保来源身份/等级/地图，战斗值/普通收益与空普通掉落/刷点为明确项目值；完整任务掉落另按producer",
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/138"
+      }
+    },
+    {
+      "monster_id": "liushan_black_pine_red_eye62",
+      "source_reference_id": "MREF-39817-005",
+      "name": "黑松红眼盗匪",
+      "level": 62,
+      "map_id": "liushan_house",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6200,
+      "max_mana": 0,
+      "attack_min": 248,
+      "attack_max": 310,
+      "ordinary_defense": 124,
+      "accuracy": 310,
+      "evasion": 124,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_headquarters_bandit",
+      "xp_reward": 406015,
+      "practice_reward": 40601,
+      "silver_reward": 62,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liushan_black_pine_red_eye62",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "保来源身份/等级/地图，战斗值/普通收益与空普通掉落/刷点为明确项目值；完整任务掉落另按producer",
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/139"
+      }
+    },
+    {
+      "monster_id": "liushan_black_pine_ghost63",
+      "source_reference_id": "MREF-39817-006",
+      "name": "黑松鬼面贼",
+      "level": 63,
+      "map_id": "liushan_house",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6300,
+      "max_mana": 0,
+      "attack_min": 252,
+      "attack_max": 315,
+      "ordinary_defense": 126,
+      "accuracy": 315,
+      "evasion": 126,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_headquarters_bandit",
+      "xp_reward": 455324,
+      "practice_reward": 45532,
+      "silver_reward": 63,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liushan_black_pine_ghost63",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "保来源身份/等级/地图，战斗值/普通收益与空普通掉落/刷点为明确项目值；完整任务掉落另按producer",
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/140"
+      }
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "shenwu_hunchback_bandit61_01",
+      "monster_id": "shenwu_hunchback_bandit61",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -112,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_hunchback_bandit61_02",
+      "monster_id": "shenwu_hunchback_bandit61",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -112,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_hunchback_bandit61_03",
+      "monster_id": "shenwu_hunchback_bandit61",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -112,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_hunchback_bandit61_04",
+      "monster_id": "shenwu_hunchback_bandit61",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -112,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_miser62_01",
+      "monster_id": "shenwu_miser62",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -128,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_miser62_02",
+      "monster_id": "shenwu_miser62",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -128,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_miser62_03",
+      "monster_id": "shenwu_miser62",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -128,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_miser62_04",
+      "monster_id": "shenwu_miser62",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -128,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_divine_palm_bandit63_01",
+      "monster_id": "shenwu_divine_palm_bandit63",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -144,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_divine_palm_bandit63_02",
+      "monster_id": "shenwu_divine_palm_bandit63",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -144,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_divine_palm_bandit63_03",
+      "monster_id": "shenwu_divine_palm_bandit63",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -144,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_divine_palm_bandit63_04",
+      "monster_id": "shenwu_divine_palm_bandit63",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -144,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_patrol61_01",
+      "monster_id": "liushan_black_pine_patrol61",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -112,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_patrol61_02",
+      "monster_id": "liushan_black_pine_patrol61",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -112,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_patrol61_03",
+      "monster_id": "liushan_black_pine_patrol61",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -112,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_patrol61_04",
+      "monster_id": "liushan_black_pine_patrol61",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -112,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_red_eye62_01",
+      "monster_id": "liushan_black_pine_red_eye62",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -128,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_red_eye62_02",
+      "monster_id": "liushan_black_pine_red_eye62",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -128,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_red_eye62_03",
+      "monster_id": "liushan_black_pine_red_eye62",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -128,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_red_eye62_04",
+      "monster_id": "liushan_black_pine_red_eye62",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -128,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_ghost63_01",
+      "monster_id": "liushan_black_pine_ghost63",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -144,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_ghost63_02",
+      "monster_id": "liushan_black_pine_ghost63",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -144,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_ghost63_03",
+      "monster_id": "liushan_black_pine_ghost63",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -144,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_black_pine_ghost63_04",
+      "monster_id": "liushan_black_pine_ghost63",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -144,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-024",
+        "stage_index": 2,
+        "monster_id": "shenwu_hunchback_bandit61",
+        "map_id": "shenwu_gate",
+        "item_id": "bandit61_righteous_token",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63790-025",
+        "stage_index": 1,
+        "monster_id": "shenwu_miser62",
+        "map_id": "shenwu_gate",
+        "item_id": "bandit62_righteous_raw0",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 15
+      },
+      {
+        "quest_id": "ref_QREF-63790-025",
+        "stage_index": 1,
+        "monster_id": "shenwu_miser62",
+        "map_id": "shenwu_gate",
+        "item_id": "bandit62_righteous_raw1",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63790-026",
+        "stage_index": 1,
+        "monster_id": "shenwu_hunchback_bandit61",
+        "map_id": "shenwu_gate",
+        "item_id": "bandit63_righteous_raw0",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63790-026",
+        "stage_index": 1,
+        "monster_id": "shenwu_miser62",
+        "map_id": "shenwu_gate",
+        "item_id": "bandit63_righteous_raw1",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63790-026",
+        "stage_index": 1,
+        "monster_id": "shenwu_divine_palm_bandit63",
+        "map_id": "shenwu_gate",
+        "item_id": "bandit63_righteous_raw2",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-024",
+        "stage_index": 2,
+        "monster_id": "liushan_black_pine_patrol61",
+        "map_id": "liushan_house",
+        "item_id": "bandit61_evil_token",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-025",
+        "stage_index": 1,
+        "monster_id": "liushan_black_pine_red_eye62",
+        "map_id": "liushan_house",
+        "item_id": "bandit62_evil_raw0",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-025",
+        "stage_index": 1,
+        "monster_id": "liushan_black_pine_red_eye62",
+        "map_id": "liushan_house",
+        "item_id": "bandit62_evil_raw1",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63789-026",
+        "stage_index": 1,
+        "monster_id": "liushan_black_pine_patrol61",
+        "map_id": "liushan_house",
+        "item_id": "bandit63_evil_raw0",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63789-026",
+        "stage_index": 1,
+        "monster_id": "liushan_black_pine_red_eye62",
+        "map_id": "liushan_house",
+        "item_id": "bandit63_evil_raw1",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63789-026",
+        "stage_index": 1,
+        "monster_id": "liushan_black_pine_ghost63",
+        "map_id": "liushan_house",
+        "item_id": "bandit63_evil_raw2",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "eligibility": "own active quest/exact current route/attempt/current declared collect_stage;alive connected same room/map;solo original death owner or19party original member snapshot within30m/joined>=600steps;actual own token below producer cap. Collection never before interview/report prerequisites",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ],
+    "capacity": "per actor build all actual eligible below-cap additions at once,maximum2zero-g tokens;exact source/merge/slots/weight all-or-none. Any cannot fit records no-item for all actual candidates;ineligible/capped add nothing. Ordinary death rewards once,inventory revision once for actual outputs",
+    "commit": "05/19one authoritative death transaction with original snapshot and all recipients;quest/stage count never multiplies normal XP/practice/silver or world loot",
+    "replay": "immutable original outcomes,no re-evaluation after space/stage/world/reconnect/abandon/reaccept;later distinct deaths may grant",
+    "modifiers": "personal100% quest output,no finisher/training/party bonus"
+  },
+  "lifecycle": {
+    "class_scope": "all14classes",
+    "minimum_rank": 0,
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "qualification": "own alive idle out-of-combat/no challenge,exact minimum_level/current route before rewards;same map/exact declared NPC/anchor/service within2500mm. Full original state/inputs/previous completion/commission provenance valid",
+    "acceptance": "not_accepted and never delivered;exact own leader endpoint creates unique attempt/stage1,no fee/initial grant. For62/63 require previous quest delivered with actual unconsumed own completion-bound commission1/2;retain it throughout active task,not consumed on accept. Other route/character letter or mere level never substitutes",
+    "stage_commands": "consume exact declared current-attempt inputs,grant exact declared current-attempt sealed bundles by quest_exchange,advance stage/record unique receipt in one05/19transaction after full final slot/weight preflight;nonfinal no XP/practice/silver/RNG or commission reward. Dialogue-only changes character revision once,not inventory. Sealed delivery variants are distinct item definitions,never alter source stack item_id in place",
+    "final_delivery": "at exact final stage endpoint consume its attempt inputs plus previous commission when declared,then insert exact reward.items and carried silver;commit inputs/output source flows/state/completion/receipt/character and inventory revision each+1 once. No additional leader reward after final return;delivery NPC acts under exact quest reward authorization",
+    "silver": "62reward1200000 only to own carried_silver,warehouse unchanged;original+1200000 must<=9007199254740991 else reject whole final delivery,no clipping/deferred/partial credit. Authorized quest_reward income flow exact amount,zero amounts cause no fake flow",
+    "other_resources": "all6experience0/practice0/rank_change null/ascension_progress0;no XP/level-award/practice mutation/refill/cooldown refresh or rank change;no reward RNG,box randomness only later explicit opening",
+    "commissions": "each route commission1 minted only61final,commission2 only62final;stack1/0g/character+source quest+completion_receipt_id,without attempt dimension. Next quest checks true preceding completion and held source receipt,consumes predecessor letter only at its final transaction;cannot warehouse/discard/sell/trade/use/craft,never auto-regrant on abandon/missing proof. Abandon next task preserves previous letter,final consume not mirrored by persistent used flag",
+    "readiness": "derive actual declared stage inputs and retained previous commission from source-verified carried items,not stored kill counters or ready flags",
+    "abandon": "explicit confirmation clears only this active quest/current-attempt declared raw/sealed inputs,clears attempt/stage and resets not_accepted;prior completion-bound commission is not cleaned or refunded because not consumed yet. New attempt restarts own stage1,not earlier completed chain legs;completed cannot abandon",
+    "repeat": "each source quest once per character across worlds,one route chain cannot satisfy other route. Route/configuration changes preserve histories and do not reset letter/reward or permit wrong-route actions",
+    "deduplication": "same character/request same payload returns original durable result before current checks,never installs historical inventory;changed payload same request rejects. Stage receipt unique character/quest/attempt/stage;final completion unique character/quest. Old attempts/deaths/stages never act on new attempt",
+    "failure_and_save": "any original/commission/source/endpoint/stage/route/final layout/weight/silver/revision failure rejects whole stage before mutation. Persist original transaction/receipts under05/19;uncertain save resolves original decision and retries same persistence,no business replay/duplicate reward/letter recreation",
+    "initialization": "new role and known legacy1..4 explicitly not_accepted/null attempt/null stage/no task tokens/commissions or receipts;level/rank never auto-completes. New-format missing required state rejects"
+  },
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "all map safe zones exclude hostile spawn/entry;path return,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "pending": [
+    "Godot six staged quests/source monsters/NPC/commission inventory/save/LAN implementation and tests",
+    "61..63 combat duration/rewards/gold box economy calibration"
+  ],
+  "static_review": {
+    "reviewed_on": "2026-11-15",
+    "kind": "descriptor arithmetic/geometry only,not Godot or persistence/LAN execution",
+    "item_flow": "two routes each3legs/7stages simulated from declared consume/grant/final reward;all raw/sealed/commission items absent after final,per route onlygoldbox10+diamond1+coldjade1 remain and silver1200000",
+    "monster_sources": "6exact MREF/name/level/map references verified;24new homes,each map24total including preexisting12",
+    "geometry": "0.45m monster radius+2m patrol margin passes bounds/solids/safe circles and all-pair homes;1m grid with0.35m player expanded solids reaches84861cells per map including all registered homes",
+    "box_ranges": "both input pools each10000integer positions uniquely covered4000/3000/3000;6candidate fresh ordinary jewelry roots validated against original schema",
+    "runtime_status": "not executed"
+  }
+}

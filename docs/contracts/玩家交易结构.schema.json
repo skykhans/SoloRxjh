@@ -1,0 +1,802 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-trade-fragments:v1",
+  "$comment": "原报价/准备守卫及world.player_trade_journal完整准备计划/决定结构；严格token/真实输入/计划摘要/转让授权与来源/双角色候选另验，不是完整角色或world根。",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/offer"
+    },
+    {
+      "$ref": "#/$defs/persistentGuard"
+    }
+  ],
+  "$defs": {
+    "offer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "silver",
+        "entries"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "silver": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "entries": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/offerEntry"
+          }
+        }
+      }
+    },
+    "offerEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "target_id",
+        "source_revision",
+        "quantity"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "instance",
+            "stack"
+          ]
+        },
+        "target_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9999
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "instance"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "quantity": {
+                "const": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "persistentGuard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "world_id",
+        "trade_id",
+        "settlement_id",
+        "character_id",
+        "before_character_revision",
+        "before_inventory_revision",
+        "before_configuration_revision",
+        "plan_digest",
+        "source_fingerprint"
+      ],
+      "properties": {
+        "world_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trade_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "settlement_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "character_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "before_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "before_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "before_configuration_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "plan_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "source_fingerprint": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        }
+      }
+    },
+    "participant_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "profile_id",
+        "before_character_revision",
+        "before_inventory_revision",
+        "before_configuration_revision",
+        "after_character_revision",
+        "after_inventory_revision",
+        "source_fingerprint",
+        "offered_silver",
+        "offered_entries",
+        "after_carried_silver",
+        "after_inventory_projection",
+        "after_equipment_bag_projection"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "profile_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "before_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "before_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "before_configuration_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "after_character_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "after_inventory_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "source_fingerprint": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "offered_silver": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "offered_entries": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/offerEntry"
+          }
+        },
+        "after_carried_silver": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "after_inventory_projection": {
+          "$ref": "urn:solorxjh:item-locations:v1#/properties/inventory"
+        },
+        "after_equipment_bag_projection": {
+          "$ref": "urn:solorxjh:item-locations:v1#/properties/equipment_bag"
+        }
+      }
+    },
+    "trade_silver_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:silver-flow:v1"
+        },
+        {
+          "properties": {
+            "accounts": {
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "properties": {
+                  "account": {
+                    "const": "carried_silver"
+                  },
+                  "previous_output": {
+                    "type": "object"
+                  },
+                  "opening_authorization": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            "movements": {
+              "minItems": 1,
+              "maxItems": 2,
+              "items": {
+                "properties": {
+                  "from_account_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "to_account_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "authorization": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "trade_stack_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1
+            },
+            "outputs": {
+              "minItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "properties": {
+                      "item_id": {
+                        "const": "jewelry_master_crystal_charm"
+                      },
+                      "binding": {
+                        "const": "unbound"
+                      },
+                      "quest_scope": {
+                        "type": "null"
+                      }
+                    }
+                  },
+                  "custody": {
+                    "properties": {
+                      "kind": {
+                        "const": "held"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "trade_instance_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:instance-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "maxItems": 16,
+              "items": {
+                "properties": {
+                  "instance": {
+                    "$ref": "urn:solorxjh:merit-jewelry-instance:v1"
+                  },
+                  "custody": {
+                    "properties": {
+                      "kind": {
+                        "const": "held"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 16,
+              "items": {
+                "properties": {
+                  "operation": {
+                    "const": "ownership_transfer"
+                  },
+                  "instance": {
+                    "allOf": [
+                      {
+                        "$ref": "urn:solorxjh:merit-jewelry-instance:v1"
+                      },
+                      {
+                        "properties": {
+                          "durability": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "properties": {
+                      "kind": {
+                        "const": "held"
+                      }
+                    }
+                  },
+                  "creation_authorization": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            "retirements": {
+              "maxItems": 0
+            }
+          }
+        }
+      ]
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "participant_plans",
+        "transfer_provenance"
+      ],
+      "properties": {
+        "participant_plans": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/participant_plan"
+          },
+          "contains": {
+            "anyOf": [
+              {
+                "properties": {
+                  "offered_silver": {
+                    "minimum": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "offered_entries": {
+                    "minItems": 1
+                  }
+                }
+              }
+            ]
+          },
+          "minContains": 1
+        },
+        "transfer_provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "silver_flow",
+            "stack_flow",
+            "instance_flow"
+          ],
+          "properties": {
+            "silver_flow": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/$defs/trade_silver_flow"
+                }
+              ]
+            },
+            "stack_flow": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/$defs/trade_stack_flow"
+                }
+              ]
+            },
+            "instance_flow": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/$defs/trade_instance_flow"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "participant_plans": {
+                "contains": {
+                  "properties": {
+                    "offered_silver": {
+                      "minimum": 1
+                    }
+                  }
+                },
+                "minContains": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "transfer_provenance": {
+                "properties": {
+                  "silver_flow": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "transfer_provenance": {
+                "properties": {
+                  "silver_flow": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "participant_plans": {
+                "contains": {
+                  "properties": {
+                    "offered_entries": {
+                      "contains": {
+                        "properties": {
+                          "kind": {
+                            "const": "stack"
+                          }
+                        }
+                      },
+                      "minContains": 1
+                    }
+                  }
+                },
+                "minContains": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "transfer_provenance": {
+                "properties": {
+                  "stack_flow": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "transfer_provenance": {
+                "properties": {
+                  "stack_flow": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "participant_plans": {
+                "contains": {
+                  "properties": {
+                    "offered_entries": {
+                      "contains": {
+                        "properties": {
+                          "kind": {
+                            "const": "instance"
+                          }
+                        }
+                      },
+                      "minContains": 1
+                    }
+                  }
+                },
+                "minContains": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "transfer_provenance": {
+                "properties": {
+                  "instance_flow": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "transfer_provenance": {
+                "properties": {
+                  "instance_flow": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "result_sequence_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "sequence"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "host_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trade_id",
+        "settlement_id",
+        "world_id",
+        "rules_hash",
+        "protocol_version",
+        "offer_revision",
+        "plan_digest",
+        "participants",
+        "plan",
+        "prepared_character_ids",
+        "decision",
+        "result_sequence_refs"
+      ],
+      "properties": {
+        "trade_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "settlement_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "world_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "rules_hash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "protocol_version": {
+          "const": 1
+        },
+        "offer_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "plan_digest": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "participants": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "allOf": [
+              {
+                "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+              },
+              {
+                "properties": {
+                  "mode": {
+                    "enum": [
+                      "lan_host",
+                      "lan_client"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "prepared_character_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 2,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "decision": {
+          "enum": [
+            null,
+            "commit",
+            "abort"
+          ]
+        },
+        "result_sequence_refs": {
+          "type": "array",
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/result_sequence_ref"
+          }
+        }
+      },
+      "$comment": "原world.player_trade_journal唯一准备计划及决定，null时流仅候选；commit唯一授权转让，abort不执行计划流。完整来源/摘要/身份/两方映射/算术/布局另验。",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "decision": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "result_sequence_refs": {
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "result_sequence_refs": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "decision": {
+                "const": "commit"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "prepared_character_ids": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        }
+      ]
+    },
+    "decided_record": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/host_record"
+        },
+        {
+          "properties": {
+            "decision": {
+              "enum": [
+                "commit",
+                "abort"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "journal": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/host_record"
+      }
+    }
+  }
+}

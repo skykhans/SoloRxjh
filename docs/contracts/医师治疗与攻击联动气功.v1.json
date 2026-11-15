@@ -123,5 +123,19 @@
   },
   "eligibility": "own class learned/allocated positive effective grades, existing learning prerequisites/manuals mandatory, recipient callbacks use stable target IDs; blockers/failedheal never rewardsrage/defense. Generic derived no-proc tag prevents repeated heal callbacks.",
   "persistence": "accepted cast grades/double-roll/targetset/costs and potion-independent cooldown with recipientbuff remaining0..10800 in same journal transaction; source snapshot does not extend on currentgrade change; offline/pause freeze; no log replay reward.",
-  "scope": "sourcebaseidentity/formulas for望梅解渴/刮骨疗毒 remain officiallyunresolved; explicitprojectbase nowowned by望梅与刮骨本地基础采用.v1.json; otheradoptedsourcecontracts remainindependent, no runtimecompletion claim."
+  "scope": "sourcebaseidentity/formulas for望梅解渴/刮骨疗毒 remain officiallyunresolved; explicitprojectbase nowowned by望梅与刮骨本地基础采用.v1.json; otheradoptedsourcecontracts remainindependent, no runtimecompletion claim.",
+  "persistent_heal_defense_state": {
+    "target_field": "character.effects.physician_heal_defense",
+    "schema_ref": {
+      "file": "医师治疗防御状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": [],
+    "legacy_import": "四已知旧来源空表；现行缺字段拒绝，不从怒气或防御造来源。",
+    "fields": "固定狂意护体qigong_physician_c64d282181b3，每来源source_actor_id/trigger_event_id/defense_add0..40/remaining_steps1..10800；原结果冻结狂意/无中等级，defense_add=floor(狂意等级*(10000-100*无中等级)/10000)，原有效狂意正、无中0..40，原等级/实际回复量/名单在原结果保留，不重复在效果存。",
+    "trigger": "原本人已接纳HP恢复武功真实为至少一个合法存活接收者恢复正HP，原动作一次抽狂意，不每跳/每目标再抽；成功仅向该原动作实际恢复过正HP的同场合法原队友最多6人应用一次。500怒气按各接收者当时合法怒气获得规则在原结果一次处理，已有真怒气或卢禁怒不获得，不缓存补发，不在效果周期再给500。全阻挡/全满/已死不造触发。",
+    "identity": "同施放者最多一源，按source_actor_id排序；新真实成功原动作替换本人来源凭证/冻结防御/10800不叠加，重放不刷新/不给怒气。不同施放者独立计时，平防只选最大defense_add一次，同量按trigger_event_id/source_actor_id稳定选唯一来源。",
+    "lifecycle": "这是被动触发正面，吸星/九天明确不延时或增幅；生成步不扣10800，后续世界步入口扣既有源，0先移再属性读取。暂停离线冻结，接收者死亡清；施放者离线/死亡/无中当前等级改变不改已付快照。上限0合法不造最低1防；原buff存在不重复回调治疗或返还资源。",
+    "validation": "完整effects白名单先验，原接收者/正回复/唯一根及原随机/等级/排序唯一/余时为语义门槛，待复活空表；完整原多接收者治疗事务仍待。"
+  }
 }

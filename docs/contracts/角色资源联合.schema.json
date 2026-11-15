@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-resource-projection:v1",
+  "$comment": "联合校验角色八个原字段，不新增resource对象，不替代完整角色白名单/派生上限及来源验证。共享职业/生命规则由原schema定义复用。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "class_id",
+    "progress",
+    "life_state",
+    "pending_death",
+    "special_resources",
+    "rage_meter",
+    "stamina_regeneration",
+    "timers"
+  ],
+  "properties": {
+    "class_id": {
+      "$ref": "urn:solorxjh:class-special-resources:v1#/$defs/class_projection/properties/class_id"
+    },
+    "progress": {
+      "$ref": "urn:solorxjh:character-progress:v1"
+    },
+    "life_state": {
+      "$ref": "urn:solorxjh:character-life-state:v1#/properties/life_state"
+    },
+    "pending_death": {
+      "$ref": "urn:solorxjh:character-life-state:v1#/properties/pending_death"
+    },
+    "special_resources": {
+      "$ref": "urn:solorxjh:class-special-resources:v1"
+    },
+    "rage_meter": {
+      "$ref": "urn:solorxjh:rage-meter:v1"
+    },
+    "stamina_regeneration": {
+      "$ref": "urn:solorxjh:stamina-regeneration-state:v1"
+    },
+    "timers": {
+      "$ref": "urn:solorxjh:character-cooldown-timers:v1"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:character-life-state:v1#/$defs/life_constraints"
+    },
+    {
+      "$ref": "urn:solorxjh:class-special-resources:v1#/$defs/class_constraints"
+    },
+    {
+      "if": {
+        "properties": {
+          "life_state": {
+            "const": "awaiting_respawn"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "rage_meter": {
+            "const": 0
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "class_id": {
+                  "const": "mei_liuzhen"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "special_resources": {
+                  "properties": {
+                    "barrier_current": {
+                      "const": 0
+                    },
+                    "barrier_regen_fraction": {
+                      "const": 0
+                    },
+                    "fury_points": {
+                      "const": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "class_id": {
+                  "const": "musician"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "special_resources": {
+                  "properties": {
+                    "chord": {
+                      "const": "none"
+                    },
+                    "cycle_next_index": {
+                      "const": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "class_id": {
+                  "const": "zhen_fengbai"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "special_resources": {
+                  "properties": {
+                    "state": {
+                      "const": "charging"
+                    },
+                    "charge": {
+                      "const": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "class_id": {
+                  "const": "assassin"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "special_resources": {
+                  "properties": {
+                    "combo_points": {
+                      "const": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "class_id": {
+                  "const": "han_feiguan"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "special_resources": {
+                  "properties": {
+                    "blood_stacks": {
+                      "const": 0
+                    },
+                    "blood_remaining_steps": {
+                      "const": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "progress": {
+            "properties": {
+              "stamina": {
+                "const": 100
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stamina_regeneration": {
+            "properties": {
+              "fraction_remainder": {
+                "const": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

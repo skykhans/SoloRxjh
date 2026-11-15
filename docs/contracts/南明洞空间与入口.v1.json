@@ -1,0 +1,308 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "spatial_world_and87quest_design_registered_not_implemented",
+  "source_review_ref": {
+    "file": "../reference/八十七级南明洞来源与空间缺口核对.json",
+    "pointer": ""
+  },
+  "map": {
+    "map_id": "nanming_cave",
+    "display_name": "南明洞",
+    "source_map_page": "http://rxjh.17game.com/data/monster/200905/39815.htm",
+    "layout_basis": "明确本地洞窟几何，来源仅证明南明洞区域和怪物，不声称官方坐标/入口平台；位置与尺寸均项目值",
+    "biome": "cave",
+    "instance_scope": "shared_public_world",
+    "x_bounds_m": [
+      -120,
+      120
+    ],
+    "z_bounds_m": [
+      -120,
+      120
+    ],
+    "floor_y_m": 0,
+    "floor_geometry": {
+      "kind": "bounded_walkable_plane",
+      "thickness_m": 1,
+      "center_y_m": -0.5
+    },
+    "navigation_design": {
+      "actor_radius_m": 0.35,
+      "walkable_surface": "floor rectangle minus solid_blocks expanded by actor radius; bounded edges are impassable",
+      "height_changes_m": 0,
+      "runtime_bake_required": true
+    },
+    "solid_blocks": [
+      {
+        "id": "nanming_cave_south_wall",
+        "center_m": [
+          25,
+          2,
+          35
+        ],
+        "size_m": [
+          170,
+          4,
+          6
+        ]
+      },
+      {
+        "id": "nanming_cave_north_wall",
+        "center_m": [
+          -25,
+          2,
+          -35
+        ],
+        "size_m": [
+          170,
+          4,
+          6
+        ]
+      }
+    ],
+    "safe_zones": [
+      {
+        "zone_id": "nanming_cave_entry_safe",
+        "center_xz_m": [
+          0,
+          94
+        ],
+        "radius_m": 8,
+        "forbid_hostile_spawn_and_entry": true,
+        "automatic_recovery": false
+      }
+    ],
+    "content_status": "87two quests and91warrior four homes designed;runtime assets/navigation pending",
+    "monster_content_parts": [
+      {
+        "owner_file": "八十七级正邪南明洞秘密任务.v1.json",
+        "monster_ids": [
+          "nanming_cave_warrior91"
+        ],
+        "spawns_pointer": "/spawns",
+        "map_filter": "nanming_cave"
+      }
+    ]
+  },
+  "entrance_policy": "湖中心平台东侧为明确本地洞口，87守卫新独立实体，现神女90守卫/怨影及其全部服务不变；本地交通不要求完成87/90任务，不授额外剧情完成。",
+  "guard": {
+    "npc_id": "project_npc_nanming_cave_guard87",
+    "display_name": "南明洞神秘守卫",
+    "map_id": "nanming_lake",
+    "position_feet_m": [
+      10,
+      0,
+      -8
+    ],
+    "interaction_anchor_id": "nanming_cave_guard87_service",
+    "interaction_position_feet_m": [
+      10,
+      0,
+      -6
+    ],
+    "radius_m": 0.4,
+    "height_m": 1.8,
+    "source_identity": "87任务正文具名无NREF目录身份；本地独立实体，不冒用90神女guard ID",
+    "services_pending": [
+      "87正邪stage2讲述"
+    ]
+  },
+  "ports": [
+    {
+      "source_map_id": "nanming_lake",
+      "destination_map_id": "nanming_cave",
+      "interaction_anchor_id": "nanming_lake_to_nanming_cave_interact",
+      "interaction_position_feet_m": [
+        10,
+        0,
+        -12
+      ],
+      "marker_position_feet_m": [
+        12,
+        0,
+        -12
+      ],
+      "destination_anchor_id": "nanming_cave_to_nanming_lake_arrival",
+      "destination_position_feet_m": [
+        0,
+        0,
+        94
+      ]
+    },
+    {
+      "source_map_id": "nanming_cave",
+      "destination_map_id": "nanming_lake",
+      "interaction_anchor_id": "nanming_cave_to_nanming_lake_interact",
+      "interaction_position_feet_m": [
+        0,
+        0,
+        98
+      ],
+      "marker_position_feet_m": [
+        0,
+        0,
+        100
+      ],
+      "destination_anchor_id": "nanming_lake_to_nanming_cave_arrival",
+      "destination_position_feet_m": [
+        8,
+        0,
+        -8
+      ]
+    }
+  ],
+  "traffic_policy": {
+    "minimum_level": 1,
+    "minimum_rank": 0,
+    "required_quest": null,
+    "silver_fee": 0,
+    "item_fee": null,
+    "owner_ref": {
+      "file": "世界图谱.v1.json",
+      "pointer": "/travel_policy"
+    },
+    "commit": "精确双向public_travel/paired connection与marker须同批登记；05/19原地点、存活脱战无挑战/距离/目标占用导航预检，原子换图保存，同请求不二次传送；到达清旧交互，不因落点重叠自动反跳。"
+  },
+  "prospective_monster_homes": [
+    {
+      "home_feet_m": [
+        -12,
+        0,
+        -16
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        -4,
+        0,
+        -16
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        4,
+        0,
+        -16
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        12,
+        0,
+        -16
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        -12,
+        0,
+        0
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        -4,
+        0,
+        0
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        4,
+        0,
+        0
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        12,
+        0,
+        0
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        -12,
+        0,
+        16
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        -4,
+        0,
+        16
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        4,
+        0,
+        16
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    },
+    {
+      "home_feet_m": [
+        12,
+        0,
+        16
+      ],
+      "radius_m": 0.45,
+      "patrol_margin_m": 2
+    }
+  ],
+  "spawn_scope": "12点为91及后续洞怪规划位置，不是已注册怪物/来源采用；87实际怪不得自动占满12点，正式任务逐类登记后再统计。",
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "reachable_cells": 54727,
+    "method": "0.35player1mBFS entry to all12 proposed homes;all homes wall padding2.45 and pair distance>4.9;lake entry/service/landing wholly inside central platform,landing inside existing safe14m hub;new NPC clear of registered lake NPCs"
+  },
+  "remaining": [
+    "Godot实际传送/导航/保存/LAN验证",
+    "正式怪物与守卫模型动画和经济校准"
+  ],
+  "ordinary_death": {
+    "respawn_anchor_id": "story_workcamp_start",
+    "owner_ref": {
+      "file": "死亡与复活保存.v1.json",
+      "pointer": "/respawn"
+    },
+    "policy": "本公共洞窟为普通死亡，不创建修炼房选择或新复活点；按原死亡收据显式复活，失败保awaiting_respawn，不给初始礼包。"
+  },
+  "portable_actions": {
+    "source_map_id": "nanming_cave",
+    "return_policy_ref": {
+      "file": "便携传送与修炼限制.v1.json",
+      "pointer": "/portable_return"
+    },
+    "policy": "六具名归还符可按原物品路线/等级/费用/目的地与读条资格从本普通公共洞窟使用，不注册新归还符或本洞目的地。土灵符保存/返回严格仍用原精确allowlist，本洞不入21地图列表；至尊/婚戒未注册权限不能因新增地图生效。"
+  },
+  "quest_owner_ref": {
+    "file": "八十七级正邪南明洞秘密任务.v1.json",
+    "pointer": ""
+  }
+}

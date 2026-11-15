@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-respawn-event:v1",
+  "$comment": "原角色显式复活三阶段；冻结同一严格死亡记录，普通/修炼死亡限定选项。资源/姿态来自原规则而非客户端；完整死亡/活动与当前上限、来源和候选另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "committed_world_step"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "committed_world_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "session_invalid",
+            "destination_unavailable",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "death_event_id",
+        "choice_id"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "death_event_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "choice_id": {
+          "enum": [
+            "return_to_workcamp",
+            "revive_in_same_room",
+            "leave_to_hyunbo"
+          ]
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "pending_death_before"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "pending_death_before": {
+          "$ref": "urn:solorxjh:character-life-state:v1#/$defs/pending_death"
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:character-respawn-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "pending_death_before": {
+                "required": [
+                  "training_gate_choice"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "choice_id": {
+                "enum": [
+                  "revive_in_same_room",
+                  "leave_to_hyunbo"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "command": {
+            "properties": {
+              "choice_id": {
+                "const": "return_to_workcamp"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

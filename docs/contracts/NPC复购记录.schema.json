@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:npc-buyback-record:v1",
+  "$comment": "单条会话复购引用记录；不含正文/剩余数量，不替代会话、来源及完整收据验证。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sale_receipt_id",
+    "service_npc_id",
+    "kind",
+    "target_id",
+    "unit_price"
+  ],
+  "properties": {
+    "sale_receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "service_npc_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "kind": {
+      "enum": [
+        "stack",
+        "instance"
+      ]
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "unit_price": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  }
+}

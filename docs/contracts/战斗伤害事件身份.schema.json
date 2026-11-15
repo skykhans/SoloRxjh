@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:combat-damage-identity:v1",
+  "$comment": "原伤害事件身份字段联合投影，不保存第二damage_key对象。原world/authority/map/instance/实际动作目标及event_id摘要另验；不是完整命中结果或授权。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "action_or_root_event_id",
+    "target_id",
+    "hit_or_tick_ordinal"
+  ],
+  "properties": {
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "action_or_root_event_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "hit_or_tick_ordinal": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  },
+  "$defs": {
+    "event_id": {
+      "type": "string",
+      "minLength": 78,
+      "maxLength": 78,
+      "pattern": "^combat-damage:[0-9a-f]{64}(?![\\s\\S])"
+    }
+  }
+}

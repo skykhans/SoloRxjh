@@ -1,0 +1,543 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_adv10_mechanism_prerequisite_design_main_owner_bound_not_implemented",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "record_url": "http://rxjh.17game.com/data/tasks/201907/63792.htm",
+    "source_html_sha256": "8e19a4ff3038b6521c89fb20789da1d09d93696197fdccf42cd69598cabca23f",
+    "text_sha256": "a31dafaef7dec93a93c9967bf157d4551b571249fca2526a827957f228d864bb",
+    "published_facts": "单头像限单体升天武功；卢只追魂破灭。三头像限群体升天武功，弓可群攻平射、卢可任意升天武功。计数5胜。",
+    "gap_policy": "正文不定义本地技能标签、护身技如何打断、判定距离/接触时机/防重复或弓群攻平射的本地动作，以下为明确项目机制映射，不伪称官方实现。"
+  },
+  "ability_owner_file": "升天武功与秘籍.v1.json",
+  "adopted_catalog_counts": {
+    "source_rows": 275,
+    "paired_rows_expanded": 12,
+    "source_row_ability_identities": 287,
+    "project_original_gap_abilities": 13,
+    "source_mentioned_gap_abilities": 2,
+    "all_abilities": 302,
+    "all_stage_records": 3019
+  },
+  "new_original_ability_ids": [
+    "ascended_original_assassin_righteous_single_1",
+    "ascended_original_assassin_evil_single_1",
+    "ascended_original_spear_righteous_single_1"
+  ],
+  "new_ability_policy": "三项独立具名一式单体，115/rank6、十阶段、攻击基本威力500每阶段+25、目标恒1、内力43+(阶段−1)，沿现有刺客/枪近战profile及普通升天学习/升级费。正邪独立；仅购书/学习后可用，不因接十转免费授予或替换旧技能。均非官网缺行补识读。",
+  "entry_preflight": {
+    "level": 150,
+    "rank": 9,
+    "requires_delivered": "adv_09",
+    "class_and_route": "角色本人当前职业及正邪；配置已知但不合资格的不计。只列候选不自动学，不要求清单全部都学。",
+    "required": "至少一个当前已学且等级/晋级/路线/武器合格的single候选和至少一个area候选，允许同一技能仅在卢明确例外中覆盖两类。弓area也可用已学已装备可激活的群射增强+合法bow普攻；真实内力/冷却不足只阻止当下施放，不因入场补资源。",
+    "missing": "显示具体缺的提示类型/可学候选及现有购书NPC；明确拒绝入场，不借其他职业技能、不自动发书学招。"
+  },
+  "classification": {
+    "owner": "只沿28能力ID/role/本人已学phase最大目标数与动作profile判定，不用显示名、打中人数或图标猜技能。",
+    "single": "非卢：role=attack且当前phase.maximum_targets=1的合法升天根攻击。普通武功/普攻/增强开关/恢复/护身均不算。",
+    "area": "非卢：role=attack或assassin_bleed_fracture且当前phase.maximum_targets>=2的合法升天根施放。仅有一个BOSS目标仍按技能额定目标数分型，不要求真的命中三人。",
+    "lu_single_ability_id": "ascended_lu_fenglang_any_8e3c26d02d77",
+    "lu_area": "卢本人任意合法已学升天能力；现有库为attack或lu_monster_guard。单提示仍只认指定guard，其他单体升天攻击不能代替。",
+    "archer_area_exception": {
+      "class_id": "archer",
+      "root_category": "normal_attack",
+      "required_modifier_role": "archer_normal_pair",
+      "rule": "本人合法bow普攻接受时快照生效的已学archer_normal_pair，额定最多2目标，标为本地群攻平射。主箭真实接触BOSS可打断，独立第二箭不重复计；无第二敌人不生成副箭/额外费用，仍按额定群射分型。裸普攻/普通群武功不适用；梅柳真不继承弓职业例外。",
+      "modifier_owner": {
+        "file": "升天武功与秘籍.v1.json",
+        "pointer": "/toggles"
+      }
+    }
+  },
+  "contact_resolution": {
+    "normal_attack_or_negative": "根攻击/负面技能先按23真实目标、几何、距离、视线、本人/敌人存活及动作阶段执行；以BOSS收到的该根成功接触事件判机制。miss/闪避/柱拦截/仅碰其他对象不算；周期伤害/派生连段/宠物/队友不能单独加次数。负面技能的范围接触可判，不要求目标一定中后续出血；后续状态不能补打断。",
+    "lu_guard": "保留原24步护身激活和真实内力/1800步冷却，原护身效果仍作用本人。只在该根active成功激活的同一步、本人距本局BOSS<=3000mm且LOS/双方存活/当前提示有效时生成具名mechanism_contact，不走伤害/命中随机，不把40改成伤害。仅本局机制消费；已有护身持续/被打后随机格挡/打开面板不产新接触。",
+    "lu_other_area": "Lu攻击仍走真实根接触；未来新增恢复/其他非接触升天能力必须先明确其本局contact adapter才可进候选，不能按any标签凭空触发。现有库adapter完整覆盖。",
+    "bad_type": "合法施放仍按自身正常扣费/冷却；不生成打断完成，不退款/改变技能类别。副本BOSS是否受生命伤害及其他机制由十转主活动owner另定，本文件不抢占其职责。"
+  },
+  "dedup_and_timing": {
+    "mechanism_key": [
+      "world_id",
+      "instance_id",
+      "trial_attempt_id",
+      "prompt_id",
+      "root_action_id"
+    ],
+    "one_prompt_one_interrupt": "当前提示首次有效接触才推进一次。同一根ID只允许绑定一个prompt，即使多段/副箭后来落在下一提示也不再消费；保存prompt消费记录及根首次归属，不重连重抽。",
+    "in_flight": "根接受时快照当前prompt_id；投射在提示切换后接触拒绝旧prompt，不按接触时重绑新提示。无活动提示发出的根不会之后补认。",
+    "guard_recast": "同根active只一次；护身buff自身后续存在不重复生成contact。",
+    "next_prompt": "上一提示成功当步禁止接新提示；下一提示最早从下一固定步开始。主活动须给Lu冷却足够可胜窗口，不能只证明技能ID存在。"
+  },
+  "bindings": [
+    {
+      "class_id": "archer",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_archer_righteous_d23dceb5e8ae"
+      ],
+      "area_candidate_ids": [
+        "ascended_original_archer_righteous_1",
+        "ascended_original_archer_righteous_2",
+        "ascended_original_archer_righteous_3"
+      ],
+      "area_normal_modifier_candidate_ids": [
+        "ascended_archer_righteous_1fa0bf0caf6f"
+      ]
+    },
+    {
+      "class_id": "archer",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_archer_evil_83e8a851bb69"
+      ],
+      "area_candidate_ids": [
+        "ascended_original_archer_evil_1",
+        "ascended_original_archer_evil_2",
+        "ascended_original_archer_evil_3"
+      ],
+      "area_normal_modifier_candidate_ids": [
+        "ascended_archer_evil_85c7d5fc9287"
+      ]
+    },
+    {
+      "class_id": "assassin",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_original_assassin_righteous_single_1"
+      ],
+      "area_candidate_ids": [
+        "ascended_assassin_righteous_3a3adea2c9da",
+        "ascended_assassin_righteous_8055418cbe91",
+        "ascended_assassin_righteous_b9ffc6a7a264"
+      ]
+    },
+    {
+      "class_id": "assassin",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_original_assassin_evil_single_1"
+      ],
+      "area_candidate_ids": [
+        "ascended_assassin_evil_3b2af806e506",
+        "ascended_assassin_evil_7cd36d7edbcd",
+        "ascended_assassin_evil_503162a82087"
+      ]
+    },
+    {
+      "class_id": "blade",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_blade_righteous_cf292873125b"
+      ],
+      "area_candidate_ids": [
+        "ascended_blade_righteous_b9c3de189793",
+        "ascended_blade_righteous_7e31b1d610eb",
+        "ascended_original_blade_righteous_1",
+        "ascended_original_blade_righteous_2"
+      ]
+    },
+    {
+      "class_id": "blade",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_blade_evil_52e97c116692"
+      ],
+      "area_candidate_ids": [
+        "ascended_blade_evil_fa96ab159a4f",
+        "ascended_blade_evil_c50ef722dc1d",
+        "ascended_original_blade_evil_1",
+        "ascended_original_blade_evil_2"
+      ]
+    },
+    {
+      "class_id": "dongling_shennv",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_dongling_shennv_any_02a657e33920",
+        "ascended_dongling_shennv_any_5b731a920958",
+        "ascended_dongling_shennv_any_8a1a9e2a50f9",
+        "ascended_dongling_shennv_any_aa072c16bdb7",
+        "ascended_dongling_shennv_any_49ef5cee567f",
+        "ascended_dongling_shennv_any_a6be178f5e7e",
+        "ascended_dongling_shennv_any_4ab8365cb384",
+        "ascended_dongling_shennv_any_69c8df572fba"
+      ],
+      "area_candidate_ids": [
+        "ascended_dongling_shennv_any_44e2fc954a19",
+        "ascended_dongling_shennv_any_a857b3d2049f",
+        "ascended_dongling_shennv_any_f6c79615444b",
+        "ascended_dongling_shennv_any_8fd26b03b819"
+      ]
+    },
+    {
+      "class_id": "dongling_shennv",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_dongling_shennv_any_02a657e33920",
+        "ascended_dongling_shennv_any_5b731a920958",
+        "ascended_dongling_shennv_any_8a1a9e2a50f9",
+        "ascended_dongling_shennv_any_aa072c16bdb7",
+        "ascended_dongling_shennv_any_49ef5cee567f",
+        "ascended_dongling_shennv_any_a6be178f5e7e",
+        "ascended_dongling_shennv_any_4ab8365cb384",
+        "ascended_dongling_shennv_any_69c8df572fba"
+      ],
+      "area_candidate_ids": [
+        "ascended_dongling_shennv_any_44e2fc954a19",
+        "ascended_dongling_shennv_any_a857b3d2049f",
+        "ascended_dongling_shennv_any_f6c79615444b",
+        "ascended_dongling_shennv_any_8fd26b03b819"
+      ]
+    },
+    {
+      "class_id": "fighter",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_fighter_righteous_c848eb862a93",
+        "ascended_fighter_righteous_dce9aac583d4",
+        "ascended_fighter_righteous_d058770b6aec",
+        "ascended_fighter_any_2a867dc5d5b5"
+      ],
+      "area_candidate_ids": [
+        "ascended_fighter_righteous_89dd84137c63",
+        "ascended_fighter_righteous_27a53b622478",
+        "ascended_fighter_righteous_66dc327008d7",
+        "ascended_fighter_any_e97821848520"
+      ]
+    },
+    {
+      "class_id": "fighter",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_fighter_evil_c848eb862a93",
+        "ascended_fighter_evil_dce9aac583d4",
+        "ascended_fighter_evil_d058770b6aec",
+        "ascended_fighter_any_2a867dc5d5b5"
+      ],
+      "area_candidate_ids": [
+        "ascended_fighter_evil_89dd84137c63",
+        "ascended_fighter_evil_27a53b622478",
+        "ascended_fighter_evil_66dc327008d7",
+        "ascended_fighter_any_e97821848520"
+      ]
+    },
+    {
+      "class_id": "han_feiguan",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_han_feiguan_any_5035171ee088",
+        "ascended_han_feiguan_any_0902ec347d6d",
+        "ascended_han_feiguan_any_908cdb23f55b",
+        "ascended_han_feiguan_any_9f9f93eb6119",
+        "ascended_han_feiguan_any_3a69d057705d",
+        "ascended_han_feiguan_any_3dc2ea5d996d",
+        "ascended_han_feiguan_any_43d5ac716d60"
+      ],
+      "area_candidate_ids": [
+        "ascended_han_feiguan_any_9559805d81f4",
+        "ascended_han_feiguan_any_79fa356fbf16",
+        "ascended_han_feiguan_any_4a4f06eaa85d",
+        "ascended_han_feiguan_any_e77c5238463f",
+        "ascended_han_feiguan_any_e890bc026ba8"
+      ]
+    },
+    {
+      "class_id": "han_feiguan",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_han_feiguan_any_5035171ee088",
+        "ascended_han_feiguan_any_0902ec347d6d",
+        "ascended_han_feiguan_any_908cdb23f55b",
+        "ascended_han_feiguan_any_9f9f93eb6119",
+        "ascended_han_feiguan_any_3a69d057705d",
+        "ascended_han_feiguan_any_3dc2ea5d996d",
+        "ascended_han_feiguan_any_43d5ac716d60"
+      ],
+      "area_candidate_ids": [
+        "ascended_han_feiguan_any_9559805d81f4",
+        "ascended_han_feiguan_any_79fa356fbf16",
+        "ascended_han_feiguan_any_4a4f06eaa85d",
+        "ascended_han_feiguan_any_e77c5238463f",
+        "ascended_han_feiguan_any_e890bc026ba8"
+      ]
+    },
+    {
+      "class_id": "lu_fenglang",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_lu_fenglang_any_8e3c26d02d77"
+      ],
+      "area_candidate_ids": [
+        "ascended_lu_fenglang_any_da92444fbf45",
+        "ascended_lu_fenglang_any_2e77763961d7",
+        "ascended_lu_fenglang_any_8e3c26d02d77",
+        "ascended_lu_fenglang_any_a9cae8b3793b",
+        "ascended_lu_fenglang_any_ec81a8a9db47",
+        "ascended_lu_fenglang_any_3d756ac7f901",
+        "ascended_lu_fenglang_any_72e5cfaf9f26",
+        "ascended_lu_fenglang_any_87877f8250ee",
+        "ascended_lu_fenglang_any_25aeb939321a"
+      ]
+    },
+    {
+      "class_id": "lu_fenglang",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_lu_fenglang_any_8e3c26d02d77"
+      ],
+      "area_candidate_ids": [
+        "ascended_lu_fenglang_any_da92444fbf45",
+        "ascended_lu_fenglang_any_2e77763961d7",
+        "ascended_lu_fenglang_any_8e3c26d02d77",
+        "ascended_lu_fenglang_any_a9cae8b3793b",
+        "ascended_lu_fenglang_any_ec81a8a9db47",
+        "ascended_lu_fenglang_any_3d756ac7f901",
+        "ascended_lu_fenglang_any_72e5cfaf9f26",
+        "ascended_lu_fenglang_any_87877f8250ee",
+        "ascended_lu_fenglang_any_25aeb939321a"
+      ]
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_mei_liuzhen_any_7fcb2a1ca840",
+        "ascended_mei_liuzhen_any_98a9deff00e9",
+        "ascended_mei_liuzhen_any_11045d9ab081",
+        "ascended_mei_liuzhen_any_457a8a733ce6"
+      ],
+      "area_candidate_ids": [
+        "ascended_mei_liuzhen_any_ad4bd012c23b",
+        "ascended_mei_liuzhen_any_eb32aec28f5a",
+        "ascended_mei_liuzhen_any_ff7d4c253bed",
+        "ascended_mei_liuzhen_any_c73c4b44df4f"
+      ]
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_mei_liuzhen_any_7fcb2a1ca840",
+        "ascended_mei_liuzhen_any_98a9deff00e9",
+        "ascended_mei_liuzhen_any_11045d9ab081",
+        "ascended_mei_liuzhen_any_457a8a733ce6"
+      ],
+      "area_candidate_ids": [
+        "ascended_mei_liuzhen_any_ad4bd012c23b",
+        "ascended_mei_liuzhen_any_eb32aec28f5a",
+        "ascended_mei_liuzhen_any_ff7d4c253bed",
+        "ascended_mei_liuzhen_any_c73c4b44df4f"
+      ]
+    },
+    {
+      "class_id": "musician",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_musician_righteous_7e63111005a8",
+        "ascended_musician_righteous_27569f78f1b3",
+        "ascended_musician_righteous_a3077dce4ea7",
+        "ascended_musician_righteous_9a22d6ebcf8f"
+      ],
+      "area_candidate_ids": [
+        "ascended_musician_righteous_083e2ec14fb5",
+        "ascended_musician_righteous_4f16ab4ae0b7",
+        "ascended_musician_righteous_f5fc1983e243",
+        "ascended_musician_righteous_661061264ae1"
+      ]
+    },
+    {
+      "class_id": "musician",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_musician_evil_a328dc532735",
+        "ascended_musician_evil_d0d69ae66fcf",
+        "ascended_musician_evil_52e601486603",
+        "ascended_musician_evil_cdcaba01281f"
+      ],
+      "area_candidate_ids": [
+        "ascended_musician_evil_934ed355719e",
+        "ascended_musician_evil_d15cb3581994",
+        "ascended_musician_evil_066565f74402",
+        "ascended_musician_evil_dc3f090859b5"
+      ]
+    },
+    {
+      "class_id": "physician",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_physician_righteous_7d31c5bd5607"
+      ],
+      "area_candidate_ids": [
+        "ascended_physician_righteous_47778321f741",
+        "ascended_physician_righteous_adb10fdf861a",
+        "ascended_physician_righteous_de1ee898c033",
+        "ascended_physician_righteous_31d9bc58c5c3"
+      ]
+    },
+    {
+      "class_id": "physician",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_physician_evil_652189929e61"
+      ],
+      "area_candidate_ids": [
+        "ascended_physician_evil_a1a2dcd848cb",
+        "ascended_physician_evil_cfa3138dec6c",
+        "ascended_physician_evil_fc1171c97921",
+        "ascended_physician_evil_0bc27404f139"
+      ]
+    },
+    {
+      "class_id": "spear",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_original_spear_righteous_single_1"
+      ],
+      "area_candidate_ids": [
+        "ascended_spear_righteous_99b98b3f167c",
+        "ascended_spear_righteous_61d9272052e3",
+        "ascended_spear_righteous_704a2c33b998"
+      ]
+    },
+    {
+      "class_id": "spear",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_spear_evil_6bc01bebfd87",
+        "ascended_spear_evil_fa27c5d82a5e"
+      ],
+      "area_candidate_ids": [
+        "ascended_spear_evil_aa29a51d105c",
+        "ascended_spear_evil_ca461dff9bad",
+        "ascended_spear_evil_e071e244f610",
+        "ascended_spear_evil_4079aa680ad2",
+        "ascended_spear_evil_71531618733e"
+      ]
+    },
+    {
+      "class_id": "sword",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_sword_righteous_7420a4d13ae1"
+      ],
+      "area_candidate_ids": [
+        "ascended_sword_righteous_23509d7aa225",
+        "ascended_sword_righteous_9df0f8160a51",
+        "ascended_sword_righteous_40b4e5c8cca1",
+        "ascended_sword_righteous_6827fff45963"
+      ]
+    },
+    {
+      "class_id": "sword",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_sword_evil_0778d50ea32d"
+      ],
+      "area_candidate_ids": [
+        "ascended_sword_evil_26ab489ccc52",
+        "ascended_sword_evil_610007eb0f39",
+        "ascended_sword_evil_c76565f8fb29",
+        "ascended_sword_evil_3b7afc9114fd"
+      ]
+    },
+    {
+      "class_id": "tan_hualing",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_tan_hualing_any_62563400f0b4",
+        "ascended_tan_hualing_any_da83e0a0de12",
+        "ascended_tan_hualing_any_c157c4ffd051",
+        "ascended_tan_hualing_any_8a8043d22f9f",
+        "ascended_tan_hualing_any_ad87d3efafb1",
+        "ascended_tan_hualing_any_8a4c8d224acb",
+        "ascended_tan_hualing_any_659c1209f38a",
+        "ascended_tan_hualing_any_944b779c75d4",
+        "ascended_tan_hualing_any_736f5da00e34",
+        "ascended_tan_hualing_any_c938a328608d_single"
+      ],
+      "area_candidate_ids": [
+        "ascended_tan_hualing_any_76cde7b72606",
+        "ascended_tan_hualing_any_fc0d71cde91b",
+        "ascended_tan_hualing_any_4d210c7e00e2",
+        "ascended_tan_hualing_any_9cb85d13d013",
+        "ascended_tan_hualing_any_c938a328608d_area"
+      ]
+    },
+    {
+      "class_id": "tan_hualing",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_tan_hualing_any_62563400f0b4",
+        "ascended_tan_hualing_any_da83e0a0de12",
+        "ascended_tan_hualing_any_c157c4ffd051",
+        "ascended_tan_hualing_any_8a8043d22f9f",
+        "ascended_tan_hualing_any_ad87d3efafb1",
+        "ascended_tan_hualing_any_8a4c8d224acb",
+        "ascended_tan_hualing_any_659c1209f38a",
+        "ascended_tan_hualing_any_944b779c75d4",
+        "ascended_tan_hualing_any_736f5da00e34",
+        "ascended_tan_hualing_any_c938a328608d_single"
+      ],
+      "area_candidate_ids": [
+        "ascended_tan_hualing_any_76cde7b72606",
+        "ascended_tan_hualing_any_fc0d71cde91b",
+        "ascended_tan_hualing_any_4d210c7e00e2",
+        "ascended_tan_hualing_any_9cb85d13d013",
+        "ascended_tan_hualing_any_c938a328608d_area"
+      ]
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "route": "righteous",
+      "single_candidate_ids": [
+        "ascended_zhen_fengbai_any_d231bd189329",
+        "ascended_zhen_fengbai_any_7fec40de530d",
+        "ascended_zhen_fengbai_any_5bc4a5173f34",
+        "ascended_zhen_fengbai_any_07d0cd2e3311"
+      ],
+      "area_candidate_ids": [
+        "ascended_zhen_fengbai_any_d788153f881b",
+        "ascended_zhen_fengbai_any_9725da60ccdb",
+        "ascended_zhen_fengbai_any_0fdeb57f8485",
+        "ascended_zhen_fengbai_any_848b053bd916",
+        "ascended_zhen_fengbai_any_4ac6ba9191cd",
+        "ascended_zhen_fengbai_any_e584355cee47"
+      ]
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "route": "evil",
+      "single_candidate_ids": [
+        "ascended_zhen_fengbai_any_d231bd189329",
+        "ascended_zhen_fengbai_any_7fec40de530d",
+        "ascended_zhen_fengbai_any_5bc4a5173f34",
+        "ascended_zhen_fengbai_any_07d0cd2e3311"
+      ],
+      "area_candidate_ids": [
+        "ascended_zhen_fengbai_any_d788153f881b",
+        "ascended_zhen_fengbai_any_9725da60ccdb",
+        "ascended_zhen_fengbai_any_0fdeb57f8485",
+        "ascended_zhen_fengbai_any_848b053bd916",
+        "ascended_zhen_fengbai_any_4ac6ba9191cd",
+        "ascended_zhen_fengbai_any_e584355cee47"
+      ]
+    }
+  ],
+  "pending": [
+    "完整主活动由第十次升职五式与回忆录试练.v1.json维护，不复制阶段/时限到本owner",
+    "Godot14职业两派五提示/真实资源与30秒冷却可胜性仍待运行验证",
+    "LAN/实际施放/满包购书学习/保存随机与正式表现未实现"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "catalog": "302 unique abilities/manuals,3019 stages; three original definitions each ten single-target phases, costs/profile/vendor identity checked",
+    "class_route_bindings": 28,
+    "candidate_identity_references_checked": 221,
+    "before_after": "从候选去掉三新增项，恰可重现刺客两派与正派枪客缺单体；其他25绑定原有单体非空。",
+    "mechanism_model": "独立最小根/提示消费模型验证同根重复、旧在途、伪重绑、无提示、无效接触均不加；五不同合法根在五提示恰5。非运行时测试。",
+    "runtime_status": "十转主活动已另立owner；Godot/LAN/真实施法/保存与可胜性仍未运行。"
+  },
+  "main_activity_owner_file": "第十次升职五式与回忆录试练.v1.json"
+}

@@ -1,0 +1,281 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "character_creation_three_phase_event_design_not_implemented_full_character_root_pending",
+  "scope": "仅14职业新建，不用于旧档导入、NPC、复活、切角色、补购或配置复制；复用22原定礼包与原组件，不新造奖励、默认职业或完整角色镜像。",
+  "schema_ref": {
+    "file": "角色创建事件.schema.json",
+    "pointer": ""
+  },
+  "profile_state": {
+    "field": "profile.character_creation_events",
+    "initial_value": [],
+    "policy": "唯一原日志数组，按identity.allocation_index递增，预留追加、决定原位替换。最多一reserved；保所有终态及身份/命令/种子/规则/结果，缺字段新格式拒绝。完整源先验，内存请求索引沿结算身份派生，不另存创建去重表。"
+  },
+  "template_ref": {
+    "file": "角色初始模板.v1.json",
+    "pointer": "/templates"
+  },
+  "initial_state_ref": {
+    "file": "角色初始模板.v1.json",
+    "pointer": "/initial_state_profile"
+  },
+  "identity_ref": {
+    "file": "角色身份与外观.v1.json",
+    "pointer": ""
+  },
+  "settlement_ref": {
+    "file": "结算身份.v1.json",
+    "pointer": ""
+  },
+  "canonical_ref": {
+    "file": "玩家交易.v1.json",
+    "pointer": "/canonical_digest"
+  },
+  "command": "精确command_id/expected_profile_revision/name/class_id/appearance五键。command_id为确认时系统CSPRNG16字节小写hex32，同一次确认及写盘存疑恢复保同值，不使用可重置UI整数或玩法RNG；新确认才生成新值。确认后姓名已trim/NFC、2..12标量，职业体型按身份唯一规则。identity.request_id为71确定编码[\"new_character\",authority_profile_id,command_id]字符串，完整含owner/档案作用域；不能依赖另一个隐式owner表避冲突。identity.request_digest=71确定JSON编码完整command的SHA256。不同请求同名仍须拒绝，不把请求ID当角色名。",
+  "lookup_first": "持该档案独占锁，先以结算身份原请求索引查完整request_id：摘要不同拒绝；相同reserved恢复原plan、committed返回原创建决定、aborted返回原取消，不再次生成角色或资源。先做已提交去重再判当前容量/姓名/修订，因此原角色已改名、消耗礼包或删除都不能重新创建；角色删除沿原独立事件及完整来源闭包，不以角色缺失补发。",
+  "preconditions": "全量profile验证、规则清单通过、当前档案为目标且最多5个现存角色；expected_profile_revision等当前revision并至多MAX-2。只在选角/档案菜单且无本档活动玩法、未决会话/交易/导入/其他保存决定时确认；不冻结已活跃LAN来偷建角色。14职业沿14直接开放，不设置可缺失的创建解锁开关。核规范姓名唯一、ID历史不冲突、全部职业模板/出生锚/技能/初始物品/布局/重量及完整子系统可构造；任一不满足在预留前拒绝，不消费结算编号或写空角色。",
+  "allocation": "采用原通用counter，authority_profile_id为本档案，allocation_index=n、counter同笔n+1。character_id=character:加71确定JSON数组[\"new_character\",settlement_id] UTF8 SHA256小写hex。检查与当前及保留历史角色ID无冲突，冲突拒绝，不重抽、改后缀或覆盖。角色ID不是authority结算ID，不为角色/装备/药再增结算counter。",
+  "freeze": "选定原结算身份后，在锁内取得一次真实UTC整秒和系统CSPRNG32字节seed，next_block=0；冻结六键plan：character_id/created_at_utc/random_state/rules_hash/reservation_profile_revision/initial_character_digest。reservation_profile_revision=command.expected_profile_revision+1。由command三选择字段与plan的ID/日期重建唯一identity，并验身份schema；其余完整初值逐项由原规则包/22及owner构造。initial_character_digest沿快照摘要.v1.json的solorxjh-snapshot-sha256-f64-v1规范计算完整初始角色快照（含合法浮点位置）的SHA256，初始业务revision1/库存revision1，实际装备/药/2000及来源全部已进入候选。plan不存完整角色blob或重复模板参数；历史规则包沿规则清单保留。",
+  "reservation": "只有完整初始候选与钱物流/所有来源已验证，才同档原子保存counter递增、唯一reserved记录及profile revision+1。角色列表尚无该角色，不发奖励、不切selected、不启用玩法或外发。成功持久后才进入确认完成/恢复流程；同档任何其他业务写入先处理该reserved。预留前取消不写记录，预留后用户取消走aborted，不能悄悄删日志或回收编号。",
+  "commit": "精确用原command/plan及rules_hash对应已校验原发行构造同一完整候选，重算摘要必须相等；不取新时间/seed/现行默认值。原reserved同笔改committed，追加恰一个完整角色，selected_character_id指该角色，profile revision=reservation_profile_revision+1，character revision=inventory revision=1。完整银两/stack_flows/instance_flow随本原记录写入，一次完整档案替换完成；不先落空角色再补礼包，不为三类流各自保存。该提交不创建worlds、玩法会话、任务完成或独立奖励收据。",
+  "flows": {
+    "silver": "恰一个silver_flow，receipt_id本结算。两个账户顺序carried_silver/warehouse_silver，同本角色，before0、previous_output=null、opening_authorization均new_character_grant/本结算；after精确2000/0。恰一from=null/to=0/amount2000/new_character_grant实际收入腿；仓银0仍建锚但无0腿。",
+    "stacks": "stack_flows恰一个mint流、receipt_id本结算，inputs/consumptions空、mint_authorization=new_character_grant/本结算。outputs顺序小金创药/人参，均本角色/quantity5/character绑定/quest_scope null/revision0/origin_receipt_id本结算/held/contributions空。stack_id按72原[结算ID,角色ID,ordinal0或1]算法，无第三堆。两堆分别置inventory.slots索引0/1，余初始背包空。",
+    "instances": "恰一个instance_flow，receipt_id本结算、inputs/retirements空，outputs固定本职武器/见习短衫。两者operation=create/source_input_indices空/held/creation_authorization=new_character_grant/本结算；owner与creation_receipt_id本角色/本结算、revision0，所有成长严格原22初值；英雄额外state_origin_receipt_id本结算。instance/lineage按73原算法ordinal0/1，武器在主组weapon、短衫主组body，其他槽/副组/宝珠空，不添第三实例或旧浮仙剑。",
+    "closed_authorization": "只有本owner committed可授权new_character_grant，并且只上述角色/两装备/两药堆/两账户及固定2000；reserved/aborted无实际流或可消费资源。结果内各receipt/owner/ID/位置必须与plan和真实初始角色一致，字段相同字符串不单独证明授权。技能一阶段/快捷栏/15owner任务空状态/效果等沿22各原初始化，不伪造付费训练或已完成任务。"
+  },
+  "cancellation": "reserved后明确用户取消时同档改aborted/reason=user_cancelled/decision_profile_revision=reservation_profile_revision+1；无角色、钱物流、selected改变或counter回收。记录保原plan和seed但不能作为新来源消费。写盘失败/损坏/历史包缺失不是自动取消理由。",
+  "recovery": "原子替换结果存疑时立即停止该档案后续写入/新建，重读正式文件并全量校验。仍reserved按原plan恢复提交或明确取消；已committed只回原结果；无原reserved且counter/全量日志确证旧版本时才可重新执行同确认；此时未发生持久预留，允许重新构造未发布候选，不能把没有来源的内存候选称为已提交。不得靠缓存按钮状态/超时/临时文件猜成功，不能在未确认旧决定前换请求ID。原规则包缺失/损坏、摘要不一致或完整候选无法验证时保日志并报所需hash/字段，不清plan、不换现行规则。",
+  "retention": "三阶段保留原身份/请求/command/plan及决定，角色后续改名/成长不改原创建快照输入。初始摘要只核原创建快照，不能要求现在的角色仍等于初始摘要；当前实物/账户依既有后继链验证，不因卖药/换装而视礼包欠发。删除角色也保原committed和依赖闭包；正式删除沿角色删除.v1.json，完整活动/来源闭包仍须验证，不因缺角色复活。",
+  "legacy": "已知四旧导入不写本新建事件、不走本ID/seed或发礼包；已有profile的本数组全保留，仅显式新目标profile初始化[]。现行缺数组拒绝，不按旧导入路径修复。",
+  "remaining": "原创建日志/输入/冻结及三类来源结构设计采用；完整角色/profile/world根和严格跨字段/历史来源校验、档案新建/删除原事件、真实文件保存失败/恢复与Godot/UI仍待。没有这些完整门禁前不运行真实创建；结构/有限模型不等于D1冻结或运行完成。",
+  "journal_schema_ref": {
+    "file": "角色创建事件.schema.json",
+    "pointer": "/$defs/journal"
+  },
+  "snapshot_digest_owner_ref": {
+    "file": "快照摘要.v1.json",
+    "pointer": ""
+  },
+  "registered_initial_components": {
+    "scope": "已登记新增组件及原完整气功根的创建绑定；其他已采用角色组件与完整根门禁保持，不将局部绑定当完整角色。",
+    "bindings": [
+      {
+        "character_field": "character.customization",
+        "initial_value_ref": {
+          "file": "角色初始模板.v1.json",
+          "pointer": "/initial_state_profile/customization"
+        },
+        "schema_ref": {
+          "file": "角色配置根.schema.json",
+          "pointer": ""
+        }
+      },
+      {
+        "character_field": "character.earth_spirit_points",
+        "initial_value_ref": {
+          "file": "角色初始模板.v1.json",
+          "pointer": "/initial_state_profile/earth_spirit_points"
+        },
+        "schema_ref": {
+          "file": "土灵存点.schema.json",
+          "pointer": ""
+        }
+      },
+      {
+        "character_field": "character.training_gate_buffs",
+        "initial_value_ref": {
+          "file": "角色初始模板.v1.json",
+          "pointer": "/initial_state_profile/training_gate_buffs"
+        },
+        "schema_ref": {
+          "file": "修炼增益存档.schema.json",
+          "pointer": ""
+        }
+      },
+      {
+        "character_field": "character.training_gate_daily",
+        "initial_value_ref": {
+          "file": "角色初始模板.v1.json",
+          "pointer": "/initial_state_profile/training_gate_daily"
+        },
+        "schema_ref": {
+          "file": "修炼每日任务存档.schema.json",
+          "pointer": ""
+        }
+      },
+      {
+        "character_field": "character.qigong",
+        "initial_value_ref": {
+          "file": "气功学习与秘籍.v1.json",
+          "pointer": "/persistent_qigong_root/initial"
+        },
+        "schema_ref": {
+          "file": "气功持久根.schema.json",
+          "pointer": ""
+        }
+      },
+      {
+        "character_field": "character.martial_merit_title_state",
+        "initial_value_ref": {
+          "file": "角色初始模板.v1.json",
+          "pointer": "/initial_state_profile/martial_merit_title_state"
+        },
+        "schema_ref": {
+          "file": "武勋称号凭证.schema.json",
+          "pointer": ""
+        }
+      }
+    ],
+    "construction": "Use actual frozen rules_hash original release/template/schema closure; resolve declared original initial-value reference and copy its explicit initial value to its one real character field, validate that complete value under its original schema and owner. Missing initial definition/schema/unknown field fails before counter reservation; never synthesize an empty component as repair.",
+    "ordering": "All registered values are present and valid before complete-character joint/source validation and before initial_character_digest is calculated. They are part of the one original complete candidate, not post-commit additions, omitted transport fields or separate editor state. Commit reconstructs exactly using original frozen release and checks the original digest.",
+    "customization": "New character business/inventory revisions are1 but customization revision is0, format_version1/explicit{}/latest_event_ref null. Creation is not a configuration event and does not allocate timer configuration history. New profile original configuration journal is explicitly empty; existing target profile keeps actual other-character history.",
+    "travel_training": "Earth points empty; both training ledgers by_world empty, no stored public pose or four-theme/eight-task world record fabricated. No free talisman, training reward, simulated grant or past day history. Creation makes no world; original first-world initialization occurs only after validated actual authority clock under training owner.",
+    "history": "Later legitimate point/training/configuration changes do not need to equal the original initial values; validate actual original creation input/digest and successor source/event history. Missing current fields never borrow the new-character initializer.",
+    "legacy": "Known1..4 import uses its own explicit conversions and never this new-character receipt, digest, new ID or initial inventory grants. Existing current-format roles preserve actual configuration/history and training/point fields.",
+    "remaining": "这些组件绑定不闭合其余任务/活动/完整角色/profile/world/source根，也不证明实际保存/UI/Godot执行。",
+    "qigong": "创建通过22原qigong_initial_state_ref与本binding解析同一原八键初值，校验后直接写character.qigong；不得将owner引用键、旧平铺点数/秘籍/反气功声明写角色。covered_level1/零余额/空分配与原正常升级起点一致，初始普通首招另归skills，不造读书/分配/发点事件。"
+  },
+  "skill_construction_ref": {
+    "file": "普通主动技能状态.v1.json",
+    "pointer": "/skill_learning_root/creation_construction"
+  },
+  "resource_construction": {
+    "resource_projection_ref": {
+      "file": "角色资源联合.schema.json",
+      "pointer": ""
+    },
+    "progress_owner_ref": {
+      "file": "职业基础成长.v1.json",
+      "pointer": "/persistent_progress"
+    },
+    "life_initial_ref": {
+      "file": "死亡与复活保存.v1.json",
+      "pointer": "/persistent_state/initial"
+    },
+    "special_owner_ref": {
+      "file": "职业特殊资源.v1.json",
+      "pointer": "/persistent_state"
+    },
+    "stamina_initial_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/stamina_regeneration/persistent_state/initial"
+    },
+    "cooldown_initial_ref": {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/timers_initialization/value"
+    },
+    "order": [
+      "按原冻结rules_hash与本人职业构造真实初始装备正文/布局、成长与技能/气功/无覆盖根，先验证定义/资格/来源和装备实际生效状态；空装备基线不是最终构筑。",
+      "用原职业成长/装备/被动规则计算实际合法初始最大生命/内力/体力与适用障力上限；只能内存派生，不存最大值缓存，不以已填当前资源反算上限。禁止缺定义时取0/普通职业/另一模板。",
+      "构造progress恰total_xp0/completed_rank0/route unselected及当前hp/mana/stamina等实际各上限，生命按原active/null初值。最大HP必须正整数、体力上限按原100，所有当前量符合原精度/范围；不能先存0生命再调用复活补满。",
+      "按原职业special_resources初始化：梅实际障力填满且余数/愤怒点0；乐师none/0/null、原默认顺序/游标0；甄charging/0/0/null；刺客连击0；韩血层/窗口/来源0/0/null；其他九职业{}。不造触发和弦/充能/血窗口原事件。",
+      "原通用rage_meter初值0、体力恢复原0/0、冷却原五键空表及切组余时0；这些是创建初值，不执行固定步、付费接纳或恢复tick。",
+      "先验完整原角色单字段/根白名单，再从同一候选提取八键资源投影并运行原联合schema及实际派生上限/来源联验。投影class_id只从identity读取，不持久化顶层class_id或resource包装。",
+      "全部完整候选及来源通过后计算原initial_character_digest，最后才预留。提交按同原发行重建同一当前量，不换装备顺序或使用现行成长值；同一创建决定仅一次完整替换。"
+    ],
+    "boundaries": "上述填满只授权真实new_character_grant初始构造，不适用于已有角色、旧导入、升级、换装、配置上限改变或复活；这些仍按各原owner。读档不得重算并覆盖当前量/恢复余数，也不能凭此补失来源。",
+    "remaining": "完整角色与实际上限计算/来源/摘要/文件/LAN/Godot未实现；顺序设计及投影结构不能宣告真实创建通过。",
+    "initial_resource_vectors": {
+      "purpose": "当前原14模板1级0转创建验收期望，不是另一份运行成长表；变更正式规则时须重新从完整实际构筑推导并复核这些期望，禁止运行直接读取本表填资源。",
+      "premises": "原两件实际初始装备：本职武器stats仅weapon_attack_min/max，见习短衫仅defense2/barrier_capacity_flat0；全部成长原初值0，无其他装备/宝珠、气功自有分配、效果或覆盖。等级1/晋级0无升级、rank核心或升天补差，base.max_hp/max_mana已是1级基础值，不再加一次基础body/heart贡献。初始普通技能为学习记录，未施放不产生增益；三个显式innate选择要求140级9转，初始不激活，且不改变上限。",
+      "cases": [
+        {
+          "class_id": "blade",
+          "hp": 145,
+          "mana": 116,
+          "stamina": 100
+        },
+        {
+          "class_id": "sword",
+          "hp": 133,
+          "mana": 118,
+          "stamina": 100
+        },
+        {
+          "class_id": "spear",
+          "hp": 133,
+          "mana": 118,
+          "stamina": 100
+        },
+        {
+          "class_id": "physician",
+          "hp": 133,
+          "mana": 118,
+          "stamina": 100
+        },
+        {
+          "class_id": "archer",
+          "hp": 126,
+          "mana": 124,
+          "stamina": 100
+        },
+        {
+          "class_id": "assassin",
+          "hp": 130,
+          "mana": 114,
+          "stamina": 100
+        },
+        {
+          "class_id": "musician",
+          "hp": 124,
+          "mana": 136,
+          "stamina": 100
+        },
+        {
+          "class_id": "fighter",
+          "hp": 145,
+          "mana": 114,
+          "stamina": 100
+        },
+        {
+          "class_id": "han_feiguan",
+          "hp": 145,
+          "mana": 116,
+          "stamina": 100
+        },
+        {
+          "class_id": "tan_hualing",
+          "hp": 133,
+          "mana": 118,
+          "stamina": 100
+        },
+        {
+          "class_id": "mei_liuzhen",
+          "hp": 128,
+          "mana": 122,
+          "stamina": 100,
+          "barrier_current": 244
+        },
+        {
+          "class_id": "lu_fenglang",
+          "hp": 132,
+          "mana": 116,
+          "stamina": 100
+        },
+        {
+          "class_id": "dongling_shennv",
+          "hp": 124,
+          "mana": 132,
+          "stamina": 100
+        },
+        {
+          "class_id": "zhen_fengbai",
+          "hp": 118,
+          "mana": 134,
+          "stamina": 100
+        }
+      ],
+      "barrier": "梅初始122*2+0=244；平加0来自实际项目短衫明确字段，不能推广为未知装备缺值0。余数/愤怒点均0，不保存最大障力缓存。",
+      "limits": "仅当前初始模板数值算例；未验证完整真实角色/来源、实际Godot属性管线/文件或LAN。完整根与来源门禁保持。"
+    }
+  },
+  "innate_profile_construction": {
+    "owner_ref": {
+      "file": "望梅与刮骨本地基础采用.v1.json",
+      "pointer": "/persistent_selection"
+    },
+    "construction": "从原冻结22本人唯一模板declared_innate_profiles构造character.innate_profiles两键，完整根与职业投影联验在初始摘要及预留前。配置/资源/技能根不复制选择；创建时不足等级晋级不触发，不造伤害/随机/恢复/解除事件。原committed保来源，重试不重发。"
+  }
+}

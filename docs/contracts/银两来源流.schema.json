@@ -1,0 +1,334 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:silver-flow:v1",
+  "$comment": "正式事件内银两流片段，不是完整经济事件；账户唯一/前版本/方向资格/算术/费用及真实授权另验。所有金额严格token另验，不能靠净额抹去双向报价。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_id",
+    "accounts",
+    "movements"
+  ],
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "accounts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "character_id",
+          "account",
+          "before_balance",
+          "after_balance",
+          "previous_output",
+          "opening_authorization"
+        ],
+        "properties": {
+          "character_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "account": {
+            "enum": [
+              "carried_silver",
+              "warehouse_silver"
+            ]
+          },
+          "before_balance": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "after_balance": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "previous_output": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "receipt_id",
+                  "output_index"
+                ],
+                "properties": {
+                  "receipt_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "output_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                }
+              }
+            ]
+          },
+          "opening_authorization": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "authority_receipt_id"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "new_character_grant",
+                      "legacy_import"
+                    ]
+                  },
+                  "authority_receipt_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "previous_output": {
+                  "type": "null"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "before_balance": {
+                  "const": 0
+                },
+                "opening_authorization": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "authority_receipt_id"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "new_character_grant",
+                        "legacy_import"
+                      ]
+                    },
+                    "authority_receipt_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    }
+                  }
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "opening_authorization": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "movements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "from_account_index",
+          "to_account_index",
+          "amount",
+          "authorization"
+        ],
+        "properties": {
+          "from_account_index": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            ]
+          },
+          "to_account_index": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            ]
+          },
+          "amount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "authorization": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "authority_receipt_id"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "new_character_grant",
+                      "legacy_import",
+                      "quest_reward",
+                      "loot",
+                      "npc_sale",
+                      "configuration_increase",
+                      "npc_purchase",
+                      "npc_buyback",
+                      "service_fee",
+                      "quest_payment",
+                      "configuration_decrease",
+                      "character_deletion"
+                    ]
+                  },
+                  "authority_receipt_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "from_account_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "to_account_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "authorization": {
+                "type": "null"
+              }
+            }
+          },
+          {
+            "properties": {
+              "from_account_index": {
+                "type": "null"
+              },
+              "to_account_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "authorization": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "authority_receipt_id"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "new_character_grant",
+                      "legacy_import",
+                      "quest_reward",
+                      "loot",
+                      "npc_sale",
+                      "configuration_increase"
+                    ]
+                  },
+                  "authority_receipt_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "from_account_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "to_account_index": {
+                "type": "null"
+              },
+              "authorization": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "authority_receipt_id"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "npc_purchase",
+                      "npc_buyback",
+                      "service_fee",
+                      "quest_payment",
+                      "configuration_decrease",
+                      "character_deletion"
+                    ]
+                  },
+                  "authority_receipt_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

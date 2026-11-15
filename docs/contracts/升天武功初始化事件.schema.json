@@ -1,0 +1,407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ascended-martial-reset-event:v1",
+  "$comment": "升天武功初始化原三阶段事件。原当前投入快照、道具消费、实际退款铸造/可选合堆与技能归1同事务；来源/预算/布局/算术另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "refunded_points",
+        "stack_flows",
+        "ascension_unallocated_after"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "refunded_points": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1999800
+        },
+        "stack_flows": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "prefixItems": [
+            {
+              "$ref": "urn:solorxjh:stack-flow:v1",
+              "properties": {
+                "inputs": {
+                  "minItems": 1,
+                  "maxItems": 1
+                },
+                "outputs": {
+                  "maxItems": 1,
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "ascension_skill_reset_token"
+                          },
+                          "binding": {
+                            "const": "character"
+                          },
+                          "quest_scope": {
+                            "type": "null"
+                          },
+                          "quantity": {
+                            "maximum": 98
+                          },
+                          "revision": {
+                            "minimum": 1
+                          }
+                        }
+                      },
+                      "contributions": {
+                        "minItems": 1,
+                        "maxItems": 1,
+                        "items": {
+                          "properties": {
+                            "input_index": {
+                              "const": 0
+                            },
+                            "quantity": {
+                              "maximum": 98
+                            }
+                          }
+                        }
+                      },
+                      "custody": {
+                        "properties": {
+                          "kind": {
+                            "const": "held"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "consumptions": {
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "properties": {
+                      "input_index": {
+                        "const": 0
+                      },
+                      "quantity": {
+                        "const": 1
+                      },
+                      "reason": {
+                        "const": "use"
+                      }
+                    }
+                  }
+                },
+                "mint_authorization": {
+                  "type": "null"
+                }
+              }
+            },
+            {
+              "$ref": "urn:solorxjh:stack-flow:v1",
+              "properties": {
+                "inputs": {
+                  "maxItems": 0
+                },
+                "outputs": {
+                  "minItems": 1,
+                  "maxItems": 200,
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "heavenly_stone"
+                          },
+                          "binding": {
+                            "const": "character"
+                          },
+                          "quest_scope": {
+                            "type": "null"
+                          },
+                          "quantity": {
+                            "minimum": 1,
+                            "maximum": 9999
+                          },
+                          "revision": {
+                            "const": 0
+                          }
+                        }
+                      },
+                      "custody": {
+                        "properties": {
+                          "kind": {
+                            "const": "held"
+                          }
+                        }
+                      },
+                      "contributions": {
+                        "maxItems": 0
+                      }
+                    }
+                  }
+                },
+                "consumptions": {
+                  "maxItems": 0
+                },
+                "mint_authorization": {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "ascension_skill_reset"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$ref": "urn:solorxjh:stack-flow:v1",
+              "properties": {
+                "inputs": {
+                  "minItems": 2,
+                  "maxItems": 400
+                },
+                "outputs": {
+                  "minItems": 1,
+                  "maxItems": 200,
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "heavenly_stone"
+                          },
+                          "binding": {
+                            "const": "character"
+                          },
+                          "quest_scope": {
+                            "type": "null"
+                          },
+                          "quantity": {
+                            "minimum": 1,
+                            "maximum": 9999
+                          }
+                        }
+                      },
+                      "custody": {
+                        "properties": {
+                          "kind": {
+                            "const": "held"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "consumptions": {
+                  "maxItems": 0
+                },
+                "mint_authorization": {
+                  "type": "null"
+                }
+              }
+            }
+          ],
+          "items": false
+        },
+        "ascension_unallocated_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "state_changed",
+            "rules_changed",
+            "session_invalid",
+            "explicit_cancel"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "stack_id"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "stack_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "stack_input",
+        "skills_before",
+        "merge_inputs"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "stack_input": {
+          "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+        },
+        "skills_before": {
+          "$ref": "urn:solorxjh:ascended-martial-learning-state:v1",
+          "minProperties": 1
+        },
+        "merge_inputs": {
+          "type": "array",
+          "maxItems": 200,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+          }
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:solorxjh:ascended-martial-reset-event:v1"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "merge_inputs": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "maxItems": 2
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "stack_flows": {
+            "minItems": 3
+          }
+        }
+      }
+    }
+  ]
+}

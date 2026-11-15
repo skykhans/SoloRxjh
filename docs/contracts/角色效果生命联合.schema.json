@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-effects-life-projection:v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "life_state",
+    "timers",
+    "effects"
+  ],
+  "properties": {
+    "life_state": {
+      "$ref": "urn:solorxjh:character-life-state:v1#/properties/life_state"
+    },
+    "timers": {
+      "$ref": "urn:solorxjh:character-cooldown-timers:v1"
+    },
+    "effects": {
+      "$ref": "urn:solorxjh:character-effects:v1"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "life_state": {
+            "const": "awaiting_respawn"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effects": {
+            "const": {
+              "armor_suppression": [],
+              "assassin_evade_bonus": null,
+              "auxiliary_timed": [],
+              "bleeding": {
+                "sources": [],
+                "next_tick_remaining_steps": 0
+              },
+              "blood_devil_challenge": null,
+              "defense": {
+                "direct_attack_evasion_window": null,
+                "distance_mana_shield": null,
+                "bawang_lethal": null,
+                "far_received_damage_bubble": null
+              },
+              "dongling_attributes": {
+                "weakening": [],
+                "revenge": [],
+                "proc_seal": [],
+                "immunity": []
+              },
+              "dongling_control": {
+                "forced_action_once": [],
+                "random_walk": {
+                  "sources": [],
+                  "next_direction_remaining_steps": 0,
+                  "intent_event_id": null
+                }
+              },
+              "dongling_delayed_burst": [],
+              "dongling_periodic": {
+                "healing": {
+                  "sources": [],
+                  "next_tick_remaining_steps": 0
+                },
+                "burn": {
+                  "sources": [],
+                  "next_tick_remaining_steps": 0,
+                  "walked_distance_m": 0
+                }
+              },
+              "faction_timed": {
+                "boon": [],
+                "stamina_reduction": []
+              },
+              "half_ordinary_defense": [],
+              "hp_recovery_block": [],
+              "lightness": {},
+              "lu_star_power": null,
+              "music_timed": {
+                "luanfeng": null,
+                "despair": []
+              },
+              "physician_heal_defense": [],
+              "post_dispel_guard": [],
+              "rage_sources": [],
+              "spear_fighter_timed": {
+                "martial_duel_attack20": null,
+                "nearby_stun": [],
+                "move_root": []
+              },
+              "sword_timed": {
+                "wujian_boost": null,
+                "evaded_attack_token": null,
+                "martial_power": null
+              },
+              "transfer_guard": null,
+              "venom_kill": {
+                "kill_defense_power": null,
+                "full_proc_seal": [],
+                "lu_proc_rage_seal": []
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$comment": "仅原字段校验投影不保存；另运行既有神女及防护投影，完整角色先校验白名单。"
+}

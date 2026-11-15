@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-life-state:v1",
+  "$comment": "联合校验原角色life_state/progress/pending_death三个字段，非新增持久包装。死亡原事件/活动与实际位置、合法资源上限及复活来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "life_state",
+    "progress",
+    "pending_death"
+  ],
+  "properties": {
+    "life_state": {
+      "enum": [
+        "active",
+        "awaiting_respawn"
+      ]
+    },
+    "progress": {
+      "$ref": "urn:solorxjh:character-progress:v1"
+    },
+    "pending_death": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/pending_death"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "#/$defs/life_constraints"
+    }
+  ],
+  "$defs": {
+    "pending_death": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "death_event_id",
+        "cause_kind",
+        "source_actor_id_or_null",
+        "failed_activity_attempt_id_or_null",
+        "respawn_anchor_id",
+        "death_settlement_id"
+      ],
+      "properties": {
+        "death_event_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "cause_kind": {
+          "enum": [
+            "hostile_direct",
+            "hostile_status",
+            "environment",
+            "scripted_uninterceptable",
+            "blood_devil_failure",
+            "explicit_configuration",
+            "shield_break_penalty"
+          ]
+        },
+        "source_actor_id_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "failed_activity_attempt_id_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "respawn_anchor_id": {
+          "enum": [
+            "story_workcamp_start",
+            "training_gate_hyunbo_return"
+          ]
+        },
+        "death_settlement_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "training_gate_choice": {
+          "$ref": "#/$defs/training_gate_choice"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "training_gate_choice"
+            ]
+          },
+          "then": {
+            "properties": {
+              "respawn_anchor_id": {
+                "const": "training_gate_hyunbo_return"
+              },
+              "failed_activity_attempt_id_or_null": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "respawn_anchor_id": {
+                "const": "story_workcamp_start"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "training_gate_choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "room_map_id",
+        "death_position_feet_m",
+        "death_yaw_radians"
+      ],
+      "properties": {
+        "room_map_id": {
+          "enum": [
+            "training_beihai_01",
+            "training_beihai_02",
+            "training_beihai_03",
+            "training_beihai_04",
+            "training_beihai_05",
+            "training_beihai_06",
+            "training_beihai_07",
+            "training_beihai_08",
+            "training_beihai_09",
+            "training_nanlin_01",
+            "training_nanlin_02",
+            "training_nanlin_03",
+            "training_nanlin_04",
+            "training_nanlin_05",
+            "training_nanlin_06",
+            "training_nanlin_07",
+            "training_nanlin_08",
+            "training_nanlin_09",
+            "training_dongling_01",
+            "training_dongling_02",
+            "training_dongling_03",
+            "training_dongling_04",
+            "training_dongling_05",
+            "training_dongling_06",
+            "training_dongling_07",
+            "training_dongling_08",
+            "training_dongling_09",
+            "training_huxia_01",
+            "training_huxia_02",
+            "training_huxia_03",
+            "training_huxia_04",
+            "training_huxia_05",
+            "training_huxia_06",
+            "training_huxia_07",
+            "training_huxia_08",
+            "training_huxia_09"
+          ]
+        },
+        "death_position_feet_m": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "death_yaw_radians": {
+          "type": "number"
+        }
+      }
+    },
+    "life_constraints": {
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "life_state": {
+                "const": "active"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "progress": {
+                "properties": {
+                  "hp": {
+                    "minimum": 1
+                  }
+                }
+              },
+              "pending_death": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "progress": {
+                "properties": {
+                  "hp": {
+                    "const": 0
+                  }
+                }
+              },
+              "pending_death": {
+                "$ref": "#/$defs/pending_death"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

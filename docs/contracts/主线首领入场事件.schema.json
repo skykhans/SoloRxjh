@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:story-boss-entry-event:v1",
+  "$comment": "原个人首领入场三阶段事件；命令不接受客户端attempt/场景/怪物/资源快照。实际完整world现场构造、引用、修订、姿态及原任务资格须联合验证，不是完整attempt/world根。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "interaction_invalid",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "interaction_id"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "interaction_id": {
+          "enum": [
+            "story_boss_q003_entry",
+            "story_boss_q004_entry",
+            "story_boss_q005_entry"
+          ]
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "attempt_id"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "attempt_id": {
+          "$ref": "#/$defs/attempt_id"
+        }
+      }
+    },
+    "attempt_id": {
+      "type": "string",
+      "minLength": 83,
+      "maxLength": 83,
+      "pattern": "^story-boss-attempt:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "active_reference": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "world_id",
+            "authority_profile_id",
+            "attempt_id"
+          ],
+          "properties": {
+            "world_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "authority_profile_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "attempt_id": {
+              "$ref": "#/$defs/attempt_id"
+            }
+          }
+        }
+      ]
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:story-boss-entry-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    }
+  }
+}

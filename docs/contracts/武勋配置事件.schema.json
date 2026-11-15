@@ -1,0 +1,391 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:merit-configuration-event:v1",
+  "$comment": "原武勋余额/称号显式配置三阶段；不伪造试练胜利、认证或续费，不允许钱物/活动进度修改。来源/完整根/差异与实际时钟另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "configuration_revision_after",
+        "committed_world_step",
+        "committed_at_utc"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "configuration_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "committed_world_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "committed_at_utc": {
+          "$ref": "urn:solorxjh:character-identity:v1#/$defs/utc_seconds"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "session_invalid",
+            "source_authority_unavailable",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/request"
+        },
+        {
+          "properties": {
+            "expected_character_revision": {
+              "maximum": 9007199254740990
+            },
+            "expected_configuration_revision": {
+              "maximum": 9007199254740990
+            }
+          }
+        }
+      ]
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "before_values",
+        "before_latest_event_ref"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "before_latest_event_ref": {
+          "$ref": "urn:solorxjh:timed-source-configuration-event:v1#/$defs/latest_event_ref"
+        },
+        "before_values": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "martial_merit": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "martial_merit_title_state": {
+              "$ref": "urn:solorxjh:martial-merit-title-state:v1"
+            }
+          }
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:merit-configuration-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "expected_configuration_revision",
+        "changes"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expected_configuration_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "changes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [],
+          "properties": {
+            "martial_merit": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "martial_merit_title_state": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "stage",
+                    "remaining_steps"
+                  ],
+                  "properties": {
+                    "stage": {
+                      "enum": [
+                        8,
+                        9
+                      ]
+                    },
+                    "remaining_steps": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 155520000
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "minProperties": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "changes": {
+                "required": [
+                  "martial_merit"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_values": {
+                "required": [
+                  "martial_merit"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_values": {
+                "not": {
+                  "required": [
+                    "martial_merit"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "changes": {
+                "required": [
+                  "martial_merit_title_state"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_values": {
+                "required": [
+                  "martial_merit_title_state"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_values": {
+                "not": {
+                  "required": [
+                    "martial_merit_title_state"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "expected_configuration_revision": {
+                "const": 0
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_latest_event_ref": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_latest_event_ref": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,4897 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "base_and_shared_growth_adopted_not_runtime_ready",
+  "scope": {
+    "merit_source_rows": 106,
+    "base_item_definitions": 106,
+    "blocked_base_definitions": 0,
+    "excluded_regular_source_rows": 1296,
+    "excluded_sect_source_rows": 21
+  },
+  "identity_policy": "逐来源行独立armor_merit_{class_id}_{source_sha256前12位}，同名跨职业/部位不合并；精确绑定50审计及源SHA，候选ID不作正式物品ID。",
+  "source_audit_ref": {
+    "file": "../reference/防具来源采用审计.json",
+    "pointer": "/records"
+  },
+  "merit_eligibility_owner_ref": {
+    "file": "../reference/防具来源采用审计.json",
+    "pointer": "/merit_armor_eligibility_adoption"
+  },
+  "profile": {
+    "id": "merit_catalog_armor_base",
+    "instance_kind": "unique_equipment",
+    "max_stack": 1,
+    "base_stat_policy": "106条源防御均为独立整数，逐件原值采用，不从武勋阶段或截图总值反推附加防御；武勋身份不另生成攻防或称号豁免。",
+    "true_flag_policy": "仅20条源名称明确真-前缀采用真标识，不按防御高低或武勋多少推真件。",
+    "enhancement_owner_ref": {
+      "file": "普通防具强化.v1.json",
+      "pointer": ""
+    },
+    "enhancement_limit": 15,
+    "synthesis_owner_ref": {
+      "file": "普通防具合成.v1.json",
+      "pointer": "/synthesis_schema"
+    },
+    "shared_growth_boundary": "武勋106件明确扩展至52/53同一服务/曲线/材料/收据体系，不另建武勋配方。强化六个图示覆盖只匹配原精确item_id，武勋件不借同名覆盖；武勋额外门槛报价与提交均须满足。其他元素/其他药品/元素显示等尚未采用，不推定允许或创建缺字段实例。 觉醒/四神另由普通防具觉醒与四神.v1.json精确分区采用。 奇玉/进化另由普通防具奇玉与进化.v1.json分区采用。 火/毒属性石由普通防具属性石.v1.json采用，其他元素仍待。 强化转移仅按普通防具强化转移.v1.json具名双实例配方执行。 提真仅按普通防具提真.v1.json具名同血统替换配方执行。 防具天池神丹提升按普通防具附加提升.v1.json精确分区采用。",
+    "runtime_gate": "普通防具成长.v1.json十字段组件及普通防具实例.v1.json完整18键根schema已采用；完整档案/收据、其他元素/药品/特殊触发、预算/派生/外观及活动经济/服务联审未闭合，禁止注册运行或创建实例。",
+    "awakening_and_four_divine_owner_ref": {
+      "file": "普通防具觉醒与四神.v1.json",
+      "pointer": ""
+    },
+    "jade_and_evolution_owner_ref": {
+      "file": "普通防具奇玉与进化.v1.json",
+      "pointer": ""
+    },
+    "attribute_stone_owner_ref": {
+      "file": "普通防具属性石.v1.json",
+      "pointer": ""
+    },
+    "enhancement_transfer_owner_ref": {
+      "file": "普通防具强化转移.v1.json",
+      "pointer": ""
+    },
+    "true_conversion_owner_ref": {
+      "file": "普通防具提真.v1.json",
+      "pointer": ""
+    },
+    "enhancement_boost_owner_ref": {
+      "file": "普通防具附加提升.v1.json",
+      "pointer": ""
+    },
+    "instance_growth_schema_owner_ref": {
+      "file": "普通防具成长.v1.json",
+      "pointer": ""
+    },
+    "anti_qigong_budget_owner_ref": {
+      "file": "普通防具反气功预算.v1.json",
+      "pointer": ""
+    }
+  },
+  "weight_and_permission_owner_ref": {
+    "file": "普通防具基础定义.v1.json",
+    "pointer": "/weight_and_permission_policy"
+  },
+  "weight_and_permission_adoption": "本目录明确采用51相同部位重量及权限，逐件固定写入；不因武勋/真件增加重量，不转为武勋兑换/玩家交易或可卖物。",
+  "acquisition_policy": {
+    "id": "merit_catalog_armor_shop",
+    "authority": "项目银两取得设计，非官网售价或官方武勋消费",
+    "planned_service_id": "npc_yinjiaolong_merit_armor_shop",
+    "npc_id": "npc_yinjiaolong",
+    "npc_ref": {
+      "file": "世界图谱.v1.json",
+      "pointer": "/npcs/20"
+    },
+    "map_id": "hyunbo_town",
+    "interaction_distance_mm": 2500,
+    "registered_in_world": false,
+    "price_formula": "100 * minimum_level * minimum_level + 20 * source_integer_defense",
+    "price_currency": "silver",
+    "merit_spend": 0,
+    "quantity_minimum": 1,
+    "quantity_maximum": 99,
+    "purchase_eligibility": "角色存活脱战空闲，无挑战/传送/未结算战斗队列，NPC/同图/会话和2.5米距离有效；逐行全部穿戴资格含等级/转职/职业/路线/体型/武勋均须满足，本目录不提供预购。称号不替代武勋拥有量。",
+    "transaction": "先查命令结果收据，验证原库存和银两合法；报价绑定角色/NPC/会话/目录版本/预期角色及库存修订/物品ID/数量，房主提交时重读当前武勋和全部资格并重算银费、最终格数/重量，不花仓银。缺费/满包/超重/资格下降或报价过期则拒绝，不扣钱不造物。",
+    "success": "原子扣随身银两、逐件分配唯一实例ID/血统/绑定/明确新建成长字段及背包位置，并写角色修订及成功收据；不扣武勋，不生成额外称号或奖励。",
+    "retry_and_save": "同命令同参数返回原成功结果，不再次购买；同命令异参数拒绝。保存失败保留已提交内存结果，只重存，不重扣或重新造物。",
+    "economy_boundary": "当前250武勋/胜不改；60万至500万门槛的活动获取与银两节奏仍未校准，基础取得合同不代表正常玩法可达性已验证。",
+    "excluded": "不卖77阻塞、21门派或七级表外款，不将武勋首饰称号豁免套到本目录。"
+  },
+  "invalidation_policy": "武勋拥有量下降或其他穿戴资格失效，原实例和位置保留但不贡献全部属性；两组均重新判定，含失效实例的目标组不可切换。资格恢复后贡献恢复，不补资源、不复活、不刷新冷却；加工也须重新满足全部资格。",
+  "items": [
+    {
+      "item_id": "armor_merit_blade_97e47106c9c6",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇刀服(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/147/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 85
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/147"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641700,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_blade_ad124a5b49df",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇刀服(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/148/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 85
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/148"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641700,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_blade_3ca809a8789d",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇刀服(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/149/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 85
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/149"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641700,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_blade_d79ee2e1ef0b",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇刀服(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/150/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 85
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/150"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641700,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_blade_e56f74e623af",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/151/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/151"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_blade_3418edf10d6c",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/152/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/152"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_blade_15d732a945d9",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/153/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/153"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_blade_f7acef77a026",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/154/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/154"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_blade_dfa5747dee65",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "紫云甲",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/155/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/155"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_sword_5d79d7458e53",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇剑服(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/303/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 83
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/303"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641660,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_sword_4dd1db2b9453",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇剑服(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/304/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 83
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/304"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641660,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_sword_8468063d73ea",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇剑服(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/305/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 83
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/305"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641660,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_sword_7fd23622c1b6",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇剑服(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/306/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 83
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/306"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641660,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_sword_e56f74e623af",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/307/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/307"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_sword_3418edf10d6c",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/308/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/308"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_sword_15d732a945d9",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/309/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/309"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_sword_f7acef77a026",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/310/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/310"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_sword_dfa5747dee65",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "紫云甲",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/311/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/311"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_assassin_c47bd1be74ea",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇戎装(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/459/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 70
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/459"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641400,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_assassin_600238dba3be",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇戎装(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/460/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 70
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/460"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641400,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_assassin_f6422d23d81e",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇戎装(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/461/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 70
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/461"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641400,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_assassin_65d1e6852cc6",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇戎装(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/462/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 70
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/462"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641400,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_assassin_e56f74e623af",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/463/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/463"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_assassin_3418edf10d6c",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/464/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/464"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_assassin_15d732a945d9",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/465/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/465"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_assassin_f7acef77a026",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/466/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/466"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_assassin_dfa5747dee65",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "紫云甲",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/467/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/467"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_spear_558f815ef2f6",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇枪服(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/615/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 79
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/615"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641580,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_spear_965c80969c48",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇枪服(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/616/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 79
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/616"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641580,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_spear_a33d7a7f60c1",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇枪服(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/617/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 79
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/617"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641580,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_spear_4d1ad9eae4e6",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇枪服(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/618/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 79
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/618"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641580,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_spear_e56f74e623af",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/619/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/619"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_spear_3418edf10d6c",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/620/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/620"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_spear_15d732a945d9",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/621/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/621"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_spear_f7acef77a026",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/622/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/622"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_spear_dfa5747dee65",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "紫云甲",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/623/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/623"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_archer_833f5e5acc48",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇弓服(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/771/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/771"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_archer_2202dc058126",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇弓服(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/772/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/772"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_archer_6aa3d0e3e876",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇弓服(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/773/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/773"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_archer_ecc3fae912a7",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇弓服(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/774/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/774"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_archer_e56f74e623af",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/775/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/775"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_archer_3418edf10d6c",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/776/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/776"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_archer_15d732a945d9",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/777/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/777"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_archer_f7acef77a026",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/778/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/778"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_archer_dfa5747dee65",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "紫云甲",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/779/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/779"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_physician_7cdc3a21f05e",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇法袍(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/927/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 72
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/927"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641440,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_physician_230e1f1f1b68",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇法袍(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/928/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 72
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/928"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641440,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_physician_da5de8733c4e",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇法袍(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/929/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 72
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/929"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641440,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_physician_ec0b82c182ac",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇法袍(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/930/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 72
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/930"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641440,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_physician_e56f74e623af",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/931/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/931"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_physician_3418edf10d6c",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇长靴",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/932/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 63
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/932"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641260,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_physician_15d732a945d9",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/933/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/933"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_physician_f7acef77a026",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇护手",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/934/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 66
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/934"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_physician_dfa5747dee65",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "紫云甲",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/935/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/935"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 641600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_musician_c6d9193e5e6c",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇乐服(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1105/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 55
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1105"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 361100,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 0,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_musician_3f719ab15645",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇乐服(男)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1106/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 55
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1106"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 361100,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 0,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_musician_aa903d73b6f0",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "武皇乐服(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1107/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 55
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1107"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 361100,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 0,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_musician_f04111a0b2b7",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "霸皇乐服(女)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1108/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 55
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1108"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 361100,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 0,
+      "evolution_limit": 0,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_bfc0c9ccd107",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "敖天纹龙衫(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1126/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 111
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1126"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1212220,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_fc81ece151cf",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "敖天绣龙袍(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1127/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 135
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1127"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1442700,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_ca953239de48",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "敖天金龙铠(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1128/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 148
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1128"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1692960,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_fa4c42370d0d",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-敖天金龙铠(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1129/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 159
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1129"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1693180,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_cc7aed4b4d17",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "敖天金龙服(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1130/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 280
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1130"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1965600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_cc3fe5332ac0",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-敖天金龙服(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1131/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 291
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1131"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1965820,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_32b95563f131",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "敖天神龙铠(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1132/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 412
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1132"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2258240,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_5945b19bb95c",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-敖天神龙铠(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1133/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 423
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1133"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2258460,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_a92d30d15b00",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "敖天御龙铠(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1134/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 544
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1134"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2570880,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 2
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_0a3d0e0e52f2",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-敖天御龙铠(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1135/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 555
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1135"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2571100,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 2
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_aa0c0f31129a",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "敖天古龙铠(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1136/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 676
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1136"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2903520,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 2
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_0794af19198a",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-敖天古龙铠(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "body",
+      "equip_slot_ids": [
+        "body"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1137/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 687
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1137"
+      },
+      "weight_g": 1500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2903740,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 5,
+      "four_divine_allowed": true,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 2
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_6f18b42ee23e",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "纹龙甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1138/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 77
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1138"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1211540,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_8655c7a856b7",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "绣龙甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1139/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 92
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1139"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1441840,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_22d639000ce2",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "金龙甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1140/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 119
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1140"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1692380,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_0db4add4d0c3",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-金龙甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1141/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 125
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1141"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1692500,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_b5e73ed6acc5",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "纹金甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1142/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 128
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1142"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1962560,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_eefda9ef9f58",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-纹金甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1143/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 134
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1143"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1962680,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_2b4712cb4dbb",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "神龙甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1144/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 140
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1144"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2252800,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_428596aa3034",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-神龙甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1145/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 150
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1145"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2253000,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_a26358600d4b",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "御龙甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1146/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 150
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1146"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2563000,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_db50679bf073",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-御龙甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1147/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 160
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1147"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2563200,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_bbf9b2e2dd6c",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "古龙甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1148/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 160
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1148"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2893200,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_5b8c4668764d",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-古龙甲(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "inner_armor",
+      "equip_slot_ids": [
+        "inner_armor"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1149/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 170
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1149"
+      },
+      "weight_g": 1000,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2893400,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 2,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_5f2837fc57cb",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "纹龙护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1150/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 68
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1150"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1211360,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_cf12e9872338",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "绣龙护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1151/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 80
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1151"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1441600,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_5d7c04bab429",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "金龙护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1152/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 86
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1152"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1691720,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_3d1d1f89ab5b",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-金龙护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1153/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 93
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1153"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1691860,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_deec0a7b42f7",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "纹金护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1154/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 119
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1154"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1962380,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_b5e6d59fdd6f",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-纹金护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1155/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 126
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1155"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1962520,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_a8cd0c35ecb3",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "神龙护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1156/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 152
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1156"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2253040,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_8d931ac700cd",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-神龙护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1157/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 159
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1157"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2253180,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_139587ccc266",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "御龙护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1158/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 185
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1158"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2563700,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_cf071377913c",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-御龙护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1159/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 192
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1159"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2563840,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_9e1121d54f5d",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "古龙护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1160/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 218
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1160"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2894360,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_6693e8f0db9b",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-古龙护手(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "gloves",
+      "equip_slot_ids": [
+        "glove_a",
+        "glove_b"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1161/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 225
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1161"
+      },
+      "weight_g": 300,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2894500,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_db24363bff24",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "纹龙战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1162/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 65
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1162"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1211300,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_93d42fa96ba4",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "绣龙战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1163/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 77
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1163"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1441540,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_17d83ef658dc",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "金龙战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1164/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 83
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1164"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1691660,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_a526e131ed84",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-金龙战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1165/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 90
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1165"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1691800,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_df964317a188",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "纹金战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1166/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 116
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1166"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1962320,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_8aa1740157dd",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-纹金战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1167/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 123
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1167"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 1962460,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_a24ca48d3354",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "神龙战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1168/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 149
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1168"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2252980,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_e935941a43ba",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-神龙战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1169/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 156
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1169"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2253120,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_23c9a7effcf3",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "御龙战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1170/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 182
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1170"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2563640,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_bda56a803c67",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-御龙战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1171/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 189
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1171"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2563780,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_0e103aa4d99e",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "古龙战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1172/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 215
+      },
+      "true_equipment": false,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1172"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2894300,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    },
+    {
+      "item_id": "armor_merit_zhen_fengbai_c2202d680bc8",
+      "profile_id": "merit_catalog_armor_base",
+      "name": "真-古龙战靴(甄凤柏)",
+      "kind": "armor",
+      "equipment_category": "boots",
+      "equip_slot_ids": [
+        "boots"
+      ],
+      "eligibility_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1173/eligibility_adoption"
+      },
+      "stats": {
+        "defense": 222
+      },
+      "true_equipment": true,
+      "merit_equipment": true,
+      "source_audit_ref": {
+        "file": "../reference/防具来源采用审计.json",
+        "pointer": "/records/1173"
+      },
+      "weight_g": 500,
+      "max_stack": 1,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "purchase_allowed": true,
+      "equip": true,
+      "direct_use": false,
+      "decompose": false,
+      "buy_price": 2894440,
+      "acquisition_policy_id": "merit_catalog_armor_shop",
+      "enhancement_limit": 15,
+      "maximum_synthesis_entries": 4,
+      "awakening_limit": 0,
+      "four_divine_allowed": false,
+      "maximum_jade_entries": 1,
+      "evolution_limit": 2,
+      "element_stage_limit": 10,
+      "enhancement_boost_stack_limit": 0
+    }
+  ]
+}

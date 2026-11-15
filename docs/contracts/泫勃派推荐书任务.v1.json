@@ -1,0 +1,346 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": "QREF-63791-016 preserves35level/master/10axes/5proofs/11000XP/one recommendation/once;rank1/unselected gate,monster producer selections,drop rates/stats/positions,attempt and reward item identity are explicit local adoption; source summary does not provide five-fragment chain",
+  "quest": {
+    "quest_id": "ref_QREF-63791-016",
+    "source_reference_id": "QREF-63791-016",
+    "name": "泫勃派的推荐书",
+    "minimum_level": 35,
+    "required_completed_rank": 1,
+    "routes": [
+      "unselected"
+    ],
+    "class_scope": "all14local classes",
+    "npc_id": "npc_hyunbo_master",
+    "npc_map_id": "hyunbo_town",
+    "interaction_anchor_id": "hyunbo_master_service",
+    "service_id": "hyunbo_recommendation",
+    "interaction_distance_mm": 2500,
+    "acceptance": "adv_01delivered,alive,out of combat,idle,no challenge; never previously delivered; creates unique attempt",
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "readiness": "derive from exact real carried own-attempt10axes/5proofs; no separate collection counter",
+    "preaccept_items_count": false,
+    "requirements": [
+      {
+        "item_id": "recommendation_bandit_axe",
+        "quantity": 10
+      },
+      {
+        "item_id": "recommendation_bandit_proof",
+        "quantity": 5
+      }
+    ],
+    "reward": {
+      "experience": 11000,
+      "practice": 0,
+      "silver": 0,
+      "items": [
+        {
+          "item_id": "adv02_recommendation",
+          "quantity": 1
+        }
+      ],
+      "rank_change": null
+    },
+    "reward_item_owner": {
+      "file": "第二次升职九阶段.v1.json",
+      "pointer": "/items/0"
+    },
+    "repeat": "once per character across worlds; not repeatable after recommendation consumed byadv_02",
+    "delivery": "revalidate all conditions/current attempt/input binding,preflight final layout/weight and XP-cap loss confirmation;consume15tokens/grantone letter/credit11000XP/markdelivered/receipt in one05/19durable transaction",
+    "capacity_failure": "preserve inputs and pending state,no dropped/warehouse reward or partial grant",
+    "deduplication": "character/quest/attempt/final plus request/revision; repeated completion returns original result; no regrant letter after adv_02consumes it",
+    "abandon": "explicit confirmation clears only own attempt axes/proofs,cancel attempt;new accept allocates new attempt;no refund/reward,old requests cannot operate new attempt",
+    "modifiers": "no19team/26finisher/training/supreme quest reward multiplier",
+    "save": "character attempt/state/receipt and real inventory;known importer explicitly initializes only unstarted quest,no automatic completion bylevel35"
+  },
+  "items": [
+    {
+      "item_id": "recommendation_bandit_axe",
+      "name": "山贼斧",
+      "source_reference_id": "QREF-63791-016",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "identity_policy": "explicit0weight quest token,not usable weapon or ordinary material"
+    },
+    {
+      "item_id": "recommendation_bandit_proof",
+      "name": "山贼证物",
+      "source_reference_id": "QREF-63791-016",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "identity_policy": "explicit0weight quest token,not usable weapon or ordinary material"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "monster_id": "hyunbo_axe_bandit32",
+        "item_id": "recommendation_bandit_axe",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "monster_id": "hyunbo_bandit_leader33",
+        "item_id": "recommendation_bandit_proof",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      }
+    ],
+    "qualification": "own active attempt,alive/connected/same scene,solo death owner or exact19party valid member snapshot;untilown target cap",
+    "ownership": "personal bound attempt token,not copied public loot",
+    "capacity_failure": "same unique death transaction records no-item result,no original death retry after freeing space/reconnect",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "modifiers": "task fixed100%,no finisher/training multiplier",
+    "shared_axe_bandit_death_owner": {
+      "file": "打退山贼任务.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "monsters": [
+    {
+      "monster_id": "hyunbo_axe_bandit32",
+      "source_reference_id": "MREF-39821-018",
+      "name": "巨斧山贼",
+      "level": 32,
+      "map_id": "hyunbo_outskirts",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 1920,
+      "max_mana": 0,
+      "attack_min": 96,
+      "attack_max": 128,
+      "ordinary_defense": 64,
+      "accuracy": 160,
+      "evasion": 64,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_recommendation_creature",
+      "xp_reward": 16385,
+      "practice_reward": 1638,
+      "silver_reward": 32,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "hyunbo_axe_bandit32",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source name/level preserved;ordinary bandit not humanoid martial NPC;all battle values local"
+    },
+    {
+      "monster_id": "hyunbo_bandit_leader33",
+      "source_reference_id": "MREF-39821-019",
+      "name": "山贼头领",
+      "level": 33,
+      "map_id": "hyunbo_outskirts",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 1980,
+      "max_mana": 0,
+      "attack_min": 99,
+      "attack_max": 132,
+      "ordinary_defense": 66,
+      "accuracy": 165,
+      "evasion": 66,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_recommendation_creature",
+      "xp_reward": 16485,
+      "practice_reward": 1648,
+      "silver_reward": 33,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "hyunbo_bandit_leader33",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source name/level preserved;ordinary bandit not humanoid martial NPC;all battle values local"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "hyunbo_axe_bandit32_01",
+      "monster_id": "hyunbo_axe_bandit32",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        112,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_axe_bandit32_02",
+      "monster_id": "hyunbo_axe_bandit32",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        112,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_axe_bandit32_03",
+      "monster_id": "hyunbo_axe_bandit32",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        112,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_axe_bandit32_04",
+      "monster_id": "hyunbo_axe_bandit32",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        112,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_bandit_leader33_01",
+      "monster_id": "hyunbo_bandit_leader33",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -112,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_bandit_leader33_02",
+      "monster_id": "hyunbo_bandit_leader33",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -112,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_bandit_leader33_03",
+      "monster_id": "hyunbo_bandit_leader33",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -112,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_bandit_leader33_04",
+      "monster_id": "hyunbo_bandit_leader33",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -112,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "no hostile spawn/entry; path return,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "explicit new role unstarted/null attempt/no tokens;known legacy1..4import maps missing adopted quest to unstarted without level-derived completion;unknown newer-format missing data rejects",
+  "pending": [
+    "Godot inventory/quest/save/LAN implementation and runtime tests",
+    "source bandit art and level35growth/economy calibration"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "spawns_checked": 8,
+    "method": "0.45m monster capsule plus2m patrol margin outside solids/safe circles; central x then z paths checked for0.35m actor",
+    "runtime_proven": false
+  }
+}

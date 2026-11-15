@@ -193,5 +193,555 @@
     "journey",
     "adventure",
     "sect"
-  ]
+  ],
+  "$defs": {
+    "normal_history_constraints": {
+      "$comment": "仅正常历史/四已知旧档正常映射使用；完整字段先经原根校验，配置例外不得只凭跳过此分支放行，仍须原声明来源。跨计数乘法/贡献账/等级与真实事件另验。",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "story_stage": {
+                "not": {
+                  "const": "completed"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "journey": {
+                "const": {
+                  "stage": "valley_hunt",
+                  "kills": [
+                    0,
+                    0
+                  ],
+                  "repeat_claimed": [
+                    0,
+                    0
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "stage": {
+                    "enum": [
+                      "valley_boss",
+                      "valley_report",
+                      "north_hunt",
+                      "north_boss",
+                      "north_report",
+                      "completed"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "kills": {
+                    "prefixItems": [
+                      {
+                        "minimum": 5
+                      },
+                      {}
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "stage": {
+                    "enum": [
+                      "valley_hunt"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "kills": {
+                    "prefixItems": [
+                      {
+                        "maximum": 4
+                      },
+                      {}
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "stage": {
+                    "enum": [
+                      "north_boss",
+                      "north_report",
+                      "completed"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "kills": {
+                    "prefixItems": [
+                      {},
+                      {
+                        "minimum": 5
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "stage": {
+                    "enum": [
+                      "north_hunt"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "kills": {
+                    "prefixItems": [
+                      {},
+                      {
+                        "maximum": 4
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "stage": {
+                    "enum": [
+                      "valley_hunt",
+                      "valley_boss",
+                      "valley_report"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "repeat_claimed": {
+                    "prefixItems": [
+                      {
+                        "const": 0
+                      },
+                      {}
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "stage": {
+                    "enum": [
+                      "valley_hunt",
+                      "valley_boss",
+                      "valley_report",
+                      "north_hunt",
+                      "north_boss",
+                      "north_report"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "journey": {
+                "properties": {
+                  "repeat_claimed": {
+                    "prefixItems": [
+                      {},
+                      {
+                        "const": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "story_stage": {
+                "enum": [
+                  "report",
+                  "take_sword",
+                  "bind_sword"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "sect": {
+                "const": {
+                  "sect_id": "liuli_sword_sect",
+                  "rank": 0,
+                  "available": 0,
+                  "earned": 0,
+                  "legacy_opening_spend": 0,
+                  "new_exchange_spend": 0,
+                  "commissions_claimed": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sect": {
+                "properties": {
+                  "rank": {
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "story_stage": {
+                "const": "completed"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sect": {
+                "properties": {
+                  "rank": {
+                    "minimum": 2
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "story_stage": {
+                "const": "completed"
+              },
+              "journey": {
+                "properties": {
+                  "stage": {
+                    "enum": [
+                      "north_hunt",
+                      "north_boss",
+                      "north_report",
+                      "completed"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sect": {
+                "properties": {
+                  "rank": {
+                    "minimum": 3
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "story_stage": {
+                "const": "completed"
+              },
+              "journey": {
+                "properties": {
+                  "stage": {
+                    "const": "completed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "adventure": {
+                "properties": {
+                  "commissions_claimed": {
+                    "prefixItems": [
+                      {
+                        "const": true
+                      },
+                      {},
+                      {}
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "adventure": {
+                "properties": {
+                  "boars_defeated": {
+                    "minimum": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "adventure": {
+                "properties": {
+                  "commissions_claimed": {
+                    "prefixItems": [
+                      {},
+                      {
+                        "const": true
+                      },
+                      {}
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "adventure": {
+                "properties": {
+                  "wolves_defeated": {
+                    "minimum": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "adventure": {
+                "properties": {
+                  "commissions_claimed": {
+                    "prefixItems": [
+                      {},
+                      {},
+                      {
+                        "const": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "adventure": {
+                "properties": {
+                  "bamboo_harvested": {
+                    "minimum": 6
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "normal_history": {
+      "allOf": [
+        {
+          "$ref": "#"
+        },
+        {
+          "$ref": "#/$defs/normal_history_constraints"
+        }
+      ]
+    },
+    "normal_character_projection": {
+      "$comment": "验证用两字段投影：progress取character.progress，retained_story_adventure取character.quests下唯一原组件；不保存本包装，不新增level字段。正常历史才使用，显式配置例外必须按原范围及来源另验。",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "progress",
+        "retained_story_adventure"
+      ],
+      "properties": {
+        "progress": {
+          "$ref": "urn:solorxjh:character-progress:v1"
+        },
+        "retained_story_adventure": {
+          "$ref": "#/$defs/normal_history"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "retained_story_adventure": {
+                "properties": {
+                  "sect": {
+                    "properties": {
+                      "rank": {
+                        "minimum": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "progress": {
+                "properties": {
+                  "total_xp": {
+                    "minimum": 2600
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "retained_story_adventure": {
+                "properties": {
+                  "sect": {
+                    "properties": {
+                      "rank": {
+                        "minimum": 2
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "progress": {
+                "properties": {
+                  "total_xp": {
+                    "minimum": 14000
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "retained_story_adventure": {
+                "properties": {
+                  "sect": {
+                    "properties": {
+                      "rank": {
+                        "minimum": 3
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "progress": {
+                "properties": {
+                  "total_xp": {
+                    "minimum": 47600
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$id": "urn:solorxjh:retained-story-adventure:v1"
 }

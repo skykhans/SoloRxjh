@@ -1,8 +1,8 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-13",
+  "updated_on": "2026-11-14",
   "status": "project_design_not_implemented_not_balanced",
-  "scope": "梅柳真障力/愤怒点、乐师和弦、甄凤柏生命耗费/充能护盾的状态与基础数值；不是全职业技能树或全部气功联动。",
+  "scope": "梅柳真障力/愤怒点、乐师和弦、甄凤柏生命耗费/充能护盾、刺客连击点及韩飞官血系窗口的状态；刺客数值/取得消费唯一沿原必杀合同，不复制规则。不是全职业技能树或全部气功联动。",
   "units": {
     "world_steps_per_second": 60,
     "basis_points_per_whole": 10000
@@ -46,7 +46,35 @@
         "natural_regen",
         "recovery_skill",
         "recovery_passive"
-      ]
+      ],
+      "maximum_equipment_addend": "sum_active_unsuppressed_formal_item_barrier_capacity_flat",
+      "maximum_formula": "final_max_mana * maximum_multiplier + maximum_equipment_addend",
+      "equipment_capacity_policy": {
+        "source_ref": {
+          "file": "../reference/防具来源采用审计.json",
+          "pointer": "/records"
+        },
+        "source_scope": "官网贡献仅参数表32的19行梅柳真防具障力列，逐行equipment_stat_adoption采用；审计候选ID不可直接装备，须正式物品绑定同一来源SHA。另有project_initial_clothing精确登记的一件项目初始衣服0属性，不将其伪装为官网来源行。",
+        "adoption": "原列整数采用障力上限平加点数，为明确项目语义，不宣称官网计算顺序",
+        "stat_key": "barrier_capacity_flat",
+        "allowed_class_id": "mei_liuzhen",
+        "allowed_slot": "body",
+        "application": "仅生效装备组、合法可穿且未被防具失效的正式实例贡献一次；无装备实例不产生该来源；已装备正式定义缺贡献字段或不符合来源绑定须拒绝",
+        "multiplication": "先算最终内力上限乘2，再加障力平加；不把平加值乘2，不改变吸收率或恢复倍率",
+        "on_maximum_changed": "当前障力=min(原当前障力,新上限)，恢复余数清0；上限增加不补量，失效恢复和换组不返还先前裁掉的量",
+        "initial_and_respawn": "仅新角色初始化或明确复活按既有规则填满重算后的上限；普通换装、上下线和读档不填满",
+        "storage": "保存当前障力和余数；上限由正式构筑推导，不另存可漂移的装备障力总量",
+        "project_initial_clothing": {
+          "definition_ref": {
+            "file": "角色初始模板.v1.json",
+            "pointer": "/items/14"
+          },
+          "item_id": "armor_apprentice_shirt",
+          "barrier_capacity_flat": 0,
+          "origin": "明确项目初始衣服属性；不是官网19行梅柳真防具来源中的任一行。只此正式定义明确声明0，不能从缺失字段推断0或将其他正式防具降为初始衣服。",
+          "validation": "通过完整正式定义/真实实例/可穿资格与生效组核验后，梅柳真实际穿本衣服时平加0；其他职业不获得障力资源，0字段不激活梅柳真能力。任何同名/仅字符串ID而无原定义绑定不授权，实际贡献字段必须存在且等0。"
+        }
+      }
     },
     "recovery_passive": {
       "requires_level": 60,
@@ -61,10 +89,24 @@
     },
     "recovery_skill": {
       "amount_profile": "explicitly_tagged_recovery_power",
-      "ordinary_shared_cooldown_steps": 1800,
-      "ascended_shared_cooldown_steps": 14400,
-      "same_cooldown_group": "mei_barrier_recovery",
-      "rounding": "integer_power_then_limit_by_missing_barrier"
+      "rounding": "integer_power_then_limit_by_missing_barrier",
+      "ordinary_rule_ref": {
+        "file": "英雄普通武功.v1.json",
+        "pointer": "/barrier_recovery"
+      },
+      "ordinary_action_ref": {
+        "file": "英雄普通武功.v1.json",
+        "pointer": "/action_profiles/mei_liuzhen_barrier_recovery"
+      },
+      "ascended_rule_ref": {
+        "file": "升天武功与秘籍.v1.json",
+        "pointer": "/action_profiles/mei_barrier_recovery"
+      },
+      "cooldown_state_ref": {
+        "file": "战斗冷却.v1.json",
+        "pointer": "/shared_group_state"
+      },
+      "group_policy": "普通与升天分别沿专项owner的独立组，各组内七项共享；不保存第二套时长或同组别名，不因另一组施法重置本组。"
     },
     "fury_points": {
       "initial": 0,
@@ -111,13 +153,30 @@
       "custom_cycle_requires_permutation": true,
       "loss_of_active_instrument": "clear_chord_keep_cycle",
       "loss_of_custom_cycle_qualification": "keep_setting_inactive; use_explicit_default_cycle_until_qualified",
-      "custom_cycle_qualification": "effective level of learned/unlocked 高山流水 >= 20"
+      "custom_cycle_qualification": "learned/unlocked 高山流水 with own allocated level >= 1 and effective level >= 20"
     },
     "random_chord_passive": {
       "requires_level": 60,
       "chance_at_one_point_bp": 1000,
       "chance_bp_per_additional_point": 50,
       "outcomes": "uniform_among_three_chords"
+    },
+    "cycle_setting_events": {
+      "field": "profile.chord_cycle_setting_events",
+      "schema_ref": {
+        "file": "和弦顺序设置事件.schema.json",
+        "pointer": "/$defs/journal"
+      },
+      "initial": [],
+      "command": "原会话identity/command_id/两预期修订/cycle_order；排列沿唯一musician字段schema，三种各一次。拒绝未知字段，不接受客户端技能等级/当前和弦/资源覆盖。",
+      "identity": "request_id为71确定编码[\"chord_cycle_setting\",play_session_identity.session_id,command_id]；摘要为71完整command的SHA256。先核原request_index，同键同摘要回原阶段/决定，同键改参拒绝，不另分配counter。",
+      "reservation": "原完整档案/active会话与ACK/两修订有效、无其他未决业务；实际职业musician且原已学/解锁高山流水自有投入>=1及有效等级>=20，沿chord.custom_cycle_qualification。无存活/战斗/乐器门槛：该操作只设未来顺序，不触发攻击。目标排列等原保存cycle_order则拒绝无变化请求，不借此重置游标。冻结rules_hash/原cycle_order/原cycle_next_index，counter与reserved同档保存，业务不变。",
+      "commit": "同锁重核会话/两修订/规则/实际职业/资格及两原循环字段；cycle_order=command.cycle_order，cycle_next_index=0。角色revision=命令预期+1，库存revision不变；当前chord/剩余步/source原样，不抽RNG、不授和弦、不改资源/冷却/动作冻结快照。不产生钱物流，原committed与角色同档提交，终态才发布原结果。",
+      "qualification_change": "失去自定义资格保用户排列，以默认顺序为有效顺序，资格发生变化时游标0；恢复资格仍由独立原构筑/配置事务重核并置0，不伪造本设置事件。失乐器只清当前和弦，保排列/游标。自然触发/死亡另沿persistent_state，不借本命令刷新。",
+      "abort": "state_changed/rules_changed/session_invalid/explicit_cancel原位终止，无顺序/游标/角色或库存修订变化。identity/command/plan不变。保存不确定先核原正式档案，不能另分配或再执行；重启旧reserved按session_invalid终止，旧active不恢复。已提交只重放，不再次将游标置0。",
+      "journal": "预留追加、终态原位替换，原allocation_index递增并与全部通用owner完整覆盖counter。保原请求/决定/依赖；无压缩协议不裁剪，角色删除不删历史来源。",
+      "initialization": "新profile/四已知旧来源新profile显式[]；已有profile保日志/计数，初始默认排列不伪造设置历史，现行缺字段拒绝。",
+      "boundary": "设置事务设计采用；构筑/配置资格变化、实际和弦触发与完整角色/profile/结果封套及Godot运行仍待，D1未通过。"
     }
   },
   "zhen_fengbai": {
@@ -189,5 +248,36 @@
     "random_chord": "qigong_musician_6a39c5714ed3",
     "rampage": "qigong_zhen_fengbai_246736bb8bd9",
     "healing_cost_reduction": "qigong_zhen_fengbai_070e70fe77b7"
+  },
+  "persistent_state": {
+    "field": "character.special_resources",
+    "schema_ref": {
+      "file": "职业特殊资源.schema.json",
+      "pointer": ""
+    },
+    "class_validation_ref": {
+      "file": "职业特殊资源.schema.json",
+      "pointer": "/$defs/class_projection"
+    },
+    "identity": "梅柳真/乐师/甄凤柏/刺客/韩飞官有各自严格分支，其他9职业显式{}。class_projection只校验原角色class_id与special_resources两字段，不保存包装或重复class_id。当前障力/余数与愤怒点不存上限；乐师当前和弦/原事件/剩余与循环；甄充能/盾互斥。 刺客只存combo_points，唯一取得/消费规则沿assassin.combo_point_owner_ref。",
+    "source": "正和弦与护盾须原已提交本人合法触发事件；该事件记录原职业/资格/实际持续与RNG/动作去重。余时不超原冻结时长，失效置none或charging/0并清原现场source引用；历史事件仍保。障力/愤怒点/充能的产生消费须原完整资源事件链，结构不证明来源。",
+    "bounds": "当前障力<=按原构筑推导上限；满量/封锁/上限改变/死亡余数0，其他时候0..599999。自然充能仅原10点一次增量并保动作去重，正常charging只0/10/.../90，其他结构合法值仍须真实配置授权。死者刺客连击点0，障力/愤怒点0，和弦none/0，charging/0；循环设置保留，复活沿原明确事务。 韩飞官血系窗口按han_feiguan引用核验，死亡三值0/0/null；通用怒气不在本字段，独立沿怒气owner。",
+    "cycle_cursor": "cycle_order只保存用户三种和弦排列，cycle_next_index保存下一循环位置0..2，不能从当前和弦反推。初始化0；每次实际成功的顺序和弦赋予使用当时有效顺序[index]后index=(index+1)%3，失败/无实际命中不推进。梅花随机赋予不改顺序游标；有效自定义资格或用户顺序变化时游标置0，下一次从序首。失乐器清和弦保设置/游标，死亡保顺序但游标0。此游标转移为补齐原“从序首/顺序循环”的明确项目设计。",
+    "initialization": "新建梅柳真障力按实际初始构筑填满/余数0/愤怒点0；新乐师none/0/null、默认顺序、游标0；新甄charging/0/0/null，新刺客combo_points=0，新韩blood_stacks/blood_remaining_steps/blood_source_event_id=0/0/null，其他{}。四已知旧来源为sword，显式{}，不授其他职业状态；已有其他角色不变，现行缺字段拒绝。",
+    "boundary": "持久结构/循环游标及来源边界采用；完整资源/触发事件、配置资格变更事件、效果/角色根与Godot运行仍待，D1未通过。"
+  },
+  "assassin": {
+    "combo_point_owner_ref": {
+      "file": "刺客必杀与超必杀气功采用.v1.json",
+      "pointer": "/combo_point_resource"
+    },
+    "state": "唯一character.special_resources.combo_points；严格0..3，新建0、死亡0。取得/必杀消费及保点沿原owner，不另存同义点数或重算余额；换组保当前合法点数，配置改值须原明确授权事件。"
+  },
+  "han_feiguan": {
+    "blood_owner_ref": {
+      "file": "韩飞官血系气功采用.v1.json",
+      "pointer": "/blood_stacks"
+    },
+    "state": "唯一character.special_resources的blood_stacks/blood_remaining_steps/blood_source_event_id，沿原owner保存0..2层/0..600步及最近一次建立或刷新窗口的原已提交接受动作事件；窗口0须层0/source null，正窗口须真实本人合格已付动作来源。0层正窗口合法：原一次增层判定失败也可启动窗口，不伪造已成功层。余时不超原冻结600，来源与动作/RNG另验。新建及死亡三值0/0/null；换组保值不刷新，临时有效等级0仍扣窗口且无贡献，沿原owner不删除已付窗口。"
   }
 }

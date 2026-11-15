@@ -1,0 +1,280 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "two_full_local_quest_designs_not_implemented_not_balanced",
+  "source_policy": "保留QREF-63790-007/QREF-63789-007原47级/正邪/柳絮或翅娟/两类材料各12/幸运符10%/一次性。来源未给符数量，项目明确每任务一张；来源未列产出者，本地从已有赤发火贼49处找回迷醉酒/迷醉杯，从绿林山贼43找回金菩萨/金菩萨之眼；不冒充官方掉落。四物各100克/99堆/12封顶、100%个人产出为项目值，不可饮用/装备/开启或兑换银两。",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-007",
+      "source_reference_id": "QREF-63790-007",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/30"
+      },
+      "name": "寻找迷醉酒",
+      "minimum_level": 47,
+      "route": "righteous",
+      "npc_id": "npc_liu_xu",
+      "npc_map_id": "liuzheng_pass",
+      "interaction_anchor_id": "npc_liu_xu_service",
+      "service_id": "search47_righteous",
+      "requirements": [
+        {
+          "item_id": "quest_search47_intoxicating_wine",
+          "quantity": 12
+        },
+        {
+          "item_id": "quest_search47_intoxicating_cup",
+          "quantity": 12
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "enhancement_luck_charm_10",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "强化幸运符.v1.json",
+              "pointer": "/items/1"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "single_npc"
+    },
+    {
+      "quest_id": "ref_QREF-63789-007",
+      "source_reference_id": "QREF-63789-007",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/79"
+      },
+      "name": "寻找金菩萨",
+      "minimum_level": 47,
+      "route": "evil",
+      "npc_id": "npc_chi_juan",
+      "npc_map_id": "sanxie_pass",
+      "interaction_anchor_id": "npc_chi_juan_service",
+      "service_id": "search47_evil",
+      "requirements": [
+        {
+          "item_id": "quest_search47_gold_buddha",
+          "quantity": 12
+        },
+        {
+          "item_id": "quest_search47_buddha_eye",
+          "quantity": 12
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "enhancement_luck_charm_10",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "强化幸运符.v1.json",
+              "pointer": "/items/1"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "single_npc"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_search47_intoxicating_wine",
+      "name": "迷醉酒",
+      "source_reference_id": "QREF-63790-007",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 100,
+      "maximum_per_active_attempt": 12,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "独立角色任务轮次实物，非消耗品/装备/货币；酒不能饮用，杯/菩萨/眼不开放拆解或兑换。"
+    },
+    {
+      "item_id": "quest_search47_intoxicating_cup",
+      "name": "迷醉杯",
+      "source_reference_id": "QREF-63790-007",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 100,
+      "maximum_per_active_attempt": 12,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "独立角色任务轮次实物，非消耗品/装备/货币；酒不能饮用，杯/菩萨/眼不开放拆解或兑换。"
+    },
+    {
+      "item_id": "quest_search47_gold_buddha",
+      "name": "金菩萨",
+      "source_reference_id": "QREF-63789-007",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 100,
+      "maximum_per_active_attempt": 12,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "独立角色任务轮次实物，非消耗品/装备/货币；酒不能饮用，杯/菩萨/眼不开放拆解或兑换。"
+    },
+    {
+      "item_id": "quest_search47_buddha_eye",
+      "name": "金菩萨之眼",
+      "source_reference_id": "QREF-63789-007",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 100,
+      "maximum_per_active_attempt": 12,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "独立角色任务轮次实物，非消耗品/装备/货币；酒不能饮用，杯/菩萨/眼不开放拆解或兑换。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-007",
+        "monster_id": "liuzheng_pass_red_fire_thief49",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_search47_intoxicating_wine",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 12
+      },
+      {
+        "quest_id": "ref_QREF-63790-007",
+        "monster_id": "liuzheng_pass_red_fire_thief49",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_search47_intoxicating_cup",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 12
+      },
+      {
+        "quest_id": "ref_QREF-63789-007",
+        "monster_id": "sanxie_pass_greenwood_bandit43",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_search47_gold_buddha",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 12
+      },
+      {
+        "quest_id": "ref_QREF-63789-007",
+        "monster_id": "sanxie_pass_greenwood_bandit43",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_search47_buddha_eye",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 12
+      }
+    ],
+    "eligibility": "own active attempt/correct current route/alive connected same room/map;solo unique death owner or exact19party member snapshot within30m/joined>=600steps;each token type below12",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "no token/progress,record original death no-item outcome;freeing space/reconnect/abandon/reaccept never replays it;later distinct death may grant",
+    "modifiers": "100%personal task output separate from public loot,no finisher/training multiplier",
+    "commit": "all actual45/47/48/54candidate outcomes and normal death result use shared_death_owner once;no extra ordinary reward per recovered item",
+    "shared_death_owner": {
+      "file": "四十八级正邪委托.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "pending": [
+    "Godot quest/inventory/shared death/save/LAN implementation and tests",
+    "47level against existing49/43creatures difficulty and10%charm economic calibration"
+  ],
+  "monster_owner": {
+    "file": "四十八级正邪委托.v1.json",
+    "pointer": "/monsters",
+    "filter_monster_ids": [
+      "liuzheng_pass_red_fire_thief49",
+      "sanxie_pass_greenwood_bandit43"
+    ]
+  },
+  "spawn_owner": {
+    "file": "四十八级正邪委托.v1.json",
+    "pointer": "/spawns",
+    "expected_spawn_count": 8
+  },
+  "delivery_weight": "每任务交两种各12，扣2400克，按真实来源堆合并规则放入10%符1/5克，净减2395克；原库存和最终槽数仍须合法，不用净减重量修复原始超重。无银/经验/历练腿；固定奖励/任务完成/输入与输出来源同笔，重放不重复发符。"
+}

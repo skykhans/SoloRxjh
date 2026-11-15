@@ -1,0 +1,926 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_hero_fire_poison_attribute_stone_design_not_implemented_full_element_catalog_open",
+  "scope": "107主线英雄武器火/毒两类属性石本地真实阶段1至10，含赋予/升阶/移除及卢武器翻倍接口；不代替防具属性石或全部官网属性。",
+  "source_policy": {
+    "published": [
+      {
+        "url": "http://rxjh.17game.com/event/2026/content/gs.html",
+        "text_sha256": "08053f00803cdb42c9b0d2066034f0d67341e80294a41e08e6cb609419a5e061",
+        "fact": "石头类复购举例明确火属性石，未给完整属性池/概率。"
+      },
+      {
+        "url": "http://rxjh.17game.com/data/tsplay/202203/66252.htm",
+        "text_sha256": "d6879de8eaf434d97c608581120e8538284d78ab50ed32b421af515a56c90c9f",
+        "fact": "四神之力是新增独立属性，与既有火、毒属性不冲突。"
+      },
+      {
+        "file": "卢风郎四枪与属性石气功.v1.json",
+        "pointer": "/weapon_attribute_stone_double",
+        "fact": "卢武器属性石翻倍排除强化，触发/概率归气功合同。"
+      }
+    ],
+    "project_choices": [
+      "两元素逐阶段贡献、上限10、价格/费用/成功率和失败不降级不毁均为项目值，不从复合高强化截图反推。",
+      "仅一元素槽，火和毒互斥；换类型须先明确付费移除，不用错石静默覆盖。",
+      "毒属性本地贡献为武功平威力和命中，不由名字自动附加中毒/持续伤害。",
+      "高强化来源火14显示仍保独立待核，不把显示14塞进真实阶段1..10或反推附加提升公式。",
+      "其他元素种类与防具作用仍待补，未据本合同把未载明种类永久删除。"
+    ]
+  },
+  "weapon_bindings": [
+    {
+      "item_id": "weapon_blood_orb_rank01",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank02",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank03",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank04",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank05",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank06",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank07",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank08",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank08_true",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank09",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank09_true",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank10",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank10_true",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank11",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank11_true",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank12",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_blood_orb_rank12_true",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank01",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank02",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank03",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank04",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank05",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank06",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank07",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank08",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank09",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank09_true",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank10",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank10_true",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank11",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank11_true",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank12",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank12_true",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank01",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank02",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank03",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank04",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank05",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank06",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank07",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank08",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank08_true",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank09",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank09_true",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank10",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank10_true",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank11",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank11_true",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank12",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_flower_sword_rank12_true",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank01",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank02",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank03",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank04",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank05",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank06",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank07",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank08",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank08_true",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank09",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank09_true",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank10",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank10_true",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank11",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank11_true",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank12",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank12_true",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank01",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank02",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank03",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank04",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank05",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank06",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank07",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank08",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank08_true",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank09",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank09_true",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank10",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank10_true",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank11",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank11_true",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank12",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_soul_spear_rank12_true",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank01",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank02",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank03",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank04",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank05",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank06",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank07",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank08",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank08_true",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank09",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank09_true",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank10",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank10_true",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank11",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank11_true",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank12",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank12_true",
+      "class_id": "dongling_shennv"
+    },
+    {
+      "item_id": "weapon_blood_orb_sealed",
+      "class_id": "zhen_fengbai"
+    },
+    {
+      "item_id": "weapon_fire_dragon_sealed",
+      "class_id": "han_feiguan"
+    },
+    {
+      "item_id": "weapon_flower_sword_sealed",
+      "class_id": "tan_hualing"
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_sealed",
+      "class_id": "mei_liuzhen"
+    },
+    {
+      "item_id": "weapon_soul_spear_sealed",
+      "class_id": "lu_fenglang"
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_sealed",
+      "class_id": "dongling_shennv"
+    }
+  ],
+  "elements": [
+    {
+      "element_id": "fire",
+      "name": "火",
+      "contributions_per_stage": {
+        "attack_flat": 5,
+        "martial_power_flat": 0,
+        "accuracy_flat": 0
+      },
+      "material_item_id": "fire_attribute_stone"
+    },
+    {
+      "element_id": "poison",
+      "name": "毒",
+      "contributions_per_stage": {
+        "attack_flat": 0,
+        "martial_power_flat": 8,
+        "accuracy_flat": 2
+      },
+      "material_item_id": "poison_attribute_stone"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "fire_attribute_stone",
+      "name": "火属性石",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 1,
+      "minimum_purchase_rank": 0,
+      "purchase_class_filter": "six hero classes in weapon_bindings",
+      "presentation_ref": "dev_item_fire_attribute_stone",
+      "source_policy": "火属性石名称见V25正文；毒属性存在见四神FAQ，毒属性石名称和两者本地取得/权限/数值/价格为项目采用。"
+    },
+    {
+      "item_id": "poison_attribute_stone",
+      "name": "毒属性石",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 15000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 1,
+      "minimum_purchase_rank": 0,
+      "purchase_class_filter": "six hero classes in weapon_bindings",
+      "presentation_ref": "dev_item_poison_attribute_stone",
+      "source_policy": "火属性石名称见V25正文；毒属性存在见四神FAQ，毒属性石名称和两者本地取得/权限/数值/价格为项目采用。"
+    }
+  ],
+  "attribute_schema": {
+    "field": "element_attribute",
+    "empty_value": null,
+    "nonempty_fields": [
+      "element_id",
+      "stage",
+      "origin_receipt_id"
+    ],
+    "element_id": "exact elements member",
+    "stage": "integer1..10; no stage0 object, null explicitly means none",
+    "origin_receipt_id": "committed processing receipt in weapon lineage ancestry; valid predecessor survives new output instance ID",
+    "missing_unknown_invalid": "reject snapshot/configuration, do not turn missing/unknown element into null or clamp stage",
+    "initial_state": "hero_sealed_equipment already explicitly element_attribute=null; creation grants no attribute"
+  },
+  "service_policy": {
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "requires_same_map_available_npc": true,
+    "requires_alive_idle_out_of_combat_no_challenge": true,
+    "allowed_routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "source_location": "own equipment_bag only, explicitly unequip/withdraw first",
+    "qualification": "exact binding and matching actor class; definition level/rank/route, source stage and all registered growth fields valid/unreserved; no extra quest gate",
+    "wrong_element_material": "reject before costs/RNG; cannot use fire stone on poison upgrade or vice versa",
+    "additional_boost": "nonzero enhancement-display/element-display temporary boost attachment rejects processing before cost, never erase attachment",
+    "no_generic_armor_admission": "no armor bindings or implicit defense attribute table in this contract",
+    "enhancement_boost_guard_owner_ref": {
+      "file": "英雄武器附加提升.v1.json",
+      "pointer": "/processing_guard"
+    },
+    "instance_growth_schema_owner_ref": {
+      "file": "英雄主武器基础定义.v1.json",
+      "pointer": "/instance_growth_schema"
+    }
+  },
+  "recipes": [
+    {
+      "recipe_id": "hero_element_fire_01",
+      "element_id": "fire",
+      "source_stage": 0,
+      "target_stage": 1,
+      "source_state": "null required",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_fire_02",
+      "element_id": "fire",
+      "source_stage": 1,
+      "target_stage": 2,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 4000,
+      "success_probability_bp": 9500,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_fire_03",
+      "element_id": "fire",
+      "source_stage": 2,
+      "target_stage": 3,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 9000,
+      "success_probability_bp": 9000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_fire_04",
+      "element_id": "fire",
+      "source_stage": 3,
+      "target_stage": 4,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 4,
+      "silver_fee": 16000,
+      "success_probability_bp": 8500,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_fire_05",
+      "element_id": "fire",
+      "source_stage": 4,
+      "target_stage": 5,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 5,
+      "silver_fee": 25000,
+      "success_probability_bp": 8000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_fire_06",
+      "element_id": "fire",
+      "source_stage": 5,
+      "target_stage": 6,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 6,
+      "silver_fee": 36000,
+      "success_probability_bp": 7000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_fire_07",
+      "element_id": "fire",
+      "source_stage": 6,
+      "target_stage": 7,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 7,
+      "silver_fee": 49000,
+      "success_probability_bp": 6000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_fire_08",
+      "element_id": "fire",
+      "source_stage": 7,
+      "target_stage": 8,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 8,
+      "silver_fee": 64000,
+      "success_probability_bp": 5000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_fire_09",
+      "element_id": "fire",
+      "source_stage": 8,
+      "target_stage": 9,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 9,
+      "silver_fee": 81000,
+      "success_probability_bp": 4000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_fire_10",
+      "element_id": "fire",
+      "source_stage": 9,
+      "target_stage": 10,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "fire_attribute_stone",
+      "consumed_quantity": 10,
+      "silver_fee": 100000,
+      "success_probability_bp": 3000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_poison_01",
+      "element_id": "poison",
+      "source_stage": 0,
+      "target_stage": 1,
+      "source_state": "null required",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_poison_02",
+      "element_id": "poison",
+      "source_stage": 1,
+      "target_stage": 2,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 4000,
+      "success_probability_bp": 9500,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_poison_03",
+      "element_id": "poison",
+      "source_stage": 2,
+      "target_stage": 3,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 9000,
+      "success_probability_bp": 9000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_poison_04",
+      "element_id": "poison",
+      "source_stage": 3,
+      "target_stage": 4,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 4,
+      "silver_fee": 16000,
+      "success_probability_bp": 8500,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_poison_05",
+      "element_id": "poison",
+      "source_stage": 4,
+      "target_stage": 5,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 5,
+      "silver_fee": 25000,
+      "success_probability_bp": 8000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_poison_06",
+      "element_id": "poison",
+      "source_stage": 5,
+      "target_stage": 6,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 6,
+      "silver_fee": 36000,
+      "success_probability_bp": 7000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_poison_07",
+      "element_id": "poison",
+      "source_stage": 6,
+      "target_stage": 7,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 7,
+      "silver_fee": 49000,
+      "success_probability_bp": 6000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_poison_08",
+      "element_id": "poison",
+      "source_stage": 7,
+      "target_stage": 8,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 8,
+      "silver_fee": 64000,
+      "success_probability_bp": 5000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_poison_09",
+      "element_id": "poison",
+      "source_stage": 8,
+      "target_stage": 9,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 9,
+      "silver_fee": 81000,
+      "success_probability_bp": 4000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    },
+    {
+      "recipe_id": "hero_element_poison_10",
+      "element_id": "poison",
+      "source_stage": 9,
+      "target_stage": 10,
+      "source_state": "same element at exact source_stage",
+      "consumed_item_id": "poison_attribute_stone",
+      "consumed_quantity": 10,
+      "silver_fee": 100000,
+      "success_probability_bp": 3000,
+      "random_draw_required": true,
+      "failure": "same element state, including null if first application; consume recipe material/fee, no weapon destruction or other growth loss"
+    }
+  ],
+  "removal": {
+    "recipe_id": "hero_remove_element",
+    "requires_nonnull_element": true,
+    "silver_fee": 100000,
+    "materials": [],
+    "success_probability_bp": 10000,
+    "random_draw_required": false,
+    "output_element_attribute": null,
+    "material_refund": false,
+    "preview": "show exact element/stage and permanent loss of entire element,100000 fee, no refunded stones; confirmation binds source revision",
+    "other_fields": "same instance ID, enhancement/synthesis/other registered growth unchanged",
+    "null_input": "reject no charge, not a payable no-op"
+  },
+  "projection_policy": {
+    "category": "attribute_stone",
+    "base_contribution": "element stage times exact three per-stage fields; null yields an explicitly empty eligible pool, not guessed ordinary stone",
+    "only_active_weapon": true,
+    "fire_stage10": "attack_flat50, martial_power_flat0, accuracy_flat0",
+    "poison_stage10": "attack_flat0, martial_power_flat80, accuracy_flat20",
+    "attack": "add attack_flat to both attack bounds once as a separate source, before training-gate/final attack multipliers and explicit final override",
+    "martial": "add martial_power_flat to declared attack-martial flat component with registered passive/real-enhancement/synthesis additions before percentage power modifiers; ordinary attacks/heal/status excluded",
+    "accuracy": "add accuracy_flat to attacker rating; element portion and optional accepted-action Lu differential snapshotted for this root, not a percentage or permanent instance buff",
+    "no_other_effects": "no DoT/element resistance/qigong points/HP change/defense effect inferred from element name",
+    "lu_application": {
+      "owner_ref": {
+        "file": "卢风郎四枪与属性石气功.v1.json",
+        "pointer": "/weapon_attribute_stone_double"
+      },
+      "when": "after action admission and before final action attack/accuracy/power snapshot; positive eligible Lu grade and nonempty explicit attribute pool required by owning passive",
+      "single_multiplier": "1 normally,2 only on own valid Lu proc; multiply this three-field source contribution once, not whole weapon/attack",
+      "composition": "either build actor action components with multiplied attribute source, or add only (multiplier-1)*base contribution to pre-multiplier source sum; never both",
+      "exclusions": [
+        "weapon_base",
+        "real_enhancement",
+        "synthesis",
+        "awakening",
+        "jade",
+        "four_divine",
+        "gems"
+      ],
+      "scope": "one accepted action including derived projectiles uses frozen accepted differential, no new roll per target/projectile or effect repaint",
+      "normal_poison": "normal attack may snapshot poison accuracy increase, but martial_power portion remains ineligible for normal attack; cannot move it into ordinary attack"
+    },
+    "armor_lu_boundary": "牢不可破防具属性石接口仍待防具定义和独立属性池；此武器表不伪造防具效果。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "recipe_id",
+      "recipe_version",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "show exact source/target element+stage, three typed contributions, probability and costs for success/failure; no surprise swap or removal",
+    "commit": "validate resources/schema/qualifications and final weight on copy, clone RNG, draw uniform integer[0,9999] iff bp<10000, success iff draw<bp, atomically commit fee/material/source state/RNG/revisions/receipt",
+    "success": "same source instance ID, replace element state with target stage + current receipt only; no other state changes",
+    "failure": "same complete source state and stage, paid recipe cost, same lineage, committed RNG draw only",
+    "capacity": "input remains same equipment slot; no output material, consumed stone count only reduces inventory/weight. Removal creates no item and changes no weight. Cannot repair a bad overweight state through processing.",
+    "cancel_stale_invalid": "no silver/material/source/RNG/revision changes, preview never pre-rolls",
+    "duplicate": "same command/payload returns original receipt before revalidating new stage or null removal result; altered payload same command ID rejects",
+    "save_failure": "keep committed memory/unsaved marker, re-save same result, no new business transaction",
+    "lan": "host owns requester source/material/silver/RNG, no party pooling",
+    "load": "reject unknown/missing/invalid element states, bad receipt ancestry, duplicate source/lineage; no normalization or recomputed fake receipt"
+  },
+  "remaining_dependencies": [
+    "其他属性种类、全部普通装备/防具属性石、卢防具翻倍的具体贡献仍待采用。",
+    "英雄奇玉/进化和英雄觉醒/四神均已采用，当前三名NPC武者投影已采用；衣服成长、其他属性及高强化附加显示仍待。",
+    "Godot赋予/升阶/移除、动作快照/卢触发、RNG/保存/LAN与经济平衡尚未实现验证。"
+  ],
+  "static_review": {
+    "kind": "static_projection_source_isolation_probability_not_runtime",
+    "weapon_bindings": 107,
+    "lu_weapon_bindings": 18,
+    "element_stage_states": 20,
+    "null_plus_element_states_across_weapons": 2247,
+    "probability_integer_outcomes_checked": 200000,
+    "projection_source_isolation_cases": 40000,
+    "world_service_ids_unique": 199,
+    "runtime_tests_executed": false
+  }
+}

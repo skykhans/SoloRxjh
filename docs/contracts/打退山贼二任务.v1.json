@@ -1,0 +1,138 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": "QREF-63791-014 preserves level31/master/20 axe-bandit long hair/10000XP/one cold jade stone/one enhancement stone/once. Source leaves monster field and prerequisite blank; existing axe bandits as producer,no013 prerequisite,all14 classes/all routes,100% personal tokens and generic cold jade identity are explicit local adoption,not official drop/property evidence.",
+  "quest": {
+    "quest_id": "ref_QREF-63791-014",
+    "source_reference_id": "QREF-63791-014",
+    "name": "打退山贼 2",
+    "minimum_level": 31,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_hyunbo_master",
+    "npc_map_id": "hyunbo_town",
+    "interaction_anchor_id": "hyunbo_master_service",
+    "service_id": "repel_bandits_2",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "qualification": "alive,out of combat,idle,no challenge,level/class/route valid,NPC within2.5m; source does not specify013 prerequisite,local adoption allows independent acceptance",
+    "acceptance": "only not_accepted and never delivered; create unique attempt,no fee or starting grant; active/delivered accept rejects",
+    "preaccept_items_count": false,
+    "requirements": [
+      {
+        "item_id": "quest_axe_bandit_hair",
+        "quantity": 20
+      }
+    ],
+    "readiness": "derive from real carried own-character/quest/active-attempt tokens20; no mirrored progress counter",
+    "reward": {
+      "experience": 10000,
+      "practice": 0,
+      "silver": 0,
+      "items": [
+        {
+          "item_id": "cold_jade_synthesis_stone",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具合成.v1.json",
+            "pointer": "/items/0"
+          }
+        },
+        {
+          "item_id": "enhancement_stone",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "英雄主武器强化.v1.json",
+            "pointer": "/items/0"
+          }
+        }
+      ],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "repeat": "once per character across worlds; no daily/party/route/world reset",
+    "delivery": "revalidate qualification/current attempt and20 bound inputs; preflight real final inventory after input removal and two material insertions using existing stack provenance/merge rules and weight; preview XP10000 actual/cap loss; one05/19 durable transaction consumes20,grants both materials,credits actual XP,marks delivered and records resource flows; character and inventory revisions each+1",
+    "capacity_failure": "insufficient final slots/weight or invalid reward state rejects entire delivery,preserves20inputs/active attempt; no partial material/XP,ground or warehouse delivery",
+    "modifiers": "fixed quest reward outside19team pool/26finisher/training/supreme multipliers",
+    "deduplication": "character/quest/final completion unique across attempts/worlds plus request/revision chain; replay returns original receipt,never another XP/material grant;013 and recommendation completion flags independent",
+    "abandon": "explicit confirmation consumes only own active-attempt hair and clears attempt/state atomically; no refund/reward; fresh accept gets new attempt,old commands cannot target it; persisted death outcomes never replay",
+    "save": "persist actual tokens/rewards/attempt/state/XP/terminal receipt and resource flows through05/19; uncertain persistence reads original settlement before retry,no fresh mint or XP",
+    "reward_identity": "reuse exact existing character-bound growth materials and permissions; generic cold jade has no defense+7 property; buy-shop class filter is not a quest reward eligibility filter",
+    "xp_cap": "14personal cap; display exact base10000/actual/loss before confirmation; no conversion/refund of cap loss"
+  },
+  "item": {
+    "item_id": "quest_axe_bandit_hair",
+    "name": "巨斧山贼长发",
+    "source_reference_id": "QREF-63791-014",
+    "source_kind": "task_item_name_not_IREFcatalog_adoption",
+    "category": "quest_token",
+    "stack_limit": 99,
+    "weight_g": 0,
+    "maximum_per_active_attempt": 20,
+    "binding": "character/quest/attempt",
+    "permissions": {
+      "equip": false,
+      "direct_use": false,
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false,
+      "quest_delivery": true,
+      "abandon_cleanup": true
+    },
+    "sell_price": null,
+    "initial_grant": 0,
+    "identity_policy": "explicit zero-weight quest token,not ordinary hair material or recommendation proof"
+  },
+  "collection": {
+    "monster_id": "hyunbo_axe_bandit32",
+    "quantity": 1,
+    "probability_bp": 10000,
+    "cap": 20,
+    "eligibility": "own active attempt,alive connected same world/map;solo unique death owner or exact19party member snapshot within30m and joined>=600steps; owned hair<20",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "record no-item outcome for original death;freeing space,reconnect or abandon/reaccept never retries it;later distinct death may grant",
+    "modifiers": "personal quest grant,not public loot;no finisher/training quantity or chance multiplier",
+    "commit": "death receipt and all recipient outcomes use shared_death_owner; ordinary death rewards never multiply by active quest count",
+    "shared_death_owner": {
+      "file": "打退山贼任务.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "monster_owner": {
+    "file": "泫勃派推荐书任务.v1.json",
+    "pointer": "/monsters/0"
+  },
+  "spawn_owner": {
+    "file": "泫勃派推荐书任务.v1.json",
+    "pointer": "/spawns",
+    "filter_monster_id": "hyunbo_axe_bandit32",
+    "expected_spawn_count": 4
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "pending": [
+    "Godot quest/inventory/XP/save/LAN implementation and runtime verification",
+    "level31 creature difficulty and10000XP/two material economy calibration"
+  ]
+}

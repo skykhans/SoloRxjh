@@ -1,0 +1,1076 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-active-training-event:v1",
+  "$comment": "普通主动505项可学习/140项可相邻升级原三阶段事件；含明确零银费用分支与原NPC服务上下文，不包含初始/配置授予或升天/旧剑技。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "phase_after",
+        "practice_after",
+        "silver_flow"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "phase_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "practice_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "silver_flow": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "urn:solorxjh:silver-flow:v1",
+              "properties": {
+                "accounts": {
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "properties": {
+                      "account": {
+                        "const": "carried_silver"
+                      },
+                      "before_balance": {
+                        "minimum": 1
+                      },
+                      "previous_output": {
+                        "type": "object"
+                      },
+                      "opening_authorization": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                },
+                "movements": {
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "properties": {
+                      "from_account_index": {
+                        "const": 0
+                      },
+                      "to_account_index": {
+                        "type": "null"
+                      },
+                      "authorization": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "const": "service_fee"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "state_changed",
+            "rules_changed",
+            "session_invalid",
+            "explicit_cancel"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "ability_id",
+        "operation",
+        "service_context"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "ability_id": {
+          "enum": [
+            "ability_han_magic_dragon_cut",
+            "ability_tan_seven_star_stab",
+            "ability_zhen_blood_rain_shot",
+            "martial_blade_8d1a8190fb44",
+            "martial_blade_205ae7cc58f2",
+            "martial_blade_751d81dda033",
+            "martial_blade_59fdcd7277ca",
+            "martial_blade_732f31d3802b",
+            "martial_blade_851ed84a1dd2",
+            "martial_blade_1738004c581d",
+            "martial_blade_a8f946bd88ef",
+            "martial_blade_af2ae4e3056a",
+            "martial_blade_65b3ec525186",
+            "martial_blade_4b0b78c58318",
+            "martial_blade_31cb2545dc56",
+            "martial_blade_fbdef39c17c1",
+            "martial_blade_159d66767f67",
+            "martial_blade_1ffe2060962b",
+            "martial_blade_c4d525cb9dbc",
+            "martial_blade_a8946fa23055",
+            "martial_blade_91584580acd6",
+            "martial_blade_6f1baaca10d4",
+            "martial_blade_3e861a24064c",
+            "martial_blade_5e159a5ed04e",
+            "martial_blade_ba1db5fd7a14",
+            "martial_blade_75dfae8447e8",
+            "martial_blade_40f36f466341",
+            "martial_blade_9265fb9d867f",
+            "martial_blade_976f6fbdcc5f",
+            "martial_blade_d70b6e639a73",
+            "martial_blade_becac57ca978",
+            "martial_blade_bc5bf682c1ad",
+            "martial_blade_5ae183909120",
+            "martial_blade_8b169bf6539f",
+            "martial_blade_999c7600f9a5",
+            "martial_blade_1cc29b39be6b",
+            "martial_blade_7d6464f3986c",
+            "martial_blade_ba165cebdc8f",
+            "martial_blade_3b21bb86b5cc",
+            "martial_blade_fcbcdc666538",
+            "martial_blade_70c138667bd4",
+            "martial_blade_7ce569116ce1",
+            "martial_sword_f0fa8acd8a7a",
+            "martial_sword_15f2d70570ef",
+            "martial_sword_63221216dc5f",
+            "martial_sword_471b3ed9b94f",
+            "martial_sword_1f3c149f2a13",
+            "martial_sword_4397bda504e6",
+            "martial_sword_cb4057631567",
+            "martial_sword_46224e53e09b",
+            "martial_sword_307aa94338eb",
+            "martial_sword_e48a6143b5d4",
+            "martial_sword_75cd260e4f8f",
+            "martial_sword_e553a2761bc6",
+            "martial_sword_b8a0d132f9c1",
+            "martial_sword_b47920bd79fa",
+            "martial_sword_de6e14b3a445",
+            "martial_sword_84f76675769c",
+            "martial_sword_ea98a98609ee",
+            "martial_sword_4d8d4e53ca59",
+            "martial_sword_b03cfe9063ae",
+            "martial_sword_a7514884350c",
+            "martial_sword_6b92fa5fbc0a",
+            "martial_sword_79d75472e526",
+            "martial_sword_bbf4f9367dd7",
+            "martial_sword_4b06579ac1a1",
+            "martial_sword_e5a981aa049d",
+            "martial_sword_c1c420ab4255",
+            "martial_sword_5843af5f59e5",
+            "martial_sword_282a4f3e2475",
+            "martial_sword_d47e1ba955a7",
+            "martial_sword_445871dc1cdd",
+            "martial_sword_601dedfc04ca",
+            "martial_sword_cf6481234a08",
+            "martial_sword_359c02800db6",
+            "martial_sword_67c546e23899",
+            "martial_sword_5a696c301083",
+            "martial_sword_104f40c21847",
+            "martial_sword_1dc306223981",
+            "martial_sword_24ff01b9e629",
+            "martial_sword_b5755422dd88",
+            "martial_assassin_d6c72413af75",
+            "martial_assassin_dd04bf7ead22",
+            "martial_assassin_2faa2c2cf508",
+            "martial_assassin_8dd5599d7720",
+            "martial_assassin_0d3ef3699b4b",
+            "martial_assassin_968c88a9eddd",
+            "martial_assassin_d9c4a50ce0f9",
+            "martial_assassin_5597cd6fb532",
+            "martial_assassin_7168af5811a4",
+            "martial_assassin_e43fc0dd7d31",
+            "martial_assassin_e7bf413653b9",
+            "martial_assassin_dad9b409ccf1",
+            "martial_assassin_732f31d3802b",
+            "martial_assassin_8dc2f7ccb916",
+            "martial_assassin_0cf5ae9f3e5a",
+            "martial_assassin_e64d4bf52db5",
+            "martial_assassin_ad352e2a8f77",
+            "martial_assassin_3c8d540573a4",
+            "martial_assassin_c2eb679791b0",
+            "martial_assassin_807b4a21558f",
+            "martial_assassin_a8be316b84f4",
+            "martial_assassin_45c2672f2a3e",
+            "martial_assassin_76ddf007651e",
+            "martial_assassin_88ed305a1ee1",
+            "martial_assassin_c023881a943d",
+            "martial_assassin_c1e8f359433d",
+            "martial_assassin_2aa4bcfd8e75",
+            "martial_assassin_10a6fb90502b",
+            "martial_assassin_780855e24d47",
+            "martial_assassin_df8eb9608b8e",
+            "martial_assassin_66eff75328fa",
+            "martial_assassin_363c574730f0",
+            "martial_assassin_709e6953e79e",
+            "martial_assassin_c8899f805eac",
+            "martial_assassin_ffb9837e4dcf",
+            "martial_assassin_6f715cba11b7",
+            "martial_assassin_f8cfa60fecb7",
+            "martial_assassin_5a6fb807ddab",
+            "martial_assassin_249885e2968c",
+            "martial_spear_fb63d4133403",
+            "martial_spear_f3110fb036cf",
+            "martial_spear_960ce0670852",
+            "martial_spear_1ff65496dc8c",
+            "martial_spear_ea6c7aebe3c5",
+            "martial_spear_f970c6d3a4fe",
+            "martial_spear_02e7c4bbeef4",
+            "martial_spear_03adb85f4b12",
+            "martial_spear_9d49908343b8",
+            "martial_spear_295954dc2269",
+            "martial_spear_96cc8f5c15c6",
+            "martial_spear_d23dceb5e8ae",
+            "martial_spear_9bb840fedb05",
+            "martial_spear_21afdc705233",
+            "martial_spear_40b4a9ac20fe",
+            "martial_spear_3c6fed583a48",
+            "martial_spear_9ee6af2c3171",
+            "martial_spear_26b36f2d148e",
+            "martial_spear_38311e8048fe",
+            "martial_spear_0d69458539e3",
+            "martial_spear_4e8562c7bc34",
+            "martial_spear_d1ffe338aac2",
+            "martial_spear_150b21b070ec",
+            "martial_spear_dc46e5a53a9b",
+            "martial_spear_f7ecfcdd43a8",
+            "martial_spear_02f32235c47c",
+            "martial_spear_3f0b2b270960",
+            "martial_spear_618f6974fd3d",
+            "martial_spear_5726f136c376",
+            "martial_spear_611cad2b9799",
+            "martial_spear_b65ad8193967",
+            "martial_spear_1bd70f52ab30",
+            "martial_spear_8ebc0e6fdd68",
+            "martial_spear_54ac43d11ca1",
+            "martial_spear_ae84c86b8f44",
+            "martial_spear_6754c5f6c0cb",
+            "martial_spear_f5ac2b7c793a",
+            "martial_spear_fa9d73801c10",
+            "martial_spear_45a1fb1894cf",
+            "martial_archer_bbdb2bb5f80c",
+            "martial_archer_59e92c3eda79",
+            "martial_archer_0d3dc8857d51",
+            "martial_archer_db2354665c96",
+            "martial_archer_5b22aa111ecd",
+            "martial_archer_4b61e2ea252c",
+            "martial_archer_d580c3243c93",
+            "martial_archer_b42033c65b7e",
+            "martial_archer_13955c268746",
+            "martial_archer_fbcc4b4230f2",
+            "martial_archer_c45a23edccae",
+            "martial_archer_485642b01cb8",
+            "martial_archer_cdada090bce5",
+            "martial_archer_1f047174e112",
+            "martial_archer_7eb605d1f24c",
+            "martial_archer_39d1c978e8f8",
+            "martial_archer_4f58ffeea156",
+            "martial_archer_c34050d0ee64",
+            "martial_archer_3253d890234a",
+            "martial_archer_35702bcf1599",
+            "martial_archer_cfa2539c5a93",
+            "martial_archer_24ca7dd004c6",
+            "martial_archer_a04080ff9839",
+            "martial_archer_84380567ca5f",
+            "martial_archer_9d9413d93a84",
+            "martial_archer_1bedb66cb741",
+            "martial_archer_a3faaafa1083",
+            "martial_archer_ca4884f9cfa5",
+            "martial_archer_3f07b7b56974",
+            "martial_archer_433bec6005e4",
+            "martial_archer_285c23d2cdcf",
+            "martial_archer_1f8cf0877934",
+            "martial_archer_7121b157f666",
+            "martial_archer_a4e896b0abf5",
+            "martial_archer_ac3385981187",
+            "martial_archer_52542afac3ea",
+            "martial_archer_ef138e535cf2",
+            "martial_archer_6ec90fee9fc7",
+            "martial_archer_66a1b4a66506",
+            "martial_physician_6c94634212e8",
+            "martial_physician_f4b0a6f54981",
+            "martial_physician_7a0542b18fe1",
+            "martial_physician_5f8397ce9ca7",
+            "martial_physician_af5ad5b43f89",
+            "martial_physician_d353aa1c60f4",
+            "martial_physician_881d48d28bd3",
+            "martial_physician_297c9ed45e2b",
+            "martial_physician_73a47bdb95f3",
+            "martial_physician_8dfa1edf1c4b",
+            "martial_physician_2aa0d93e44c7",
+            "martial_physician_5f86460a967a",
+            "martial_physician_fb3eb49dacd5",
+            "martial_physician_af6addf6684e",
+            "martial_physician_bf87824c6f54",
+            "martial_physician_daaae9bde452",
+            "martial_physician_41fb26fee5cb",
+            "martial_physician_ae455a04b13d",
+            "martial_physician_50d9a6d351dd",
+            "martial_physician_a067518ae6fc",
+            "martial_physician_146e08e7c3a3",
+            "martial_physician_db656f4e3785",
+            "martial_physician_639a3bdae4bc",
+            "martial_physician_46300950cef9",
+            "martial_physician_5fb6b58b1335",
+            "martial_physician_fc3f642ce7e0",
+            "martial_physician_191c07566c52",
+            "martial_physician_164f16f323bf",
+            "martial_physician_b0137c6d8302",
+            "martial_physician_e5ddd455a699",
+            "martial_physician_f8cfa60fecb7",
+            "martial_physician_8049397d6164",
+            "martial_physician_0755873d4355",
+            "martial_physician_691c921a808d",
+            "martial_physician_5e77548da2b8",
+            "martial_physician_ebef83332a93",
+            "martial_physician_75691b082b40",
+            "martial_physician_3b2fef13e1ab",
+            "martial_physician_4cadb5eec6c8",
+            "martial_musician_0f5b58f55581",
+            "martial_musician_99b50d6df0d6",
+            "martial_musician_e7f167bde186",
+            "martial_musician_116e08eeab86",
+            "martial_musician_c420ba52e600",
+            "martial_musician_a63d2e67597b",
+            "martial_musician_efdc0b5482a0",
+            "martial_musician_eb4f717771b2",
+            "martial_musician_c37589dd8e08",
+            "martial_musician_3eef34eac748",
+            "martial_musician_0e75116f4752",
+            "martial_musician_ff35527378c4",
+            "martial_musician_9d149f6fa0b3",
+            "martial_musician_95180f65c85a",
+            "martial_musician_a2a65ffa4d1b",
+            "martial_musician_c9bba93528ba",
+            "martial_musician_f90367e26627",
+            "martial_musician_9f73518048de",
+            "martial_musician_c61f5fbc9069",
+            "martial_musician_d95c81019fb6",
+            "martial_musician_69d5c5f0faa2",
+            "martial_musician_1036e3c5aabb",
+            "martial_musician_6c8d67c7a56b",
+            "martial_musician_25769fbda2cc",
+            "martial_musician_0925414e8ec8",
+            "martial_musician_2b45da57511e",
+            "martial_musician_9064ccfe16b1",
+            "martial_musician_96410330171b",
+            "martial_musician_ed0737b7fd5c",
+            "martial_musician_b0e7c6360926",
+            "martial_musician_f281f98dfb81",
+            "martial_musician_8e056f309a3b",
+            "martial_musician_88c453b05f82",
+            "martial_musician_4a7b02cd5566",
+            "martial_musician_ff83fe138f6e",
+            "martial_musician_4789671475c9",
+            "martial_musician_ac727bb557e5",
+            "martial_musician_a9f768769d01",
+            "martial_musician_d93c8d07318d",
+            "martial_fighter_5bf5fe79809c",
+            "martial_fighter_61c93ac8548e",
+            "martial_fighter_4d0fb742bbf2",
+            "martial_fighter_3c74da08da6d",
+            "martial_fighter_47cab8fc159b",
+            "martial_fighter_06ae55cfb84f",
+            "martial_fighter_c9eb56aaf7d7",
+            "martial_fighter_0bef453ebba6",
+            "martial_fighter_4ea655483d10",
+            "martial_fighter_10aa93b8b319",
+            "martial_fighter_5ba5bf9704d0",
+            "martial_fighter_cdd649fd7641",
+            "martial_fighter_a6fa4ad93fa8",
+            "martial_fighter_7647ad8903c0",
+            "martial_fighter_61118c867388",
+            "martial_fighter_aae017daa962",
+            "martial_fighter_09abee271fa3",
+            "martial_fighter_a3c31033d2e3",
+            "martial_fighter_279d35deeecb",
+            "martial_han_feiguan_70e9eaaf75e1",
+            "martial_han_feiguan_89e5580a7aa8",
+            "martial_han_feiguan_809137be986e",
+            "martial_han_feiguan_5c3e97b52411",
+            "martial_han_feiguan_8f5680594f2b",
+            "martial_han_feiguan_79bd7dba3984",
+            "martial_han_feiguan_2f403b482492",
+            "martial_han_feiguan_825c736317a6",
+            "martial_han_feiguan_114c4885bf81",
+            "martial_han_feiguan_37608465529c",
+            "martial_han_feiguan_1aa80ae90817",
+            "martial_han_feiguan_38179775441d",
+            "martial_han_feiguan_e25d90f918f1",
+            "martial_han_feiguan_6cefcf816d06",
+            "martial_han_feiguan_57bd825bccc9",
+            "martial_han_feiguan_d249960bf31f",
+            "martial_han_feiguan_17dfb8306de7",
+            "martial_han_feiguan_63925122fa76",
+            "martial_han_feiguan_7b26aca23539",
+            "martial_han_feiguan_c430f1f8afbc",
+            "martial_han_feiguan_8bc1786e3682",
+            "martial_tan_hualing_dac6eaf9f825",
+            "martial_tan_hualing_31d825cda0d0",
+            "martial_tan_hualing_885935d49d27",
+            "martial_tan_hualing_d684f995c02b",
+            "martial_tan_hualing_d407c83a442d",
+            "martial_tan_hualing_08cb9a81ec39",
+            "martial_tan_hualing_2b7ea2e40d15",
+            "martial_tan_hualing_f15432794838",
+            "martial_tan_hualing_ee8fd1760d86",
+            "martial_tan_hualing_3f4afcaf424f",
+            "martial_tan_hualing_2f2eba62b1c5",
+            "martial_tan_hualing_dd1ebe9cfbbb",
+            "martial_tan_hualing_11666db770ef",
+            "martial_tan_hualing_d8cdedb8a958",
+            "martial_tan_hualing_3fe12b8e3999",
+            "martial_tan_hualing_d91d84892111",
+            "martial_tan_hualing_9cb5e6e2aaa1",
+            "martial_tan_hualing_9873cbe9c7f7",
+            "martial_tan_hualing_92e21af1cec3",
+            "martial_tan_hualing_e52c194922c1",
+            "martial_tan_hualing_494e092b479a",
+            "martial_tan_hualing_e75bf797160d",
+            "martial_tan_hualing_a9aaa34d7efd",
+            "martial_tan_hualing_363dad9c6c8d",
+            "martial_tan_hualing_cae01f563351",
+            "martial_tan_hualing_764be973723a",
+            "martial_mei_liuzhen_61dd19655b48",
+            "martial_mei_liuzhen_7b7c06147a89",
+            "martial_mei_liuzhen_3f0b2f7a2ef4",
+            "martial_mei_liuzhen_ca150bc5ccf3",
+            "martial_mei_liuzhen_4b410b56c702",
+            "martial_mei_liuzhen_7ee263b54cd6",
+            "martial_mei_liuzhen_9f5ef05d79f8",
+            "martial_mei_liuzhen_cc0a5dcf039f",
+            "martial_mei_liuzhen_3f92cfae18b2",
+            "martial_mei_liuzhen_3745b15ce092",
+            "martial_mei_liuzhen_3a2555e93205",
+            "martial_mei_liuzhen_96dba09bd44d",
+            "martial_mei_liuzhen_da5522e3f4a9",
+            "martial_mei_liuzhen_523d5dd1243d",
+            "martial_mei_liuzhen_d1b373a0a29a",
+            "martial_mei_liuzhen_2ffe0381a7d8",
+            "martial_mei_liuzhen_8dda6c3a9cb9",
+            "martial_mei_liuzhen_448447c0bb28",
+            "martial_mei_liuzhen_420468eb15ec",
+            "martial_mei_liuzhen_577aef75cdbd",
+            "martial_mei_liuzhen_1dbdc2de49d8",
+            "martial_lu_fenglang_5556ac1b6d9c",
+            "martial_lu_fenglang_7a8d26e2c5e0",
+            "martial_lu_fenglang_637deb8d3b76",
+            "martial_lu_fenglang_538179ced6e3",
+            "martial_lu_fenglang_f50254599cf5",
+            "martial_lu_fenglang_aa3a1fe28f4c",
+            "martial_lu_fenglang_c023881a943d",
+            "martial_lu_fenglang_9599d78f7fe4",
+            "martial_lu_fenglang_1c1e2a1eba2e",
+            "martial_lu_fenglang_ba94426eda85",
+            "martial_lu_fenglang_390802c30a95",
+            "martial_lu_fenglang_f8775d8eda47",
+            "martial_lu_fenglang_203fb55238e3",
+            "martial_lu_fenglang_7e886b98e425",
+            "martial_lu_fenglang_b40636ed2bf2",
+            "martial_lu_fenglang_4d293560e569",
+            "martial_lu_fenglang_0f0cbb820481",
+            "martial_lu_fenglang_275e4a4d8bd1",
+            "martial_lu_fenglang_5cff6c83b250",
+            "martial_lu_fenglang_187fb1fe6fb7",
+            "martial_lu_fenglang_ccf1a71c9095",
+            "martial_dongling_shennv_ca8bc0722d37",
+            "martial_dongling_shennv_142f8507afbc",
+            "martial_dongling_shennv_83ca2d8623df",
+            "martial_dongling_shennv_9a34d412d022",
+            "martial_dongling_shennv_8e0fa4c10aac",
+            "martial_dongling_shennv_35bb7438f12a",
+            "martial_dongling_shennv_bb34c53c2136",
+            "martial_dongling_shennv_ee1e69391649",
+            "martial_dongling_shennv_a70a9d7edda7",
+            "martial_dongling_shennv_2c6e4ffdbe4d",
+            "martial_dongling_shennv_3c3f6a1c7672",
+            "martial_dongling_shennv_b89ec3dabe64",
+            "martial_dongling_shennv_4ac88ab83c68",
+            "martial_dongling_shennv_d5cd31875089",
+            "martial_dongling_shennv_5402b311d5a4",
+            "martial_dongling_shennv_e01877d94bc3",
+            "martial_dongling_shennv_641993f18bc7",
+            "martial_zhen_fengbai_6fee01d4da83",
+            "martial_zhen_fengbai_53d20fbab606",
+            "martial_zhen_fengbai_b160d233126f",
+            "martial_zhen_fengbai_43d39146e520",
+            "martial_zhen_fengbai_f475d99f465d",
+            "martial_zhen_fengbai_80cbc14ae601",
+            "martial_zhen_fengbai_0730125e85b8",
+            "martial_zhen_fengbai_5bdaad616241",
+            "martial_zhen_fengbai_4563b7b71da3",
+            "martial_zhen_fengbai_7fec396a13fe",
+            "martial_zhen_fengbai_c121fef0b65d",
+            "martial_zhen_fengbai_ab8ac10de960",
+            "martial_zhen_fengbai_07d9b9bbf084",
+            "finisher_musician_a080fbd05eb4",
+            "finisher_musician_57c8bb2df5b9",
+            "finisher_musician_3a8a2366ceea",
+            "finisher_fighter_d7113ab47a34",
+            "finisher_fighter_5ef19ae21a62",
+            "finisher_fighter_205f489380b7",
+            "finisher_han_feiguan_a9fc96db38e4",
+            "finisher_han_feiguan_74a68f1d0249",
+            "finisher_han_feiguan_5b7477b996bb",
+            "finisher_dongling_shennv_0983a313cc1b",
+            "finisher_dongling_shennv_e5ff85df11b0",
+            "finisher_dongling_shennv_7ecc331a6c19",
+            "aux_blade_2aade2bf8086",
+            "aux_blade_3e9228433e80",
+            "aux_sword_2aade2bf8086",
+            "aux_sword_3e9228433e80",
+            "aux_assassin_2aade2bf8086",
+            "aux_assassin_3e9228433e80",
+            "aux_spear_2aade2bf8086",
+            "aux_spear_3e9228433e80",
+            "aux_archer_2aade2bf8086",
+            "aux_archer_3e9228433e80",
+            "aux_physician_2aade2bf8086",
+            "aux_physician_3e9228433e80",
+            "aux_han_feiguan_918e9dcbe4c3",
+            "aux_han_feiguan_7408263c1d83",
+            "aux_han_feiguan_8fbb564b7c00",
+            "aux_han_feiguan_ffba27e6ae4b",
+            "aux_tan_hualing_2aade2bf8086",
+            "aux_tan_hualing_3e9228433e80",
+            "aux_tan_hualing_fe3ba1631152",
+            "aux_fighter_2aade2bf8086",
+            "aux_fighter_3e9228433e80",
+            "aux_fighter_fe3ba1631152",
+            "aux_lu_fenglang_2aade2bf8086",
+            "aux_lu_fenglang_3e9228433e80",
+            "aux_lu_fenglang_fe3ba1631152",
+            "aux_dongling_shennv_2aade2bf8086",
+            "aux_dongling_shennv_3e9228433e80",
+            "aux_dongling_shennv_fe3ba1631152",
+            "aux_zhen_fengbai_2aade2bf8086",
+            "aux_zhen_fengbai_3e9228433e80",
+            "aux_zhen_fengbai_fe3ba1631152",
+            "aux_physician_b60204cb457b",
+            "aux_physician_e43a618d588b",
+            "aux_physician_f983e0d07b46",
+            "aux_physician_98607cb99e3b",
+            "aux_physician_175aca784fbb",
+            "aux_assassin_259ef6e9f2af",
+            "aux_assassin_6da1499a06e3",
+            "aux_assassin_cda9d31a7919",
+            "aux_assassin_1a45de0ce512",
+            "aux_assassin_3cdf0f310d1d",
+            "aux_assassin_cacb59d3e2be",
+            "aux_archer_a49687a8ee4b",
+            "aux_fighter_22a544440957",
+            "aux_sword_27d016fcbf14",
+            "aux_spear_8849f4f38977",
+            "aux_archer_dba7715dcf71",
+            "aux_archer_42f1983a96df",
+            "aux_archer_2ce82d80d13f",
+            "aux_archer_f4f4da0e039f",
+            "aux_archer_0999c343d46e",
+            "aux_archer_f76652a63f4d",
+            "aux_musician_ae559c1d598b",
+            "aux_han_feiguan_76330dcbfe6f",
+            "aux_han_feiguan_10cae21297f1",
+            "aux_han_feiguan_7f79cd55c046",
+            "aux_han_feiguan_336024b72ca1",
+            "aux_tan_hualing_881d5aee0113",
+            "aux_dongling_shennv_8cb6de9f3821",
+            "status_dongling_c9958e0c8771",
+            "status_dongling_e84161107cd4",
+            "status_dongling_62d08e3b8efd",
+            "status_dongling_2449a5bf445b",
+            "status_dongling_4393f233660a",
+            "status_dongling_2429fd777393",
+            "status_dongling_afd828efca45",
+            "status_dongling_b28820c57f8f",
+            "status_dongling_f277eb3094bd",
+            "status_dongling_ff839e93c6e6",
+            "status_dongling_7366d14a907b",
+            "status_dongling_c1e11ae174a3",
+            "status_dongling_bfb200cc118e",
+            "status_dongling_d2e7d9216918",
+            "status_dongling_1e3419bec4b8",
+            "status_dongling_67324dd0aeab",
+            "status_dongling_01dc8769d8f5",
+            "status_dongling_1f7fbf458953",
+            "ability_tan_counter_step",
+            "teaching_assassin_finisher"
+          ]
+        },
+        "operation": {
+          "enum": [
+            "learn",
+            "upgrade"
+          ]
+        },
+        "service_context": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "npc_id",
+                "service_id",
+                "service_session_id"
+              ],
+              "properties": {
+                "npc_id": {
+                  "const": "npc_hyunbo_master"
+                },
+                "service_id": {
+                  "enum": [
+                    "dongling_status_training",
+                    "adopted_lightness_training",
+                    "physician_auxiliary_training",
+                    "assassin_displacement_training",
+                    "remaining_auxiliary_training",
+                    "assassin_finisher_teaching",
+                    "tan_counter_training"
+                  ]
+                },
+                "service_session_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "upgrade"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ability_id": {
+                "enum": [
+                  "ability_han_magic_dragon_cut",
+                  "ability_tan_seven_star_stab",
+                  "ability_zhen_blood_rain_shot",
+                  "martial_han_feiguan_70e9eaaf75e1",
+                  "martial_han_feiguan_89e5580a7aa8",
+                  "martial_han_feiguan_809137be986e",
+                  "martial_han_feiguan_5c3e97b52411",
+                  "martial_han_feiguan_8f5680594f2b",
+                  "martial_han_feiguan_79bd7dba3984",
+                  "martial_han_feiguan_2f403b482492",
+                  "martial_han_feiguan_825c736317a6",
+                  "martial_han_feiguan_114c4885bf81",
+                  "martial_han_feiguan_37608465529c",
+                  "martial_han_feiguan_1aa80ae90817",
+                  "martial_han_feiguan_38179775441d",
+                  "martial_han_feiguan_e25d90f918f1",
+                  "martial_han_feiguan_6cefcf816d06",
+                  "martial_han_feiguan_57bd825bccc9",
+                  "martial_han_feiguan_d249960bf31f",
+                  "martial_han_feiguan_17dfb8306de7",
+                  "martial_han_feiguan_63925122fa76",
+                  "martial_han_feiguan_7b26aca23539",
+                  "martial_han_feiguan_c430f1f8afbc",
+                  "martial_han_feiguan_8bc1786e3682",
+                  "martial_tan_hualing_dac6eaf9f825",
+                  "martial_tan_hualing_31d825cda0d0",
+                  "martial_tan_hualing_885935d49d27",
+                  "martial_tan_hualing_d684f995c02b",
+                  "martial_tan_hualing_d407c83a442d",
+                  "martial_tan_hualing_08cb9a81ec39",
+                  "martial_tan_hualing_2b7ea2e40d15",
+                  "martial_tan_hualing_f15432794838",
+                  "martial_tan_hualing_ee8fd1760d86",
+                  "martial_tan_hualing_3f4afcaf424f",
+                  "martial_tan_hualing_2f2eba62b1c5",
+                  "martial_tan_hualing_dd1ebe9cfbbb",
+                  "martial_tan_hualing_11666db770ef",
+                  "martial_tan_hualing_d8cdedb8a958",
+                  "martial_tan_hualing_3fe12b8e3999",
+                  "martial_tan_hualing_d91d84892111",
+                  "martial_tan_hualing_9cb5e6e2aaa1",
+                  "martial_tan_hualing_9873cbe9c7f7",
+                  "martial_tan_hualing_92e21af1cec3",
+                  "martial_tan_hualing_e52c194922c1",
+                  "martial_tan_hualing_494e092b479a",
+                  "martial_tan_hualing_e75bf797160d",
+                  "martial_tan_hualing_a9aaa34d7efd",
+                  "martial_tan_hualing_363dad9c6c8d",
+                  "martial_tan_hualing_cae01f563351",
+                  "martial_tan_hualing_764be973723a",
+                  "martial_mei_liuzhen_61dd19655b48",
+                  "martial_mei_liuzhen_7b7c06147a89",
+                  "martial_mei_liuzhen_3f0b2f7a2ef4",
+                  "martial_mei_liuzhen_ca150bc5ccf3",
+                  "martial_mei_liuzhen_4b410b56c702",
+                  "martial_mei_liuzhen_7ee263b54cd6",
+                  "martial_mei_liuzhen_9f5ef05d79f8",
+                  "martial_mei_liuzhen_cc0a5dcf039f",
+                  "martial_mei_liuzhen_3f92cfae18b2",
+                  "martial_mei_liuzhen_3745b15ce092",
+                  "martial_mei_liuzhen_3a2555e93205",
+                  "martial_mei_liuzhen_96dba09bd44d",
+                  "martial_mei_liuzhen_da5522e3f4a9",
+                  "martial_mei_liuzhen_523d5dd1243d",
+                  "martial_mei_liuzhen_d1b373a0a29a",
+                  "martial_mei_liuzhen_2ffe0381a7d8",
+                  "martial_mei_liuzhen_8dda6c3a9cb9",
+                  "martial_mei_liuzhen_448447c0bb28",
+                  "martial_mei_liuzhen_420468eb15ec",
+                  "martial_mei_liuzhen_577aef75cdbd",
+                  "martial_mei_liuzhen_1dbdc2de49d8",
+                  "martial_lu_fenglang_5556ac1b6d9c",
+                  "martial_lu_fenglang_7a8d26e2c5e0",
+                  "martial_lu_fenglang_637deb8d3b76",
+                  "martial_lu_fenglang_538179ced6e3",
+                  "martial_lu_fenglang_f50254599cf5",
+                  "martial_lu_fenglang_aa3a1fe28f4c",
+                  "martial_lu_fenglang_c023881a943d",
+                  "martial_lu_fenglang_9599d78f7fe4",
+                  "martial_lu_fenglang_1c1e2a1eba2e",
+                  "martial_lu_fenglang_ba94426eda85",
+                  "martial_lu_fenglang_390802c30a95",
+                  "martial_lu_fenglang_f8775d8eda47",
+                  "martial_lu_fenglang_203fb55238e3",
+                  "martial_lu_fenglang_7e886b98e425",
+                  "martial_lu_fenglang_b40636ed2bf2",
+                  "martial_lu_fenglang_4d293560e569",
+                  "martial_lu_fenglang_0f0cbb820481",
+                  "martial_lu_fenglang_275e4a4d8bd1",
+                  "martial_lu_fenglang_5cff6c83b250",
+                  "martial_lu_fenglang_187fb1fe6fb7",
+                  "martial_lu_fenglang_ccf1a71c9095",
+                  "martial_dongling_shennv_ca8bc0722d37",
+                  "martial_dongling_shennv_142f8507afbc",
+                  "martial_dongling_shennv_83ca2d8623df",
+                  "martial_dongling_shennv_9a34d412d022",
+                  "martial_dongling_shennv_8e0fa4c10aac",
+                  "martial_dongling_shennv_35bb7438f12a",
+                  "martial_dongling_shennv_bb34c53c2136",
+                  "martial_dongling_shennv_ee1e69391649",
+                  "martial_dongling_shennv_a70a9d7edda7",
+                  "martial_dongling_shennv_2c6e4ffdbe4d",
+                  "martial_dongling_shennv_3c3f6a1c7672",
+                  "martial_dongling_shennv_b89ec3dabe64",
+                  "martial_dongling_shennv_4ac88ab83c68",
+                  "martial_dongling_shennv_d5cd31875089",
+                  "martial_dongling_shennv_5402b311d5a4",
+                  "martial_dongling_shennv_e01877d94bc3",
+                  "martial_dongling_shennv_641993f18bc7",
+                  "martial_zhen_fengbai_6fee01d4da83",
+                  "martial_zhen_fengbai_53d20fbab606",
+                  "martial_zhen_fengbai_b160d233126f",
+                  "martial_zhen_fengbai_43d39146e520",
+                  "martial_zhen_fengbai_f475d99f465d",
+                  "martial_zhen_fengbai_80cbc14ae601",
+                  "martial_zhen_fengbai_0730125e85b8",
+                  "martial_zhen_fengbai_5bdaad616241",
+                  "martial_zhen_fengbai_4563b7b71da3",
+                  "martial_zhen_fengbai_7fec396a13fe",
+                  "martial_zhen_fengbai_c121fef0b65d",
+                  "martial_zhen_fengbai_ab8ac10de960",
+                  "martial_zhen_fengbai_07d9b9bbf084",
+                  "status_dongling_c9958e0c8771",
+                  "status_dongling_e84161107cd4",
+                  "status_dongling_62d08e3b8efd",
+                  "status_dongling_2449a5bf445b",
+                  "status_dongling_4393f233660a",
+                  "status_dongling_2429fd777393",
+                  "status_dongling_afd828efca45",
+                  "status_dongling_b28820c57f8f",
+                  "status_dongling_f277eb3094bd",
+                  "status_dongling_ff839e93c6e6",
+                  "status_dongling_7366d14a907b",
+                  "status_dongling_c1e11ae174a3",
+                  "status_dongling_bfb200cc118e",
+                  "status_dongling_d2e7d9216918",
+                  "status_dongling_1e3419bec4b8",
+                  "status_dongling_67324dd0aeab",
+                  "status_dongling_01dc8769d8f5",
+                  "status_dongling_1f7fbf458953"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "phase_before",
+        "practice_cost",
+        "silver_cost",
+        "silver_input"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "phase_before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "practice_cost": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "silver_cost": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "silver_input": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "urn:solorxjh:silver-flow:v1#/properties/accounts/items/properties/previous_output/oneOf/1"
+            }
+          ]
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:solorxjh:ordinary-active-training-event:v1"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "learn"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "phase_before": {
+                "const": 0
+              }
+            }
+          },
+          "phase_after": {
+            "const": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "phase_before": {
+                "minimum": 1
+              }
+            }
+          },
+          "phase_after": {
+            "minimum": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "ability_id": {
+                "enum": [
+                  "martial_tan_hualing_e52c194922c1"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "phase_before": {
+                "maximum": 8
+              }
+            }
+          },
+          "phase_after": {
+            "maximum": 9
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "silver_cost": {
+                "const": 0
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "silver_input": {
+                "type": "null"
+              }
+            }
+          },
+          "silver_flow": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "silver_input": {
+                "type": "object"
+              }
+            }
+          },
+          "silver_flow": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
+}

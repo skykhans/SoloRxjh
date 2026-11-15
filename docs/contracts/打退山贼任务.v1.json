@@ -1,0 +1,148 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": "QREF-63791-013 preserves level29/master/80 bandit knives/300000 silver/once. Source leaves producer unspecified; reusing existing level32 axe bandits,100% personal token,all14 classes/all routes,zero weight and attempt binding are explicit project adoption,not official drop evidence.",
+  "quest": {
+    "quest_id": "ref_QREF-63791-013",
+    "source_reference_id": "QREF-63791-013",
+    "name": "打退山贼",
+    "minimum_level": 29,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_hyunbo_master",
+    "npc_map_id": "hyunbo_town",
+    "interaction_anchor_id": "hyunbo_master_service",
+    "service_id": "repel_bandits",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "qualification": "alive,out of combat,idle,no challenge,level/class/route valid,NPC within2.5m; no recommendation or advancement prerequisite",
+    "acceptance": "only not_accepted and never delivered; create unique attempt,no fee or starting grant; active/delivered accept rejects",
+    "preaccept_items_count": false,
+    "requirements": [
+      {
+        "item_id": "quest_bandit_knife",
+        "quantity": 80
+      }
+    ],
+    "readiness": "derive from real carried own-character/quest/active-attempt tokens80; no mirrored progress counter",
+    "reward": {
+      "experience": 0,
+      "practice": 0,
+      "silver": 300000,
+      "items": [],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "repeat": "once per character across worlds; no daily/party/route/world reset",
+    "delivery": "revalidate qualification/current attempt and80 real bound inputs; preflight carried silver cap under17 and final inventory; one05/19 durable transaction consumes80,credits300000 carried silver,marks delivered and stores final receipt/resource flows; character and inventory revisions each+1",
+    "capacity_failure": "silver overflow or any final state validation failure rejects whole delivery,preserves all80 inputs/active attempt; no warehouse credit,partial amount or lost excess",
+    "silver_flow": "one authorized quest_reward income leg of300000 to carried account,warehouse unchanged; use existing silver owner and settlement identity,never duplicate ordinary monster silver",
+    "modifiers": "fixed quest reward outside19team pool/26finisher/training/supreme multipliers",
+    "deduplication": "character/quest/final completion unique across attempts/worlds plus request/revision chain; repeated same request returns original receipt; a new request after delivered rejects without regrant",
+    "abandon": "explicit confirmation consumes only own active-attempt knives and clears attempt/state atomically; no refund/reward; fresh accept gets new attempt,old commands cannot target it; persisted death outcomes never replay",
+    "save": "persist real tokens/attempt/state/terminal receipt and resource flows through05/19; uncertain persistence reads original settlement outcome before retry,no fresh credit"
+  },
+  "item": {
+    "item_id": "quest_bandit_knife",
+    "name": "山贼刀",
+    "source_reference_id": "QREF-63791-013",
+    "source_kind": "task_item_name_not_IREFcatalog_adoption",
+    "category": "quest_token",
+    "stack_limit": 99,
+    "weight_g": 0,
+    "maximum_per_active_attempt": 80,
+    "binding": "character/quest/attempt",
+    "permissions": {
+      "equip": false,
+      "direct_use": false,
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false,
+      "quest_delivery": true,
+      "abandon_cleanup": true
+    },
+    "sell_price": null,
+    "initial_grant": 0,
+    "identity_policy": "explicit zero-weight quest token,not equippable knife or recommendation_bandit_axe"
+  },
+  "collection": {
+    "monster_id": "hyunbo_axe_bandit32",
+    "quantity": 1,
+    "probability_bp": 10000,
+    "cap": 80,
+    "eligibility": "own active attempt,alive connected same world/map;solo unique death owner or exact19party member snapshot within30m and joined>=600steps; owned knives<80",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "record no-item outcome for original death;freeing space,reconnect or abandon/reaccept never retries it;later distinct death may grant",
+    "modifiers": "personal quest grant,not public loot;no finisher/training quantity or chance multiplier",
+    "commit": "death receipt and all recipient outcomes use shared_death_collection; ordinary death rewards never multiply by active quest count",
+    "shared_death_owner": {
+      "file": "打退山贼任务.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "monster_owner": {
+    "file": "泫勃派推荐书任务.v1.json",
+    "pointer": "/monsters/0"
+  },
+  "spawn_owner": {
+    "file": "泫勃派推荐书任务.v1.json",
+    "pointer": "/spawns",
+    "filter_monster_id": "hyunbo_axe_bandit32",
+    "expected_spawn_count": 4
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "pending": [
+    "Godot quest/inventory/silver/save/LAN implementation and runtime verification",
+    "level29 versus32 creature and300000 silver economy calibration"
+  ],
+  "shared_death_collection": {
+    "monster_id": "hyunbo_axe_bandit32",
+    "producer_refs": [
+      {
+        "file": "打退山贼任务.v1.json",
+        "pointer": "/collection",
+        "quest_pointer": "/quest",
+        "item_pointer": "/item"
+      },
+      {
+        "file": "打退山贼二任务.v1.json",
+        "pointer": "/collection",
+        "quest_pointer": "/quest",
+        "item_pointer": "/item"
+      },
+      {
+        "file": "泫勃派推荐书任务.v1.json",
+        "pointer": "/collection/producers/0",
+        "quest_pointer": "/quest",
+        "item_pointer": "/items/0"
+      }
+    ],
+    "snapshot": "same unique death and recipient eligibility/current attempts/real inventory snapshot; only active qualified producers below own token cap add one candidate each; absent,completed or capped quests require no slot",
+    "capacity": "preflight all candidate additions together using exact character/quest/attempt binding and stack provenance/merge rules; no acceptance-order priority; if any candidate cannot fit,grant none and record all candidate failed-capacity outcomes for this death; no candidate means no inventory change",
+    "commit": "one05/19host death transaction includes all recipients and outcomes; normal XP/practice/silver exactly once under existing monster owner; no second monster or spawn/generation/death per task",
+    "replay": "original death outcomes immutable across free-space changes/reconnect/abandon/reaccept; new attempts cannot replay old deaths; later distinct death can grant",
+    "scope": "applies to existing four axe-bandit spawns only; leader recommendation proof keeps own producer and cannot emit knife/hair"
+  }
+}

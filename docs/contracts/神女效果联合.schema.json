@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dongling-effects-projection:v1",
+  "$comment": "校验原life_state及effects四神女字段，不保存新的神女包装对象；先验完整角色/effects白名单再取投影，不能丢未知字段。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "life_state",
+    "dongling_attributes",
+    "dongling_periodic",
+    "dongling_delayed_burst",
+    "dongling_control"
+  ],
+  "properties": {
+    "life_state": {
+      "$ref": "urn:solorxjh:character-life-state:v1#/properties/life_state"
+    },
+    "dongling_attributes": {
+      "$ref": "urn:solorxjh:dongling-attribute-effect-state:v1"
+    },
+    "dongling_periodic": {
+      "$ref": "urn:solorxjh:dongling-periodic-effect-state:v1"
+    },
+    "dongling_delayed_burst": {
+      "$ref": "urn:solorxjh:dongling-delayed-burst-state:v1"
+    },
+    "dongling_control": {
+      "$ref": "urn:solorxjh:dongling-control-effect-state:v1"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "life_state": {
+            "const": "awaiting_respawn"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "dongling_attributes": {
+            "const": {
+              "weakening": [],
+              "revenge": [],
+              "proc_seal": [],
+              "immunity": []
+            }
+          },
+          "dongling_periodic": {
+            "const": {
+              "healing": {
+                "sources": [],
+                "next_tick_remaining_steps": 0
+              },
+              "burn": {
+                "sources": [],
+                "next_tick_remaining_steps": 0,
+                "walked_distance_m": 0
+              }
+            }
+          },
+          "dongling_delayed_burst": {
+            "const": []
+          },
+          "dongling_control": {
+            "const": {
+              "forced_action_once": [],
+              "random_walk": {
+                "sources": [],
+                "next_direction_remaining_steps": 0,
+                "intent_event_id": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "dongling_attributes": {
+            "properties": {
+              "immunity": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "dongling_periodic": {
+            "properties": {
+              "burn": {
+                "properties": {
+                  "sources": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          },
+          "dongling_delayed_burst": {
+            "maxItems": 0
+          },
+          "dongling_control": {
+            "const": {
+              "forced_action_once": [],
+              "random_walk": {
+                "sources": [],
+                "next_direction_remaining_steps": 0,
+                "intent_event_id": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

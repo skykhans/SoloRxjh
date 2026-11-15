@@ -1,0 +1,91 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "rules_manifest_identity_design_adopted_actual_godot_inventory_not_implemented",
+  "scope": "离线/建房/加入/重连/原导入预留恢复共用的正式规则身份；不把当前docs参考库当运行配置，不改变专用事件ID。协议版本1与内容jianghu-godot-1为项目初始版本采用。",
+  "schema_ref": {
+    "file": "规则清单.schema.json",
+    "pointer": ""
+  },
+  "canonical_owner_ref": {
+    "file": "玩家交易.v1.json",
+    "pointer": "/canonical_digest"
+  },
+  "payload": "精确五键manifest_version/protocol_version/content_version/engine_version/files，当前分别1/1/jianghu-godot-1/4.7.2及正式文件数组。存res://rules_manifest.json，不含自身rules_hash；规则哈希为71确定JSON编码完整payload的UTF8 SHA256小写64位。",
+  "entries": "每条精确path/kind/sha256，kind仅config或rules_artifact。每个sha256取该次实际运行资源虚拟路径可读的原文件字节，不解析再序列化、不统一换行/BOM/空白；即使JSON语义相同字节变化也改变身份。files按完整path的Unicode代码点严格升序，路径全局唯一，不因kind不同接受同路径两条。相同内容不同路径可有相同sha256，仍分别登记。",
+  "paths": "仅res://下规范小写ASCII相对组件；禁止空组件、点/双点组件、反斜杠、冒号/盘符、百分号编码、NUL、空白、末尾点/斜杠或绝对系统路径。读取前验证路径，重映射不得逃离同正式资源包；不接受user://或外部文件。path不能是res://rules_manifest.json，不给清单自身造哈希环。不同大小写或替代路径不能当同一条。",
+  "config_scope": "config必须完整覆盖res://assets/config/下递归所有正式.json，包括职业/数值/物品/任务/来源规则/旧导入映射/场景逻辑碰撞/服务/配置权限和资源定义；未知或缺少文件拒绝。运行不得读取该集合外另一份数值表或旧RON作为权威。清单文件不放在config目录，不靠跳过一个任意文件排除自指。",
+  "artifact_scope": "rules_artifact覆盖正式包内全部可执行GDScript及其脚本导出重映射/依赖、场景和非媒体Resource，包含入口、校验/规范化、保存/网络、规则/战斗/AI、世界与UI命令桥；不靠人工宣称某脚本只做表现将其漏出。逻辑地形/碰撞/导航等必须由已登记正式配置或资源决定；不能从未登记媒体形状反推权威碰撞。模型/纹理/声音/字体本体按资源/发行SHA清单独立检查，不当规则授权。",
+  "export_identity": "编辑器与导出包分别基于实际可读的资源集合构建清单；脚本若被编译/重映射，以实际加载的导出字节和重映射依赖登记并校验，不拿源.gd摘要冒充.gdc字节，也不复制第二套源码只为哈希。不同导出形式/内容所得rules_hash不同则明确版本不匹配；当前不承诺编辑器与导出包混连。P1须验证Godot4.7.2实际导出路径/枚举与重映射，不能据本设计推断已实现。",
+  "startup": [
+    "严格JSON/token/schema/路径格式及路径全局唯一、files升序；头版本/引擎与当前程序兼容。",
+    "独立枚举实际资源包正式config、包内全部可执行脚本/重映射/场景/Resource依赖图，与files精确集合比对，缺项/额外项/未知加载来源均拒绝；不能让被检查的清单自己定义唯一枚举范围。",
+    "逐文件读取实际字节并比sha256，验证全部配置结构/语义/引用和导出资源规则，不能只比摘要就跳过坏配置。",
+    "按71计算唯一rules_hash；规则集冻结为当前进程的已验证不可变集合，运行中检测到变更须停止新玩法/写入并报具体文件，不热替换或继续沿用旧哈希。"
+  ],
+  "consumers": "握手/重连/交易计划使用同一rules_hash，并单独核protocol/content/world/角色身份；同哈希不能替代角色修订/授权。旧导入pending.rules_hash必须匹配当前完整验证清单，不只比config子集或某个owner文件。仓银plan.rules_digest仍是具名容器合同摘要，不能偷换成rules_hash或认为二者相等。",
+  "versions": "任一协议语义/规范化/来源映射/规则代码或配置变化都需重建清单及其哈希；不因content_version字符串未变沿用旧哈希。protocol/content版本兼容须明确登记，当前只接纳本初始精确组合，不自动忽略新增字段或降级。相同声明版本不同字节也会不匹配。",
+  "trust_boundary": "摘要用于版本一致/损坏检查，不是数字签名或防手动改包保证。清单和程序必须来自同一明确发行物，完整发布资源/许可证/包SHA仍按R门槛；仅修改清单不证明未知代码可信或真实producer授权。",
+  "normative_vector": {
+    "file_bytes_utf8": [
+      "{}\n",
+      "extends RefCounted\n"
+    ],
+    "payload": {
+      "manifest_version": 1,
+      "protocol_version": 1,
+      "content_version": "jianghu-godot-1",
+      "engine_version": "4.7.2",
+      "files": [
+        {
+          "path": "res://assets/config/gameplay.json",
+          "kind": "config",
+          "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+        },
+        {
+          "path": "res://scripts/gameplay/rules.gd",
+          "kind": "rules_artifact",
+          "sha256": "c73d1366ec40d23336ad7ae26fe2a73a3126c6110a121774ff3c2dd068216a14"
+        }
+      ]
+    },
+    "canonical_utf8": "{\"content_version\":\"jianghu-godot-1\",\"engine_version\":\"4.7.2\",\"files\":[{\"kind\":\"config\",\"path\":\"res://assets/config/gameplay.json\",\"sha256\":\"ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356\"},{\"kind\":\"rules_artifact\",\"path\":\"res://scripts/gameplay/rules.gd\",\"sha256\":\"c73d1366ec40d23336ad7ae26fe2a73a3126c6110a121774ff3c2dd068216a14\"}],\"manifest_version\":1,\"protocol_version\":1}",
+    "rules_hash": "bedac55af39cf3642bd2819e8badedca7be37354f8f3d5222c7d3cde917d0b9c",
+    "purpose": "只验证ASCII路径下两种文件字节/排序/编码算法，不是正式配置/脚本，也不是已可加载Godot包。"
+  },
+  "implementation_gate": "规则身份payload/范围/算法/启动、消费者与完整历史发行保留/恢复策略已采用；当前无Godot正式全量配置或实际导出清单。完整系统定义/目标档案/provenance仍待，未执行启动/资源枚举/真实导出/LAN或历史包导入恢复；不将规范向量发布为正式清单。",
+  "historical_retention": {
+    "unit": "保留实际通过R发行验收的完整Windows x64发行ZIP及其独立SHA256交付记录；ZIP须含原exe/PCK、res://rules_manifest.json实际payload、全部登记文件与导出重映射依赖、运行所需媒体/许可/说明。不是只保本JSON、源码commit、哈希或解包后的数值表。每种实际导出形式按各自rules_hash独立保留。",
+    "release_binding": "每个发行的交付记录同时列完整ZIP SHA256与由包内实际规则清单/字节独立验证得到的rules_hash、protocol/content/engine版本。两种摘要职责不同，不把rules_hash当整个ZIP摘要；记录在包外以免自包含哈希循环，不往规则payload塞包hash反向依赖。记录必须指向明确发行文件名，不能只列不可定位哈希。",
+    "publisher_storage": "发行输出按10文档在全新版本目录创建，既有发行目录及其ZIP只读保留；后续发布不得覆盖同名文件/目录或删除过去已交付规则集。正式版本字符串冲突/同名不同ZIP必须拒绝发布并修正版本命名。源码归档不替代原可运行发行物。",
+    "user_recovery": "档案备份与原发行ZIP/包外SHA交付记录共同保存；完整ZIP不嵌入每个profile，不在多个角色复制旧规则。新版本启动只能使用自身完整验证规则集，发现pending或必要历史证明要求其他rules_hash时显示所需hash和版本，保正式档案不写入，用户可选已保留匹配发行在独立解包目录恢复。不能静默改用当前规则。",
+    "selection": "候选历史包先校包外ZIP SHA、文件清单及版本，再按原程序startup独立枚举/逐字节核清单与rules_hash，必须精确匹配原pending/source_proof要求；同content字符串、同config子集或只改manifest不能通过。恢复前仍核目标档案完整格式、所有权/锁/守卫，旧程序不认识当前档案必须拒绝。",
+    "execution_boundary": "不向当前进程动态加载历史GDScript、PCK或外部数值表，不自动启动下载的历史exe，不自动联网找包或切换引擎。历史原程序独立启动仍只允许其明确支持的档案/协议组合；未定义跨规则迁移前不能把历史结果直接套入另一规则档案或混连当前房间。",
+    "retention_lifetime": "本初始交付不定义自动历史规则垃圾回收。发布工具不得因当前档案扫描未见引用就删除发行物；外部备份、离线玩家、deleted导入凭证与未决会话可能仍有依赖。没有已采用跨版本迁移/依赖闭包清除协议前保持已交付规则集可取得。",
+    "failure": "包缺失/损坏/规则不匹配/引擎不匹配或档案不兼容明确阻止恢复并保原记录，提供缺失文件或所需rules_hash，不重建伪历史包、不清pending、不按当前等级或转换结果猜旧规则。SHA验证仅完整性，发行来源和许可仍按R审核，不把未知包校验值当受信发布。",
+    "remaining": "规则发行保留与定位/恢复行为设计已采用；实际Godot导出清单、交付SHA记录生成、规则物清单的完整覆盖、历史包恢复UI及真实版本/文件故障测试在P/R阶段完成。未来跨版本转换协议未定义，本策略不承诺自动升级档案。"
+  },
+  "frozen_event_consumers": {
+    "snapshot_digest_owner_ref": {
+      "file": "快照摘要.v1.json",
+      "pointer": ""
+    },
+    "creation_owner_ref": {
+      "file": "角色创建.v1.json",
+      "pointer": ""
+    },
+    "deletion_owner_ref": {
+      "file": "角色删除.v1.json",
+      "pointer": ""
+    },
+    "binding": "角色创建plan.rules_hash、删除plan.rules_hash及其他已采用事件具名rules_hash必须等本次已完整验证规则包。初始构造、来源验证、快照摘要类型树/数值/转义/域前缀算法及其严格解码代码全部在原config/artifact集合内；不得在包外加载当前docs或用户另选算法改变原摘要。 网络封套原producer选择/全量角色严格解码、业务投影仅剔除network_receipts及其前后摘要同属原rules_hash固定语义，历史结果不换现行投影或包。",
+    "version": "快照算法版本是规则包内固定语义，由rules_hash冻结；不在原五键manifest payload或各角色另存可切换snapshot_algorithm字段。更改算法/严格解码/初始构造规则必改变实际包文件和rules_hash；content字符串不变也不能沿原身份。",
+    "recovery": "恢复原reserved必须使用精确原rules_hash完整发行，核原事件全部结构/来源与冻结参数后运行原算法。当前程序遇不匹配只报告所需hash并保原档案，不尝试两种摘要择一通过，不把旧initial_character_digest重算覆盖为现算法。原commit/abort证明按其原规则校验，不能因为角色已删除/成长就删掉规则依赖。",
+    "retention": "发布记录须能由rules_hash定位同时包含原快照编码器、完整初始构造与来源校验的实际发行ZIP；只保配置/向量/本契约不满足恢复。必要历史证明依赖与整档删除外部闭包按原保留规则处理，不因当前数组无reserved就清理原规则包。",
+    "verification_gate": "P/R须验证至少两个实际规则包间的编码/构造变化拒绝，以及用精确原包恢复原预留且不新增身份/礼包/随机；现阶段只采用协议，不将参考Python向量视为Godot发行兼容证据。",
+    "network_result_owner_ref": {
+      "file": "网络结果链.v1.json",
+      "pointer": "/result_envelope"
+    }
+  }
+}

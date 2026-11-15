@@ -183,5 +183,19 @@
   "dispel_order": "collect original actually removed set, record safe clear(no阎王explosion), roll蛊毒 once, safely clear additional allowed sources, then apply神力 one buff if original removal count positive. Cannot dispel non-dispellable life/death/activity/receipt facts.",
   "scope": "11effects only, exact remaining corpse-poison state and all hostile effect family tags require other definitions. No blanket immunity/PVP unlock/runtime completion.",
   "duration_family_scope": "only explicitly opted-in normal negative status family; adopted20Dongling negative timed families opt in, anti_qigong/致残/rage/cooldowns/quest/life states opt out. Fixed intrinsic schedules not silently extended.",
-  "duration_snapshot_validation": "store original base steps,source/receiver grade-derived modifiers, effective total duration and remaining<=that effective total. For20normal negative families, source-specific original duration is base, not hardcoded remaining ceiling after named modifiers. Damage ratios unchanged; periodic phases follow unchanged intervals, effective total may permit more/fewer ticks."
+  "duration_snapshot_validation": "store original base steps,source/receiver grade-derived modifiers, effective total duration and remaining<=that effective total. For20normal negative families, source-specific original duration is base, not hardcoded remaining ceiling after named modifiers. Damage ratios unchanged; periodic phases follow unchanged intervals, effective total may permit more/fewer ticks.",
+  "persistent_post_dispel_guard": {
+    "target_field": "character.effects.post_dispel_guard",
+    "schema_ref": {
+      "file": "解除后保护状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": [],
+    "legacy_import": "四已知旧来源空表；现行缺字段拒绝，不从防御属性反造效果。",
+    "source": "固定神力保护qigong_dongling_shennv_79ddc14fa08e，每来源仅source_actor_id/trigger_event_id/effective_grade1..40/remaining_steps1..600；trigger为原解除动作对本接收者实际移除至少一负面的结果，原结果冻结有效等级。空移除或仅被动追加清除不能另造触发。",
+    "identity": "每施放者在本接收者最多一源，按source_actor_id稳定排序；新的真实成功原解除替换本施放者源及原等级/600，不叠加；重放不刷新。不同施放者独立计时，取最高原有效等级作为平量武功保护，同量按trigger_event_id/source_actor_id稳定选唯一来源。",
+    "damage": "固定只在23平量直接武功保护阶段按原等级每级1减一次，最低伤害沿原23顺序，不减普通攻击/持续/反射/环境/自损，不变普通防御、不额外免疫或抽RNG。实际技能伤害须有合格直接武功标签，不按动画名猜。",
+    "lifecycle": "付费独立正面保护，施放者离队/死亡/装备改动不改原等级/余时；接收者死亡清空，明确可解除正面效果时按原权限安全移除。生成步不扣600，随后世界步入口扣旧源并先移0再受伤，暂停离线冻结。无独立成功冷却，不把原解除技能冷却复制到此表。",
+    "validation": "完整effects白名单后，真实解除原集合/接收者/原有效等级/排序唯一与逐步余时语义校验；待复活必须空表。"
+  }
 }

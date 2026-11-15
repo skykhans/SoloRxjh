@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-13",
+  "updated_on": "2026-11-15",
   "status": "project_design_not_implemented_not_balanced",
   "scope": "普通历练收入与封顶、升天历练生成/领取天机石、普通及升天气功洗点；明确项目采用，不冒充官方全部数值。",
   "source_policy": "原参考的历练奖励/高阶消费和升天历练1008原文不改。以下收入档、进度阈值/增量、领取和长白山参采用范围均为项目设计。",
@@ -138,5 +138,76 @@
       "use_policy_owner": "qigong_respec; one real bag item, scope ordinary/ascended passive allocations only"
     }
   ],
-  "item_parameter_authority": "item_definitions structures the existing17合同6.1/6.2 parameters; readable document is its view, not a second runtime source. Yuegong vendor outside current initial subgraph remains a full-world binding dependency."
+  "item_parameter_authority": "item_definitions structures the existing17合同6.1/6.2 parameters; readable document is its view, not a second runtime source. Yuegong vendor outside current initial subgraph remains a full-world binding dependency.",
+  "persistent_state": {
+    "field": "character.cultivation",
+    "schema_ref": {
+      "file": "修行资源.schema.json",
+      "pointer": ""
+    },
+    "new_character": {
+      "practice": 0,
+      "ascension_progress": 0,
+      "unclaimed_heavenly_stones": 0
+    },
+    "known_legacy_import": {
+      "practice": 0,
+      "ascension_progress": 0,
+      "unclaimed_heavenly_stones": 0
+    },
+    "ownership": "精确practice/ascension_progress/unclaimed_heavenly_stones三键；禁止在character.progress、根或背包额外复制余额/待领。模板字段是本组件初值，不把规则owner_ref等设计元数据写进角色。",
+    "validation": "严格整数原词元及范围，缺失/额外键/负数/不安全整数/非整数拒绝；进度0～9999。practice与待领各0～9007199254740991。是否已一式不作为结构清零条件：配置撤销资格保留并锁住，死亡/离线不增长或损失。",
+    "legacy": "只对四已知旧来源的新导入角色显式三项0；原旧剑技修行预算/已学等级仍沿旧剑技owner，不能换算成新历练、升天进度或天机石。导入已有档不改其他角色。新格式缺组件拒绝，不从等级/技能/背包猜余额。",
+    "settlement": "奖励先按原唯一事件及资格定出合法安全整数输入；普通历练按余额剩余容量信用并显示溢出。升天增量用精确整数商余计算：q,r=divmod(gain,10000)，carry,new_progress=divmod(old_progress+r,10000)，生成石数q+carry；待领增加min(生成石数,上限-old_pending)，其余显示损失，余数照常保留。不使用浮点或把中间超安全范围数写JSON。原事件/资格/实际入账与损失同笔保存，重放不重新加。",
+    "claim": "按stone_claim全部资格及实际待领/背包堆槽重预检后，原事务消费待领N并授权同数heavenly_stone实物；失败全不变。待领不是可消费堆，不绕过领取直接交付/转点。技能退款/任务直接石实物沿原owner，不进入本待领。",
+    "boundary": "此schema只覆盖唯一修行资源对象；完整角色/结算与物品创建授权、世界结果及实际Godot保存仍待，不能凭三键结构启用业务。"
+  },
+  "qigong_respec_events": {
+    "field": "profile.qigong_respec_events",
+    "schema_ref": {
+      "file": "气功洗点事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "event_schema_ref": {
+      "file": "气功洗点事件.schema.json",
+      "pointer": ""
+    },
+    "initial": [],
+    "scope": "仅本人长白山参changbai_ginseng普通/升天气功共池洗点；不处理升天攻击初始化符、反气功/旧剑技预算，不新增NPC窗口。",
+    "command": "精确play_session_identity/command_id/expected_character_revision/expected_inventory_revision/stack_id。物品ID固定由本owner决定，退款额/气功表/资格/可用余额/效果不接受client上传。当前角色职业或晋级资格不足不自动清除合法已分配点，也不阻止按本owner洗点条件回收。",
+    "identity": "request_id为71确定编码[\"qigong_respec\",play_session_identity.session_id,command_id]字符串，request_digest为71编码完整command的SHA256。先沿通用request_index查完整原请求；同键同摘要回原阶段/决定，同键改参数拒绝，不重耗counter。",
+    "reservation": "完整原角色/气功与点数来源、两修订、原active会话及LAN接纳ACK、qigong_respec所有alive/out_of_combat/idle/no_active_challenge条件、本人随身山参堆与原来源均验证。refund=sum(allocations.values())按安全整数求和，须1..6160且refund<=MAX-qigong_unallocated；308已知ID各0..20给出6160纯结构上界，不授权跨职业分配。全部0或退款溢出在预留前拒绝，不耗参/计数。跨所有资源owner核同角色无互斥未决，持原authority档案锁冻结rules_hash及当前选定stack_input；counter+1与reserved追加同笔保存，业务不变，不消费随机。",
+    "commit": "同authority锁重核会话/ACK、规则、两修订、全部使用条件、实际自有分配/预算来源、山参/来源/随身位置及退款容量。原位committed与角色/库存同档保存；refund为原完整allocations之和，将原表每个已存在键置0，不新插入308空键、不删除已存键。qigong_unallocated加refund，character.revision与inventory_revision各+1。",
+    "stack_flow": "恰一条完整流，receipt_id等identity.settlement_id；输入恰一等plan.stack_input，真实输入为command.stack_id/本人随身changbai_ginseng；仅消费input0/quantity1/reasonuse且mintnull。原数量1则无输出并移除位置；大于1则恰一个余量输出保持原堆身份/位置/其他正文、数量-1/revision+1，contributions仅原input0的剩余量。不得以同名任务山参、仓库物品或普通恢复人参替代。 余量分支原堆数量2..99，原堆revision须小于MAX，递增溢出在预留前拒绝；余量1..98且贡献恰一条input0/同余量。",
+    "effects": "按qigong_respec.temporal_effects与clears_independent_fury_points同步清理本人依赖被清自有分配的持续效果与梅柳真独立愤怒点；有装备/BUFF有效等级也不能据此保留该旧自有来源。保留已付独立效果原余时，不重置/缩短/延长冷却、不补生命内力障力/怒气、不清甄凤柏原充能/护盾剩余。具体来源/依赖须由完整效果状态重放验证，本事件不新存效果镜像或退款装备借用等级。 高山流水用户顺序保留但失去生效资格；新上限下降按原owner夹限实际资源，不回满。",
+    "result_binding": "refunded_points精确原表和，qigong_unallocated_after精确原余额+refund；两after修订分别等原命令+1。全部原自有键清零，不夹带移除/授予秘籍、任务、发点历史、攻击阶段、其他点池/装备/银两或新技能。退款是原投入内部转回，不计作新收入，不生成天机石/待领/历练。完整前后角色与原日志联合验证，仅结果数值不证明余额来源或效果已清。",
+    "abort": "仅state_changed/rules_changed/session_invalid/explicit_cancel，保原identity/command/plan原位aborted；不耗参/退点/清效果/修改角色或库存修订。明确取消核原真实成员/会话/请求；committed只能重放，不反向返参或扣回退款。",
+    "recovery": "重开先重读同正式档案完整验证，结束旧会话；旧reserved按session_invalid持久abort，不恢复active或从旧计划直接退款。保存存疑停止后续业务、重读并按原阶段处理，不能覆盖可能committed。终态只返回原决定，持久成功才发布；LAN连续结果与ACK沿网络结果链，完整封套仍待。",
+    "journal": "唯一原数组；候选与前一正式快照仅允许新reserved追加、原reserved一次到committed/aborted或原条完全不变。identity/command/plan不可变，终态不可改/换阶段/删。allocation_index递增，身份/请求唯一，与其他通用owner联合完整覆盖settlement_next_id。角色删除/退出不剪来源，无合法压缩协议不删日志；空间不足停止预留。",
+    "initialization": "新profile及四已知旧来源新导入profile显式[]；导入已有profile保原日志/计数，不补造旧剑技洗点历史，新格式缺字段拒绝。",
+    "boundary": "事件结构不代替完整角色/效果依赖与气功/山参来源闭包、配置授权、真实身份/保存/LAN。上述依赖未完成不运行，不据此宣称D1或洗点实测通过。",
+    "affected_receivers": "涉及队友持续效果或上限变化时，房主从实际完整来源/作用域推导全部受影响角色，在同一权威固定步重核并按05多接收者协议保存/确认，不能只改本人或发一条临时清光环通知。各接收者完整前后角色/修订、原效果来源及连续结果均须验证，缺任一/未知依赖分类/接收者未决占用则不提交本次洗点。该actor事件不复制队友状态或持有第二份可应用结果；完整多接收者结果封套/恢复仍为运行门槛。"
+  },
+  "stone_claim_events": {
+    "field": "profile.heavenly_stone_claim_events",
+    "initial_value": [],
+    "schema_ref": {
+      "file": "天机石领取事件.schema.json",
+      "pointer": ""
+    },
+    "scope": "仅stone_claim原本待领余额领取；非技能初始化退款/任务直接发石/直接转点，原领取入口为本人修行面板，不新增NPC/费用或自动领取。",
+    "identity": "原通用计数身份；request_id为71确定JSON [\"heavenly_stone_claim\",play_session_identity.session_id,command_id]，request_digest为71完整五键command的SHA256。先查原请求再判当前待领/空间；同身份committed仅回原结果，石已花完或后续已有新待领也不再次领取。",
+    "admission": "原完整角色/三键cultivation、当前实物/布局与来源、实际active会话及LAN接纳ACK、两预期修订通过，stone_claim全部rank6/存活/脱战/空闲/无挑战条件满足且无冲突未决。quantity整数1..9999且<=真实unclaimed；两业务修订可各+1，所有合堆原revision可+1。不以客户端报余额、旧等级或背包石数代替待领授权。",
+    "plan": "严格rules_hash/cultivation_before/inventory_before/merge_inputs四键。前两快照分别复用原三键修行和两键材料包结构，须等同一实际before两修订的完整合法状态。merge_inputs仅下面capacity真实接收增量的原held石堆前输出引用，按原槽号升序，不复制堆正文或另一待领余额。缺原前源/规则拒绝，快照不是授权替代。",
+    "capacity": "原inventory容量60+20*expansion_level、扩容0..7/最大200及布局完整性先验。沿原槽号升序填本人随身heavenly_stone/character绑定/quest_scope=null/held且未保留占用的兼容堆至9999；只选实际增量>0的堆进merge_inputs，满堆/无增量/仓库堆不改。余量至多9999，使用最低空槽一个新堆；无空槽但兼容堆可全收仍成功。先验原全部随身克重及当前派生上限，石每颗1g，after增quantity克，合法超重凭证不授权正重量领取。失败整笔不扣待领、不扩容/溢出丢物/发到仓库或地面。",
+    "reserve": "完成所有容量/重量/修订/来源预检后，counter+1与reserved同authority档案持久确认；角色/库存/待领/实物不改。跨owner同角色唯一未决。只有原正式决定确认才发布，无玩法随机。",
+    "mint": "flow0唯一mint，merge_inputs空时receipt_id=settlement_id，非空时receipt_id=settlement_id+:stack:mint；inputs/consumptions空，mint_authorization.kind=cultivation_claim、authority_receipt_id本settlement。精确一个本角色heavenly_stone/character/nullscope/held输出，quantity=command.quantity，revision0/空contributions，origin_receipt_id为本flow。该kind只由本原committed授权，reserved/aborted不发物。",
+    "merge": "plan.merge_inputs空则仅flow0，其新堆直接落最低空槽。非空则恰flow1，receipt_id=settlement_id+:stack:merge；inputs先原merge_inputs，后flow0唯一输出引用，严格无重复。outputs只同角色/石/character/nullscope/held，consumptions空、mintnull；原接收堆保ID/位置、revision+1且精确加capacity所得数量，余量可有一个全新堆。完整contributions对各旧输入和mint数量逐项守恒，无未消费输入或复制来源。",
+    "ids_and_layout": "新堆ID按原物品堆与来源算法，ordinal在本结算flow顺序跨flow连续，不因合堆重新归0。flow0新ID始终占ordinal0；发生合堆时mint堆全消费退役，若有余量新堆用下一新ordinal，不复用中间ID。终态仅最新输出头进item_stacks/正式位置，中间mint无需临时背包格。旧接收堆不移动，未变堆/其他容器/装备/容量保原值。所有ID历史唯一与最新域/前源均须核。",
+    "commit": "锁内重核规则/会话/资格、两修订、完整cultivation_before/inventory_before及merge_inputs真实最新前源/域、全部最终位置和当前重量上限。unclaimed_after=before.unclaimed-command.quantity，practice/ascension_progress保持；两个业务修订各恰+1，qigong所有点数/技能/银两/装备与配置修订保持。原三阶段决定、待领扣减、全部flow/终态堆和位置同一authority档案提交；LAN各接收者原个人完整结果同决定保存，不分别发布扣余额和铸造。",
+    "abort": "state_changed/rules_changed/session_invalid/explicit_cancel原位终结，保持待领/实物/两修订；来源读失败或保存存疑先保现场查正式决定，不用超时虚构取消。原身份/计划保留。",
+    "recovery": "旧进程重开会话不恢复active，原reserved沿session_invalid持久abort，不用当前空槽改计划重领；committed只回同原结果，已消费实物不回装。存疑先重读正式完整档案确认，不重分号、不再次扣待领/铸造。终态/取消记录保留以防删除角色后重放授予。",
+    "journal": "唯一原数组按allocation_index递增，预留追加/决定原位替换，最多一reserved且跨owner同角色互斥。新profile及四已知旧来源新profile显式[]，导入已有profile保原日志/计数，不为旧剑技/已有石堆伪造领取。当前格式缺日志拒绝。",
+    "boundary": "领取原事件与双flow来源采用；真正待领奖励原结果/资格变化/完整角色profile/world、原交互/来源闭包和实际文件LAN/Godot仍待，不因此宣称完整角色根或D1通过。"
+  }
 }

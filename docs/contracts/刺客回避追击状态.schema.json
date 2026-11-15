@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:assassin-evade-bonus-state:v1",
+  "$comment": "唯一character.effects.assassin_evade_bonus；原失败命中结果为trigger，原有效伤害快照封顶后保存，不复制未命中的攻击或施加者。",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trigger_event_id",
+        "bonus_damage",
+        "remaining_steps"
+      ],
+      "properties": {
+        "trigger_event_id": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "bonus_damage": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "remaining_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 180
+        }
+      }
+    }
+  ]
+}

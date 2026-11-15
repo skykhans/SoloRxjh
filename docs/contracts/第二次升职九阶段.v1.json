@@ -1,0 +1,974 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "runtime_implemented": false,
+  "source_evidence": "../reference/二转九阶段原文与采用裁定.json",
+  "quest_id": "adv_02",
+  "source_reference_ids": [
+    "QREF-63791-017",
+    "QREF-63791-018"
+  ],
+  "source_policy": "one mutually exclusive advancement,not two separately claimable quests; nine stages and35level preserved; inventory handling,branch commit timing,one-talisman quantities and no additional rewards are explicit local adoption",
+  "acceptance": {
+    "minimum_level": 35,
+    "required_completed_rank": 1,
+    "required_character_route": "unselected",
+    "class_scope": "all14local classes",
+    "requires": "adv_01 delivered,completed recommendation prerequisite ref_QREF-63791-016 and one real carried adv02_recommendation; alive,out of combat,idle,no active challenge; own guide NPC within2500mm",
+    "transaction": "explicit branch confirmation; create unique attempt with selected_branch andstage1; retain and lock recommendation against transfer; grant guide talisman only if this character/branch guide receipt absent; capacity check before acceptance",
+    "guide_grant_receipt_key": [
+      "character_id",
+      "adv_02",
+      "selected_branch",
+      "guide_grant"
+    ],
+    "guide_grant_policy": "one per branch across all attempts/worlds; abandoning or consuming/discarding the talisman never resets receipt; opposite branch may receive its own single guide grant after explicit abandon",
+    "route_policy": "selected_branch is provisional quest state; character route remains unselected until final rank2commit; both public regions remain reachable through existing world connections"
+  },
+  "branches": [
+    {
+      "branch_id": "righteous",
+      "source_reference_id": "QREF-63791-017",
+      "guide_npc_id": "npc_hua_youque",
+      "guide_source_reference_id": "NREF-40139-006",
+      "guide_map_id": "hyunbo_town",
+      "leader_npc_id": "npc_liu_xu",
+      "leader_source_reference_id": "NREF-40138-001",
+      "merchant_npc_id": "npc_xiao_chunshui",
+      "treasury_npc_id": "npc_hong_fenghuang",
+      "treasury_source_reference_id": "NREF-40138-R009",
+      "faction_map_id": "liuzheng_pass",
+      "return_item_id": "return_liuzheng",
+      "return_item_owner": "便携传送与修炼限制.v1.json"
+    },
+    {
+      "branch_id": "evil",
+      "source_reference_id": "QREF-63791-018",
+      "guide_npc_id": "npc_wen_xiaoyu",
+      "guide_source_reference_id": "NREF-40139-007",
+      "guide_map_id": "hyunbo_town",
+      "leader_npc_id": "npc_chi_juan",
+      "leader_source_reference_id": "NREF-40137-001",
+      "merchant_npc_id": "npc_lu_xiaohuang",
+      "merchant_source_reference_id": "NREF-40137-R009",
+      "treasury_npc_id": "npc_zhou_shutong",
+      "faction_map_id": "sanxie_pass",
+      "return_item_id": "return_sanxie",
+      "return_item_owner": "便携传送与修炼限制.v1.json"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "adv02_recommendation",
+      "name": "泫勃派的推荐书",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "producer": "泫勃派推荐书任务.v1.json /quest/reward,once per character"
+    },
+    {
+      "item_id": "adv02_red_bear_skin",
+      "name": "赤血熊之皮",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "producer": "active attempt stage2source monster binding pending"
+    },
+    {
+      "item_id": "adv02_yellow_tiger_skin",
+      "name": "山林黄虎之皮",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "producer": "active attempt stage2source monster binding pending"
+    },
+    {
+      "item_id": "adv02_white_tiger_skin",
+      "name": "白纹虎之皮",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "producer": "active attempt stage2source monster binding pending"
+    },
+    {
+      "item_id": "adv02_clothes_box",
+      "name": "衣服箱子",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "producer": "stage6"
+    },
+    {
+      "item_id": "adv02_delivery_box",
+      "name": "传达箱子",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "producer": "stage7"
+    }
+  ],
+  "item_policy": {
+    "source": "63800published task item names; quantity/permissions/weight/binding are local",
+    "binding": "recommendation character/prerequisite; five other tokens character/adv_02/attempt/selected_branch",
+    "permissions": "quest inspection/consume only; no equip,use,warehouse,sell,discard,trade,craft; attempt tokens allow explicit abandon cleanup",
+    "recommendation_lock": "single real carried item remains through stages1..8 and is consumed only at final stage9; no second reserved inventory copy; abandon releases lock without granting another recommendation",
+    "skin_retention": "stage2inspects without consumption; stages3..6require original30skins remain carried; stage6exchanges once for clothes box; no repeated skin collection",
+    "box_retention": "stage7requires and retains clothes box while granting delivery box; stage8consumes both",
+    "zero_weight_reason": "explicit quest credentials,not usable equipment/ordinary monster materials"
+  },
+  "skin_requirements": [
+    {
+      "item_id": "adv02_red_bear_skin",
+      "quantity": 10
+    },
+    {
+      "item_id": "adv02_yellow_tiger_skin",
+      "quantity": 10
+    },
+    {
+      "item_id": "adv02_white_tiger_skin",
+      "quantity": 10
+    }
+  ],
+  "stages": [
+    {
+      "stage_index": 1,
+      "npc_selector": "selected_branch.leader_npc_id",
+      "map_selector": "selected_branch.faction_map_id",
+      "action": "询问二转任务",
+      "consume": [],
+      "grant": [],
+      "next_stage_index": 2
+    },
+    {
+      "stage_index": 2,
+      "npc_selector": "selected_branch.leader_npc_id",
+      "map_selector": "selected_branch.faction_map_id",
+      "action": "验看三类皮毛各十张",
+      "requires_skin_requirements": true,
+      "consume": [],
+      "grant": [],
+      "next_stage_index": 3
+    },
+    {
+      "stage_index": 3,
+      "npc_selector": "selected_branch.merchant_npc_id",
+      "map_selector": "selected_branch.faction_map_id",
+      "action": "向商人打听消息",
+      "requires_skin_requirements": true,
+      "consume": [],
+      "grant": [],
+      "next_stage_index": 4
+    },
+    {
+      "stage_index": 4,
+      "npc_selector": "selected_branch.treasury_npc_id",
+      "map_selector": "selected_branch.faction_map_id",
+      "action": "向钱庄主人打听消息",
+      "requires_skin_requirements": true,
+      "consume": [],
+      "grant": [],
+      "next_stage_index": 5
+    },
+    {
+      "stage_index": 5,
+      "npc_selector": "selected_branch.leader_npc_id",
+      "map_selector": "selected_branch.faction_map_id",
+      "action": "询问后续委托",
+      "requires_skin_requirements": true,
+      "consume": [],
+      "grant": [],
+      "next_stage_index": 6
+    },
+    {
+      "stage_index": 6,
+      "npc_id": "npc_yinjiaolong",
+      "map_id": "hyunbo_town",
+      "action": "交三类皮毛换衣服箱",
+      "consume_skin_requirements": true,
+      "consume": [],
+      "grant": [
+        {
+          "item_id": "adv02_clothes_box",
+          "quantity": 1
+        }
+      ],
+      "next_stage_index": 7
+    },
+    {
+      "stage_index": 7,
+      "npc_id": "npc_wei_dabao",
+      "map_id": "hyunbo_town",
+      "action": "领取所选派别传达箱",
+      "requires": [
+        {
+          "item_id": "adv02_clothes_box",
+          "quantity": 1
+        }
+      ],
+      "consume": [],
+      "grant": [
+        {
+          "item_id": "adv02_delivery_box",
+          "quantity": 1
+        }
+      ],
+      "next_stage_index": 8
+    },
+    {
+      "stage_index": 8,
+      "npc_selector": "selected_branch.leader_npc_id",
+      "map_selector": "selected_branch.faction_map_id",
+      "action": "交回衣服箱与传达箱",
+      "consume": [
+        {
+          "item_id": "adv02_clothes_box",
+          "quantity": 1
+        },
+        {
+          "item_id": "adv02_delivery_box",
+          "quantity": 1
+        }
+      ],
+      "grant": [],
+      "next_stage_index": 9
+    },
+    {
+      "stage_index": 9,
+      "npc_selector": "selected_branch.leader_npc_id",
+      "map_selector": "selected_branch.faction_map_id",
+      "action": "确认二转与正邪归属",
+      "consume": [
+        {
+          "item_id": "adv02_recommendation",
+          "quantity": 1
+        }
+      ],
+      "grant_selected_branch_return_item_quantity": 1,
+      "consume_and_apply_final_reward": true,
+      "grant": [],
+      "next_stage_index": null
+    }
+  ],
+  "collection": {
+    "enabled_stage": 2,
+    "probability_bp": 10000,
+    "quantity_per_qualified_death": 1,
+    "maximum_per_skin": 10,
+    "qualification": "own active attempt and selected branch; selected faction map creature; alive,connected,same scene,solo owner or exact19party member snapshot",
+    "capacity_failure": "record no-item result with original death; no duplicate retry after reconnect or freeing space",
+    "modifiers": "no training/finisher multiplication of task items",
+    "producers": [
+      {
+        "selected_branch": "righteous",
+        "map_id": "liuzheng_pass",
+        "monster_id": "liuzheng_pass_red_bear35",
+        "item_id": "adv02_red_bear_skin",
+        "required_stage_index": 2,
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "selected_branch": "righteous",
+        "map_id": "liuzheng_pass",
+        "monster_id": "liuzheng_pass_yellow_tiger36",
+        "item_id": "adv02_yellow_tiger_skin",
+        "required_stage_index": 2,
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "selected_branch": "righteous",
+        "map_id": "liuzheng_pass",
+        "monster_id": "liuzheng_pass_white_tiger37",
+        "item_id": "adv02_white_tiger_skin",
+        "required_stage_index": 2,
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "selected_branch": "evil",
+        "map_id": "sanxie_pass",
+        "monster_id": "sanxie_pass_red_bear35",
+        "item_id": "adv02_red_bear_skin",
+        "required_stage_index": 2,
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "selected_branch": "evil",
+        "map_id": "sanxie_pass",
+        "monster_id": "sanxie_pass_yellow_tiger36",
+        "item_id": "adv02_yellow_tiger_skin",
+        "required_stage_index": 2,
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "selected_branch": "evil",
+        "map_id": "sanxie_pass",
+        "monster_id": "sanxie_pass_white_tiger37",
+        "item_id": "adv02_white_tiger_skin",
+        "required_stage_index": 2,
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "adv_02",
+      "attempt_id",
+      "selected_branch",
+      "item_id"
+    ],
+    "commit": "same05/19host death settlement and all recipients outcomes;individual task items separate from public ordinary silver/XP",
+    "shared_death_owner": {
+      "file": "寻求料理材料二任务.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "stage_transaction": {
+    "eligibility": "current stage/attempt/branch; correct exact NPC/map and distance<=2500mm; alive,out of combat,idle,no challenge; carried recommendation present and own lock valid",
+    "identity": "character/adv_02/attempt/stage unique receipt plus action request/current revision",
+    "commit": "preflight final layout/weight and all inputs; consume,grant,advance,receipt same05/19durable transaction; failure preserves full current stage and items",
+    "retry": "same receipt returns original outcome; old-attempt request cannot operate new attempt; opposite-branch NPC cannot advance",
+    "invalid_snapshot": "unexpected stage/branch token,missing required retained item or conflicting rank/route evidence rejects; no reconstruction or free regrant"
+  },
+  "final_reward": {
+    "stage_index": 9,
+    "required_rank_before": 1,
+    "rank_after": 2,
+    "route_after": "selected_branch",
+    "experience": 0,
+    "practice": 0,
+    "silver": 0,
+    "items": "one selected branch return item,existing portable item definition",
+    "commit": "consume recommendation,grant talisman,setrank2/setroute,markdelivered/store receipt atomically; derived-stat eligibility recalculation without filling current HP/MP/stamina or clearing cooldowns",
+    "no_double_reward": "QREF017and018merge into same adv_02 completion receipt; neither candidate independently executable; no branch switching after completion"
+  },
+  "abandon": {
+    "confirmation": "show current branch,stage and five attempt-token losses",
+    "transaction": "clear only own attempt skins/boxes,release actual recommendation lock,cancel attempt; keep prerequisite completed/XP receipt and guide-grant receipts",
+    "reaccept": "rank1/unselected and original real recommendation present; choose either branch with new attempt; startstage1and collect new skins",
+    "forbidden": "no recommendation refund/grant,XP retry,guide receipt reset,skin refund,automatic box recovery or inherited earlier stage"
+  },
+  "save": {
+    "character_fields": [
+      "attempt_id_or_null",
+      "selected_branch_or_null",
+      "stage_index_or_null",
+      "state",
+      "stage_receipts",
+      "guide_grant_receipts"
+    ],
+    "world_fields": "future ordinary source spawn actors use existing monotone generation owner; quest state and receipts are character across worlds",
+    "new_character": "not_accepted,null attempt/branch/stage,empty receipts,no tokens",
+    "legacy_import": "旧档导入.v1.json /advancement_quest_conversion;known1..4imports rank0/unselected and explicit unstarted adopted quests;no completion bylevel,unknown missing fields rejects",
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "readiness": "current stage inputs/NPC service qualify;not independent kill count"
+  },
+  "pending": [
+    "Godot quest UI/save/inventory/LAN/runtime tests and creature/NPC art/economy"
+  ],
+  "prerequisite_owner": {
+    "file": "泫勃派推荐书任务.v1.json",
+    "pointer": "/quest"
+  },
+  "world_binding_static_review": {
+    "checked_on": "2026-11-14",
+    "method": "1m cardinal BFS,0.35m actor radius,expanded solid AABB and exact NPC/travel marker circles; complete segment checks plus endpoint joins; independent supplement,not older public route review",
+    "maps": [
+      {
+        "map_id": "hyunbo_town",
+        "origin_xz_m": [
+          0,
+          25
+        ],
+        "reachable_grid_nodes": 12995,
+        "checked_anchors": 13,
+        "checked_npcs": 8,
+        "geometry_and_targets_sha256": "19c3efbe8ea2aacc371f2dca8fcdfac33d88626dbf59d79f1e88468fa41acef6"
+      },
+      {
+        "map_id": "liuzheng_pass",
+        "origin_xz_m": [
+          0,
+          0
+        ],
+        "reachable_grid_nodes": 84856,
+        "checked_anchors": 7,
+        "checked_npcs": 3,
+        "geometry_and_targets_sha256": "207ad02bab91d9ce770e985b6de4234a32f4fd5134a91e4b28f57294953073af"
+      },
+      {
+        "map_id": "sanxie_pass",
+        "origin_xz_m": [
+          0,
+          0
+        ],
+        "reachable_grid_nodes": 84856,
+        "checked_anchors": 7,
+        "checked_npcs": 3,
+        "geometry_and_targets_sha256": "d0023165448a38a3733d597a94729d0c5cf207c821c5a12aaedc3d3a39509e7a"
+      }
+    ],
+    "scope": "static paths only,not Godot navigation or dynamic collision",
+    "spawns_checked": 24,
+    "spawn_method": "0.45m capsule plus2m patrol margin outside expanded solids/map safe circles; central corridor L paths checked at0.35m actor radius; source monster levels/rewards/producers verified"
+  },
+  "monsters": [
+    {
+      "monster_id": "liuzheng_pass_red_bear35",
+      "source_reference_id": "MREF-39820-001",
+      "name": "赤血熊",
+      "level": 35,
+      "map_id": "liuzheng_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2450,
+      "max_mana": 0,
+      "attack_min": 105,
+      "attack_max": 140,
+      "ordinary_defense": 70,
+      "accuracy": 175,
+      "evasion": 70,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv02_creature",
+      "xp_reward": 17241,
+      "practice_reward": 1724,
+      "silver_reward": 35,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liuzheng_pass_red_bear35",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source region andlevel independent actor;evil white tiger published typo白纹虎虎retained in source_name_as_published,display白纹虎explicit local spelling;all combat stats local",
+      "source_name_as_published": "赤血熊"
+    },
+    {
+      "monster_id": "liuzheng_pass_yellow_tiger36",
+      "source_reference_id": "MREF-39820-002",
+      "name": "山林黄虎",
+      "level": 36,
+      "map_id": "liuzheng_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2520,
+      "max_mana": 0,
+      "attack_min": 108,
+      "attack_max": 144,
+      "ordinary_defense": 72,
+      "accuracy": 180,
+      "evasion": 72,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv02_creature",
+      "xp_reward": 33103,
+      "practice_reward": 3310,
+      "silver_reward": 36,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liuzheng_pass_yellow_tiger36",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source region andlevel independent actor;evil white tiger published typo白纹虎虎retained in source_name_as_published,display白纹虎explicit local spelling;all combat stats local",
+      "source_name_as_published": "山林黄虎"
+    },
+    {
+      "monster_id": "liuzheng_pass_white_tiger37",
+      "source_reference_id": "MREF-39820-003",
+      "name": "白纹虎",
+      "level": 37,
+      "map_id": "liuzheng_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2590,
+      "max_mana": 0,
+      "attack_min": 111,
+      "attack_max": 148,
+      "ordinary_defense": 74,
+      "accuracy": 185,
+      "evasion": 74,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv02_creature",
+      "xp_reward": 47333,
+      "practice_reward": 4733,
+      "silver_reward": 37,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liuzheng_pass_white_tiger37",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source region andlevel independent actor;evil white tiger published typo白纹虎虎retained in source_name_as_published,display白纹虎explicit local spelling;all combat stats local",
+      "source_name_as_published": "白纹虎"
+    },
+    {
+      "monster_id": "sanxie_pass_red_bear35",
+      "source_reference_id": "MREF-39819-001",
+      "name": "赤血熊",
+      "level": 35,
+      "map_id": "sanxie_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2450,
+      "max_mana": 0,
+      "attack_min": 105,
+      "attack_max": 140,
+      "ordinary_defense": 70,
+      "accuracy": 175,
+      "evasion": 70,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv02_creature",
+      "xp_reward": 17241,
+      "practice_reward": 1724,
+      "silver_reward": 35,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "sanxie_pass_red_bear35",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source region andlevel independent actor;evil white tiger published typo白纹虎虎retained in source_name_as_published,display白纹虎explicit local spelling;all combat stats local",
+      "source_name_as_published": "赤血熊"
+    },
+    {
+      "monster_id": "sanxie_pass_yellow_tiger36",
+      "source_reference_id": "MREF-39819-002",
+      "name": "山林黄虎",
+      "level": 36,
+      "map_id": "sanxie_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2520,
+      "max_mana": 0,
+      "attack_min": 108,
+      "attack_max": 144,
+      "ordinary_defense": 72,
+      "accuracy": 180,
+      "evasion": 72,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv02_creature",
+      "xp_reward": 33103,
+      "practice_reward": 3310,
+      "silver_reward": 36,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "sanxie_pass_yellow_tiger36",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source region andlevel independent actor;evil white tiger published typo白纹虎虎retained in source_name_as_published,display白纹虎explicit local spelling;all combat stats local",
+      "source_name_as_published": "山林黄虎"
+    },
+    {
+      "monster_id": "sanxie_pass_white_tiger37",
+      "source_reference_id": "MREF-39819-003",
+      "name": "白纹虎",
+      "level": 37,
+      "map_id": "sanxie_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2590,
+      "max_mana": 0,
+      "attack_min": 111,
+      "attack_max": 148,
+      "ordinary_defense": 74,
+      "accuracy": 185,
+      "evasion": 74,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv02_creature",
+      "xp_reward": 47333,
+      "practice_reward": 4733,
+      "silver_reward": 37,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "sanxie_pass_white_tiger37",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source region andlevel independent actor;evil white tiger published typo白纹虎虎retained in source_name_as_published,display白纹虎explicit local spelling;all combat stats local",
+      "source_name_as_published": "白纹虎虎"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "liuzheng_pass_red_bear35_01",
+      "monster_id": "liuzheng_pass_red_bear35",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -12,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_red_bear35_02",
+      "monster_id": "liuzheng_pass_red_bear35",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -4,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_red_bear35_03",
+      "monster_id": "liuzheng_pass_red_bear35",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        4,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_red_bear35_04",
+      "monster_id": "liuzheng_pass_red_bear35",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        12,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_yellow_tiger36_01",
+      "monster_id": "liuzheng_pass_yellow_tiger36",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -12,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_yellow_tiger36_02",
+      "monster_id": "liuzheng_pass_yellow_tiger36",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -4,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_yellow_tiger36_03",
+      "monster_id": "liuzheng_pass_yellow_tiger36",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        4,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_yellow_tiger36_04",
+      "monster_id": "liuzheng_pass_yellow_tiger36",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        12,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_white_tiger37_01",
+      "monster_id": "liuzheng_pass_white_tiger37",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        112,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_white_tiger37_02",
+      "monster_id": "liuzheng_pass_white_tiger37",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        112,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_white_tiger37_03",
+      "monster_id": "liuzheng_pass_white_tiger37",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        112,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_white_tiger37_04",
+      "monster_id": "liuzheng_pass_white_tiger37",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        112,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_red_bear35_01",
+      "monster_id": "sanxie_pass_red_bear35",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -12,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_red_bear35_02",
+      "monster_id": "sanxie_pass_red_bear35",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -4,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_red_bear35_03",
+      "monster_id": "sanxie_pass_red_bear35",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        4,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_red_bear35_04",
+      "monster_id": "sanxie_pass_red_bear35",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        12,
+        0,
+        -112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_yellow_tiger36_01",
+      "monster_id": "sanxie_pass_yellow_tiger36",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -12,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_yellow_tiger36_02",
+      "monster_id": "sanxie_pass_yellow_tiger36",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -4,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_yellow_tiger36_03",
+      "monster_id": "sanxie_pass_yellow_tiger36",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        4,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_yellow_tiger36_04",
+      "monster_id": "sanxie_pass_yellow_tiger36",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        12,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_white_tiger37_01",
+      "monster_id": "sanxie_pass_white_tiger37",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        112,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_white_tiger37_02",
+      "monster_id": "sanxie_pass_white_tiger37",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        112,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_white_tiger37_03",
+      "monster_id": "sanxie_pass_white_tiger37",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        112,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_white_tiger37_04",
+      "monster_id": "sanxie_pass_white_tiger37",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        112,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "all map safe zones disallow hostile spawn/entry; path return,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  }
+}

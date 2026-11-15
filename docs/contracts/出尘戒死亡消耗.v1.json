@@ -1,0 +1,93 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "specific_ring_definition_instance_death_and_four_quest_rewards_adopted_not_implemented",
+  "source_ref": {
+    "file": "../reference/首饰来源采用审计.json",
+    "pointer": "/records/56"
+  },
+  "death_owner_ref": {
+    "file": "死亡与复活保存.v1.json",
+    "pointer": ""
+  },
+  "instance_flow_owner_ref": {
+    "file": "唯一实例来源流.v1.json",
+    "pointer": ""
+  },
+  "source_boundary": "来源只保证佩戴者死亡后戒指自动消失一次，未给保护经验、免死、复活或其他属性；本设计不授予这些效果。",
+  "equipment_scope": "项目采用死亡提交前当前生效装备组ring_a/ring_b中的出尘戒实际实例。备用组、装备背包、仓库不消耗。身份仅jewelry_death_ring_5164091a0f5f，禁止按显示名判断。暂时丧失等级或转职资格仍占佩戴槽，仍消耗；坏实例或重复位置须拒绝整笔，不能跳过。",
+  "multiple_rings": "两槽佩戴两个不同合法实例则同次死亡全部消耗，不任选一个，不把同一实例重复计数。数量由真实槽位快照决定，不保存剩余使用次数。",
+  "trigger": "完成全部已有致死拦截后，只有角色确实从active提交为awaiting_respawn才触发。拦截成功、非致死命中、尸体重复命中、打开死亡页、读档或重生均不触发。",
+  "contexts": "项目采用死亡owner全部cause_kinds及正式修炼房/私有活动中的真实死亡；仅活动失败而未发生生命状态死亡不触发。显式配置导致真实active到awaiting_respawn转换也触发，普通配置移除不伪造死亡。",
+  "atomic_commit": "以原death_event_id/death_settlement_id锁定实际实例和前业务输出，同笔提交HP0、死亡状态、活动失败、两槽清空、现持实例移除和真实终结；每个被消耗实例无存续输出。库存修订与同死亡其他已登记装备变化合并，存在实际实例消耗或武勋首饰耐久变化时按本死亡整体一次，角色修订沿死亡owner整体一次，不按两戒重复累加。装备贡献移除后的合法上限/预算按原构筑owner计算，不回血、不撤回已经接受的动作快照。",
+  "failure_and_replay": "死亡业务准备或持久日志校验失败不发布半笔。业务已提交而普通文件保存失败时保留同一死亡和实例终结结果及未保存标记，重试原收据；重复死亡命令先返回原结果，不以当前空槽重新结算，不恢复戒指，不新分配死亡ID。读档沿已保存死亡/实例终结链还原，不从旧快照补戒。",
+  "retirement_gate": "唯一实例来源流schema已登记death_consumption；只有本精确戒指、原死亡收据和死亡前当前生效组真实ring_a/ring_b槽位证明同时成立才授权，不授予其他装备死亡终结权限，不借discard/configuration_remove冒充。",
+  "adoption_gate": "物品/完整七键schema/独立分派/明确配置创建、43/83级四任务一枚奖励和死亡终结设计已采用。不开放其他任务、商店或普通加工；完整经济事件、档案、Godot/真实存档/LAN及整体D1仍未完成。",
+  "item": {
+    "item_id": "jewelry_death_ring_5164091a0f5f",
+    "name": "出尘戒",
+    "kind": "jewelry",
+    "profile_id": "death_consumable_ring",
+    "equipment_category": "ring",
+    "equip_slot_ids": [
+      "ring_a",
+      "ring_b"
+    ],
+    "eligibility_ref": {
+      "file": "../reference/首饰来源采用审计.json",
+      "pointer": "/records/56/eligibility_adoption"
+    },
+    "stack_limit": 1,
+    "weight_g": 5,
+    "binding": "character",
+    "permissions": {
+      "equip": true,
+      "direct_use": false,
+      "warehouse": true,
+      "discard": true,
+      "sell": false,
+      "trade": false,
+      "buyback": false,
+      "craft": false,
+      "processing": false
+    },
+    "sell_price": null,
+    "buy_price": null,
+    "contributions": "项目明确不提供任何数值属性、气功、反气功、套装、耐久或加工等级；唯一行为是本owner规定的佩戴死亡消耗。不得套用66/67普通首饰默认贡献或加工。",
+    "project_values": "5克、绑定及各权限为项目值；资格使用原40级与项目实际二转独立门槛，不凭任务接取等级免除。"
+  },
+  "structural_schema_ref": {
+    "file": "出尘戒实例.schema.json",
+    "pointer": ""
+  },
+  "instance_rules": {
+    "root": "完整七键instance_id/item_id/lineage_id/owner_character_id/binding/revision/creation_receipt_id，全部必需且无额外字段；不存在剩余次数、加工或耐久字段。正文不变，revision只能为严格整数token0。",
+    "validation": "精确item_id及角色绑定，非空白ID和收据，真实owner与现持角色一致，全局实例/血统唯一和唯一位置；完整创建来源及最新custody/业务前输出闭合。暂时失格可保有且不生效，主动装备/切组按等级与实际rank资格核验。坏实例拒绝，不能删除未知字段修复。",
+    "creation": "仅18参数中心明确确认的configuration_grant，或下列四项43/83级任务一次正式交付的quest_reward，分配全新instance_id/lineage_id，revision0、creation_receipt_id为真实正式创建结算ID；依唯一实例来源流identity_allocation，不收额外创建费用/不抽RNG，最终格重预检与实例来源和修订同笔；配置生成写真实配置日志，任务创建写真实交付及完成记录，不伪造配置日志。取消/未变化不重复给物，重放返回原结果。四任务的创建必须核原任务/本轮输入消费/完成标记与一枚奖励同笔；83级还须计时源与同笔完成成立，其他未列明同名任务仍未授权。不得导入旧格式、商店购买、掉落或制造。",
+    "configuration": "仅可明确生成或移除整件，不接受修改正文ID/绑定/归属/revision或创造加工/耐久/次数覆盖；移除需原实例输入与configuration_remove终结。显示源资格和5克格重，配置不能绕过最终库存安全。",
+    "terminal_operations": "允许本人明确丢弃discard、明确配置移除configuration_remove、或本死亡death_consumption；均消费真实最后前输出并移除唯一位置。没有revise/replace/combine/growth_transfer/ownership_transfer能力，不给终结实例保墓碑在现持表。",
+    "save": "保存实际七键及布局/创建来源，不另存死亡次数或可复活标记；旧格式没有真实戒指不按名字猜迁移或补实例，未知新格式缺字段严格拒绝。"
+  },
+  "quest_acquisition_refs": [
+    {
+      "file": "四十三级正邪出尘戒任务.v1.json",
+      "pointer": "/quests/0"
+    },
+    {
+      "file": "四十三级正邪出尘戒任务.v1.json",
+      "pointer": "/quests/1"
+    },
+    {
+      "file": "八十三级正邪洞窟愤怒任务.v1.json",
+      "pointer": "/quests/0"
+    },
+    {
+      "file": "八十三级正邪洞窟愤怒任务.v1.json",
+      "pointer": "/quests/1"
+    }
+  ],
+  "combined_death_effects_ref": {
+    "file": "死亡与复活保存.v1.json",
+    "pointer": "/equipment_death_effects"
+  }
+}

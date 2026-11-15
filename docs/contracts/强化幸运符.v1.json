@@ -1,0 +1,182 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "five_ten_fifteen_percent_charms_design_not_implemented_not_balanced",
+  "source_policy": "39level QREF63790-003/QREF63789-003 publish one5%charm each;56level QREF63790-014/QREF63789-014 publish two5%charms each. Item name/rate/count preserved;effect interpretation/eligible processing/permissions/consumption are explicit project adoption. 47level QREF63790-007/QREF63789-007 publish10%charm without count;project adopts one each and the same additive-percentage-point interpretation. 89level QREF63788-010 publishes15%charm1;project applies same additive-percentage-point interpretation and existing permissions.",
+  "processing": {
+    "eligible_owners": [
+      {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": "/tiers"
+      },
+      {
+        "file": "普通主武器强化.v1.json",
+        "pointer": "/tiers"
+      },
+      {
+        "file": "普通防具强化.v1.json",
+        "pointer": "/tiers"
+      }
+    ],
+    "scope": "only real enhancement recipes explicitly in eligible owners;not synthesis/awakening/four-divine/gem/evolution/transfer/true conversion/legacy enhancement;cannot substitute gem_luck_charm or four_divine_luck_charm",
+    "input": "optional null or exactly one unit from explicit real own carried enhancement_luck_charm_5, enhancement_luck_charm_10 or enhancement_luck_charm_15 stack;exact stack_id and expected revision/quantity1 in command;one selector only,not multiple charm types or multiple units;no auto choice from warehouse or alternate item",
+    "formula": "selected:effective_bp=min(10000,base_success_probability_bp+selected_definition.enhancement_bonus_bp);without charm use base exactly. Resolve exact adopted item from authoritative selected stack:5%=>500bp,10%=>1000bp,15%=>1500bp,never trust command-supplied bonus or derive it from a name;additive percentage points,not base*1.05/1.10/1.15",
+    "base_guaranteed": "base10000 with charm rejects before any cost/RNG/revision;omit charm to perform original guaranteed recipe",
+    "tiers_interpretation": "existing tiers success_probability_bp/random_draw_required describe base no-charm recipe;selected charm uses effective_bp and effective draw rule here;no change to base costs/tiers or eligibility",
+    "draw": "effective_bp10000 no RNG advance/draw;otherwise one uniform original host draw0..9999,success iff draw<effective_bp;no independent charm roll",
+    "consumption": "on valid committed attempt consume exactly one charm plus original stones/silver on both success and failure;original instance success/failure/preservation unchanged;invalid/cancel/stale/insufficient input/cap consumes nothing",
+    "preflight": "require original source inventory and full instance legal before consumption; revalidate NPC/service/owner/recipe/charm ID/binding/source stack/revisions; final inventory after all inputs and original instance outcome must be legal,never use consumed charm to repair originally invalid overweight state",
+    "quote": "show base and effective probabilities,exact selected charm item/rate and charm/stone stacks and silver,success/failure states;quote never consumes/advancesRNG;include explicit loss of charm on failure",
+    "identity": "command digest/quote bind optional charm selector(null or stack_id+expected_revision+quantity1),resolved exact charm item_id plus definition/version and base/effective bp and original recipe/version;same command altered charm selection rejects,not new roll",
+    "commit": "one05/19host transaction for original costs/charm stack consumption/instance flow/silver flow/RNG/character+inventory revisions+receipt;original owner determines exact revisions once,not extra revision for modifier",
+    "receipt": "retain original base/effective bp,charm null or resolved item_id/definition bonus and selected stack input and consumed1,draw null or actual result and original outcome;both success/failure deduplicated;replay returns original receipt,no second charm/cost/draw;uncertain save retries original outcome",
+    "random_flow_binding": {
+      "schema_ref": {
+        "file": "随机决定流.schema.json",
+        "pointer": ""
+      },
+      "algorithm_ref": {
+        "file": "随机序列.v1.json",
+        "pointer": "/decision_flow"
+      },
+      "scope": "eligible_owners三类强化全部尝试（含optional_charm_selector=null）同一随机绑定，不只选符才采用；非完整强化事件schema，不单独开放服务。",
+      "identity": "random_flow.receipt_id=原强化提交事件ID，原成功/失败收据内只一份random_flow；不另生成抽奖事件或消费另一settlement编号。",
+      "probability": "authority从原recipe与真实已选符定义算base/effective bp，冻结原报价；base10000选符非法，effective10000（含由符补满）实际roll=null/success=true/random_flow.streams=[]，角色及world计数均不变。其他合法有效概率1..9999仅一次uniform_integer(0,9999)。",
+      "draw": "非必成仅一条character流，owner_id=原命令实际character_id，algorithm/seed/before精确原角色random_state；draws恰一项，purpose=ordinary_armor_enhance.roll、ordinary_weapon_enhance.roll或hero_weapon_enhance.roll按原service类型精确选择。low=0/high=9999/result=原收据draw，success=(result<effective_bp)。拒绝块数量可>1，但只一业务样本，after精确重算。world流及其他角色流禁止。",
+      "cost_and_result": "原费用/材料与可选符成功失败均按原owner消费，失败仍是已提交抽样而非aborted。原实例保同ID，成功+1/失败保持，无多次试到成功；完整石/符堆流、银两流、实例成长和业务修订/角色RNG after同笔。",
+      "precommit_failure": "原资格/修订/库存/支付/最终负重失败在候选中放弃，不提交counter或费用；抽样耗尽亦整笔拒绝，不用默认成功或替代种子。正式提交后保存不确定按原事件核决定，不再次抽/扣费。",
+      "validation": "流重算之外逐条核当前原recipe/from级别、源实例、符真定义/源堆、base/effective概率及成败产物关系，结构合法draw不能授权客户端改概率。未知purpose/多draw/确定档有流/非确定档空流/错流拥有者均拒绝。",
+      "boundary": "三类强化采用随机绑定设计；完整强化命令/冻结计划/提交事件schema和实际服务/故障测试仍待，当前不声称运行接入完成。"
+    }
+  },
+  "pending": [
+    "Godot optional input command/quote/stack flow/RNG integration and failure-save/LAN tests",
+    "probability/economy balance"
+  ],
+  "items": [
+    {
+      "item_id": "enhancement_luck_charm_5",
+      "name": "幸运符（5%）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 5,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": false,
+      "sell_price": null,
+      "presentation_ref": "dev_item_enhancement_luck_charm_5",
+      "acquisition": "once-only39level righteous/evil quest reward1each and56level righteous/evil quest reward2each;no implicit shop/craft/drop;73level righteous/evil1each,74level righteous/evil2each,exact four quest final rewards only;86level righteous/evil1each,source unspecified charm tier/count explicitly local5percent1;41level righteous/evil exact final quest reward1each,quantity local;55level exact righteous/evil final reward1each,quantity explicitly local",
+      "enhancement_bonus_bp": 500,
+      "quest_reward_acquisition_refs": [
+        {
+          "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+          "pointer": "/quests/1/reward/items/0"
+        },
+        {
+          "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+          "pointer": "/quests/2/reward/items/0"
+        },
+        {
+          "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+          "pointer": "/quests/3/reward/items/0"
+        },
+        {
+          "file": "八十六级正邪漂浮秘密任务.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "八十六级正邪漂浮秘密任务.v1.json",
+          "pointer": "/quests/1/reward/items/0"
+        },
+        {
+          "file": "四十一级正邪书信客栈任务.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "四十一级正邪书信客栈任务.v1.json",
+          "pointer": "/quests/1/reward/items/0"
+        },
+        {
+          "file": "五十五级正邪证言任务.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "五十五级正邪证言任务.v1.json",
+          "pointer": "/quests/1/reward/items/0"
+        }
+      ]
+    },
+    {
+      "item_id": "enhancement_luck_charm_10",
+      "name": "幸运符（10%）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 5,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": false,
+      "sell_price": null,
+      "presentation_ref": "dev_item_enhancement_luck_charm_10",
+      "acquisition": "once-only47level righteous/evil quest reward1each;count1 is project adoption because source omits count;no implicit shop/craft/drop;74level righteous/evil2each,exact two quest final rewards only",
+      "enhancement_bonus_bp": 1000,
+      "quest_reward_acquisition_refs": [
+        {
+          "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+          "pointer": "/quests/1/reward/items/1"
+        },
+        {
+          "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+          "pointer": "/quests/3/reward/items/1"
+        }
+      ]
+    },
+    {
+      "item_id": "enhancement_luck_charm_15",
+      "name": "幸运符（15%）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 5,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": false,
+      "sell_price": null,
+      "presentation_ref": "dev_item_enhancement_luck_charm_15",
+      "acquisition": "once-only89level QREF-63788-010 exact final quest reward1;no implicit shop/craft/drop",
+      "enhancement_bonus_bp": 1500,
+      "quest_reward_acquisition_refs": [
+        {
+          "file": "八十九级北海防寒服材料.v1.json",
+          "pointer": "/quest/reward/items/0"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1118 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_local_prerequisite_design_not_implemented_not_balanced",
+  "source_evidence": "../reference/三转原文与采用裁定.json",
+  "source_policy": "63799six-step59level prerequisite is chosen over63790/63789summary60;source summaries unchanged;route/NPC/material10+10/crafted10/signature order/recommendation andreturn item preserved;all14class/rank2gate,exact producer association,local creature levels/stats,token handling,final-step transaction andreward quantity1are explicit local adoption;noadditionalXP/practice/silver/rankrewardisexplicitlocalchoice",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-018",
+      "source_reference_id": "QREF-63790-018",
+      "name": "竹叶青和竹盐",
+      "minimum_level": 59,
+      "source_summary_level": 60,
+      "required_completed_rank": 2,
+      "required_route": "righteous",
+      "class_scope": "all14local classes",
+      "accept_npc_id": "npc_liu_xu",
+      "map_id": "liuzheng_pass",
+      "interaction_distance_mm": 2500,
+      "acceptance": "adv_02delivered andconsistentrank2/route;alive,outofcombat,idle,nochallenge;neverdelivered;createuniqueattempt/stage1",
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "state_fields": [
+        "attempt_id_or_null",
+        "stage_index_or_null",
+        "state",
+        "stage_receipts"
+      ],
+      "readiness": "derive fromcurrentstage real own-attempt carried inputs;no separate kill counter",
+      "preaccept_items_count": false,
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xiao_chunshui",
+          "action": "交两类材料制作十件任务成品",
+          "consume": [
+            {
+              "item_id": "adv03_righteous_material_a",
+              "quantity": 10
+            },
+            {
+              "item_id": "adv03_righteous_material_b",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03_righteous_crafted",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_liu_xu",
+          "action": "领取空白推荐书",
+          "requires": [
+            {
+              "item_id": "adv03_righteous_crafted",
+              "quantity": 10
+            }
+          ],
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03_righteous_blank_paper",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_hong_fenghuang",
+          "action": "请钱庄主人签名",
+          "requires": [
+            {
+              "item_id": "adv03_righteous_crafted",
+              "quantity": 10
+            }
+          ],
+          "consume": [
+            {
+              "item_id": "adv03_righteous_blank_paper",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03_righteous_first_signature",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_xiao_chunshui",
+          "action": "请商人签名",
+          "requires": [
+            {
+              "item_id": "adv03_righteous_crafted",
+              "quantity": 10
+            }
+          ],
+          "consume": [
+            {
+              "item_id": "adv03_righteous_first_signature",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03_righteous_second_signature",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 5
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_liu_xu",
+          "action": "交双签书与十件成品",
+          "consume": [
+            {
+              "item_id": "adv03_righteous_second_signature",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03_righteous_crafted",
+              "quantity": 10
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "npc_id": "npc_liu_xu",
+          "action": "最终领取推荐书及回城符",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03_righteous_recommendation",
+              "quantity": 1
+            },
+            {
+              "item_id": "return_shenwu",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": null,
+          "final_transaction": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "adv03_righteous_recommendation",
+            "quantity": 1
+          },
+          {
+            "item_id": "return_shenwu",
+            "quantity": 1
+          }
+        ],
+        "rank_change": null,
+        "route_change": null
+      },
+      "return_item_owner": "便携传送与修炼限制.v1.json",
+      "return_destination_map_id": "shenwu_gate",
+      "stage_transaction": "validateexactstage/NPC/map/distance/alive/outofcombat/idle/nochallenge andall retainedinputs;preflightconsume-then-grant final layout/weight;atomicallyconsume/grant/advance/store receipt under05/19;failurepreserveseverything",
+      "deduplication": "character/quest/attempt/stage unique receipt plus request/currentrevision;replayoriginalresult,oldattempt neveradvances newattempt;finalonceacrossworlds",
+      "abandon": "explicitconfirmation clears only ownattempt first6token types;no refund/compensation;canrestartstage1withnewattempt;deliveredcannotabandonorregainrecommendation",
+      "invalid_snapshot": "missingretainedcrafted10,signedpaperwrongstage,alienattempt/route token orinvalidrank rejects;neverregrant/repair",
+      "final_capacity": "stage6outputsone0gletterandone5gportableitem;real99stackmergeandlayout/weight check,not assumeonefreeslot;failurekeepsstage6pending",
+      "resource_policy": "no rank change,XP/points,resource refill/cooldown reset or automatic skill grants",
+      "save": "persistactualattempt/stage/inventory/receipts;stage5has no token andmustretain receipt toallowstage6;reconnectdoesnotrepeat earlieroutputs",
+      "future_consumption": "upper quest mayconsumecompleted recommendation only underits exact contract;prerequisite finalreceipt neverregrants lost/consumedletter"
+    },
+    {
+      "quest_id": "ref_QREF-63789-018",
+      "source_reference_id": "QREF-63789-018",
+      "name": "指南玩偶",
+      "minimum_level": 59,
+      "source_summary_level": 60,
+      "required_completed_rank": 2,
+      "required_route": "evil",
+      "class_scope": "all14local classes",
+      "accept_npc_id": "npc_chi_juan",
+      "map_id": "sanxie_pass",
+      "interaction_distance_mm": 2500,
+      "acceptance": "adv_02delivered andconsistentrank2/route;alive,outofcombat,idle,nochallenge;neverdelivered;createuniqueattempt/stage1",
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "state_fields": [
+        "attempt_id_or_null",
+        "stage_index_or_null",
+        "state",
+        "stage_receipts"
+      ],
+      "readiness": "derive fromcurrentstage real own-attempt carried inputs;no separate kill counter",
+      "preaccept_items_count": false,
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_lu_xiaohuang",
+          "action": "交两类材料制作十件任务成品",
+          "consume": [
+            {
+              "item_id": "adv03_evil_material_a",
+              "quantity": 10
+            },
+            {
+              "item_id": "adv03_evil_material_b",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03_evil_crafted",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_chi_juan",
+          "action": "领取空白推荐书",
+          "requires": [
+            {
+              "item_id": "adv03_evil_crafted",
+              "quantity": 10
+            }
+          ],
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03_evil_blank_paper",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_zhou_shutong",
+          "action": "请钱庄主人签名",
+          "requires": [
+            {
+              "item_id": "adv03_evil_crafted",
+              "quantity": 10
+            }
+          ],
+          "consume": [
+            {
+              "item_id": "adv03_evil_blank_paper",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03_evil_first_signature",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_lu_xiaohuang",
+          "action": "请商人签名",
+          "requires": [
+            {
+              "item_id": "adv03_evil_crafted",
+              "quantity": 10
+            }
+          ],
+          "consume": [
+            {
+              "item_id": "adv03_evil_first_signature",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03_evil_second_signature",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 5
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_chi_juan",
+          "action": "交双签书与十件成品",
+          "consume": [
+            {
+              "item_id": "adv03_evil_second_signature",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03_evil_crafted",
+              "quantity": 10
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "npc_id": "npc_chi_juan",
+          "action": "最终领取推荐书及回城符",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03_evil_recommendation",
+              "quantity": 1
+            },
+            {
+              "item_id": "return_liushan",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": null,
+          "final_transaction": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "adv03_evil_recommendation",
+            "quantity": 1
+          },
+          {
+            "item_id": "return_liushan",
+            "quantity": 1
+          }
+        ],
+        "rank_change": null,
+        "route_change": null
+      },
+      "return_item_owner": "便携传送与修炼限制.v1.json",
+      "return_destination_map_id": "liushan_house",
+      "stage_transaction": "validateexactstage/NPC/map/distance/alive/outofcombat/idle/nochallenge andall retainedinputs;preflightconsume-then-grant final layout/weight;atomicallyconsume/grant/advance/store receipt under05/19;failurepreserveseverything",
+      "deduplication": "character/quest/attempt/stage unique receipt plus request/currentrevision;replayoriginalresult,oldattempt neveradvances newattempt;finalonceacrossworlds",
+      "abandon": "explicitconfirmation clears only ownattempt first6token types;no refund/compensation;canrestartstage1withnewattempt;deliveredcannotabandonorregainrecommendation",
+      "invalid_snapshot": "missingretainedcrafted10,signedpaperwrongstage,alienattempt/route token orinvalidrank rejects;neverregrant/repair",
+      "final_capacity": "stage6outputsone0gletterandone5gportableitem;real99stackmergeandlayout/weight check,not assumeonefreeslot;failurekeepsstage6pending",
+      "resource_policy": "no rank change,XP/points,resource refill/cooldown reset or automatic skill grants",
+      "save": "persistactualattempt/stage/inventory/receipts;stage5has no token andmustretain receipt toallowstage6;reconnectdoesnotrepeat earlieroutputs",
+      "future_consumption": "upper quest mayconsumecompleted recommendation only underits exact contract;prerequisite finalreceipt neverregrants lost/consumedletter"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "adv03_righteous_material_a",
+      "name": "竹桶",
+      "source_reference_id": "QREF-63790-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_carried": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_righteous_material_b",
+      "name": "竹叶",
+      "source_reference_id": "QREF-63790-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_carried": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_righteous_crafted",
+      "name": "竹叶青",
+      "source_reference_id": "QREF-63790-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_carried": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_righteous_blank_paper",
+      "name": "空白推荐书",
+      "source_reference_id": "QREF-63790-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_carried": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_righteous_first_signature",
+      "name": "钱庄签名推荐书",
+      "source_reference_id": "QREF-63790-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_carried": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_righteous_second_signature",
+      "name": "双签名推荐书",
+      "source_reference_id": "QREF-63790-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_carried": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_righteous_recommendation",
+      "name": "柳正关的推荐书",
+      "source_reference_id": "QREF-63790-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_carried": 1,
+      "binding": "character/prerequisite completion",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": false
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_evil_material_a",
+      "name": "竹条",
+      "source_reference_id": "QREF-63789-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_carried": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_evil_material_b",
+      "name": "磁铁石",
+      "source_reference_id": "QREF-63789-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_carried": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_evil_crafted",
+      "name": "指南玩偶",
+      "source_reference_id": "QREF-63789-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_carried": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_evil_blank_paper",
+      "name": "空白推荐书",
+      "source_reference_id": "QREF-63789-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_carried": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_evil_first_signature",
+      "name": "钱庄签名推荐书",
+      "source_reference_id": "QREF-63789-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_carried": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_evil_second_signature",
+      "name": "双签名推荐书",
+      "source_reference_id": "QREF-63789-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_carried": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null
+    },
+    {
+      "item_id": "adv03_evil_recommendation",
+      "name": "三邪关的推荐书",
+      "source_reference_id": "QREF-63789-018",
+      "identity_policy": "explicit local token split forsource signature steps;not ordinary material,food,toy,manual or equipment",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_carried": 1,
+      "binding": "character/prerequisite completion",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_cleanup": false
+      },
+      "sell_price": null
+    }
+  ],
+  "monsters": [
+    {
+      "monster_id": "project_righteous_one_eye_bandit57",
+      "name": "独眼恶贼",
+      "level": 57,
+      "map_id": "liuzheng_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 4560,
+      "max_mana": 0,
+      "attack_min": 228,
+      "attack_max": 285,
+      "ordinary_defense": 114,
+      "accuracy": 285,
+      "evasion": 114,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_rank3_prerequisite_creature",
+      "xp_reward": 265500,
+      "practice_reward": 26550,
+      "silver_reward": 57,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "project_righteous_one_eye_bandit57",
+        "status": "local creature model/animations pending"
+      },
+      "identity_policy": "name from63799task text only;no matching source monster catalog entry,no fabricatedMREF;level57/58andallcombat/spawns local;not counted in198adoption",
+      "source_task_reference_id": "QREF-63790-018"
+    },
+    {
+      "monster_id": "project_righteous_bamboo_swordsman58",
+      "name": "竹林双剑",
+      "level": 58,
+      "map_id": "liuzheng_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 4640,
+      "max_mana": 0,
+      "attack_min": 232,
+      "attack_max": 290,
+      "ordinary_defense": 116,
+      "accuracy": 290,
+      "evasion": 116,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_rank3_prerequisite_creature",
+      "xp_reward": 277000,
+      "practice_reward": 27700,
+      "silver_reward": 58,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "project_righteous_bamboo_swordsman58",
+        "status": "local creature model/animations pending"
+      },
+      "identity_policy": "name from63799task text only;no matching source monster catalog entry,no fabricatedMREF;level57/58andallcombat/spawns local;not counted in198adoption",
+      "source_task_reference_id": "QREF-63790-018"
+    },
+    {
+      "monster_id": "project_evil_one_eye_bandit57",
+      "name": "独眼恶贼",
+      "level": 57,
+      "map_id": "sanxie_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 4560,
+      "max_mana": 0,
+      "attack_min": 228,
+      "attack_max": 285,
+      "ordinary_defense": 114,
+      "accuracy": 285,
+      "evasion": 114,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_rank3_prerequisite_creature",
+      "xp_reward": 265500,
+      "practice_reward": 26550,
+      "silver_reward": 57,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "project_evil_one_eye_bandit57",
+        "status": "local creature model/animations pending"
+      },
+      "identity_policy": "name from63799task text only;no matching source monster catalog entry,no fabricatedMREF;level57/58andallcombat/spawns local;not counted in198adoption",
+      "source_task_reference_id": "QREF-63789-018"
+    },
+    {
+      "monster_id": "project_evil_bamboo_swordsman58",
+      "name": "竹林剑士",
+      "level": 58,
+      "map_id": "sanxie_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 4640,
+      "max_mana": 0,
+      "attack_min": 232,
+      "attack_max": 290,
+      "ordinary_defense": 116,
+      "accuracy": 290,
+      "evasion": 116,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_rank3_prerequisite_creature",
+      "xp_reward": 277000,
+      "practice_reward": 27700,
+      "silver_reward": 58,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "project_evil_bamboo_swordsman58",
+        "status": "local creature model/animations pending"
+      },
+      "identity_policy": "name from63799task text only;no matching source monster catalog entry,no fabricatedMREF;level57/58andallcombat/spawns local;not counted in198adoption",
+      "source_task_reference_id": "QREF-63789-018"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "project_righteous_one_eye_bandit57_01",
+      "monster_id": "project_righteous_one_eye_bandit57",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -112,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_righteous_one_eye_bandit57_02",
+      "monster_id": "project_righteous_one_eye_bandit57",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -112,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_righteous_one_eye_bandit57_03",
+      "monster_id": "project_righteous_one_eye_bandit57",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -112,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_righteous_one_eye_bandit57_04",
+      "monster_id": "project_righteous_one_eye_bandit57",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -112,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_righteous_bamboo_swordsman58_01",
+      "monster_id": "project_righteous_bamboo_swordsman58",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -12,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_righteous_bamboo_swordsman58_02",
+      "monster_id": "project_righteous_bamboo_swordsman58",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -4,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_righteous_bamboo_swordsman58_03",
+      "monster_id": "project_righteous_bamboo_swordsman58",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        4,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_righteous_bamboo_swordsman58_04",
+      "monster_id": "project_righteous_bamboo_swordsman58",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        12,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_one_eye_bandit57_01",
+      "monster_id": "project_evil_one_eye_bandit57",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -112,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_one_eye_bandit57_02",
+      "monster_id": "project_evil_one_eye_bandit57",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -112,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_one_eye_bandit57_03",
+      "monster_id": "project_evil_one_eye_bandit57",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -112,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_one_eye_bandit57_04",
+      "monster_id": "project_evil_one_eye_bandit57",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -112,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_bamboo_swordsman58_01",
+      "monster_id": "project_evil_bamboo_swordsman58",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -12,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_bamboo_swordsman58_02",
+      "monster_id": "project_evil_bamboo_swordsman58",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -4,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_bamboo_swordsman58_03",
+      "monster_id": "project_evil_bamboo_swordsman58",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        4,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_bamboo_swordsman58_04",
+      "monster_id": "project_evil_bamboo_swordsman58",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        12,
+        0,
+        -120
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-018",
+        "required_stage_index": 1,
+        "map_id": "liuzheng_pass",
+        "monster_id": "project_righteous_one_eye_bandit57",
+        "item_id": "adv03_righteous_material_a",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63790-018",
+        "required_stage_index": 1,
+        "map_id": "liuzheng_pass",
+        "monster_id": "project_righteous_bamboo_swordsman58",
+        "item_id": "adv03_righteous_material_b",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-018",
+        "required_stage_index": 1,
+        "map_id": "sanxie_pass",
+        "monster_id": "project_evil_one_eye_bandit57",
+        "item_id": "adv03_evil_material_a",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-018",
+        "required_stage_index": 1,
+        "map_id": "sanxie_pass",
+        "monster_id": "project_evil_bamboo_swordsman58",
+        "item_id": "adv03_evil_material_b",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "qualification": "own active attempt/stage1/correct quest faction map,alive/connected/same scene,solo death owner or exact19party valid member snapshot;cap10each material",
+    "ownership": "personal attempt-bound quest tokens,not copies of public loot",
+    "capacity_failure": "save no-item result with unique death;no original death retry on reconnect or freeing space",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "modifiers": "task fixed100%,no finisher/training orother multiplier",
+    "commit": "same05/19host death settlement with per-recipient results",
+    "shared_death_owner": {
+      "file": "寻求料理材料二任务.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "all map safe zones exclude hostile spawn/entry;path return,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "new role andfour known legacy schema/content imports explicitly not_accepted/nullattempt/stage andempty receipts/no tokens;oldrank0/unselected never meets acceptance merely bylevel;newformat missing fields rejects",
+  "pending": [
+    "Godot prerequisite UI/inventory/save/LAN/runtime tests",
+    "local task creature models/animations andlevel59growth calibration",
+    "rank3upper/lower adoption includingall14class branches remains separate"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "stage_inventory_simulation": "both6stage sequences consume10+10materials,retain10crafted during signatures,exchangepaperexactlyonceperstep;stage5empty,stage6oneletterplusonereturnitem",
+    "spawn_check": "all16homes with0.45m capsule plus2m patrol margin outside expanded solids/map safe circles;centralLroutesclearfor0.35mactor",
+    "service_check": "six existingNPCservices/anchors at2m;settlementorigin(0,0)centralLpathsavoid solidsandNPCcircles at0.35mradius;no newNPC/anchor or changed collider",
+    "runtime_proven": false
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "explicit_local_fixed_material_box_design_not_implemented_not_balanced",
+  "source_policy": "共同001来源仅列香木宝盒5，内容未载；本地独立盒20克/99堆，每开1固定金创药（小）5个/共50克，作为5级补给。非官网开盒表，不混同银/白银/黄金宝盒，不增加药物强度或新药定义。",
+  "item": {
+    "item_id": "quest_reward_aromatic_wood_box",
+    "name": "香木宝盒",
+    "kind": "reward_box",
+    "container": "inventory",
+    "max_stack": 99,
+    "weight_g": 20,
+    "binding": "character",
+    "warehouse": true,
+    "discard": true,
+    "sell_to_npc": false,
+    "sell_price": null,
+    "player_trade": false,
+    "buyback": false,
+    "equip": false,
+    "direct_use": true,
+    "recipe_input_only": false,
+    "purchase_allowed": false,
+    "initial_grant": 0,
+    "source_kind": "task_name_not_IREFcatalog_adoption",
+    "acquisition_refs": [
+      {
+        "file": "五级寻找料理材料.v1.json",
+        "pointer": "/quest/reward/items/0"
+      }
+    ],
+    "presentation_ref": "dev_item_aromatic_wood_box"
+  },
+  "box_open": {
+    "inputs": [
+      {
+        "item_id": "quest_reward_aromatic_wood_box",
+        "quantity": 1
+      }
+    ],
+    "outputs": [
+      {
+        "item_id": "consumable_hp_small",
+        "quantity": 5,
+        "definition_ref": {
+          "file": "角色初始模板.v1.json",
+          "pointer": "/items/15"
+        }
+      }
+    ],
+    "qualification": "本人存活连接/脱战空闲/无挑战交易服务预留，地图允许使用；14职业/三路线/等级>=1/rank>=0。自己inventory真实精确盒堆/绑定/来源/修订/数量合法，仓库不直接开。",
+    "capacity": "原完整库存合法；消费盒1/20克，再给consumable_bag药5/共50克，净增30克。药99堆/角色绑定按真实来源合堆/余量及新药槽布局；盒释放的inventory槽不能替药品槽。原药98+5须99+4两个药堆，药99满堆不能再填；药量全批预检，缺1克或缺任一药槽整笔保盒。",
+    "transaction": "05/19单一use结算，盒终结reason use；药loot授权须解析本精确输入盒/固定输出5/既有药定义，不因字符串loot泛授药。新药堆不自动填快捷栏、不立即恢复HP、不启动或清理hp_restore冷却。盒和药真实来源/消费产出流及角色库存修订同笔各一次，无费用/XP/银/历练/RNG。",
+    "deduplication": "同request同payload回原持久决定，不再次耗盒或发药；改payload同request拒绝；新request只能开真实余盒。"
+  },
+  "failure_and_save": "资格/来源/原状态/修订/最终药槽或负重失败整笔保盒。保存不确定解析原决定，旧结果不回装已使用/售卖/丢弃药；不再开盒。",
+  "persistence": "只用既有inventory/consumable_bag与真实堆来源，无新增timer或药定义；新角色/known1..4初始盒0，不补历史任务奖励。只有共同001终交授权5盒。",
+  "pending": [
+    "Godot固定开盒/跨容器槽重/来源/保存/LAN验证",
+    "5盒共25小药的低等级经济校准"
+  ]
+}

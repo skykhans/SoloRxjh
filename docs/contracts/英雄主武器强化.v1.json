@@ -1,0 +1,1114 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "explicit_hero_enhancement_design_not_implemented_not_balanced",
+  "scope": "仅107主线英雄武器真实强化0至15；不采用普通装备、首饰、宝珠概率，亦非提真/武器晋阶/强化转移。",
+  "source_policy": {
+    "published": [
+      "甄凤柏专属血雨丸强化失败不消失；角色及武器独立转职，首阶源强化要求至少1。",
+      "强化石在任务奖励来源中有明确名称；公开资料未给本项目完整强化概率、费用或英雄逐级属性表。"
+    ],
+    "references": [
+      {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline"
+      },
+      {
+        "url": "http://rxjh.17game.com/event/2026/content/index.html",
+        "text_sha256": "c3168503c57e811a9ac873b017c928e9b43332be11b67b983bf87707c94d2edd"
+      }
+    ],
+    "project_choices": [
+      "逐级概率/材料数/银价/费用/属性曲线全部明确为项目值，不宣称官网一致。",
+      "六英雄均采用失败不毁、不降级、不清成长；将血雨丸保护扩至其余五主武器是项目选择。",
+      "首三次必成且不抽随机；+1石500两+手续费100两=600两，初始2000两可负担，但不自动赠石或自动强化。",
+      "107主武器真实强化上限统一15；15+[n]为独立附加显示机制，天池神丹英雄方案已由英雄武器附加提升.v1.json采用，不在此被改写为永久强化或直接丢弃。"
+    ]
+  },
+  "items": [
+    {
+      "item_id": "enhancement_stone",
+      "name": "强化石",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 500,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 1,
+      "minimum_purchase_rank": 0,
+      "purchase_class_filter": "six hero classes in weapon_bindings",
+      "presentation_ref": "dev_item_enhancement_stone",
+      "source_policy": "名称沿来源；本地商店取得、价格、堆重及权限为项目设计。其他任务后续发同定义石时仍须独立采用，不因此把任务标完整。 53银宝盒固定开启精确授权1颗，必须真实消费独立银宝盒并同笔来源/槽重提交，不扩展其他盒。",
+      "fixed_box_acquisition_refs": [
+        {
+          "file": "银宝盒固定开启.v1.json",
+          "pointer": "/box_open"
+        }
+      ]
+    }
+  ],
+  "service_policy": {
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "requires_same_map_available_npc": true,
+    "requires_alive_idle_out_of_combat_no_challenge": true,
+    "allowed_routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "source_location": "own equipment_bag only; equipped primary/secondary and warehouse must explicitly unequip/withdraw",
+    "qualification": "exact weapon_bindings member, actor class matches, meets definition minimum_level/minimum_rank and route; weapon stage/true flag match definition; no additional character quest gate",
+    "minimum_enhancement": 0,
+    "maximum_input_enhancement": 14,
+    "reject_additional_boost": "nonzero 15+[n] or temporary enhancement attachment rejects this recipe before charge; do not silently remove boosts",
+    "other_growth": "保留全部已注册且合法的合成/觉醒/元素/进化/奇玉/四神等字段；缺正式schema、未知字段或损坏实例时拒绝，不丢弃字段。",
+    "first_step": "六封印定义与其余101定义具名绑定，封印0级可购买石并提交+1；创建赠送仍为原+0。",
+    "enhancement_boost_guard_owner_ref": {
+      "file": "英雄武器附加提升.v1.json",
+      "pointer": "/processing_guard"
+    },
+    "instance_growth_schema_owner_ref": {
+      "file": "英雄主武器基础定义.v1.json",
+      "pointer": "/instance_growth_schema"
+    }
+  },
+  "weapon_bindings": [
+    {
+      "item_id": "weapon_blood_orb_sealed",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 0,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_fire_dragon_sealed",
+      "class_id": "han_feiguan",
+      "weapon_stage": 0,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_flower_sword_sealed",
+      "class_id": "tan_hualing",
+      "weapon_stage": 0,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_sealed",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 0,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_soul_spear_sealed",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 0,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_sealed",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 0,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_blood_orb_rank01",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 1,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_blood_orb_rank02",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 2,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_blood_orb_rank03",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 3,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_blood_orb_rank04",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 4,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_blood_orb_rank05",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 5,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_blood_orb_rank06",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 6,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_blood_orb_rank07",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 7,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_blood_orb_rank08",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 8,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_blood_orb_rank08_true",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 8,
+      "true_equipment": true,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_blood_orb_rank09",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 9,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_blood_orb_rank09_true",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 9,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_blood_orb_rank10",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 10,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_blood_orb_rank10_true",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 10,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_blood_orb_rank11",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 11,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_blood_orb_rank11_true",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 11,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_blood_orb_rank12",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 12,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_blood_orb_rank12_true",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 12,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank01",
+      "class_id": "han_feiguan",
+      "weapon_stage": 1,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank02",
+      "class_id": "han_feiguan",
+      "weapon_stage": 2,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank03",
+      "class_id": "han_feiguan",
+      "weapon_stage": 3,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank04",
+      "class_id": "han_feiguan",
+      "weapon_stage": 4,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank05",
+      "class_id": "han_feiguan",
+      "weapon_stage": 5,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank06",
+      "class_id": "han_feiguan",
+      "weapon_stage": 6,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank07",
+      "class_id": "han_feiguan",
+      "weapon_stage": 7,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank08",
+      "class_id": "han_feiguan",
+      "weapon_stage": 8,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank09",
+      "class_id": "han_feiguan",
+      "weapon_stage": 9,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank09_true",
+      "class_id": "han_feiguan",
+      "weapon_stage": 9,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank10",
+      "class_id": "han_feiguan",
+      "weapon_stage": 10,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank10_true",
+      "class_id": "han_feiguan",
+      "weapon_stage": 10,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank11",
+      "class_id": "han_feiguan",
+      "weapon_stage": 11,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank11_true",
+      "class_id": "han_feiguan",
+      "weapon_stage": 11,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank12",
+      "class_id": "han_feiguan",
+      "weapon_stage": 12,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank12_true",
+      "class_id": "han_feiguan",
+      "weapon_stage": 12,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_flower_sword_rank01",
+      "class_id": "tan_hualing",
+      "weapon_stage": 1,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_flower_sword_rank02",
+      "class_id": "tan_hualing",
+      "weapon_stage": 2,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_flower_sword_rank03",
+      "class_id": "tan_hualing",
+      "weapon_stage": 3,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_flower_sword_rank04",
+      "class_id": "tan_hualing",
+      "weapon_stage": 4,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_flower_sword_rank05",
+      "class_id": "tan_hualing",
+      "weapon_stage": 5,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_flower_sword_rank06",
+      "class_id": "tan_hualing",
+      "weapon_stage": 6,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_flower_sword_rank07",
+      "class_id": "tan_hualing",
+      "weapon_stage": 7,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_flower_sword_rank08",
+      "class_id": "tan_hualing",
+      "weapon_stage": 8,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_flower_sword_rank08_true",
+      "class_id": "tan_hualing",
+      "weapon_stage": 8,
+      "true_equipment": true,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_flower_sword_rank09",
+      "class_id": "tan_hualing",
+      "weapon_stage": 9,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_flower_sword_rank09_true",
+      "class_id": "tan_hualing",
+      "weapon_stage": 9,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_flower_sword_rank10",
+      "class_id": "tan_hualing",
+      "weapon_stage": 10,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_flower_sword_rank10_true",
+      "class_id": "tan_hualing",
+      "weapon_stage": 10,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_flower_sword_rank11",
+      "class_id": "tan_hualing",
+      "weapon_stage": 11,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_flower_sword_rank11_true",
+      "class_id": "tan_hualing",
+      "weapon_stage": 11,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_flower_sword_rank12",
+      "class_id": "tan_hualing",
+      "weapon_stage": 12,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_flower_sword_rank12_true",
+      "class_id": "tan_hualing",
+      "weapon_stage": 12,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank01",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 1,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank02",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 2,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank03",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 3,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank04",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 4,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank05",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 5,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank06",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 6,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank07",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 7,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank08",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 8,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank08_true",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 8,
+      "true_equipment": true,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank09",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 9,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank09_true",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 9,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank10",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 10,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank10_true",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 10,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank11",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 11,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank11_true",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 11,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank12",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 12,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank12_true",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 12,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_soul_spear_rank01",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 1,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_soul_spear_rank02",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 2,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_soul_spear_rank03",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 3,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_soul_spear_rank04",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 4,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_soul_spear_rank05",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 5,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_soul_spear_rank06",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 6,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_soul_spear_rank07",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 7,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_soul_spear_rank08",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 8,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_soul_spear_rank08_true",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 8,
+      "true_equipment": true,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_soul_spear_rank09",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 9,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_soul_spear_rank09_true",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 9,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_soul_spear_rank10",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 10,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_soul_spear_rank10_true",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 10,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_soul_spear_rank11",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 11,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_soul_spear_rank11_true",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 11,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_soul_spear_rank12",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 12,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_soul_spear_rank12_true",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 12,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank01",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 1,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank02",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 2,
+      "true_equipment": false,
+      "attack_coefficient": 1
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank03",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 3,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank04",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 4,
+      "true_equipment": false,
+      "attack_coefficient": 2
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank05",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 5,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank06",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 6,
+      "true_equipment": false,
+      "attack_coefficient": 3
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank07",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 7,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank08",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 8,
+      "true_equipment": false,
+      "attack_coefficient": 4
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank08_true",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 8,
+      "true_equipment": true,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank09",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 9,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank09_true",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 9,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank10",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 10,
+      "true_equipment": false,
+      "attack_coefficient": 5
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank10_true",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 10,
+      "true_equipment": true,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank11",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 11,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank11_true",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 11,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank12",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 12,
+      "true_equipment": false,
+      "attack_coefficient": 6
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank12_true",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 12,
+      "true_equipment": true,
+      "attack_coefficient": 7
+    }
+  ],
+  "tiers": [
+    {
+      "recipe_id": "hero_enhance_01",
+      "from_enhancement": 0,
+      "to_enhancement": 1,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 100,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 0
+    },
+    {
+      "recipe_id": "hero_enhance_02",
+      "from_enhancement": 1,
+      "to_enhancement": 2,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 300,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 1
+    },
+    {
+      "recipe_id": "hero_enhance_03",
+      "from_enhancement": 2,
+      "to_enhancement": 3,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 2
+    },
+    {
+      "recipe_id": "hero_enhance_04",
+      "from_enhancement": 3,
+      "to_enhancement": 4,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 3000,
+      "success_probability_bp": 9000,
+      "random_draw_required": true,
+      "failure_enhancement": 3
+    },
+    {
+      "recipe_id": "hero_enhance_05",
+      "from_enhancement": 4,
+      "to_enhancement": 5,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 10000,
+      "success_probability_bp": 8500,
+      "random_draw_required": true,
+      "failure_enhancement": 4
+    },
+    {
+      "recipe_id": "hero_enhance_06",
+      "from_enhancement": 5,
+      "to_enhancement": 6,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 30000,
+      "success_probability_bp": 8000,
+      "random_draw_required": true,
+      "failure_enhancement": 5
+    },
+    {
+      "recipe_id": "hero_enhance_07",
+      "from_enhancement": 6,
+      "to_enhancement": 7,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 100000,
+      "success_probability_bp": 7500,
+      "random_draw_required": true,
+      "failure_enhancement": 6
+    },
+    {
+      "recipe_id": "hero_enhance_08",
+      "from_enhancement": 7,
+      "to_enhancement": 8,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 300000,
+      "success_probability_bp": 6500,
+      "random_draw_required": true,
+      "failure_enhancement": 7
+    },
+    {
+      "recipe_id": "hero_enhance_09",
+      "from_enhancement": 8,
+      "to_enhancement": 9,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 4,
+      "silver_fee": 600000,
+      "success_probability_bp": 5500,
+      "random_draw_required": true,
+      "failure_enhancement": 8
+    },
+    {
+      "recipe_id": "hero_enhance_10",
+      "from_enhancement": 9,
+      "to_enhancement": 10,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 5,
+      "silver_fee": 1000000,
+      "success_probability_bp": 4500,
+      "random_draw_required": true,
+      "failure_enhancement": 9
+    },
+    {
+      "recipe_id": "hero_enhance_11",
+      "from_enhancement": 10,
+      "to_enhancement": 11,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 6,
+      "silver_fee": 2000000,
+      "success_probability_bp": 3500,
+      "random_draw_required": true,
+      "failure_enhancement": 10
+    },
+    {
+      "recipe_id": "hero_enhance_12",
+      "from_enhancement": 11,
+      "to_enhancement": 12,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 8,
+      "silver_fee": 3000000,
+      "success_probability_bp": 2500,
+      "random_draw_required": true,
+      "failure_enhancement": 11
+    },
+    {
+      "recipe_id": "hero_enhance_13",
+      "from_enhancement": 12,
+      "to_enhancement": 13,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 10,
+      "silver_fee": 5000000,
+      "success_probability_bp": 2000,
+      "random_draw_required": true,
+      "failure_enhancement": 12
+    },
+    {
+      "recipe_id": "hero_enhance_14",
+      "from_enhancement": 13,
+      "to_enhancement": 14,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 12,
+      "silver_fee": 8000000,
+      "success_probability_bp": 1500,
+      "random_draw_required": true,
+      "failure_enhancement": 13
+    },
+    {
+      "recipe_id": "hero_enhance_15",
+      "from_enhancement": 14,
+      "to_enhancement": 15,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 15,
+      "silver_fee": 10000000,
+      "success_probability_bp": 1000,
+      "random_draw_required": true,
+      "failure_enhancement": 14
+    }
+  ],
+  "enhancement_policy": {
+    "maximum_real_enhancement": 15,
+    "attack_bonus_units_by_enhancement": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      7,
+      10,
+      14,
+      19,
+      25,
+      32,
+      40,
+      50,
+      62,
+      77,
+      95
+    ],
+    "attack_coefficient": "explicit weapon_bindings.attack_coefficient; stage coefficient [1,1,1,2,2,3,3,4,4,5,5,6,6] plus1 for true variants, sealed coefficient1",
+    "attack_contribution": "real_enhancement adds curve[enhancement]*coefficient to both weapon attack bounds exactly once, separate from source base range",
+    "martial_power_flat_by_enhancement": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      9,
+      14
+    ],
+    "martial_power_contribution": "at +14/+15 add9/14 times coefficient to accepted attack-martial flat skill-power component once before existing phase/passive power calculations; ordinary attacks/healing/status do not receive martial flat power",
+    "contribution_category": "real_enhancement only; not attribute_stone, synthesis, weapon_base, gems, awakening or temporary boost; Lu attribute-stone double excludes both attack and martial fields",
+    "active_group_only": true,
+    "weapon_stage_change": "recompute coefficient from explicit target definition when a named progression recipe changes stage; retaining enhancement never means retaining old cached bonus in addition to target bonus",
+    "persisted_inputs": "definition ID and actual enhancement; no persistent cached derived attack or martial power",
+    "random": "未选符沿tier基础概率；选5%/10%/15%符按optional_luck_charm_owner_ref计算有效概率。有效10000不抽样，其余房主从0..9999均匀单抽，draw<有效bp成功；不另抽幸运符随机。",
+    "success": "same instance ID, enhancement+1 only; consumes exact stone count and fee",
+    "failure": "same instance ID and enhancement; consumes exact stone count and fee; every other source field unchanged; no destruction or downgrade",
+    "rank15": "reject before quote/charge/random, no enhancement16 recipe",
+    "does_not_grant": "no character rank/weapon stage/true conversion/quest reward/qigong point or gemstone improvement"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "from_enhancement",
+      "recipe_id",
+      "recipe_version",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "material_stack_ids_and_quantities",
+      "command_id",
+      "optional_charm_selector",
+      "base_success_probability_bp",
+      "effective_success_probability_bp"
+    ],
+    "preview": "show source item and real enhancement, success probability, success/failure states, both resource costs and resulting typed attack/martial contribution; no implied protection-symbol selection",
+    "commit": "validate all source and resource fields, calculate material removal/final capacity+weight on copy, clone random state and draw if required, commit cost/instance/random/revisions/receipt together",
+    "weight_and_capacity": "same source instance remains in its slot; only material count decreases, never creates a replacement weapon or extra slot; cannot use processing to legitimize bad overweight snapshot",
+    "cancel_or_invalid": "no fee, stone, RNG state or revision change; never pre-roll quote",
+    "deduplication": "host serializes each character; look up original command receipt before current enhancement validation; same command same payload returns same outcome without new draw, altered payload rejects",
+    "preservation": "synthesis and every other registered source field remain byte-equivalent, not reset on success/failure",
+    "save_failure": "retain committed memory outcome/unsaved flag and same random state; retry save rather than repeat business transaction",
+    "lan": "host owns requester character checks, RNG, exact materials and silver; other party members cannot contribute or gain item",
+    "load": "reject enhancement outside0..15, missing definition/binding, duplicate instance or inconsistent receipt; do not clamp or repair",
+    "optional_charm": "optional_charm_selector必须显式null或指定真实随身5%/10%/15%符堆及预期修订/数量1；报价/摘要/消费/有效概率/随机/收据沿optional_luck_charm_owner_ref，成功失败都消费一张；原必成档选符拒绝。",
+    "random_flow_binding_ref": {
+      "file": "强化幸运符.v1.json",
+      "pointer": "/processing/random_flow_binding"
+    }
+  },
+  "remaining_dependencies": [
+    "英雄主武器晋阶与提真.v1.json已采用95晋阶/29提真、三材料及两次甄奖励；英雄合成/神物之石由英雄武器合成与神物之石.v1.json采用；其他成长字段/贡献仍待。",
+    "英雄合成、火/毒属性、觉醒/四神、奇玉与进化均有独立采用合同，当前三名NPC武者投影已采用；其他元素/普通武器/防具、附加强化及完整反气功预算仍待，不能启用未知状态。",
+    "英雄天池神丹附加提升与12件170武器反气功预算已有独立owner；其他提升道具/装备/首饰预算仍待。",
+    "Godot真实强化服务/商店/RNG/存档/LAN及经济平衡尚未实现验证。"
+  ],
+  "static_review": {
+    "kind": "static_design_review_not_runtime",
+    "weapon_bindings_verified": 107,
+    "enhancement_projection_cases": 1712,
+    "probability_outcomes_enumerated": 150000,
+    "tier_count": 15,
+    "first_enhancement_cost": 600,
+    "hero_initial_silver_verified": 2000,
+    "initial_hero_enhancement_verified": 0,
+    "nonhero_starting_equipment_limits_verified_unchanged": 9,
+    "world_service_count_unique": 189,
+    "runtime_tests_executed": false
+  },
+  "optional_luck_charm_owner_ref": {
+    "file": "强化幸运符.v1.json",
+    "pointer": "/processing"
+  }
+}

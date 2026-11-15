@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dongling-delayed-burst-state:v1",
+  "$comment": "唯一effects.dongling_delayed_burst，固定原阎王爆技能status_dongling_7366d14a907b的独立来源。root原施法与application原本次落效/传播分离，目标隐含为持有实体。到期快照属原权威结果，不把expired/pending_burst存回活跃来源。",
+  "type": "array",
+  "uniqueItems": true,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "source_actor_id",
+      "reward_owner_id",
+      "root_event_id",
+      "application_event_id",
+      "stage",
+      "snapshot_attack",
+      "timing",
+      "tracked_hp_loss"
+    ],
+    "properties": {
+      "source_actor_id": {
+        "$ref": "#/$defs/nonblank_id"
+      },
+      "reward_owner_id": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "$ref": "#/$defs/nonblank_id"
+          }
+        ]
+      },
+      "root_event_id": {
+        "$ref": "#/$defs/nonblank_id"
+      },
+      "application_event_id": {
+        "$ref": "#/$defs/nonblank_id"
+      },
+      "stage": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10
+      },
+      "snapshot_attack": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "timing": {
+        "$ref": "urn:solorxjh:dongling-periodic-effect-state:v1#/$defs/negative_duration"
+      },
+      "tracked_hp_loss": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      }
+    }
+  },
+  "$defs": {
+    "nonblank_id": {
+      "type": "string",
+      "pattern": "\\S"
+    }
+  }
+}

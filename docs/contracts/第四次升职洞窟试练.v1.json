@@ -1,0 +1,3507 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_five_source_parts_23_stage_fourth_advancement_design_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/八十级四转五段来源核对.json",
+    "pointer": ""
+  },
+  "source_policy": "采用正038～042/邪038～043五段文字，邪第一段重复两ID合一收据；唯一adv_04/80级/rank3/adv03/14职业。23阶段替换旧六步本地流程，前四段各950000经验+推荐函1，最终5000000银与rank4。八怪32home/等级/普通收益与明确两怪区域取舍保持；数量冲突50+50+10本地选50+40+10=100，源原值保档；药/用品/书箱/批示各1、全0克与放弃checkpoint为明确本地补足，非简图已发布数值。",
+  "quest": {
+    "quest_id": "adv_04",
+    "minimum_level": 80,
+    "required_completed_rank": 3,
+    "requires_delivered": "adv_03",
+    "class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "acceptance": "alive/outofcombat/idle/nochallenge，精确本派首领map/anchor/service<=2500mm；level>=80/rank3/adv03delivered/14职业、neveradv04delivered。验证永久已完成源段前缀0..4与保留函/来源；同checkpoint派别，生成唯一新attempt，stage=1/8/10/16/17。仅首次未完成part1接取发介绍信1并预检槽；已完成段不补经验/函。",
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "state_fields": [
+      "attempt_id_or_null",
+      "branch_id_or_null",
+      "stage_index_or_null",
+      "state",
+      "stage_receipts",
+      "completed_part_count",
+      "checkpoint_branch_id_or_null",
+      "part_completion_receipts",
+      "final_receipt_or_null"
+    ],
+    "branch_selection": "当前精确正邪路线；完成首源段后checkpoint_branch_id固定，换路线不能重开另一派领取前段。未完成任何源段放弃可清checkpoint派别；14职业仍须adv03/rank3，无80级0转历史创建捷径。",
+    "repeat": "角色跨世界仅一次最终完成；前四段各永久一次奖励，放弃只重开当前未完成源段，不重置已完成段/经验/四函。",
+    "ready_policy": "derive from exact stage receipt prefix and real carried items by binding scope;no cached kill count or synthetic replacement papers"
+  },
+  "branches": [
+    {
+      "branch_id": "righteous",
+      "class_ids": [
+        "blade",
+        "sword",
+        "spear",
+        "physician",
+        "archer",
+        "assassin",
+        "musician",
+        "fighter",
+        "han_feiguan",
+        "tan_hualing",
+        "mei_liuzhen",
+        "lu_fenglang",
+        "dongling_shennv",
+        "zhen_fengbai"
+      ],
+      "accept_npc_id": "npc_che_jingmo",
+      "map_id": "shenwu_gate",
+      "accept_interaction_anchor_id": "npc_che_jingmo_service",
+      "accept_service_id": "npc_che_jingmo_adv04_righteous",
+      "accept_grant_if_completed_part_count_zero": [
+        {
+          "item_id": "adv04_righteous_introduction",
+          "quantity": 1
+        }
+      ],
+      "stages": [
+        {
+          "stage_index": 1,
+          "source_part": 1,
+          "npc_id": "npc_shangguan_yin",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_shangguan_yin_service",
+          "service_id": "npc_shangguan_yin_adv04_righteous",
+          "action": "导师收本轮介绍信",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_introduction",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "source_part": 1,
+          "npc_id": "npc_yang_bufan",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_yang_bufan_service",
+          "service_id": "npc_yang_bufan_adv04_righteous",
+          "action": "医师讲述并发本轮药",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_medicine",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3,
+          "grant_reason": "quest_reward"
+        },
+        {
+          "stage_index": 3,
+          "source_part": 1,
+          "npc_id": "npc_ximen_chuifeng",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "shenwu_gate_to_diling_cave_1_interact",
+          "service_id": "npc_ximen_chuifeng_adv04_righteous",
+          "action": "洞口守卫收药",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_medicine",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "source_part": 1,
+          "npc_id": "npc_liu_xu",
+          "map_id": "liuzheng_pass",
+          "interaction_anchor_id": "npc_liu_xu_service",
+          "service_id": "npc_liu_xu_adv04_righteous",
+          "action": "关主讲述并明确本地发两份守卫用品",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_guard_clothing",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv04_righteous_guard_supply",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 5,
+          "grant_reason": "quest_reward"
+        },
+        {
+          "stage_index": 5,
+          "source_part": 1,
+          "npc_id": "npc_hu_yinhua",
+          "map_id": "liuzheng_pass",
+          "interaction_anchor_id": "npc_hu_yinhua_service",
+          "service_id": "npc_hu_yinhua_adv04_righteous",
+          "action": "塔守卫收服或甲",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_guard_clothing",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "source_part": 1,
+          "npc_id": "npc_chu_liuqing",
+          "map_id": "yuanzhu_forest",
+          "interaction_anchor_id": "npc_chu_liuqing_service",
+          "service_id": "npc_chu_liuqing_adv04_righteous",
+          "action": "竹林守卫收粮或杖",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_guard_supply",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 7
+        },
+        {
+          "stage_index": 7,
+          "source_part": 1,
+          "npc_id": "npc_shangguan_yin",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_shangguan_yin_service",
+          "service_id": "npc_shangguan_yin_adv04_righteous",
+          "action": "第一段950000经验与函1",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_recommendation1",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 8,
+          "grant_reason": "quest_reward",
+          "part_reward": {
+            "experience": 950000,
+            "practice": 0,
+            "silver": 0,
+            "source_part": 1,
+            "permanent_receipt_required": true
+          },
+          "requires_prior_stage_receipt_index": 6
+        },
+        {
+          "stage_index": 8,
+          "source_part": 2,
+          "npc_id": "npc_ximen_chuifeng",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "shenwu_gate_to_diling_cave_1_interact",
+          "service_id": "npc_ximen_chuifeng_adv04_righteous",
+          "action": "洞口守卫讲述，不改正派实际目标为邪怪",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 9
+        },
+        {
+          "stage_index": 9,
+          "source_part": 2,
+          "npc_id": "npc_shangguan_xuan",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_shangguan_xuan_service",
+          "service_id": "npc_shangguan_xuan_adv04_righteous",
+          "action": "第二段10材料终交，950000经验与函2",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_blade_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_recommendation2",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 10,
+          "grant_reason": "quest_reward",
+          "part_reward": {
+            "experience": 950000,
+            "practice": 0,
+            "silver": 0,
+            "source_part": 2,
+            "permanent_receipt_required": true
+          },
+          "requires_prior_stage_receipt_index": 8
+        },
+        {
+          "stage_index": 10,
+          "source_part": 3,
+          "npc_id": "npc_wei_baibaibai",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_wei_baibaibai_service",
+          "service_id": "npc_wei_baibaibai_adv04_righteous",
+          "action": "仓库主人讲述支付银袋",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 11
+        },
+        {
+          "stage_index": 11,
+          "source_part": 3,
+          "npc_id": "npc_wei_dabao",
+          "map_id": "hyunbo_town",
+          "interaction_anchor_id": "npc_wei_dabao_service",
+          "service_id": "npc_wei_dabao_adv04_righteous",
+          "action": "领取银袋50",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_silver_bags",
+              "quantity": 50
+            }
+          ],
+          "next_stage_index": 12,
+          "grant_reason": "quest_reward"
+        },
+        {
+          "stage_index": 12,
+          "source_part": 3,
+          "npc_id": "npc_hong_fenghuang",
+          "map_id": "liuzheng_pass",
+          "interaction_anchor_id": "npc_hong_fenghuang_service",
+          "service_id": "npc_hong_fenghuang_adv04_righteous",
+          "action": "本地领取40，来源原50与终交100冲突保档",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_silver_bags",
+              "quantity": 40
+            }
+          ],
+          "next_stage_index": 13,
+          "grant_reason": "quest_reward"
+        },
+        {
+          "stage_index": 13,
+          "source_part": 3,
+          "npc_id": "npc_liu_xu",
+          "map_id": "liuzheng_pass",
+          "interaction_anchor_id": "npc_liu_xu_service",
+          "service_id": "npc_liu_xu_adv04_righteous",
+          "action": "关主讲述失踪10袋",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 14
+        },
+        {
+          "stage_index": 14,
+          "source_part": 3,
+          "npc_id": "npc_chu_liuqing",
+          "map_id": "yuanzhu_forest",
+          "interaction_anchor_id": "npc_chu_liuqing_service",
+          "service_id": "npc_chu_liuqing_adv04_righteous",
+          "action": "找回10，持有100=99+1",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_silver_bags",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 15,
+          "grant_reason": "quest_reward"
+        },
+        {
+          "stage_index": 15,
+          "source_part": 3,
+          "npc_id": "npc_shi_chengjin",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_shi_chengjin_service",
+          "service_id": "npc_shi_chengjin_adv04_righteous",
+          "action": "真实消费100，950000经验与函3",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_silver_bags",
+              "quantity": 100
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_recommendation3",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 16,
+          "grant_reason": "quest_reward",
+          "part_reward": {
+            "experience": 950000,
+            "practice": 0,
+            "silver": 0,
+            "source_part": 3,
+            "permanent_receipt_required": true
+          },
+          "requires_prior_stage_receipt_index": 14
+        },
+        {
+          "stage_index": 16,
+          "source_part": 4,
+          "npc_id": "npc_yan_shijing",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_yan_shijing_service",
+          "service_id": "npc_yan_shijing_adv04_righteous",
+          "action": "两类各10终交，950000经验与函4",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_fist_charm",
+              "quantity": 10
+            },
+            {
+              "item_id": "adv04_righteous_caster_mask",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_recommendation4",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 17,
+          "grant_reason": "quest_reward",
+          "part_reward": {
+            "experience": 950000,
+            "practice": 0,
+            "silver": 0,
+            "source_part": 4,
+            "permanent_receipt_required": true
+          }
+        },
+        {
+          "stage_index": 17,
+          "source_part": 5,
+          "npc_id": "npc_wen_sihai",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_wen_sihai_service",
+          "service_id": "npc_wen_sihai_adv04_righteous",
+          "action": "核验四类各5并保留给下一NPC",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 18,
+          "inspect_and_retain": [
+            {
+              "item_id": "adv04_righteous_final_material1",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_righteous_final_material2",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_righteous_final_material3",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_righteous_final_material4",
+              "quantity": 5
+            }
+          ],
+          "requires_completed_source_part": 4,
+          "required_permanent_receipt": "character/adv_04/source_part/4；绑定checkpoint_branch，允许新attempt从stage17重接，不要求旧attempt的stage16步骤收据。"
+        },
+        {
+          "stage_index": 18,
+          "source_part": 5,
+          "npc_id": "npc_xie_xiaofeng",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_xie_xiaofeng_service",
+          "service_id": "npc_xie_xiaofeng_adv04_righteous",
+          "action": "真实消费四类各5",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_final_material1",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_righteous_final_material2",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_righteous_final_material3",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_righteous_final_material4",
+              "quantity": 5
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 19,
+          "requires_prior_stage_receipt_index": 17
+        },
+        {
+          "stage_index": 19,
+          "source_part": 5,
+          "npc_id": "npc_yang_bufan",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_yang_bufan_service",
+          "service_id": "npc_yang_bufan_adv04_righteous",
+          "action": "凭原物消费阶段收据发本轮绷带或布片",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_wrapping_material",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 20,
+          "grant_reason": "quest_reward",
+          "requires_prior_stage_receipt_index": 18
+        },
+        {
+          "stage_index": 20,
+          "source_part": 5,
+          "npc_id": "npc_xie_xiaofeng",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_xie_xiaofeng_service",
+          "service_id": "npc_xie_xiaofeng_adv04_righteous",
+          "action": "交换新建礼箱，不原堆改ID",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_wrapping_material",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_gift_box",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 21,
+          "grant_reason": "quest_exchange",
+          "requires_prior_stage_receipt_index": 19
+        },
+        {
+          "stage_index": 21,
+          "source_part": 5,
+          "npc_id": "npc_hyunbo_master",
+          "map_id": "hyunbo_town",
+          "interaction_anchor_id": "hyunbo_master_service",
+          "service_id": "npc_hyunbo_master_adv04_righteous",
+          "action": "门主真实接收礼箱",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_gift_box",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 22,
+          "requires_prior_stage_receipt_index": 20
+        },
+        {
+          "stage_index": 22,
+          "source_part": 5,
+          "npc_id": "npc_wen_sihai",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_wen_sihai_service",
+          "service_id": "npc_wen_sihai_adv04_righteous",
+          "action": "凭礼箱消费收据发最终批示",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_righteous_final_approval",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 23,
+          "grant_reason": "quest_reward",
+          "requires_prior_stage_receipt_index": 21
+        },
+        {
+          "stage_index": 23,
+          "source_part": 5,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_che_jingmo_service",
+          "service_id": "npc_che_jingmo_adv04_righteous",
+          "action": "四函及批示真消费，5000000银与唯一rank3→4",
+          "consume": [
+            {
+              "item_id": "adv04_righteous_final_approval",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv04_righteous_recommendation1",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv04_righteous_recommendation2",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv04_righteous_recommendation3",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv04_righteous_recommendation4",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true,
+          "requires_prior_stage_receipt_index": 22
+        }
+      ],
+      "monster_ids": [
+        "diling_cave_blade79",
+        "diling_cave_fist81",
+        "diling_cave_caster83",
+        "diling_cave_attendant85"
+      ],
+      "required_cave_maps": [
+        "diling_cave_2",
+        "diling_cave_3"
+      ],
+      "resume_stage_by_completed_part_count": {
+        "0": 1,
+        "1": 8,
+        "2": 10,
+        "3": 16,
+        "4": 17
+      },
+      "inventory_by_stage": {
+        "1": {
+          "required_exact": {
+            "adv04_righteous_introduction": 1
+          }
+        },
+        "2": {
+          "required_exact": {}
+        },
+        "3": {
+          "required_exact": {
+            "adv04_righteous_medicine": 1
+          }
+        },
+        "4": {
+          "required_exact": {}
+        },
+        "5": {
+          "required_exact": {
+            "adv04_righteous_guard_clothing": 1,
+            "adv04_righteous_guard_supply": 1
+          }
+        },
+        "6": {
+          "required_exact": {
+            "adv04_righteous_guard_supply": 1
+          }
+        },
+        "7": {
+          "required_exact": {}
+        },
+        "8": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1
+          }
+        },
+        "9": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1
+          },
+          "collection_caps": {
+            "adv04_righteous_blade_material": 10
+          }
+        },
+        "10": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1
+          }
+        },
+        "11": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1
+          }
+        },
+        "12": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_silver_bags": 50
+          }
+        },
+        "13": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_silver_bags": 90
+          }
+        },
+        "14": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_silver_bags": 90
+          }
+        },
+        "15": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_silver_bags": 100
+          }
+        },
+        "16": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_recommendation3": 1
+          },
+          "collection_caps": {
+            "adv04_righteous_fist_charm": 10,
+            "adv04_righteous_caster_mask": 10
+          }
+        },
+        "17": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_recommendation3": 1,
+            "adv04_righteous_recommendation4": 1
+          },
+          "collection_caps": {
+            "adv04_righteous_final_material1": 5,
+            "adv04_righteous_final_material2": 5,
+            "adv04_righteous_final_material3": 5,
+            "adv04_righteous_final_material4": 5
+          }
+        },
+        "18": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_recommendation3": 1,
+            "adv04_righteous_recommendation4": 1,
+            "adv04_righteous_final_material1": 5,
+            "adv04_righteous_final_material2": 5,
+            "adv04_righteous_final_material3": 5,
+            "adv04_righteous_final_material4": 5
+          }
+        },
+        "19": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_recommendation3": 1,
+            "adv04_righteous_recommendation4": 1
+          }
+        },
+        "20": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_recommendation3": 1,
+            "adv04_righteous_recommendation4": 1,
+            "adv04_righteous_wrapping_material": 1
+          }
+        },
+        "21": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_recommendation3": 1,
+            "adv04_righteous_recommendation4": 1,
+            "adv04_righteous_gift_box": 1
+          }
+        },
+        "22": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_recommendation3": 1,
+            "adv04_righteous_recommendation4": 1
+          }
+        },
+        "23": {
+          "required_exact": {
+            "adv04_righteous_recommendation1": 1,
+            "adv04_righteous_recommendation2": 1,
+            "adv04_righteous_recommendation3": 1,
+            "adv04_righteous_recommendation4": 1,
+            "adv04_righteous_final_approval": 1
+          }
+        }
+      },
+      "collection_stage_indices": [
+        9,
+        16,
+        17
+      ]
+    },
+    {
+      "branch_id": "evil",
+      "class_ids": [
+        "blade",
+        "sword",
+        "spear",
+        "physician",
+        "archer",
+        "assassin",
+        "musician",
+        "fighter",
+        "han_feiguan",
+        "tan_hualing",
+        "mei_liuzhen",
+        "lu_fenglang",
+        "dongling_shennv",
+        "zhen_fengbai"
+      ],
+      "accept_npc_id": "npc_shi_wei",
+      "map_id": "liushan_house",
+      "accept_interaction_anchor_id": "npc_shi_wei_service",
+      "accept_service_id": "npc_shi_wei_adv04_evil",
+      "accept_grant_if_completed_part_count_zero": [
+        {
+          "item_id": "adv04_evil_introduction",
+          "quantity": 1
+        }
+      ],
+      "stages": [
+        {
+          "stage_index": 1,
+          "source_part": 1,
+          "npc_id": "npc_feng_qingpiao",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_feng_qingpiao_service",
+          "service_id": "npc_feng_qingpiao_adv04_evil",
+          "action": "导师收本轮介绍信",
+          "consume": [
+            {
+              "item_id": "adv04_evil_introduction",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "source_part": 1,
+          "npc_id": "npc_xuanyuan_erguang",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xuanyuan_erguang_service",
+          "service_id": "npc_xuanyuan_erguang_adv04_evil",
+          "action": "医师讲述并发本轮药",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_evil_medicine",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3,
+          "grant_reason": "quest_reward"
+        },
+        {
+          "stage_index": 3,
+          "source_part": 1,
+          "npc_id": "npc_nangong_jian",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "liushan_house_to_xuemo_cave_1_interact",
+          "service_id": "npc_nangong_jian_adv04_evil",
+          "action": "洞口守卫收药",
+          "consume": [
+            {
+              "item_id": "adv04_evil_medicine",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "source_part": 1,
+          "npc_id": "npc_chi_juan",
+          "map_id": "sanxie_pass",
+          "interaction_anchor_id": "npc_chi_juan_service",
+          "service_id": "npc_chi_juan_adv04_evil",
+          "action": "关主讲述并明确本地发两份守卫用品",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_evil_guard_clothing",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv04_evil_guard_supply",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 5,
+          "grant_reason": "quest_reward"
+        },
+        {
+          "stage_index": 5,
+          "source_part": 1,
+          "npc_id": "npc_qian_xiaosheng",
+          "map_id": "sanxie_pass",
+          "interaction_anchor_id": "npc_qian_xiaosheng_service",
+          "service_id": "npc_qian_xiaosheng_adv04_evil",
+          "action": "塔守卫收服或甲",
+          "consume": [
+            {
+              "item_id": "adv04_evil_guard_clothing",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "source_part": 1,
+          "npc_id": "npc_qiu_qianmi",
+          "map_id": "huozhu_forest",
+          "interaction_anchor_id": "npc_qiu_qianmi_service",
+          "service_id": "npc_qiu_qianmi_adv04_evil",
+          "action": "竹林守卫收粮或杖",
+          "consume": [
+            {
+              "item_id": "adv04_evil_guard_supply",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 7
+        },
+        {
+          "stage_index": 7,
+          "source_part": 1,
+          "npc_id": "npc_feng_qingpiao",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_feng_qingpiao_service",
+          "service_id": "npc_feng_qingpiao_adv04_evil",
+          "action": "第一段950000经验与函1",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_evil_recommendation1",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 8,
+          "grant_reason": "quest_reward",
+          "part_reward": {
+            "experience": 950000,
+            "practice": 0,
+            "silver": 0,
+            "source_part": 1,
+            "permanent_receipt_required": true
+          },
+          "requires_prior_stage_receipt_index": 6
+        },
+        {
+          "stage_index": 8,
+          "source_part": 2,
+          "npc_id": "npc_nangong_jian",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "liushan_house_to_xuemo_cave_1_interact",
+          "service_id": "npc_nangong_jian_adv04_evil",
+          "action": "洞口守卫讲述，不改正派实际目标为邪怪",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 9
+        },
+        {
+          "stage_index": 9,
+          "source_part": 2,
+          "npc_id": "npc_murong_huo",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_murong_huo_service",
+          "service_id": "npc_murong_huo_adv04_evil",
+          "action": "第二段10材料终交，950000经验与函2",
+          "consume": [
+            {
+              "item_id": "adv04_evil_blade_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv04_evil_recommendation2",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 10,
+          "grant_reason": "quest_reward",
+          "part_reward": {
+            "experience": 950000,
+            "practice": 0,
+            "silver": 0,
+            "source_part": 2,
+            "permanent_receipt_required": true
+          },
+          "requires_prior_stage_receipt_index": 8
+        },
+        {
+          "stage_index": 10,
+          "source_part": 3,
+          "npc_id": "npc_xuanyuan_erguang",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xuanyuan_erguang_service",
+          "service_id": "npc_xuanyuan_erguang_adv04_evil",
+          "action": "仓库主人讲述支付银袋",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 11
+        },
+        {
+          "stage_index": 11,
+          "source_part": 3,
+          "npc_id": "npc_wei_dabao",
+          "map_id": "hyunbo_town",
+          "interaction_anchor_id": "npc_wei_dabao_service",
+          "service_id": "npc_wei_dabao_adv04_evil",
+          "action": "领取银袋50",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_evil_silver_bags",
+              "quantity": 50
+            }
+          ],
+          "next_stage_index": 12,
+          "grant_reason": "quest_reward"
+        },
+        {
+          "stage_index": 12,
+          "source_part": 3,
+          "npc_id": "npc_zhou_shutong",
+          "map_id": "sanxie_pass",
+          "interaction_anchor_id": "npc_zhou_shutong_service",
+          "service_id": "npc_zhou_shutong_adv04_evil",
+          "action": "本地领取40，来源原50与终交100冲突保档",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_evil_silver_bags",
+              "quantity": 40
+            }
+          ],
+          "next_stage_index": 13,
+          "grant_reason": "quest_reward"
+        },
+        {
+          "stage_index": 13,
+          "source_part": 3,
+          "npc_id": "npc_chi_juan",
+          "map_id": "sanxie_pass",
+          "interaction_anchor_id": "npc_chi_juan_service",
+          "service_id": "npc_chi_juan_adv04_evil",
+          "action": "关主讲述失踪10袋",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 14
+        },
+        {
+          "stage_index": 14,
+          "source_part": 3,
+          "npc_id": "npc_qian_xiaosheng",
+          "map_id": "sanxie_pass",
+          "interaction_anchor_id": "npc_qian_xiaosheng_service",
+          "service_id": "npc_qian_xiaosheng_adv04_evil",
+          "action": "找回10，持有100=99+1",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_evil_silver_bags",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 15,
+          "grant_reason": "quest_reward"
+        },
+        {
+          "stage_index": 15,
+          "source_part": 3,
+          "npc_id": "npc_nangong_mu",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_nangong_mu_service",
+          "service_id": "npc_nangong_mu_adv04_evil",
+          "action": "真实消费100，950000经验与函3",
+          "consume": [
+            {
+              "item_id": "adv04_evil_silver_bags",
+              "quantity": 100
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv04_evil_recommendation3",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 16,
+          "grant_reason": "quest_reward",
+          "part_reward": {
+            "experience": 950000,
+            "practice": 0,
+            "silver": 0,
+            "source_part": 3,
+            "permanent_receipt_required": true
+          },
+          "requires_prior_stage_receipt_index": 14
+        },
+        {
+          "stage_index": 16,
+          "source_part": 4,
+          "npc_id": "npc_xiang_qiushui",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xiang_qiushui_service",
+          "service_id": "npc_xiang_qiushui_adv04_evil",
+          "action": "两类各10终交，950000经验与函4",
+          "consume": [
+            {
+              "item_id": "adv04_evil_fist_charm",
+              "quantity": 10
+            },
+            {
+              "item_id": "adv04_evil_caster_mask",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv04_evil_recommendation4",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 17,
+          "grant_reason": "quest_reward",
+          "part_reward": {
+            "experience": 950000,
+            "practice": 0,
+            "silver": 0,
+            "source_part": 4,
+            "permanent_receipt_required": true
+          }
+        },
+        {
+          "stage_index": 17,
+          "source_part": 5,
+          "npc_id": "npc_duan_yu",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_duan_yu_service",
+          "service_id": "npc_duan_yu_adv04_evil",
+          "action": "核验四类各5并保留给下一NPC",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 18,
+          "inspect_and_retain": [
+            {
+              "item_id": "adv04_evil_final_material1",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_evil_final_material2",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_evil_final_material3",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_evil_final_material4",
+              "quantity": 5
+            }
+          ],
+          "requires_completed_source_part": 4,
+          "required_permanent_receipt": "character/adv_04/source_part/4；绑定checkpoint_branch，允许新attempt从stage17重接，不要求旧attempt的stage16步骤收据。"
+        },
+        {
+          "stage_index": 18,
+          "source_part": 5,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xiao_shierlang_service",
+          "service_id": "npc_xiao_shierlang_adv04_evil",
+          "action": "真实消费四类各5",
+          "consume": [
+            {
+              "item_id": "adv04_evil_final_material1",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_evil_final_material2",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_evil_final_material3",
+              "quantity": 5
+            },
+            {
+              "item_id": "adv04_evil_final_material4",
+              "quantity": 5
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 19,
+          "requires_prior_stage_receipt_index": 17
+        },
+        {
+          "stage_index": 19,
+          "source_part": 5,
+          "npc_id": "npc_shangguan_xiaoxian",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_shangguan_xiaoxian_service",
+          "service_id": "npc_shangguan_xiaoxian_adv04_evil",
+          "action": "凭原物消费阶段收据发本轮绷带或布片",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_evil_wrapping_material",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 20,
+          "grant_reason": "quest_reward",
+          "requires_prior_stage_receipt_index": 18
+        },
+        {
+          "stage_index": 20,
+          "source_part": 5,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xiao_shierlang_service",
+          "service_id": "npc_xiao_shierlang_adv04_evil",
+          "action": "交换新建礼箱，不原堆改ID",
+          "consume": [
+            {
+              "item_id": "adv04_evil_wrapping_material",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv04_evil_gift_box",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 21,
+          "grant_reason": "quest_exchange",
+          "requires_prior_stage_receipt_index": 19
+        },
+        {
+          "stage_index": 21,
+          "source_part": 5,
+          "npc_id": "npc_hyunbo_master",
+          "map_id": "hyunbo_town",
+          "interaction_anchor_id": "hyunbo_master_service",
+          "service_id": "npc_hyunbo_master_adv04_evil",
+          "action": "门主真实接收礼箱",
+          "consume": [
+            {
+              "item_id": "adv04_evil_gift_box",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 22,
+          "requires_prior_stage_receipt_index": 20
+        },
+        {
+          "stage_index": 22,
+          "source_part": 5,
+          "npc_id": "npc_duan_yu",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_duan_yu_service",
+          "service_id": "npc_duan_yu_adv04_evil",
+          "action": "凭礼箱消费收据发最终批示",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv04_evil_final_approval",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 23,
+          "grant_reason": "quest_reward",
+          "requires_prior_stage_receipt_index": 21
+        },
+        {
+          "stage_index": 23,
+          "source_part": 5,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "interaction_anchor_id": "npc_shi_wei_service",
+          "service_id": "npc_shi_wei_adv04_evil",
+          "action": "四函及批示真消费，5000000银与唯一rank3→4",
+          "consume": [
+            {
+              "item_id": "adv04_evil_final_approval",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv04_evil_recommendation1",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv04_evil_recommendation2",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv04_evil_recommendation3",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv04_evil_recommendation4",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true,
+          "requires_prior_stage_receipt_index": 22
+        }
+      ],
+      "monster_ids": [
+        "xuemo_cave_blade79",
+        "xuemo_cave_fist81",
+        "xuemo_cave_caster83",
+        "xuemo_cave_attendant85"
+      ],
+      "required_cave_maps": [
+        "xuemo_cave_2",
+        "xuemo_cave_3"
+      ],
+      "resume_stage_by_completed_part_count": {
+        "0": 1,
+        "1": 8,
+        "2": 10,
+        "3": 16,
+        "4": 17
+      },
+      "inventory_by_stage": {
+        "1": {
+          "required_exact": {
+            "adv04_evil_introduction": 1
+          }
+        },
+        "2": {
+          "required_exact": {}
+        },
+        "3": {
+          "required_exact": {
+            "adv04_evil_medicine": 1
+          }
+        },
+        "4": {
+          "required_exact": {}
+        },
+        "5": {
+          "required_exact": {
+            "adv04_evil_guard_clothing": 1,
+            "adv04_evil_guard_supply": 1
+          }
+        },
+        "6": {
+          "required_exact": {
+            "adv04_evil_guard_supply": 1
+          }
+        },
+        "7": {
+          "required_exact": {}
+        },
+        "8": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1
+          }
+        },
+        "9": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1
+          },
+          "collection_caps": {
+            "adv04_evil_blade_material": 10
+          }
+        },
+        "10": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1
+          }
+        },
+        "11": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1
+          }
+        },
+        "12": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_silver_bags": 50
+          }
+        },
+        "13": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_silver_bags": 90
+          }
+        },
+        "14": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_silver_bags": 90
+          }
+        },
+        "15": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_silver_bags": 100
+          }
+        },
+        "16": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_recommendation3": 1
+          },
+          "collection_caps": {
+            "adv04_evil_fist_charm": 10,
+            "adv04_evil_caster_mask": 10
+          }
+        },
+        "17": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_recommendation3": 1,
+            "adv04_evil_recommendation4": 1
+          },
+          "collection_caps": {
+            "adv04_evil_final_material1": 5,
+            "adv04_evil_final_material2": 5,
+            "adv04_evil_final_material3": 5,
+            "adv04_evil_final_material4": 5
+          }
+        },
+        "18": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_recommendation3": 1,
+            "adv04_evil_recommendation4": 1,
+            "adv04_evil_final_material1": 5,
+            "adv04_evil_final_material2": 5,
+            "adv04_evil_final_material3": 5,
+            "adv04_evil_final_material4": 5
+          }
+        },
+        "19": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_recommendation3": 1,
+            "adv04_evil_recommendation4": 1
+          }
+        },
+        "20": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_recommendation3": 1,
+            "adv04_evil_recommendation4": 1,
+            "adv04_evil_wrapping_material": 1
+          }
+        },
+        "21": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_recommendation3": 1,
+            "adv04_evil_recommendation4": 1,
+            "adv04_evil_gift_box": 1
+          }
+        },
+        "22": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_recommendation3": 1,
+            "adv04_evil_recommendation4": 1
+          }
+        },
+        "23": {
+          "required_exact": {
+            "adv04_evil_recommendation1": 1,
+            "adv04_evil_recommendation2": 1,
+            "adv04_evil_recommendation3": 1,
+            "adv04_evil_recommendation4": 1,
+            "adv04_evil_final_approval": 1
+          }
+        }
+      },
+      "collection_stage_indices": [
+        9,
+        16,
+        17
+      ]
+    }
+  ],
+  "items": [
+    {
+      "item_id": "adv04_righteous_introduction",
+      "name": "门主的介绍信",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_medicine",
+      "name": "密制金创药",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_guard_clothing",
+      "name": "特制守卫服",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_guard_supply",
+      "name": "神武门粮袋",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_recommendation1",
+      "name": "四次升职推荐函（正派）1",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/branch/source_part_completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。",
+      "source_part": 1,
+      "maximum_per_character_before_final": 1
+    },
+    {
+      "item_id": "adv04_righteous_recommendation2",
+      "name": "四次升职推荐函（正派）2",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/branch/source_part_completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。",
+      "source_part": 2,
+      "maximum_per_character_before_final": 1
+    },
+    {
+      "item_id": "adv04_righteous_recommendation3",
+      "name": "四次升职推荐函（正派）3",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/branch/source_part_completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。",
+      "source_part": 3,
+      "maximum_per_character_before_final": 1
+    },
+    {
+      "item_id": "adv04_righteous_recommendation4",
+      "name": "四次升职推荐函（正派）4",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/branch/source_part_completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。",
+      "source_part": 4,
+      "maximum_per_character_before_final": 1
+    },
+    {
+      "item_id": "adv04_righteous_blade_material",
+      "name": "洁净的纱布",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 10,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_silver_bags",
+      "name": "神武门的银袋",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 100,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_fist_charm",
+      "name": "铁腕地灵神拳符咒",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 10,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_caster_mask",
+      "name": "冷血地灵妖道面罩",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 10,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_final_material1",
+      "name": "地灵魔刀之针",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 5,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_final_material2",
+      "name": "地灵神拳的衣角",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 5,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_final_material3",
+      "name": "地灵妖道之链",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 5,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_final_material4",
+      "name": "地灵舞女之扇",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 5,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_wrapping_material",
+      "name": "浸药的绷带",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_gift_box",
+      "name": "精致的礼箱",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_righteous_final_approval",
+      "name": "四转副门主批示",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_introduction",
+      "name": "府主介绍状",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_medicine",
+      "name": "九转碧玉丹",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_guard_clothing",
+      "name": "金丝内甲",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_guard_supply",
+      "name": "枣木拐杖",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_recommendation1",
+      "name": "四次升职推荐函（邪派）1",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/branch/source_part_completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。",
+      "source_part": 1,
+      "maximum_per_character_before_final": 1
+    },
+    {
+      "item_id": "adv04_evil_recommendation2",
+      "name": "四次升职推荐函（邪派）2",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/branch/source_part_completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。",
+      "source_part": 2,
+      "maximum_per_character_before_final": 1
+    },
+    {
+      "item_id": "adv04_evil_recommendation3",
+      "name": "四次升职推荐函（邪派）3",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/branch/source_part_completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。",
+      "source_part": 3,
+      "maximum_per_character_before_final": 1
+    },
+    {
+      "item_id": "adv04_evil_recommendation4",
+      "name": "四次升职推荐函（邪派）4",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/branch/source_part_completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。",
+      "source_part": 4,
+      "maximum_per_character_before_final": 1
+    },
+    {
+      "item_id": "adv04_evil_blade_material",
+      "name": "失落的剑鞘",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 10,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_silver_bags",
+      "name": "柳善提督府的银袋",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 100,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_fist_charm",
+      "name": "血魔武斗者的符咒",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 10,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_caster_mask",
+      "name": "狂暴血魔术士的面罩",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 10,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_final_material1",
+      "name": "三刃血魔狂剑剑刃",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 5,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_final_material2",
+      "name": "血魔武斗者护手",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 5,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_final_material3",
+      "name": "狂暴血魔术士宝石",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 5,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_final_material4",
+      "name": "红衣血魔侍女长扇",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 5,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_wrapping_material",
+      "name": "布片",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_gift_box",
+      "name": "包装好的箱子",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    },
+    {
+      "item_id": "adv04_evil_final_approval",
+      "name": "四转二府主批示",
+      "stack_limit": 1,
+      "maximum_per_active_attempt": 1,
+      "weight_g": 0,
+      "kind": "bound_advancement_credential",
+      "binding": "character/adv_04/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "source_policy": "具名与已列数量保文字；未列数量各1/0克/堆和权限为项目值；袋非货币，药/箱/衣不是可用/可穿通用品。"
+    }
+  ],
+  "monsters": [
+    {
+      "monster_id": "diling_cave_blade79",
+      "source_reference_id": "MREF-39813-004",
+      "name": "长发地灵魔刀",
+      "level": 79,
+      "map_id": "diling_cave_2",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 9480,
+      "max_mana": 0,
+      "attack_min": 395,
+      "attack_max": 474,
+      "ordinary_defense": 237,
+      "accuracy": 474,
+      "evasion": 158,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv04_creature",
+      "xp_reward": 1176470,
+      "practice_reward": 117647,
+      "silver_reward": 79,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "diling_cave_blade79",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source name/level retained;locationfollowslocalflowchartpolicywherecatalogconflicts;ordinarymonster notNPCmartial despitehumanoidname;combatstats/AI/loot/spawns local",
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "source_catalog_region": "血魔洞",
+      "source_spawn_location_as_published": "柳善提督府地宫2层入口附近出现的怪物",
+      "location_adoption": "explicitlocaloverride_of_source_catalog_region"
+    },
+    {
+      "monster_id": "diling_cave_fist81",
+      "source_reference_id": "MREF-39814-002",
+      "name": "铁腕地灵神拳",
+      "level": 81,
+      "map_id": "diling_cave_2",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 9720,
+      "max_mana": 0,
+      "attack_min": 405,
+      "attack_max": 486,
+      "ordinary_defense": 243,
+      "accuracy": 486,
+      "evasion": 162,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv04_creature",
+      "xp_reward": 1430769,
+      "practice_reward": 143076,
+      "silver_reward": 81,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "diling_cave_fist81",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source name/level retained;locationfollowslocalflowchartpolicywherecatalogconflicts;ordinarymonster notNPCmartial despitehumanoidname;combatstats/AI/loot/spawns local",
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "source_catalog_region": "地灵洞",
+      "source_spawn_location_as_published": "神武门地洞2层中间地带出现的怪物",
+      "location_adoption": "source_region_preserved_local_floor_layout"
+    },
+    {
+      "monster_id": "diling_cave_caster83",
+      "source_reference_id": "MREF-39814-003",
+      "name": "冷血地灵妖道",
+      "level": 83,
+      "map_id": "diling_cave_2",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 9960,
+      "max_mana": 0,
+      "attack_min": 415,
+      "attack_max": 498,
+      "ordinary_defense": 249,
+      "accuracy": 498,
+      "evasion": 166,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv04_creature",
+      "xp_reward": 1675471,
+      "practice_reward": 167547,
+      "silver_reward": 83,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "diling_cave_caster83",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source name/level retained;locationfollowslocalflowchartpolicywherecatalogconflicts;ordinarymonster notNPCmartial despitehumanoidname;combatstats/AI/loot/spawns local",
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "source_catalog_region": "地灵洞",
+      "source_spawn_location_as_published": "神武门地洞2层中间地带出现的怪物",
+      "location_adoption": "source_region_preserved_local_floor_layout"
+    },
+    {
+      "monster_id": "diling_cave_attendant85",
+      "source_reference_id": "MREF-39814-004",
+      "name": "玉扇地灵舞女",
+      "level": 85,
+      "map_id": "diling_cave_3",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 10200,
+      "max_mana": 0,
+      "attack_min": 425,
+      "attack_max": 510,
+      "ordinary_defense": 255,
+      "accuracy": 510,
+      "evasion": 170,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv04_creature",
+      "xp_reward": 2059259,
+      "practice_reward": 205925,
+      "silver_reward": 85,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "diling_cave_attendant85",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source name/level retained;locationfollowslocalflowchartpolicywherecatalogconflicts;ordinarymonster notNPCmartial despitehumanoidname;combatstats/AI/loot/spawns local",
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "source_catalog_region": "地灵洞",
+      "source_spawn_location_as_published": "神武门地宫3层入口附近出现的怪物",
+      "location_adoption": "source_region_preserved_local_floor_layout"
+    },
+    {
+      "monster_id": "xuemo_cave_blade79",
+      "source_reference_id": "MREF-39814-001",
+      "name": "三刃血魔狂剑",
+      "level": 79,
+      "map_id": "xuemo_cave_2",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 9480,
+      "max_mana": 0,
+      "attack_min": 395,
+      "attack_max": 474,
+      "ordinary_defense": 237,
+      "accuracy": 474,
+      "evasion": 158,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv04_creature",
+      "xp_reward": 1176470,
+      "practice_reward": 117647,
+      "silver_reward": 79,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "xuemo_cave_blade79",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source name/level retained;locationfollowslocalflowchartpolicywherecatalogconflicts;ordinarymonster notNPCmartial despitehumanoidname;combatstats/AI/loot/spawns local",
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "source_catalog_region": "地灵洞",
+      "source_spawn_location_as_published": "神武门地宫2层入口附近出现的怪物",
+      "location_adoption": "explicitlocaloverride_of_source_catalog_region"
+    },
+    {
+      "monster_id": "xuemo_cave_fist81",
+      "source_reference_id": "MREF-39813-005",
+      "name": "血魔武斗者",
+      "level": 81,
+      "map_id": "xuemo_cave_2",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 9720,
+      "max_mana": 0,
+      "attack_min": 405,
+      "attack_max": 486,
+      "ordinary_defense": 243,
+      "accuracy": 486,
+      "evasion": 162,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv04_creature",
+      "xp_reward": 1430769,
+      "practice_reward": 143076,
+      "silver_reward": 81,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "xuemo_cave_fist81",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source name/level retained;locationfollowslocalflowchartpolicywherecatalogconflicts;ordinarymonster notNPCmartial despitehumanoidname;combatstats/AI/loot/spawns local",
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "source_catalog_region": "血魔洞",
+      "source_spawn_location_as_published": "柳善提督府地宫2层中部地带出现的怪物",
+      "location_adoption": "source_region_preserved_local_floor_layout"
+    },
+    {
+      "monster_id": "xuemo_cave_caster83",
+      "source_reference_id": "MREF-39813-006",
+      "name": "狂暴血魔术士",
+      "level": 83,
+      "map_id": "xuemo_cave_2",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 9960,
+      "max_mana": 0,
+      "attack_min": 415,
+      "attack_max": 498,
+      "ordinary_defense": 249,
+      "accuracy": 498,
+      "evasion": 166,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv04_creature",
+      "xp_reward": 1675471,
+      "practice_reward": 167547,
+      "silver_reward": 83,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "xuemo_cave_caster83",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source name/level retained;locationfollowslocalflowchartpolicywherecatalogconflicts;ordinarymonster notNPCmartial despitehumanoidname;combatstats/AI/loot/spawns local",
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "source_catalog_region": "血魔洞",
+      "source_spawn_location_as_published": "柳善提督府地宫2层中部地带出现的怪物",
+      "location_adoption": "source_region_preserved_local_floor_layout"
+    },
+    {
+      "monster_id": "xuemo_cave_attendant85",
+      "source_reference_id": "MREF-39813-007",
+      "name": "红衣血魔侍女",
+      "level": 85,
+      "map_id": "xuemo_cave_3",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 10200,
+      "max_mana": 0,
+      "attack_min": 425,
+      "attack_max": 510,
+      "ordinary_defense": 255,
+      "accuracy": 510,
+      "evasion": 170,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_adv04_creature",
+      "xp_reward": 2059259,
+      "practice_reward": 205925,
+      "silver_reward": 85,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "xuemo_cave_attendant85",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source name/level retained;locationfollowslocalflowchartpolicywherecatalogconflicts;ordinarymonster notNPCmartial despitehumanoidname;combatstats/AI/loot/spawns local",
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "source_catalog_region": "血魔洞",
+      "source_spawn_location_as_published": "柳善提督府地宫3层入口附近出现的怪物",
+      "location_adoption": "source_region_preserved_local_floor_layout"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "diling_cave_blade79_01",
+      "monster_id": "diling_cave_blade79",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        -88,
+        0,
+        -16
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_blade79_02",
+      "monster_id": "diling_cave_blade79",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        -88,
+        0,
+        -8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_blade79_03",
+      "monster_id": "diling_cave_blade79",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        -88,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_blade79_04",
+      "monster_id": "diling_cave_blade79",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        -88,
+        0,
+        8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_fist81_01",
+      "monster_id": "diling_cave_fist81",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        0,
+        0,
+        -16
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_fist81_02",
+      "monster_id": "diling_cave_fist81",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        0,
+        0,
+        -8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_fist81_03",
+      "monster_id": "diling_cave_fist81",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        0,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_fist81_04",
+      "monster_id": "diling_cave_fist81",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        0,
+        0,
+        8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_caster83_01",
+      "monster_id": "diling_cave_caster83",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        88,
+        0,
+        -16
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_caster83_02",
+      "monster_id": "diling_cave_caster83",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        88,
+        0,
+        -8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_caster83_03",
+      "monster_id": "diling_cave_caster83",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        88,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_caster83_04",
+      "monster_id": "diling_cave_caster83",
+      "map_id": "diling_cave_2",
+      "home_feet_m": [
+        88,
+        0,
+        8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_attendant85_01",
+      "monster_id": "diling_cave_attendant85",
+      "map_id": "diling_cave_3",
+      "home_feet_m": [
+        -12,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_attendant85_02",
+      "monster_id": "diling_cave_attendant85",
+      "map_id": "diling_cave_3",
+      "home_feet_m": [
+        -4,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_attendant85_03",
+      "monster_id": "diling_cave_attendant85",
+      "map_id": "diling_cave_3",
+      "home_feet_m": [
+        4,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "diling_cave_attendant85_04",
+      "monster_id": "diling_cave_attendant85",
+      "map_id": "diling_cave_3",
+      "home_feet_m": [
+        12,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_blade79_01",
+      "monster_id": "xuemo_cave_blade79",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        -88,
+        0,
+        -16
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_blade79_02",
+      "monster_id": "xuemo_cave_blade79",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        -88,
+        0,
+        -8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_blade79_03",
+      "monster_id": "xuemo_cave_blade79",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        -88,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_blade79_04",
+      "monster_id": "xuemo_cave_blade79",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        -88,
+        0,
+        8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_fist81_01",
+      "monster_id": "xuemo_cave_fist81",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        0,
+        0,
+        -16
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_fist81_02",
+      "monster_id": "xuemo_cave_fist81",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        0,
+        0,
+        -8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_fist81_03",
+      "monster_id": "xuemo_cave_fist81",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        0,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_fist81_04",
+      "monster_id": "xuemo_cave_fist81",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        0,
+        0,
+        8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_caster83_01",
+      "monster_id": "xuemo_cave_caster83",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        88,
+        0,
+        -16
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_caster83_02",
+      "monster_id": "xuemo_cave_caster83",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        88,
+        0,
+        -8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_caster83_03",
+      "monster_id": "xuemo_cave_caster83",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        88,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_caster83_04",
+      "monster_id": "xuemo_cave_caster83",
+      "map_id": "xuemo_cave_2",
+      "home_feet_m": [
+        88,
+        0,
+        8
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_attendant85_01",
+      "monster_id": "xuemo_cave_attendant85",
+      "map_id": "xuemo_cave_3",
+      "home_feet_m": [
+        -12,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_attendant85_02",
+      "monster_id": "xuemo_cave_attendant85",
+      "map_id": "xuemo_cave_3",
+      "home_feet_m": [
+        -4,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_attendant85_03",
+      "monster_id": "xuemo_cave_attendant85",
+      "map_id": "xuemo_cave_3",
+      "home_feet_m": [
+        4,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_cave_attendant85_04",
+      "monster_id": "xuemo_cave_attendant85",
+      "map_id": "xuemo_cave_3",
+      "home_feet_m": [
+        12,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "collection": {
+    "quantity_per_qualified_death": 1,
+    "probability_bp": 10000,
+    "qualification": "本人当前branch/attempt/required_stage_index精确匹配，stage9且guard8收据、stage16且completed_part_count3、stage17且completed_part_count4；原成员快照/存活连接同图、solo归属或19组队30m入队>=600步；各定义未封顶。不同源段不同时采集，不按旧stage4发物。",
+    "ownership": "personalboundtaskproof,notpubliclootcopy",
+    "capacity_failure": "由shared_death_group统一预检；失败保原死亡无任务物，腾包/重连不补发。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "adv_04",
+      "attempt_id",
+      "branch_id",
+      "item_id"
+    ],
+    "modifiers": "fixedtask100%,notfinisher/trainingbonus",
+    "commit": "shared_death_group统一05/19原死亡事务，所有producer普通收益仅一次。",
+    "producers": [
+      {
+        "branch_id": "righteous",
+        "required_stage_index": 9,
+        "monster_id": "diling_cave_blade79",
+        "map_id": "diling_cave_2",
+        "item_id": "adv04_righteous_blade_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous",
+        "required_stage_index": 16,
+        "monster_id": "diling_cave_fist81",
+        "map_id": "diling_cave_2",
+        "item_id": "adv04_righteous_fist_charm",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous",
+        "required_stage_index": 16,
+        "monster_id": "diling_cave_caster83",
+        "map_id": "diling_cave_2",
+        "item_id": "adv04_righteous_caster_mask",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous",
+        "required_stage_index": 17,
+        "monster_id": "diling_cave_blade79",
+        "map_id": "diling_cave_2",
+        "item_id": "adv04_righteous_final_material1",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "branch_id": "righteous",
+        "required_stage_index": 17,
+        "monster_id": "diling_cave_fist81",
+        "map_id": "diling_cave_2",
+        "item_id": "adv04_righteous_final_material2",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "branch_id": "righteous",
+        "required_stage_index": 17,
+        "monster_id": "diling_cave_caster83",
+        "map_id": "diling_cave_2",
+        "item_id": "adv04_righteous_final_material3",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "branch_id": "righteous",
+        "required_stage_index": 17,
+        "monster_id": "diling_cave_attendant85",
+        "map_id": "diling_cave_3",
+        "item_id": "adv04_righteous_final_material4",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "branch_id": "evil",
+        "required_stage_index": 9,
+        "monster_id": "xuemo_cave_blade79",
+        "map_id": "xuemo_cave_2",
+        "item_id": "adv04_evil_blade_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil",
+        "required_stage_index": 16,
+        "monster_id": "xuemo_cave_fist81",
+        "map_id": "xuemo_cave_2",
+        "item_id": "adv04_evil_fist_charm",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil",
+        "required_stage_index": 16,
+        "monster_id": "xuemo_cave_caster83",
+        "map_id": "xuemo_cave_2",
+        "item_id": "adv04_evil_caster_mask",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil",
+        "required_stage_index": 17,
+        "monster_id": "xuemo_cave_blade79",
+        "map_id": "xuemo_cave_2",
+        "item_id": "adv04_evil_final_material1",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "branch_id": "evil",
+        "required_stage_index": 17,
+        "monster_id": "xuemo_cave_fist81",
+        "map_id": "xuemo_cave_2",
+        "item_id": "adv04_evil_final_material2",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "branch_id": "evil",
+        "required_stage_index": 17,
+        "monster_id": "xuemo_cave_caster83",
+        "map_id": "xuemo_cave_2",
+        "item_id": "adv04_evil_final_material3",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "branch_id": "evil",
+        "required_stage_index": 17,
+        "monster_id": "xuemo_cave_attendant85",
+        "map_id": "xuemo_cave_3",
+        "item_id": "adv04_evil_final_material4",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      }
+    ],
+    "shared_death_group": {
+      "actor_ids": [
+        "diling_cave_blade79",
+        "diling_cave_fist81",
+        "diling_cave_caster83",
+        "diling_cave_attendant85",
+        "xuemo_cave_blade79",
+        "xuemo_cave_fist81",
+        "xuemo_cave_caster83",
+        "xuemo_cave_attendant85"
+      ],
+      "producer_owners": [
+        {
+          "file": "第四次升职洞窟试练.v1.json",
+          "pointer": "/collection/producers"
+        },
+        {
+          "file": "七十七级正邪洞窟二层秘密.v1.json",
+          "pointer": "/collection/producers"
+        },
+        {
+          "file": "七十八级正邪爱情故事续篇.v1.json",
+          "pointer": "/collection/producers"
+        },
+        {
+          "file": "七十九级正邪吟诗大会.v1.json",
+          "pointer": "/collection/producers"
+        },
+        {
+          "file": "八十一级正邪爱情故事终篇.v1.json",
+          "pointer": "/collection/producers"
+        },
+        {
+          "file": "八十二级正邪洞窟三层任务.v1.json",
+          "pointer": "/collection/producers"
+        },
+        {
+          "file": "八十三级正邪洞窟愤怒任务.v1.json",
+          "pointer": "/collection/producers"
+        }
+      ],
+      "selection": "本owner8怪原死亡统一04/77/78/79/81/82/83精确路线/attempt/阶段。adv04只stage9刀怪材料10封顶、stage16拳/术士各10、stage17四怪各5；每actor同时最多一个adv04候选。blade最多04当前材料+77物证+78麻布，fist最多04当前材料+78针+79记录，caster最多04当前材料+81衣料+82头巾，attendant最多04当前材料+82头饰+83修炼武器；各独立封顶。",
+      "capacity": "所有选中个人任务物0克、最多3项，原来源/材料槽/合堆/重量一起预检；失败原死亡无任务物，不部分发/延发或记计数。",
+      "commit": "05/19唯一原死亡全收件人决策，普通收益只结一次，各任务来源收据一次，每实际变更角色库存修订一次；重放不回装物。"
+    }
+  },
+  "stage_transaction": "本人80+/rank3/adv03/当前route=checkpoint派别、14class/精确NPC/map/anchor/service<=2500mm/存活脱战空闲无挑战，attempt/源段/阶段/完整历史/原真实持物来源修订合法；consume后grant最终槽重预检。每步库存真实变动修订一次，纯对白只角色修订；输入消费/新定义来源/步骤/进度/分段XP及永久收据05/19同笔，失败全保。",
+  "deduplication": "相同character/request同payload先回原持久决定，改payload同request拒绝；步骤唯一character/adv04/attempt/stage；源段奖励唯一character/adv04/source_part（不因route/attempt换新），最终character/adv04唯一。旧领取或交换只回历史结果，不回装清理/消费/移走物。",
+  "item_policy": {
+    "weight_g": 0,
+    "attempt_bound": "除四推荐函外绑定character/adv04/attempt/branch；对应步骤消费或确认放弃清本未完成源段临时物。",
+    "permanent_recommendations": "四函绑定character/adv04/checkpoint_branch/source_part_completion_receipt，各一且保留至最终，不随attempt清除，不允许丢弃/仓储/交易/售卖/装备/使用。",
+    "authorization": "接取介绍信及无输入stage2/4/11/12/14/19/22和每段推荐函的grant reason quest_reward必须解析精确adv04阶段/新建或完成收据；stage20绷带/布换礼箱为quest_exchange，新建item_id与stack_id，不改旧堆ID。NPC不收费，袋和礼箱均凭证非银资源/可开盒。",
+    "source_boundary": "具体名称来自文字或明确本地批示；未给数量各1/袋40修正/0克/堆限/权限均明确本地值。"
+  },
+  "final_reward": {
+    "required_rank_before": 3,
+    "completed_rank": 4,
+    "route_after": "preserveexactexistingroute",
+    "experience": 0,
+    "practice": 0,
+    "silver": 5000000,
+    "items": [],
+    "fees": {
+      "silver": 0,
+      "practice": 0,
+      "items": []
+    },
+    "local_reward_policy": "文字两派最终5000000银与第四次升职保留；无额外经验/历练/费用/物品。",
+    "commit": "仅stage23，adv03delivered/rank3/当前固定派别、四永久源段完成和四函合法、当前part5步骤/礼箱真消费/批示来源完整；quest_delivery消费四函+批示、实际银/损失、rank3→4、adv04delivered/唯一final收据05/19同笔。",
+    "stat_policy": "normal14eligibilityrecalculationwithoutcurrentresourcefill,cooldownreset,bonuspoints,manualgrants,starterpack orhero weaponupgrade",
+    "silver_cap_policy": "随身银上限9007199254740991；报价5000000/实际/损失及原修订，正损失须显式确认，取消/状态变化保全部输入和rank3。actual0可确认后晋级，但不生成零银资源腿；不得写银行或溢出为实物。"
+  },
+  "abandon": "按checkpoint_policy确认清当前未完成源段临时物/当前attempt步骤；前四段永久收据/已入账XP/四函保留，part_count0可清checkpoint派别，>0保原派。重接新attempt从1/8/10/16/17，不继承未完成段旧死亡/交物；完成不能放弃。",
+  "save": "保存实际state/attempt/branch/stage、completed_part_count/immutable checkpoint_branch、四段永久收据与真实四函、当前段物/步骤、最终收据。严格前缀/版本/持物符合inventory_by_stage和checkpoint；缺链/多函/旧六步凭证/错派rank拒绝，不重建或补发。保存不确定解析原05/19决定重存，不重跑源段奖励或最后银/晋级。",
+  "travel_policy": "复用公共洞窟层2/3、两关与竹林、泫勃/神武/柳善已登记交通；80/rank3无adv04门槛能往返全部端点。守卫服务与交通分开，换图不自动交物或推进，竹林不扩大土灵21图。",
+  "initialization": "new/knownlegacy1..4：not_accepted/nullattempt/branch/stage，completed_part_count0/checkpoint_branch null/part_completion_receipts空/无函临时物/无步骤final；不按等级补四转。未实现的旧六步D1配置不作运行存档格式，也不自动迁移成23阶段；新格式缺checkpoint字段拒绝。",
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "nohostilespawn/entry,pathreturnneverteleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "pending": [
+    "Godot14classes/two routes/23stages/checkpoint/rewards/shared-death/inventory/save/LAN功能实现测试",
+    "八怪与新增NPC模型动作、四段经验/最终银及难度经济校准",
+    "其他D1范围仍待闭合"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "stage_flows": "两派各23stage/五源段，38定义，八怪32home未新增；实际静态全链/跨99堆/断点恢复/共享候选核验另记09。",
+    "spatial_owner_ref": {
+      "file": "四转五段竹林入口与长老.v1.json",
+      "pointer": "/static_review"
+    },
+    "spatial_scope": "新增竹林/长老实际空间由owner核验；旧洞窟怪坐标未改，运行动态导航待P/T。"
+  },
+  "musician_adaptation": {
+    "scope": "explicitlocalall1..4advancementchainfrom1level0rankcreation",
+    "requires": "80level/rank3/adv03delivered andsamequeststagesasother13classes",
+    "historical_boundary": "notV8level80rank0specialcreationquest;no124qigongpoints/332750practice/+6geargrants,nohistoricalcreationbypass"
+  },
+  "source_parts": [
+    {
+      "branch_id": "righteous",
+      "source_part": 1,
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/61"
+      },
+      "stage_range": [
+        1,
+        7
+      ],
+      "reward_stage_index": 7,
+      "experience": 950000,
+      "silver": 0,
+      "recommendation_item_id": "adv04_righteous_recommendation1",
+      "canonical_quest_id": "adv_04",
+      "independent_advancement": false
+    },
+    {
+      "branch_id": "righteous",
+      "source_part": 2,
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/62"
+      },
+      "stage_range": [
+        8,
+        9
+      ],
+      "reward_stage_index": 9,
+      "experience": 950000,
+      "silver": 0,
+      "recommendation_item_id": "adv04_righteous_recommendation2",
+      "canonical_quest_id": "adv_04",
+      "independent_advancement": false
+    },
+    {
+      "branch_id": "righteous",
+      "source_part": 3,
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/63"
+      },
+      "stage_range": [
+        10,
+        15
+      ],
+      "reward_stage_index": 15,
+      "experience": 950000,
+      "silver": 0,
+      "recommendation_item_id": "adv04_righteous_recommendation3",
+      "canonical_quest_id": "adv_04",
+      "independent_advancement": false
+    },
+    {
+      "branch_id": "righteous",
+      "source_part": 4,
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/64"
+      },
+      "stage_range": [
+        16,
+        16
+      ],
+      "reward_stage_index": 16,
+      "experience": 950000,
+      "silver": 0,
+      "recommendation_item_id": "adv04_righteous_recommendation4",
+      "canonical_quest_id": "adv_04",
+      "independent_advancement": false
+    },
+    {
+      "branch_id": "righteous",
+      "source_part": 5,
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/65"
+      },
+      "stage_range": [
+        17,
+        23
+      ],
+      "reward_stage_index": 23,
+      "experience": 0,
+      "silver": 5000000,
+      "recommendation_item_id": null,
+      "canonical_quest_id": "adv_04",
+      "independent_advancement": false
+    },
+    {
+      "branch_id": "evil",
+      "source_part": 1,
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/110"
+      },
+      "stage_range": [
+        1,
+        7
+      ],
+      "reward_stage_index": 7,
+      "experience": 950000,
+      "silver": 0,
+      "recommendation_item_id": "adv04_evil_recommendation1",
+      "canonical_quest_id": "adv_04",
+      "independent_advancement": false
+    },
+    {
+      "branch_id": "evil",
+      "source_part": 2,
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/112"
+      },
+      "stage_range": [
+        8,
+        9
+      ],
+      "reward_stage_index": 9,
+      "experience": 950000,
+      "silver": 0,
+      "recommendation_item_id": "adv04_evil_recommendation2",
+      "canonical_quest_id": "adv_04",
+      "independent_advancement": false
+    },
+    {
+      "branch_id": "evil",
+      "source_part": 3,
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/113"
+      },
+      "stage_range": [
+        10,
+        15
+      ],
+      "reward_stage_index": 15,
+      "experience": 950000,
+      "silver": 0,
+      "recommendation_item_id": "adv04_evil_recommendation3",
+      "canonical_quest_id": "adv_04",
+      "independent_advancement": false
+    },
+    {
+      "branch_id": "evil",
+      "source_part": 4,
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/114"
+      },
+      "stage_range": [
+        16,
+        16
+      ],
+      "reward_stage_index": 16,
+      "experience": 950000,
+      "silver": 0,
+      "recommendation_item_id": "adv04_evil_recommendation4",
+      "canonical_quest_id": "adv_04",
+      "independent_advancement": false
+    },
+    {
+      "branch_id": "evil",
+      "source_part": 5,
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/115"
+      },
+      "stage_range": [
+        17,
+        23
+      ],
+      "reward_stage_index": 23,
+      "experience": 0,
+      "silver": 5000000,
+      "recommendation_item_id": null,
+      "canonical_quest_id": "adv_04",
+      "independent_advancement": false
+    }
+  ],
+  "checkpoint_policy": {
+    "completed_parts": "每段1..4的950000经验/推荐函发放使用角色/adv04/source_part唯一永久完成收据（route为收据固定派别字段，不进入唯一键），与其段终交原子提交；不同attempt不得再次发同段经验或函。",
+    "abandon_current_part": "放弃只清当前未完成源段的临时物和步骤，不清已完成源段收据/对应函，不回滚已入账经验。返回not_accepted但保completed_part_count及已完成函真实来源；已完成任务不可放弃。",
+    "reaccept": "验证rank3/adv03/本路线和已完成段前缀一致，保已完成函各1，从下一未完成段首步重开新attempt：0→stage1并发介绍信1；1→stage8不补函；2→stage10；3→stage16；4→stage17。在段内旧轮死亡/消费收据不得套新attempt。",
+    "credential_identity": "四函绑定角色/adv04/路线/源段永久完成收据，不绑定可清理的活跃attempt；所有当前段原物绑定新attempt。旧领取请求只返回历史结果，不回装丢失/已消费物；四函不可丢弃/售卖/仓储/交易，读取缺函却有未最终消耗完成收据视损坏拒绝，不默默补发。",
+    "final": "part5唯一最终收据消费四函+批示、银实际/损失确认和rank3→4，所有completed_part_count与最终来源一致；部分源段完成不等于adv04已delivered，不能提前解锁rank4。",
+    "new_or_known_legacy": "new/known1..4明确completed_part_count0/无源段完成收据/无函/未接，不依等级或位置补；新格式缺字段拒绝。"
+  },
+  "part_reward_policy": {
+    "experience_owner_ref": {
+      "file": "正邪收集任务公共规则.v1.json",
+      "pointer": "/lifecycle"
+    },
+    "stages": [
+      7,
+      9,
+      15,
+      16
+    ],
+    "experience_each": 950000,
+    "all_four_nominal_experience": 3800000,
+    "preview": "分别报价本段原经验/950000/实际/损失及原修订，正损失显式确认；取消或报价失效不消费原物/发函/推进。无损也核原修订，达到经验上限实际0可完成源段并发函，不能造0资源腿。",
+    "commit": "本段原物消费、推荐函来源、实际经验/损失、实际升级基础属性和新covered_level发点、completed_part_count+1、永久源段收据与stage推进05/19同笔。源段1..4只许此前完成前缀，已发段不回滚/不再发。",
+    "continuation": "前四段不标adv04 delivered或rank4，最高completed_part_count4。第四段之后仍rank3，最终stage23才rank4。"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:profile-metadata-projection:v1",
+  "$comment": "仅从完整原profile提取七字段的验证投影，不是完整profile，不保存metadata包装。不在验证原白名单之前投影隐藏未知业务字段；所选角色存在/姓名唯一/文件名绑定另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_version",
+    "profile_id",
+    "profile_name",
+    "revision",
+    "selected_character_id",
+    "settings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 5,
+      "type": "integer"
+    },
+    "content_version": {
+      "const": "jianghu-godot-1"
+    },
+    "profile_id": {
+      "$ref": "#/$defs/profile_id"
+    },
+    "profile_name": {
+      "$ref": "#/$defs/profile_name"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "selected_character_id": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:character-identity:v1#/properties/character_id"
+        }
+      ]
+    },
+    "settings": {
+      "$ref": "urn:solorxjh:profile-settings:v1"
+    }
+  },
+  "$defs": {
+    "profile_id": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 40,
+      "pattern": "^profile_[0-9a-f]{32}(?![\\s\\S])"
+    },
+    "profile_name": {
+      "$ref": "urn:solorxjh:character-identity:v1#/$defs/display_name_text",
+      "minLength": 2,
+      "maxLength": 16
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "shared_design_not_implemented_not_runtime_schema",
+  "scope": "Only twenty-two explicitly listed local collection quests in eleven owners;not advancement/general story/daily tasks. Shared lifecycle only;quest-specific source/level/route/NPC/requirements/reward/items/producers/AI/spawns remain authoritative in each original owner.",
+  "adopted_quest_owners": [
+    {
+      "file": "三十七级正邪缉拿任务.v1.json",
+      "pointer": "/quests"
+    },
+    {
+      "file": "三十九级巨臂异人任务.v1.json",
+      "pointer": "/quests"
+    },
+    {
+      "file": "四十八级正邪委托.v1.json",
+      "pointer": "/quests"
+    },
+    {
+      "file": "五十四级正邪晚餐任务.v1.json",
+      "pointer": "/quests"
+    },
+    {
+      "file": "五十六级正邪追赃任务.v1.json",
+      "pointer": "/quests"
+    },
+    {
+      "file": "四十三级正邪出尘戒任务.v1.json",
+      "pointer": "/quests"
+    },
+    {
+      "file": "四十五级正邪追缴任务.v1.json",
+      "pointer": "/quests"
+    },
+    {
+      "file": "四十七级正邪寻物任务.v1.json",
+      "pointer": "/quests"
+    },
+    {
+      "file": "五十一级正邪制图任务.v1.json",
+      "pointer": "/quests"
+    },
+    {
+      "file": "五十二级正邪寻回任务.v1.json",
+      "pointer": "/quests"
+    },
+    {
+      "file": "五十七级正邪竹林任务.v1.json",
+      "pointer": "/quests"
+    }
+  ],
+  "definition_validation": "require explicit interaction_model and complete corresponding endpoint fields,minimum_level,route,nonempty unique requirements(item_id,positive quantity),all reward fields and valid item refs;source/item/producer ownership and caps must agree;unknown/missing/contradictory fields reject,never infer NPC order/reward or fallback to another model",
+  "interaction_models": {
+    "single_npc": {
+      "fields": [
+        "npc_id",
+        "npc_map_id",
+        "interaction_anchor_id",
+        "service_id"
+      ],
+      "policy": "exact named NPC/map/anchor/service used for both accept and delivery;no split endpoint fields"
+    },
+    "split_npc": {
+      "fields": [
+        "accept_npc_id",
+        "accept_map_id",
+        "accept_interaction_anchor_id",
+        "accept_service_id",
+        "delivery_npc_id",
+        "delivery_map_id",
+        "delivery_interaction_anchor_id",
+        "delivery_service_id"
+      ],
+      "policy": "accept only accept endpoint,deliver only delivery endpoint;all eight explicit;never use acceptance endpoint for reward;no single endpoint fields"
+    }
+  },
+  "lifecycle": {
+    "class_scope": "all14classes",
+    "minimum_rank": 0,
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "qualification": "alive,out of combat,idle,no challenge;minimum_level and exact current route from own quest;original current role/inventory valid;operation uses declared interaction_model endpoint within2500mm and same map;no sidequest prerequisite or public-transit bypass",
+    "acceptance": "only not_accepted and never delivered;create unique attempt,no fee or starting grant;active/delivered accept rejects",
+    "readiness": "derive each requirements quantity from actual own-character/quest/current-attempt carried bound items;all required quantities satisfied;no shadow progress counter or preaccept credit",
+    "repeat": "each quest once per character across worlds;no daily/party/route reset;parameter-center route changes preserve all completion records and do not authorize old active attempt against current route",
+    "delivery": "revalidate all eligibility/current attempt/exact delivery endpoint/inputs;build final inventory by consuming exact declared quantities then inserting exact reward.items under original definition/binding/provenance/merge/slot/weight rules;preflight currencies and XP/derived level/attribute/covered-level awards;one05/19durable transaction commits inputs/items/silver/practice/actual XP and newly covered level awards/state/completion/receipt/resource flows;character and inventory revisions each+1 once",
+    "silver": "reward.silver explicit nonnegative integer;zero causes no money leg or money-account mutation;positive amount requires carried before+reward<=17maximum and exact authorized quest_reward income leg for reward.silver,warehouse unchanged;overflow rejects entire delivery,no clipping",
+    "practice_cap_ref": {
+      "file": "历练与洗点.v1.json",
+      "pointer": "/practice"
+    },
+    "practice": "reward.practice explicit nonnegative integer;applied=min(reward.practice,maximum-current),overflow=reward.practice-applied;preview original/applied/loss and explicit confirmation if loss>0;zero causes no practice mutation;no XP conversion/extra material/refund or party redistribution",
+    "reward_scope": "these twenty-two quests require explicit nonnegative integer reward.experience,rank_change=null,ascension_progress=0;XP follows experience rule below,rank/ascension change remains outside this owner and rejects;exact quest reward values still belong to each registered owner,no hidden grants",
+    "capacity_failure": "any invalid original/final state,missing input,slots/weight shortage,silver overflow or stale revision rejects whole delivery,all inputs/quest attempt/rewards/RNG/revisions unchanged;no partial/ground/warehouse delivery",
+    "modifiers": "declared quest reward values fixed;outside party pool/finisher/training/supreme multipliers",
+    "abandon": "explicit confirmation consumes only own active-attempt declared quest tokens and clears attempt/state atomically;no refund/reward;completed cannot abandon;fresh accept allocates new attempt,old commands/death outcomes never target new attempt;other task inputs/state unaffected",
+    "deduplication": "character/quest/final completion unique across attempts/worlds;original request same payload returns original receipt before current-state checks;altered payload same request rejects;new completion after delivered rejects;never reinstall historical receipt inventory",
+    "save": "persist actual tokens/attempt/state/result and resource flows under05/19;uncertain persistence resolves original settlement and retries same committed save,no new credit/items or business replay",
+    "initialization": "new role and known1..4legacy imports explicitly not_accepted/null attempt/no tokens for each quest;level/route never auto-complete;unknown newer-format missing required state rejects",
+    "experience_owner_ref": {
+      "file": "等级经验.v1.json",
+      "pointer": ""
+    },
+    "level_attribute_owner_ref": {
+      "file": "职业基础成长.v1.json",
+      "pointer": ""
+    },
+    "level_award_owner_ref": {
+      "file": "升级发点.v1.json",
+      "pointer": "/covered_level_policy"
+    },
+    "experience": "reward.experience=0 causes no XP mutation/leg/level-award pass. Positive declared amount: require valid original0..maximum_total_xp,applied=min(reward.experience,maximum_total_xp-current),overflow=reward.experience-applied;show base/applied/loss and require explicit confirmation when loss>0,no conversion/deferred credit/refund. Derive final level from exact authoritative threshold table and resolve original-revision qualification before rewards. Commit actual XP,derived level/base-attribute changes and only newly covered level award spans using pre-commit advancement state in the same final delivery receipt/transaction;do not heal HP/mana/stamina or refresh cooldowns,auto-learn skills/advance rank,or regrant covered levels. If applied0 at cap,record original reward/loss but no fictitious XP mutation or repeated level grant. Invalid original state/arithmetic/new levels/awards or final inventory rejects whole delivery."
+  },
+  "collection_boundary": "producer tables/eligibility/caps/death receipt keys/shared candidate groups remain in each existing owner;this lifecycle does not broaden drop scope,party qualification,normal death rewards or stage-specific gates",
+  "pending": [
+    "Godot definition loading/commands/atomic resource flows/save and LAN runtime verification"
+  ]
+}

@@ -1,0 +1,872 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_hero_synthesis_and_divine_stone_design_not_implemented_not_balanced",
+  "scope": "107主武器四槽本地合成，以及stage4及以上83件主武器的神物之石单槽属性变更；不覆盖普通武器/防具合成或其他成长。",
+  "source_policy": {
+    "published": [
+      {
+        "url": "http://rxjh.17game.com/event/2026/content/index.html",
+        "text_sha256": "c3168503c57e811a9ac873b017c928e9b43332be11b67b983bf87707c94d2edd",
+        "fact": "神物之石有概率变更八大奇宝合成属性；血雨丸可用，甄四转/三式任务可取得。"
+      },
+      {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/33",
+        "fact": "来源任务奖励明确名称金刚石，本owner采用材料名；52级两任务完整本地流程由独立任务owner采用，未实现。"
+      }
+    ],
+    "project_choices": [
+      "合成四槽、四属性固定值、概率/费用/材料量与可选属性均为明确本地方案，不冒充完整官网金刚石档位。",
+      "神物之石本地服务仅六英雄主武器stage>=4，80级/rank4起；这是项目资格，不把八大奇宝概念改写为官方仅六武器。",
+      "初次合成由玩家明确选属性，按空槽序号概率添加；石变更由玩家选已有槽，50%变为其余三属性均匀之一。",
+      "为六英雄提供有成本制作神物之石，原甄两个晋阶奖励保持独立去重；不是无限免费补发。"
+    ]
+  },
+  "weapon_bindings": [
+    {
+      "item_id": "weapon_blood_orb_rank01",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 1
+    },
+    {
+      "item_id": "weapon_blood_orb_rank02",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 2
+    },
+    {
+      "item_id": "weapon_blood_orb_rank03",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 3
+    },
+    {
+      "item_id": "weapon_blood_orb_rank04",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 4
+    },
+    {
+      "item_id": "weapon_blood_orb_rank05",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 5
+    },
+    {
+      "item_id": "weapon_blood_orb_rank06",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 6
+    },
+    {
+      "item_id": "weapon_blood_orb_rank07",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 7
+    },
+    {
+      "item_id": "weapon_blood_orb_rank08",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_blood_orb_rank08_true",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_blood_orb_rank09",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_blood_orb_rank09_true",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_blood_orb_rank10",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_blood_orb_rank10_true",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_blood_orb_rank11",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_blood_orb_rank11_true",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_blood_orb_rank12",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_blood_orb_rank12_true",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank01",
+      "class_id": "han_feiguan",
+      "weapon_stage": 1
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank02",
+      "class_id": "han_feiguan",
+      "weapon_stage": 2
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank03",
+      "class_id": "han_feiguan",
+      "weapon_stage": 3
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank04",
+      "class_id": "han_feiguan",
+      "weapon_stage": 4
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank05",
+      "class_id": "han_feiguan",
+      "weapon_stage": 5
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank06",
+      "class_id": "han_feiguan",
+      "weapon_stage": 6
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank07",
+      "class_id": "han_feiguan",
+      "weapon_stage": 7
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank08",
+      "class_id": "han_feiguan",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank09",
+      "class_id": "han_feiguan",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank09_true",
+      "class_id": "han_feiguan",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank10",
+      "class_id": "han_feiguan",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank10_true",
+      "class_id": "han_feiguan",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank11",
+      "class_id": "han_feiguan",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank11_true",
+      "class_id": "han_feiguan",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank12",
+      "class_id": "han_feiguan",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_fire_dragon_rank12_true",
+      "class_id": "han_feiguan",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_flower_sword_rank01",
+      "class_id": "tan_hualing",
+      "weapon_stage": 1
+    },
+    {
+      "item_id": "weapon_flower_sword_rank02",
+      "class_id": "tan_hualing",
+      "weapon_stage": 2
+    },
+    {
+      "item_id": "weapon_flower_sword_rank03",
+      "class_id": "tan_hualing",
+      "weapon_stage": 3
+    },
+    {
+      "item_id": "weapon_flower_sword_rank04",
+      "class_id": "tan_hualing",
+      "weapon_stage": 4
+    },
+    {
+      "item_id": "weapon_flower_sword_rank05",
+      "class_id": "tan_hualing",
+      "weapon_stage": 5
+    },
+    {
+      "item_id": "weapon_flower_sword_rank06",
+      "class_id": "tan_hualing",
+      "weapon_stage": 6
+    },
+    {
+      "item_id": "weapon_flower_sword_rank07",
+      "class_id": "tan_hualing",
+      "weapon_stage": 7
+    },
+    {
+      "item_id": "weapon_flower_sword_rank08",
+      "class_id": "tan_hualing",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_flower_sword_rank08_true",
+      "class_id": "tan_hualing",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_flower_sword_rank09",
+      "class_id": "tan_hualing",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_flower_sword_rank09_true",
+      "class_id": "tan_hualing",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_flower_sword_rank10",
+      "class_id": "tan_hualing",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_flower_sword_rank10_true",
+      "class_id": "tan_hualing",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_flower_sword_rank11",
+      "class_id": "tan_hualing",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_flower_sword_rank11_true",
+      "class_id": "tan_hualing",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_flower_sword_rank12",
+      "class_id": "tan_hualing",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_flower_sword_rank12_true",
+      "class_id": "tan_hualing",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank01",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 1
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank02",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 2
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank03",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 3
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank04",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 4
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank05",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 5
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank06",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 6
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank07",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 7
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank08",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank08_true",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank09",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank09_true",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank10",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank10_true",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank11",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank11_true",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank12",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_rank12_true",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_soul_spear_rank01",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 1
+    },
+    {
+      "item_id": "weapon_soul_spear_rank02",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 2
+    },
+    {
+      "item_id": "weapon_soul_spear_rank03",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 3
+    },
+    {
+      "item_id": "weapon_soul_spear_rank04",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 4
+    },
+    {
+      "item_id": "weapon_soul_spear_rank05",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 5
+    },
+    {
+      "item_id": "weapon_soul_spear_rank06",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 6
+    },
+    {
+      "item_id": "weapon_soul_spear_rank07",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 7
+    },
+    {
+      "item_id": "weapon_soul_spear_rank08",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_soul_spear_rank08_true",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_soul_spear_rank09",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_soul_spear_rank09_true",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_soul_spear_rank10",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_soul_spear_rank10_true",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_soul_spear_rank11",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_soul_spear_rank11_true",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_soul_spear_rank12",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_soul_spear_rank12_true",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank01",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 1
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank02",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 2
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank03",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 3
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank04",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 4
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank05",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 5
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank06",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 6
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank07",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 7
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank08",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank08_true",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 8
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank09",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank09_true",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 9
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank10",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank10_true",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 10
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank11",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank11_true",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 11
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank12",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_rank12_true",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 12
+    },
+    {
+      "item_id": "weapon_blood_orb_sealed",
+      "class_id": "zhen_fengbai",
+      "weapon_stage": 0
+    },
+    {
+      "item_id": "weapon_fire_dragon_sealed",
+      "class_id": "han_feiguan",
+      "weapon_stage": 0
+    },
+    {
+      "item_id": "weapon_flower_sword_sealed",
+      "class_id": "tan_hualing",
+      "weapon_stage": 0
+    },
+    {
+      "item_id": "weapon_black_tortoise_bow_sealed",
+      "class_id": "mei_liuzhen",
+      "weapon_stage": 0
+    },
+    {
+      "item_id": "weapon_soul_spear_sealed",
+      "class_id": "lu_fenglang",
+      "weapon_stage": 0
+    },
+    {
+      "item_id": "weapon_cold_jade_staff_sealed",
+      "class_id": "dongling_shennv",
+      "weapon_stage": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "diamond_synthesis_stone",
+      "name": "金刚石",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 10000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 1,
+      "minimum_purchase_rank": 0,
+      "purchase_class_filter": "six hero classes from weapon_bindings",
+      "presentation_ref": "dev_item_diamond_synthesis_stone",
+      "source_policy": "金刚石为已有装备体系材料名；本地选择属性、不分随机石档、堆重/权限/价为项目设计，非原版全石库。",
+      "quest_reward_acquisition_refs": [
+        {
+          "file": "五十二级正邪寻回任务.v1.json",
+          "pointer": "/quests/0"
+        },
+        {
+          "file": "五十二级正邪寻回任务.v1.json",
+          "pointer": "/quests/1"
+        },
+        {
+          "file": "五十九级正邪嘱托任务.v1.json",
+          "pointer": "/quests/0/random_item_reward/outcomes/0"
+        },
+        {
+          "file": "五十九级正邪嘱托任务.v1.json",
+          "pointer": "/quests/1/random_item_reward/outcomes/0"
+        },
+        {
+          "file": "六十一至六十三级正邪讨伐链.v1.json",
+          "pointer": "/quests/2/reward/items/0"
+        },
+        {
+          "file": "六十一至六十三级正邪讨伐链.v1.json",
+          "pointer": "/quests/5/reward/items/0"
+        },
+        {
+          "file": "八十四级正邪头巾分赠任务.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "八十四级正邪头巾分赠任务.v1.json",
+          "pointer": "/quests/1/reward/items/0"
+        },
+        {
+          "file": "八十五级悟神丹与宝盒.v1.json",
+          "pointer": "/box_open"
+        },
+        {
+          "file": "八十七级正邪南明洞秘密任务.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "八十七级正邪南明洞秘密任务.v1.json",
+          "pointer": "/quests/1/reward/items/0"
+        }
+      ],
+      "quest_acquisition_policy": "52级正邪两任务各一次固定1颗；59级正邪嘱托仅原始roll0..4999选中时1颗、与寒玉石互斥，各任务最终一次。14职业持有不受商店过滤，精确来源/消费/随机结果/材料铸造/完成同笔，不授权其他同名任务或重复发放。 63级正邪讨伐链末段各一次固定给本石1，与另一通用石同时给，精确前段委托书和最终封包消费/完成/材料来源同笔。 84级正邪头巾分赠任务各一次固定1颗，最终本轮余20真实消费、格重预检、材料来源与完成同笔；不受商店职业筛选。 85级独立宝盒固定开启产生本石1，真实盒消费/两石输出/最终槽重同笔；不沿白银黄金随机池。 87两路线各最终一次本石1，与首饰和本轮100消费/完成同笔。"
+    }
+  ],
+  "shared_item_refs": [
+    {
+      "item_id": "divine_mystery_stone",
+      "file": "英雄主武器晋阶与提真.v1.json",
+      "pointer": "/items/3"
+    }
+  ],
+  "property_pool": [
+    {
+      "property_id": "attack_flat",
+      "name": "攻击增加",
+      "value": 8,
+      "source_category": "synthesis",
+      "projection": "add8 to both accepted attack bounds once"
+    },
+    {
+      "property_id": "martial_power_flat",
+      "name": "武功平威力增加",
+      "value": 20,
+      "source_category": "synthesis",
+      "projection": "add20 only to accepted root attack-martial flat power before percentage passives/phase, not full attack or final damage"
+    },
+    {
+      "property_id": "accuracy_flat",
+      "name": "命中增加",
+      "value": 15,
+      "source_category": "synthesis",
+      "projection": "add15 to active owner accuracy rating before hit probability calculation, not15percent"
+    },
+    {
+      "property_id": "evasion_flat",
+      "name": "回避增加",
+      "value": 10,
+      "source_category": "synthesis",
+      "projection": "add10 to active owner evasion rating before received hit probability calculation, not10percent"
+    }
+  ],
+  "synthesis_schema": {
+    "field": "synthesis_entries",
+    "type": "ordered_array",
+    "minimum_entries": 0,
+    "maximum_entries": 4,
+    "empty_array": "valid explicitly unsynthesized weapon",
+    "entry_fields": [
+      "slot_index",
+      "property_id",
+      "value",
+      "origin_receipt_id"
+    ],
+    "slot_index": "0..length-1 strictly contiguous, no duplicate/gap; not a bag index",
+    "property_id": "exact member of property_pool; repeated properties across slots allowed",
+    "value": "exact fixed value for property_id, no arbitrary user-entered value or inferred tier",
+    "origin_receipt_id": "nonempty committed synthesis or mutation receipt owning this weapon lineage; no invented receipt during load",
+    "missing_field_or_unknown_property": "reject configuration/snapshot; do not replace with empty/zero/default property",
+    "existing_initial_state": "initial ordinary/hero instances already carry explicit empty array; no automatic synthesis grant"
+  },
+  "service_policy": {
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "requires_same_map_available_npc": true,
+    "requires_alive_idle_out_of_combat_no_challenge": true,
+    "allowed_routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "source_location": "own equipment_bag only; unequip/withdraw explicitly",
+    "qualification": "exact weapon binding and actor class, meets weapon level/rank/route; all source growth valid and unreserved; no party/leader qualification",
+    "additional_boost": "nonzero attached enhancement display boost/temporary enhancement rejects these processing services before cost; never clear attached state",
+    "unknown_other_growth": "reject missing schema or damaged/unsupported nonzero inherited field, no loss of stored state",
+    "weapon_checks_scope": "source_location, weapon binding, weapon level/rank/route and source growth checks apply only synthesis/mutation; craft has no weapon input, uses explicit craft class/level/rank/route plus common NPC/alive/idle/combat/challenge checks",
+    "enhancement_boost_guard_owner_ref": {
+      "file": "英雄武器附加提升.v1.json",
+      "pointer": "/processing_guard"
+    },
+    "instance_growth_schema_owner_ref": {
+      "file": "英雄主武器基础定义.v1.json",
+      "pointer": "/instance_growth_schema"
+    }
+  },
+  "synthesis_recipes": [
+    {
+      "recipe_id": "hero_synthesize_slot_0",
+      "target_slot_index": 0,
+      "requires_existing_entry_count": 0,
+      "consumed_item_id": "diamond_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 10000,
+      "property_choice": "player chooses one exact property_pool member before quote",
+      "success": "append exactly one entry with fixed property value and committed receipt, same weapon instance ID",
+      "failure": "entries and source weapon unchanged; still consumes one material and5000 silver",
+      "random_draw_required": false
+    },
+    {
+      "recipe_id": "hero_synthesize_slot_1",
+      "target_slot_index": 1,
+      "requires_existing_entry_count": 1,
+      "consumed_item_id": "diamond_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 8000,
+      "property_choice": "player chooses one exact property_pool member before quote",
+      "success": "append exactly one entry with fixed property value and committed receipt, same weapon instance ID",
+      "failure": "entries and source weapon unchanged; still consumes one material and5000 silver",
+      "random_draw_required": true
+    },
+    {
+      "recipe_id": "hero_synthesize_slot_2",
+      "target_slot_index": 2,
+      "requires_existing_entry_count": 2,
+      "consumed_item_id": "diamond_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 6000,
+      "property_choice": "player chooses one exact property_pool member before quote",
+      "success": "append exactly one entry with fixed property value and committed receipt, same weapon instance ID",
+      "failure": "entries and source weapon unchanged; still consumes one material and5000 silver",
+      "random_draw_required": true
+    },
+    {
+      "recipe_id": "hero_synthesize_slot_3",
+      "target_slot_index": 3,
+      "requires_existing_entry_count": 3,
+      "consumed_item_id": "diamond_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 4000,
+      "property_choice": "player chooses one exact property_pool member before quote",
+      "success": "append exactly one entry with fixed property value and committed receipt, same weapon instance ID",
+      "failure": "entries and source weapon unchanged; still consumes one material and5000 silver",
+      "random_draw_required": true
+    }
+  ],
+  "divine_stone_craft": {
+    "recipe_id": "craft_divine_mystery_stone",
+    "minimum_level": 80,
+    "minimum_rank": 4,
+    "allowed_classes": "exact six hero classes",
+    "allowed_routes": [
+      "righteous",
+      "evil"
+    ],
+    "materials": [
+      {
+        "item_id": "diamond_synthesis_stone",
+        "quantity": 5
+      }
+    ],
+    "silver_fee": 2000000,
+    "output_item_id": "divine_mystery_stone",
+    "output_quantity": 1,
+    "success_probability_bp": 10000,
+    "random_draw_required": false,
+    "total_silver_if_all_materials_bought": 2050000,
+    "reward_ledger_effect": "none; crafted stone never marks or resets zhen stage4/stage8 reward_stages",
+    "source_weapon_required": false
+  },
+  "divine_mutation": {
+    "recipe_id": "hero_divine_synthesis_mutation",
+    "minimum_level": 80,
+    "minimum_rank": 4,
+    "minimum_weapon_stage": 4,
+    "requires_existing_entries_at_least": 1,
+    "chosen_slot": "one exact currently occupied slot bound to quote, never choose another slot on stale input",
+    "consumed_item_id": "divine_mystery_stone",
+    "consumed_quantity": 1,
+    "silver_fee": 0,
+    "success_probability_bp": 5000,
+    "first_draw": "uniform integer[0,9999], success iff <5000",
+    "on_success": "second logical uniform draw in[0,2] selects stable property_pool order excluding current property; replace chosen property/value/origin_receipt_id only",
+    "on_failure": "do not draw property; chosen entry and every source field unchanged",
+    "cost_on_either_outcome": "consume exactly one stone, fee0; no automatic refund/retry",
+    "excluded_old_property": "successful mutation always a different property_id, cannot return a successful identical property",
+    "no_extra_paths": "does not change slot count, enhancement, weapon stage, true flag, awakening or reward ledger"
+  },
+  "projection_policy": {
+    "category": "synthesis",
+    "only_active_weapon": true,
+    "sum": "sum identical property values across all active entries, with checked integer math; no derived cache persisted",
+    "attack": "base weapon + real_enhancement attack + synthesis.attack_flat are distinct contributions to ordinary attack range; exactly once at accepted action",
+    "martial_order": "declared hit flat skill power + eligible flat passive + registered real_enhancement martial flat + synthesis martial flat + registered jade martial flat + registered evolution martial flat + registered temporary enhancement boost martial flat + registered awakening martial flat + registered attribute_stone martial flat (including valid accepted Lu differential), then same-scope percentage passives once, then action attack and phase coefficient; normal basic/heal/status excluded",
+    "accuracy_evasion": "derived persistent actor ratings from active equipped weapon, not a per-hit random buff; no percentage reinterpretation",
+    "lu_rule": "all four contributions are synthesis, never attribute_stone; Lu weapon/armor attribute-stone doubling does not double these entries",
+    "points_and_hp": "these four entries grant no qigong/anti-qigong points or maxHP/mana; do not invent extra slots or restore resources",
+    "progression_transfer": "preserve exact legal entries/receipt ancestry across named weapon replacements; receipt binds lineage history rather than requiring origin receipt output instance==current instance",
+    "snapshot": "accepted action snapshots relevant contributions so later mutation cannot rewrite already accepted attack; defense/evasion follow existing hit-time actor rules"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "recipe_id",
+      "recipe_version",
+      "source_instance_id_if_processing",
+      "source_revision_if_processing",
+      "slot_index_if_processing",
+      "selected_property_if_synthesis",
+      "inventory_revision",
+      "character_revision",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "show exact target slot/old property, allowed outcomes and exact success/failure probability/cost, no hidden temporary buff or choose-after-draw",
+    "capacity": "processing same instance/slot, only consumes material; craft removes5 material before allocating/stacking1 stone and checks final slots+weight. Cannot count a partially depleted stack as a free slot.",
+    "rng": "clone requester RNG only after all qualification/cost/capacity/schema checks. Guaranteed synthesis and craft do not draw. Other synthesis draws once; mutation draws second property only on success. Uniform integer helper must avoid modulo bias.",
+    "atomic_commit": "costs, chosen entry or crafted output, RNG state, source/character revisions and command receipt committed once on host",
+    "cancel_stale_invalid": "no item/silver/random/revision change; do not pre-roll preview",
+    "duplicate": "same command/payload returns original receipt before current slot validation, no new roll; changed payload with old command ID rejected",
+    "save_failure": "keep committed memory/unsaved marker; save exact state again, never rerun material or random operation",
+    "lan": "requester owns weapon/material/output/RNG; no shared party input/output",
+    "load": "validate entry schema/property/value/receipt ancestry and unique lineage, reject damaged states; no clamping, dropping or normalizing unknown entries"
+  },
+  "remaining_dependencies": [
+    "英雄奇玉/进化与英雄觉醒/四神均已独立采用；普通武器与防具合成、完整金刚石档位、其他原版属性及衣服觉醒/四神仍待。",
+    "八大奇宝其他对应物、旁支武器与高强化附加提升仍须独立设计。",
+    "神物之石原始完整概率/池缺口保留；本地四属性方案不冒充官方全库。",
+    "Godot合成/变更/制作、UI预览、概率/RNG/保存/LAN及经济平衡尚未实现验证。"
+  ],
+  "static_review": {
+    "kind": "static_pool_projection_probability_and_craft_arithmetic_not_runtime",
+    "synthesis_weapon_bindings": 107,
+    "mutation_weapon_bindings": 83,
+    "legal_property_sequences": 341,
+    "weapon_sequence_projection_cases": 36487,
+    "synthesis_integer_outcomes_checked": 40000,
+    "mutation_probability_mass_checks": 4,
+    "craft_slot_weight_cases": 24,
+    "craft_cases_passing": 14,
+    "world_service_ids_unique": 196,
+    "runtime_tests_executed": false
+  }
+}

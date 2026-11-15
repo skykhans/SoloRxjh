@@ -2346,5 +2346,42 @@
     "mana_restore": "self/current real party, same map/LOS/15m, caster first then low mana fraction/distance/ID up to6; capture eligible recipient set at accept, revalidate at effect. ceil(target maxmana20percent), limit missing; no new recipients/extra mana via repeated request. All full before cast rejects. HP healing-block alone does not block mana; mana-specific blocker honored. No revive0HP. Fixed0mana cost explicit,120sec cooldown not reset by casting other ranks.",
     "persistence": "each source/timer/shared cooldown and group recipient snapshot in full action snapshots; world-time freeze pause/offline. Switching stance/weapon/role clears only dependent effects. No item creation, permanent weapon unlock or phase completion from visual awakening.",
     "scope": "60source rows all have adopted local behavior in explicit subsets including initial physician source reference. Complete active official stage trees/passive trigger definitions, whole build ordering and runtime validation remain distinct unfinished work."
+  },
+  "persistent_lightness_state": {
+    "target_field": "character.effects.lightness",
+    "schema_ref": {
+      "file": "轻功效果状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": {},
+    "legacy_import": "四已知旧来源无活跃轻功，显式空对象；现行缺字段拒绝，不从旧移动速度推断技能或补触发。",
+    "identity": "仅31个lightness_definitions的ability_id作键，每技能至多一条；本人为隐含施放者/目标，来源职业由identities绑定且必须等于角色class_id。仅保存trigger_event_id与remaining_steps1..1800，不另存速度、profile、有效最强、计时起点或是否开启。",
+    "activation": "原施法接纳支付/启动既有冷却，完整施法原结果在实际落效时重验存活/非战斗/徒步非变身非骑乘且活动许可；成功才写对应键1800，trigger_event_id指原实际落效结果并可回溯原接纳。接纳后被打/中断/模式不符则不创建、不退款、不刷新冷却。",
+    "refresh": "同技能新的合法施法实际落效只替换对应原凭证并重置1800，不叠次数；同结果重放无刷新。不同已学同职业轻功各自保时长，最强实际速度从原definitions选取，其他来源不暂停；最强结束后仅余时仍正的弱源接续，无免费新1800。",
+    "timing": "实际生成步不扣新余时，后续世界步入口对既有来源扣1，0先移除再移动/接纳动作；暂停/离线冻结。冷却仍原character.timers，不随效果结束清零或复制到效果表。",
+    "termination": "本人死亡、明确取消轻功、进入不允许的运动模式/角色切换、实际受伤或合法接纳敌对施法按原定义终止本人的全部轻功来源；施法接纳失败不视为敌对施法。不是一次仅移除最强后令弱源立即恢复。角色进入受伤流程须沿原伤害结果执行清理，完整伤害类型与战斗状态规则仍引用原战斗owner。",
+    "navigation": "最高速度仅给正常徒步移动控制；碰撞/导航/地图门禁照常，回避距离和无敌帧不变，无飞跃水墙/瞬移。真实移动意图、轨迹与受控方向在原移动结果中保存，不复制进轻功。",
+    "validation": "先验完整角色/effects白名单；职业/已学/实际原落效及合法模式为语义门槛，待复活角色必须空。来源31项不补造其他职业同名轻功，当前角色未采用的技能拒绝。",
+    "physician_potency": "两医师轻功原落效结果必须冻结九天有效等级0..40，合法速度按原基础及九天potency一次计算；活跃表仍只存原凭证/余时，读取该原结果而非后来装备。吸星明确排除轻功，轻功时长仍1800；同族最高比较实际冻结速度，不只比较原profile。"
+  },
+  "persistent_auxiliary_timed_state": {
+    "target_field": "character.effects.auxiliary_timed",
+    "schema_ref": {
+      "file": "辅助持续效果状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": [],
+    "legacy_import": "四已知旧来源显式空表；现行缺字段拒绝，不从面板/武器外观补效果。",
+    "coverage": "恰好本合同physician_definitions中2个、assassin_displacement_definitions中5个、remaining_auxiliary_definitions中13个含effect.duration_steps的定义，共20个。轻功由persistent_lightness_state，琴师和弦由职业资源，瞬时恢复与三位移由原动作结果持有，不重复计时。",
+    "fields": "每源精确source_actor_id/source_ability_id/trigger_event_id/remaining_steps；trigger为本次真实成功落效结果，可追溯原接纳和本人接收更新。原效果系数/家族/阶段从技能定义取，原冻结有效火龙问鼎等级在该落效结果，不在来源重复保存数值/来源职业/目标/是否生效。",
+    "identity": "每个(source_actor_id,source_ability_id)最多一源，按source_ability_id后source_actor_id稳定排序；新合法落效替换同源凭证与余时不叠加，重放原结果不刷新。医师两增益允许真实有效队友施放，其余18个来源必须本人且技能职业与本人一致，不允许用他人姿态/潜行。",
+    "duration": "各自余时不得超过本次原落效冻结时长。一般为effect.duration_steps；医师强筋/身轻另按原吸星有效等级0..40计算floor(3600*(10000+100*grade)/10000)，最高5040；三觉醒为1800+6*原有效火龙问鼎等级0..40，最高2040。这些原等级/基础/有效总时长在实际落效原结果保存，活跃源只引用原结果与余时；正面不套负面时长修正。成功冷却仍原定义，不随时长改动。生成步不扣新余时，后续世界步入口扣旧源，0先移再行为，暂停离线冻结。",
+    "family": "所有来源各自扣时，同命名属性家族只取最强有效贡献不加总；同量用trigger_event_id/source_actor_id/source_ability_id稳定选唯一来源。弱源不因未选中暂停或重置，最强到期仅沿其真实剩余时长接替。不同家族仍沿原stat_order，不构造全能系数。",
+    "exclusive": "本人弓手阴阳姿态最多一个；本人三阶段火龙觉醒最多一个。新的合法成功落效才在同原结果内移除旧家族并生成新源，接纳/施法失败或中断不提前清旧。不能兼取两姿态正收益而漏负值；觉醒新学习或切阶段不重置既有家族冷却。",
+    "weapon_lifecycle": "火龙觉醒/火龙之意要求实际装备火龙刀，卸下或换为不兼容武器同原结果清这两族，原冷却保留。其他已付独立增益不因医师换杖、施放者离队/离线/死亡、装备临时有效等级变化自动刷新或移除，沿原时长；实际接收者死亡或明确解除才按适用规则清理。",
+    "stealth": "潜行同表保存且仅一自身来源，不另存hidden布尔。真实敌对攻击/技能接纳、实际敌伤、死亡或明确取消在原结果移除潜行，拒绝接纳不破；已存在仇恨/已接纳敌方攻击不清除、不失效。2m探测与LOS由原定义和真实世界判定，不能仅客户端隐藏。",
+    "derived_values": "快打只影响随后新接纳普通攻击的前摇/后摇，不改已接纳动作/命中偏移/冷却；身轻如燕只乘普通步行跑速一次，再与轻功最高合法速度比较，不乘轻功或回避。御流按原费用顺序，非费用护罩/免费所有资源。所有派生都不另存最终属性副本。",
+    "validation": "完整角色/effects白名单先验，再验来源身份/原落效/收件人/排序唯一/真实时长；待复活必须空表。医师真实队伍/距离/LOS在原落效时验证，现行队伍变化不能改写历史合法来源。完整原施法/多接收者持久结果与Godot仍需实现。",
+    "physician_potency": "医师两辅助增益的九天有效等级0..40在原落效结果冻结，先按原normalized效果应用一次九天系数，再按原同族选强；来源只存原凭证，不重新读取后来装备等级。强筋平防与身轻普通跑速实际贡献从该原快照求得，不仅从静态技能基础取数；其他施放者的当前等级不能重写已付来源。"
   }
 }

@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-15",
   "status": "local_training_combat_spawns_designed_not_implemented_not_balanced",
   "source_owner_file": "修炼之门.v1.json",
   "source_policy": "55886 gives高手以上, differing room levels and summons that expire. All144variants,36levels,432spawns,stats,rewards and schedules are local design, not adoption of198official monster records; never infer source identity from item name.",
@@ -65,6 +65,10 @@
     "movement_policy": "walk navigation paths, no teleport through obstacles or to home",
     "normal_attack_range_mm": 1800,
     "normal_windup_steps": 36,
+    "normal_active_steps": 1,
+    "normal_hit_offsets_in_active_steps": [
+      0
+    ],
     "recovery_steps": 84,
     "normal_arc_degrees": 120,
     "hit_ordinals_per_attack": 1,
@@ -73,7 +77,351 @@
     "skills": [],
     "target": "connected living hostile outside8m safe zone; shortest reachable distance then stable ID, revalidate each decision",
     "safe_zone": "no hostile spawn/entry; player entering loses target; monster returns by path",
-    "return": "only at valid home restore fullHP without rewards; no reward on leash/despawn"
+    "return": "only at valid home restore fullHP without rewards; no reward on leash/despawn",
+    "accepted_timing_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/accepted_attack_timing"
+    },
+    "accepted_timing": "本地修炼怪普通攻击明确使用normal_windup_steps/normal_active_steps/recovery_steps及normal_hit_offsets_in_active_steps；接纳e0，实际动作第37步发出唯一ordinal0，第121步完成占用。未到期中断不命中、不伪装完成；朝向沿facing_locked_at_windup在接纳时锁定，实际命中步按原范围/扇形和真实目标生命轮次重验。单次命中序号数量必须等偏移数组长度。规则来源冻结于原接纳动作，不在恢复时套当前AI表。此为本地设计，非官网帧表；完整NPC动作/几何/队列与保存仍待实现。",
+    "accepted_identity_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/accepted_attack_identity"
+    },
+    "normal_max_targets": 1,
+    "normal_vertical_hit_height_mm": 2000,
+    "normal_sight_height_mm": 1000,
+    "normal_geometry": {
+      "scope": "本owner普通攻击唯一原target_actor_id的近战几何；本地采用脚位置中心距/扇形及离地1米视线的既有玩法，不将旧Rust测试当Godot已通过。新增明确垂直范围和边界，不套用于玩家武器/投射/周期或其他NPC。",
+      "input": "取本完整原命中排序项执行时，原NPC与原目标的实际已完成移动脚位置(x,y,z)，本动作accepted_yaw_radians及原rules_hash的AI几何参数。所有数值须有限，位置/scope/活体/关系/安全区和原目标生命轮次先验，不能用当前近似目标或骨骼动画位置；遇坏值/中间溢出拒绝完整候选，不补0或当未中吞错。",
+      "horizontal": "dx=target.x-source.x，dz=target.z-source.z，d2=dx*dx+dz*dz；R=normal_attack_range_mm/1000。d2<=R*R才在距离内，正好1.8米包含，不加两端胶囊半径/武器视觉长度或额外epsilon。胶囊仍负责真实移动防穿透，不因体型大就扩大本普通攻击有效距离。",
+      "facing": "Y向上、yaw0前向-Z；锁定前向fx=-sin(accepted_yaw_radians)，fz=-cos(accepted_yaw_radians)。本normal_arc_degrees=120即半角60，p=fx*dx+fz*dz。d2=0时无需归一化且水平角合格；否则须p>=0且4*p*p>=d2，恰半角边界包含。不得把120当半角，不能用AI当前转头或当前朝向替换锁定值。",
+      "vertical": "normal_vertical_hit_height_mm=2000为以攻击者脚高为中心的完整允许高差带；2*abs(target.y-source.y)<=2000/1000，故脚高差恰±1米包含，超过拒绝本几何。不是身高/胶囊高度，也不以Y差参与水平1.8米长度。此为本地修炼近战选择，不自动修改其他攻击。",
+      "sight": "距离/扇形/高差通过后，从source脚位置+(0,normal_sight_height_mm/1000,0)到target脚位置+(0,同高度,0)作闭线段遮挡查询；正常高度1000mm。任一原场景明确阻挡战斗视线的实心几何与该闭线段相交即阻挡，包含端点/相切/从内部起步。排除攻击者/该目标自身碰撞体；其他角色不作肉盾拦本近战，装饰/触发器不凭节点存在就遮挡。实心地形/墙/岩石等实际战斗阻挡标记及Godot查询须与地图原定义一致，不借相机mask或导航可达性代替视线。未有明确战斗标记/碰撞数据的场景拒绝启用，不默认可见。",
+      "safe_zone": "目标脚位置XZ到原room_layout.arrival_safe_zone.center_xz_m的平方距离<=原radius_m平方即在安全区，8米边界包含；不能因胶囊有一部分在圈外就攻击。原NPC不得生成/进入安全区；目标进入时本次原目标几何失效并沿AI失去目标/寻路返回，不换另一个目标来完成已接纳动作。原安全区外普通位置不授予其他资格。",
+      "numeric": "authoritative标量运算采用GDScript float的binary64；从真实世界姿态取得原分量再作标量计算，不以默认Vector3的精度或GPU/动画采样决定额外容差。sin/cos与原冻结发行规则版本一致，原已提交命中/无效结果在恢复或客户端只按原决定应用，不重新计算边界改判。新判定按原正式有限数值，不隐式round到毫米或加入未登记epsilon。跨发行/平台边界一致性仍须真实Godot验证。",
+      "result": "任何合法资格/几何失败形成原明确无伤害决定并由动作hit_result引用；不消费命中/区间/暴击随机，不触发命中回调、不留ordinal待下一步再碰运气。合法几何通过才沿23判闪避/命中及后续流程；几何合格本身不等于命中或造成生命损失。",
+      "boundary": "本普通攻击精确几何采用；全地图战斗遮挡标记、真实Godot移动/查询/数值边界以及完整命中/队列来源仍待，不据有限几何算例宣称碰撞实测通过。",
+      "safe_zone_owner_ref": {
+        "file": "修炼之门.v1.json",
+        "pointer": "/room_layout/arrival_safe_zone"
+      }
+    },
+    "idle_wait_steps": 60,
+    "path_retry_steps": 60,
+    "patrol_waypoint_offsets_mm": [
+      [
+        2000,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        2000
+      ],
+      [
+        -2000,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        -2000
+      ]
+    ],
+    "state_machine": {
+      "scope": "本owner活体五态idle/patrol/chase/attack/return，原槽死亡/召唤到期移除先于本AI；已移除actor不跑AI、不返乡回血。每实际接纳的实体固定步至多一次AI决定，不按渲染帧或离屏墙钟补做。明确本地巡逻/转换设计，不将原Rust单人逻辑当完整多人AI。",
+      "state_owner": "ai_state/target_actor_id_or_null/patrol_destination_or_null/remaining_ai_wait_steps仅原active_actor持有；原accepted_action保攻击占用，不能把动画结束当占用结束。不新增patrol_index/return_pending/仇恨计数或第二AI表。实际导航路径可按原固定步规则重算，不能改变已保存目的地/动作目标来掩盖坏来源。",
+      "priority": [
+        "原槽真实死亡/到期移除",
+        "活体超过出生点牵引半径或原目标已失效→return",
+        "return实际到家校验与唯一回血",
+        "仍有原攻击占用→attack保持",
+        "合法既有目标或新感知目标",
+        "无目标巡逻/等待"
+      ],
+      "target": "候选为本原room/world实际已连接存活敌对玩家，精确原实体生命轮次且在闭8米安全区外、原导航可达。新感知须实际水平脚中心距<=sense_mm/1000并具原战斗视线；同次候选按实际可达路径总长度递增，再按原stable_actor_id未经规范化UTF8排序。已有合法追逐目标可在感知范围外保留，直到其失效或本NPC超过出生点牵引圈；新感知有更短合法路径时仅在无攻击占用的决定中可切换。当前原target的合法死亡/离场/断线/入安全区/无可达路径为已知失效；无当前实体且缺历史离场/死亡证明是坏引用，不能当普通丢目标静默清理。",
+      "leash": "牵引按本NPC实际脚位置XZ到原spawn.home_feet_m水平中心距，>leash_mm/1000（18米）才超出，恰18米仍在界内；不是与玩家的距离。超出或非null原目标已知失效优先清当前target并进入return，即使附近另有新目标也先回家。return期间不获取目标/反击，不把被攻击当无敌；仍可受真实伤害/死亡，原已提交伤害/奖励历史保留。 已在return时牵引仍超界不反复重置返乡计时或发新停止；保持原路径重试等待，不能每步清0使受阻路径永远不重试。",
+      "attack_interrupt": "上述超出/原目标失效发生且accepted_action非null时，以本原AI决定作为stop_event_id_or_null，保存本actor全部实际待停止根集合并按原NPC停止规则取消占用及未落效进攻；不是只清accepted_action或动画。保各根最后完成游标、已提交hit_result与明确取消来源，不退款/改写旧命中。移除类停止由原生命周期结果持有，不伪造活体AI决定。活体AI结果与根ID清单结构沿decision_result；完整停止来源/世界固定步仍待，缺来源不能先运行本转换。",
+      "idle_patrol": "idle每步先查感知；有目标转chase并清巡逻目的地/等待，不在同次状态转换直接接纳攻击。无目标时实际接纳步递减remaining_ai_wait_steps，降至0的该步仅结束等待；下一实际步才选巡逻目的地。patrol仍每步先查感知，有目标转chase；否则沿已保存目的地寻路，不能每帧换点。",
+      "patrol_selection": "四个patrol_waypoint_offsets_mm是相对原home的固定候选，顺序+X/+Z/-X/-Z，均半径2米。选择起点i=(原432刷点数组中本spawn的0基序号+实际world_step//idle_wait_steps)%4，从i起按环序最多检查四点：实际原地图可站立、完整胶囊不碰阻挡/安全区且有合法路径才采用第一个合格点，保存精确目的地。四点均被合法动态占用/无路径则idle/null目的地/等待60步，不挪坐标、传送或随机补点；缺地图/导航数据是配置错误，不能当四点被占。该固定选择不消费RNG或新增计数。",
+      "patrol_arrival": "实际沿路径完成到原巡逻目的地才转idle并等待60步，目的地可清null；中途被堵保持原目的地，沿path_retry_steps每60个实际接纳步重试，不能刷新整条巡逻。此计时唯一remaining_ai_wait_steps；转状态时按该状态规则置值，不与其他状态共跑两套等待。",
+      "chase": "chase对当前合法目标持续按原导航/碰撞及怪物movement_mm_per_second寻路，不能直线穿墙。接纳阶段开始已满足原距离/高差/视线时，可将当前实体朝向转向该原目标并冻结accepted_yaw；XZ重合保原有限yaw。原攻击本次接纳全部成功才转attack并停止平移；若资源/占用等真实拒绝仍保chase与原目标，不虚构成功动作或当步自动重试第二次。新根e0沿23。本步移动才进入范围者须下个实际接纳步重验，不在移动后补插本步接纳。",
+      "attack": "有未停止且elapsed<T的accepted_action时ai_state=attack，保持原锁定朝向及原动作占用，不追逐移动/转头/新接纳。原目标保持合法但出攻击范围并不立即取消，本根到期几何可明确未中；只有上述已知失效/超牵引或真实生命周期/原合法中断才停止。原根正常完成后在下一AI决定转chase（目标仍合法）或return（已失效），不能清动作同一步再接纳第二根。",
+      "return": "清当前target/巡逻目的地，不攻击、不感知换目标，按原合法导航回精确home，速度沿原monster。路被堵时原位置/受损HP保持，每60实际步重试；不传送、不用附近可站立点代替home。目标位置无效或缺导航/原刷点是坏来源，拒绝而非默认回满。",
+      "home_arrival": "在AI阶段起点核上一步真实完成路径且脚位置已到精确home、该位置当前合法且实际胶囊不受占、本人仍同轮活体且HP>=1，才同一原AI决定写HP为当前合法max_hp、ai_state=idle、target/null目的地、等待60。不在受阻/靠近/脱战瞬间回血；本步移动刚到家留到下一AI阶段重验，后来本步先死不能回血复活。返乡不重置效果/一般冷却/实体生命轮次、不再发经验/掉落/任务信用，也不伪装医师治疗触发。原怪物HP/相关来源与该AI决定同笔保存。",
+      "decision_identity": "需要持久状态转换/攻击停止/返乡回血的原AI决定event_id=\"training-ai:\"+SHA256(71确定JSON [\"training_ai_decision\",world_id,authority_profile_id,map_id,instance_id_or_null,source_actor_id,world_step]的UTF8)。同actor同实际步只有一原AI决定，异正文拒绝；其原before/after与停止清单沿world固定步结果，不额外申请通用结算counter或另建可写AI日志。无状态变化不伪造奖励/回血事件。本活体AI结果schema沿decision_result已采用，完整固定步来源/生命周期停止结果仍待。",
+      "boundary": "五态转换、巡逻候选、占用/目标失效及返乡回血设计采用；活体AI结果结构已采用；完整停止来源/导航快照、actor/world根及Godot路径/堵路/联机保存仍待，不将转换表当真实AI运行验证。",
+      "transition_table_policy": "表中输入为通过上述优先级和真实条件分派的原事件，非允许客户端直接发状态事件。to=null只在original_lifecycle_removes_actor表示由原槽移除；其他null为拒绝不变，不是把ai_state写null。normal_action_finished仅在目标仍合法时分派，否则先forced_return；本事件不能取消停止根或自动接纳新攻击。等待结束/巡逻选点/巡逻到达/四点受阻分别走显式事件；quiet_tick只保持原态并处理该态合法等待或路径移动，不能借自环额外转态。路径刚到达在下一AI决定核实际姿态后分派到达事件；每步仍至多一次AI决定。",
+      "transition_table": {
+        "idle": {
+          "lifecycle_removed": {
+            "to": null,
+            "effect": "original_lifecycle_removes_actor"
+          },
+          "forced_return": {
+            "to": "return",
+            "effect": "stop_existing_roots_and_clear_target"
+          },
+          "return_home_ready": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "new_sensed_target": {
+            "to": "chase",
+            "effect": "select_qualified_target"
+          },
+          "attack_admitted": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "attack_rejected": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "normal_action_finished": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "quiet_tick": {
+            "to": "idle",
+            "effect": "decrement_wait_without_transition"
+          },
+          "wait_finished_no_target": {
+            "to": "idle",
+            "effect": "finish_wait_no_same_step_patrol"
+          },
+          "patrol_destination_selected": {
+            "to": "patrol",
+            "effect": "save_one_valid_fixed_destination"
+          },
+          "patrol_arrived": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_all_blocked": {
+            "to": "idle",
+            "effect": "keep_position_wait_60"
+          }
+        },
+        "patrol": {
+          "lifecycle_removed": {
+            "to": null,
+            "effect": "original_lifecycle_removes_actor"
+          },
+          "forced_return": {
+            "to": "return",
+            "effect": "stop_existing_roots_and_clear_target"
+          },
+          "return_home_ready": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "new_sensed_target": {
+            "to": "chase",
+            "effect": "select_qualified_target"
+          },
+          "attack_admitted": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "attack_rejected": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "normal_action_finished": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "quiet_tick": {
+            "to": "patrol",
+            "effect": "follow_patrol_destination"
+          },
+          "wait_finished_no_target": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_destination_selected": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_arrived": {
+            "to": "idle",
+            "effect": "clear_destination_wait_60"
+          },
+          "patrol_all_blocked": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          }
+        },
+        "chase": {
+          "lifecycle_removed": {
+            "to": null,
+            "effect": "original_lifecycle_removes_actor"
+          },
+          "forced_return": {
+            "to": "return",
+            "effect": "stop_existing_roots_and_clear_target"
+          },
+          "return_home_ready": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "new_sensed_target": {
+            "to": "chase",
+            "effect": "select_qualified_target"
+          },
+          "attack_admitted": {
+            "to": "attack",
+            "effect": "install_original_accepted_action_e0"
+          },
+          "attack_rejected": {
+            "to": "chase",
+            "effect": "keep_target_no_second_attempt"
+          },
+          "normal_action_finished": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "quiet_tick": {
+            "to": "chase",
+            "effect": "follow_current_target_path"
+          },
+          "wait_finished_no_target": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_destination_selected": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_arrived": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_all_blocked": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          }
+        },
+        "attack": {
+          "lifecycle_removed": {
+            "to": null,
+            "effect": "original_lifecycle_removes_actor"
+          },
+          "forced_return": {
+            "to": "return",
+            "effect": "stop_existing_roots_and_clear_target"
+          },
+          "return_home_ready": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "new_sensed_target": {
+            "to": "attack",
+            "effect": "ignore_new_target"
+          },
+          "attack_admitted": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "attack_rejected": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "normal_action_finished": {
+            "to": "chase",
+            "effect": "preserve_original_result_target_still_valid"
+          },
+          "quiet_tick": {
+            "to": "attack",
+            "effect": "keep_original_action"
+          },
+          "wait_finished_no_target": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_destination_selected": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_arrived": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_all_blocked": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          }
+        },
+        "return": {
+          "lifecycle_removed": {
+            "to": null,
+            "effect": "original_lifecycle_removes_actor"
+          },
+          "forced_return": {
+            "to": "return",
+            "effect": "continue_return_without_resetting_retry"
+          },
+          "return_home_ready": {
+            "to": "idle",
+            "effect": "heal_once_at_actual_legal_home_and_wait"
+          },
+          "new_sensed_target": {
+            "to": "return",
+            "effect": "ignore_new_target"
+          },
+          "attack_admitted": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "attack_rejected": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "normal_action_finished": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "quiet_tick": {
+            "to": "return",
+            "effect": "follow_home_path"
+          },
+          "wait_finished_no_target": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_destination_selected": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_arrived": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          },
+          "patrol_all_blocked": {
+            "to": null,
+            "effect": "reject_inconsistent_event"
+          }
+        }
+      },
+      "decision_result": {
+        "schema_ref": {
+          "file": "修炼怪AI决定.schema.json",
+          "pointer": ""
+        },
+        "field": "原world固定步实际已提交结果内的本AI子结果，严格12字段；不新建world.ai_events/玩家profile日志或通用结算编号。before/after只保本结果授权涉及的原actor六字段历史投影，不是第二live actor/完整HP表。原正式world快照仍唯一持有实际actor/完整动作；完整world结果位置/保存协议仍须原owner采用。",
+        "identity": "event_id精确decision_identity算法，world/authority/map/instance/actor/步/规则与同原固定步及本实际槽生命轮次一致。同actor同实际步只能一个AI决定，原正文异同必须完整比对，不凭相同摘要吞冲突。原actor初始/返回/移动和目标来源必须通过，不能以六字段投影伪造完整before。",
+        "transition": "event及before.ai_state/after.ai_state精确命中原transition_table的23合法活体格，拒绝格/原生命周期移除不产本结果。before六字段等实际原actor、after六字段等本同笔实际actor，不在正式根之外安装另一份。原AI/移动/动作到期阶段不可拆成多个同actor同step的AI决定；移动与命中仍按其原阶段/子结果共同提交。",
+        "hp": "除return_home_ready外after.hp必须before.hp；此事件须当时同轮仍活体、真实已在合法原home、原返回完成与当前构筑通过，after.hp精确当前合法max_hp且>=before.hp。已满可转idle/等待但不生成虚假治疗量或奖励。其他本步伤害/周期/回调不混入AI投影变化，不用本结果授权0HP或复活。",
+        "action_refs": "accepted_action_id_or_null只指同actor原动作，不复制整根。attack_admitted后指该步本AI已成功接纳的唯一根/e0，before无攻击占用；attack_rejected不安装根。normal_action_finished只清已真实完成且保原命中证明的占用，后态chase仍须原目标合法；quiet_tick attack保同原占用引用，不把动画事件当完成。",
+        "stopped_roots": "stopped_root_event_ids精确原作用域/该source_actor所有仍占用或有未落效进攻后代的根，原ID按UTF8严格递增，重复/漏/多/异源拒绝。仅forced_return可非空，after清target/巡逻目的地/占用；所有这些根stop_event_id_or_null指本event_id并同笔停，不抹旧命中或伪装elapsed=T。已经return的重复forced_return应为空且保持原路径重试等待；原生命周期移除根停止在原生命周期结果，不借本结果。",
+        "other_diffs": "仅本事件明示的六字段变化合法：目标/巡逻目的地/等待遵原状态规则，未授权字段保持；完整actor其他字段（位置/yaw/原动作进度等）只可由同完整固定步中已登记的转向/移动/动作子结果授权。原世界/槽轮次、怪物定义、效果/冷却及随机流不由本AI结果修改；固定巡逻选择不消费随机。",
+        "replay": "同原决定重放只核来源/回原结果，不重复回血、停止或接纳；历史原before/after不与后来actor当前HP比较。存疑原步阻依赖推进，不能先发布after再补证明。所需原停止/回血/动作来源与接收确认未闭合前保原必要历史，不随表现对象释放丢弃。",
+        "boundary": "活体AI结果结构及23格约束采用；完整NPC生命周期/停止根证明、导航/固定步记录、actor/world根和Godot/LAN实际保存仍待，不将schema正向样本当运行通过。"
+      }
+    }
   },
   "ordinary_lifecycle": {
     "initial": "explicit new world creates ordinary slots alive/full generation0; visiting/reloading never initializes again",
@@ -81,7 +429,16 @@
     "death": "unique payout receipt then waiting7200, no simultaneous alive copy",
     "blocked_spawn": "at zero wait if connected living player within5m, occupied capsule or invalid navigation; no replacement coordinates",
     "generation": "increment only when actual respawn commits; death key world/spawn/generation",
-    "offscreen": "world ticks waits even without viewer; no attack without simulated target; whole world pause/offline freezes"
+    "offscreen": "world ticks waits even without viewer; no attack without simulated target; whole world pause/offline freezes",
+    "countdown": {
+      "owner": "仅原ordinary槽remaining_respawn_steps及last_observed_world_step；原world固定步内更新，不新增倒计时日志/计时器或墙钟字段。",
+      "death_anchor": "真实原致死结果在训练时钟D提交时，原alive槽同笔移除旧actor并置waiting、remaining_respawn_steps=7200、last_observed_world_step=D，generation保持。致死步不再扣第一次；旧生命停止、原唯一收益及必要来源必须同笔闭合，不能凭本倒计时制造死亡或收益。",
+      "advance": "观察原实际已接纳训练时钟T，先核0<=last_observed_world_step<=T且均为安全整数、原waiting无actor且remaining在0..7200。delta=T-last_observed_world_step；after.remaining=max(0,before.remaining-delta)，after.last_observed_world_step=T，generation不变。只减实际训练世界推进的步；暂停/离线/未推进重连delta=0，不按墙钟补时。跨多步只在有原世界实际推进来源时允许，不能伪造T跳过固定步及其他到期结果。",
+      "ordering": "每原固定步在新攻击接纳/AI/移动和命中之前推进既有waiting槽并尝试到零复活；本步随后致死的新waiting槽只锚定D，不再进入本步既有waiting集合。D+7199仍余1，D+7200首次余0；零等待可以同阶段沿原spawn_result真实复活，受阻则保waiting0且观察步推进，不累计负债、不增generation。",
+      "alive": "原alive槽remaining必须0，实际actor不可空；本时钟观察仅更新原last_observed_world_step，不能删除/回血/创建actor或改generation。死亡与生成各沿其真实原结果；summoned不得使用本倒计时。",
+      "replay": "同T重复观察delta=0；较旧T拒绝新决定。已提交原world结果重放只回原决定，不以历史waiting覆盖后来alive，也不再扣时间。生成与观察结果/原槽及世界游标同笔保存，存疑阻依赖推进；重载不重设7200或立即补刷。",
+      "boundary": "倒计时精确语义采用，真实普通死亡/收益/停止证明、完整world固定步根及Godot运行仍待；本规则不补造生命周期结果schema。"
+    }
   },
   "summon_schedule": {
     "world_clock_field": "world.training_gate_clock_steps",
@@ -99,7 +456,24 @@
     "race": "earlier committed kill normal; same-step expiry has priority; death receipt once",
     "blocked_until_end": "expired_without_spawn, no make-up grant",
     "new_cycle": "skip unobserved expired cycles without backlog; generation keyed by actual cycle",
-    "departure": "room departure preserves cycle/timers/kills"
+    "departure": "room departure preserves cycle/timers/kills",
+    "reconcile_result": {
+      "schema_ref": {
+        "file": "修炼召唤周期对账.schema.json",
+        "pointer": ""
+      },
+      "field": "原world固定步已提交的本summoned槽周期对账子结果，严格11字段。before/after为原槽cycle_index/state/active_actor身份/last_observed_world_step四字段历史投影，实际slot仍只存一份完整active_actor_or_null，不新增槽actor_id镜像字段/第二结果日志或计数。只允许原144 summoned刷点，ordinary不能使用。",
+      "clock": "observed_world_step=T精确原world.training_gate_clock_steps实际接纳观察步，非墙钟/客户端时间/AI动作elapsed。先核原before.last_observed_world_step<=T且before.cycle_index=before.last_observed_world_step//period_steps，原状态与当时phase合法：开放窗仅pending/alive/killed，关闭窗仅killed/expired_without_spawn/expired_alive_removed。C=T//108000，P=T%108000；只取安全整数商余，不用cycle*period造溢出或回绕。原before/世界时钟及规则不合法整笔拒绝，不凭本投影重建坏槽。",
+      "same_cycle_open": "C=before.cycle_index且P<36000时原state/actor身份保持，仅after.last_observed_world_step=T；不能重载再生成第二活体或把killed/旧已消耗槽重置pending。窗口尚未关闭时不制造到期结果。",
+      "same_cycle_closed": "C=before.cycle_index且P>=36000时，pending→expired_without_spawn；alive→expired_alive_removed并停止该旧生命全部未落效进攻、实际移除actor；killed保持killed；已expired状态保持。所有非alive态actual actor为null。恰P36000包含关闭，优先于该步新动作/命中/死亡收益。after.cycle_index仍C且last_observed=T。",
+      "new_cycle": "C>before.cycle_index时，旧alive先无奖励停止/移除，旧killed/未生成不伪造再次死亡；直接after.cycle_index=C、last_observed=T、actor=null。当前P<36000设pending，当前P>=36000设expired_without_spawn。不逐个补历史cycle、不保留旧actor跨轮，不借对账产生当前新活体；实际当前窗生成仍走原独立真实spawn/collision/5米排除提交。同一完整固定步可随后合法生成当前一次，所有旧生命停止与新实体创建仍须共同world记录闭合。",
+      "identity": "event_id=\"training-summon-reconcile:\"+SHA256(71确定JSON [\"training_summon_reconcile\",world_id,authority_profile_id,map_id,instance_id_or_null,spawn_id,T]的UTF8)。原scope/地图/刷点/规则精确匹配实际训练world及原槽；同槽同T只一个原对账决定，相同ID异正文拒绝。真实来源沿原固定步，不申请通用结算身份或玩家结果序号。",
+      "stopped_roots": "仅原before.state=alive且本对账真实移除旧actor时允许非空stopped_root_event_ids；集合必须精确该旧actor/原scope中仍占用或有未落效进攻后代的所有根，按原ID UTF8严格递增。即使数组空也核确实无待停止项；非空根stop_event_id_or_null精确本event_id并保完成游标/已提交命中。不能仅清场景对象或按spawn将当前新生命一起停止；保留状态与其他原来源按各owner，不补负伤害/假miss。",
+      "incoming_targets": "旧目标生命在本对账后失效，后续原攻击不可重绑同spawn当前新cycle；按原命中资格产生实际无效决定，不在移除时提前伪造所有未来命中。已在更早原步提交的真实击杀/奖励不撤销；同观察步还未执行的旧目标伤害不得抢在本关闭/跨轮对账之前。",
+      "no_rewards": "本结果不授权HP伤害、真实击杀/反伤/经验/历练/银两/物品/任务/出尘戒等玩家死亡副作用，不消耗攻击随机、不退费用或刷新冷却。before旧actor受损HP不在本结果补满，只能真实移除；当前新生成完整actor另沿原monster创建。",
+      "save_and_replay": "原槽after、旧actor/根停止、世界时钟观察及必要完整来源同一world决定保存；reserved/存疑不先移除或接受新周期行动。重放旧已决定只回原结果，不重装旧after或取消后来新actor；当同T后已有合法spawn结果，不能拿旧对账的pending投影覆盖当前alive。历史结果按其原before验证，不拿当前槽倒推旧状态。",
+      "boundary": "召唤对账结果结构、商余/状态转换及无奖励移除规则采用；完整actor/固定步根、真实spawn/击杀/停止记录及Godot/LAN保存仍待，不据有限周期模型启用刷怪或宣称D1通过。"
+    }
   },
   "persistence": {
     "world_field": "world.training_gate_monsters",
@@ -107,9 +481,7 @@
       "spawn_id",
       "generation",
       "alive_or_waiting",
-      "hp_if_alive",
-      "feet_position_if_alive",
-      "yaw_if_alive",
+      "active_actor_or_null",
       "remaining_respawn_steps",
       "last_observed_world_step"
     ],
@@ -117,9 +489,7 @@
       "spawn_id",
       "cycle_index",
       "state",
-      "hp_if_alive",
-      "feet_position_if_alive",
-      "yaw_if_alive",
+      "active_actor_or_null",
       "last_observed_world_step"
     ],
     "summoned_states": [
@@ -133,7 +503,107 @@
     "reconcile": "same-world monotone clock; expire/reconcile before actions; no wall-time catch-up or despawn rewards",
     "combat": "save23accepted-action snapshots/cooldowns/status/death settlement via05, never heal or reset on load; HP has single world owner",
     "legacy": "known1..4 import creates fresh spawn state only for explicitly new target world, joining existing world retains host state",
-    "lan": "host alone commits damage/death/token/public bag/respawn; clients cannot assert fresh cycle/generation"
+    "lan": "host alone commits damage/death/token/public bag/respawn; clients cannot assert fresh cycle/generation",
+    "active_actor_snapshot_fields": [
+      "stable_actor_id",
+      "monster_id",
+      "spawn_id",
+      "generation_or_cycle",
+      "hp",
+      "feet_position_m",
+      "yaw_radians",
+      "ai_state",
+      "target_actor_id_or_null",
+      "patrol_destination_or_null",
+      "remaining_ai_wait_steps",
+      "accepted_action_or_null",
+      "cooldowns",
+      "effect_sources",
+      "pending_derived_events"
+    ],
+    "ai_states": [
+      "idle",
+      "patrol",
+      "chase",
+      "attack",
+      "return"
+    ],
+    "single_owner": "slot owns spawn lifecycle/generation/cycle and one active_actor snapshot or null; hp/pose/action only inside active_actor, never duplicated in slot plus actor table; historical death receipt is not live HP",
+    "snapshot_invariants": "alive requires one active_actor with HP1..max, legal pose, matching spawn/monster/generation and known AI state; waiting/killed/expired/pending require null actor. Ordinary alive wait0, waiting wait0..7200; generation integer>=0; summoned cycle equals reconciled world cycle. Pending only in open window before successful spawn; expiry before actions. Validate action/event references and cooldown/effect ranges by23/owners; unknown targets reject rather than silently reset AI.",
+    "transaction_owner": "05host-owned world snapshot and19durable settlement log; monster death,slot transition,random advancement,public bag and all recipient results one host transaction before clients apply same results; no world/character independent save with mismatched death",
+    "actor_identity": {
+      "scope": "仅本owner的432刷点；不推定其他怪物、伙伴或玩家的实体身份规则。 原修炼之门room_identity按world_id/map_id共享，instance_id_or_null必须null；非空私场ID整笔拒绝，不为同房复制满血实体。",
+      "source": "取实际world_id/authority_profile_id及该房实际map_id/instance_id_or_null、原spawn_id、generation_or_cycle。spawn须精确命中本owner唯一行，map/monster/kind必须与该行及当前房权威状态一致；不从显示名解析身份。",
+      "round": "ordinary取原槽generation，summoned取原槽cycle_index；均为0..9007199254740991整数。原槽与active_actor.generation_or_cycle精确一致；达到上限不回绕、不重复旧轮次，拒绝下一次生成并报告状态容量耗尽。",
+      "stable_actor_id": "stable_actor_id=\"training-actor:\"+SHA256(71确定JSON [\"training_actor\",world_id,authority_profile_id,map_id,instance_id_or_null,spawn_id,generation_or_cycle]的UTF8)，严格training-actor:加64位小写十六进制；加载须重算相等，不新增actor计数器或身份包装。",
+      "lifecycle": "ordinary显式新世界generation0；仅真实复活提交推进generation并创建新ID。summoned只在当前合法周期真实生成一次，使用该cycle_index；错过周期不生成历史实体。死亡/到期按原状态移除active_actor，死亡证明保原ID。重载/离场/重连不改变仍存在实体的ID。",
+      "target_binding": "23的target_id及原目标引用保存完整stable_actor_id；执行时验证实际scope和生命轮次。旧目标已死/到期/被新轮替代，按原动作owner明确失效行为处理，不把旧ID映射到当前同spawn的新实体；费用/随机/派生事件仍由原动作owner裁定，身份层不补默认行为。",
+      "atomicity": "ID生成和原槽轮次/active_actor创建同一world提交；不先持久新轮次再补actor，不以加载修复身份。历史结果重放只核原事件和原死亡证明，不重新命中新活体。",
+      "boundary": "本规则闭合修炼刷点的身份派生；完整actor快照schema、动作接纳、队列恢复及其他实体owner仍待，不能据此宣称完整战斗来源已闭合。"
+    },
+    "normal_attack": {
+      "schema_ref": {
+        "file": "修炼怪普通攻击.schema.json",
+        "pointer": ""
+      },
+      "field": "本owner原active_actor.accepted_action_or_null中普通攻击非null分支直接保存本完整严格动作，不保存额外identity/timing/attack_snapshot副本。active_actor仅保仍实际占用动作；完成或停止后保原决定和仍被未决子项引用的原根，不能通过清现场抹来源。原完整actor/世界根仍待。",
+      "identity": "七身份字段沿23 accepted_attack_identity，只允许training_ai；source_actor_id精确本原槽actor_identity派生值，monster_id/地图/轮次与原槽和原144定义一致。action_id按原步/实体重算；accepted_world_step须真实AI接纳原决定，不从elapsed推算。rules_hash冻结整份原规则及源定义，历史加载用原版本，不按当前AI重写。",
+      "frozen_attack": "attack_min/attack_max/accuracy/critical_chance_bp/critical_multiplier_bp为接纳时完整合法原实体的有效攻击快照，含明确允许的原贡献且只一次。先核完整原monster/效果来源与规则，区间0<=min<=max<=安全上限、accuracy非负安全整数、暴击概率0..10000、倍率>=10000且安全；禁止用当前定义覆盖旧动作或把缺参数补0。原表基础暴击0、倍率15000；无明确贡献时精确原表，其余增强/压制须原owner明确允许作用monster，不能套玩家气功。",
+      "target_and_yaw": "原AI选唯一target_actor_id，本普通攻击normal_max_targets=1，按原范围和120度扇形重验这一个目标，不能顺便攻击其他扇形实体或重绑已死目标。accepted_yaw_radians为原接纳实体有限朝向，facing_locked_at_windup下后续转头不改该攻击方向；原命中步用实际脚位置与锁定方向验距离/遮挡/安全区/目标生命轮次。无效几何保明确ordinal结果，不追踪改向、不退费。",
+      "timing": "五字段直接平铺复用23投影约束，W/A/R及偏移精确原rules_hash的AI与明确合法时序贡献；当前原基表36/1/84/[0]。接纳elapsed0，本步不推进；实际第37步一次ordinal0，121步完成占用。已发射/未中/停止必须有原结果证明，不能仅凭elapsed重放命中。",
+      "stop": "stop_event_id_or_null显式null表示未被原合法事件中断：elapsed<T仍占用，elapsed=T正常完成。非null须解析该实际source生命轮次/作用域真实原停止事件，保最后完整elapsed且elapsed<T；不得写T伪装完成或在正常完成后再改成中断。实际NPC死亡/召唤到期/活动终局停止按各原owner，不借玩家death_events冒充NPC死亡。原已提交伤害不撤销，未发射ordinal按来源取消，不多抽样。",
+      "admission": "本普攻原费用HP/mana/stamina均0、原skills=[]，不写玩家技能/药品冷却或伪造会话；占用121步按时序约束，原AI等待/目标/姿态只在actor持有。冻结动作与原AI决定/世界接纳步/原作用域及候选游标同笔，reserved或存疑不先安装。",
+      "validation": "完整快照严格白名单先验，再取七身份/五时序投影复用，不能把additionalProperties=false的投影直接allOf完整动作。完整历史根验证按原接纳before，不要求死去来源现在仍有活active_actor；实际当前占用则必须有相符活体且无停止。未知规则/坏来源/非有限yaw/不完整ordinal证明拒绝，不加载时静默修复。 hit_result_event_id_or_null与已完成游标按hit_result双向覆盖；本动作结构现24字段。",
+      "boundary": "本NPC普通攻击完整动作快照形状与语义采用；完整actor、AI接纳原事件/候选、NPC死亡到期停止证明、发射结果与世界队列仍待，未实现Godot，不据此宣称战斗来源闭合。",
+      "hit_result": {
+        "field": "本完整动作新增唯一hit_result_event_id_or_null，接纳显式null；本单目标单段近战不另存emitted/missed标记、发射日志或第二命中结果。原damage结果负责命中/随机/损失/回调/死亡实际正文，动作仅保原结果引用。停止仍用stop_event_id_or_null原字段。",
+        "identity": "真实到期ordinal0的结果ID按23 event_identity，由本world/authority/map/instance/action_id/原target_actor_id/0派生combat-damage摘要；非null值精确等该ID且解析原完整已提交结果。结果内source/root/目标及实际world_step、规则/攻击来源同本动作，不准替换目标、拿其他根结果凑证明或仅核ID前缀。",
+        "resolution": "实际第W+1+offset[0]步的近战候选入23稳定排序，轮到本项时完整判原目标/几何/闪避/命中与后续伤害流程；未中/免疫/无效几何也保原明确无伤害决定及本结果ID，不能用null冒充已处理。无效几何/失效目标不消费命中随机，普通miss不消费区间/暴击；已确定的原结果重放不重抽、不再次触发或扣血。",
+        "coverage": "设D=W+1+offset[0]且本规则恰一ordinal。elapsed_steps<D时hit_result必须null；有真实停止则未发射由原停止事件证明，无停止为尚未到期。elapsed_steps>=D时必须非null并解析唯一真实已提交原结果；stop存在也保该既有命中引用，不抹掉旧结果。原结果已提交却游标<D、游标>=D却无结果/只有预留、一个ordinal多个不同结果均拒绝，不能加载时补打/补空结果。",
+        "atomicity": "到期候选的完整原命中结果、所需角色死亡及回调/来源、动作本结果引用与elapsed推进同一完整原决定提交；结果尚存疑则本游标不得先越过D。NPC本人在其到期项执行前已被较早完整结果停止时不生成命中结果、不推进该动作步；原停止保此前完整游标。若本完整原命中已经结算且同步回调杀死本NPC，则保该结果并将本到期动作步认作已完整处理，再保存停止/取消剩余占用，不能用先写e<D的停止来掩盖已提交命中。",
+        "history": "普通完成/后来停止或回收表现节点都不删除仍供核验的原结果；历史加载按原before目标生命轮次/原结果验证，不要求旧目标现在存活。stop在D前仍指真实本NPC死亡/到期/合法终局原结果，不能仅靠null引用猜取消。完整原NPC停止与命中记录尚未采用时，本引用不授权程序运行。"
+      },
+      "ai_decision_owner_ref": {
+        "file": "修炼怪物与刷点.v1.json",
+        "pointer": "/ai/state_machine/decision_result"
+      },
+      "summon_reconcile_owner_ref": {
+        "file": "修炼怪物与刷点.v1.json",
+        "pointer": "/summon_schedule/reconcile_result"
+      }
+    },
+    "spawn_result": {
+      "schema_ref": {
+        "file": "修炼怪生成结果.schema.json",
+        "pointer": ""
+      },
+      "field": "原world完整生成决定子结果，严格11字段；actor_created为同笔实际安装在原槽active_actor_or_null的完整15字段新生实体历史，不建第二live actor表或额外after槽镜像。运行中actor不能拿本新生schema校验/重置。before只保本来源实际必要槽生命周期投影，不重复怪物定义/当前世界。",
+      "scope": "实际原432刷点与其map/monster/kind精确匹配，world/authority为实际原训练world；房间共享instance_id_or_null必须null。observed_world_step=T为原world.training_gate_clock_steps已接纳实际步，规则hash冻结全部monster/刷点/时钟/AI/碰撞构造规则，历史原版本不得按当前表重写。",
+      "ordinary_initial": "仅05/世界图谱原显式新世界整体创建允许，before=null，原槽与该世界尚未存在，actual world初始训练时钟T=0；新普通actor generation0。必须288 ordinary槽和全部初始世界字段共同完成一个有效世界候选，不允许已有world缺槽时借此补一个或地图访问重建；当前新世界完整原创建事件/根仍待，不能仅凭cause字符串运行。导入角色/加入世界不授权本分支。",
+      "ordinary_respawn": "before精确实际原ordinary槽generation/waiting/null actor/remaining_respawn_steps=0/last_observed步；原真实死亡/7200步倒计时及最后观察来源已闭合，目标generation=before.generation+1且安全不溢出。真实生成前不推进generation；被5米排除/胶囊/导航挡住保持waiting0/旧generation，无成功生成结果、不挪点或保底造怪。该步最后观察等T且只消耗一次真实复活资格。",
+      "summoned_spawn": "before为原已对账当前cycle的pending/null actor/last_observed_world_step=T，cycle=T//108000且T%108000<36000。目标generation_or_cycle精确before.cycle_index，不增加额外代次；本槽该cycle此前没有成功生成/死亡/过期，已killed/expired不可借本分支补刷。被占保pending至窗口结束；恰36000先对账过期，不生成。",
+      "collision": "实际原home_feet_m/yaw与生成位置/朝向精确相等；以真实怪物0.45m半径/1.8m高度完整胶囊核场景合法、无实心/其他实体占用、不进入闭安全圈且存在原合法导航。所有原房已连接存活玩家水平脚中心距<5m阻止生成，恰5m不因该排除阻挡但仍验实际胶囊/安全/导航；不是只检查本地玩家或敌对目标。动态受阻是正常不生成，缺正式地图/导航数据是错误，不默认成功。",
+      "actor_initial": "stable_actor_id按原actor_identity用实际world/authority/map/null/spawn/本generation_or_cycle派生；monster_id/spawn字段精确源行，HP精确原规则初始合法max_hp，位置/朝向精确home。ai_state=idle，目标/巡逻目的地/accepted_action均null，remaining_ai_wait_steps=60，cooldowns/effect_sources空对象，pending_derived_events空数组。此初值只用于真实新生实体，不把旧actor效果/伤害通过加载抹掉；不复制上一生命目标/攻击。",
+      "identity": "event_id=\"training-spawn:\"+SHA256(71确定JSON [\"training_monster_spawn\",world_id,authority_profile_id,map_id,null,spawn_id,cause,actor_created.generation_or_cycle]的UTF8)。身份按真实生命轮次而非观察T，重试/重载不能换T绕过去重；同槽同真实轮次最多一次成功创建，完整before/actor_created正文异同必须核验，原生成已成功只回旧结果，不生成第二个actor。",
+      "apply": "同一完整world决定写原槽alive/active_actor、该实际轮次/观察T；ordinary remaining_respawn_steps=0，summoned保当前cycle且state=alive。实体创建、槽轮次和必要生命周期来源同笔，不能先增代次再补actor；本结果不支付XP/钱物/任务信用、不消耗攻击RNG、不清别的角色冷却。生成失败不申请通用counter/玩家结果号或占一个已生成轮次。",
+      "replay": "原已生成结果重放不重装actor_created覆盖后来受损/死亡/目标/效果；已过期或已换新轮仍只回历史决定。存疑先核原正式world决定，未确认不发布新实体或接纳它的AI攻击；恢复真实槽必须完整根/来源通过，缺字段拒绝不补满血。",
+      "boundary": "三类生成结果结构/新生actor初值和生命周期联验设计采用；完整新世界创建/普通死亡倒计时来源、运行中actor/world根及真实导航/生成/保存Godot/LAN仍待，不据新生schema启用运行。"
+    },
+    "death_result": {
+      "schema_ref": {
+        "file": "修炼怪死亡结果.schema.json",
+        "pointer": ""
+      },
+      "owner": "严格12字段，仅原world完整死亡/收益事务的生命周期子结果，不新增独立NPC死亡日志/通用结算计数/live HP表。仅本432刷点真实战斗致死；召唤到期、返乡、离场与脚本移除不能伪造本结果。",
+      "identity": "event_id=\"training-death:\"+SHA256(71确定JSON [\"training_monster_death\",world_id,authority_profile_id,map_id,null,spawn_id,generation_or_cycle] UTF8)。target_actor_id精确原actor_identity同scope/槽/轮次摘要；同生命唯一终态死亡，不以伤害ID或观察步改变死亡身份，同ID异正文拒绝。",
+      "lethal_source": "lethal_damage_event_id解析原完整已提交战斗伤害身份及正文，scope/target精确本旧生命，原执行前HP>0、实际损失后HP=0且终态死亡未被拦截；取原排序队列首个真正致死项及其归属来源，不取最后客户端报伤/最高伤害或当前新actor。伤害减至0、死亡子结果及全部同步回调必须同一完整决定提交，未提交中间HP0不能当独立合法alive存档。完整伤害正文尚缺时不能仅凭ID启用死亡。",
+      "ordinary": "实际before原ordinary槽alive、remaining=0且旧actor/代次匹配。真实致死训练步D=observed_world_step，同笔删除active_actor，写waiting、remaining=7200、last_observed=D；generation不变。该步不扣倒计时，后续沿ordinary_lifecycle.countdown。死亡结果不创建新actor或提前加代次。",
+      "summoned": "先完成同D原周期对账，要求D%108000<36000、原槽alive且cycle_index=D//108000、旧actor轮次匹配；同笔state=killed、actor=null、last_observed=D，cycle不变。本轮不得再次生成、不设7200；关闭/跨轮已移除者不能被后执行命中登记为击杀。",
+      "stopped_roots": "stopped_root_event_ids精确旧target_actor_id在同scope中仍占用或有未落效进攻后代的全部根，原ID UTF8严格递增且无重复；空集合也核确无此类根。未正常完成原根的stop_event_id_or_null指本event_id，保实际完成游标和所有已提交命中；正常完成但仍有未落效后代的根保原完成游标并沿原后代停止来源，不篡改为e<T。不重绑同spawn新生命、不退款/重抽/撤销旧已提交伤害，独立效果仅按各原owner明确存续规则。",
+      "rewards": "同一原完整死亡事务沿19唯一归属/资格快照、原monster明确基础XP/历练/银两/升天与任务producer，原26直接终结及个人有效倍率各按原owner计算。基础表已含ordinary*3/summoned*12，不再乘修炼倍率。空fixed_loot/random_loot不抽普通物品随机；银两沿原公共包，个人任务物品逐任务判定，不给全队复制。零合格接收者也保真实死亡，不补造归属；资格来源未知则整笔拒绝，不冒充零接收者。多接收者结果/包/随机游标与原槽同笔提交，完整收益封套仍须另闭合，不能凭本12字段声称奖励已证明。",
+      "save_replay": "原致死伤害、死亡子结果、停止/回调、资格与所有实际收益来源/角色修订及原world槽同一durable决定；reserved/存疑不得先清actor或先发奖。相同已提交死亡回原结果，不按当前队伍重算，不将历史waiting/killed写回后来新生命；旧目标后续项按原死亡证明失效，不生成第二死亡。必要历史在来源/接收确认仍引用时保留。",
+      "boundary": "本生命周期死亡子结果结构与转换语义采用；完整致死伤害/收益/停止后代来源、world固定步及多接收者封套和Godot实际保存仍待，D1未完成。"
+    }
   },
   "monsters": [
     {

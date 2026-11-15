@@ -1,0 +1,432 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/70/text"
+    },
+    "published": "25级银娇龙，22任务衣料前置，蓝鬼角10→韦取回大猿皮5→银交5，铁锁甲一次。",
+    "local": "衣料名称统一/最终才消费、按精确目录限七职业、回取新本轮凭证及蓝鬼25本地定义均为明示项目采用。"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63791-011",
+    "source_reference_id": "QREF-63791-011",
+    "name": "银娇龙的自尊心2",
+    "minimum_level": 25,
+    "minimum_rank": 0,
+    "class_scope": [
+      "blade",
+      "sword",
+      "assassin",
+      "spear",
+      "archer",
+      "physician",
+      "han_feiguan"
+    ],
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_yinjiaolong",
+    "npc_map_id": "hyunbo_town",
+    "interaction_anchor_id": "npc_yinjiaolong_service",
+    "service_id": "yin25_armor",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "acceptance": "本人存活脱战空闲无挑战，25级/本任务七职业/三路线/rank0，银娇龙原map锚<=2500mm，未接未完成。必须22级大猿皮正式delivered/同角色门主消费10、韦消费5及衣料创建完整来源、当前真实永久衣料1且未被消费；新attempt stage1不消费或复制衣料。源未限职业，本地按精确铁锁甲仅刀剑刺枪弓医韩开放，非来源全职业已核实。实际穿戴25/rank1另核。",
+    "preaccept_items_count": false,
+    "source_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/10"
+    },
+    "stages": [
+      {
+        "stage_index": 1,
+        "npc_id": "npc_yinjiaolong",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "npc_yinjiaolong_service",
+        "service_id": "yin25_armor",
+        "consume": [
+          {
+            "item_id": "quest_pride25_blue_corner",
+            "quantity": 10
+          }
+        ],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": null,
+        "next_stage_index": 2,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 2,
+        "npc_id": "npc_wei_dabao",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "npc_wei_dabao_service",
+        "service_id": "wei25_return_skin",
+        "consume": [],
+        "grant": [
+          {
+            "item_id": "quest_pride25_returned_ape_skin",
+            "quantity": 5
+          }
+        ],
+        "grant_reason": "quest_reward",
+        "requires_prior_stage_receipt_index": 1,
+        "next_stage_index": 3,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 3,
+        "npc_id": "npc_yinjiaolong",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "npc_yinjiaolong_service",
+        "service_id": "yin25_armor",
+        "consume": [
+          {
+            "item_id": "quest_pride25_returned_ape_skin",
+            "quantity": 5
+          },
+          {
+            "item_id": "quest_ape22_armor_cloth",
+            "quantity": 1
+          }
+        ],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": 2,
+        "next_stage_index": null,
+        "apply_final_reward": true
+      }
+    ],
+    "inventory_by_stage": {
+      "1": {
+        "required_exact": {
+          "quest_ape22_armor_cloth": 1
+        },
+        "collection_caps": {
+          "quest_pride25_blue_corner": 10
+        }
+      },
+      "2": {
+        "required_exact": {
+          "quest_ape22_armor_cloth": 1
+        }
+      },
+      "3": {
+        "required_exact": {
+          "quest_ape22_armor_cloth": 1,
+          "quest_pride25_returned_ape_skin": 5
+        }
+      }
+    },
+    "source_stage_interpretation": "保原蓝鬼衣角10交银→韦取回大猿皮5→银收5三步。22奖名软皮甲衣料与25铁锁甲衣料冲突保源，项目统一既有22永久衣料；只最终step3消费一次。韦取回是本轮新凭证5，引用原22韦真实消费5及当前25前缀授权，不复活22旧堆。",
+    "reward": {
+      "experience": 0,
+      "practice": 0,
+      "silver": 0,
+      "items": [],
+      "rank_change": null,
+      "ascension_progress": 0,
+      "exactly_one_class_armor": [
+        {
+          "class_id": "blade",
+          "item_id": "armor_regular_blade_3fbb127827d7",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/125"
+          }
+        },
+        {
+          "class_id": "sword",
+          "item_id": "armor_regular_sword_13f42cc1445b",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/261"
+          }
+        },
+        {
+          "class_id": "assassin",
+          "item_id": "armor_regular_assassin_1c1ff74a13a2",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/397"
+          }
+        },
+        {
+          "class_id": "spear",
+          "item_id": "armor_regular_spear_ecbc116de583",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/533"
+          }
+        },
+        {
+          "class_id": "archer",
+          "item_id": "armor_regular_archer_97c459f3ae1e",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/669"
+          }
+        },
+        {
+          "class_id": "physician",
+          "item_id": "armor_regular_physician_2ceecd64bb52",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/805"
+          }
+        },
+        {
+          "class_id": "han_feiguan",
+          "item_id": "armor_regular_han_feiguan_fdfb227dcaad",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/1074"
+          }
+        }
+      ]
+    },
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "final_receipt_or_null"
+    ],
+    "delivered_with_stage_index": 3,
+    "delivery": "仅stage3银端点/本人资格/本轮连续前缀、22原真消费与永久衣料创建来源、韦本轮回取5真实新凭证。核合法库存/装备格及1000克重量；同笔消费回取皮5及永久衣料1，造本人职业唯一铁锁甲完整18键实例/新ID血统/character绑定/revision0与两根实际创建来源、22衣料后继消费边和25唯一完成及05/19角色库存修订。无额外资源/自动穿戴；保原防具完整档案/收据/派生外观/服务运行门禁。",
+    "repeat": "角色跨世界一次；路线/队伍/放弃不重置完成。",
+    "abandon": "确认仅清本轮衣角与回取皮及活跃步骤，保全部历史决定，已交衣角不返；永久22衣料不清不消费。重接新attempt stage1重采10，可凭同一原22授权在新轮step2造新回取皮5，但旧轮皮与来源不可跨轮复用或同时存活。已完成25不可放弃/重接，衣料已合法消费不补发。",
+    "save": "保存22真实交15拆10/5与衣料创建链、25当前attempt逐步及原无物/成功决定、本轮回取皮创建和最终双消费/完整装备创建。完成22缺衣料必须有25唯一终交后继消费；活跃25缺衣料或多轮回取皮活体拒绝，不能按完成标记补物。保存不确定先解析05/19原决定重存。",
+    "deduplication": "取回以character/quest/attempt/stage2唯一，原22消费收据只是历史授权非重发键；同轮不再造5，旧轮回取已清理不能重放回装。终交character/quest跨world一次，同request同payload回原决定、异payload拒绝。",
+    "capacity_failure": "stage2无输入领5须当时真实材料槽/真实原22授权及衣料，失败不推进；最终原修订/来源/皮5或衣料1/1000克或装备格不足整笔保两输入，不先消费永久凭证。",
+    "modifiers": "个人任务凭证/固定铁锁甲不进普通击杀组队池，不受终结者/修炼倍率。"
+  },
+  "items": [
+    {
+      "item_id": "quest_pride25_blue_corner",
+      "name": "蓝鬼衣角",
+      "source_reference_id": "QREF-63791-011",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本轮25独立凭证0克99堆；回取皮非22旧item_id，无普通大猿掉落补齐；仅本轮终交/放弃清理。"
+    },
+    {
+      "item_id": "quest_pride25_returned_ape_skin",
+      "name": "取回的大猿皮",
+      "source_reference_id": "QREF-63791-011",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本轮25独立凭证0克99堆；回取皮非22旧item_id，无普通大猿掉落补齐；仅本轮终交/放弃清理。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63791-011",
+        "required_stage_index": 1,
+        "monster_id": "project_hyunbo_blue_ghost25",
+        "map_id": "hyunbo_outskirts",
+        "item_id": "quest_pride25_blue_corner",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "qualification": "本人25当前attempt stage1/七职业/永久衣料有效/存活连接同world同图，solo原归属或19原成员30m/入队600步，实际蓝鬼actor且本轮角<10。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ],
+    "commit": "本owner蓝鬼唯一原死亡，普通收益一次及本轮衣角候选05/19同笔；容量失败原无物决定持久，旧死亡不补。回取皮只stage2授权，普通大猿不产25皮。"
+  },
+  "monsters": [
+    {
+      "monster_id": "project_hyunbo_blue_ghost25",
+      "name": "蓝鬼",
+      "level": 25,
+      "map_id": "hyunbo_outskirts",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2500,
+      "max_mana": 0,
+      "attack_min": 75,
+      "attack_max": 100,
+      "ordinary_defense": 50,
+      "accuracy": 125,
+      "evasion": 50,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_project_blue_ghost25",
+      "xp_reward": 12833,
+      "practice_reward": 1283,
+      "silver_reward": 25,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "project_hyunbo_blue_ghost25",
+        "status": "任务具名蓝鬼本地模型动作待制作"
+      },
+      "identity_policy": "任务正文具名，怪物目录无精确蓝鬼，不伪造MREF；25级/郊野/主动9m/属性/4home为明确项目设计。",
+      "aggression": "proactive",
+      "source_kind": "quest_body_named_project_monster_no_catalog_MREF"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "project_hyunbo_blue_ghost25_01",
+      "monster_id": "project_hyunbo_blue_ghost25",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        152,
+        0,
+        20
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_hyunbo_blue_ghost25_02",
+      "monster_id": "project_hyunbo_blue_ghost25",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        152,
+        0,
+        28
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_hyunbo_blue_ghost25_03",
+      "monster_id": "project_hyunbo_blue_ghost25",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        152,
+        0,
+        36
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_hyunbo_blue_ghost25_04",
+      "monster_id": "project_hyunbo_blue_ghost25",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        152,
+        0,
+        44
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "stage_transaction": {
+    "eligibility": "本人当前attempt/阶段与完整真实前缀、精确NPCmap锚服务<=2500mm、存活脱战空闲无挑战。",
+    "commit": "step1消费衣角10，保原永久衣料；step2授权新回取皮5并核当前真实新材料槽；step3真实回取皮5/永久衣料1消费与铁锁甲完整创建/唯一完成同笔。放弃仅清本轮输入，不动永久衣料或原22历史。",
+    "deduplication": "取回以character/quest/attempt/stage2唯一，原22消费收据只是历史授权非重发键；同轮不再造5，旧轮回取已清理不能重放回装。终交character/quest跨world一次，同request同payload回原决定、异payload拒绝。"
+  },
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "明确本地主动9m，沿原仇恨/脱战生命周期。",
+      "safe_zone": "全部地图安全区禁止敌对出生/进入，按路径返home恢复，不瞬移。"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "equipment_creation_owner": {
+    "file": "普通防具实例.v1.json",
+    "pointer": "/creation"
+  },
+  "pending": [
+    "Godot22永久凭证后继消费/跨轮回取唯一活体/三步与完整防具创建/保存LAN测试",
+    "蓝鬼美术/动态导航及数值校准"
+  ],
+  "permanent_cloth_owner": {
+    "file": "二十二级大猿皮任务.v1.json",
+    "pointer": "/items/1"
+  },
+  "retrieval_authorization": {
+    "original_consumption_ref": {
+      "file": "二十二级大猿皮任务.v1.json",
+      "pointer": "/quest/stages/2"
+    },
+    "current_stage_index": 2,
+    "output_item_id": "quest_pride25_returned_ape_skin",
+    "quantity": 5,
+    "rule": "同角色原22实际韦消费5来源链/25当前step1消费10已确认/当前永久衣料，唯一当前attempt授权新5；不得对22死亡重放或借别角色来源。原22历史不可修改，当前轮清理不删除历史决定。"
+  }
+}

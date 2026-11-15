@@ -1,0 +1,367 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "source_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/7"
+    },
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/70/text"
+    },
+    "published": "22级门主接取、先找韦大宝听讲，收15张先给门主10再给韦大宝5；1000经验与软皮甲衣料，角色一次。",
+    "local": "14职业/三路线/rank0，无其他任务前置；完整15才交10/最后交5发奖励、0克99堆/个人100%与怪战斗/位置/衣料数1均明确本地值。"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63791-008",
+    "source_reference_id": "QREF-63791-008",
+    "name": "大猿皮",
+    "minimum_level": 22,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_hyunbo_master",
+    "npc_map_id": "hyunbo_town",
+    "interaction_anchor_id": "hyunbo_master_service",
+    "service_id": "npc_hyunbo_master_ape22",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "final_receipt_or_null"
+    ],
+    "acceptance": "存活/脱战/空闲/无挑战，22级/14职业/三路线/rank0，精确门主锚<=2500mm；未接且未完成，新建attempt stage1，无收费/发物/其他任务前置。",
+    "stages": [
+      {
+        "stage_index": 1,
+        "npc_id": "npc_wei_dabao",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "npc_wei_dabao_service",
+        "service_id": "npc_wei_dabao_ape22",
+        "consume": [],
+        "grant": [],
+        "next_stage_index": 2,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 2,
+        "npc_id": "npc_hyunbo_master",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "hyunbo_master_service",
+        "service_id": "npc_hyunbo_master_ape22",
+        "consume": [
+          {
+            "item_id": "quest_ape22_skin",
+            "quantity": 10
+          }
+        ],
+        "grant": [],
+        "next_stage_index": 3,
+        "apply_final_reward": false,
+        "inspect_required_quantity": 15,
+        "inspect_and_consume_policy": "须当前attempt真实15，原子消费10、保留5并推进3；只有10～14拒交，不在交10后继续补剩5。"
+      },
+      {
+        "stage_index": 3,
+        "npc_id": "npc_wei_dabao",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "npc_wei_dabao_service",
+        "service_id": "npc_wei_dabao_ape22",
+        "consume": [
+          {
+            "item_id": "quest_ape22_skin",
+            "quantity": 5
+          }
+        ],
+        "grant": [
+          {
+            "item_id": "quest_ape22_armor_cloth",
+            "quantity": 1
+          }
+        ],
+        "next_stage_index": null,
+        "apply_final_reward": true,
+        "requires_prior_stage_receipt_index": 2,
+        "grant_reason": "quest_reward"
+      }
+    ],
+    "readiness": "stage1无皮；完成韦大宝听讲后stage2才0..15，门主交前必须15；stage3必须同attempt门主真消费10收据且真实余5，不再采集。完成后无皮且衣料1，若被正式后续消费则须精确后继来源，不补造。",
+    "inventory_by_stage": {
+      "1": {
+        "required_exact": {}
+      },
+      "2": {
+        "required_exact": {},
+        "collection_caps": {
+          "quest_ape22_skin": 15
+        }
+      },
+      "3": {
+        "required_exact": {
+          "quest_ape22_skin": 5
+        }
+      }
+    },
+    "reward": {
+      "experience": 1000,
+      "practice": 0,
+      "silver": 0,
+      "items": [
+        {
+          "item_id": "quest_ape22_armor_cloth",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "二十二级大猿皮任务.v1.json",
+            "pointer": "/items/1"
+          }
+        }
+      ],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "delivery": "stage3原韦大宝<=2500mm复查本人/当前attempt/门主消费10来源与真实余5；消费5→发永久衣料1，真实槽与原库存合法（可复用释放槽）。1000经验按原修订报价实际/损失，正损失显式确认；实际0可完成但不造0资源腿，实际升级基础属性和新covered_level发点同笔。皮消费/衣料来源/实际经验/完成收据及角色库存修订05/19同笔；失败全部保持。",
+    "repeat": "角色跨世界一次，无派别/组队/轮次重置。",
+    "modifiers": "任务1000经验不进组队普通池或金/修炼/终结者倍率。",
+    "abandon": "确认只清当前attempt余皮/步骤，已交门主10不返；重接新轮从听讲/收15开始。已完成不能放弃；永久衣料不随任何任务放弃清理。",
+    "deduplication": "步骤character/quest/attempt/stage唯一，完成character/quest唯一，同request同payload先回持久决定，改payload拒绝；旧结果不回装消费物或再发衣料经验。",
+    "save": "保存attempt/阶段/完整真消费收据与皮/衣料来源，stage3持5却缺交10收据拒绝；完成缺衣料且无合法后继消费拒绝，不补发。保存不确定先解析原05/19决定，不重领奖。"
+  },
+  "items": [
+    {
+      "item_id": "quest_ape22_skin",
+      "name": "大猿皮",
+      "source_reference_id": "QREF-63791-008",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 15,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "identity_policy": "仅本轮22任务物；不混25级回取皮/普通兽皮，真实消费后不能凭死亡重放回装。"
+    },
+    {
+      "item_id": "quest_ape22_armor_cloth",
+      "name": "软皮甲衣料",
+      "source_reference_id": "QREF-63791-008",
+      "category": "quest_completion_credential",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_character": 1,
+      "binding": "character/ref_QREF-63791-008/final_completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "identity_policy": "保22源软皮名与25铁锁甲衣料名称冲突，本地唯一永久凭证；仅25正式最终交付可消费，保原22完成创建与25后继消费收据。未终交25任何放弃均不清/不补造；不是可清理attempt物。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "monster_id": "hyunbo_great_ape22",
+        "map_id": "hyunbo_outskirts",
+        "required_stage_index": 2,
+        "item_id": "quest_ape22_skin",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 15
+      }
+    ],
+    "qualification": "本人当前attempt/stage2、原韦大宝听讲收据、真实皮<15，存活连接同世界图；solo原归属或19奖励成员原快照30m/入队>=600步。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "个人任务物来源/合堆/真实槽重预检，原死亡无物结果持久化；腾包/重连/新轮/推进不补旧死亡。",
+    "commit": "由shared_death_collection统一所有任务生产者候选和普通收益，禁止第二次调用任务奖励owner。",
+    "modifiers": "每合格新死亡1为个人100%来源，不受终结者/修炼倍率。",
+    "shared_death_owner": {
+      "file": "二十二级大猿皮任务.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "monster": {
+    "monster_id": "hyunbo_great_ape22",
+    "source_reference_id": "MREF-39821-014",
+    "name": "大猿",
+    "level": 22,
+    "map_id": "hyunbo_outskirts",
+    "combat_kind": "monster",
+    "boss": false,
+    "is_npc_martial": false,
+    "max_hp": 1320,
+    "max_mana": 0,
+    "attack_min": 66,
+    "attack_max": 88,
+    "ordinary_defense": 44,
+    "accuracy": 110,
+    "evasion": 44,
+    "critical_chance_bp": 0,
+    "critical_multiplier_bp": 15000,
+    "movement_mm_per_second": 3000,
+    "qigong_allocations": {},
+    "rage_enabled": false,
+    "supports_blood_devil": false,
+    "reward_profile": "explicit_great_ape22",
+    "xp_reward": 11381,
+    "practice_reward": 1138,
+    "silver_reward": 22,
+    "ascension_progress_reward": 500,
+    "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+    "fixed_loot": [],
+    "random_loot": [],
+    "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+    "finisher_reward_components": [
+      "experience",
+      "practice",
+      "silver"
+    ],
+    "model_spec": {
+      "presentation_id": "hyunbo_great_ape22",
+      "status": "大猿模型/动作待制作"
+    },
+    "identity_policy": "来源22级/泫勃村庄及桥周边；本地郊野4home不是官网坐标，战斗数值明确本地等级×60HP/×3～4攻击/×2防/×5命中/×2回避。",
+    "source_ref": {
+      "file": "../reference/怪物参数.json",
+      "pointer": "/monsters/92"
+    }
+  },
+  "spawns": [
+    {
+      "spawn_id": "hyunbo_great_ape22_01",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_great_ape22",
+      "home_feet_m": [
+        -24,
+        0,
+        -40
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_great_ape22_02",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_great_ape22",
+      "home_feet_m": [
+        -16,
+        0,
+        -40
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_great_ape22_03",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_great_ape22",
+      "home_feet_m": [
+        16,
+        0,
+        -40
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_great_ape22_04",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_great_ape22",
+      "home_feet_m": [
+        24,
+        0,
+        -40
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "project proactive9m",
+      "safe_zone": "all map safe zones prohibit hostile spawn/entry;path return to home for heal,no teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "new/knownlegacy1..4明确未接/nullattempt/stage/无收据皮衣料；新格式缺必需字段拒绝，不按等级补完成。",
+  "later_quest_boundary": "25正式owner精确复用永久衣料：仅最终交付消费一次并写后继消费边；韦回取5为当前25attempt新凭证，引用原22韦真消费5，不回装22旧堆。25放弃保衣料、清当轮回取皮，重接新轮仍核历史来源；25完成后不再生成衣料或回取物。",
+  "pending": [
+    "Godot阶段/库存/经验/保存/LAN功能实现与测试",
+    "大猿模型/动作/动态导航与22级战斗经济校准"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "custody": "听讲0→采集15→门主消费10余5→韦大宝消费5余0/衣料1，永久凭证不绑定可清attempt。",
+    "spawn_geometry": "4home半径0.45+巡逻2米边界/阻挡/安全区/全部既有home点距通过。",
+    "player_grid": {
+      "step_m": 1,
+      "radius_m": 0.35,
+      "connected_cells": 84861,
+      "reachable_new_homes": 4
+    },
+    "runtime_boundary": "实际15阈值/真收据/报价/写盘失败/断线与动态AI仍需Godot测试。"
+  },
+  "shared_death_collection": {
+    "monster_ids": [
+      "hyunbo_great_ape22"
+    ],
+    "producer_refs": [
+      {
+        "file": "二十二级大猿皮任务.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "二十二级村民嘱托任务.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "selection": "同一原死亡/成员快照/原库存：皮任务须stage2且听讲及皮<15；绒毛任务须stage1且绒毛<20，各自精确attempt，独立资格与封顶，最多2个不同定义候选。",
+    "capacity": "所有合格未封顶候选一次构建，0克仍真实占材料槽/验证来源合堆；任何候选放不下全部任务物不发，不按接取先后偏袒；不合格/封顶不占候选槽。",
+    "commit": "05/19唯一原死亡覆盖所有成员结果，普通经验/历练/银只一次，各任务物来源和原死亡结果同笔；有物时收件人库存修订一次，不按任务份数递增。",
+    "replay": "原死亡无物/成功决定持久化，腾包/重连/新轮/推进不重算；只有后续新死亡可按当时状态产物。"
+  },
+  "later_quest_owner": {
+    "file": "二十五级银娇龙自尊心.v1.json",
+    "pointer": "/quest"
+  }
+}

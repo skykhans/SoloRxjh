@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:blood-devil-challenge-state:v1",
+  "$comment": "唯一effects.blood_devil_challenge：null或原成功拦截绑定的挑战四键。挑战本体产生免敌伤/新武功即时费用0/直接伤害增幅；独立rage_sources可被解除，不凭挑战补建怒气。非完整effects或活动快照。",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trigger_event_id",
+        "activity_attempt_id",
+        "opponent_actor_id",
+        "remaining_steps"
+      ],
+      "properties": {
+        "trigger_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "activity_attempt_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "opponent_actor_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "remaining_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonblank_id": {
+      "type": "string",
+      "pattern": "\\S"
+    }
+  }
+}

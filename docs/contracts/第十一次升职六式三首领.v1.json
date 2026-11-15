@@ -1,0 +1,1337 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_explicit_local_eleventh_design_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "record_url": "http://rxjh.17game.com/data/tasks/202305/67466.htm",
+    "source_html_sha256": "3e87584480f4d92f0008d03decfdf73b3102183557aea26f2a3982353790a88e",
+    "text_sha256": "97f5cd920077fa43af79ab58277a47cae963b95853441a01f3bcb47e0ab2baa3",
+    "image_review_file": "../reference/十一转图示核对.json",
+    "published_facts": "160级及以上/已五式，接取需历练10亿与50亿两；泫勃怪丐接“和武林高手的初次见面”，六式地图依次三BOSS，得胜利的信物(升天6式)自动回城，交怪丐晋六式，奖子夏神丹/气功书/武功书及光环。",
+    "gaps_retained": [
+      "官网未写费用扣除时点/失败再次收费",
+      "三首领无文字姓名/级别/技能/属性/时限",
+      "丹药数量/时效/效果与每职业书明细未公布，图片不证明自动学习"
+    ]
+  },
+  "source_policy": "160门槛/资金条件/三首领顺序/信物/奖物类别按来源。三阶段、接取不扣而最终一次扣50亿银与10亿历练、失败免费重试、900秒试场/怪属性/丹药1与本地经验效果/逐职业派别书清单及0额外经验钱为明确项目采用，不伪称官方未知值已查明。",
+  "quest": {
+    "quest_id": "adv_11",
+    "minimum_level": 160,
+    "required_completed_rank": 10,
+    "requires_delivered": "adv_10",
+    "class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_hyunbo_strange_beggar",
+    "map_id": "hyunbo_town",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "branch_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "active_challenge_ref_or_null",
+      "trial_victory_receipt_or_null",
+      "cancelled_attempt_receipts",
+      "final_receipt_or_null"
+    ],
+    "stages": [
+      {
+        "stage_index": 1,
+        "name": "和武林高手的初次见面：接取",
+        "requires_silver_owned": 5000000000,
+        "requires_practice_owned": 1000000000,
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "consume": [],
+        "grant": [],
+        "next_stage_index": 2
+      },
+      {
+        "stage_index": 2,
+        "name": "顺序击败三名六式试练首领",
+        "consume": [],
+        "grant": [
+          {
+            "item_id": "adv11_victory_token",
+            "quantity": 1
+          }
+        ],
+        "completion": "本主attempt三正确首领有序死亡收据/本人活，发信物及试场胜利同事务，stage2→3，自动终局返回；返回成功前保引用锁",
+        "next_stage_index": 3
+      },
+      {
+        "stage_index": 3,
+        "name": "向怪丐交付六式信物",
+        "silver_fee": 5000000000,
+        "practice_fee": 1000000000,
+        "consume": [
+          {
+            "item_id": "adv11_victory_token",
+            "quantity": 1
+          }
+        ],
+        "grant_policy": "final_reward.manual_bindings精确本职业本派+子夏神丹本地版1",
+        "next_state": "delivered"
+      }
+    ],
+    "acceptance": "本人160/rank恰10/adv10已交付/固定class正邪，精确怪丐/泫勃<=2.5米、存活脱战空闲、无活动/传送或未结束派生；携带银>=5000000000且普通历练>=1000000000。仅检查、不冻结/扣费，同笔建立新attempt/branch与stage1收据进入2。",
+    "entry_after_accept": "当前stage2且无目标完成/活跃引用，可重进新trial_attempt；资金是接取条件及最终支付条件，入场不再扣/冻结，角色期间可合法花费，最终不足时保stage3/信物等待补足，不倒退试场或补钱。",
+    "repeat": "跨世界角色终身一次，已交付不可重接，stage3不可再开场刷信物。"
+  },
+  "items": [
+    {
+      "item_id": "adv11_victory_token",
+      "name": "胜利的信物（升天6式）",
+      "kind": "bound_advancement_credential",
+      "stack_limit": 1,
+      "maximum_per_attempt": 1,
+      "weight_g": 0,
+      "container_id": "inventory",
+      "binding": [
+        "character_id",
+        "adv_11",
+        "main_attempt_id",
+        "trial_victory_receipt"
+      ],
+      "permissions": {
+        "equip": false,
+        "use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false
+      },
+      "origin": "名字据正文；1本/0克/权限与绑定为项目设计"
+    }
+  ],
+  "pill": {
+    "item_id": "zixia_divine_pill_local",
+    "name": "子夏神丹（本地）",
+    "kind": "timed_personal_experience_consumable",
+    "stack_limit": 99,
+    "weight_g": 1,
+    "container_id": "inventory",
+    "binding": "character",
+    "permissions": {
+      "equip": false,
+      "use": true,
+      "warehouse": true,
+      "sell": false,
+      "discard": true,
+      "trade": false,
+      "craft": false
+    },
+    "item_expiry": "none; timed effect begins only after successful use",
+    "source_policy": "官网只证明晋级奖该道具，另公告提2小时商品不证明本奖相同规格；本地明确采用1粒/2模拟小时/个人普通怪经验+20%，非已查明官网效果。",
+    "use": "本人背包1粒、存活脱战空闲/无活动或传送、无同族有效来源；与消耗1粒及效果记录同事务，失败全不变。不恢复生命/内力/体力、不送技能点或直接经验。",
+    "effect": {
+      "family_id": "zixia_personal_monster_xp",
+      "duration_world_steps": 432000,
+      "experience_multiplier_bp": 12000,
+      "ledger_fields": [
+        "source_item_consumption_receipt",
+        "character_id",
+        "world_id",
+        "expires_at_world_step"
+      ],
+      "clock": "使用所属world当前模拟步+432000为固定到期步，按05世界时钟；离线整个世界暂停则冻结，LAN个人菜单/本人断开而world仍推进则继续到期。只在原world有效，换world失活，不复制期限/剩余时长；不另存remaining。",
+      "family": "同角色只一来源，有效期内含在其他world失活时仍拒绝再次吃；可显式确认移除不退物，不能靠替换延长旧收据。到期按原world步失效，读档不重置expiry。",
+      "reward_order": "19普通怪死亡个人资格快照取该来源是否在此world且未到期；完成普通/终结/修炼修饰与组队经验池分配后，只对该人经验份额算floor(allocated_xp*12000/10000)，差额是具名个人丹药奖励，不从队友份额扣，不回流经验池。14经验封顶/溢出在此之后处理；个人历练/银/物品/升天进度不乘。",
+      "exclusions": [
+        "task_rewards",
+        "daily_task_rewards",
+        "boss_trial_rewards",
+        "gathering",
+        "direct_configuration_xp",
+        "unqualified_or_other_world_deaths"
+      ],
+      "stacking": "本族仅一次12000倍率；不对自身附加经验再触发丹药/终结/组队或其他收益。其他已定义前序修饰按原owner一次，禁止把个人丹药乘回公共池。"
+    },
+    "initialization": "新模板/四已知旧档zixia_effect_or_null=null，无丹药/效果，未知新格式缺字段拒绝；已有目标角色不重置。"
+  },
+  "arena": {
+    "arena_id": "adv11_three_masters",
+    "map_id": "instance_adv11_three_masters",
+    "time_limit_steps": 54000,
+    "between_boss_steps": 120,
+    "layout_owner": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/arena_layout"
+    },
+    "ordered_bosses": [
+      {
+        "sequence_index": 1,
+        "spawn_key": "adv11_master_1",
+        "enemy_id": "project_adv11_master_1_160",
+        "feet_m": [
+          0,
+          0,
+          8
+        ],
+        "source_image_index": 4
+      },
+      {
+        "sequence_index": 2,
+        "spawn_key": "adv11_master_2",
+        "enemy_id": "project_adv11_master_2_160",
+        "feet_m": [
+          0,
+          0,
+          8
+        ],
+        "source_image_index": 5
+      },
+      {
+        "sequence_index": 3,
+        "spawn_key": "adv11_master_3",
+        "enemy_id": "project_adv11_master_3_160",
+        "feet_m": [
+          0,
+          0,
+          8
+        ],
+        "source_image_index": 6
+      }
+    ],
+    "source_policy": "图片只证三外观顺序；本地用第一/第二/第三试练首领，不猜具体武林人物姓名。",
+    "progress": "仅有序completed_boss_death_receipts前缀，下一首领由长度+1派生，不另存击杀计数/波次。每次只存在当前一个敌人。",
+    "spawn_timing": "首敌入场预检全部通过才生成，下一步才可动作；前首领真实死亡后等待120步，再固定(0,8)预检并生成下一首领，从下一步才可动作。受占/NAV不合法则等待0并继续扣总期限，不找附近点。波间不回血/清冷却。",
+    "win": "本人活且第三首领真实死亡/完整三收据，先于该步总超时；双方同死先本人死失败，无信物。",
+    "enemy_reward": "三者普通经验/历练/银/物品/武勋/升天进度全0，只有最后整局目标信物，不逐首领奖。"
+  },
+  "enemies": [
+    {
+      "max_mana": 0,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3500,
+      "capsule_radius_mm": 450,
+      "capsule_height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "fixed_loot": [],
+      "random_loot": [],
+      "reward_xp": 0,
+      "reward_practice": 0,
+      "reward_silver": 0,
+      "reward_ascension_progress": 0,
+      "combat_random_owner": "23/19权威动作ID/命中随机/死亡收据；读档不再抽",
+      "target": "only exact living participant, no through-wall hits; not party members in another instance",
+      "definition_id": "project_adv11_master_1_160",
+      "name": "六式第1试练首领（项目）",
+      "level": 160,
+      "combat_kind": "monster",
+      "boss": true,
+      "is_npc_martial": false,
+      "max_hp": 100000,
+      "attack": 1200,
+      "defense": 600,
+      "accuracy": 1050,
+      "evasion": 300,
+      "presentation_ref": "dev_adv11_master_1",
+      "source_policy": "源图仅外观/顺序，第几首领为本地称呼；全部等级/属性/攻击程序本地，不伪造MREF或具名原人物",
+      "attack_programs": [
+        {
+          "action_id": "adv11_master1_action1",
+          "windup_steps": 36,
+          "hit_ordinals_per_target": 1,
+          "recovery_steps": 84,
+          "cooldown_steps": 120,
+          "range_mm": 2200,
+          "arc_degrees": 90,
+          "attack_multiplier_bp": 10000,
+          "facing_locked_at_windup": true,
+          "damage_kind": "ordinary_physical_root_melee",
+          "critical_enabled": false,
+          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；只用本动作显式attack_multiplier_bp，不暗加武功威力。"
+        }
+      ],
+      "action_cost_hp_mana_stamina": 0,
+      "qigong_and_status_programs": []
+    },
+    {
+      "max_mana": 0,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3500,
+      "capsule_radius_mm": 450,
+      "capsule_height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "fixed_loot": [],
+      "random_loot": [],
+      "reward_xp": 0,
+      "reward_practice": 0,
+      "reward_silver": 0,
+      "reward_ascension_progress": 0,
+      "combat_random_owner": "23/19权威动作ID/命中随机/死亡收据；读档不再抽",
+      "target": "only exact living participant, no through-wall hits; not party members in another instance",
+      "definition_id": "project_adv11_master_2_160",
+      "name": "六式第2试练首领（项目）",
+      "level": 160,
+      "combat_kind": "monster",
+      "boss": true,
+      "is_npc_martial": false,
+      "max_hp": 120000,
+      "attack": 1300,
+      "defense": 650,
+      "accuracy": 1100,
+      "evasion": 300,
+      "presentation_ref": "dev_adv11_master_2",
+      "source_policy": "源图仅外观/顺序，第几首领为本地称呼；全部等级/属性/攻击程序本地，不伪造MREF或具名原人物",
+      "attack_programs": [
+        {
+          "action_id": "adv11_master2_action1",
+          "windup_steps": 36,
+          "hit_ordinals_per_target": 1,
+          "recovery_steps": 84,
+          "cooldown_steps": 120,
+          "range_mm": 2200,
+          "arc_degrees": 90,
+          "attack_multiplier_bp": 10000,
+          "facing_locked_at_windup": true,
+          "damage_kind": "ordinary_physical_root_melee",
+          "critical_enabled": false,
+          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；只用本动作显式attack_multiplier_bp，不暗加武功威力。"
+        },
+        {
+          "action_id": "adv11_master2_action2",
+          "windup_steps": 90,
+          "hit_ordinals_per_target": 1,
+          "recovery_steps": 90,
+          "cooldown_steps": 600,
+          "range_mm": 5000,
+          "arc_degrees": 120,
+          "attack_multiplier_bp": 15000,
+          "facing_locked_at_windup": true,
+          "warning": "接受时锁朝向，在地面显示真实5米/120度扇形直至命中，不能用全屏不可躲伤害代替",
+          "damage_kind": "ordinary_physical_root_melee",
+          "critical_enabled": false,
+          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；只用本动作显式attack_multiplier_bp，不暗加武功威力。"
+        }
+      ],
+      "action_cost_hp_mana_stamina": 0,
+      "qigong_and_status_programs": []
+    },
+    {
+      "max_mana": 0,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3500,
+      "capsule_radius_mm": 450,
+      "capsule_height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "fixed_loot": [],
+      "random_loot": [],
+      "reward_xp": 0,
+      "reward_practice": 0,
+      "reward_silver": 0,
+      "reward_ascension_progress": 0,
+      "combat_random_owner": "23/19权威动作ID/命中随机/死亡收据；读档不再抽",
+      "target": "only exact living participant, no through-wall hits; not party members in another instance",
+      "definition_id": "project_adv11_master_3_160",
+      "name": "六式第3试练首领（项目）",
+      "level": 160,
+      "combat_kind": "monster",
+      "is_npc_martial": false,
+      "max_hp": 140000,
+      "attack": 1400,
+      "defense": 700,
+      "accuracy": 1150,
+      "evasion": 300,
+      "presentation_ref": "dev_adv11_master_3",
+      "source_policy": "源图仅外观/顺序，第几首领为本地称呼；全部等级/属性/攻击程序本地，不伪造MREF或具名原人物",
+      "attack_programs": [
+        {
+          "action_id": "adv11_master3_action1",
+          "windup_steps": 60,
+          "recovery_steps": 60,
+          "cooldown_steps": 180,
+          "range_mm": 18000,
+          "attack_multiplier_bp": 10000,
+          "facing_locked_at_windup": true,
+          "hit_ordinals_per_target": 1,
+          "critical_enabled": false,
+          "damage_kind": "ordinary_physical_root_projectile",
+          "projectile": {
+            "speed_mm_per_second": 14000,
+            "radius_mm": 200,
+            "maximum_path_mm": 18000,
+            "homing": false,
+            "piercing": false,
+            "maximum_target_count": 1,
+            "impact": "first valid collision then remove; solid obstacles block and consume, no through-pillar hit"
+          },
+          "hit_resolution": "接受时朝向锁定，结束前摇沿方向实际飞行，几何/命中/防御按23，不追踪改向"
+        }
+      ],
+      "action_cost_hp_mana_stamina": 0,
+      "qigong_and_status_programs": [],
+      "boss": true
+    }
+  ],
+  "private_lifecycle_owner": {
+    "file": "第六次升职与单机武勋试练.v1.json",
+    "members": [
+      "entry_transaction",
+      "resource_policy",
+      "timing",
+      "failure_and_exit",
+      "persistence"
+    ],
+    "explicit_overrides": {
+      "entry": "精确怪丐<=2.5米、主stage2/160/rank10/adv10，预检一信物完整输出格、私场NAV/模型/保存和本人唯一活动引用；钱已在接取检查，入场不收费，禁止队友/宠物/伙伴。",
+      "timing": "本arena900秒/顺序3首领，活着第三死胜，双方死失败；原六转单敌胜利条件不适用。",
+      "role_reference": "仅adv11.active_challenge_ref，主attempt与各trial_attempt/instance区分，和其他活动全角色最多1条。",
+      "world_snapshot": "沿world.private_advancement_trials，注册本owner arena；保存三死亡前缀、波间剩余步、当前spawn_key/敌现场、总elapsed/动作派生/随机。本人真实资源只在角色状态，world保存对应ID/修订引用，同笔提交。",
+      "alive_return_anchor_id": "hyunbo_strange_beggar_return",
+      "death_return_anchor_id": "story_workcamp_start",
+      "failure": "本人死/超时/主动退出终局；主stage2保留，新局从第一首领重来，失败不收银/历练、不恢复本人资源/冷却、不继承旧首领收据。",
+      "capacity_or_return": "信物完整1件空间若终局被其他合法奖励占满，保victory_unsettled/引用锁、允许重试同笔发物，不转成失败或重战；已发信物stage3不再发。精确返回受占保终局待返回，返回成功+结算落盘才清live snapshot，保唯一收据。",
+      "portable": "本私场所有源/目标便携禁用，沿owner_parts精确注册，不加土灵公共allowlist。"
+    }
+  },
+  "final_reward": {
+    "required_rank_before": 10,
+    "completed_rank": 11,
+    "ascension_tier_after": 6,
+    "silver_fee": 5000000000,
+    "practice_fee": 1000000000,
+    "experience": 0,
+    "silver_granted": 0,
+    "practice_granted": 0,
+    "martial_merit_granted": 0,
+    "pill_quantity": 1,
+    "manual_bindings": [
+      {
+        "class_id": "blade",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_blade_righteous_5d3707f68530",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_blade_righteous_9f9c32406057",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_blade_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_blade_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_blade_5870010d6245",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "blade",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_blade_evil_e79022d5f1f9",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_blade_evil_fc1a6e45f667",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_blade_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_blade_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_blade_5870010d6245",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "sword",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_sword_righteous_21e5b152d8cc",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_sword_righteous_fd633d5da68b",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_sword_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_sword_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_sword_92428499c8c4",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "sword",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_sword_evil_ce50172d4f31",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_sword_evil_4836be7882da",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_sword_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_sword_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_sword_92428499c8c4",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "spear",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_spear_righteous_26ed2a8701e3",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_spear_righteous_e06f1fa223ed",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_spear_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_spear_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_spear_5536e8e9c771",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "spear",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_spear_evil_ac573fc1d817",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_spear_evil_8d6bc4024f59",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_spear_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_spear_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_spear_5536e8e9c771",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "physician",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_physician_righteous_78bb5f6dec7d",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_physician_righteous_9ceb478f40f2",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_physician_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_physician_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_physician_8159c31d10bb",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "physician",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_physician_evil_72d5d31c9088",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_physician_evil_b05665878812",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_physician_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_physician_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_physician_8159c31d10bb",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "archer",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_archer_righteous_a12b73bae4d9",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_archer_righteous_fd5506f03b85",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_archer_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_archer_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_archer_9ae5c572cb4c",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "archer",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_archer_evil_ec957110c233",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_archer_evil_ecbcfb703262",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_archer_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_archer_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_archer_9ae5c572cb4c",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "assassin",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_assassin_righteous_d9637564d3b8",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_assassin_righteous_946c1004e96a",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_assassin_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_assassin_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_assassin_6ef703b316e0",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "assassin",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_assassin_evil_6df62049732c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_assassin_evil_e012fdef05fa",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_assassin_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_assassin_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_assassin_6ef703b316e0",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "musician",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_musician_righteous_96380e923d01",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_musician_righteous_8cb222097c85",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_musician_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_musician_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_musician_d69d2de60dbb",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "musician",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_musician_evil_725e0735b4cd",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_musician_evil_50127b7d19bf",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_musician_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_musician_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_musician_d69d2de60dbb",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "fighter",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_fighter_righteous_aee5db09449c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_fighter_righteous_eb713029e59d",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_fighter_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_fighter_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_fighter_c4efd75feb72",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "fighter",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_fighter_evil_3a6de740189c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_fighter_evil_c2eacb173149",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_fighter_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_fighter_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_fighter_c4efd75feb72",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "han_feiguan",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_han_feiguan_any_f2a4d0035dc3",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_han_feiguan_any_0ab88a0227b1",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_han_feiguan_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_han_feiguan_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_han_feiguan_e5305a25c37e",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "han_feiguan",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_han_feiguan_any_f2a4d0035dc3",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_han_feiguan_any_0ab88a0227b1",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_han_feiguan_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_han_feiguan_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_han_feiguan_e5305a25c37e",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "tan_hualing",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_tan_hualing_any_1e0adfeda242",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_tan_hualing_any_1baa3151af29",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_tan_hualing_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_tan_hualing_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_tan_hualing_844c4be23bc4",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "tan_hualing",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_tan_hualing_any_1e0adfeda242",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_tan_hualing_any_1baa3151af29",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_tan_hualing_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_tan_hualing_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_tan_hualing_844c4be23bc4",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "mei_liuzhen",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_4de41f2dcae5",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_e25244eb192a",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_d0aeff2f2520",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_mei_liuzhen_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_mei_liuzhen_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_mei_liuzhen_1c22fe455164",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "mei_liuzhen",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_4de41f2dcae5",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_e25244eb192a",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_d0aeff2f2520",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_mei_liuzhen_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_mei_liuzhen_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_mei_liuzhen_1c22fe455164",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "lu_fenglang",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_lu_fenglang_any_7a6697cd527c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_lu_fenglang_any_d1525f3643a1",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_lu_fenglang_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_lu_fenglang_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_lu_fenglang_00e4ecba5ecf",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "lu_fenglang",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_lu_fenglang_any_7a6697cd527c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_lu_fenglang_any_d1525f3643a1",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_lu_fenglang_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_lu_fenglang_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_lu_fenglang_00e4ecba5ecf",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "dongling_shennv",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_ee988344768e",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_d9fc0d41718a",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_c6d3ebd2d110",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_dongling_shennv_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_dongling_shennv_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_dongling_shennv_cb3c6a7fc0ac",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "dongling_shennv",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_ee988344768e",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_d9fc0d41718a",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_c6d3ebd2d110",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_dongling_shennv_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_dongling_shennv_dedae4d4bd0c",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_dongling_shennv_cb3c6a7fc0ac",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "zhen_fengbai",
+        "branch_id": "righteous",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_333867068e48",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_524a0eb2c09c",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_zhen_fengbai_bf60f49786ce",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_zhen_fengbai_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_zhen_fengbai_dedae4d4bd0c",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "class_id": "zhen_fengbai",
+        "branch_id": "evil",
+        "martial_owner_file": "升天武功与秘籍.v1.json",
+        "qigong_owner_file": "气功学习与秘籍.v1.json",
+        "martial_grants": [
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_333867068e48",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_524a0eb2c09c",
+            "quantity": 1
+          }
+        ],
+        "qigong_grants": [
+          {
+            "item_id": "manual_qigong_zhen_fengbai_bf60f49786ce",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_zhen_fengbai_8281ed099137",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_qigong_zhen_fengbai_dedae4d4bd0c",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "book_policy": "逐职业两派明确清单，各书1，六式武功沿28的已有真实书，六式气功沿21真实书；不从图标猜名字/数量，不动态按未来目录追加；本清单选择全套已定义六式是项目奖励策略。已会仍发真实书，不自动学习/销书换钱。",
+    "commit": "stage3/160/rank10/adv10已交付/固定本人branch/前两收据、本人本主信物/试场胜利且已返回无活动；预演收信物后所有丹药/书的真实格/重量与费用。携带银50亿/普通历练10亿checked_sub、收信物、全部产物、stage3/final收据、delivered与rank10→11同05/19事务，任何不足/满包/超重/写盘失败全不变。仓库钱/物/待领取不可自动支付，支持安全整数不经32位截断。",
+    "capabilities": "只按成长owner重算rank11核心；原三式能力累计一次，不回复资源、送新点或自动学习，英雄武器不自动升阶。"
+  },
+  "abandon": {
+    "confirmation": "先列当前首领/信物损失，确认才按owner终结返回并清本主attempt信物与阶段/胜利，保取消历史；未最终扣银/历练所以无手续费退款。",
+    "repeat": "可新主attempt从接取重做，重新检查资金条件，不保旧首领前缀/目标；旧死亡/发物/交付请求不作用新轮；delivered不可取消。"
+  },
+  "persistence": "主attempt/branch/stage/阶段和试场/取消/最终收据、唯一真实信物库存；不复制信物数量或首领计数。world+role同修订完整中途保存，退出/断线挂原局/当前首领生命/期限，不免费重开敌。新格式缺字段/前缀缺口/错误首领/双引用/无来源信物拒绝。",
+  "initialization": "新模板及四已知旧档adv11未接，attempt/branch/stage/active/victory/final=null，stage/cancel收据空；无信物/丹药/六式书，pill效果null；已有目标角色/world不重置。",
+  "pending": [
+    "Godot14职业两派/三首领真实可胜性/丹药与19经验结算/全部保存/LAN",
+    "正式模型/光环/动作/UI/音效及经济平衡",
+    "官方姓名/属性/奖励细节和扣费事实缺口仍保留",
+    "十二转及其余D1缺项"
+  ],
+  "static_review": {
+    "date": "2026-11-14",
+    "kind": "static_contract_checks_not_gameplay",
+    "bindings": 28,
+    "martial_book_references": 60,
+    "qigong_book_references": 84,
+    "output_count_distribution": {
+      "martial": 60,
+      "qi": 84,
+      "output_6": 24,
+      "output_7": 4
+    },
+    "fee_boundary_pairs": 9,
+    "xp_integer_cases": 1001,
+    "expiry_boundary_cases": 3,
+    "grid_m": 0.5,
+    "capsule_radius_m": 0.45,
+    "town_reachable_cells": 52666,
+    "town_exact_anchors": 15,
+    "private_reachable_cells": 8566,
+    "private_targets": 3,
+    "json_count": 123,
+    "local_markdown_links": 645,
+    "heading_fragments": 66,
+    "json_pointers": 43,
+    "limitations": "No Godot execution, dynamic navigation, save fault injection, LAN or combat survivability tested."
+  }
+}

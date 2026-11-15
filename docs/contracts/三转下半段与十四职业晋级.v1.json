@@ -1,0 +1,3744 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_14class_lower_advancement_design_not_implemented_not_balanced",
+  "source_evidence": "../reference/三转原文与采用裁定.json",
+  "quest": {
+    "quest_id": "adv_03",
+    "minimum_level": 60,
+    "required_completed_rank": 2,
+    "requires_delivered": "adv_03_upper",
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "acceptance": "alive,outofcombat,idle,nochallenge;exactclass/routebindingandbranchacceptNPCwithin2500mm;upperdelivered,rank2,neveradv03delivered;createuniqueattempt/stage1;nograntuntilcurrentstagecommitted",
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "state_fields": [
+      "attempt_id_or_null",
+      "branch_id_or_null",
+      "stage_index_or_null",
+      "state",
+      "stage_receipts",
+      "final_receipt_or_null"
+    ],
+    "branch_selection": "exactclass_bindings14exhaustivemembers;bothfactionslisted;no wildcard/default/fallback/userselectinganotherclassbranch;classandrouteimmutableforattempt",
+    "repeat": "oncepercharacteracrossworlds;confirmedabandonmayrestartnewattemptbutneverresetuppercompletion/XP",
+    "readiness": "realcarriedowncharacter/quest/attempt/branch/classbounditems,currentNPCandconditions;noindependentcollectioncounter"
+  },
+  "source_policy": "eight63790/63789lowerrecordsmergeoneadv_03;fourordinaryclassflowsfollow63799withinventory ambiguities explicitly resolved;other10classes use enumerated local bindings;not evidence ofofficialhero/ranged/music/fighterquests;finalrank3only,no additional source-reward guesses",
+  "source_adjudications": [
+    {
+      "case": "blade10skins presented then sold5+5",
+      "local_adoption": "stage1inspect10withoutconsuming,stage2and3eachconsume5;eachsalegrantsoneinvoiceand5boundmoneybags;stage4consume2invoicesand10bags"
+    },
+    {
+      "case": "righteoussword10claws presented then necklacecraft,unexplainedmoneybag",
+      "local_adoption": "stage1inspectclawsandgrant1boundadvancebag;stage2consumeclawsfornecklace;stage3consumeadvancebagforring;stage4consumeactualnecklace/ring"
+    },
+    {
+      "case": "evilswordinitialletter/10fangs",
+      "local_adoption": "stage1inspectfangs/grantxuanyuanletter;stage2consumeletterplusfangsforweiletter;stage3replacewithzhoureply;stage4consume reply"
+    },
+    {
+      "case": "evilspearemptybottlepurchaseandmoneybagsquantityabsent",
+      "local_adoption": "stage3consumes10snakecaptures/grants10boundbags;stage4zhouconsumes10bagsfor10bottles;no realcurrencydebit/credit,notordinaryshop recipe"
+    },
+    {
+      "case": "physicianretrievedmaterialquantitynotlisted",
+      "local_adoption": "onegall/powderandonefirstmedicine/onedeliverymedicine;allboundtokens,notordinarybeargallorusablepotion"
+    },
+    {
+      "case": "sourcefinalapplicationandendsteps",
+      "local_adoption": "penultimatestepauthorizesbutdoesnotrank;lastdeclaredstepatomicallyrank2to3andfinalreceipt"
+    },
+    {
+      "case": "other10classes",
+      "local_adoption": "explicitclass_bindings,sourcefamilyreusefor4matchingweaponheroesand5newlocalfamilies;eachdoesfullstages,no rank-by-level or weapon-task completion"
+    }
+  ],
+  "class_bindings": [
+    {
+      "class_id": "blade",
+      "righteous_branch_id": "righteous_blade",
+      "evil_branch_id": "evil_blade",
+      "adoption": "ordinarysourceclass",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "han_feiguan",
+      "righteous_branch_id": "righteous_blade",
+      "evil_branch_id": "evil_blade",
+      "adoption": "explicitlocalclassdesign_not_sourceclaim",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "sword",
+      "righteous_branch_id": "righteous_sword",
+      "evil_branch_id": "evil_sword",
+      "adoption": "ordinarysourceclass",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "tan_hualing",
+      "righteous_branch_id": "righteous_sword",
+      "evil_branch_id": "evil_sword",
+      "adoption": "explicitlocalclassdesign_not_sourceclaim",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "spear",
+      "righteous_branch_id": "righteous_spear",
+      "evil_branch_id": "evil_spear",
+      "adoption": "ordinarysourceclass",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "righteous_branch_id": "righteous_spear",
+      "evil_branch_id": "evil_spear",
+      "adoption": "explicitlocalclassdesign_not_sourceclaim",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "physician",
+      "righteous_branch_id": "righteous_physician",
+      "evil_branch_id": "evil_physician",
+      "adoption": "ordinarysourceclass",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "righteous_branch_id": "righteous_physician",
+      "evil_branch_id": "evil_physician",
+      "adoption": "explicitlocalclassdesign_not_sourceclaim",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "archer",
+      "righteous_branch_id": "righteous_archer",
+      "evil_branch_id": "evil_archer",
+      "adoption": "explicitlocalclassdesign_not_sourceclaim",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "righteous_branch_id": "righteous_archer",
+      "evil_branch_id": "evil_archer",
+      "adoption": "explicitlocalclassdesign_not_sourceclaim",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "assassin",
+      "righteous_branch_id": "righteous_assassin",
+      "evil_branch_id": "evil_assassin",
+      "adoption": "explicitlocalclassdesign_not_sourceclaim",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "musician",
+      "righteous_branch_id": "righteous_musician",
+      "evil_branch_id": "evil_musician",
+      "adoption": "explicitlocalclassdesign_not_sourceclaim",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "fighter",
+      "righteous_branch_id": "righteous_fighter",
+      "evil_branch_id": "evil_fighter",
+      "adoption": "explicitlocalclassdesign_not_sourceclaim",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    },
+    {
+      "class_id": "zhen_fengbai",
+      "righteous_branch_id": "righteous_orb",
+      "evil_branch_id": "evil_orb",
+      "adoption": "explicitlocalclassdesign_not_sourceclaim",
+      "weapon_progression": "independenthero weapon/otheradvancementchainsnotcompletedbyadv03"
+    }
+  ],
+  "branches": [
+    {
+      "branch_id": "righteous_blade",
+      "route": "righteous",
+      "family": "blade",
+      "class_ids": [
+        "blade",
+        "han_feiguan"
+      ],
+      "accept_npc_id": "npc_xie_xiaofeng",
+      "accept_map_id": "shenwu_gate",
+      "collection_stage_index": 1,
+      "collection_map_id": "shenwu_gate",
+      "material_item_id": "adv03lower_righteous_blade_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xie_xiaofeng",
+          "map_id": "shenwu_gate",
+          "action": "验看十件皮鳞",
+          "consume": [],
+          "grant": [],
+          "requires": [
+            {
+              "item_id": "adv03lower_righteous_blade_material",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_xiao_chunshui",
+          "map_id": "liuzheng_pass",
+          "action": "出售五件取得任务发票及银袋",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_blade_material",
+              "quantity": 5
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_blade_invoice_local",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_righteous_blade_money_bags",
+              "quantity": 5
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_yinjiaolong",
+          "map_id": "hyunbo_town",
+          "action": "出售另外五件取得发票及银袋",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_blade_material",
+              "quantity": 5
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_blade_invoice_hyunbo",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_righteous_blade_money_bags",
+              "quantity": 5
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_xie_xiaofeng",
+          "map_id": "shenwu_gate",
+          "action": "交回两发票及十银袋",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_blade_invoice_local",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_righteous_blade_invoice_hyunbo",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_righteous_blade_money_bags",
+              "quantity": 10
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 5
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "申请第三次升职",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "最终确认三转",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "sourceordinaryclassandexplicitlocalheroextension",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "source_reference_id": "QREF-63790-020",
+      "source_scope_class_id": "blade",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {},
+          "collection_item_range": {
+            "item_id": "adv03lower_righteous_blade_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_righteous_blade_material": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_righteous_blade_material": 5,
+            "adv03lower_righteous_blade_invoice_local": 1,
+            "adv03lower_righteous_blade_money_bags": 5
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_righteous_blade_invoice_local": 1,
+            "adv03lower_righteous_blade_money_bags": 10,
+            "adv03lower_righteous_blade_invoice_hyunbo": 1
+          }
+        },
+        "5": {
+          "required_retained_items": {}
+        },
+        "6": {
+          "required_retained_items": {}
+        }
+      }
+    },
+    {
+      "branch_id": "righteous_sword",
+      "route": "righteous",
+      "family": "sword",
+      "class_ids": [
+        "sword",
+        "tan_hualing"
+      ],
+      "accept_npc_id": "npc_wei_baibaibai",
+      "accept_map_id": "shenwu_gate",
+      "collection_stage_index": 1,
+      "collection_map_id": "shenwu_gate",
+      "material_item_id": "adv03lower_righteous_sword_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_wei_baibaibai",
+          "map_id": "shenwu_gate",
+          "action": "验看十爪并领取购买戒指的预付款",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_sword_money_bag",
+              "quantity": 1
+            }
+          ],
+          "requires": [
+            {
+              "item_id": "adv03lower_righteous_sword_material",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_wei_dabao",
+          "map_id": "hyunbo_town",
+          "action": "以十爪制作项链",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_sword_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_sword_necklace",
+              "quantity": 1
+            }
+          ],
+          "requires": [
+            {
+              "item_id": "adv03lower_righteous_sword_money_bag",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_xiao_chunshui",
+          "map_id": "liuzheng_pass",
+          "action": "用绑定银袋购买任务戒指",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_sword_money_bag",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_sword_ring",
+              "quantity": 1
+            }
+          ],
+          "requires": [
+            {
+              "item_id": "adv03lower_righteous_sword_necklace",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_wei_baibaibai",
+          "map_id": "shenwu_gate",
+          "action": "交回项链与戒指",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_sword_necklace",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_righteous_sword_ring",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 5
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "申请第三次升职",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "最终确认三转",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "sourceordinaryclassandexplicitlocalheroextension",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "source_reference_id": "QREF-63790-021",
+      "source_scope_class_id": "sword",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {},
+          "collection_item_range": {
+            "item_id": "adv03lower_righteous_sword_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_righteous_sword_material": 10,
+            "adv03lower_righteous_sword_money_bag": 1
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_righteous_sword_money_bag": 1,
+            "adv03lower_righteous_sword_necklace": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_righteous_sword_necklace": 1,
+            "adv03lower_righteous_sword_ring": 1
+          }
+        },
+        "5": {
+          "required_retained_items": {}
+        },
+        "6": {
+          "required_retained_items": {}
+        }
+      }
+    },
+    {
+      "branch_id": "righteous_spear",
+      "route": "righteous",
+      "family": "spear",
+      "class_ids": [
+        "spear",
+        "lu_fenglang"
+      ],
+      "accept_npc_id": "npc_linghu_erzhong",
+      "accept_map_id": "shenwu_gate",
+      "collection_stage_index": 3,
+      "collection_map_id": "shenwu_gate",
+      "material_item_id": "adv03lower_righteous_spear_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_daojianxiao",
+          "map_id": "hyunbo_town",
+          "action": "领取十枪杆",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_spear_shafts",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_linghu_erzhong",
+          "map_id": "shenwu_gate",
+          "action": "转交十枪杆",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_spear_shafts",
+              "quantity": 10
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_linghu_erzhong",
+          "map_id": "shenwu_gate",
+          "action": "交十尾毛制作十件转送枪",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_spear_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_spear_guns",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_xiao_chunshui",
+          "map_id": "liuzheng_pass",
+          "action": "转送十枪并收银袋及发票",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_spear_guns",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_spear_money_bags",
+              "quantity": 10
+            },
+            {
+              "item_id": "adv03lower_righteous_spear_invoice",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 5
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_linghu_erzhong",
+          "map_id": "shenwu_gate",
+          "action": "交回十银袋及发票",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_spear_money_bags",
+              "quantity": 10
+            },
+            {
+              "item_id": "adv03lower_righteous_spear_invoice",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "申请第三次升职",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 7
+        },
+        {
+          "stage_index": 7,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "最终确认三转",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "sourceordinaryclassandexplicitlocalheroextension",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "source_reference_id": "QREF-63790-022",
+      "source_scope_class_id": "spear",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_righteous_spear_shafts": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {},
+          "collection_item_range": {
+            "item_id": "adv03lower_righteous_spear_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_righteous_spear_guns": 10
+          }
+        },
+        "5": {
+          "required_retained_items": {
+            "adv03lower_righteous_spear_money_bags": 10,
+            "adv03lower_righteous_spear_invoice": 1
+          }
+        },
+        "6": {
+          "required_retained_items": {}
+        },
+        "7": {
+          "required_retained_items": {}
+        }
+      }
+    },
+    {
+      "branch_id": "righteous_physician",
+      "route": "righteous",
+      "family": "physician",
+      "class_ids": [
+        "physician",
+        "dongling_shennv"
+      ],
+      "accept_npc_id": "npc_yang_bufan",
+      "accept_map_id": "shenwu_gate",
+      "collection_stage_index": 5,
+      "collection_map_id": "shenwu_gate",
+      "material_item_id": "adv03lower_righteous_physician_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_pingshizhi",
+          "map_id": "hyunbo_town",
+          "action": "领取专用制药材料",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_physician_ingredient",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_yang_bufan",
+          "map_id": "shenwu_gate",
+          "action": "交材料领取关主定制药",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_physician_ingredient",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_physician_leader_drug",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_liu_xu",
+          "map_id": "liuzheng_pass",
+          "action": "转送定制药",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_physician_leader_drug",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_yang_bufan",
+          "map_id": "shenwu_gate",
+          "action": "回报送药结果",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 5
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_yang_bufan",
+          "map_id": "shenwu_gate",
+          "action": "交十份猎物材料制作最终任务药",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_physician_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_physician_final_drug",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "转送最终任务药",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_physician_final_drug",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 7
+        },
+        {
+          "stage_index": 7,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "最终确认三转",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "sourceordinaryclassandexplicitlocalheroextension",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "source_reference_id": "QREF-63790-023",
+      "source_scope_class_id": "physician",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_righteous_physician_ingredient": 1
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_righteous_physician_leader_drug": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {}
+        },
+        "5": {
+          "required_retained_items": {},
+          "collection_item_range": {
+            "item_id": "adv03lower_righteous_physician_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "6": {
+          "required_retained_items": {
+            "adv03lower_righteous_physician_final_drug": 1
+          }
+        },
+        "7": {
+          "required_retained_items": {}
+        }
+      }
+    },
+    {
+      "branch_id": "righteous_archer",
+      "route": "righteous",
+      "family": "archer",
+      "class_ids": [
+        "archer",
+        "mei_liuzhen"
+      ],
+      "accept_npc_id": "npc_linghu_erzhong",
+      "accept_map_id": "shenwu_gate",
+      "collection_stage_index": 2,
+      "collection_map_id": "shenwu_gate",
+      "material_item_id": "adv03lower_righteous_archer_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_linghu_erzhong",
+          "map_id": "shenwu_gate",
+          "action": "领取本职业试练工具",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_archer_kit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_linghu_erzhong",
+          "map_id": "shenwu_gate",
+          "action": "交工具和十份试练材料完成制作",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_archer_kit",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_righteous_archer_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_archer_report",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_liu_xu",
+          "map_id": "liuzheng_pass",
+          "action": "核验报告并签发本职业批示",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_archer_report",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_archer_permit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "交试练批示并最终确认三转",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_archer_permit",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "explicitlocalclassbranch,notpublishedquest",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_righteous_archer_kit": 1
+          },
+          "collection_item_range": {
+            "item_id": "adv03lower_righteous_archer_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_righteous_archer_report": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_righteous_archer_permit": 1
+          }
+        }
+      }
+    },
+    {
+      "branch_id": "righteous_assassin",
+      "route": "righteous",
+      "family": "assassin",
+      "class_ids": [
+        "assassin"
+      ],
+      "accept_npc_id": "npc_linghu_erzhong",
+      "accept_map_id": "shenwu_gate",
+      "collection_stage_index": 2,
+      "collection_map_id": "shenwu_gate",
+      "material_item_id": "adv03lower_righteous_assassin_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_linghu_erzhong",
+          "map_id": "shenwu_gate",
+          "action": "领取本职业试练工具",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_assassin_kit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_linghu_erzhong",
+          "map_id": "shenwu_gate",
+          "action": "交工具和十份试练材料完成制作",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_assassin_kit",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_righteous_assassin_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_assassin_report",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_liu_xu",
+          "map_id": "liuzheng_pass",
+          "action": "核验报告并签发本职业批示",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_assassin_report",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_assassin_permit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "交试练批示并最终确认三转",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_assassin_permit",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "explicitlocalclassbranch,notpublishedquest",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_righteous_assassin_kit": 1
+          },
+          "collection_item_range": {
+            "item_id": "adv03lower_righteous_assassin_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_righteous_assassin_report": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_righteous_assassin_permit": 1
+          }
+        }
+      }
+    },
+    {
+      "branch_id": "righteous_musician",
+      "route": "righteous",
+      "family": "musician",
+      "class_ids": [
+        "musician"
+      ],
+      "accept_npc_id": "npc_xie_xiaofeng",
+      "accept_map_id": "shenwu_gate",
+      "collection_stage_index": 2,
+      "collection_map_id": "shenwu_gate",
+      "material_item_id": "adv03lower_righteous_musician_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xie_xiaofeng",
+          "map_id": "shenwu_gate",
+          "action": "领取本职业试练工具",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_musician_kit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_xie_xiaofeng",
+          "map_id": "shenwu_gate",
+          "action": "交工具和十份试练材料完成制作",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_musician_kit",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_righteous_musician_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_musician_report",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_liu_xu",
+          "map_id": "liuzheng_pass",
+          "action": "核验报告并签发本职业批示",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_musician_report",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_musician_permit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "交试练批示并最终确认三转",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_musician_permit",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "explicitlocalclassbranch,notpublishedquest",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_righteous_musician_kit": 1
+          },
+          "collection_item_range": {
+            "item_id": "adv03lower_righteous_musician_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_righteous_musician_report": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_righteous_musician_permit": 1
+          }
+        }
+      }
+    },
+    {
+      "branch_id": "righteous_fighter",
+      "route": "righteous",
+      "family": "fighter",
+      "class_ids": [
+        "fighter"
+      ],
+      "accept_npc_id": "npc_linghu_erzhong",
+      "accept_map_id": "shenwu_gate",
+      "collection_stage_index": 2,
+      "collection_map_id": "shenwu_gate",
+      "material_item_id": "adv03lower_righteous_fighter_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_linghu_erzhong",
+          "map_id": "shenwu_gate",
+          "action": "领取本职业试练工具",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_fighter_kit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_linghu_erzhong",
+          "map_id": "shenwu_gate",
+          "action": "交工具和十份试练材料完成制作",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_fighter_kit",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_righteous_fighter_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_fighter_report",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_liu_xu",
+          "map_id": "liuzheng_pass",
+          "action": "核验报告并签发本职业批示",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_fighter_report",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_fighter_permit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "交试练批示并最终确认三转",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_fighter_permit",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "explicitlocalclassbranch,notpublishedquest",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_righteous_fighter_kit": 1
+          },
+          "collection_item_range": {
+            "item_id": "adv03lower_righteous_fighter_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_righteous_fighter_report": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_righteous_fighter_permit": 1
+          }
+        }
+      }
+    },
+    {
+      "branch_id": "righteous_orb",
+      "route": "righteous",
+      "family": "orb",
+      "class_ids": [
+        "zhen_fengbai"
+      ],
+      "accept_npc_id": "npc_yang_bufan",
+      "accept_map_id": "shenwu_gate",
+      "collection_stage_index": 2,
+      "collection_map_id": "shenwu_gate",
+      "material_item_id": "adv03lower_righteous_orb_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_yang_bufan",
+          "map_id": "shenwu_gate",
+          "action": "领取本职业试练工具",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_orb_kit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_yang_bufan",
+          "map_id": "shenwu_gate",
+          "action": "交工具和十份试练材料完成制作",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_orb_kit",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_righteous_orb_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_orb_report",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_liu_xu",
+          "map_id": "liuzheng_pass",
+          "action": "核验报告并签发本职业批示",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_orb_report",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_righteous_orb_permit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_che_jingmo",
+          "map_id": "shenwu_gate",
+          "action": "交试练批示并最终确认三转",
+          "consume": [
+            {
+              "item_id": "adv03lower_righteous_orb_permit",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "explicitlocalclassbranch,notpublishedquest",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_righteous_orb_kit": 1
+          },
+          "collection_item_range": {
+            "item_id": "adv03lower_righteous_orb_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_righteous_orb_report": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_righteous_orb_permit": 1
+          }
+        }
+      }
+    },
+    {
+      "branch_id": "evil_blade",
+      "route": "evil",
+      "family": "blade",
+      "class_ids": [
+        "blade",
+        "han_feiguan"
+      ],
+      "accept_npc_id": "npc_shangguan_xiaoxian",
+      "accept_map_id": "liushan_house",
+      "collection_stage_index": 1,
+      "collection_map_id": "liushan_house",
+      "material_item_id": "adv03lower_evil_blade_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shangguan_xiaoxian",
+          "map_id": "liushan_house",
+          "action": "验看十件皮鳞",
+          "consume": [],
+          "grant": [],
+          "requires": [
+            {
+              "item_id": "adv03lower_evil_blade_material",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_lu_xiaohuang",
+          "map_id": "sanxie_pass",
+          "action": "出售五件取得任务发票及银袋",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_blade_material",
+              "quantity": 5
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_blade_invoice_local",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_evil_blade_money_bags",
+              "quantity": 5
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_yinjiaolong",
+          "map_id": "hyunbo_town",
+          "action": "出售另外五件取得发票及银袋",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_blade_material",
+              "quantity": 5
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_blade_invoice_hyunbo",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_evil_blade_money_bags",
+              "quantity": 5
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_shangguan_xiaoxian",
+          "map_id": "liushan_house",
+          "action": "交回两发票及十银袋",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_blade_invoice_local",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_evil_blade_invoice_hyunbo",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_evil_blade_money_bags",
+              "quantity": 10
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 5
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "申请第三次升职",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "最终确认三转",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "sourceordinaryclassandexplicitlocalheroextension",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "source_reference_id": "QREF-63789-020",
+      "source_scope_class_id": "blade",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {},
+          "collection_item_range": {
+            "item_id": "adv03lower_evil_blade_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_evil_blade_material": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_evil_blade_material": 5,
+            "adv03lower_evil_blade_invoice_local": 1,
+            "adv03lower_evil_blade_money_bags": 5
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_evil_blade_invoice_local": 1,
+            "adv03lower_evil_blade_money_bags": 10,
+            "adv03lower_evil_blade_invoice_hyunbo": 1
+          }
+        },
+        "5": {
+          "required_retained_items": {}
+        },
+        "6": {
+          "required_retained_items": {}
+        }
+      }
+    },
+    {
+      "branch_id": "evil_sword",
+      "route": "evil",
+      "family": "sword",
+      "class_ids": [
+        "sword",
+        "tan_hualing"
+      ],
+      "accept_npc_id": "npc_xuanyuan_erguang",
+      "accept_map_id": "liushan_house",
+      "collection_stage_index": 1,
+      "collection_map_id": "liushan_house",
+      "material_item_id": "adv03lower_evil_sword_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xuanyuan_erguang",
+          "map_id": "liushan_house",
+          "action": "验看十牙并领取送信委托",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_sword_letter_initial",
+              "quantity": 1
+            }
+          ],
+          "requires": [
+            {
+              "item_id": "adv03lower_evil_sword_material",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_wei_dabao",
+          "map_id": "hyunbo_town",
+          "action": "交十牙和原信取得回信",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_sword_material",
+              "quantity": 10
+            },
+            {
+              "item_id": "adv03lower_evil_sword_letter_initial",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_sword_letter_wei",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_zhou_shutong",
+          "map_id": "sanxie_pass",
+          "action": "转交韦大宝书信并取回信",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_sword_letter_wei",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_sword_letter_zhou",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_xuanyuan_erguang",
+          "map_id": "liushan_house",
+          "action": "转交周叔通回信",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_sword_letter_zhou",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 5
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "申请第三次升职",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "最终确认三转",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "sourceordinaryclassandexplicitlocalheroextension",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "source_reference_id": "QREF-63789-021",
+      "source_scope_class_id": "sword",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {},
+          "collection_item_range": {
+            "item_id": "adv03lower_evil_sword_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_evil_sword_material": 10,
+            "adv03lower_evil_sword_letter_initial": 1
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_evil_sword_letter_wei": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_evil_sword_letter_zhou": 1
+          }
+        },
+        "5": {
+          "required_retained_items": {}
+        },
+        "6": {
+          "required_retained_items": {}
+        }
+      }
+    },
+    {
+      "branch_id": "evil_spear",
+      "route": "evil",
+      "family": "spear",
+      "class_ids": [
+        "spear",
+        "lu_fenglang"
+      ],
+      "accept_npc_id": "npc_xiao_shierlang",
+      "accept_map_id": "liushan_house",
+      "collection_stage_index": 3,
+      "collection_map_id": "liushan_house",
+      "material_item_id": "adv03lower_evil_spear_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_jinxiangyu",
+          "map_id": "hyunbo_town",
+          "action": "领取十玄青酒",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_spear_wine",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "action": "转交十玄青酒",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_spear_wine",
+              "quantity": 10
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "action": "交十捕获蛇凭证领取十袋购瓶凭证",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_spear_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_spear_money_bags",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_zhou_shutong",
+          "map_id": "sanxie_pass",
+          "action": "用十绑定银袋换十空瓶",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_spear_money_bags",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_spear_bottles",
+              "quantity": 10
+            }
+          ],
+          "next_stage_index": 5
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "action": "转交十空瓶",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_spear_bottles",
+              "quantity": 10
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "申请第三次升职",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 7
+        },
+        {
+          "stage_index": 7,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "最终确认三转",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "sourceordinaryclassandexplicitlocalheroextension",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "source_reference_id": "QREF-63789-022",
+      "source_scope_class_id": "spear",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_evil_spear_wine": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {},
+          "collection_item_range": {
+            "item_id": "adv03lower_evil_spear_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_evil_spear_money_bags": 10
+          }
+        },
+        "5": {
+          "required_retained_items": {
+            "adv03lower_evil_spear_bottles": 10
+          }
+        },
+        "6": {
+          "required_retained_items": {}
+        },
+        "7": {
+          "required_retained_items": {}
+        }
+      }
+    },
+    {
+      "branch_id": "evil_physician",
+      "route": "evil",
+      "family": "physician",
+      "class_ids": [
+        "physician",
+        "dongling_shennv"
+      ],
+      "accept_npc_id": "npc_ding_dongxia",
+      "accept_map_id": "liushan_house",
+      "collection_stage_index": 5,
+      "collection_map_id": "liushan_house",
+      "material_item_id": "adv03lower_evil_physician_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_pingshizhi",
+          "map_id": "hyunbo_town",
+          "action": "领取专用制药材料",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_physician_ingredient",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_ding_dongxia",
+          "map_id": "liushan_house",
+          "action": "交材料领取关主定制药",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_physician_ingredient",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_physician_leader_drug",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_chi_juan",
+          "map_id": "sanxie_pass",
+          "action": "转送定制药",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_physician_leader_drug",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_ding_dongxia",
+          "map_id": "liushan_house",
+          "action": "回报送药结果",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": 5
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_ding_dongxia",
+          "map_id": "liushan_house",
+          "action": "交十份猎物材料制作最终任务药",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_physician_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_physician_final_drug",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 6
+        },
+        {
+          "stage_index": 6,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "转送最终任务药",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_physician_final_drug",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": 7
+        },
+        {
+          "stage_index": 7,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "最终确认三转",
+          "consume": [],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "sourceordinaryclassandexplicitlocalheroextension",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "source_reference_id": "QREF-63789-023",
+      "source_scope_class_id": "physician",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_evil_physician_ingredient": 1
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_evil_physician_leader_drug": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {}
+        },
+        "5": {
+          "required_retained_items": {},
+          "collection_item_range": {
+            "item_id": "adv03lower_evil_physician_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "6": {
+          "required_retained_items": {
+            "adv03lower_evil_physician_final_drug": 1
+          }
+        },
+        "7": {
+          "required_retained_items": {}
+        }
+      }
+    },
+    {
+      "branch_id": "evil_archer",
+      "route": "evil",
+      "family": "archer",
+      "class_ids": [
+        "archer",
+        "mei_liuzhen"
+      ],
+      "accept_npc_id": "npc_xiao_shierlang",
+      "accept_map_id": "liushan_house",
+      "collection_stage_index": 2,
+      "collection_map_id": "liushan_house",
+      "material_item_id": "adv03lower_evil_archer_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "action": "领取本职业试练工具",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_archer_kit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "action": "交工具和十份试练材料完成制作",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_archer_kit",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_evil_archer_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_archer_report",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_chi_juan",
+          "map_id": "sanxie_pass",
+          "action": "核验报告并签发本职业批示",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_archer_report",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_archer_permit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "交试练批示并最终确认三转",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_archer_permit",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "explicitlocalclassbranch,notpublishedquest",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_evil_archer_kit": 1
+          },
+          "collection_item_range": {
+            "item_id": "adv03lower_evil_archer_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_evil_archer_report": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_evil_archer_permit": 1
+          }
+        }
+      }
+    },
+    {
+      "branch_id": "evil_assassin",
+      "route": "evil",
+      "family": "assassin",
+      "class_ids": [
+        "assassin"
+      ],
+      "accept_npc_id": "npc_xiao_shierlang",
+      "accept_map_id": "liushan_house",
+      "collection_stage_index": 2,
+      "collection_map_id": "liushan_house",
+      "material_item_id": "adv03lower_evil_assassin_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "action": "领取本职业试练工具",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_assassin_kit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "action": "交工具和十份试练材料完成制作",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_assassin_kit",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_evil_assassin_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_assassin_report",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_chi_juan",
+          "map_id": "sanxie_pass",
+          "action": "核验报告并签发本职业批示",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_assassin_report",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_assassin_permit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "交试练批示并最终确认三转",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_assassin_permit",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "explicitlocalclassbranch,notpublishedquest",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_evil_assassin_kit": 1
+          },
+          "collection_item_range": {
+            "item_id": "adv03lower_evil_assassin_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_evil_assassin_report": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_evil_assassin_permit": 1
+          }
+        }
+      }
+    },
+    {
+      "branch_id": "evil_musician",
+      "route": "evil",
+      "family": "musician",
+      "class_ids": [
+        "musician"
+      ],
+      "accept_npc_id": "npc_shangguan_xiaoxian",
+      "accept_map_id": "liushan_house",
+      "collection_stage_index": 2,
+      "collection_map_id": "liushan_house",
+      "material_item_id": "adv03lower_evil_musician_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shangguan_xiaoxian",
+          "map_id": "liushan_house",
+          "action": "领取本职业试练工具",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_musician_kit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_shangguan_xiaoxian",
+          "map_id": "liushan_house",
+          "action": "交工具和十份试练材料完成制作",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_musician_kit",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_evil_musician_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_musician_report",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_chi_juan",
+          "map_id": "sanxie_pass",
+          "action": "核验报告并签发本职业批示",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_musician_report",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_musician_permit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "交试练批示并最终确认三转",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_musician_permit",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "explicitlocalclassbranch,notpublishedquest",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_evil_musician_kit": 1
+          },
+          "collection_item_range": {
+            "item_id": "adv03lower_evil_musician_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_evil_musician_report": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_evil_musician_permit": 1
+          }
+        }
+      }
+    },
+    {
+      "branch_id": "evil_fighter",
+      "route": "evil",
+      "family": "fighter",
+      "class_ids": [
+        "fighter"
+      ],
+      "accept_npc_id": "npc_xiao_shierlang",
+      "accept_map_id": "liushan_house",
+      "collection_stage_index": 2,
+      "collection_map_id": "liushan_house",
+      "material_item_id": "adv03lower_evil_fighter_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "action": "领取本职业试练工具",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_fighter_kit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_xiao_shierlang",
+          "map_id": "liushan_house",
+          "action": "交工具和十份试练材料完成制作",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_fighter_kit",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_evil_fighter_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_fighter_report",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_chi_juan",
+          "map_id": "sanxie_pass",
+          "action": "核验报告并签发本职业批示",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_fighter_report",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_fighter_permit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "交试练批示并最终确认三转",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_fighter_permit",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "explicitlocalclassbranch,notpublishedquest",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_evil_fighter_kit": 1
+          },
+          "collection_item_range": {
+            "item_id": "adv03lower_evil_fighter_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_evil_fighter_report": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_evil_fighter_permit": 1
+          }
+        }
+      }
+    },
+    {
+      "branch_id": "evil_orb",
+      "route": "evil",
+      "family": "orb",
+      "class_ids": [
+        "zhen_fengbai"
+      ],
+      "accept_npc_id": "npc_ding_dongxia",
+      "accept_map_id": "liushan_house",
+      "collection_stage_index": 2,
+      "collection_map_id": "liushan_house",
+      "material_item_id": "adv03lower_evil_orb_material",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_ding_dongxia",
+          "map_id": "liushan_house",
+          "action": "领取本职业试练工具",
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_orb_kit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 2
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_ding_dongxia",
+          "map_id": "liushan_house",
+          "action": "交工具和十份试练材料完成制作",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_orb_kit",
+              "quantity": 1
+            },
+            {
+              "item_id": "adv03lower_evil_orb_material",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_orb_report",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 3
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_chi_juan",
+          "map_id": "sanxie_pass",
+          "action": "核验报告并签发本职业批示",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_orb_report",
+              "quantity": 1
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "adv03lower_evil_orb_permit",
+              "quantity": 1
+            }
+          ],
+          "next_stage_index": 4
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_shi_wei",
+          "map_id": "liushan_house",
+          "action": "交试练批示并最终确认三转",
+          "consume": [
+            {
+              "item_id": "adv03lower_evil_orb_permit",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "next_stage_index": null,
+          "apply_final_advancement": true
+        }
+      ],
+      "provenance": "explicitlocalclassbranch,notpublishedquest",
+      "per_stage_inventory_policy": "allprioroutputsmustremainuntilspecifiedconsume;collectionmaterialmay0..10duringcollectionstage,10requiredforstagecommit;forbiddenlater/foreignitemsreject",
+      "allowed_inventory_by_stage": {
+        "1": {
+          "required_retained_items": {}
+        },
+        "2": {
+          "required_retained_items": {
+            "adv03lower_evil_orb_kit": 1
+          },
+          "collection_item_range": {
+            "item_id": "adv03lower_evil_orb_material",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "3": {
+          "required_retained_items": {
+            "adv03lower_evil_orb_report": 1
+          }
+        },
+        "4": {
+          "required_retained_items": {
+            "adv03lower_evil_orb_permit": 1
+          }
+        }
+      }
+    }
+  ],
+  "items": [
+    {
+      "item_id": "adv03lower_righteous_blade_material",
+      "name": "嗜血狂狼的皮",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-020"
+    },
+    {
+      "item_id": "adv03lower_righteous_blade_invoice_local",
+      "name": "柳正关发票",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-020"
+    },
+    {
+      "item_id": "adv03lower_righteous_blade_invoice_hyunbo",
+      "name": "泫勃派发票",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-020"
+    },
+    {
+      "item_id": "adv03lower_righteous_blade_money_bags",
+      "name": "银袋子",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-020"
+    },
+    {
+      "item_id": "adv03lower_righteous_sword_material",
+      "name": "嗜血狂狼的爪子",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-021"
+    },
+    {
+      "item_id": "adv03lower_righteous_sword_money_bag",
+      "name": "银袋子",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-021"
+    },
+    {
+      "item_id": "adv03lower_righteous_sword_necklace",
+      "name": "狂狼爪子项链",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-021"
+    },
+    {
+      "item_id": "adv03lower_righteous_sword_ring",
+      "name": "戒指",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-021"
+    },
+    {
+      "item_id": "adv03lower_righteous_spear_material",
+      "name": "嗜血狂狼的尾毛",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-022"
+    },
+    {
+      "item_id": "adv03lower_righteous_spear_money_bags",
+      "name": "银袋子",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-022"
+    },
+    {
+      "item_id": "adv03lower_righteous_spear_shafts",
+      "name": "枪杆",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-022"
+    },
+    {
+      "item_id": "adv03lower_righteous_spear_guns",
+      "name": "转送翌神枪",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-022"
+    },
+    {
+      "item_id": "adv03lower_righteous_spear_invoice",
+      "name": "发票",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-022"
+    },
+    {
+      "item_id": "adv03lower_righteous_physician_material",
+      "name": "嗜血狂狼之血",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-023"
+    },
+    {
+      "item_id": "adv03lower_righteous_physician_ingredient",
+      "name": "花熊的熊胆",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-023"
+    },
+    {
+      "item_id": "adv03lower_righteous_physician_leader_drug",
+      "name": "柳正关关主定制的药",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-023"
+    },
+    {
+      "item_id": "adv03lower_righteous_physician_final_drug",
+      "name": "特制金创药",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63790-023"
+    },
+    {
+      "item_id": "adv03lower_righteous_archer_kit",
+      "name": "弓弦校准夹具",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_archer_material",
+      "name": "嗜血狂狼韧筋",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_archer_report",
+      "name": "弓弦校准报告",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_archer_permit",
+      "name": "远射试练批示",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_assassin_kit",
+      "name": "刃口量规",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_assassin_material",
+      "name": "嗜血狂狼硬爪",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_assassin_report",
+      "name": "刃口修整报告",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_assassin_permit",
+      "name": "短刃试练批示",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_musician_kit",
+      "name": "琴弦张力夹具",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_musician_material",
+      "name": "狼筋琴弦素材",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_musician_report",
+      "name": "清音校准报告",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_musician_permit",
+      "name": "琴律试练批示",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_fighter_kit",
+      "name": "护腕定型模具",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_fighter_material",
+      "name": "嗜血狂狼韧皮",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_fighter_report",
+      "name": "护具验收记录",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_fighter_permit",
+      "name": "拳术试练批示",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_orb_kit",
+      "name": "导流药引匣",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_orb_material",
+      "name": "嗜血狂狼血样",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_orb_report",
+      "name": "血珠导流记录",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_righteous_orb_permit",
+      "name": "血珠试练批示",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_blade_material",
+      "name": "青头蛇的蛇鳞",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-020"
+    },
+    {
+      "item_id": "adv03lower_evil_blade_invoice_local",
+      "name": "三邪关发票",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-020"
+    },
+    {
+      "item_id": "adv03lower_evil_blade_invoice_hyunbo",
+      "name": "泫勃派发票",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-020"
+    },
+    {
+      "item_id": "adv03lower_evil_blade_money_bags",
+      "name": "银袋子",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-020"
+    },
+    {
+      "item_id": "adv03lower_evil_sword_material",
+      "name": "青头蛇的前牙",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-021"
+    },
+    {
+      "item_id": "adv03lower_evil_sword_letter_initial",
+      "name": "轩辕二光的书信",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-021"
+    },
+    {
+      "item_id": "adv03lower_evil_sword_letter_wei",
+      "name": "韦大宝的书信",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-021"
+    },
+    {
+      "item_id": "adv03lower_evil_sword_letter_zhou",
+      "name": "周叔通的书信",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-021"
+    },
+    {
+      "item_id": "adv03lower_evil_spear_material",
+      "name": "青头蛇",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-022"
+    },
+    {
+      "item_id": "adv03lower_evil_spear_money_bags",
+      "name": "银袋子",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-022"
+    },
+    {
+      "item_id": "adv03lower_evil_spear_wine",
+      "name": "玄青酒",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-022"
+    },
+    {
+      "item_id": "adv03lower_evil_spear_bottles",
+      "name": "空瓶",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-022"
+    },
+    {
+      "item_id": "adv03lower_evil_physician_material",
+      "name": "青头蛇的毒囊",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-023"
+    },
+    {
+      "item_id": "adv03lower_evil_physician_ingredient",
+      "name": "灰狼骨粉",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-023"
+    },
+    {
+      "item_id": "adv03lower_evil_physician_leader_drug",
+      "name": "三邪关关主定制的药",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-023"
+    },
+    {
+      "item_id": "adv03lower_evil_physician_final_drug",
+      "name": "蛇阵之毒",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "sourceitemnamewithlocalpermissions/count",
+      "source_reference_id": "QREF-63789-023"
+    },
+    {
+      "item_id": "adv03lower_evil_archer_kit",
+      "name": "弓弦校准夹具",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_archer_material",
+      "name": "青头蛇韧筋",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_archer_report",
+      "name": "弓弦校准报告",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_archer_permit",
+      "name": "远射试练批示",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_assassin_kit",
+      "name": "刃口量规",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_assassin_material",
+      "name": "青头蛇硬牙",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_assassin_report",
+      "name": "刃口修整报告",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_assassin_permit",
+      "name": "短刃试练批示",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_musician_kit",
+      "name": "琴弦张力夹具",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_musician_material",
+      "name": "蛇筋琴弦素材",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_musician_report",
+      "name": "清音校准报告",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_musician_permit",
+      "name": "琴律试练批示",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_fighter_kit",
+      "name": "护腕定型模具",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_fighter_material",
+      "name": "青头蛇鳞",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_fighter_report",
+      "name": "护具验收记录",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_fighter_permit",
+      "name": "拳术试练批示",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_orb_kit",
+      "name": "导流药引匣",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_orb_material",
+      "name": "青头蛇毒囊样本",
+      "stack_limit": 99,
+      "maximum_carried": 10,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_orb_report",
+      "name": "血珠导流记录",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    },
+    {
+      "item_id": "adv03lower_evil_orb_permit",
+      "name": "血珠试练批示",
+      "stack_limit": 1,
+      "maximum_carried": 1,
+      "weight_g": 0,
+      "definition_kind": "bound_advancement_credential",
+      "source_policy": "explicitlocalclasscredential"
+    }
+  ],
+  "monsters": [
+    {
+      "monster_id": "shenwu_bloodwolf61",
+      "source_reference_id": "MREF-39818-003",
+      "name": "嗜血狂狼",
+      "level": 61,
+      "map_id": "shenwu_gate",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6100,
+      "max_mana": 0,
+      "attack_min": 244,
+      "attack_max": 305,
+      "ordinary_defense": 122,
+      "accuracy": 305,
+      "evasion": 122,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_rank3_lower_creature",
+      "xp_reward": 345864,
+      "practice_reward": 34586,
+      "silver_reward": 61,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "shenwu_bloodwolf61",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source61levelandname/map preserved;combatstats/spawnsandclassdropselectorslocal"
+    },
+    {
+      "monster_id": "liushan_green_snake61",
+      "source_reference_id": "MREF-39817-003",
+      "name": "青头蛇",
+      "level": 61,
+      "map_id": "liushan_house",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6100,
+      "max_mana": 0,
+      "attack_min": 244,
+      "attack_max": 305,
+      "ordinary_defense": 122,
+      "accuracy": 305,
+      "evasion": 122,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_rank3_lower_creature",
+      "xp_reward": 345864,
+      "practice_reward": 34586,
+      "silver_reward": 61,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liushan_green_snake61",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source61levelandname/map preserved;combatstats/spawnsandclassdropselectorslocal"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "shenwu_bloodwolf61_01",
+      "monster_id": "shenwu_bloodwolf61",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        112,
+        0,
+        -84
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_bloodwolf61_02",
+      "monster_id": "shenwu_bloodwolf61",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        112,
+        0,
+        -76
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_bloodwolf61_03",
+      "monster_id": "shenwu_bloodwolf61",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        112,
+        0,
+        -68
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_bloodwolf61_04",
+      "monster_id": "shenwu_bloodwolf61",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        112,
+        0,
+        -60
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_green_snake61_01",
+      "monster_id": "liushan_green_snake61",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -20,
+        0,
+        120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_green_snake61_02",
+      "monster_id": "liushan_green_snake61",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -12,
+        0,
+        120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_green_snake61_03",
+      "monster_id": "liushan_green_snake61",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        12,
+        0,
+        120
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_green_snake61_04",
+      "monster_id": "liushan_green_snake61",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        20,
+        0,
+        120
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "branch_id": "righteous_blade",
+        "class_ids": [
+          "blade",
+          "han_feiguan"
+        ],
+        "required_stage_index": 1,
+        "map_id": "shenwu_gate",
+        "monster_id": "shenwu_bloodwolf61",
+        "item_id": "adv03lower_righteous_blade_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous_sword",
+        "class_ids": [
+          "sword",
+          "tan_hualing"
+        ],
+        "required_stage_index": 1,
+        "map_id": "shenwu_gate",
+        "monster_id": "shenwu_bloodwolf61",
+        "item_id": "adv03lower_righteous_sword_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous_spear",
+        "class_ids": [
+          "spear",
+          "lu_fenglang"
+        ],
+        "required_stage_index": 3,
+        "map_id": "shenwu_gate",
+        "monster_id": "shenwu_bloodwolf61",
+        "item_id": "adv03lower_righteous_spear_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous_physician",
+        "class_ids": [
+          "physician",
+          "dongling_shennv"
+        ],
+        "required_stage_index": 5,
+        "map_id": "shenwu_gate",
+        "monster_id": "shenwu_bloodwolf61",
+        "item_id": "adv03lower_righteous_physician_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous_archer",
+        "class_ids": [
+          "archer",
+          "mei_liuzhen"
+        ],
+        "required_stage_index": 2,
+        "map_id": "shenwu_gate",
+        "monster_id": "shenwu_bloodwolf61",
+        "item_id": "adv03lower_righteous_archer_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous_assassin",
+        "class_ids": [
+          "assassin"
+        ],
+        "required_stage_index": 2,
+        "map_id": "shenwu_gate",
+        "monster_id": "shenwu_bloodwolf61",
+        "item_id": "adv03lower_righteous_assassin_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous_musician",
+        "class_ids": [
+          "musician"
+        ],
+        "required_stage_index": 2,
+        "map_id": "shenwu_gate",
+        "monster_id": "shenwu_bloodwolf61",
+        "item_id": "adv03lower_righteous_musician_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous_fighter",
+        "class_ids": [
+          "fighter"
+        ],
+        "required_stage_index": 2,
+        "map_id": "shenwu_gate",
+        "monster_id": "shenwu_bloodwolf61",
+        "item_id": "adv03lower_righteous_fighter_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "righteous_orb",
+        "class_ids": [
+          "zhen_fengbai"
+        ],
+        "required_stage_index": 2,
+        "map_id": "shenwu_gate",
+        "monster_id": "shenwu_bloodwolf61",
+        "item_id": "adv03lower_righteous_orb_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil_blade",
+        "class_ids": [
+          "blade",
+          "han_feiguan"
+        ],
+        "required_stage_index": 1,
+        "map_id": "liushan_house",
+        "monster_id": "liushan_green_snake61",
+        "item_id": "adv03lower_evil_blade_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil_sword",
+        "class_ids": [
+          "sword",
+          "tan_hualing"
+        ],
+        "required_stage_index": 1,
+        "map_id": "liushan_house",
+        "monster_id": "liushan_green_snake61",
+        "item_id": "adv03lower_evil_sword_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil_spear",
+        "class_ids": [
+          "spear",
+          "lu_fenglang"
+        ],
+        "required_stage_index": 3,
+        "map_id": "liushan_house",
+        "monster_id": "liushan_green_snake61",
+        "item_id": "adv03lower_evil_spear_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil_physician",
+        "class_ids": [
+          "physician",
+          "dongling_shennv"
+        ],
+        "required_stage_index": 5,
+        "map_id": "liushan_house",
+        "monster_id": "liushan_green_snake61",
+        "item_id": "adv03lower_evil_physician_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil_archer",
+        "class_ids": [
+          "archer",
+          "mei_liuzhen"
+        ],
+        "required_stage_index": 2,
+        "map_id": "liushan_house",
+        "monster_id": "liushan_green_snake61",
+        "item_id": "adv03lower_evil_archer_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil_assassin",
+        "class_ids": [
+          "assassin"
+        ],
+        "required_stage_index": 2,
+        "map_id": "liushan_house",
+        "monster_id": "liushan_green_snake61",
+        "item_id": "adv03lower_evil_assassin_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil_musician",
+        "class_ids": [
+          "musician"
+        ],
+        "required_stage_index": 2,
+        "map_id": "liushan_house",
+        "monster_id": "liushan_green_snake61",
+        "item_id": "adv03lower_evil_musician_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil_fighter",
+        "class_ids": [
+          "fighter"
+        ],
+        "required_stage_index": 2,
+        "map_id": "liushan_house",
+        "monster_id": "liushan_green_snake61",
+        "item_id": "adv03lower_evil_fighter_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "branch_id": "evil_orb",
+        "class_ids": [
+          "zhen_fengbai"
+        ],
+        "required_stage_index": 2,
+        "map_id": "liushan_house",
+        "monster_id": "liushan_green_snake61",
+        "item_id": "adv03lower_evil_orb_material",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "qualification": "ownactiveattempt/exactbranch/class/currentcollectionstage,corrrectmap,alive/connected/samescene,solodeathownerorexact19partyvalidmembersnapshot;cap10realcarriedtaskmaterial",
+    "ownership": "personalattempttokensnotcopiedpublicloot",
+    "capacity_failure": "recordno-itemresultwithoriginaldeath,no retryafterfreeingspace/reconnect",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "adv_03",
+      "attempt_id",
+      "branch_id",
+      "item_id"
+    ],
+    "modifiers": "fixed100%,no26finisher/trainingmodifier",
+    "commit": "same05/19hostdeathsettlementwithper-recipientresults"
+  },
+  "stage_transaction": "revalidateexactattempt/class/route/stage/NPC/map/2500mm/alive/outofcombat/idle/nochallenge,retainedinputs/receipts;preflightconsume-then-grantfinalinventorylayoutandweight;consume/grant/advance/receiptatomically;failurepreservesallitems/currentstage",
+  "deduplication": "character/adv03/attempt/stageuniquereceiptplusrequest/currentrevision;finalonesharedreceiptforall8sourcesand28class/routeassignments;oldattemptcannotadvancefreshattempt",
+  "item_policy": {
+    "binding": "character/adv_03/attempt/branch/class",
+    "weight_g": 0,
+    "permissions": "queststageinspection/consumeorconfirmedabandoncleanup only;noequip,directuse,warehouse,sell,discard,trade,craft",
+    "stacking": "quantity10inputs/outputsandmoneybagsstack99;singlepaper/box/itemstack1;explicitmaximumsperbranch",
+    "money_bags": "questpaymentvouchers,notcharacter silverorconvertiblecurrency;onlynamedstagetrades,no genericshop/warehouseconversion",
+    "source_named_weapons_potions": "allstagecredentials,notrealweapon,potion,equipmentorordinarycraftoutput",
+    "input_retention": "inspectstepsconsumezero;requiredcarriedinputsremainrealinventoryuntilnamedconsumestage;nohiddenduplicatecustody"
+  },
+  "final_reward": {
+    "completed_rank": 3,
+    "required_completed_rank_before": 2,
+    "route_after": "preserveexactexistingroute",
+    "experience": 0,
+    "practice": 0,
+    "silver": 0,
+    "items": [],
+    "commit": "laststageonly,allpriorstage/attemptreceiptsvalid,rank2andupperdelivered;consumefinalinputsifany,rank2to3/markdelivered/finalreceiptinsame05/19durabletransaction;no tokensremain",
+    "stat_policy": "14normalderivedeligibilityrecalculationwithoutcurrentresourcefill,cooldownreset,bonuspoints,manuals,starterpack orautomatic hero weaponupgrade"
+  },
+  "abandon": "explicitconfirmationclearsallandonlyownattemptbranch/classquesttokens,cancelattemptwithreceipt;reacceptstage1newattempt;no refunds/realcurrency conversion/upperXP replay/oldstageinheritance;deliveredcannotabandon",
+  "save": "actualattempt/branch/class/stage/inventoryandreceipts;UIreadinessderived;unknownitem/stage/route/receiptconflict rejects,no reconstruction or token regrant",
+  "initialization": "newrole/fourknownlegacyimportsnot_accepted/nullattempt/branch/stage/emptyreceipts/notokens;no completionbyimportlevel;newformatmissingfieldrejects",
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "nohostilespawn/entry,pathreturnneverteleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "pending": [
+    "Godot all28classrouteflows/inventory/save/LANruntime tests",
+    "sourcecreature/NPCartandlevel60growth/economycalibration",
+    "fourththrough12thadvancementandindependenthero weaponchains"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "class_route_assignments": 28,
+    "unique_branch_flows_simulated": 18,
+    "items_checked": 73,
+    "flow_result": "everyselectedflowconsumesallcollectionandstageoutputs,finalinventoryempty;onefinalrankcommit;exactretainedandcollectionrangespinnedperstage;moneybagsremainquesttokens",
+    "spawns_checked": 8,
+    "spawn_method": "0.45mcapsuleplus2mpatrolmarginoutsideexpandedsolidsandsafecircles;centralLpathsat0.35mactor",
+    "route_method": "1mcardinalBFS,0.35mactor,expandedAABBs/square-conservativeNPCandmarkerfootprints;fullsegmentslabsandendpointjoins,independentsupplement",
+    "maps": [
+      {
+        "map_id": "shenwu_gate",
+        "reachable_grid_nodes": 84854,
+        "anchors_checked": 9,
+        "npcs_checked": 6,
+        "geometry_and_targets_sha256": "e083131559eb43783e14ab07de63574b81a707ccfe3712eba10e042fa96dff7e"
+      },
+      {
+        "map_id": "liushan_house",
+        "reachable_grid_nodes": 84854,
+        "anchors_checked": 9,
+        "npcs_checked": 6,
+        "geometry_and_targets_sha256": "570863adaea0301dfac32506693eb222be32b2035a9d5c200f34d96036128eaa"
+      }
+    ],
+    "runtime_proven": false
+  }
+}

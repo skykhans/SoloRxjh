@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:initial-ordinary-equipment-instance:v1",
+  "$comment": "仅八普通初始武器及见习短衫完整14键；七固定成长字段，无可加工状态或最近尝试入口。严格数字token与创建来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "instance_id",
+    "item_id",
+    "lineage_id",
+    "owner_character_id",
+    "binding",
+    "revision",
+    "creation_receipt_id",
+    "enhancement",
+    "synthesis_entries",
+    "awakening_stage",
+    "element_attribute",
+    "evolution_tier",
+    "true_equipment",
+    "merit_equipment"
+  ],
+  "properties": {
+    "instance_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "item_id": {
+      "enum": [
+        "weapon_blade_straight",
+        "weapon_sword_wood",
+        "weapon_spear_wood",
+        "weapon_staff_wood",
+        "weapon_bow_bamboo",
+        "weapon_short_blade",
+        "weapon_zither_nameless",
+        "weapon_gauntlets_black_leather",
+        "armor_apprentice_shirt"
+      ]
+    },
+    "lineage_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "owner_character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "binding": {
+      "const": "character"
+    },
+    "revision": {
+      "const": 0,
+      "type": "integer"
+    },
+    "creation_receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "enhancement": {
+      "const": 0,
+      "type": "integer"
+    },
+    "synthesis_entries": {
+      "const": [],
+      "type": "array"
+    },
+    "awakening_stage": {
+      "const": 0,
+      "type": "integer"
+    },
+    "element_attribute": {
+      "const": null,
+      "type": "null"
+    },
+    "evolution_tier": {
+      "const": 0,
+      "type": "integer"
+    },
+    "true_equipment": {
+      "const": false,
+      "type": "boolean"
+    },
+    "merit_equipment": {
+      "const": false,
+      "type": "boolean"
+    }
+  }
+}

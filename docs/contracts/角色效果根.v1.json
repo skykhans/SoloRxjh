@@ -1,0 +1,430 @@
+{
+  "contract_version": 1,
+  "status": "strict_current_adopted_effect_fields_not_runtime_or_full_character",
+  "field": "character.effects",
+  "schema_ref": {
+    "file": "角色效果根.schema.json",
+    "pointer": ""
+  },
+  "validation_projection_ref": {
+    "file": "角色效果生命联合.schema.json",
+    "pointer": ""
+  },
+  "fields": {
+    "armor_suppression": {
+      "owner_ref": {
+        "file": "烈日防具失效气功采用.v1.json",
+        "pointer": "/persistent_state"
+      },
+      "schema_ref": {
+        "file": "防具失效状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:armor-suppression-state:v1",
+      "initial_value": []
+    },
+    "assassin_evade_bonus": {
+      "owner_ref": {
+        "file": "连击与回避追击.v1.json",
+        "pointer": "/persistent_evade_bonus_state"
+      },
+      "schema_ref": {
+        "file": "刺客回避追击状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:assassin-evade-bonus-state:v1",
+      "initial_value": null
+    },
+    "auxiliary_timed": {
+      "owner_ref": {
+        "file": "辅助武功采用.v1.json",
+        "pointer": "/persistent_auxiliary_timed_state"
+      },
+      "schema_ref": {
+        "file": "辅助持续效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:auxiliary-timed-effects:v1",
+      "initial_value": []
+    },
+    "bleeding": {
+      "owner_ref": {
+        "file": "怒气出血与血雨恶魔.v1.json",
+        "pointer": "/bleeding/persistent_state"
+      },
+      "schema_ref": {
+        "file": "出血效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:bleeding-effect-state:v1",
+      "initial_value": {
+        "sources": [],
+        "next_tick_remaining_steps": 0
+      }
+    },
+    "blood_devil_challenge": {
+      "owner_ref": {
+        "file": "怒气出血与血雨恶魔.v1.json",
+        "pointer": "/blood_devil/persistent_state"
+      },
+      "schema_ref": {
+        "file": "血雨恶魔挑战状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:blood-devil-challenge-state:v1",
+      "initial_value": null
+    },
+    "defense": {
+      "owner_ref": {
+        "file": "医师形移与云心护罩气功.v1.json",
+        "pointer": "/persistent_defense_state"
+      },
+      "schema_ref": {
+        "file": "防护效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:defensive-effect-state:v1",
+      "initial_value": {
+        "direct_attack_evasion_window": null,
+        "distance_mana_shield": null,
+        "bawang_lethal": null,
+        "far_received_damage_bubble": null
+      }
+    },
+    "dongling_attributes": {
+      "owner_ref": {
+        "file": "神女状态技能.v1.json",
+        "pointer": "/persistent_attribute_state"
+      },
+      "schema_ref": {
+        "file": "神女属性效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:dongling-attribute-effect-state:v1",
+      "initial_value": {
+        "weakening": [],
+        "revenge": [],
+        "proc_seal": [],
+        "immunity": []
+      }
+    },
+    "dongling_control": {
+      "owner_ref": {
+        "file": "神女状态技能.v1.json",
+        "pointer": "/persistent_control_state"
+      },
+      "schema_ref": {
+        "file": "神女控制效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:dongling-control-effect-state:v1",
+      "initial_value": {
+        "forced_action_once": [],
+        "random_walk": {
+          "sources": [],
+          "next_direction_remaining_steps": 0,
+          "intent_event_id": null
+        }
+      }
+    },
+    "dongling_delayed_burst": {
+      "owner_ref": {
+        "file": "神女状态技能.v1.json",
+        "pointer": "/persistent_delayed_burst_state"
+      },
+      "schema_ref": {
+        "file": "阎王爆效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:dongling-delayed-burst-state:v1",
+      "initial_value": []
+    },
+    "dongling_periodic": {
+      "owner_ref": {
+        "file": "神女状态技能.v1.json",
+        "pointer": "/persistent_periodic_state"
+      },
+      "schema_ref": {
+        "file": "神女周期效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:dongling-periodic-effect-state:v1",
+      "initial_value": {
+        "healing": {
+          "sources": [],
+          "next_tick_remaining_steps": 0
+        },
+        "burn": {
+          "sources": [],
+          "next_tick_remaining_steps": 0,
+          "walked_distance_m": 0
+        }
+      }
+    },
+    "faction_timed": {
+      "owner_ref": {
+        "file": "队伍怒气与势力气功.v1.json",
+        "pointer": "/persistent_faction_state"
+      },
+      "schema_ref": {
+        "file": "势力持续效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:faction-timed-state:v1",
+      "initial_value": {
+        "boon": [],
+        "stamina_reduction": []
+      }
+    },
+    "half_ordinary_defense": {
+      "owner_ref": {
+        "file": "护身与破甲采用.v1.json",
+        "pointer": "/persistent_half_defense_state"
+      },
+      "schema_ref": {
+        "file": "无坚减防状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:half-defense-state:v1",
+      "initial_value": []
+    },
+    "hp_recovery_block": {
+      "owner_ref": {
+        "file": "致残恢复封锁.v1.json",
+        "pointer": "/persistent_state"
+      },
+      "schema_ref": {
+        "file": "致残封锁状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:hp-recovery-block-state:v1",
+      "initial_value": []
+    },
+    "lightness": {
+      "owner_ref": {
+        "file": "辅助武功采用.v1.json",
+        "pointer": "/persistent_lightness_state"
+      },
+      "schema_ref": {
+        "file": "轻功效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:lightness-effect-state:v1",
+      "initial_value": {}
+    },
+    "lu_star_power": {
+      "owner_ref": {
+        "file": "卢风郎四枪与属性石气功.v1.json",
+        "pointer": "/persistent_star_power_state"
+      },
+      "schema_ref": {
+        "file": "卢风郎星力状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:lu-star-power-state:v1",
+      "initial_value": null
+    },
+    "music_timed": {
+      "owner_ref": {
+        "file": "乐师和弦联动气功.v1.json",
+        "pointer": "/persistent_timed_state"
+      },
+      "schema_ref": {
+        "file": "乐师持续效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:music-timed-effects:v1",
+      "initial_value": {
+        "luanfeng": null,
+        "despair": []
+      }
+    },
+    "physician_heal_defense": {
+      "owner_ref": {
+        "file": "医师治疗与攻击联动气功.v1.json",
+        "pointer": "/persistent_heal_defense_state"
+      },
+      "schema_ref": {
+        "file": "医师治疗防御状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:physician-heal-defense-state:v1",
+      "initial_value": []
+    },
+    "post_dispel_guard": {
+      "owner_ref": {
+        "file": "异常状态防护与解除气功.v1.json",
+        "pointer": "/persistent_post_dispel_guard"
+      },
+      "schema_ref": {
+        "file": "解除后保护状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:post-dispel-guard-state:v1",
+      "initial_value": []
+    },
+    "rage_sources": {
+      "owner_ref": {
+        "file": "怒气出血与血雨恶魔.v1.json",
+        "pointer": "/rage/persistent_effect_sources"
+      },
+      "schema_ref": {
+        "file": "怒气效果来源.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:rage-effect-sources:v1",
+      "initial_value": []
+    },
+    "spear_fighter_timed": {
+      "owner_ref": {
+        "file": "枪格斗狂风与破甲气功.v1.json",
+        "pointer": "/persistent_timed_state"
+      },
+      "schema_ref": {
+        "file": "枪格斗持续效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:spear-fighter-timed-state:v1",
+      "initial_value": {
+        "martial_duel_attack20": null,
+        "nearby_stun": [],
+        "move_root": []
+      }
+    },
+    "sword_timed": {
+      "owner_ref": {
+        "file": "剑系回避与火凤气功采用.v1.json",
+        "pointer": "/persistent_timed_state"
+      },
+      "schema_ref": {
+        "file": "剑系持续效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:sword-timed-effects:v1",
+      "initial_value": {
+        "wujian_boost": null,
+        "evaded_attack_token": null,
+        "martial_power": null
+      }
+    },
+    "transfer_guard": {
+      "owner_ref": {
+        "file": "转攻与乾坤气功采用.v1.json",
+        "pointer": "/persistent_transfer_state"
+      },
+      "schema_ref": {
+        "file": "转攻防护状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:transfer-guard-state:v1",
+      "initial_value": null
+    },
+    "venom_kill": {
+      "owner_ref": {
+        "file": "刀系增伤与毒蛇封锁气功.v1.json",
+        "pointer": "/persistent_timed_state"
+      },
+      "schema_ref": {
+        "file": "毒蛇与击杀效果状态.schema.json",
+        "pointer": ""
+      },
+      "schema_id": "urn:solorxjh:venom-kill-effects:v1",
+      "initial_value": {
+        "kill_defense_power": null,
+        "full_proc_seal": [],
+        "lu_proc_rage_seal": []
+      }
+    }
+  },
+  "initial_value": {
+    "armor_suppression": [],
+    "assassin_evade_bonus": null,
+    "auxiliary_timed": [],
+    "bleeding": {
+      "sources": [],
+      "next_tick_remaining_steps": 0
+    },
+    "blood_devil_challenge": null,
+    "defense": {
+      "direct_attack_evasion_window": null,
+      "distance_mana_shield": null,
+      "bawang_lethal": null,
+      "far_received_damage_bubble": null
+    },
+    "dongling_attributes": {
+      "weakening": [],
+      "revenge": [],
+      "proc_seal": [],
+      "immunity": []
+    },
+    "dongling_control": {
+      "forced_action_once": [],
+      "random_walk": {
+        "sources": [],
+        "next_direction_remaining_steps": 0,
+        "intent_event_id": null
+      }
+    },
+    "dongling_delayed_burst": [],
+    "dongling_periodic": {
+      "healing": {
+        "sources": [],
+        "next_tick_remaining_steps": 0
+      },
+      "burn": {
+        "sources": [],
+        "next_tick_remaining_steps": 0,
+        "walked_distance_m": 0
+      }
+    },
+    "faction_timed": {
+      "boon": [],
+      "stamina_reduction": []
+    },
+    "half_ordinary_defense": [],
+    "hp_recovery_block": [],
+    "lightness": {},
+    "lu_star_power": null,
+    "music_timed": {
+      "luanfeng": null,
+      "despair": []
+    },
+    "physician_heal_defense": [],
+    "post_dispel_guard": [],
+    "rage_sources": [],
+    "spear_fighter_timed": {
+      "martial_duel_attack20": null,
+      "nearby_stun": [],
+      "move_root": []
+    },
+    "sword_timed": {
+      "wujian_boost": null,
+      "evaded_attack_token": null,
+      "martial_power": null
+    },
+    "transfer_guard": null,
+    "venom_kill": {
+      "kill_defense_power": null,
+      "full_proc_seal": [],
+      "lu_proc_rage_seal": []
+    }
+  },
+  "initialization": "14新角色及四已知旧来源按各原owner显式全23键初值，不造来源/触发历史；其他已有角色不改，现行缺字段拒绝，不用初值修坏档。",
+  "validation": "先验原完整角色白名单（仍待），再验原effects严格全23键。取原life_state/timers/effects运行生命联合，死亡全初值；再从同原字段提取运行既有神女/防护投影，不拷贝约束。最后逐族核验职业/原结果/真实来源/唯一排序/时长链/冻结锚。失败整候选拒绝，不删除未知字段或清零来源以通过。",
+  "existing_projection_refs": [
+    {
+      "file": "神女效果联合.schema.json",
+      "pointer": ""
+    },
+    {
+      "file": "防护效果联合.schema.json",
+      "pointer": ""
+    }
+  ],
+  "scope": "只统一当前23已采用持续字段。反气功状态/冷却、临时药预算、装备提升、和弦职业资源、原动作/投射队列及世界活动任务沿原字段，不复制。不是完整角色/profile/world/原结果封套或Godot完成证明；新增正式效果须先更新唯一owner及本白名单/初值，不开放通用任意字典。",
+  "class_projection_ref": {
+    "file": "角色效果职业联合.schema.json",
+    "pointer": ""
+  },
+  "class_projection": "仅从原identity.class_id与原effects提取，不在角色顶层再保存class_id。自体职业/三转攻分支/轻功本人职业严格联验；敌方减益及医师/势力队友增益不按接收者职业误禁，仍须原来源与身份语义核验。"
+}

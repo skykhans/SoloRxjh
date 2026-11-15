@@ -1,0 +1,141 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "adopted_two_named_anti_budget_consumables_not_implemented_not_complete_drug_catalog",
+  "scope": "仅70090点数来源具名的碧绿神草(10)/灵脂仙草(10)角色临时预算方案；不把2026强化专题同名无规格药品强行映射到本物品，不替代至尊始封盒/双玉珠、炫彩丹、热血红草或其他道具。",
+  "source_policy": {
+    "evidence": {
+      "file": "../reference/官网资料/目录正文.json",
+      "record_url": "http://rxjh.17game.com/data/qgwg/202506/70090.htm",
+      "text_sha256": "33e2811fa43a1f0a5c524da08f611a7657f001ae6587a23e5176933bb6edf133",
+      "facts": "170装备强化点数段具名碧绿神草(10)、灵脂仙草(10)等道具可增加反气功点数；未公开持续、价格、叠加、死亡或与2026强化药品的对应。"
+    },
+    "project_adoption": "本地两物品各提供临时10点、共用互斥槽、不叠加/不刷新、30模拟分钟、各1000万两及以下权限/资格均为项目决定；采用具名(10)作为本地10点的选择依据，不宣称官网完整效果相同。共享互斥槽避免以两名字叠成20点；两件保留各自身份与来源。"
+  },
+  "items": [
+    {
+      "item_id": "anti_qigong_green_herb_10",
+      "name": "碧绿神草(10)（反气功本地采用）",
+      "kind": "consumable",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": true,
+      "recipe_input_only": false,
+      "purchase_allowed": true,
+      "buy_price": 10000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 170,
+      "minimum_purchase_rank": 12,
+      "purchase_class_filter": "all_14_classes",
+      "presentation_ref": "dev_item_anti_qigong_green_herb_10"
+    },
+    {
+      "item_id": "anti_qigong_spirit_herb_10",
+      "name": "灵脂仙草(10)（反气功本地采用）",
+      "kind": "consumable",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": true,
+      "recipe_input_only": false,
+      "purchase_allowed": true,
+      "buy_price": 10000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 170,
+      "minimum_purchase_rank": 12,
+      "purchase_class_filter": "all_14_classes",
+      "presentation_ref": "dev_item_anti_qigong_spirit_herb_10"
+    }
+  ],
+  "effect_profile": {
+    "profile_id": "anti_qigong_item_budget_10",
+    "bonus_points": 10,
+    "duration_steps": 108000,
+    "tick_rate": 60,
+    "maximum_simultaneous_sources": 1,
+    "stacking": "两物品共一个角色槽。已有任一合法非空状态即拒绝两物品再用，不消费、不刷新；未知或损坏状态同样拒绝，不能清空后使用。"
+  },
+  "state_schema": {
+    "field": "anti_qigong_item_boost",
+    "empty_value": null,
+    "nonempty_fields": [
+      "item_id",
+      "remaining_steps",
+      "origin_receipt_id"
+    ],
+    "item_id": "精确属于本合同items且成功收据为同物品，不按显示名匹配。",
+    "remaining_steps": "严格整数1～108000，拒绝bool/float/string及小数/指数token。0步立即原子置null，不保存零剩余对象。",
+    "origin_receipt_id": "非空字符串，同角色、本owner使用成功且实际消费该物品1份。失败/英雄丹/装备提升或其他角色收据拒绝；不能将同一成功收据安装两次。",
+    "strictness": "字段必须显式null或精确三字段对象，无缺省补全/未知字段/额外层数。新角色正式创建写null，旧档必须明确版本迁移；不读取时补null。完整根档案登记仍须联审，不能独立投影隐藏未知字段。"
+  },
+  "use_policy": {
+    "minimum_level": 170,
+    "minimum_completed_rank": 12,
+    "classes": "全部14职业，不要求选中特定装备或真实强化15。",
+    "conditions": "本人存活、脱战、空闲，无挑战/传送/未结算战斗队列，物品在本人随身普通库存，可用数量>=1，无交易/仓储占用；完整角色/物品/原库存/修订合法。",
+    "consume_quantity": 1,
+    "silver_fee": 0,
+    "success_probability_bp": 10000,
+    "random_draw_required": false,
+    "result": "原子消费1份并设置本角色状态全108000步、成功收据及业务修订，重算总预算；不加生命/内力、不加永久强化/属性/宝珠/气功等级，不挂装备、不阻止装备加工。",
+    "explicit_override": "18覆盖若遮蔽点数，预览必须显示实际预算变化为0与仍会耗药/计时，沿普通确认提交；不把被覆盖来源加到覆盖后的预算。"
+  },
+  "acquisition": {
+    "planned_service_id": "npc_daojianxiao_anti_qigong_herbs",
+    "registered": false,
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "quantity_range": [
+      1,
+      99
+    ],
+    "qualifications": "本人170级且实际十二转，14职业；存活脱战空闲，同图有效NPC会话及距离，无占用。无每日免费赠送或任务来源。",
+    "transaction": "先验原库存合法，再核商品精确身份/资格及最终银两/格数/重量；扣钱、入包、收据、修订原子提交，同命令重试返回原结果。"
+  },
+  "clock_ref": {
+    "file": "英雄武器附加提升.v1.json",
+    "pointer": "/clock"
+  },
+  "clock_adoption": "显式共享60Hz权威模拟时钟、开始固定步扣减/到期先于接受动作、暂停与离线不按墙钟补扣、LAN保留断开角色继续计时及普通递减不变业务修订规则。计时对象改为角色字段，不继承装备槽、层数、加工guard或武器到期不影响预算的结论。死亡/复活/换图/角色离开活动场景保状态及剩余，无续时或退款；已保存关闭角色不后台推进。",
+  "budget_application": {
+    "formula": "14正常等级预算+明确装备/首饰来源+本状态10点+其他明确道具来源，最后18显式覆盖一次；两药不各自加10。",
+    "unlock": "仍按反气功170级/实际十二转规则，无角色降级后继续解锁。合法参数降级时状态保留并计时，资格无效不贡献；恢复按当前剩余重算，不恢复旧分配。",
+    "pve_defense": "只由反气功唯一owner将最终预算含未分配部分每点转2对怪防御一次，不能本药再另加20。",
+    "expiry_shrink": "自然到期在固定步边界原子置null、撤10来源并重算完整预算；若剩余总预算小于已分配，按14合法外部预算丧失清全部分配并通知。否则保留。到期是外部事件，无弹窗等待，不让客户端拒绝到期。",
+    "revision": "普通递减不改业务修订；到期置null、受影响预算及必要的清分配在同一原子事件中更新角色修订一次，不二次提交。",
+    "cooldowns_effects": "到期/清分配不重置反气功冷却、不刷新或追改已成功效果，既有效果沿各自剩余时间结束。",
+    "configuration": "18显式角色配置必须同时预览最终预算/分配变化，保持其配置来源标记；不能伪造正常耗药成功收据或用配置异常绕过结构安全检查。"
+  },
+  "transaction": {
+    "keys": [
+      "character_id",
+      "command_id",
+      "character_revision",
+      "inventory_revision",
+      "source_stack_id"
+    ],
+    "duplicate": "先查询同命令收据再验当前槽/数量/修订，同payload返回原结果且不重装状态、不刷新剩余；同ID异参拒绝。",
+    "stale_or_cancel": "不耗物品/费用、不改业务修订、不抽随机；独立时钟正常继续，不恢复预览时剩余。",
+    "save_load": "成功结果保存物品、精确剩余、收据和分配同一快照，失败只重存。读档复核成功来源与最终预算，不离线补扣、不重领10点、不静默清分配修复。"
+  },
+  "implementation_gate": "两药角色临时预算设计已采用；完整根档案及物品/经济/服务联审、其他点数道具及2026同名强化药品/属性显示仍待。未注册服务或创建运行状态，不代表D1完成。"
+}

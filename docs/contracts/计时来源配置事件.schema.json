@@ -1,0 +1,448 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:timed-source-configuration-event:v1",
+  "$comment": "两已登记角色计时来源显式配置三阶段原事件；不允许钱物/任务完成修改。完整根/原授权/实际世界时钟/前后差异另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "configuration_revision_after",
+        "committed_world_step",
+        "committed_at_utc"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "configuration_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "committed_world_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "committed_at_utc": {
+          "$ref": "urn:solorxjh:character-identity:v1#/$defs/utc_seconds"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "session_invalid",
+            "source_authority_unavailable",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/request"
+        },
+        {
+          "properties": {
+            "expected_character_revision": {
+              "maximum": 9007199254740990
+            },
+            "expected_configuration_revision": {
+              "maximum": 9007199254740990
+            }
+          }
+        }
+      ]
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "before_sources",
+        "before_latest_event_ref"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "before_sources": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [],
+          "properties": {
+            "cave_anger_experience_boost": {
+              "$ref": "urn:solorxjh:cave-anger-experience-boost:v1"
+            },
+            "poetry_practice_boost": {
+              "$ref": "urn:solorxjh:poetry-practice-boost:v1"
+            }
+          },
+          "minProperties": 1
+        },
+        "before_latest_event_ref": {
+          "$ref": "#/$defs/latest_event_ref"
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:timed-source-configuration-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    "latest_event_ref": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "authority_profile_id",
+            "settlement_id"
+          ],
+          "properties": {
+            "authority_profile_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "settlement_id": {
+              "$ref": "urn:solorxjh:allocated-settlement-identity:v1#/properties/settlement_id"
+            }
+          }
+        }
+      ]
+    },
+    "configuration_metadata_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revision",
+        "latest_event_ref"
+      ],
+      "properties": {
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "latest_event_ref": {
+          "$ref": "#/$defs/latest_event_ref"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/configuration_revision_link"
+        }
+      ]
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "expected_configuration_revision",
+        "changes"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expected_configuration_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "changes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [],
+          "properties": {
+            "cave_anger_experience_boost": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "poetry_practice_boost": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          },
+          "minProperties": 1
+        }
+      }
+    },
+    "configuration_revision_link": {
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "revision": {
+                "const": 0
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "latest_event_ref": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "latest_event_ref": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "changes": {
+                "required": [
+                  "cave_anger_experience_boost"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_sources": {
+                "required": [
+                  "cave_anger_experience_boost"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_sources": {
+                "not": {
+                  "required": [
+                    "cave_anger_experience_boost"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "changes": {
+                "required": [
+                  "poetry_practice_boost"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_sources": {
+                "required": [
+                  "poetry_practice_boost"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_sources": {
+                "not": {
+                  "required": [
+                    "poetry_practice_boost"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "expected_configuration_revision": {
+                "const": 0
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_latest_event_ref": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "before_latest_event_ref": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

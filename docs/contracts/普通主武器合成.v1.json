@@ -1,0 +1,165 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_regular_synthesis_design_not_implemented_not_balanced",
+  "scope": "447件普通新主武器，含两条原异常的具名本地采用；不含8初始武器、英雄/剧情剑/防具/首饰/披风。伪造/未完成允许本项合成为项目选择，不变物品身份。",
+  "source_policy": {
+    "material_name_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/33"
+    },
+    "published_scope": "来源用于核对金刚石材料名称；52级两任务的完整本地流程由独立任务owner采用，本材料引用不代表已实现任务。",
+    "project_choices": "本地选属性、四槽、四种固定值、可重复属性、成功率/费用/失败保留为普通武器明确项目方案；与英雄采用相同基础池为主动共享，不据此继承英雄神物变更或加工权限。"
+  },
+  "eligibility_catalog_ref": {
+    "file": "普通主武器基础定义.v1.json",
+    "pointer": "/items"
+  },
+  "shared_material_ref": {
+    "file": "英雄武器合成与神物之石.v1.json",
+    "pointer": "/items/0"
+  },
+  "property_pool_ref": {
+    "file": "英雄武器合成与神物之石.v1.json",
+    "pointer": "/property_pool"
+  },
+  "synthesis_schema_ref": {
+    "file": "英雄武器合成与神物之石.v1.json",
+    "pointer": "/synthesis_schema"
+  },
+  "shared_adoption_policy": "显式采用金刚石唯一物品定义、四属性池及有序条目schema；固定值由共享池唯一维护，不另复制。schema中的origin_receipt_id在本服务只接受本普通合成成功收据及今后明确批准的同血统转换，不接受英雄实例/英雄变更收据。共享不扩展神物之石资格。",
+  "material_acquisition": {
+    "status": "design_pending_shop_registration",
+    "npc_id": "npc_daojianxiao",
+    "item_id": "diamond_synthesis_stone",
+    "class_ids": [
+      "blade",
+      "sword",
+      "assassin",
+      "spear",
+      "archer",
+      "physician",
+      "musician",
+      "fighter"
+    ],
+    "minimum_level": 1,
+    "minimum_rank": 0,
+    "quantity_range": [
+      1,
+      99
+    ],
+    "stock": "unlimited",
+    "definition_policy": "复用金刚石10000两/堆99/10g及角色绑定权限；普通商店适配器独立资格，不修改英雄原商店筛选。",
+    "transaction": "原库存合法后校验最终银两/格重，按17合法同类堆规则装入；扣银两/材料入包/修订/收据原子提交；同命令重放仅返回原收据，保存失败只重存。"
+  },
+  "service_policy": {
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "requires_same_map_available_npc": true,
+    "requires_alive_idle_out_of_combat_no_challenge": true,
+    "source_location": "本人equipment_bag；主/备用先卸、仓库先取，不跨角色提供武器或材料。",
+    "qualification": "精确属于447 items目录；角色职业、等级、rank、路线满足定义，含40三项未选派例外；绑定/归属/全部已登记成长与原库存合法、无占用。",
+    "entries": "synthesis_entries必须明确存在，严格按共享schema；slot_index与value为严格整数，拒绝bool/float/string；条目字段只允许schema登记四字段。",
+    "receipts": "每条origin_receipt_id须解析权威已提交成功收据，且角色/武器血统/槽/属性/固定值匹配；初创只能显式空数组，读取缺字段不得补空。",
+    "other_growth": "保留所有合法非合成字段。未知字段、缺schema或非空且尚未采用的附加成长拒绝，不清除或归零。完整普通schema仍待，不单独激活服务。",
+    "instance_growth_schema_owner_ref": {
+      "file": "普通主武器基础定义.v1.json",
+      "pointer": "/instance_growth_schema"
+    },
+    "enhancement_boost_guard_owner_ref": {
+      "file": "普通武器附加提升.v1.json",
+      "pointer": "/processing_guard"
+    }
+  },
+  "recipes": [
+    {
+      "recipe_id": "regular_weapon_synthesize_slot_0",
+      "target_slot_index": 0,
+      "requires_existing_entry_count": 0,
+      "consumed_item_id": "diamond_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "property_choice": "报价前明确选择property_pool_ref中一项，绑定命令；不能开奖后换属性。",
+      "success": "原实例追加一个连续槽位，固定属性值，origin_receipt_id为本次提交收据；重复属性允许。",
+      "failure": "扣同样材料与费用，数组和全部武器字段不变。"
+    },
+    {
+      "recipe_id": "regular_weapon_synthesize_slot_1",
+      "target_slot_index": 1,
+      "requires_existing_entry_count": 1,
+      "consumed_item_id": "diamond_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 8000,
+      "random_draw_required": true,
+      "property_choice": "报价前明确选择property_pool_ref中一项，绑定命令；不能开奖后换属性。",
+      "success": "原实例追加一个连续槽位，固定属性值，origin_receipt_id为本次提交收据；重复属性允许。",
+      "failure": "扣同样材料与费用，数组和全部武器字段不变。"
+    },
+    {
+      "recipe_id": "regular_weapon_synthesize_slot_2",
+      "target_slot_index": 2,
+      "requires_existing_entry_count": 2,
+      "consumed_item_id": "diamond_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 6000,
+      "random_draw_required": true,
+      "property_choice": "报价前明确选择property_pool_ref中一项，绑定命令；不能开奖后换属性。",
+      "success": "原实例追加一个连续槽位，固定属性值，origin_receipt_id为本次提交收据；重复属性允许。",
+      "failure": "扣同样材料与费用，数组和全部武器字段不变。"
+    },
+    {
+      "recipe_id": "regular_weapon_synthesize_slot_3",
+      "target_slot_index": 3,
+      "requires_existing_entry_count": 3,
+      "consumed_item_id": "diamond_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 4000,
+      "random_draw_required": true,
+      "property_choice": "报价前明确选择property_pool_ref中一项，绑定命令；不能开奖后换属性。",
+      "success": "原实例追加一个连续槽位，固定属性值，origin_receipt_id为本次提交收据；重复属性允许。",
+      "failure": "扣同样材料与费用，数组和全部武器字段不变。"
+    }
+  ],
+  "projection_policy": {
+    "source_category": "synthesis",
+    "active_group_only": true,
+    "shared_pool_values": "攻击8、攻击武功平威力20、命中15、回避10；这些数字仅作说明，权威取property_pool_ref，不是完整官网金刚石档位。",
+    "attack": "生效条目攻击平值之和各加攻击上下界一次，独立于基础值和真实强化。",
+    "martial": "攻击武功根动作声明的平威力加所有生效武功条目之和，在同域百分比/phase计算前计一次；普通攻击、治疗和纯状态不收此值，不加到最终伤害。",
+    "accuracy_evasion": "命中/回避数值各求和加入生效角色相应rating；不是百分比，也不是随机触发；沿现有接受动作及命中时属性读取规则。",
+    "no_grants": "不增加气功/反气功点、生命/内力、不改变强化/属性/真标识；合成不按属性石翻倍。",
+    "snapshot": "接受动作保存应快照的攻击贡献，之后合成不能改写已接受动作；备用/包/仓不贡献。",
+    "persist": "持久化条目及收据引用，不存派生合计缓存；具名替换配方将来采用前禁止迁移，不自行复制来源收据到新血统。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "recipe_id",
+      "recipe_version",
+      "target_slot_index",
+      "selected_property_id",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "显示原条目、目标槽、所选固定值、成功率/成功与失败状态、材料/费用及全部派生变化；完整派生owner不足时不提供可提交报价。",
+    "commit": "房主按角色串行，先查命令收据；校验角色/NPC/资格/实例schema/原库存合法/资源及全部修订，在副本扣一石和5000两并校验最终格重，复制RNG后开奖；实例/费用/RNG/修订/收据一起提交。",
+    "rng": "首槽必成不抽；其余均匀整数[0,9999]一次，draw<bp成功；无随机属性抽取、无幸运/保护道具输入。",
+    "idempotency": "同命令同参数返回原收据，不按现槽再执行；同命令异参数拒绝；失败也形成扣款收据，但不得用作条目origin。",
+    "invalid_or_cancel": "不扣款/材料，不耗RNG、不变修订，不提前开奖；四槽满拒绝，不存在第5槽。",
+    "save_failure": "保留内存提交状态与未保存标记，只重存原结果，不重新合成。",
+    "load": "严格验证槽连续/最多4/属性和值/成功来源收据与血统，坏数据拒绝，不裁剪、不降值、不补假收据。"
+  },
+  "excluded_services": "神物之石制作/变更为英雄合同具名范围；本合同不为普通武器开放其使用，也不提供洗槽/移除/覆盖已有条目。此类功能需独立来源和采用，不用重新合成覆盖旧槽。",
+  "implementation_gate": "本合同只闭合447件普通武器合成设计；当前10字段结构已由基础合同登记；其他加工、真实强化其他贡献/反气功/附加显示、商店服务注册及完整经济联审仍待，不激活运行，不增加世界服务数。"
+}

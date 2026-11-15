@@ -76,6 +76,26 @@
   "modifier_semantics": "three sourcepassives onlyraise chance on namedclassbase, no neweffectifbaseclass/level/rankineligible. Grade0 preservesexplicitbase500whenclassqualified; chance>4000part explicitlyunused. Beforefullgrade cap no addedhealquantity or secondroll.",
   "order": "after committedrootHPdamage/lethal handling and existingreceived-heals, before attackerposthitnewnegative applications; only oldexistingnormalnegative sources eligible, no retroactiveunblocking ofalready skippedheals. Sourcepassiveproc seal blocks chance-based innate response whilevalid.",
   "activation": "eachnewrole templateexplicitly selectsclass profile IDs or emptyarray. Ordinary sourceimport sword hasexplicitempty selection. FutureNPCbuild mustexplicitlydeclareknownprofile, not inferfromname or fillunknown. Aboveclassmechanics are projectrole defaults onlywhenactualformalclassconfigselects.",
-  "persistence": "ownclassprofile selection/version andsame-roottrigger receipt/random/mana delta/removedsource ID in currentcharacter state; no repeated heal/cleanse onloading inventory. Offlinepause freezeother timers; no refund/extraaward. Originalsourcecredentials preserved.",
-  "scope": "closes3sourceprobabilityroles usingexplicitnewprojectbehavior. It doesnotresolveofficialbaseidentity/formulas, or proveGodotNPCeffecttags/triggerexecution."
+  "persistence": "唯一选择与结构版本保存于character.innate_profiles，按persistent_selection原严格根；原同根触发事件保存实际随机/内力差异/解除来源及去重，不复制进选择根。加载不重触发，离线暂停冻结，原来源历史保留。",
+  "scope": "closes3sourceprobabilityroles usingexplicitnewprojectbehavior. It doesnotresolveofficialbaseidentity/formulas, or proveGodotNPCeffecttags/triggerexecution.",
+  "persistent_selection": {
+    "field": "character.innate_profiles",
+    "schema_ref": {
+      "file": "职业固有效果选择.schema.json",
+      "pointer": ""
+    },
+    "class_projection_ref": {
+      "file": "职业固有效果选择.schema.json",
+      "pointer": "/$defs/class_projection"
+    },
+    "creation": "format_version1、selected_profile_ids精确复制原冻结22本人模板declared_innate_profiles；医师/神女选望梅，乐师选刮骨，其余11职业[]。这是原项目职业声明，不是授气功/主动技能/免费触发；低等级仍保选择，实际资格不足不生效。",
+    "known_legacy_1to4_initial": {
+      "format_version": 1,
+      "selected_profile_ids": []
+    },
+    "load": "先验完整两键根再从identity取class_id联验，不能存第二个class_id/active/effective_chance或复制模板字段declared_innate_profiles。当前格式缺字段/未知ID/版本/异职业绑定拒绝，不从职业名补回。",
+    "version": "format_version为本持久结构版本；实际效果定义与资格由原rules_hash发行绑定，历史触发核原发行，不能靠这个1跳过规则身份。",
+    "source": "原事件独占同根触发/抽数/真实资源差异和解除来源，选择根不存回放水位或触发收据副本；未满足140级9转、无真实根伤害或原封印限制不触发。配置改职业需未来明确事件和冲突处理，当前结构不授权改职业或未知选择。",
+    "remaining": "选择根只闭合字段；原战斗触发事件/完整角色/来源与实际文件LAN/Godot仍待。"
+  }
 }

@@ -1,0 +1,477 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:level-award-history:v1",
+  "$comment": "qigong中两个原平铺字段的严格联合组件，不新增持久包装。区间连续/不重叠、起止关系、逐表求和及原发点授权另验，不能先投影丢未知角色字段。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "covered_level",
+    "level_award_spans"
+  ],
+  "properties": {
+    "covered_level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 180
+    },
+    "level_award_spans": {
+      "type": "array",
+      "maxItems": 179,
+      "items": {
+        "$ref": "#/$defs/span"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "covered_level": {
+            "const": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "level_award_spans": {
+            "maxItems": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "level_award_spans": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "first_level",
+        "last_level",
+        "kind",
+        "award_rule_version",
+        "qigong_points_awarded",
+        "ascension_points_awarded"
+      ],
+      "properties": {
+        "first_level": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 180
+        },
+        "last_level": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 180
+        },
+        "kind": {
+          "enum": [
+            "before_first_ascension",
+            "after_first_ascension",
+            "configuration_skip",
+            "legacy_import_skip"
+          ]
+        },
+        "award_rule_version": {
+          "const": 1
+        },
+        "qigong_points_awarded": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "ascension_points_awarded": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "configuration_skip",
+                  "legacy_import_skip"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "qigong_points_awarded": {
+                "const": 0
+              },
+              "ascension_points_awarded": {
+                "const": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "before_first_ascension"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ascension_points_awarded": {
+                "const": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "allocations": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "qigong_mei_liuzhen_6a80e611b980",
+          "qigong_mei_liuzhen_5fc283c1f2dd",
+          "qigong_mei_liuzhen_93af86cec106",
+          "qigong_musician_fc39bf546a62",
+          "qigong_musician_6a39c5714ed3",
+          "qigong_zhen_fengbai_246736bb8bd9",
+          "qigong_zhen_fengbai_070e70fe77b7",
+          "qigong_mei_liuzhen_73890f53bd3c",
+          "qigong_blade_83378e287800",
+          "qigong_sword_83378e287800",
+          "qigong_spear_83378e287800",
+          "qigong_archer_83378e287800",
+          "qigong_han_feiguan_83378e287800",
+          "qigong_tan_hualing_83378e287800",
+          "qigong_fighter_83378e287800",
+          "qigong_lu_fenglang_83378e287800",
+          "qigong_zhen_fengbai_83378e287800",
+          "qigong_mei_liuzhen_656092e4e343",
+          "qigong_assassin_9ed1e6031705",
+          "qigong_spear_181c481f7ec7",
+          "qigong_fighter_181c481f7ec7",
+          "qigong_zhen_fengbai_cffb2fa63225",
+          "qigong_zhen_fengbai_a0986855936b",
+          "qigong_zhen_fengbai_7023016ad58f",
+          "qigong_blade_f7e00df50117",
+          "qigong_sword_f7e00df50117",
+          "qigong_assassin_f7e00df50117",
+          "qigong_spear_f7e00df50117",
+          "qigong_archer_f7e00df50117",
+          "qigong_physician_f7e00df50117",
+          "qigong_musician_f7e00df50117",
+          "qigong_han_feiguan_f7e00df50117",
+          "qigong_tan_hualing_f7e00df50117",
+          "qigong_fighter_f7e00df50117",
+          "qigong_mei_liuzhen_f7e00df50117",
+          "qigong_lu_fenglang_f7e00df50117",
+          "qigong_dongling_shennv_f7e00df50117",
+          "qigong_zhen_fengbai_f7e00df50117",
+          "qigong_blade_af8073415478",
+          "qigong_sword_af8073415478",
+          "qigong_assassin_af8073415478",
+          "qigong_spear_af8073415478",
+          "qigong_archer_af8073415478",
+          "qigong_physician_af8073415478",
+          "qigong_musician_af8073415478",
+          "qigong_han_feiguan_af8073415478",
+          "qigong_tan_hualing_af8073415478",
+          "qigong_fighter_af8073415478",
+          "qigong_mei_liuzhen_af8073415478",
+          "qigong_lu_fenglang_af8073415478",
+          "qigong_dongling_shennv_af8073415478",
+          "qigong_zhen_fengbai_af8073415478",
+          "qigong_blade_417cb1cecb69",
+          "qigong_sword_417cb1cecb69",
+          "qigong_assassin_417cb1cecb69",
+          "qigong_assassin_a951de667c6f",
+          "qigong_spear_417cb1cecb69",
+          "qigong_archer_cadc9692d95e",
+          "qigong_fighter_2ef312886fbc",
+          "qigong_lu_fenglang_417cb1cecb69",
+          "qigong_zhen_fengbai_417cb1cecb69",
+          "qigong_blade_3092fabb4f0d",
+          "qigong_blade_9d9c1f4a2388",
+          "qigong_sword_8f4e8cbf7375",
+          "qigong_musician_410242d2d08a",
+          "qigong_han_feiguan_837231e2ab8f",
+          "qigong_tan_hualing_8f4e8cbf7375",
+          "qigong_mei_liuzhen_2ca829700375",
+          "qigong_lu_fenglang_00e4ecba5ecf",
+          "qigong_blade_1a8609e75fc1",
+          "qigong_blade_90e8f15918b1",
+          "qigong_blade_293b9c738531",
+          "qigong_sword_d81f3cb0a488",
+          "qigong_sword_6f24d83778c6",
+          "qigong_assassin_0d76fb786238",
+          "qigong_spear_b30593a8385f",
+          "qigong_spear_a91f076259c7",
+          "qigong_archer_7950de01c238",
+          "qigong_archer_dc34d0f462f0",
+          "qigong_archer_6e605512d009",
+          "qigong_physician_d8572682656e",
+          "qigong_physician_a38eb2d9a9d7",
+          "qigong_musician_3d7184950426",
+          "qigong_musician_55186aaf2157",
+          "qigong_musician_c680484c366d",
+          "qigong_musician_ea98a98609ee",
+          "qigong_han_feiguan_1a8609e75fc1",
+          "qigong_han_feiguan_90e8f15918b1",
+          "qigong_han_feiguan_6f24d83778c6",
+          "qigong_tan_hualing_d81f3cb0a488",
+          "qigong_tan_hualing_6f24d83778c6",
+          "qigong_tan_hualing_d5bc8dad0e1a",
+          "qigong_fighter_1a8609e75fc1",
+          "qigong_mei_liuzhen_6f24d83778c6",
+          "qigong_lu_fenglang_b30593a8385f",
+          "qigong_lu_fenglang_a91f076259c7",
+          "qigong_dongling_shennv_a38eb2d9a9d7",
+          "qigong_zhen_fengbai_dfe440da766d",
+          "qigong_spear_1e389fe4d9de",
+          "qigong_physician_8f4c2afe36fa",
+          "qigong_physician_2fa9ac5f9fe5",
+          "qigong_physician_c6b1fb781a15",
+          "qigong_fighter_1e389fe4d9de",
+          "qigong_lu_fenglang_1e389fe4d9de",
+          "qigong_dongling_shennv_8f4c2afe36fa",
+          "qigong_dongling_shennv_2fa9ac5f9fe5",
+          "qigong_dongling_shennv_c6b1fb781a15",
+          "qigong_zhen_fengbai_2fa9ac5f9fe5",
+          "qigong_sword_2dfbffb07397",
+          "qigong_physician_c8f0e5f24c5d",
+          "qigong_musician_1c0a30d787e7",
+          "qigong_fighter_7b318f4e88f1",
+          "qigong_mei_liuzhen_91137e4df1d6",
+          "qigong_dongling_shennv_8af24823dcc6",
+          "qigong_dongling_shennv_c8f0e5f24c5d",
+          "qigong_blade_e6a6c9b6c954",
+          "qigong_sword_0eb0bff69140",
+          "qigong_sword_ad348a425909",
+          "qigong_physician_7cfd20ea2442",
+          "qigong_han_feiguan_e6a6c9b6c954",
+          "qigong_tan_hualing_ad348a425909",
+          "qigong_fighter_98989815662b",
+          "qigong_fighter_23dbcc91f971",
+          "qigong_blade_ad0f58ef4558",
+          "qigong_physician_ad0f58ef4558",
+          "qigong_han_feiguan_ad0f58ef4558",
+          "qigong_mei_liuzhen_326d1c222dca",
+          "qigong_lu_fenglang_ad0f58ef4558",
+          "qigong_dongling_shennv_ad0f58ef4558",
+          "qigong_zhen_fengbai_ad0f58ef4558",
+          "qigong_archer_41101560ddfc",
+          "qigong_mei_liuzhen_4117142977ef",
+          "qigong_dongling_shennv_845c6cd72b52",
+          "qigong_spear_1e68c7400ec7",
+          "qigong_zhen_fengbai_d33fc09ee12f",
+          "qigong_blade_e20d6fefe7bb",
+          "qigong_sword_e20d6fefe7bb",
+          "qigong_assassin_e20d6fefe7bb",
+          "qigong_spear_ebc4db8590f4",
+          "qigong_archer_e20d6fefe7bb",
+          "qigong_physician_e20d6fefe7bb",
+          "qigong_musician_e20d6fefe7bb",
+          "qigong_han_feiguan_418fa30bb1a7",
+          "qigong_han_feiguan_76ec4b44f3c1",
+          "qigong_tan_hualing_45a2d7927f05",
+          "qigong_tan_hualing_76ec4b44f3c1",
+          "qigong_fighter_e20d6fefe7bb",
+          "qigong_mei_liuzhen_e20d6fefe7bb",
+          "qigong_lu_fenglang_d2afa6d6820e",
+          "qigong_dongling_shennv_e20d6fefe7bb",
+          "qigong_zhen_fengbai_e20d6fefe7bb",
+          "qigong_sword_92428499c8c4",
+          "qigong_assassin_b1cee7f8062f",
+          "qigong_tan_hualing_844c4be23bc4",
+          "qigong_fighter_c4efd75feb72",
+          "qigong_mei_liuzhen_1c22fe455164",
+          "qigong_dongling_shennv_91e897f01e47",
+          "qigong_dongling_shennv_e7a674939ff3",
+          "qigong_dongling_shennv_9a3ee0228aa9",
+          "qigong_dongling_shennv_56b05bf76c42",
+          "qigong_dongling_shennv_79ddc14fa08e",
+          "qigong_dongling_shennv_cb3c6a7fc0ac",
+          "qigong_sword_526d7146868a",
+          "qigong_tan_hualing_526d7146868a",
+          "qigong_zhen_fengbai_b3c6adab7bb4",
+          "qigong_spear_b8cdaf136e60",
+          "qigong_spear_ecdbd7ce502a",
+          "qigong_fighter_b8cdaf136e60",
+          "qigong_lu_fenglang_ecdbd7ce502a",
+          "qigong_lu_fenglang_b8cdaf136e60",
+          "qigong_zhen_fengbai_25b154f1e921",
+          "qigong_zhen_fengbai_9eca08cd0894",
+          "qigong_zhen_fengbai_59df04f4e6da",
+          "qigong_zhen_fengbai_bf60f49786ce",
+          "qigong_han_feiguan_7eb4aed2b2b4",
+          "qigong_han_feiguan_68962c7f89bb",
+          "qigong_han_feiguan_967048d82c30",
+          "qigong_han_feiguan_ab4099fbdb01",
+          "qigong_han_feiguan_9b9acbfddd29",
+          "qigong_han_feiguan_2198d87d10ce",
+          "qigong_han_feiguan_2e9107f47d37",
+          "qigong_han_feiguan_e4e4cfe990a7",
+          "qigong_han_feiguan_e5305a25c37e",
+          "qigong_musician_1809b985e471",
+          "qigong_musician_d915d93dacc7",
+          "qigong_musician_626ca8850b21",
+          "qigong_musician_dae8fa5957f1",
+          "qigong_musician_7cbe186f2df0",
+          "qigong_musician_0e7b55f01daa",
+          "qigong_musician_92e2a06cde35",
+          "qigong_physician_20fedd675814",
+          "qigong_physician_c64d282181b3",
+          "qigong_physician_e73e0539ee71",
+          "qigong_physician_67a4f0500707",
+          "qigong_physician_b163b72e6c51",
+          "qigong_physician_6abb46da8a4b",
+          "qigong_blade_8281ed099137",
+          "qigong_blade_dedae4d4bd0c",
+          "qigong_sword_8281ed099137",
+          "qigong_sword_dedae4d4bd0c",
+          "qigong_assassin_8281ed099137",
+          "qigong_assassin_dedae4d4bd0c",
+          "qigong_spear_8281ed099137",
+          "qigong_spear_dedae4d4bd0c",
+          "qigong_archer_8281ed099137",
+          "qigong_archer_dedae4d4bd0c",
+          "qigong_physician_8281ed099137",
+          "qigong_physician_dedae4d4bd0c",
+          "qigong_musician_8281ed099137",
+          "qigong_musician_dedae4d4bd0c",
+          "qigong_musician_d69d2de60dbb",
+          "qigong_han_feiguan_8281ed099137",
+          "qigong_han_feiguan_dedae4d4bd0c",
+          "qigong_tan_hualing_8281ed099137",
+          "qigong_tan_hualing_dedae4d4bd0c",
+          "qigong_fighter_8281ed099137",
+          "qigong_fighter_dedae4d4bd0c",
+          "qigong_mei_liuzhen_8281ed099137",
+          "qigong_mei_liuzhen_dedae4d4bd0c",
+          "qigong_lu_fenglang_8281ed099137",
+          "qigong_lu_fenglang_dedae4d4bd0c",
+          "qigong_dongling_shennv_8281ed099137",
+          "qigong_dongling_shennv_dedae4d4bd0c",
+          "qigong_zhen_fengbai_8281ed099137",
+          "qigong_zhen_fengbai_dedae4d4bd0c",
+          "qigong_blade_ab4099fbdb01",
+          "qigong_blade_35d49019787a",
+          "qigong_blade_967048d82c30",
+          "qigong_blade_722781632d51",
+          "qigong_blade_6f7fd25c3753",
+          "qigong_blade_e6b3ad595de9",
+          "qigong_blade_6ebfff1f6bc1",
+          "qigong_blade_5870010d6245",
+          "qigong_sword_e6b3ad595de9",
+          "qigong_assassin_6ef703b316e0",
+          "qigong_spear_e6b3ad595de9",
+          "qigong_fighter_e6b3ad595de9",
+          "qigong_lu_fenglang_e6b3ad595de9",
+          "qigong_sword_e7a9b85d45d2",
+          "qigong_sword_5763faf2480f",
+          "qigong_sword_718a4e380cf7",
+          "qigong_sword_71616415cd41",
+          "qigong_sword_e448690e8e0b",
+          "qigong_sword_4291cfbf9f01",
+          "qigong_tan_hualing_e7a9b85d45d2",
+          "qigong_tan_hualing_718a4e380cf7",
+          "qigong_tan_hualing_71616415cd41",
+          "qigong_tan_hualing_e448690e8e0b",
+          "qigong_assassin_e42f6805509a",
+          "qigong_assassin_2280eb338657",
+          "qigong_assassin_e05a70bee4f7",
+          "qigong_assassin_13e892549725",
+          "qigong_assassin_7a4c5686a28d",
+          "qigong_assassin_98cc2fd5447f",
+          "qigong_assassin_59df04f4e6da",
+          "qigong_assassin_7d31c5bd5607",
+          "qigong_assassin_6fbf0fec5c18",
+          "qigong_assassin_aa15ccfcccb7",
+          "qigong_archer_2280eb338657",
+          "qigong_spear_1ca817f98672",
+          "qigong_spear_10a165ba7721",
+          "qigong_spear_4f926e5e151c",
+          "qigong_spear_40098ce68f2d",
+          "qigong_spear_f7a9ed039560",
+          "qigong_spear_0fd0be5106f8",
+          "qigong_spear_5536e8e9c771",
+          "qigong_fighter_5c5775187820",
+          "qigong_fighter_d9e064e1108c",
+          "qigong_fighter_1ca817f98672",
+          "qigong_fighter_66eff75328fa",
+          "qigong_fighter_63dcf4c5b075",
+          "qigong_fighter_6eca356e71d0",
+          "qigong_archer_8c1feacba8b4",
+          "qigong_archer_db7e195867cd",
+          "qigong_archer_d6b1b8306277",
+          "qigong_archer_6d2d09db7d01",
+          "qigong_archer_b6298438a062",
+          "qigong_archer_61244271642b",
+          "qigong_archer_6135db39d24f",
+          "qigong_archer_4a5af9a02816",
+          "qigong_archer_9ae5c572cb4c",
+          "qigong_lu_fenglang_b017432b7d78",
+          "qigong_lu_fenglang_b32bc5282dae",
+          "qigong_lu_fenglang_4418b84991e4",
+          "qigong_lu_fenglang_a5f621132db5",
+          "qigong_lu_fenglang_09a2cb459044",
+          "qigong_lu_fenglang_b81958f390e1",
+          "qigong_lu_fenglang_72d196059e6e",
+          "qigong_mei_liuzhen_474ab6e8b420",
+          "qigong_mei_liuzhen_15fbf2a219d2",
+          "qigong_mei_liuzhen_ae4edb962d59",
+          "qigong_mei_liuzhen_af1f0ddf7246",
+          "qigong_mei_liuzhen_1f53c7d8c16c",
+          "qigong_tan_hualing_747be21ca39d",
+          "qigong_tan_hualing_22cbd899f7f1",
+          "qigong_tan_hualing_bb72b2f08de1",
+          "qigong_tan_hualing_1b6c4efd4c82",
+          "qigong_physician_4c3dba55c7dc",
+          "qigong_physician_8159c31d10bb",
+          "qigong_physician_f6ccc8157234",
+          "qigong_musician_b2dfa92d60a7",
+          "qigong_dongling_shennv_f6ccc8157234",
+          "qigong_assassin_38fc56f07575",
+          "qigong_archer_38fc56f07575",
+          "qigong_mei_liuzhen_38fc56f07575",
+          "qigong_zhen_fengbai_38fc56f07575",
+          "qigong_dongling_shennv_239d791beef3",
+          "qigong_dongling_shennv_73e602492364"
+        ]
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 20
+      },
+      "$comment": "唯一普通/升天气功自有分配表；外层职业/学习资格/自有预算与事件来源另验。未知ID拒绝，0为已清空分配记录，不代表资格或装备贡献。"
+    },
+    "shared_qigong_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "qigong_unallocated",
+        "allocations"
+      ],
+      "properties": {
+        "qigong_unallocated": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "allocations": {
+          "$ref": "#/$defs/allocations"
+        }
+      },
+      "$comment": "character.qigong两个原平铺字段的联合组件，不新增shared_qigong_budget持久对象；不含升天攻击点/反气功预算、学习资格及来源总账。"
+    }
+  }
+}

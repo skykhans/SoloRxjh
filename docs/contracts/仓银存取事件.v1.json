@@ -1,0 +1,71 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "warehouse_silver_event_shape_and_semantics_adopted_not_implemented",
+  "scope": "仅deposit_silver/withdraw_silver原owner事件及档案级warehouse_silver_events日志容器；不覆盖仓库物品存取/扩容。完整档案、LAN结果封套、会话证明与来源闭包根仍待。",
+  "schema_ref": {
+    "file": "仓银存取事件.schema.json",
+    "pointer": ""
+  },
+  "service_owner_ref": {
+    "file": "容器与仓储.v1.json",
+    "pointer": "/service_eligibility"
+  },
+  "identity_owner_ref": {
+    "file": "结算身份.v1.json",
+    "pointer": ""
+  },
+  "silver_owner_ref": {
+    "file": "银两来源流.v1.json",
+    "pointer": ""
+  },
+  "heads_owner_ref": {
+    "file": "来源现态推导.v1.json",
+    "pointer": ""
+  },
+  "command": "精确八键。单机world_id=null，LAN为实际world_id。command_id必须在service_session_id内唯一，会话ID须由原authority正式签发且不可重复；同角色/会话/command_id构成完整请求键。identity.request_id为71确定JSON编码[world_id,character_id,service_session_id,command_id]字符串；request_digest为完整八键command的71确定编码SHA256。相同键不同摘要拒绝。",
+  "validation_order": [
+    "先验证调用者身份并查询原authority完整请求键；相同摘要已有终态返回原结果，已有reserved进入原恢复流程，不再分配。",
+    "新请求校验七NPC精确地图绑定与原会话、存活/脱战/无挑战/距离等原owner资格；不额外发明空闲条件。",
+    "校验严格整数token、角色revision匹配且可加1、原余额与最新账户来源头、源余额足额及目标加款不溢出；仓银存取没有开户授权。",
+    "持档案写锁冻结identity/command/plan；与settlement_next_id前进同一次正式档案替换预留，成功前不发布。"
+  ],
+  "plan": "精确七键：rules_digest为71确定编码完整容器与仓储.v1.json的SHA256，inventory_revision为预留时原库存修订；两个before为原余额，两个previous_output为本角色对应账户的已验证当前业务头，均不得null。service_context精确play_session_identity/opening_index两键，绑定实际签发服务的玩法会话与开窗编号；按service_session规则重算command.service_session_id。plan不存第二份余额结果；提交由原命令确定计算。",
+  "commit": "原authority持写锁，重新核角色revision、库存revision、两余额/来源头、rules_digest及服务资格均与冻结记录相符，才从reserved到committed。唯一silver_flow.receipt_id等于identity.settlement_id；accounts精确两条且顺序carried_silver、warehouse_silver，均为command.character_id，before及previous_output逐项等于plan，opening_authorization=null。movements精确一条，authorization=null，amount等于command.amount；deposit为0→1，withdraw为1→0。after严格由before与转账量推导且落安全整数范围；无费用/新收入/销毁腿。",
+  "revisions": "committed.character_revision_after=command.expected_character_revision+1，角色当前revision同值；inventory_revision保持plan值。两余额、来源结果、角色修订与该终态原子持久一次；不触碰物品/格位/容量/重量，存取银不消耗物品格。",
+  "abort": "只有已预留请求有aborted，精确reason五值；失败检查或显式取消由原authority从reserved持久aborted，不带silver_flow或after修订，不消费账户头、不改钱物/业务修订，保已消耗allocation_index。预留前不合格直接拒绝，不为拒绝分配身份。",
+  "transitions": "仅reserved→committed或reserved→aborted；identity/command/plan全程不可变，终态不可互换、不可重提为reserved。同角色reserved未决时先恢复/决定该请求再准许其他业务写入，不把预留误作已扣款；退出/离开范围使未提交服务失效，已提交仍返回原结果。",
+  "recovery": "保存返回不确定即停止后续发布/该角色业务写入，重读同正式authority档案及原owner记录。已验证committed只重发原结果，aborted只返回取消，reserved重新校验后决定；记录缺失/非法或无法读取报错保留待恢复，不按余额/临时文件猜终态，不另分配请求。客户端只应用原房主结果及19协议，不再运行转账或分配身份。",
+  "proof_boundary": "结构和摘要不能证明会话真实、调用者授权或文件未篡改。必须验证原authority会话资格、两账户前链及当前头、正式档案/19结果与owner日志闭合；这些外层完整schema仍待，不将本事件局部schema宣称为可运行全档。",
+  "schema_partition": "committed银两流在本事件schema内收紧为恰两账户，顺序carried_silver/warehouse_silver，各有非空前来源且无开户授权；恰一条无授权内部转账，仅0→1或1→0。方向与command.operation、amount与命令量、角色/收据ID、前后余额及修订的动态相等仍由本owner语义验证，片段结构通过不代替完整事件与外层授权。",
+  "journal": {
+    "field": "profile.warehouse_silver_events",
+    "schema_ref": {
+      "file": "仓银存取事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "initialization": "新authority档案显式空数组；四个已知旧格式导入新档案亦空数组，导入已有档案保留原数组。未知schema5缺字段拒绝，不按无交易历史补空。",
+    "ownership": "数组仅保存本profile作为原authority分配的仓银存取事件，identity.authority_profile_id必须等于外层profile_id。离线/房主直接写原authority档案；LAN房主为远端角色结算也存于同一房主原owner数组，其command.character_id须有真实世界成员/会话授权，不要求伪造房主本地角色。client所持原结果证明归19结果/证明入口，不复制进client原owner日志或据此增加client计数。",
+    "layout": "每个settlement_id恰一条最新正式阶段，reserved占一条；决定时在同位置以committed或aborted替换该条，不把三个阶段各追加为三个业务事件。数组按本owner allocation_index严格递增；可被其他通用owner分配穿插而不连续，不用本数组长度推算settlement_next_id。该顺序只便于确定存储，不表示提交先后。",
+    "identity_checks": "先严格验证每条完整事件，再核原authority、完整命令摘要、请求键与结算ID重算。数组内settlement_id、allocation_index和完整request_id各唯一，同请求同摘要也不能存两条；再与结算身份request_index的其他原owner联合核冲突及0..counter-1覆盖。不得按相同JSON去重丢弃坏记录。",
+    "pending_checks": "同一command.character_id至多一个reserved；这条未决阻止该角色后续业务写入，不能仅阻止仓银命令而放行出售或交易。不同角色允许独立未决，各自仍按整个authority档案写锁原子保存。reserved候选不进入银两来源图。",
+    "atomic_writes": "预留同时写settlement_next_id与本数组新reserved，决定同时替换该条与角色余额/修订及唯一silver_flow；均为一次完整authority档案替换，不另写journal文件、pending表或result表。不确定保存只从同正式档案重读并完整验证，不能拼接内存数组和旧角色快照。",
+    "retention": "终态记录是请求去重与银两前链的原证据，角色删除、退出、换世界或结束服务不移除。删除后历史character_id仅证明来源，不创建角色或余额；删除墓碑与跨authority证明保留仍由各原owner负责。当前没有本数组压缩协议，19网络确认压缩不授权删除这些唯一记录。容量不足停止预留并报错，不裁剪旧条。",
+    "recovery": "启动先验证全部原owner与counter覆盖、来源闭包和会话资格，再逐未决恢复；committed只重发同结果，aborted只返回原决定，reserved按本合同重核决定。任一坏条使完整候选拒绝，不跳过条目构建可用日志。候选与前一正式快照比较只允许新reserved追加、原reserved一次到合法终态或原条完全不变；终态删除/改写、identity/command/plan变化拒绝。离线单一快照不能靠数组本身证明未被篡改，原authority/完整来源和后续P的文件替换验证仍必需。",
+    "boundary": "本组件闭合本owner的存储字段和生命周期，不定义完整schema5档案、服务会话签发/成员证明、19结果封套或其他经济owner。未闭合这些外层前不准运行。"
+  },
+  "service_session": {
+    "owner_ref": {
+      "file": "角色会话.v1.json",
+      "pointer": ""
+    },
+    "scope": "本合同只定义七仓管服务开窗身份，使用原玩法会话，不新建第二套持久角色会话或商业会话数据库。其他NPC商店/加工服务不自动采用本ID。",
+    "identity": "service_session_id=warehouse-service:加71确定JSON编码[play_session_identity.session_id,opening_index,service_npc_id]的UTF8 SHA256小写摘要。opening_index为该玩法会话原authority自0开始严格递增的仓储开窗编号；同一玩法会话跨七NPC共用，关闭后不回收。最大安全整数时拒绝再开窗，不借角色修订、时间、网络Peer或玩法RNG。",
+    "issuance": "只有原authority在完整玩法会话已active且LAN接纳/保存ACK完成后，验证请求者确为该角色及七NPC绑定、同地图/2.5米/存活脱战无挑战等全部service_eligibility，才在写入串行器内取编号、先递增内存计数并登记live绑定后回开窗成功。开窗不改钱物/业务修订、不预留settlement。单玩法会话至多一个有效仓储开窗，新开先使旧窗失效；网络重复开窗意图按19完整请求ID返回原已分配窗口，不能反复消耗编号或复活已失效窗口。",
+    "live_storage": "原authority仅在本次仍活进程内保各已接纳玩法会话的下一opening_index、当前live开窗及当前开窗意图去重结果；角色会话结束释放。不能按UI重新加载清0；临时断连立即失效当前服务窗口，仍活进程重连沿原玩法会话继续编号并重新交互。未恢复连接不得消费，旧窗口晚到新命令拒绝。已预留业务的历史身份在其原plan中持久，无独立持久service表。",
+    "reservation": "新结算预留前从原authority live绑定复制完整play_session_identity与opening_index进入冻结plan；其角色/authority/世界须与实际已接纳玩法会话及命令相符。离线command.world_id仍按原约定null，play_session_identity.world_id仍是真实本地世界ID；LAN命令world_id等于玩法会话world_id。不得因离线null抹掉玩法世界身份。服务NPC取command原值，重算ID须完全相等。客户端自报context/ID不构成签发证据。",
+    "commit": "同进程reserved决定前重核live绑定未失效、原玩法会话仍active及原七NPC资格；identity/开窗号/NPC与冻结plan一致，其他既有修订/余额/规则检查不变。关闭面板、离开范围/地图、死亡、进入战斗/挑战、临时断连、会话closing/结束立即失效窗口，已预留未提交按原service_invalid持久abort；先正式提交的结果保留并按请求去重重放，不重新要求当前靠近NPC。",
+    "restart": "原authority进程重开不从plan重建live窗口/计数，也不向旧玩法会话签发新窗口。角色会话原合同要求先收束旧会话；读取已验证旧reserved按service_invalid决定，committed/aborted只重放原结果。LAN旧client会话按原会话结束流程补齐决定。新玩法会话新session_id后内存开窗计数才可从0开始，因此不会与历史服务ID重用。保存状态存疑先重读原正式档案，不能按旧内存候选强制abort覆盖已经committed的记录。",
+    "historical_boundary": "context是可重算的身份绑定，不是密码签名或历史位置证明。离线须原authority begin/active及正式结果来源闭包；LAN须原房主已接纳会话、成员身份和19连续结果证明。不得仅凭context形状、摘要或NPC字符串信任外来结果。完整begin/接纳/结束及世界结果schema仍待，本设计不解除外层运行门禁。"
+  }
+}

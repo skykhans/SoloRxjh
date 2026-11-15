@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-cooldown-timers:v1",
+  "$comment": "character.timers五键冷却根；动作阶段/连击窗口、恢复等待、效果与活动各由原owner持有，不在这里复制。世界步与交互毫秒不可混计。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "shared_cooldowns",
+    "ability_cooldowns",
+    "internal_cooldowns",
+    "intrinsic_cooldowns",
+    "loadout_switch_remaining_ms"
+  ],
+  "properties": {
+    "shared_cooldowns": {
+      "$ref": "urn:solorxjh:shared-combat-cooldowns:v1"
+    },
+    "ability_cooldowns": {
+      "$ref": "urn:solorxjh:independent-active-cooldowns:v1"
+    },
+    "internal_cooldowns": {
+      "$ref": "urn:solorxjh:internal-combat-cooldowns:v1"
+    },
+    "intrinsic_cooldowns": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gathering": {
+          "$ref": "urn:solorxjh:combat-cooldown-record:v1"
+        },
+        "dodge": {
+          "$ref": "urn:solorxjh:combat-cooldown-record:v1"
+        }
+      }
+    },
+    "loadout_switch_remaining_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000
+    }
+  }
+}

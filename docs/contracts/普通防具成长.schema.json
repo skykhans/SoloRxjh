@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:armor-growth:v1",
+  "$comment": "校验已登记十字段的平铺投影，不新增growth容器。JSON Schema integer允许数学上为整数的1.0，另须执行owner严格数字token与定义/收据语义检查；结构通过不代表完整实例合法。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "enhancement",
+    "synthesis_entries",
+    "awakening_stage",
+    "element_attribute",
+    "evolution_tier",
+    "true_equipment",
+    "merit_equipment",
+    "four_divine_state",
+    "jade_attributes",
+    "enhancement_boost"
+  ],
+  "properties": {
+    "enhancement": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 15
+    },
+    "synthesis_entries": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/$defs/synthesis_entry"
+      }
+    },
+    "awakening_stage": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "element_attribute": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/element"
+        }
+      ]
+    },
+    "evolution_tier": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "true_equipment": {
+      "type": "boolean"
+    },
+    "merit_equipment": {
+      "type": "boolean"
+    },
+    "four_divine_state": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/divine"
+        }
+      ]
+    },
+    "jade_attributes": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 1,
+      "items": {
+        "$ref": "#/$defs/jade_entry"
+      }
+    },
+    "enhancement_boost": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/boost"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "synthesis_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_index",
+        "property_id",
+        "value",
+        "origin_receipt_id"
+      ],
+      "properties": {
+        "slot_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "property_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "origin_receipt_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "jade_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "property_id",
+        "value",
+        "origin_receipt_id"
+      ],
+      "properties": {
+        "property_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "origin_receipt_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "element": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "element_id",
+        "stage",
+        "origin_receipt_id"
+      ],
+      "properties": {
+        "element_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "origin_receipt_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "divine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deity_id",
+        "origin_receipt_id"
+      ],
+      "properties": {
+        "deity_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin_receipt_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "boost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boost_id",
+        "stacks",
+        "remaining_steps",
+        "origin_receipt_ids"
+      ],
+      "properties": {
+        "boost_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stacks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2
+        },
+        "remaining_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 108000
+        },
+        "origin_receipt_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

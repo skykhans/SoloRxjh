@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:guild-armor-eligibility-input:v1",
+  "$comment": "门派战甲资格的权威读取接口，非组织/成员持久根；null表示无可用关系，不补默认组织。快照真实来源、同一事务/角色/组织绑定及修订分别不变另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "organization",
+    "membership"
+  ],
+  "properties": {
+    "organization": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/organization"
+        }
+      ]
+    },
+    "membership": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/membership"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "organization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "organization_id",
+        "level",
+        "revision"
+      ],
+      "properties": {
+        "organization_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 7
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "membership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "organization_id",
+        "role",
+        "revision"
+      ],
+      "properties": {
+        "character_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "organization_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "role": {
+          "enum": [
+            "leader",
+            "member"
+          ]
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  }
+}

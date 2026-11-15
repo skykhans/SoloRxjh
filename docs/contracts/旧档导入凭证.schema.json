@@ -9,7 +9,9 @@
     },
     "source_sha256": {
       "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+      "minLength": 64,
+      "maxLength": 64
     },
     "source_schema_version": {
       "type": "integer",
@@ -33,7 +35,9 @@
     },
     "target_character_id": {
       "type": "string",
-      "pattern": "^legacy_[0-9a-f]{64}$"
+      "pattern": "^legacy_[0-9a-f]{64}(?![\\s\\S])",
+      "minLength": 71,
+      "maxLength": 71
     },
     "character_state": {
       "enum": [
@@ -121,7 +125,7 @@
         "properties": {
           "source_path": {
             "type": "string",
-            "pattern": "^progress\\.loadout\\.(weapon|armor|bag\\[(0|[1-9][0-9]*)\\])$"
+            "pattern": "^progress\\.loadout\\.(weapon|armor|bag\\[(0|[1-9][0-9]*)\\])(?![\\s\\S])"
           },
           "source_definition_id": {
             "enum": [
@@ -141,7 +145,9 @@
           },
           "target_instance_id": {
             "type": "string",
-            "pattern": "^legacy_item_[0-9a-f]{64}$"
+            "pattern": "^legacy_item_[0-9a-f]{64}(?![\\s\\S])",
+            "minLength": 76,
+            "maxLength": 76
           }
         },
         "required": [
@@ -159,6 +165,273 @@
       "type": "integer",
       "minimum": 1,
       "maximum": 9007199254740991
+    },
+    "settlement_identity": {
+      "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+    },
+    "source_silver": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "source_inventory_stacks": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "item": {
+            "enum": [
+              "healing_potion",
+              "linglong_bamboo",
+              "beast_hide",
+              "wolf_fang",
+              "spirit_ore"
+            ]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99
+          }
+        },
+        "required": [
+          "item",
+          "count"
+        ]
+      }
+    },
+    "stack_flows": {
+      "type": "array",
+      "maxItems": 1,
+      "items": {
+        "$ref": "urn:solorxjh:stack-flow:v1",
+        "properties": {
+          "inputs": {
+            "maxItems": 0
+          },
+          "consumptions": {
+            "maxItems": 0
+          },
+          "mint_authorization": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "legacy_import"
+              }
+            }
+          },
+          "outputs": {
+            "minItems": 1,
+            "items": {
+              "properties": {
+                "contributions": {
+                  "maxItems": 0
+                },
+                "custody": {
+                  "properties": {
+                    "kind": {
+                      "const": "held"
+                    }
+                  }
+                },
+                "stack": {
+                  "properties": {
+                    "revision": {
+                      "const": 0
+                    },
+                    "quest_scope": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "instance_flow": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:instance-flow:v1",
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "retirements": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "items": {
+                "properties": {
+                  "operation": {
+                    "const": "create"
+                  },
+                  "source_input_indices": {
+                    "maxItems": 0
+                  },
+                  "creation_authorization": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "const": "legacy_import"
+                      }
+                    }
+                  },
+                  "custody": {
+                    "properties": {
+                      "kind": {
+                        "const": "held"
+                      }
+                    }
+                  },
+                  "instance": {
+                    "$ref": "urn:solorxjh:legacy-equipment-instance:v1",
+                    "properties": {
+                      "revision": {
+                        "const": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "silver_flow": {
+      "$ref": "urn:solorxjh:silver-flow:v1",
+      "properties": {
+        "accounts": {
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "before_balance": {
+                      "const": 0
+                    },
+                    "previous_output": {
+                      "type": "null"
+                    },
+                    "opening_authorization": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "const": "legacy_import"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "account": {
+                      "const": "carried_silver"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "before_balance": {
+                      "const": 0
+                    },
+                    "previous_output": {
+                      "type": "null"
+                    },
+                    "opening_authorization": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "const": "legacy_import"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "account": {
+                      "const": "warehouse_silver"
+                    },
+                    "after_balance": {
+                      "const": 0
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "movements": {
+          "maxItems": 1,
+          "items": {
+            "properties": {
+              "from_account_index": {
+                "type": "null"
+              },
+              "to_account_index": {
+                "const": 0
+              },
+              "authorization": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "legacy_import"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "source_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_base64",
+        "rules_hash",
+        "created_at_utc",
+        "reservation_profile_revision"
+      ],
+      "properties": {
+        "source_base64": {
+          "type": "string",
+          "minLength": 4,
+          "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?(?![\\s\\S])"
+        },
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "created_at_utc": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 20,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z(?![\\s\\S])"
+        },
+        "reservation_profile_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740990
+        }
+      }
     }
   },
   "required": [
@@ -173,6 +446,138 @@
     "conversion",
     "source_equipment",
     "normalization_profile_version",
-    "committed_profile_revision"
+    "committed_profile_revision",
+    "settlement_identity",
+    "source_silver",
+    "source_inventory_stacks",
+    "stack_flows",
+    "instance_flow",
+    "silver_flow",
+    "source_proof"
+  ],
+  "$id": "urn:solorxjh:legacy-import-receipt:v1",
+  "$comment": "最终凭证保留source_proof四键；导入三流仅legacy_import新建/双账户开户，规范carried再warehouse且仓银0。实际源Base64/规则/时间/修订、收据ID同一性、数量余额及完整角色语义另验。",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "source_inventory_stacks": {
+            "minItems": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "minItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "stack_flows": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_equipment": {
+            "minItems": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "instance_flow": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "instance_flow": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "source_schema_version": {
+              "const": 1
+            },
+            "source_content_version": {
+              "const": "liuli-0.3"
+            }
+          }
+        },
+        {
+          "properties": {
+            "source_schema_version": {
+              "const": 2
+            },
+            "source_content_version": {
+              "const": "liuli-0.4"
+            }
+          }
+        },
+        {
+          "properties": {
+            "source_schema_version": {
+              "const": 3
+            },
+            "source_content_version": {
+              "const": "liuli-0.5"
+            }
+          }
+        },
+        {
+          "properties": {
+            "source_schema_version": {
+              "const": 4
+            },
+            "source_content_version": {
+              "const": "liuli-0.6"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "source_silver": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    }
   ]
 }

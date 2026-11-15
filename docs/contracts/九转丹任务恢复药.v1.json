@@ -1,0 +1,79 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "explicit_local_quest_pill_design_not_implemented_not_balanced",
+  "source_policy": "QREF-63790-033/63789-033、共同QREF-63791-024及北海QREF-63788-009源奖励具名九转丹；未给效果/数量。数量1、10克、恢复生命与内力各1000及权限为项目方案，不冒充官网效果、不映射九转碧玉丹或洗点丹。其他同名来源奖励未完整采用，不获本药发放权限。",
+  "items": [
+    {
+      "item_id": "consumable_quest_jiuzhuan_pill",
+      "name": "九转丹",
+      "kind": "consumable",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": null,
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": true,
+      "recipe_input_only": false,
+      "purchase_allowed": false,
+      "minimum_use_level": 1,
+      "minimum_use_rank": 0,
+      "use_class_filter": "all14classes",
+      "presentation_ref": "dev_item_consumable_quest_jiuzhuan_pill",
+      "quest_reward_acquisition_refs": [
+        {
+          "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+          "pointer": "/quests/4/reward/items/0"
+        },
+        {
+          "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+          "pointer": "/quests/5/reward/items/0"
+        },
+        {
+          "file": "八十八级地灵血魔传说任务.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "八十七级北海灵丹研究.v1.json",
+          "pointer": "/quest/reward/items/0"
+        }
+      ]
+    }
+  ],
+  "recovery": {
+    "hp_flat_restore": 1000,
+    "mana_flat_restore": 1000,
+    "cooldown_groups": [
+      "hp_restore",
+      "mana_restore"
+    ],
+    "cooldown_steps": 180,
+    "effect": "instant self alive recovery,not revive/permanent growth/buff;actual_hp=min(1000,max_hp-current_hp),actual_mana=min(1000,max_mana-current_mana) from original valid state",
+    "full_policy": "both missing0 rejects with no cost/cooldown;one full allowed,its actual0 has no fictitious resource flow",
+    "cooldown_policy": "both existing groups must be ready even if one resource full;success starts both180steps atomically. Same groups shared with all ordinary strengths,never bypass by switching medicine/stack/hotbar. No new timer field/group",
+    "recovery_block_ref": {
+      "file": "致残恢复封锁.v1.json",
+      "pointer": "/effect_profile"
+    },
+    "block_policy": "active HP recovery block rejects whole dual recovery even if HPfull/mana missing;never consume for mana-only partial substitute. Mana-only ordinary medicines retain their existing independent behavior"
+  },
+  "use_policy": {
+    "eligibility": "own real inventory material/consumable-bag source-verified stack with quantity>=1;alive connected map allows potion/all14level>=1rank>=0;HP/mana originals within derived legal maxima,neither damaged/corrupt resources nor invalid inventory repaired. Can use in combat without cancelling original action as ordinary potions;no distant warehouse use",
+    "selection": "exact item_id and stack_id/expected quantity and inventory+character revisions;hotbardefinition selects stable real eligible stack before command;explicit stale stack rejects,no alternate auto substitution",
+    "preflight": "validate both shared cooldowns,HP recovery block/map status,original state/source/stack and final inventory before any consumption;0mana class is full valid if max_mana0,stillneeds both groups ready;both actual0 rejects",
+    "commit": "one05/19host transaction consumes exactly1 under use source flow,applies computed actualHP/mana,starts both180groups,character/inventory revisions once and durable receipt. Blood devil never waives itemcost;no RNG/XP/practice/rank/silver mutation",
+    "deduplication": "same character/request/payload returns original result before current checks without consuming/refilling/restarting cooldown again;changed payload same request rejects;receipt stores original/actual gains,stack/source and both timer outcomes",
+    "failure": "any eligibility/preflight/revision/source failure leaves both resources,stack and cooldowns unchanged;uncertain save resolves original host decision/retries same persistence,no business replay"
+  },
+  "persistence": "reuse existing inventory source flows/resource fields and hp_restore/mana_restore timers under05/19. No new boost/schema field;offline/pause/room rules identical to ordinary potion cooldowns. New characters/known legacy imports receive0,no invented use receipts. Stored stacks/receipts validated exact definition/allowed acquisition source;warehouse retains binding/source",
+  "pending": [
+    "Godot dual resource atomic potion command/UI/source/save/LAN/cooldown integration tests",
+    "local effect and reward quantity balance"
+  ]
+}

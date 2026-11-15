@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:bleeding-effect-state:v1",
+  "$comment": "character.effects.bleeding及完整世界战斗实体同族效果组件。原目标隐含为持有实体；共享周期只一份，来源/实际伤害/余时与原事件语义校验，不从图标生成出血。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sources",
+    "next_tick_remaining_steps"
+  ],
+  "properties": {
+    "sources": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "next_tick_remaining_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 60
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "sources": {
+            "maxItems": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "next_tick_remaining_steps": {
+            "const": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "next_tick_remaining_steps": {
+            "minimum": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonblank_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_actor_id",
+        "source_ability_id",
+        "reward_owner_id",
+        "root_event_id",
+        "remaining_steps",
+        "snapshot_tick_damage"
+      ],
+      "properties": {
+        "source_actor_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "source_ability_id": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "enum": [
+                "ascended_assassin_righteous_3a3adea2c9da",
+                "ascended_assassin_evil_3b2af806e506",
+                "ascended_assassin_righteous_8055418cbe91",
+                "ascended_assassin_evil_7cd36d7edbcd",
+                "ascended_assassin_righteous_b9ffc6a7a264",
+                "ascended_assassin_evil_503162a82087",
+                "ascended_assassin_righteous_3c7f3a17318e",
+                "ascended_assassin_evil_1029f173e80c",
+                "ascended_assassin_righteous_946c1004e96a",
+                "ascended_assassin_evil_e012fdef05fa",
+                "ascended_assassin_righteous_25f624199cde",
+                "ascended_assassin_evil_0da5d1c1113a"
+              ]
+            }
+          ]
+        },
+        "reward_owner_id": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/nonblank_id"
+            }
+          ]
+        },
+        "root_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "remaining_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300
+        },
+        "snapshot_tick_damage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:cultivation-state:v1",
+  "$comment": "character.cultivation唯一三字段状态；原整数token、奖励/消费授权、资格与事件去重/物品来源须另验，不是完整角色根。配置撤销一式时保留合法进度与待领，不能用结构强制清零。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "practice",
+    "ascension_progress",
+    "unclaimed_heavenly_stones"
+  ],
+  "properties": {
+    "practice": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "ascension_progress": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9999
+    },
+    "unclaimed_heavenly_stones": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  }
+}

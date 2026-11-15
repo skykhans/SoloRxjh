@@ -1,0 +1,624 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_local_upper_trial_design_not_implemented_not_balanced",
+  "source_evidence": "../reference/三转原文与采用裁定.json",
+  "quest": {
+    "quest_id": "adv_03_upper",
+    "source_reference_ids": [
+      "QREF-63790-019",
+      "QREF-63789-019"
+    ],
+    "minimum_level": 60,
+    "required_completed_rank": 2,
+    "class_scope": "all14localclasses;source lowerfourclassbranches areseparate",
+    "acceptance": "adv_02delivered,matchingfaction prerequisite delivered andone original carried completed recommendation;alive/outofcombat/idle/nochallenge,exactleaderNPCwithin2500mm;neverupperdelivered",
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "state_fields": [
+      "attempt_id_or_null",
+      "stage_index_or_null",
+      "state",
+      "violation_count_or_null",
+      "stage_receipts",
+      "failure_receipts"
+    ],
+    "new_role": "not_accepted/nullattempt/stage/violation,emptyreceipts,notokens",
+    "accept": "newuniqueattempt/stage1/violation0;lockoriginalrecommendationcarriedunitwithoutcopy;no grant/consume/XP",
+    "readiness": "stage1real10ownattemptgoodtokens;stage2requiresstage1receipt andoriginalrecommendation;violation authoritativecounter,not duplicated inventory",
+    "stage_indices": [
+      1,
+      2
+    ],
+    "source_paths_note": "63799path1iscollectiondelivery,path2report;paths3..5arealternativeoutcomes,notfive sequential stages",
+    "repeat": "canretryonlyafterexplicitfailureorconfirmedabandon;finalsuccessoncepercharacteracrossworlds",
+    "save": "05/19durablecharacterattempt,stage,violation,realinventory,alloutcomes;no redraw ofwrongkills/rewards onload"
+  },
+  "branches": [
+    {
+      "branch_id": "righteous",
+      "source_reference_id": "QREF-63790-019",
+      "map_id": "shenwu_gate",
+      "leader_npc_id": "npc_che_jingmo",
+      "examiner_npc_id": "npc_xie_xiaofeng",
+      "prerequisite_quest_id": "ref_QREF-63790-018",
+      "prerequisite_owner": {
+        "file": "三转五十九级推荐书前置.v1.json",
+        "pointer": "/quests/0"
+      },
+      "recommendation_item_id": "adv03_righteous_recommendation",
+      "good_item_id": "adv03_righteous_upper_good",
+      "wrong_evidence_name": "剑齿恶虎之皮",
+      "wrong_monster_id": "shenwu_gate_sabre_tiger60"
+    },
+    {
+      "branch_id": "evil",
+      "source_reference_id": "QREF-63789-019",
+      "map_id": "liushan_house",
+      "leader_npc_id": "npc_shi_wei",
+      "examiner_npc_id": "npc_xuanyuan_erguang",
+      "prerequisite_quest_id": "ref_QREF-63789-018",
+      "prerequisite_owner": {
+        "file": "三转五十九级推荐书前置.v1.json",
+        "pointer": "/quests/1"
+      },
+      "recommendation_item_id": "adv03_evil_recommendation",
+      "good_item_id": "adv03_evil_upper_good",
+      "wrong_evidence_name": "珊瑚蛇的蛇鳞",
+      "wrong_monster_id": "liushan_house_coral_snake60"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "adv03_righteous_upper_good",
+      "name": "赤云虎之皮",
+      "source_reference_id": "QREF-63790-019",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 10,
+      "weight_g": 0,
+      "binding": "character/adv_03_upper/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_or_failure_cleanup": true
+      },
+      "identity_policy": "explicitlocalquesttoken,notordinarymaterial"
+    },
+    {
+      "item_id": "adv03_evil_upper_good",
+      "name": "金铃蛇的蛇鳞",
+      "source_reference_id": "QREF-63789-019",
+      "stack_limit": 99,
+      "maximum_per_active_attempt": 10,
+      "weight_g": 0,
+      "binding": "character/adv_03_upper/attempt/branch",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_stage_consume": true,
+        "abandon_or_failure_cleanup": true
+      },
+      "identity_policy": "explicitlocalquesttoken,notordinarymaterial"
+    }
+  ],
+  "collection": {
+    "required_stage_index": 1,
+    "probability_bp": 10000,
+    "quantity_per_qualified_death": 1,
+    "cap": 10,
+    "producers": [
+      {
+        "selected_branch": "righteous",
+        "monster_id": "shenwu_gate_red_tiger60",
+        "map_id": "shenwu_gate",
+        "item_id": "adv03_righteous_upper_good",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10,
+        "required_stage_index": 1
+      },
+      {
+        "selected_branch": "evil",
+        "monster_id": "liushan_house_gold_bell_snake60",
+        "map_id": "liushan_house",
+        "item_id": "adv03_evil_upper_good",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10,
+        "required_stage_index": 1
+      }
+    ],
+    "qualification": "ownactiveattempt,matchingbranch/map,alive/connected/samescene,solodeathownerorexact19partyvalidmembersnapshot",
+    "capacity_failure": "noinputitemandrecordfailurewithoriginaldeath,no retryafterfreeingspaceorreconnect",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "adv_03_upper",
+      "attempt_id",
+      "kind"
+    ],
+    "modifiers": "taskfixed100%,nofinisher/trainingmultiplier"
+  },
+  "wrong_kill": {
+    "active_stages": [
+      1,
+      2
+    ],
+    "counter_range_active": [
+      0,
+      5
+    ],
+    "failure_value": 6,
+    "qualification": "sameexactdeathqualificationascollectionbutwrongmonster;matchingbranch/map;allqualifiedpartymemberswithactivequestarechargedindividually",
+    "accounting": "oneauthoritativeattemptviolation_count,incrementoncesamehostdeathtransaction;sourcewrongskin/scalenameisprovenance/displayonly,no separate carriedwrongitem or secondcount",
+    "inventory_policy": "wrongdeathcounts evenwhenbagfull/overweight;no carriedwrongtoken,warehouse,discard,capacityorlootskipcanerasepenalty",
+    "local_adoption": "source100%wrongdrop representedasdurable violationledger;explicitprojectchoice toavoidinventory-capacityexploit;notclaimofficialwrongitemsarevirtual",
+    "on_sixth": "persistfailureeventwithcount6,clearonlyownattemptgoodtokens,releaseoriginalrecommendationlock,closeattemptandsetnot_accepted/nullattempt/stage/count;noautoaccept/refund/questXP;retainfailure/deathreceipts",
+    "ordinary_reward_policy": "monsterordinaryXP/practice/silverstillprocessedoncebyusualdeathsettlement;questfailuredoesnotreplayorrollbackordinaryloot",
+    "after_final_success": "noactiveupperattempt,wrongkillsnolongerapply",
+    "ordering": "hostfixed-stepdamage/deathsettlementsresolvedbeforeNPCfinalcommitinthatsamestep;pendingqualifiedwrongdeathcannotbeoverriddenbyclientturninclick"
+  },
+  "stages": [
+    {
+      "stage_index": 1,
+      "npc_selector": "selected_branch.examiner_npc_id",
+      "action": "交十件正确猎物凭证",
+      "consume_selected_branch_good_item_quantity": 10,
+      "requires_original_recommendation": true,
+      "next_stage_index": 2,
+      "transaction": "validateexactstage/attempt/branchNPC/map/2500mm/alive/outofcombat/idle/nochallenge,violation0..5,real10inputsandoriginalletter;consume10/advance/receiptatomically;retainrecommendationandpenaltycount"
+    },
+    {
+      "stage_index": 2,
+      "npc_selector": "selected_branch.leader_npc_id",
+      "action": "报告结果并结算上半段",
+      "consume_selected_branch_recommendation_quantity": 1,
+      "requires_stage1_receipt": true,
+      "next_stage_index": null,
+      "transaction": "revalidateexactcurrentattempt/branch,rank2/route,leader/map/2500mm/alive/outofcombat/idle/nochallenge,originalletterandpenalty;previewXPcaplossandrequireconfirmationifany;atomicallyconsumeletter/creditselectedXP/markupperdelivered/receipt;no rank3yet"
+    }
+  ],
+  "reward_outcomes": [
+    {
+      "violation_min": 0,
+      "violation_max": 0,
+      "experience": 350000,
+      "outcome": "normal"
+    },
+    {
+      "violation_min": 1,
+      "violation_max": 5,
+      "experience": 175000,
+      "outcome": "half"
+    },
+    {
+      "violation_min": 6,
+      "violation_max": 6,
+      "experience": 0,
+      "outcome": "attempt_failed_no_final_delivery"
+    }
+  ],
+  "other_rewards": {
+    "silver": 0,
+    "practice": 0,
+    "items": [],
+    "rank_change": null,
+    "route_change": null,
+    "resource_refill": false,
+    "cooldown_reset": false,
+    "point_grant": false
+  },
+  "reward_policy": "explicitlocalnoadditionalrewards;source350000/half175000preserved;evilsixthresholdsymmetriclocaladoptionforgarbled6??;not team/training/finishermultiplied",
+  "abandon": "confirmationclearsownattemptgoodtokens/releasesrealrecommendationlock/closesattemptwithreceipt;originalrecommendationretained;retrynewattempt/stage1/count0,notearlierstage;noquestXP/refund/freeletter",
+  "invalid_snapshot": "missinglockedletter,wrongattempttokens,badcount/outcome,stage2withoutreceiptorrank/routeconflict rejects;neverreconstructletterorautofinish",
+  "deduplication": "character/quest/attempt/stage/failure/uniquehostdeathreceipts;oldattemptmessagescannotoperatefreshattempt;twobranchsourcesmaponesharedcompletionID",
+  "future_lower_gate": "onlyupperdeliveredpermits adv_03lower,ownedby三转下半段与十四职业晋级.v1.json;upperclear/level60neverautoadvances;all14classesexplicitlowerbindings",
+  "monsters": [
+    {
+      "monster_id": "shenwu_gate_red_tiger60",
+      "source_reference_id": "MREF-39818-001",
+      "name": "赤云虎",
+      "level": 60,
+      "map_id": "shenwu_gate",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6000,
+      "max_mana": 0,
+      "attack_min": 240,
+      "attack_max": 300,
+      "ordinary_defense": 120,
+      "accuracy": 300,
+      "evasion": 120,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_upper_trial_creature",
+      "xp_reward": 292682,
+      "practice_reward": 29268,
+      "silver_reward": 60,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "shenwu_gate_red_tiger60",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source60levelandmapnamepreserved;stats/spawns/dropselectionlocal"
+    },
+    {
+      "monster_id": "shenwu_gate_sabre_tiger60",
+      "source_reference_id": "MREF-39818-002",
+      "name": "剑齿恶虎",
+      "level": 60,
+      "map_id": "shenwu_gate",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6000,
+      "max_mana": 0,
+      "attack_min": 240,
+      "attack_max": 300,
+      "ordinary_defense": 120,
+      "accuracy": 300,
+      "evasion": 120,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_upper_trial_creature",
+      "xp_reward": 292682,
+      "practice_reward": 29268,
+      "silver_reward": 60,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "shenwu_gate_sabre_tiger60",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source60levelandmapnamepreserved;stats/spawns/dropselectionlocal"
+    },
+    {
+      "monster_id": "liushan_house_gold_bell_snake60",
+      "source_reference_id": "MREF-39817-001",
+      "name": "金铃蛇",
+      "level": 60,
+      "map_id": "liushan_house",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6000,
+      "max_mana": 0,
+      "attack_min": 240,
+      "attack_max": 300,
+      "ordinary_defense": 120,
+      "accuracy": 300,
+      "evasion": 120,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_upper_trial_creature",
+      "xp_reward": 292682,
+      "practice_reward": 29268,
+      "silver_reward": 60,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liushan_house_gold_bell_snake60",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source60levelandmapnamepreserved;stats/spawns/dropselectionlocal"
+    },
+    {
+      "monster_id": "liushan_house_coral_snake60",
+      "source_reference_id": "MREF-39817-002",
+      "name": "珊瑚蛇",
+      "level": 60,
+      "map_id": "liushan_house",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 6000,
+      "max_mana": 0,
+      "attack_min": 240,
+      "attack_max": 300,
+      "ordinary_defense": 120,
+      "accuracy": 300,
+      "evasion": 120,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_upper_trial_creature",
+      "xp_reward": 292682,
+      "practice_reward": 29268,
+      "silver_reward": 60,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liushan_house_coral_snake60",
+        "status": "sourcecreaturemodel/animationspending"
+      },
+      "identity_policy": "source60levelandmapnamepreserved;stats/spawns/dropselectionlocal"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "shenwu_gate_red_tiger60_01",
+      "monster_id": "shenwu_gate_red_tiger60",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -12,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_gate_red_tiger60_02",
+      "monster_id": "shenwu_gate_red_tiger60",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -4,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_gate_red_tiger60_03",
+      "monster_id": "shenwu_gate_red_tiger60",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        4,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_gate_red_tiger60_04",
+      "monster_id": "shenwu_gate_red_tiger60",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        12,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_gate_sabre_tiger60_01",
+      "monster_id": "shenwu_gate_sabre_tiger60",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -28,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_gate_sabre_tiger60_02",
+      "monster_id": "shenwu_gate_sabre_tiger60",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        -20,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_gate_sabre_tiger60_03",
+      "monster_id": "shenwu_gate_sabre_tiger60",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        20,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "shenwu_gate_sabre_tiger60_04",
+      "monster_id": "shenwu_gate_sabre_tiger60",
+      "map_id": "shenwu_gate",
+      "home_feet_m": [
+        28,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_house_gold_bell_snake60_01",
+      "monster_id": "liushan_house_gold_bell_snake60",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -12,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_house_gold_bell_snake60_02",
+      "monster_id": "liushan_house_gold_bell_snake60",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -4,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_house_gold_bell_snake60_03",
+      "monster_id": "liushan_house_gold_bell_snake60",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        4,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_house_gold_bell_snake60_04",
+      "monster_id": "liushan_house_gold_bell_snake60",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        12,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_house_coral_snake60_01",
+      "monster_id": "liushan_house_coral_snake60",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -28,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_house_coral_snake60_02",
+      "monster_id": "liushan_house_coral_snake60",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        -20,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_house_coral_snake60_03",
+      "monster_id": "liushan_house_coral_snake60",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        20,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liushan_house_coral_snake60_04",
+      "monster_id": "liushan_house_coral_snake60",
+      "map_id": "liushan_house",
+      "home_feet_m": [
+        28,
+        0,
+        112
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "nohostilespawn/entry,pathreturnneverteleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "explicitnewrole/fourknownlegacyimportsnot_accepted/nullattempt/stage/count/emptyreceipts/notokens;importlevelnotprogress;newformatmissingfieldsrejects",
+  "pending": [
+    "Godotuppertrial/inventory/violation/save/LANruntime tests",
+    "sourcecreature/NPCartandlevel60growthcalibration"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "method": "1mcardinalBFS,0.35mactor,expandedsolidAABBandsquare-conservativeNPC/travelmarker footprints;fullsegmentslabsandendpointjoins;separatesupplementnotolderpublicreview",
+    "maps": [
+      {
+        "map_id": "shenwu_gate",
+        "reachable_grid_nodes": 84856,
+        "anchors_checked": 7,
+        "npcs_checked": 4,
+        "geometry_and_targets_sha256": "3bf61b5850947886efa27e000e00163280c6d1a07293f95450a554138f8cde55"
+      },
+      {
+        "map_id": "liushan_house",
+        "reachable_grid_nodes": 84857,
+        "anchors_checked": 6,
+        "npcs_checked": 3,
+        "geometry_and_targets_sha256": "85c0ddcc4bd83b3465e585934f0cea51c4dee08fba93eb5ea46b26011ca6190b"
+      }
+    ],
+    "spawns_checked": 16,
+    "spawn_method": "0.45mcapsuleplus2mpatrolmarginoutofsolids/safecircles,centralLpathsat0.35mactor",
+    "outcome_boundaries": "all0..6eachmapsoneoutcome:0=350000,1..5=175000,6=failure;onlytwoactualinputitemsandonecounter,no wronginventoryduplicate",
+    "runtime_proven": false
+  }
+}

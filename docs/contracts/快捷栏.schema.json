@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:quickbar:v1",
+  "$comment": "角色原skill_bar/item_bar两个平铺字段的验证组件，不另持久quickbar镜像。物品ID必须再按实际采用目录及主动使用权限验证；绑定不证明持有/已学或可用。",
+  "$defs": {
+    "skill_bar": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "$ref": "urn:solorxjh:ordinary-active-learning-state:v1#/propertyNames"
+          },
+          {
+            "$ref": "urn:solorxjh:ascended-martial-learning-state:v1#/propertyNames"
+          },
+          {
+            "enum": [
+              "legacy_sword_energy",
+              "legacy_sword_piercing",
+              "legacy_sword_guard",
+              "legacy_sword_mend"
+            ]
+          }
+        ]
+      }
+    },
+    "item_bar": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9_]*(?![\\s\\S])"
+          }
+        ]
+      }
+    }
+  }
+}

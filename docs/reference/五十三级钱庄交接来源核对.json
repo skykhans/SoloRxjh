@@ -1,0 +1,75 @@
+{
+  "review_version": 1,
+  "checked_on": "2026-11-15",
+  "status": "formal_staged_quests_space_and_silver_box_bound_not_implemented",
+  "adoption_count_change": 2,
+  "quests": [
+    {
+      "reference_id": "QREF-63790-011",
+      "source_ref": {
+        "file": "任务参数.json",
+        "pointer": "/quests/34"
+      },
+      "body_ref": {
+        "file": "官网资料/目录正文.json",
+        "pointer": "/records/71/text"
+      },
+      "accept_npc_id": "npc_hong_fenghuang",
+      "issuer_npc_id": "npc_wei_dabao",
+      "guard_npc_id": "npc_hu_yinhua",
+      "document_name": "交易帐本",
+      "raw_name": "骷髅头像",
+      "required_raw_quantity": 10,
+      "target_monster_name_as_published": "颂武门恶霸",
+      "source_location_as_published": "无天阁2层（该正派段前文又写万寿阁，来源名称冲突待明确本地选用）",
+      "reward_as_published": "经验值 180,000/银宝盒 10 个",
+      "formal_owner_ref": {
+        "file": "../contracts/五十三级正邪钱庄任务.v1.json",
+        "pointer": "/quests/0"
+      }
+    },
+    {
+      "reference_id": "QREF-63789-011",
+      "source_ref": {
+        "file": "任务参数.json",
+        "pointer": "/quests/83"
+      },
+      "body_ref": {
+        "file": "官网资料/目录正文.json",
+        "pointer": "/records/72/text"
+      },
+      "accept_npc_id": "npc_zhou_shutong",
+      "issuer_npc_id": "npc_daojianxiao",
+      "guard_npc_id": "npc_qian_xiaosheng",
+      "document_name": "定做书",
+      "raw_name": "铁柜",
+      "required_raw_quantity": 10,
+      "target_monster_name_as_published": "流星锤强盗",
+      "source_location_as_published": "无天阁2层",
+      "reward_as_published": "经验值 180,000/银宝盒 10 个",
+      "formal_owner_ref": {
+        "file": "../contracts/五十三级正邪钱庄任务.v1.json",
+        "pointer": "/quests/1"
+      }
+    }
+  ],
+  "local_flow_decisions": [
+    "保两来源53/路线/原接取钱庄NPC/一次，奖励斜线本地明确同时给180000经验与银宝盒10，经验封顶损失须报价确认并按14/05/19结算实际等级/属性/新covered_level发点。",
+    "正韦大宝/邪刀剑笑各一次quest_reward创建本轮帐本或定做书1，钱庄真消费后才可找守卫打听；道具数量1为明确本地值。",
+    "守卫纯对白推进后才采集对应头像或铁柜10，书交付前/打听前死亡不给后阶段材料；最终回钱庄消费10并发经验/盒。",
+    "两路线各四postaccept阶段：取文件→钱庄消费文件→守卫打听→采集终交；接取NPC与最终NPC相同，文件为角色/任务/attempt实物，不是历史标记。"
+  ],
+  "gap_resolutions": [
+    "正派塔名冲突本地选万寿阁2层，邪无天阁2层；世界已登记两塔各三层共六图与双向零费交通，53任务只在2层采集。",
+    "两怪各明确本地55级与四home，源仅任务具名，不造MREF。",
+    "独立银宝盒20克/99堆，每盒固定强化石1/10克，不别名化白银盒；本地经济方案待实测。"
+  ],
+  "space_ref": {
+    "file": "../contracts/万寿无天阁空间与入口.v1.json",
+    "pointer": ""
+  },
+  "box_ref": {
+    "file": "../contracts/银宝盒固定开启.v1.json",
+    "pointer": ""
+  }
+}

@@ -1,0 +1,797 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:legacy-source-snapshot:v1",
+  "$comment": "四个已知历史源的完整字段白名单。来自归档旧结构及项目固定liuli0.6导入基线；词元/有限float32/排序/原等级HP/装备资格/武学预算/阶段与门派关系/真实几何位置须语义验证，不是目标schema5或读取时补字段器。",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/schema1"
+    },
+    {
+      "$ref": "#/$defs/schema2"
+    },
+    {
+      "$ref": "#/$defs/schema3"
+    },
+    {
+      "$ref": "#/$defs/schema4"
+    }
+  ],
+  "$defs": {
+    "inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stacks"
+      ],
+      "properties": {
+        "stacks": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "item",
+              "count"
+            ],
+            "properties": {
+              "item": {
+                "enum": [
+                  "healing_potion",
+                  "linglong_bamboo",
+                  "beast_hide",
+                  "wolf_fang",
+                  "spirit_ore"
+                ]
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 99
+              }
+            }
+          }
+        }
+      }
+    },
+    "adventure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boars_defeated",
+        "wolves_defeated",
+        "bamboo_harvested",
+        "commissions_claimed"
+      ],
+      "properties": {
+        "boars_defeated": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "wolves_defeated": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "bamboo_harvested": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "commissions_claimed": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      }
+    },
+    "adventure_2_3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boars_defeated",
+        "wolves_defeated",
+        "bamboo_harvested",
+        "commissions_claimed",
+        "sword_rank",
+        "armor_rank"
+      ],
+      "properties": {
+        "boars_defeated": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "wolves_defeated": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "bamboo_harvested": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "commissions_claimed": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "sword_rank": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "armor_rank": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      }
+    },
+    "martial": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ranks"
+      ],
+      "properties": {
+        "ranks": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        }
+      }
+    },
+    "journey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "kills",
+        "repeat_claimed"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "valley_hunt",
+            "valley_boss",
+            "valley_report",
+            "north_hunt",
+            "north_boss",
+            "north_report",
+            "completed"
+          ]
+        },
+        "kills": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "repeat_claimed": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "sect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rank",
+        "contribution",
+        "earned",
+        "commissions_claimed"
+      ],
+      "properties": {
+        "rank": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "contribution": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "earned": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "commissions_claimed": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      }
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "volume",
+        "camera_distance"
+      ],
+      "properties": {
+        "volume": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "camera_distance": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 12
+        }
+      }
+    },
+    "weapon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "rank"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "fuxian_sword",
+            "ironwood_blade",
+            "refined_blade",
+            "frost_edge"
+          ]
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      }
+    },
+    "armor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "rank"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "menial_robe",
+            "leather_armor",
+            "dark_iron_armor"
+          ]
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      }
+    },
+    "equipment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "rank"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "fuxian_sword",
+            "ironwood_blade",
+            "refined_blade",
+            "frost_edge",
+            "menial_robe",
+            "leather_armor",
+            "dark_iron_armor"
+          ]
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      }
+    },
+    "loadout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weapon",
+        "armor",
+        "bag"
+      ],
+      "properties": {
+        "weapon": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/weapon"
+            }
+          ]
+        },
+        "armor": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/armor"
+            }
+          ]
+        },
+        "bag": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/equipment"
+          }
+        }
+      }
+    },
+    "progress_1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_exp",
+        "hp",
+        "stamina",
+        "silver",
+        "inventory",
+        "stage"
+      ],
+      "properties": {
+        "total_exp": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "hp": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 390
+        },
+        "stamina": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "silver": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "inventory": {
+          "$ref": "#/$defs/inventory"
+        },
+        "stage": {
+          "enum": [
+            "report",
+            "take_sword",
+            "bind_sword",
+            "gathering",
+            "challenge",
+            "return_to_outpost",
+            "completed"
+          ]
+        }
+      }
+    },
+    "schema1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "content_version",
+        "progress",
+        "position",
+        "yaw",
+        "settings"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "content_version": {
+          "const": "liuli-0.3"
+        },
+        "progress": {
+          "$ref": "#/$defs/progress_1"
+        },
+        "position": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "yaw": {
+          "type": "number"
+        },
+        "settings": {
+          "$ref": "#/$defs/settings"
+        }
+      }
+    },
+    "progress_2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_exp",
+        "hp",
+        "stamina",
+        "silver",
+        "inventory",
+        "stage",
+        "adventure"
+      ],
+      "properties": {
+        "total_exp": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "hp": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 390
+        },
+        "stamina": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "silver": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "inventory": {
+          "$ref": "#/$defs/inventory"
+        },
+        "stage": {
+          "enum": [
+            "report",
+            "take_sword",
+            "bind_sword",
+            "gathering",
+            "challenge",
+            "return_to_outpost",
+            "completed"
+          ]
+        },
+        "adventure": {
+          "$ref": "#/$defs/adventure_2_3"
+        }
+      }
+    },
+    "schema2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "content_version",
+        "progress",
+        "position",
+        "yaw",
+        "settings"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "integer",
+          "const": 2
+        },
+        "content_version": {
+          "const": "liuli-0.4"
+        },
+        "progress": {
+          "$ref": "#/$defs/progress_2"
+        },
+        "position": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "yaw": {
+          "type": "number"
+        },
+        "settings": {
+          "$ref": "#/$defs/settings"
+        }
+      }
+    },
+    "progress_3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_exp",
+        "hp",
+        "stamina",
+        "silver",
+        "inventory",
+        "stage",
+        "adventure",
+        "martial",
+        "journey",
+        "sect"
+      ],
+      "properties": {
+        "total_exp": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "hp": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 390
+        },
+        "stamina": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "silver": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "inventory": {
+          "$ref": "#/$defs/inventory"
+        },
+        "stage": {
+          "enum": [
+            "report",
+            "take_sword",
+            "bind_sword",
+            "gathering",
+            "challenge",
+            "return_to_outpost",
+            "completed"
+          ]
+        },
+        "adventure": {
+          "$ref": "#/$defs/adventure_2_3"
+        },
+        "martial": {
+          "$ref": "#/$defs/martial"
+        },
+        "journey": {
+          "$ref": "#/$defs/journey"
+        },
+        "sect": {
+          "$ref": "#/$defs/sect"
+        }
+      }
+    },
+    "schema3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "content_version",
+        "progress",
+        "position",
+        "yaw",
+        "settings"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "integer",
+          "const": 3
+        },
+        "content_version": {
+          "const": "liuli-0.5"
+        },
+        "progress": {
+          "$ref": "#/$defs/progress_3"
+        },
+        "position": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "yaw": {
+          "type": "number"
+        },
+        "settings": {
+          "$ref": "#/$defs/settings"
+        }
+      }
+    },
+    "progress_4": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_exp",
+        "hp",
+        "stamina",
+        "silver",
+        "inventory",
+        "stage",
+        "martial",
+        "journey",
+        "sect",
+        "adventure",
+        "loadout"
+      ],
+      "properties": {
+        "total_exp": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "hp": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 390
+        },
+        "stamina": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "silver": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "inventory": {
+          "$ref": "#/$defs/inventory"
+        },
+        "stage": {
+          "enum": [
+            "report",
+            "take_sword",
+            "bind_sword",
+            "gathering",
+            "challenge",
+            "return_to_outpost",
+            "completed"
+          ]
+        },
+        "martial": {
+          "$ref": "#/$defs/martial"
+        },
+        "journey": {
+          "$ref": "#/$defs/journey"
+        },
+        "sect": {
+          "$ref": "#/$defs/sect"
+        },
+        "adventure": {
+          "$ref": "#/$defs/adventure"
+        },
+        "loadout": {
+          "$ref": "#/$defs/loadout"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "enum": [
+                  "report",
+                  "take_sword"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "loadout": {
+                "properties": {
+                  "weapon": {
+                    "type": "null"
+                  },
+                  "bag": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "schema4": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "content_version",
+        "progress",
+        "position",
+        "yaw",
+        "settings"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "integer",
+          "const": 4
+        },
+        "content_version": {
+          "const": "liuli-0.6"
+        },
+        "progress": {
+          "$ref": "#/$defs/progress_4"
+        },
+        "position": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "yaw": {
+          "type": "number"
+        },
+        "settings": {
+          "$ref": "#/$defs/settings"
+        }
+      }
+    }
+  }
+}

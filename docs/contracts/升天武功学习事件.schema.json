@@ -1,0 +1,661 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ascended-martial-learning-event:v1",
+  "$comment": "使用一本升天攻击武功秘籍并同笔付历练/银两、学习一阶段的唯一原三阶段事件；真实来源/算术/授权另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "learned_record",
+        "stack_flows",
+        "ability_id",
+        "practice_paid",
+        "practice_after",
+        "silver_flow"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "learned_record": {
+          "$ref": "urn:solorxjh:ascended-martial-learning-state:v1#/$defs/record",
+          "properties": {
+            "phase": {
+              "const": 1
+            },
+            "current_investment_entries": {
+              "maxItems": 0
+            },
+            "learning_ref": {
+              "properties": {
+                "flow_index": {
+                  "const": 0
+                },
+                "consumption_index": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        },
+        "stack_flows": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "$ref": "urn:solorxjh:stack-flow:v1",
+            "properties": {
+              "inputs": {
+                "minItems": 1,
+                "maxItems": 1
+              },
+              "outputs": {
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "$ref": "#/$defs/command/properties/manual_id"
+                        },
+                        "binding": {
+                          "const": "character"
+                        },
+                        "quest_scope": {
+                          "type": "null"
+                        },
+                        "quantity": {
+                          "minimum": 1,
+                          "maximum": 98
+                        },
+                        "revision": {
+                          "minimum": 1
+                        }
+                      }
+                    },
+                    "contributions": {
+                      "minItems": 1,
+                      "maxItems": 1,
+                      "items": {
+                        "properties": {
+                          "input_index": {
+                            "const": 0
+                          },
+                          "quantity": {
+                            "minimum": 1,
+                            "maximum": 98
+                          }
+                        }
+                      }
+                    },
+                    "custody": {
+                      "properties": {
+                        "kind": {
+                          "const": "held"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "consumptions": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "input_index": {
+                      "const": 0
+                    },
+                    "quantity": {
+                      "const": 1
+                    },
+                    "reason": {
+                      "const": "use"
+                    }
+                  }
+                }
+              },
+              "mint_authorization": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        "ability_id": {
+          "$ref": "urn:solorxjh:ascended-martial-learning-state:v1#/propertyNames"
+        },
+        "practice_paid": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "practice_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "silver_flow": {
+          "$ref": "urn:solorxjh:silver-flow:v1",
+          "properties": {
+            "accounts": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "account": {
+                    "const": "carried_silver"
+                  },
+                  "before_balance": {
+                    "minimum": 1
+                  },
+                  "previous_output": {
+                    "type": "object"
+                  },
+                  "opening_authorization": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            "movements": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "from_account_index": {
+                    "const": 0
+                  },
+                  "to_account_index": {
+                    "type": "null"
+                  },
+                  "authorization": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "const": "service_fee"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "state_changed",
+            "rules_changed",
+            "session_invalid",
+            "explicit_cancel"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "manual_id",
+        "stack_id"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "manual_id": {
+          "enum": [
+            "manual_ascended_blade_righteous_b9c3de189793",
+            "manual_ascended_blade_evil_fa96ab159a4f",
+            "manual_ascended_blade_righteous_cf292873125b",
+            "manual_ascended_blade_righteous_7e31b1d610eb",
+            "manual_ascended_blade_evil_52e97c116692",
+            "manual_ascended_blade_evil_c50ef722dc1d",
+            "manual_ascended_blade_righteous_42f862107899",
+            "manual_ascended_blade_righteous_f40b3e8dec97",
+            "manual_ascended_blade_evil_b6258a9a7738",
+            "manual_ascended_blade_evil_e836b4b696cf",
+            "manual_ascended_blade_righteous_5d3707f68530",
+            "manual_ascended_blade_righteous_9f9c32406057",
+            "manual_ascended_blade_evil_e79022d5f1f9",
+            "manual_ascended_blade_evil_fc1a6e45f667",
+            "manual_ascended_blade_righteous_dc13898df87c",
+            "manual_ascended_blade_righteous_781bffe22022",
+            "manual_ascended_blade_evil_8fdc7e003cc8",
+            "manual_ascended_blade_evil_879e86fbfa99",
+            "manual_ascended_sword_righteous_23509d7aa225",
+            "manual_ascended_sword_evil_26ab489ccc52",
+            "manual_ascended_sword_righteous_9df0f8160a51",
+            "manual_ascended_sword_evil_610007eb0f39",
+            "manual_ascended_sword_righteous_40b4e5c8cca1",
+            "manual_ascended_sword_evil_c76565f8fb29",
+            "manual_ascended_sword_righteous_7420a4d13ae1",
+            "manual_ascended_sword_righteous_6827fff45963",
+            "manual_ascended_sword_evil_0778d50ea32d",
+            "manual_ascended_sword_evil_3b7afc9114fd",
+            "manual_ascended_sword_righteous_d3dafdf91471",
+            "manual_ascended_sword_righteous_4431b046f14b",
+            "manual_ascended_sword_evil_85a52e7bbf2a",
+            "manual_ascended_sword_evil_c873df139bab",
+            "manual_ascended_sword_righteous_21e5b152d8cc",
+            "manual_ascended_sword_righteous_fd633d5da68b",
+            "manual_ascended_sword_evil_ce50172d4f31",
+            "manual_ascended_sword_evil_4836be7882da",
+            "manual_ascended_sword_righteous_71f1180546c3",
+            "manual_ascended_sword_righteous_2e37fe8639a3",
+            "manual_ascended_sword_evil_ec3d03e8e2bb",
+            "manual_ascended_sword_evil_3654f3d6e19b",
+            "manual_ascended_assassin_righteous_3a3adea2c9da",
+            "manual_ascended_assassin_evil_3b2af806e506",
+            "manual_ascended_assassin_righteous_8055418cbe91",
+            "manual_ascended_assassin_evil_7cd36d7edbcd",
+            "manual_ascended_assassin_righteous_91471e372948",
+            "manual_ascended_assassin_righteous_b9ffc6a7a264",
+            "manual_ascended_assassin_evil_3eeee24e958f",
+            "manual_ascended_assassin_evil_503162a82087",
+            "manual_ascended_assassin_righteous_69101afa2a5b",
+            "manual_ascended_assassin_righteous_3c7f3a17318e",
+            "manual_ascended_assassin_evil_bcf438cc39fd",
+            "manual_ascended_assassin_evil_1029f173e80c",
+            "manual_ascended_assassin_righteous_d9637564d3b8",
+            "manual_ascended_assassin_righteous_946c1004e96a",
+            "manual_ascended_assassin_evil_6df62049732c",
+            "manual_ascended_assassin_evil_e012fdef05fa",
+            "manual_ascended_assassin_righteous_8a803812bb0a",
+            "manual_ascended_assassin_righteous_25f624199cde",
+            "manual_ascended_assassin_evil_3cfb1a95ebe0",
+            "manual_ascended_assassin_evil_0da5d1c1113a",
+            "manual_ascended_spear_righteous_99b98b3f167c",
+            "manual_ascended_spear_evil_aa29a51d105c",
+            "manual_ascended_spear_righteous_61d9272052e3",
+            "manual_ascended_spear_evil_ca461dff9bad",
+            "manual_ascended_spear_righteous_704a2c33b998",
+            "manual_ascended_spear_evil_e071e244f610",
+            "manual_ascended_spear_evil_6bc01bebfd87",
+            "manual_ascended_spear_evil_4079aa680ad2",
+            "manual_ascended_spear_evil_fa27c5d82a5e",
+            "manual_ascended_spear_evil_71531618733e",
+            "manual_ascended_spear_righteous_f1bcdb6c3d15",
+            "manual_ascended_spear_righteous_df3e3f81b6ee",
+            "manual_ascended_spear_evil_7125d9abe92f",
+            "manual_ascended_spear_evil_4df8334b83d2",
+            "manual_ascended_spear_righteous_26ed2a8701e3",
+            "manual_ascended_spear_righteous_e06f1fa223ed",
+            "manual_ascended_spear_evil_ac573fc1d817",
+            "manual_ascended_spear_evil_8d6bc4024f59",
+            "manual_ascended_spear_righteous_9249ddf919a2",
+            "manual_ascended_spear_righteous_9b375263ac1a",
+            "manual_ascended_spear_evil_aa2dff61df2e",
+            "manual_ascended_spear_evil_778322f238e7",
+            "manual_ascended_archer_righteous_d23dceb5e8ae",
+            "manual_ascended_archer_righteous_1fa0bf0caf6f",
+            "manual_ascended_archer_evil_83e8a851bb69",
+            "manual_ascended_archer_evil_85c7d5fc9287",
+            "manual_ascended_archer_righteous_729208ca3502",
+            "manual_ascended_archer_righteous_253e4e044e16",
+            "manual_ascended_archer_evil_d6781196017d",
+            "manual_ascended_archer_evil_2ee333c38d3f",
+            "manual_ascended_archer_righteous_a12b73bae4d9",
+            "manual_ascended_archer_righteous_fd5506f03b85",
+            "manual_ascended_archer_evil_ec957110c233",
+            "manual_ascended_archer_evil_ecbcfb703262",
+            "manual_ascended_archer_righteous_10ca9915807d",
+            "manual_ascended_archer_righteous_33784779f259",
+            "manual_ascended_archer_evil_e5223dd0b2f0",
+            "manual_ascended_archer_evil_c46baff7b849",
+            "manual_ascended_physician_righteous_47778321f741",
+            "manual_ascended_physician_evil_a1a2dcd848cb",
+            "manual_ascended_physician_righteous_adb10fdf861a",
+            "manual_ascended_physician_evil_cfa3138dec6c",
+            "manual_ascended_physician_righteous_de1ee898c033",
+            "manual_ascended_physician_evil_fc1171c97921",
+            "manual_ascended_physician_righteous_7d31c5bd5607",
+            "manual_ascended_physician_righteous_31d9bc58c5c3",
+            "manual_ascended_physician_evil_652189929e61",
+            "manual_ascended_physician_evil_0bc27404f139",
+            "manual_ascended_physician_righteous_02651957f42c",
+            "manual_ascended_physician_righteous_6f48ca530cfd",
+            "manual_ascended_physician_evil_0405471dc6ca",
+            "manual_ascended_physician_evil_675898bf5f14",
+            "manual_ascended_physician_righteous_78bb5f6dec7d",
+            "manual_ascended_physician_righteous_9ceb478f40f2",
+            "manual_ascended_physician_evil_72d5d31c9088",
+            "manual_ascended_physician_evil_b05665878812",
+            "manual_ascended_physician_righteous_efa0c1d60fea",
+            "manual_ascended_physician_righteous_55b548155936",
+            "manual_ascended_physician_evil_6e9076ecee35",
+            "manual_ascended_physician_evil_ceb15eb42d72",
+            "manual_ascended_musician_righteous_7e63111005a8",
+            "manual_ascended_musician_righteous_083e2ec14fb5",
+            "manual_ascended_musician_righteous_27569f78f1b3",
+            "manual_ascended_musician_righteous_4f16ab4ae0b7",
+            "manual_ascended_musician_righteous_a3077dce4ea7",
+            "manual_ascended_musician_righteous_f5fc1983e243",
+            "manual_ascended_musician_evil_a328dc532735",
+            "manual_ascended_musician_evil_934ed355719e",
+            "manual_ascended_musician_evil_d0d69ae66fcf",
+            "manual_ascended_musician_evil_d15cb3581994",
+            "manual_ascended_musician_evil_52e601486603",
+            "manual_ascended_musician_evil_066565f74402",
+            "manual_ascended_musician_righteous_9a22d6ebcf8f",
+            "manual_ascended_musician_righteous_661061264ae1",
+            "manual_ascended_musician_evil_cdcaba01281f",
+            "manual_ascended_musician_evil_dc3f090859b5",
+            "manual_ascended_musician_righteous_2600829fa698",
+            "manual_ascended_musician_righteous_9b6099ab2492",
+            "manual_ascended_musician_evil_8842fd9e4f1f",
+            "manual_ascended_musician_evil_6042354fa37f",
+            "manual_ascended_musician_righteous_96380e923d01",
+            "manual_ascended_musician_righteous_8cb222097c85",
+            "manual_ascended_musician_evil_725e0735b4cd",
+            "manual_ascended_musician_evil_50127b7d19bf",
+            "manual_ascended_musician_righteous_b77bf8c6f808",
+            "manual_ascended_musician_righteous_faffe08e91ef",
+            "manual_ascended_musician_evil_ed8af303789c",
+            "manual_ascended_musician_evil_ccc8f73e930a",
+            "manual_ascended_fighter_evil_c848eb862a93",
+            "manual_ascended_fighter_evil_89dd84137c63",
+            "manual_ascended_fighter_evil_dce9aac583d4",
+            "manual_ascended_fighter_evil_27a53b622478",
+            "manual_ascended_fighter_evil_d058770b6aec",
+            "manual_ascended_fighter_evil_66dc327008d7",
+            "manual_ascended_fighter_righteous_c848eb862a93",
+            "manual_ascended_fighter_righteous_89dd84137c63",
+            "manual_ascended_fighter_righteous_dce9aac583d4",
+            "manual_ascended_fighter_righteous_27a53b622478",
+            "manual_ascended_fighter_righteous_d058770b6aec",
+            "manual_ascended_fighter_righteous_66dc327008d7",
+            "manual_ascended_fighter_any_2a867dc5d5b5",
+            "manual_ascended_fighter_any_e97821848520",
+            "manual_ascended_fighter_righteous_9d793372882e",
+            "manual_ascended_fighter_righteous_f99f77c9e2bd",
+            "manual_ascended_fighter_evil_e8000200dfac",
+            "manual_ascended_fighter_evil_dd352cb9c9a7",
+            "manual_ascended_fighter_righteous_aee5db09449c",
+            "manual_ascended_fighter_righteous_eb713029e59d",
+            "manual_ascended_fighter_evil_3a6de740189c",
+            "manual_ascended_fighter_evil_c2eacb173149",
+            "manual_ascended_fighter_righteous_a2247a1cbe39",
+            "manual_ascended_fighter_righteous_e44140fba834",
+            "manual_ascended_fighter_evil_332b43cdfe0c",
+            "manual_ascended_fighter_evil_d217d3151f99",
+            "manual_ascended_han_feiguan_any_5035171ee088",
+            "manual_ascended_han_feiguan_any_0902ec347d6d",
+            "manual_ascended_han_feiguan_any_908cdb23f55b",
+            "manual_ascended_han_feiguan_any_9f9f93eb6119",
+            "manual_ascended_han_feiguan_any_9559805d81f4",
+            "manual_ascended_han_feiguan_any_79fa356fbf16",
+            "manual_ascended_han_feiguan_any_4a4f06eaa85d",
+            "manual_ascended_han_feiguan_any_e77c5238463f",
+            "manual_ascended_han_feiguan_any_e890bc026ba8",
+            "manual_ascended_han_feiguan_any_3a69d057705d",
+            "manual_ascended_han_feiguan_any_3dc2ea5d996d",
+            "manual_ascended_han_feiguan_any_43d5ac716d60",
+            "manual_ascended_han_feiguan_any_d3ecf769e535",
+            "manual_ascended_han_feiguan_any_b8a23aa06988",
+            "manual_ascended_han_feiguan_any_eb88d1778b5d",
+            "manual_ascended_han_feiguan_any_f2a4d0035dc3",
+            "manual_ascended_han_feiguan_any_0ab88a0227b1",
+            "manual_ascended_han_feiguan_any_c871f0d71f57",
+            "manual_ascended_han_feiguan_any_02be60aaefae",
+            "manual_ascended_tan_hualing_any_62563400f0b4",
+            "manual_ascended_tan_hualing_any_da83e0a0de12",
+            "manual_ascended_tan_hualing_any_c157c4ffd051",
+            "manual_ascended_tan_hualing_any_8a8043d22f9f",
+            "manual_ascended_tan_hualing_any_ad87d3efafb1",
+            "manual_ascended_tan_hualing_any_8a4c8d224acb",
+            "manual_ascended_tan_hualing_any_659c1209f38a",
+            "manual_ascended_tan_hualing_any_76cde7b72606",
+            "manual_ascended_tan_hualing_any_fc0d71cde91b",
+            "manual_ascended_tan_hualing_any_4d210c7e00e2",
+            "manual_ascended_tan_hualing_any_9cb85d13d013",
+            "manual_ascended_tan_hualing_any_944b779c75d4",
+            "manual_ascended_tan_hualing_any_736f5da00e34",
+            "manual_ascended_tan_hualing_any_c938a328608d_single",
+            "manual_ascended_tan_hualing_any_c938a328608d_area",
+            "manual_ascended_tan_hualing_any_c088f6f831ef",
+            "manual_ascended_tan_hualing_any_0901ea8704bc",
+            "manual_ascended_tan_hualing_any_1e0adfeda242",
+            "manual_ascended_tan_hualing_any_1baa3151af29",
+            "manual_ascended_tan_hualing_any_ac5a7b826add",
+            "manual_ascended_tan_hualing_any_a44f6d19d9f3",
+            "manual_ascended_mei_liuzhen_any_3f2245491312",
+            "manual_ascended_mei_liuzhen_any_7fcb2a1ca840",
+            "manual_ascended_mei_liuzhen_any_ad4bd012c23b",
+            "manual_ascended_mei_liuzhen_any_17675b16beae",
+            "manual_ascended_mei_liuzhen_any_98a9deff00e9",
+            "manual_ascended_mei_liuzhen_any_eb32aec28f5a",
+            "manual_ascended_mei_liuzhen_any_f87b8471e085",
+            "manual_ascended_mei_liuzhen_any_11045d9ab081",
+            "manual_ascended_mei_liuzhen_any_ff7d4c253bed",
+            "manual_ascended_mei_liuzhen_any_6c50f17df130",
+            "manual_ascended_mei_liuzhen_any_457a8a733ce6",
+            "manual_ascended_mei_liuzhen_any_c73c4b44df4f",
+            "manual_ascended_mei_liuzhen_any_4d6fa979c40f",
+            "manual_ascended_mei_liuzhen_any_5747ea469236",
+            "manual_ascended_mei_liuzhen_any_6085a30fd633",
+            "manual_ascended_mei_liuzhen_any_4de41f2dcae5",
+            "manual_ascended_mei_liuzhen_any_e25244eb192a",
+            "manual_ascended_mei_liuzhen_any_d0aeff2f2520",
+            "manual_ascended_mei_liuzhen_any_09ddcd373dcc",
+            "manual_ascended_mei_liuzhen_any_15e2d9babc80",
+            "manual_ascended_mei_liuzhen_any_0e274d58307f",
+            "manual_ascended_lu_fenglang_any_da92444fbf45",
+            "manual_ascended_lu_fenglang_any_2e77763961d7",
+            "manual_ascended_lu_fenglang_any_8e3c26d02d77",
+            "manual_ascended_lu_fenglang_any_a9cae8b3793b",
+            "manual_ascended_lu_fenglang_any_ec81a8a9db47",
+            "manual_ascended_lu_fenglang_any_3d756ac7f901",
+            "manual_ascended_lu_fenglang_any_72e5cfaf9f26",
+            "manual_ascended_lu_fenglang_any_87877f8250ee",
+            "manual_ascended_lu_fenglang_any_25aeb939321a",
+            "manual_ascended_lu_fenglang_any_f1d6e5c22e1a",
+            "manual_ascended_lu_fenglang_any_fc2c05930498",
+            "manual_ascended_lu_fenglang_any_7a6697cd527c",
+            "manual_ascended_lu_fenglang_any_d1525f3643a1",
+            "manual_ascended_lu_fenglang_any_80892f62b120",
+            "manual_ascended_lu_fenglang_any_dd5f26b45c50",
+            "manual_ascended_dongling_shennv_any_02a657e33920",
+            "manual_ascended_dongling_shennv_any_44e2fc954a19",
+            "manual_ascended_dongling_shennv_any_5b731a920958",
+            "manual_ascended_dongling_shennv_any_a857b3d2049f",
+            "manual_ascended_dongling_shennv_any_8a1a9e2a50f9",
+            "manual_ascended_dongling_shennv_any_f6c79615444b",
+            "manual_ascended_dongling_shennv_any_aa072c16bdb7",
+            "manual_ascended_dongling_shennv_any_49ef5cee567f",
+            "manual_ascended_dongling_shennv_any_a6be178f5e7e",
+            "manual_ascended_dongling_shennv_any_4ab8365cb384",
+            "manual_ascended_dongling_shennv_any_8fd26b03b819",
+            "manual_ascended_dongling_shennv_any_69c8df572fba",
+            "manual_ascended_dongling_shennv_any_8492637d82ac",
+            "manual_ascended_dongling_shennv_any_577432c7afb6",
+            "manual_ascended_dongling_shennv_any_6e7c83fad351",
+            "manual_ascended_dongling_shennv_any_ee988344768e",
+            "manual_ascended_dongling_shennv_any_d9fc0d41718a",
+            "manual_ascended_dongling_shennv_any_c6d3ebd2d110",
+            "manual_ascended_dongling_shennv_any_e4f96596b5ce",
+            "manual_ascended_dongling_shennv_any_df11e11a475a",
+            "manual_ascended_dongling_shennv_any_45b9cbc7f1ce",
+            "manual_ascended_zhen_fengbai_any_d788153f881b",
+            "manual_ascended_zhen_fengbai_any_9725da60ccdb",
+            "manual_ascended_zhen_fengbai_any_d231bd189329",
+            "manual_ascended_zhen_fengbai_any_0fdeb57f8485",
+            "manual_ascended_zhen_fengbai_any_7fec40de530d",
+            "manual_ascended_zhen_fengbai_any_848b053bd916",
+            "manual_ascended_zhen_fengbai_any_5bc4a5173f34",
+            "manual_ascended_zhen_fengbai_any_4ac6ba9191cd",
+            "manual_ascended_zhen_fengbai_any_07d0cd2e3311",
+            "manual_ascended_zhen_fengbai_any_e584355cee47",
+            "manual_ascended_zhen_fengbai_any_0e741750d4db",
+            "manual_ascended_zhen_fengbai_any_223a91c4ac5d",
+            "manual_ascended_zhen_fengbai_any_333867068e48",
+            "manual_ascended_zhen_fengbai_any_524a0eb2c09c",
+            "manual_ascended_zhen_fengbai_any_86fe9b571aae",
+            "manual_ascended_zhen_fengbai_any_798b551ec2d9",
+            "manual_ascended_original_blade_righteous_1",
+            "manual_ascended_original_blade_evil_1",
+            "manual_ascended_original_blade_righteous_2",
+            "manual_ascended_original_blade_evil_2",
+            "manual_ascended_original_archer_righteous_1",
+            "manual_ascended_original_archer_evil_1",
+            "manual_ascended_original_archer_righteous_2",
+            "manual_ascended_original_archer_evil_2",
+            "manual_ascended_original_archer_righteous_3",
+            "manual_ascended_original_archer_evil_3",
+            "manual_ascended_assassin_righteous_first_enhancer",
+            "manual_ascended_assassin_evil_first_enhancer",
+            "manual_ascended_original_assassin_righteous_single_1",
+            "manual_ascended_original_assassin_evil_single_1",
+            "manual_ascended_original_spear_righteous_single_1"
+          ]
+        },
+        "stack_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "stack_input",
+        "silver_input"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "stack_input": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "receipt_id",
+            "output_index"
+          ],
+          "properties": {
+            "receipt_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "output_index": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "silver_input": {
+          "$ref": "urn:solorxjh:silver-flow:v1#/properties/accounts/items/properties/previous_output/oneOf/1"
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:solorxjh:ascended-martial-learning-event:v1"
+      }
+    }
+  }
+}

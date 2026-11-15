@@ -1,0 +1,473 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:training-summon-reconcile:v1",
+  "$comment": "原训练世界召唤槽周期对账结果，严格11字段与原槽四字段身份/生命周期投影，不复制完整actor或独立日志。实际原时钟商余、同轮过期/跨轮选择、原before/after与停止根全集另验；不授权生成/死亡/经验/掉落。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "spawn_id",
+    "rules_hash",
+    "observed_world_step",
+    "before",
+    "after",
+    "stopped_root_event_ids"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 90,
+      "maxLength": 90,
+      "pattern": "^training-summon-reconcile:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id",
+      "enum": [
+        "training_beihai_01",
+        "training_beihai_02",
+        "training_beihai_03",
+        "training_beihai_04",
+        "training_beihai_05",
+        "training_beihai_06",
+        "training_beihai_07",
+        "training_beihai_08",
+        "training_beihai_09",
+        "training_dongling_01",
+        "training_dongling_02",
+        "training_dongling_03",
+        "training_dongling_04",
+        "training_dongling_05",
+        "training_dongling_06",
+        "training_dongling_07",
+        "training_dongling_08",
+        "training_dongling_09",
+        "training_huxia_01",
+        "training_huxia_02",
+        "training_huxia_03",
+        "training_huxia_04",
+        "training_huxia_05",
+        "training_huxia_06",
+        "training_huxia_07",
+        "training_huxia_08",
+        "training_huxia_09",
+        "training_nanlin_01",
+        "training_nanlin_02",
+        "training_nanlin_03",
+        "training_nanlin_04",
+        "training_nanlin_05",
+        "training_nanlin_06",
+        "training_nanlin_07",
+        "training_nanlin_08",
+        "training_nanlin_09"
+      ]
+    },
+    "instance_id_or_null": {
+      "type": "null"
+    },
+    "spawn_id": {
+      "enum": [
+        "training_beihai_01_spawn_09",
+        "training_beihai_01_spawn_10",
+        "training_beihai_01_spawn_11",
+        "training_beihai_01_spawn_12",
+        "training_beihai_02_spawn_09",
+        "training_beihai_02_spawn_10",
+        "training_beihai_02_spawn_11",
+        "training_beihai_02_spawn_12",
+        "training_beihai_03_spawn_09",
+        "training_beihai_03_spawn_10",
+        "training_beihai_03_spawn_11",
+        "training_beihai_03_spawn_12",
+        "training_beihai_04_spawn_09",
+        "training_beihai_04_spawn_10",
+        "training_beihai_04_spawn_11",
+        "training_beihai_04_spawn_12",
+        "training_beihai_05_spawn_09",
+        "training_beihai_05_spawn_10",
+        "training_beihai_05_spawn_11",
+        "training_beihai_05_spawn_12",
+        "training_beihai_06_spawn_09",
+        "training_beihai_06_spawn_10",
+        "training_beihai_06_spawn_11",
+        "training_beihai_06_spawn_12",
+        "training_beihai_07_spawn_09",
+        "training_beihai_07_spawn_10",
+        "training_beihai_07_spawn_11",
+        "training_beihai_07_spawn_12",
+        "training_beihai_08_spawn_09",
+        "training_beihai_08_spawn_10",
+        "training_beihai_08_spawn_11",
+        "training_beihai_08_spawn_12",
+        "training_beihai_09_spawn_09",
+        "training_beihai_09_spawn_10",
+        "training_beihai_09_spawn_11",
+        "training_beihai_09_spawn_12",
+        "training_nanlin_01_spawn_09",
+        "training_nanlin_01_spawn_10",
+        "training_nanlin_01_spawn_11",
+        "training_nanlin_01_spawn_12",
+        "training_nanlin_02_spawn_09",
+        "training_nanlin_02_spawn_10",
+        "training_nanlin_02_spawn_11",
+        "training_nanlin_02_spawn_12",
+        "training_nanlin_03_spawn_09",
+        "training_nanlin_03_spawn_10",
+        "training_nanlin_03_spawn_11",
+        "training_nanlin_03_spawn_12",
+        "training_nanlin_04_spawn_09",
+        "training_nanlin_04_spawn_10",
+        "training_nanlin_04_spawn_11",
+        "training_nanlin_04_spawn_12",
+        "training_nanlin_05_spawn_09",
+        "training_nanlin_05_spawn_10",
+        "training_nanlin_05_spawn_11",
+        "training_nanlin_05_spawn_12",
+        "training_nanlin_06_spawn_09",
+        "training_nanlin_06_spawn_10",
+        "training_nanlin_06_spawn_11",
+        "training_nanlin_06_spawn_12",
+        "training_nanlin_07_spawn_09",
+        "training_nanlin_07_spawn_10",
+        "training_nanlin_07_spawn_11",
+        "training_nanlin_07_spawn_12",
+        "training_nanlin_08_spawn_09",
+        "training_nanlin_08_spawn_10",
+        "training_nanlin_08_spawn_11",
+        "training_nanlin_08_spawn_12",
+        "training_nanlin_09_spawn_09",
+        "training_nanlin_09_spawn_10",
+        "training_nanlin_09_spawn_11",
+        "training_nanlin_09_spawn_12",
+        "training_dongling_01_spawn_09",
+        "training_dongling_01_spawn_10",
+        "training_dongling_01_spawn_11",
+        "training_dongling_01_spawn_12",
+        "training_dongling_02_spawn_09",
+        "training_dongling_02_spawn_10",
+        "training_dongling_02_spawn_11",
+        "training_dongling_02_spawn_12",
+        "training_dongling_03_spawn_09",
+        "training_dongling_03_spawn_10",
+        "training_dongling_03_spawn_11",
+        "training_dongling_03_spawn_12",
+        "training_dongling_04_spawn_09",
+        "training_dongling_04_spawn_10",
+        "training_dongling_04_spawn_11",
+        "training_dongling_04_spawn_12",
+        "training_dongling_05_spawn_09",
+        "training_dongling_05_spawn_10",
+        "training_dongling_05_spawn_11",
+        "training_dongling_05_spawn_12",
+        "training_dongling_06_spawn_09",
+        "training_dongling_06_spawn_10",
+        "training_dongling_06_spawn_11",
+        "training_dongling_06_spawn_12",
+        "training_dongling_07_spawn_09",
+        "training_dongling_07_spawn_10",
+        "training_dongling_07_spawn_11",
+        "training_dongling_07_spawn_12",
+        "training_dongling_08_spawn_09",
+        "training_dongling_08_spawn_10",
+        "training_dongling_08_spawn_11",
+        "training_dongling_08_spawn_12",
+        "training_dongling_09_spawn_09",
+        "training_dongling_09_spawn_10",
+        "training_dongling_09_spawn_11",
+        "training_dongling_09_spawn_12",
+        "training_huxia_01_spawn_09",
+        "training_huxia_01_spawn_10",
+        "training_huxia_01_spawn_11",
+        "training_huxia_01_spawn_12",
+        "training_huxia_02_spawn_09",
+        "training_huxia_02_spawn_10",
+        "training_huxia_02_spawn_11",
+        "training_huxia_02_spawn_12",
+        "training_huxia_03_spawn_09",
+        "training_huxia_03_spawn_10",
+        "training_huxia_03_spawn_11",
+        "training_huxia_03_spawn_12",
+        "training_huxia_04_spawn_09",
+        "training_huxia_04_spawn_10",
+        "training_huxia_04_spawn_11",
+        "training_huxia_04_spawn_12",
+        "training_huxia_05_spawn_09",
+        "training_huxia_05_spawn_10",
+        "training_huxia_05_spawn_11",
+        "training_huxia_05_spawn_12",
+        "training_huxia_06_spawn_09",
+        "training_huxia_06_spawn_10",
+        "training_huxia_06_spawn_11",
+        "training_huxia_06_spawn_12",
+        "training_huxia_07_spawn_09",
+        "training_huxia_07_spawn_10",
+        "training_huxia_07_spawn_11",
+        "training_huxia_07_spawn_12",
+        "training_huxia_08_spawn_09",
+        "training_huxia_08_spawn_10",
+        "training_huxia_08_spawn_11",
+        "training_huxia_08_spawn_12",
+        "training_huxia_09_spawn_09",
+        "training_huxia_09_spawn_10",
+        "training_huxia_09_spawn_11",
+        "training_huxia_09_spawn_12"
+      ]
+    },
+    "rules_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "observed_world_step": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "before": {
+      "$ref": "#/$defs/slot_projection"
+    },
+    "after": {
+      "$ref": "#/$defs/slot_projection"
+    },
+    "stopped_root_event_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+      }
+    }
+  },
+  "$defs": {
+    "slot_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cycle_index",
+        "state",
+        "active_actor_id_or_null",
+        "last_observed_world_step"
+      ],
+      "properties": {
+        "cycle_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "state": {
+          "enum": [
+            "pending",
+            "alive",
+            "killed",
+            "expired_without_spawn",
+            "expired_alive_removed"
+          ]
+        },
+        "active_actor_id_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 79,
+              "maxLength": 79,
+              "pattern": "^training-actor:[0-9a-f]{64}(?![\\s\\S])"
+            }
+          ]
+        },
+        "last_observed_world_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "alive"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "active_actor_id_or_null": {
+                "type": "string",
+                "minLength": 79,
+                "maxLength": 79,
+                "pattern": "^training-actor:[0-9a-f]{64}(?![\\s\\S])"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "active_actor_id_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "before": {
+              "properties": {
+                "state": {
+                  "const": "pending"
+                }
+              }
+            },
+            "after": {
+              "properties": {
+                "state": {
+                  "enum": [
+                    "pending",
+                    "expired_without_spawn"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "before": {
+              "properties": {
+                "state": {
+                  "const": "alive"
+                }
+              }
+            },
+            "after": {
+              "properties": {
+                "state": {
+                  "enum": [
+                    "alive",
+                    "expired_alive_removed",
+                    "pending",
+                    "expired_without_spawn"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "before": {
+              "properties": {
+                "state": {
+                  "const": "killed"
+                }
+              }
+            },
+            "after": {
+              "properties": {
+                "state": {
+                  "enum": [
+                    "killed",
+                    "pending",
+                    "expired_without_spawn"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "before": {
+              "properties": {
+                "state": {
+                  "const": "expired_without_spawn"
+                }
+              }
+            },
+            "after": {
+              "properties": {
+                "state": {
+                  "enum": [
+                    "expired_without_spawn",
+                    "pending"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "before": {
+              "properties": {
+                "state": {
+                  "const": "expired_alive_removed"
+                }
+              }
+            },
+            "after": {
+              "properties": {
+                "state": {
+                  "enum": [
+                    "expired_alive_removed",
+                    "pending",
+                    "expired_without_spawn"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "before": {
+            "properties": {
+              "state": {
+                "const": "alive"
+              }
+            }
+          },
+          "after": {
+            "properties": {
+              "state": {
+                "not": {
+                  "const": "alive"
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {},
+      "else": {
+        "properties": {
+          "stopped_root_event_ids": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

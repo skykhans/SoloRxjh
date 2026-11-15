@@ -1,0 +1,425 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "two_full_local_quest_designs_not_implemented_not_balanced",
+  "source_policy": "Preserve QREF63790-008/QREF63789-008 level48/route/two named NPCs/20 named tokens/6000practice+3enhancement stones/once. Source does not specify handoff order/monster producer;local accept first NPC,deliver second NPC and catalog red-haired fire thief49/greenwood bandit43 are explicit adoption. Stats/drop rates/zero-weight token/positions remain project design.",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-008",
+      "source_reference_id": "QREF-63790-008",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/31"
+      },
+      "name": "挑战自我",
+      "minimum_level": 48,
+      "route": "righteous",
+      "accept_npc_id": "npc_xiao_chunshui",
+      "accept_map_id": "liuzheng_pass",
+      "accept_interaction_anchor_id": "npc_xiao_chunshui_service",
+      "accept_service_id": "commission48_righteous_accept",
+      "delivery_npc_id": "npc_hu_yinhua",
+      "delivery_map_id": "liuzheng_pass",
+      "delivery_interaction_anchor_id": "npc_hu_yinhua_service",
+      "delivery_service_id": "commission48_righteous_deliver",
+      "handoff_policy": "explicit local accept-first/deliver-second arrangement;no paid relay/proof or intermediate reward;return to accept NPC cannot deliver",
+      "requirements": [
+        {
+          "item_id": "quest_fire_thief_token",
+          "quantity": 20
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 6000,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "enhancement_stone",
+            "quantity": 3,
+            "definition_ref": {
+              "file": "英雄主武器强化.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "split_npc"
+    },
+    {
+      "quest_id": "ref_QREF-63789-008",
+      "source_reference_id": "QREF-63789-008",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/80"
+      },
+      "name": "千晓生的的嘱托",
+      "minimum_level": 48,
+      "route": "evil",
+      "accept_npc_id": "npc_lu_xiaohuang",
+      "accept_map_id": "sanxie_pass",
+      "accept_interaction_anchor_id": "npc_lu_xiaohuang_service",
+      "accept_service_id": "commission48_evil_accept",
+      "delivery_npc_id": "npc_qian_xiaosheng",
+      "delivery_map_id": "sanxie_pass",
+      "delivery_interaction_anchor_id": "npc_qian_xiaosheng_service",
+      "delivery_service_id": "commission48_evil_deliver",
+      "handoff_policy": "explicit local accept-first/deliver-second arrangement;no paid relay/proof or intermediate reward;return to accept NPC cannot deliver",
+      "requirements": [
+        {
+          "item_id": "quest_bandit_short_sword",
+          "quantity": 20
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 6000,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "enhancement_stone",
+            "quantity": 3,
+            "definition_ref": {
+              "file": "英雄主武器强化.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "split_npc"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_fire_thief_token",
+      "name": "火贼的信物",
+      "source_reference_id": "QREF-63790-008",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "quest evidence,not equippable dagger or reusable combat consumable"
+    },
+    {
+      "item_id": "quest_bandit_short_sword",
+      "name": "山贼的短剑",
+      "source_reference_id": "QREF-63789-008",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "quest evidence,not equippable dagger or reusable combat consumable"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-008",
+        "monster_id": "liuzheng_pass_red_fire_thief49",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_fire_thief_token",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      },
+      {
+        "quest_id": "ref_QREF-63789-008",
+        "monster_id": "sanxie_pass_greenwood_bandit43",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_bandit_short_sword",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      }
+    ],
+    "eligibility": "own active attempt,correct current quest route,alive connected same room/map;solo unique death owner or exact19party member snapshot within30m/joined>=600steps;own token total<20",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "no token/progress,record original death no-item outcome;freeing space/reconnect/abandon/reaccept never replays it;later distinct death may grant",
+    "modifiers": "100%personal task output separate from public loot,no finisher/training multiplier",
+    "commit": "one05/19host death transaction for all recipient outcomes;ordinary monster XP/practice/silver once,not duplicated by team token recipients",
+    "shared_death_owner": {
+      "file": "四十八级正邪委托.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "monsters": [
+    {
+      "monster_id": "liuzheng_pass_red_fire_thief49",
+      "source_reference_id": "MREF-39820-012",
+      "name": "赤发火贼",
+      "level": 49,
+      "map_id": "liuzheng_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 3430,
+      "max_mana": 0,
+      "attack_min": 147,
+      "attack_max": 196,
+      "ordinary_defense": 98,
+      "accuracy": 245,
+      "evasion": 98,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_commission48_creature",
+      "xp_reward": 192777,
+      "practice_reward": 19277,
+      "silver_reward": 49,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liuzheng_pass_red_fire_thief49",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source name/level/region preserved;ordinary monster not martial NPC;producer selection/stats/spawns local",
+      "source_name_as_published": "赤发火贼"
+    },
+    {
+      "monster_id": "sanxie_pass_greenwood_bandit43",
+      "source_reference_id": "MREF-39819-005",
+      "name": "绿林山贼",
+      "level": 43,
+      "map_id": "sanxie_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 3010,
+      "max_mana": 0,
+      "attack_min": 129,
+      "attack_max": 172,
+      "ordinary_defense": 86,
+      "accuracy": 215,
+      "evasion": 86,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_commission48_creature",
+      "xp_reward": 126666,
+      "practice_reward": 12666,
+      "silver_reward": 43,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "sanxie_pass_greenwood_bandit43",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source name/level/region preserved;ordinary monster not martial NPC;producer selection/stats/spawns local",
+      "source_name_as_published": "绿林山贼"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "liuzheng_pass_red_fire_thief49_01",
+      "monster_id": "liuzheng_pass_red_fire_thief49",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        128,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_red_fire_thief49_02",
+      "monster_id": "liuzheng_pass_red_fire_thief49",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        128,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_red_fire_thief49_03",
+      "monster_id": "liuzheng_pass_red_fire_thief49",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        128,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_red_fire_thief49_04",
+      "monster_id": "liuzheng_pass_red_fire_thief49",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        128,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_greenwood_bandit43_01",
+      "monster_id": "sanxie_pass_greenwood_bandit43",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        128,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_greenwood_bandit43_02",
+      "monster_id": "sanxie_pass_greenwood_bandit43",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        128,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_greenwood_bandit43_03",
+      "monster_id": "sanxie_pass_greenwood_bandit43",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        128,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_greenwood_bandit43_04",
+      "monster_id": "sanxie_pass_greenwood_bandit43",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        128,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "no hostile spawn/entry,path return to home for healing,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "method": "verify0.45m monster radius+2m patrol margin against map bounds/solids/safe circles;0.35m player central x then z corridor;compare new homes to every existing map home",
+    "runtime_proven": false
+  },
+  "pending": [
+    "Godot two-NPC quest/inventory/practice/death/AI/save/LAN implementation and dynamic navigation tests",
+    "source creature art and48level versus49/43difficulty/reward economy calibration"
+  ],
+  "shared_death_collection": {
+    "monster_ids": [
+      "liuzheng_pass_red_fire_thief49",
+      "sanxie_pass_greenwood_bandit43"
+    ],
+    "producer_refs": [
+      {
+        "file": "四十八级正邪委托.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "五十四级正邪晚餐任务.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "四十五级正邪追缴任务.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "四十七级正邪寻物任务.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "snapshot": "one original death/recipient/route/current attempts/inventory snapshot;filter each registered producer by exact monster and own quest eligibility/below-cap;up to two45recovered items,two47search items,one48token and two54ingredients are independent candidate outputs,each1;at most7per recipient for either listed actor",
+    "capacity": "build all actual candidate additions together using exact binding/provenance/merge/weight;any candidate cannot fit =>none awarded and each candidate records failed-capacity;inactive/capped/ineligible producer contributes nothing and cannot block others;no acceptance-order priority",
+    "commit": "original05/19death transaction contains all recipients/outcomes and normal XP/practice/silver once;only actual inventory changes advance inventory revision once for each recipient,not once per candidate;no candidates=no token-related revision",
+    "replay": "immutable original outcomes after freeing space/reconnect/abandon/reaccept;no old death can feed new attempt;later distinct death may grant",
+    "scope": "only two listed public actors/eight original homes;no training-room variant or second body/spawn per quest"
+  }
+}

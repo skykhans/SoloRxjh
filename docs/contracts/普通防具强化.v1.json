@@ -1,0 +1,641 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "five_contribution_profiles_and_processing_design_not_runtime_ready_not_balanced",
+  "scope": "仅51普通1219件及55武勋106件的精确目录并集1325件；不含77异常基础值、21门派、初始短衫或其他装备。",
+  "source_policy": {
+    "observed": "6个具名图示组合的四个数值行及衣服罡气转换比率采用；显示罡气量只保存对照，不直接采用为固定评分。",
+    "project": "其他数值组合、减伤用途、罡气转换输入/取整、材料量/概率/银费/失败保留均为独立普通防具项目方案，不能借相同数值继承武器服务资格。",
+    "not_covered": "已采用防御、生命上限、守护对怪防御、损伤平减、衣服罡气转换五项；其他特殊触发、其他药品/元素显示与完整根实例/档案schema仍待，不因此开放运行。 防具天池神丹方案由普通防具附加提升.v1.json采用。"
+  },
+  "shared_material_ref": {
+    "file": "英雄主武器强化.v1.json",
+    "pointer": "/items/0"
+  },
+  "material_acquisition": {
+    "item_id": "enhancement_stone",
+    "npc_id": "npc_daojianxiao",
+    "class_ids": [
+      "blade",
+      "sword",
+      "assassin",
+      "spear",
+      "archer",
+      "physician",
+      "musician",
+      "zhen_fengbai",
+      "han_feiguan",
+      "tan_hualing",
+      "fighter",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv"
+    ],
+    "minimum_level": 1,
+    "minimum_rank": 0,
+    "quantity_range": [
+      1,
+      99
+    ],
+    "definition_policy": "仅共享强化石唯一定义：500两/堆99/重10g，权限沿唯一定义，不复制材料或修改英雄商店筛选。",
+    "registered": false
+  },
+  "service_policy": {
+    "planned_service_id": "npc_daojianxiao_ordinary_armor_enhance",
+    "registered": false,
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "qualification": "本人存活脱战空闲，无挑战/传送/未结算战斗队列；NPC可用且同地图2.5米内。源在本人装备背包，主辅先卸、仓储先取；精确属于本合同两目录并集1325定义并满足全部等级/转职/职业/路线/体型/武勋（仅具名武勋件）条件，原实例和原库存完整合法。",
+    "scope_rejection": "初始短衫、门派、异常来源和其他物品不接受；未知字段、未决非空成长不删除修复。",
+    "same_instance": true,
+    "enhancement_range": [
+      0,
+      15
+    ]
+  },
+  "tiers": [
+    {
+      "recipe_id": "ordinary_armor_enhance_01",
+      "from_enhancement": 0,
+      "to_enhancement": 1,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 100,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 0
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_02",
+      "from_enhancement": 1,
+      "to_enhancement": 2,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 300,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 1
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_03",
+      "from_enhancement": 2,
+      "to_enhancement": 3,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 2
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_04",
+      "from_enhancement": 3,
+      "to_enhancement": 4,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 3000,
+      "success_probability_bp": 9000,
+      "random_draw_required": true,
+      "failure_enhancement": 3
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_05",
+      "from_enhancement": 4,
+      "to_enhancement": 5,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 10000,
+      "success_probability_bp": 8500,
+      "random_draw_required": true,
+      "failure_enhancement": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_06",
+      "from_enhancement": 5,
+      "to_enhancement": 6,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 30000,
+      "success_probability_bp": 8000,
+      "random_draw_required": true,
+      "failure_enhancement": 5
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_07",
+      "from_enhancement": 6,
+      "to_enhancement": 7,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 100000,
+      "success_probability_bp": 7500,
+      "random_draw_required": true,
+      "failure_enhancement": 6
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_08",
+      "from_enhancement": 7,
+      "to_enhancement": 8,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 300000,
+      "success_probability_bp": 6500,
+      "random_draw_required": true,
+      "failure_enhancement": 7
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_09",
+      "from_enhancement": 8,
+      "to_enhancement": 9,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 4,
+      "silver_fee": 600000,
+      "success_probability_bp": 5500,
+      "random_draw_required": true,
+      "failure_enhancement": 8
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_10",
+      "from_enhancement": 9,
+      "to_enhancement": 10,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 5,
+      "silver_fee": 1000000,
+      "success_probability_bp": 4500,
+      "random_draw_required": true,
+      "failure_enhancement": 9
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_11",
+      "from_enhancement": 10,
+      "to_enhancement": 11,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 6,
+      "silver_fee": 2000000,
+      "success_probability_bp": 3500,
+      "random_draw_required": true,
+      "failure_enhancement": 10
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_12",
+      "from_enhancement": 11,
+      "to_enhancement": 12,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 8,
+      "silver_fee": 3000000,
+      "success_probability_bp": 2500,
+      "random_draw_required": true,
+      "failure_enhancement": 11
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_13",
+      "from_enhancement": 12,
+      "to_enhancement": 13,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 10,
+      "silver_fee": 5000000,
+      "success_probability_bp": 2000,
+      "random_draw_required": true,
+      "failure_enhancement": 12
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_14",
+      "from_enhancement": 13,
+      "to_enhancement": 14,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 12,
+      "silver_fee": 8000000,
+      "success_probability_bp": 1500,
+      "random_draw_required": true,
+      "failure_enhancement": 13
+    },
+    {
+      "recipe_id": "ordinary_armor_enhance_15",
+      "from_enhancement": 14,
+      "to_enhancement": 15,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 15,
+      "silver_fee": 10000000,
+      "success_probability_bp": 1000,
+      "random_draw_required": true,
+      "failure_enhancement": 14
+    }
+  ],
+  "defense_policy": {
+    "maximum_real_enhancement": 15,
+    "project_units_by_enhancement": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6,
+      9,
+      13,
+      18,
+      24,
+      31,
+      38,
+      44,
+      50,
+      65,
+      80
+    ],
+    "project_coefficient_by_minimum_rank": [
+      1,
+      1,
+      1,
+      2,
+      2,
+      3,
+      3,
+      4,
+      4,
+      4,
+      5,
+      5,
+      5
+    ],
+    "category_multipliers": {
+      "body": 2,
+      "boots": 1,
+      "gloves": 1,
+      "inner_armor": 1
+    },
+    "true_coefficient_add": 1,
+    "selection": "精确命中observed_contribution_overrides仅用该defense_flat；其余合法组合用units[真实强化]×(minimum_rank系数+真标识加1)×部位倍率。两分区互斥；所有1325×16组合必须有唯一结果，不把未知定义套入。",
+    "rationale": "项目衣服承担更大防御贡献，高阶按已采用转职增加；真件系数独立增加。未经平衡实测，不宣称是官网通用公式。",
+    "application": "来源基础防御+本项真实强化防御各计一次；不加截图显示总值，不重复加旧阶贡献。仅生效组且合法/未失效部位的实例贡献，左右护手逐实际实例计算；不持久化派生防御缓存。",
+    "barrier_boundary": "强化防御不乘梅柳真障力，不改变19件barrier_capacity_flat；内力变化对障力仍由资源owner重算。"
+  },
+  "enhancement_field": {
+    "name": "enhancement",
+    "type": "integer_not_bool",
+    "minimum": 0,
+    "maximum": 15,
+    "fresh_creation_value": 0,
+    "read_policy": "新建正式路径才写0；读档缺失/越界/类型错拒绝，不补或截断。十字段组件见62，完整根实例/档案schema仍待，不能只验本字段就放行。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "from_enhancement",
+      "recipe_id",
+      "recipe_version",
+      "material_stack_ids_and_quantities",
+      "command_id",
+      "optional_charm_selector",
+      "base_success_probability_bp",
+      "effective_success_probability_bp"
+    ],
+    "preview": "显示精确概率、石数、银费、成功/失败强化及五项贡献、资源下裁和全部派生变化；完整成长/特殊触发owner尚未闭合则不可提交，不用未知0生成报价。",
+    "commit": "房主按角色串行，先查同命令成功/失败收据；同命令异参数拒绝。再重验会话/修订/全部资格/完整库存实例，在副本扣精确石数和随身钱并验证最终格重；复制RNG，按原幸运符owner算最终有效概率，最终必成不抽样（含选符补满），其他从0..9999无偏抽一次，draw<bp成功。实例/费用/RNG/修订/结果收据同事务提交。",
+    "success": "同实例同物品定义同血统，真实强化+1；其他合法字段精确保留，未完成身份不自动完成/提真。",
+    "failure": "仍扣材料/银费，真实强化不变，不毁/不降/不清其他成长，明确项目失败保护。",
+    "invalid_cancel_and_cap": "非法/取消/+15满级均不扣钱石、不抽随机、不增修订；不存在+16配方。",
+    "deduplication": "成功及失败均记录结果，重试返回原结果，不再次扣费或开奖，不用旧收据回装历史状态。",
+    "save_failure": "保留已提交内存状态/RNG/未保存标记，仅重存相同结果，不重新抽样或执行消费。",
+    "optional_charm": "optional_charm_selector必须显式null或指定真实随身5%/10%/15%符堆及预期修订/数量1；报价/摘要/消费/有效概率/随机/收据沿optional_luck_charm_owner_ref，成功失败都消费一张；原必成档选符拒绝。",
+    "random_flow_binding_ref": {
+      "file": "强化幸运符.v1.json",
+      "pointer": "/processing/random_flow_binding"
+    }
+  },
+  "implementation_gate": "完整根实例/档案schema、其他特殊触发及其他药品/元素显示、完整派生/外观资源/服务联审尚未闭合；本合同不单独激活运行。",
+  "observed_contribution_overrides": [
+    {
+      "item_id": "armor_regular_blade_8594908363c5",
+      "real_enhancement": 14,
+      "defense_flat": 550,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/0"
+      },
+      "authority": "防御/生命/守护/损伤减少行及10%或20%转换比例逐项采用；罡气显示量保来源不当固定奖励，换算范围与减伤用途为项目语义，显示总防御差异仍保留",
+      "max_hp_flat": 620,
+      "pve_defense_bonus": 303,
+      "flat_damage_reduction": 70,
+      "gangqi_conversion_bp": 1000,
+      "source_gangqi_rating_not_adopted_as_constant": 92
+    },
+    {
+      "item_id": "armor_regular_blade_f4e0dc22b870",
+      "real_enhancement": 14,
+      "defense_flat": 550,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/2"
+      },
+      "authority": "防御/生命/守护/损伤减少行及10%或20%转换比例逐项采用；罡气显示量保来源不当固定奖励，换算范围与减伤用途为项目语义，显示总防御差异仍保留",
+      "max_hp_flat": 620,
+      "pve_defense_bonus": 303,
+      "flat_damage_reduction": 70,
+      "gangqi_conversion_bp": 1000,
+      "source_gangqi_rating_not_adopted_as_constant": 101
+    },
+    {
+      "item_id": "armor_regular_blade_7c9c5b1090dd",
+      "real_enhancement": 14,
+      "defense_flat": 609,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/3"
+      },
+      "authority": "防御/生命/守护/损伤减少行及10%或20%转换比例逐项采用；罡气显示量保来源不当固定奖励，换算范围与减伤用途为项目语义，显示总防御差异仍保留",
+      "max_hp_flat": 660,
+      "pve_defense_bonus": 331,
+      "flat_damage_reduction": 80,
+      "gangqi_conversion_bp": 1000,
+      "source_gangqi_rating_not_adopted_as_constant": 107
+    },
+    {
+      "item_id": "armor_regular_blade_8594908363c5",
+      "real_enhancement": 15,
+      "defense_flat": 650,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/4"
+      },
+      "authority": "防御/生命/守护/损伤减少行及10%或20%转换比例逐项采用；罡气显示量保来源不当固定奖励，换算范围与减伤用途为项目语义，显示总防御差异仍保留",
+      "max_hp_flat": 970,
+      "pve_defense_bonus": 338,
+      "flat_damage_reduction": 80,
+      "gangqi_conversion_bp": 2000,
+      "source_gangqi_rating_not_adopted_as_constant": 205
+    },
+    {
+      "item_id": "armor_regular_blade_f4e0dc22b870",
+      "real_enhancement": 15,
+      "defense_flat": 650,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/6"
+      },
+      "authority": "防御/生命/守护/损伤减少行及10%或20%转换比例逐项采用；罡气显示量保来源不当固定奖励，换算范围与减伤用途为项目语义，显示总防御差异仍保留",
+      "max_hp_flat": 970,
+      "pve_defense_bonus": 338,
+      "flat_damage_reduction": 80,
+      "gangqi_conversion_bp": 2000,
+      "source_gangqi_rating_not_adopted_as_constant": 223
+    },
+    {
+      "item_id": "armor_regular_blade_7c9c5b1090dd",
+      "real_enhancement": 15,
+      "defense_flat": 717,
+      "source_ref": {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/records/7"
+      },
+      "authority": "防御/生命/守护/损伤减少行及10%或20%转换比例逐项采用；罡气显示量保来源不当固定奖励，换算范围与减伤用途为项目语义，显示总防御差异仍保留",
+      "max_hp_flat": 1010,
+      "pve_defense_bonus": 368,
+      "flat_damage_reduction": 90,
+      "gangqi_conversion_bp": 2000,
+      "source_gangqi_rating_not_adopted_as_constant": 236
+    }
+  ],
+  "maximum_hp_policy": {
+    "stat_key": "max_hp_flat",
+    "project_units_by_real_enhancement": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      20,
+      32,
+      40,
+      52,
+      64,
+      80
+    ],
+    "rank_coefficients_ref": {
+      "file": "普通防具强化.v1.json",
+      "pointer": "/defense_policy/project_coefficient_by_minimum_rank"
+    },
+    "true_coefficient_add": 1,
+    "selection": "精确命中observed_contribution_overrides取其max_hp_flat；其他合法定义×真实强化组合用本表units×(最低rank系数+真标识加1)，不乘部位倍率。两个分区互斥，不将缺图当0。",
+    "authority": "6组具名高阶值直接采用图示生命增加行；其余明确项目生命曲线，+0～9显式不提供本强化生命，非解析缺字段补0",
+    "application": "仅生效组合法且未被防具失效的部位逐实例平加生命上限，来源属性与其他owner贡献各一次；备用不叠加，双护手各按实际实例",
+    "maximum_changed": "按14/17既有规则当前生命=min(原当前生命,新最终上限)，上限增加不回血；死亡角色仍为0，不复活；失效恢复/换组不返还已裁掉生命。角色配置最终上限覆盖依18在正常构筑后应用，不能把该来源再加到覆盖值上。",
+    "not_current_healing": true
+  },
+  "guardian_pve_defense_policy": {
+    "stat_key": "pve_defense_bonus",
+    "project_units_by_real_enhancement": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      7,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24,
+      27,
+      30
+    ],
+    "rank_coefficients_ref": {
+      "file": "普通防具强化.v1.json",
+      "pointer": "/defense_policy/project_coefficient_by_minimum_rank"
+    },
+    "true_coefficient_add": 1,
+    "selection": "精确命中observed_contribution_overrides取其pve_defense_bonus；其余合法组合用本表units×(最低rank系数+真标识加1)，不乘部位倍率，互斥不叠加。",
+    "authority": "6组具名高阶值采用图示守护对怪防御行；其余为明确项目曲线，+0～6本项显式0，不宣称官网全部等级值已公开",
+    "combat_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/defense"
+    },
+    "application": "仅生效组合法且未失效部位逐实例进入pve_defense_bonus来源和；与宝珠/反气功等合法独立来源相加各一次，不能先归入ordinary_defense再重复进PvE项。",
+    "context": "仅战斗合同明确PvE上下文，命中结算时读取目标当前有效来源。effective_defense=ordinary_defense+全部有效pve_defense_bonus，完整防御只计算一次；不是伤害平减或罡气，不保护环境/自付/周期伤害，也不额外重新结算状态爆发。",
+    "ordinary_context": "上下文不满足PvE时不应用这项来源，不把它永久折入普通防御缓存"
+  },
+  "flat_damage_reduction_policy": {
+    "stat_key": "flat_damage_reduction",
+    "project_units_by_real_enhancement": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      9,
+      11,
+      13
+    ],
+    "rank_coefficients_ref": {
+      "file": "普通防具强化.v1.json",
+      "pointer": "/defense_policy/project_coefficient_by_minimum_rank"
+    },
+    "true_coefficient_add": 1,
+    "selection": "精确图示组合用observed_contribution_overrides.flat_damage_reduction；其他合法组合用本表units×(最低rank系数+真标识加1)，不乘部位倍率，分区互斥",
+    "authority": "6组采用图示对方损伤减少行；其他组合及平减语义为明确项目采用，不把80解释为80%",
+    "application": "仅生效组合法未失效部位逐实例相加为本项平减来源；与其他具名平减来源各计一次，先完成普通/上下文防御及适用罡气，再做max(0,输入伤害-平减来源总和)，不另算一次逐件截断减伤",
+    "combat_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/direct_pipeline"
+    },
+    "context": "仅敌方普通直接攻击和攻击武功的本次直接伤害，沿战斗owner的既有唯一平减阶段；不再覆盖持续/环境/自付/状态爆发或复制到派生伤害，其他特殊事件须由其owner明确声明",
+    "zero_policy": "真实+0～6明确本项目贡献0；未知物品或非法强化拒绝，不给任意来源补0"
+  },
+  "gangqi_conversion_policy": {
+    "stat_key": "gangqi_rating",
+    "bp_by_category_and_real_enhancement": {
+      "body": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1000,
+        2000
+      ],
+      "boots": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "gloves": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "inner_armor": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "ratio_selection": "衣服14/15项目采用10%/20%，6精确图示组合比例与此一致；其他衣服外推为项目决定；其他部位和0～13明确本项0，不扩展为官网通用结论",
+    "input_fields": [
+      "definition.stats.defense",
+      "this_contract.real_enhancement_defense_flat",
+      "ordinary_armor_synthesis_defense_flat_sum"
+    ],
+    "input_policy": "仅该实际衣服的基础普通防御+本合同真实强化防御+53普通防具合成owner采用的该实例armor_defense条目和；不含其他属性/装备、角色总防御、最终覆盖、PvE或转换产物。进化等新来源须另具名采用，不给未知字段补0。",
+    "formula": "floor((definition.stats.defense + real_enhancement_defense_flat + ordinary_armor_synthesis_defense_flat_sum) * conversion_bp / 10000)",
+    "authority": "图示支持10%/20%比率，不证明本项目三项输入及取整时序为官网公式；不把图示罡气量当固定奖励或反推基础防御",
+    "ordinary_defense_preserved": true,
+    "conversion_meaning": "本项目采用额外罡气评分，不扣除原普通防御，不转成可消耗盾或伤害百分比；只转换一次，不把结果递归加入输入",
+    "gangqi_owner_ref": {
+      "file": "精金血气与罡气采用.v1.json",
+      "pointer": "/gangqi_stat"
+    },
+    "application": "仅生效组合法未失效body贡献，与配对气功等独立罡气来源相加；再由既有罡气owner在直接攻击武功中结算，不为普攻/周期/环境另开阶段，最终罡气配置覆盖仍由原owner替换总评分一次",
+    "suppression": "衣服失效时基础/强化防御与本转换来源一并不贡献，换同槽不绕过；恢复时依当前装备重新算，不保存罡气派生缓存",
+    "projection_example": {
+      "catalog_item": "神海战袍（男）普通160真实14",
+      "base_defense": 400,
+      "enhancement_defense": 550,
+      "conversion_bp": 1000,
+      "gangqi_rating": 95,
+      "source_image_displayed_gangqi": 92,
+      "note": "本例合法无合成条目，项目输入与复合截图不同；合成4条防御20时为103罡气，不改基础以贴合截图。",
+      "synthesis_defense_flat_sum": 0
+    },
+    "synthesis_defense_owner_ref": {
+      "file": "普通防具合成.v1.json",
+      "pointer": "/projection_policy"
+    }
+  },
+  "eligibility_catalog_refs": [
+    {
+      "file": "普通防具基础定义.v1.json",
+      "pointer": "/items"
+    },
+    {
+      "file": "武勋防具基础定义.v1.json",
+      "pointer": "/items"
+    }
+  ],
+  "same_lineage_true_conversion_owner_ref": {
+    "file": "普通防具提真.v1.json",
+    "pointer": "/same_lineage_replacement_provenance"
+  },
+  "enhancement_boost_guard_owner_ref": {
+    "file": "普通防具附加提升.v1.json",
+    "pointer": "/processing_guard"
+  },
+  "instance_growth_schema_owner_ref": {
+    "file": "普通防具成长.v1.json",
+    "pointer": ""
+  },
+  "full_instance_owner_ref": {
+    "file": "普通防具实例.v1.json",
+    "pointer": ""
+  },
+  "optional_luck_charm_owner_ref": {
+    "file": "强化幸运符.v1.json",
+    "pointer": "/processing"
+  }
+}

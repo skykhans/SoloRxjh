@@ -1,0 +1,174 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "one_source_gather_quest_designed_not_implemented_not_balanced",
+  "source_policy": "QREF-63791-006 provides17level/WeiDabao/15firewood/30000silver/once; IREF-39807-019-4provides material name only. Gathering objects,position,timing,ownership and permissions below are local design,not published monster/drop claims.",
+  "quest": {
+    "quest_id": "ref_QREF-63791-006",
+    "source_reference_id": "QREF-63791-006",
+    "name": "寻找木柴",
+    "minimum_level": 17,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_wei_dabao",
+    "npc_map_id": "hyunbo_town",
+    "service_id": "find_firewood",
+    "interaction_anchor_id": "npc_wei_dabao_service",
+    "service_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "readiness": "derived from carried bound firewood>=15; not independently saved count,warehouse never counted",
+    "acceptance": "alive,out of combat,idle,no challenge,valid level and class/route,NPC2.5m; never already delivered",
+    "required_item": {
+      "item_id": "quest_firewood",
+      "quantity": 15
+    },
+    "preaccept_items_count": false,
+    "reward": {
+      "silver": 30000,
+      "experience": 0,
+      "practice": 0,
+      "items": [],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "repeat": "once per character across worlds; completion is character quest identity,not world/day reset",
+    "abandon": "confirmation removes only this quest bound firewood from all carried ownership,keeps unrelated materials; resets active progress,no fee/refund; delivered cannot abandon/reaccept",
+    "delivery": "same qualification and NPC; atomically consume15 bound carried firewood,credit30000silver,mark delivered and unique receipt; silver ceiling failure leaves entire input and state unchanged",
+    "modifiers": "task silver excluded from shop-price,team,finisher,training modifiers; no automatic supreme multiplier",
+    "replay": "character/quest/final-settlement unique; request_id and expected_revision; stale/retry returns original or rejects,never regrants",
+    "save": "05/19host settlement with character-only completion; no unrecorded gather progress or reset on room load"
+  },
+  "item": {
+    "item_id": "quest_firewood",
+    "source_reference_id": "IREF-39807-019-4",
+    "name": "木柴",
+    "category": "quest_token",
+    "stack_limit": 99,
+    "weight_g": 500,
+    "binding": "character_id + quest_id",
+    "permissions": {
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false,
+      "direct_use": false,
+      "quest_turn_in": true,
+      "explicit_abandon_cleanup": true
+    },
+    "sell_price": null,
+    "maximum_owned_for_quest": 15,
+    "initial_grant": 0,
+    "identity_policy": "not LinglongBamboo or general timber,never converts old bamboo/materials by name"
+  },
+  "gather": {
+    "action_id": "gather_quest_firewood",
+    "map_id": "hyunbo_outskirts",
+    "object_kind": "local_deadwood_pile",
+    "interaction_range_mm": 2000,
+    "duration_steps": 180,
+    "hp_mana_stamina_cost": 0,
+    "qualification": "alive,out of combat,idle,no challenge,own quest accepted and not delivered,own carried amount<15; within2m and unobstructed LOS",
+    "tool": "intrinsic hand-gather animation for14classes,not weapon attack or consumed axe",
+    "cancellation": "movement/dodge/attack/skill/new interaction/hostile damage/invalid pile or range cancels without materials or recharge; damage adjudicated before completion same step",
+    "output": "1physical quest_firewood,100%,no bonus quantities/randomness/XP; no virtual count; recheck final backpack slot/weight and max15 at completion",
+    "capacity_failure": "reject whole gather,no material/no pile cooldown; no warehouse/ground overflow",
+    "ownership": "shared pile,cannot have two active collectors; host reserves by actual accepted action,conflict rejects; after successful gather one1800step cooldown shared per pile",
+    "regrowth_steps": 1800,
+    "blocked_or_empty": "no action accepted during regrowth; no node switching or nearest pile substitution",
+    "node_reset": "generation/recharge/reservation belongs world,not visiting character; map enter/exit never resets",
+    "request_key": [
+      "world_id",
+      "pile_id",
+      "generation",
+      "character_id",
+      "accepted_action_id"
+    ],
+    "completion": "same host transaction creates physical item,advances pile generation,starts recharge and issues receipt; client retry no duplicate output",
+    "save": "world.firewood_piles stores4known IDs,last generation,remaining recharge0..1800,and accepted collector/action reservation or null;05fixed-step snapshot saves action remaining/target; no duplicate inventory quantity cache",
+    "offline_pause": "freeze remaining recharge/action with whole world;LAN host continues,disconnect cancels reservation/no output",
+    "load": "missing/bad new fields reject; restore same cooldown/action,never fresh pile or free gathered unit"
+  },
+  "piles": [
+    {
+      "pile_id": "hyunbo_firewood_01",
+      "map_id": "hyunbo_outskirts",
+      "position_feet_m": [
+        -24,
+        0,
+        60
+      ],
+      "radius_m": 0.4,
+      "height_m": 0.5,
+      "initial_generation": 0,
+      "initial_recharge_steps": 0,
+      "presentation_id": "deadwood_pile",
+      "blocks_movement": false
+    },
+    {
+      "pile_id": "hyunbo_firewood_02",
+      "map_id": "hyunbo_outskirts",
+      "position_feet_m": [
+        -24,
+        0,
+        80
+      ],
+      "radius_m": 0.4,
+      "height_m": 0.5,
+      "initial_generation": 0,
+      "initial_recharge_steps": 0,
+      "presentation_id": "deadwood_pile",
+      "blocks_movement": false
+    },
+    {
+      "pile_id": "hyunbo_firewood_03",
+      "map_id": "hyunbo_outskirts",
+      "position_feet_m": [
+        24,
+        0,
+        60
+      ],
+      "radius_m": 0.4,
+      "height_m": 0.5,
+      "initial_generation": 0,
+      "initial_recharge_steps": 0,
+      "presentation_id": "deadwood_pile",
+      "blocks_movement": false
+    },
+    {
+      "pile_id": "hyunbo_firewood_04",
+      "map_id": "hyunbo_outskirts",
+      "position_feet_m": [
+        24,
+        0,
+        80
+      ],
+      "radius_m": 0.4,
+      "height_m": 0.5,
+      "initial_generation": 0,
+      "initial_recharge_steps": 0,
+      "presentation_id": "deadwood_pile",
+      "blocks_movement": false
+    }
+  ],
+  "initialization": {
+    "explicit_new_world": "initialize four pile records to declared generation0/recharge0/reservation null; not initial material grant",
+    "explicit_new_role": "not_accepted with no quest wood or completion receipt",
+    "known_legacy": "no source firewood quest; explicitly not_accepted,no material,retain all unrelated old story progress",
+    "existing_world_content_change": "explicit marked content initialization needed,never infer missing fields on load"
+  },
+  "pending": [
+    "Godot gather/quest UI/atomic delivery/save/LAN tests",
+    "deadwood asset/animation and gather-time/economy calibration"
+  ]
+}

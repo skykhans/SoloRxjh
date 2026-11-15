@@ -1,0 +1,367 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:legacy-sword-training-event:v1",
+  "$comment": "曹彬旧四剑技单次一级付费训练原三阶段事件；原认主/四级/旧预算/银来源及修订算术另验，免费剑气授予不走本事件。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "silver_flow",
+        "rank_after"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "silver_flow": {
+          "$ref": "urn:solorxjh:silver-flow:v1",
+          "properties": {
+            "accounts": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "account": {
+                    "const": "carried_silver"
+                  },
+                  "before_balance": {
+                    "minimum": 1
+                  },
+                  "previous_output": {
+                    "type": "object"
+                  },
+                  "opening_authorization": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            "movements": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "from_account_index": {
+                    "const": 0
+                  },
+                  "to_account_index": {
+                    "type": "null"
+                  },
+                  "authorization": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "const": "service_fee"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "rank_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "state_changed",
+            "rules_changed",
+            "session_invalid",
+            "explicit_cancel"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "ability_id",
+        "service_context"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "ability_id": {
+          "enum": [
+            "legacy_sword_energy",
+            "legacy_sword_piercing",
+            "legacy_sword_guard",
+            "legacy_sword_mend"
+          ]
+        },
+        "service_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "npc_id",
+            "service_id",
+            "service_session_id"
+          ],
+          "properties": {
+            "npc_id": {
+              "const": "npc_cao_bin"
+            },
+            "service_id": {
+              "const": "legacy_sword_training"
+            },
+            "service_session_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "silver_cost",
+        "silver_input",
+        "rank_before"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "silver_cost": {
+          "enum": [
+            2,
+            4,
+            8
+          ]
+        },
+        "silver_input": {
+          "$ref": "urn:solorxjh:silver-flow:v1#/properties/accounts/items/properties/previous_output/oneOf/1"
+        },
+        "rank_before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:solorxjh:legacy-sword-training-event:v1"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "ability_id": {
+                "const": "legacy_sword_energy"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "rank_before": {
+                "minimum": 1
+              }
+            }
+          },
+          "rank_after": {
+            "minimum": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "rank_before": {
+                "const": 0
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "silver_cost": {
+                "const": 2
+              }
+            }
+          },
+          "rank_after": {
+            "const": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "rank_before": {
+                "const": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "silver_cost": {
+                "const": 4
+              }
+            }
+          },
+          "rank_after": {
+            "const": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "rank_before": {
+                "const": 2
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "silver_cost": {
+                "const": 8
+              }
+            }
+          },
+          "rank_after": {
+            "const": 3
+          }
+        }
+      }
+    }
+  ]
+}

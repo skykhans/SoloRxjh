@@ -1,0 +1,1231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:network-receipts:v1",
+  "$comment": "character.network_receipts原world_id映射及从已保存head派生的累计ACK。只验证结构，不是完整角色/结果封套或成员认证；连续链/真实保存/原结果相等须owner语义校验。",
+  "type": "object",
+  "propertyNames": {
+    "type": "string",
+    "minLength": 1,
+    "pattern": "\\S"
+  },
+  "additionalProperties": {
+    "$ref": "#/$defs/head"
+  },
+  "$defs": {
+    "head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_profile_id",
+        "last_applied_sequence",
+        "last_result_id",
+        "last_result_character_revision",
+        "last_result_inventory_revision",
+        "saved_profile_revision"
+      ],
+      "properties": {
+        "authority_profile_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "last_applied_sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "last_result_id": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "last_result_character_revision": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          ]
+        },
+        "last_result_inventory_revision": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          ]
+        },
+        "saved_profile_revision": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "last_applied_sequence": {
+                "const": 0
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "last_result_id": {
+                "type": "null"
+              },
+              "last_result_character_revision": {
+                "type": "null"
+              },
+              "last_result_inventory_revision": {
+                "type": "null"
+              },
+              "saved_profile_revision": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "last_result_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "last_result_character_revision": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "last_result_inventory_revision": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "saved_profile_revision": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              }
+            }
+          }
+        }
+      ]
+    },
+    "saved_ack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "world_id",
+        "authority_profile_id",
+        "profile_id",
+        "character_id",
+        "result_id",
+        "applied_sequence",
+        "character_revision",
+        "inventory_revision",
+        "saved_profile_revision"
+      ],
+      "properties": {
+        "world_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "authority_profile_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "profile_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "character_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "result_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "applied_sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "saved_profile_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "result_producer": {
+      "$comment": "仅已采用严格原记录的owner白名单；reserved不构成结果。未登记原producer拒绝，不能用任意object或kind字符串授权；合法记录结构不替代完整源依赖及共同决定验证。",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:warehouse-silver-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:warehouse-silver-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:story-sword-binding-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:story-sword-binding-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:ascended-martial-upgrade-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:ascended-martial-upgrade-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:ascended-martial-learning-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:ascended-martial-learning-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:heavenly-stone-conversion-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:heavenly-stone-conversion-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:ascended-martial-reset-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:ascended-martial-reset-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:qigong-respec-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:qigong-respec-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:quickbar-binding-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:quickbar-binding-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:legacy-sword-training-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:legacy-sword-training-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:ordinary-active-training-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:ordinary-active-training-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:qigong-manual-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:qigong-manual-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:qigong-allocation-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:qigong-allocation-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:chord-cycle-setting-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:chord-cycle-setting-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:loadout-switch-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:loadout-switch-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:story-boss-reward-claim-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:story-boss-reward-claim-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:story-boss-entry-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:story-boss-entry-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:story-boss-return-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:story-boss-return-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:character-session:v1#/$defs/end_receipt"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:character-session:v1#/$defs/end_receipt"
+                },
+                {
+                  "properties": {
+                    "identity": {
+                      "properties": {
+                        "mode": {
+                          "enum": [
+                            "lan_host",
+                            "lan_client"
+                          ]
+                        }
+                      }
+                    },
+                    "final_result_sequence": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:player-trade-fragments:v1#/$defs/decided_record"
+            },
+            "record": {
+              "$ref": "urn:solorxjh:player-trade-fragments:v1#/$defs/decided_record"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:timed-source-configuration-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:timed-source-configuration-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:jewelry-override-configuration-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:jewelry-override-configuration-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:merit-title-certification-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:merit-title-certification-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:merit-title-expiry-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:merit-title-expiry-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:merit-configuration-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:merit-configuration-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:story-boss-abandon-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:story-boss-abandon-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:character-respawn-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:character-respawn-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:character-death-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:character-death-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:ordinary-armor-purchase-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:ordinary-armor-purchase-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:heavenly-stone-claim-event:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:heavenly-stone-claim-event:v1"
+                },
+                {
+                  "properties": {
+                    "phase": {
+                      "enum": [
+                        "committed",
+                        "aborted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "result_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "sequence",
+        "previous_result_id",
+        "result_id",
+        "rules_hash",
+        "producer",
+        "character_revision_before",
+        "inventory_revision_before",
+        "character_revision_after",
+        "inventory_revision_after",
+        "character_before_digest",
+        "character_after_digest",
+        "character_after_base64"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+            },
+            {
+              "properties": {
+                "mode": {
+                  "enum": [
+                    "lan_host",
+                    "lan_client"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "previous_result_id": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "result_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "rules_hash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "producer": {
+          "$ref": "#/$defs/result_producer"
+        },
+        "character_revision_before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "character_before_digest": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "character_after_digest": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "character_after_base64": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/opening_character_base64"
+        }
+      },
+      "$comment": "完整传输/重放封套结构，原业务正文与本地保存水位分开。Base64必须解码全量角色并先验完整根/来源，快照业务摘要仅剔除network_receipts；完整角色根未采用前不能应用此封套。",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "sequence": {
+                "const": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "previous_result_id": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "previous_result_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "result_journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/result_envelope"
+      },
+      "$comment": "同world/profile/character完整连续链，数组位置i对应sequence=i+1，跨session不重置；当前未采用压缩，不允许裁前缀。"
+    },
+    "client_result_proofs": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "propertyNames": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "additionalProperties": {
+          "$ref": "#/$defs/result_journal"
+        }
+      },
+      "$comment": "profile.lan_result_proofs[world_id][character_id]，只属于本profile接收角色；host自己的结果在原world日志，不再复制此表。原远端producer不是本档通用结算分配，不计settlement_next_id。"
+    }
+  }
+}

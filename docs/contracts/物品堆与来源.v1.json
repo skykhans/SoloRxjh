@@ -1,0 +1,78 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "current_stack_and_quantity_flow_design_not_implemented_full_profile_and_receipts_pending",
+  "scope": "当前已采用堆叠实物的根结构、任务绑定维度与数量来源流；不是完整容器/档案/世界/经济收据schema，不包含唯一装备实例。",
+  "owners": {
+    "readable": "../72-物品堆与数量来源校验合同.md",
+    "stack_schema": "物品堆.schema.json",
+    "flow_schema": "物品堆来源流.schema.json",
+    "containers": "容器与仓储.v1.json",
+    "trade": "玩家交易.v1.json",
+    "legacy": "旧档导入.v1.json",
+    "layout_schema": "物品容器布局.schema.json",
+    "custody": "物品域迁移.v1.json"
+  },
+  "stack_fields": [
+    "stack_id",
+    "item_id",
+    "binding",
+    "quest_scope",
+    "quantity",
+    "revision",
+    "origin_receipt_id"
+  ],
+  "location": "character.item_stacks唯一持有当前堆正文；inventory/warehouse占用槽以kind=stack及target_id引用。equipment_instances存唯一实例正文，各装备槽或容器仅引用ID。完整布局以容器与仓储.v1.json/persistent_layout为权威，位置schema独立；正文注册表每项恰被一处正式位置引用。历史flow输出character_id记录当时所有权，不作为另一份当前容器。",
+  "binding": {
+    "plain": "普通角色绑定物quest_scope=null；不绑定物binding=unbound且quest_scope=null。character绑定的角色就是外层持有角色，不允许通过搬入另一角色重解释。",
+    "task": "任务物binding=character，quest_scope只出现该定义精确声明的维度；quest_id必有。attempt_id/branch_id/class_id/world_id/accepted_day_index/completion_receipt_id按对应owner语义提供，未声明字段不写，不能以schema允许为由自行增加维度。",
+    "completion": "绑定前置完成的推荐书引用实际前置最终收据completion_receipt_id，不存当前主任务attempt；后续任务取消只释放锁不重发/换源。",
+    "day": "修炼任务凭证world_id/accepted_day_index引用接取世界日；到日界/放弃按owner消耗原实物并记quest_cleanup，不额外保存一份可失配expires_at或remaining。",
+    "expiry": "当前正式堆定义为永久或任务生命周期清理，无通用墙钟过期堆。未来采用限时实物必须先扩展正式版本与迁移，不以未知expiry字段、null或永久默认放行。"
+  },
+  "merge_key": [
+    "item_id",
+    "binding",
+    "quest_scope"
+  ],
+  "merge": "按语义结构比较精确键值，不依赖JSON键顺序；不同来源可合堆但保数量前链。未知字段、未知定义、错误绑定/任务维度、超定义max_stack或保护量先拒绝。UI名称不作键。",
+  "revision": "新堆revision=0；数量/绑定作用域/来源变更的存续堆在一事务仅+1，溢出拒绝。纯排序/整堆移仓保堆内容及修订，仅改变外层库存修订；原有预留/保护/权限校验仍须通过。部分移仓或合并改变数量必须有flow。数量0堆移除，不保活体墓碑。 每个存续原ID仅可对应一输出，必须由本输入相同ID/owner的前版本贡献且revision恰+1；不得把别人的ID移用为接收堆。未延续的输入ID退役，新ID必须从未使用且revision=0。完整堆跨角色交易也必须新ID；同角色整堆换位置无数量变化不产出新版本。",
+  "identity": "全局堆ID不可复用。已有ID保留，普通新堆由已持久唯一结算ID、角色ID及本事件新堆输出序号确定；采用71确定JSON编码的[settlement_id,character_id,ordinal] UTF8做SHA256并加stack:前缀。必须检查与已有堆/实例ID不冲突，冲突拒绝而不重抽或覆盖。交易新堆也采用此精确算法；准备前固定并随计划持久。结算ID唯一分配仍由对应事件owner负责，不借玩法随机。",
+  "flow_storage": "唯一正式结算收据内stack_flows数组为唯一权威数量投影，依次消费流、铸造流；无堆变动为空数组，单种流仅一个元素，普通消费+铸造事件恰两个元素，receipt_id按单流结算ID或双流结算ID后缀规则取值；角色provenance闭包持有原收据及依赖，其他日志引用，不另建可独立修改的第二份数量账。每个输出stack.origin_receipt_id等于本receipt_id，该自指不是历史依赖边；inputs指向先前收据输出才构成有向边。 升天初始化唯一允许由其reset_events定义的第三个:stack:merge流，同结算按consume/mint/merge拓扑顺序消费，其他owner不得据此扩展流数。",
+  "flow_inputs": "每个输入引用先前receipt_id/output_index的完整输出版本；不能引用部分数量，不可重复输入或在同/其他已提交事件二次消费。同一旧版本若部分留存，必须整份输入再输出原ID的新修订余量，不能让旧输出部分活着又部分消费。 输入实际使用前还须查最新已提交域，不能只凭原flow输出域绕过后续整物保管迁移。",
+  "flow_outputs": "每个输出为历史完整堆快照及当时character_id、contributions；每项精确input_index/quantity，同输出不得重复input_index。无mint时每输出quantity等于contributions和，每输入原quantity等于它在全部输出及consumptions的数量和。每个输出来源输入的item_id/binding/quest_scope必须与输出相同，角色绑定物也必须同character；仅71允许unbound跨角色转移。普通配置不能借流量修改定义/解绑，须显式移除原物并以配置授权铸造新物。 每输出还须custody声明held或精确buyback/session_id/sale_receipt_id，规则见物品域迁移.v1.json；它是历史产出域，不在当前堆根复制位置。",
+  "mint": "mint_authorization非null时inputs和consumptions为空、outputs非空且每输出contributions为空。authority_receipt_id指实际正式发物收据，可与本事件ID相同；严格核验事件类型、领取去重、逐物品及精确授予量/绑定，不因存在一段字符串就合法。任务状态交换授权kind=quest_exchange，由任务owner证明准确前后定义/数量。制作消费与产物在同结算，使用两个flow投影：一个正常消费流、一个craft_output授权铸造流，receipt_id须分别为结算ID加:stack:consume和:stack:mint；若只一种流则receipt_id=结算ID。各投影ID由原结算保留且全局唯一，不是两次经济提交。 kind=ascension_skill_reset只由升天武功与秘籍reset_events原已提交初始化授权，精确退款前实际投入S颗heavenly_stone/本人绑定/非任务/held，不授权其他物品；不能用配置/制作/任务来源替代退款。 kind=cultivation_claim仅原stone_claim_events已提交领取授权实际扣减待领的同数heavenly_stone；不以任务/技能退款/配置来源冒充领取。",
+  "terminal": "consumptions仅记录实际离开玩家实物域的数量和原因。NPC出售不启用复购的物品记npc_sale；支持复购的堆按NPC复购.v1.json全量移域保版本、部分出售先拆分保完整贡献与原角色所有权，不在售出时先销毁再凭空铸造。复购FIFO淘汰/角色会话结束清理须以buyback_cleanup明确终结剩余数量，关闭商店窗口不清理；该生命周期完整收据适配仍待，不能以npc_sale消费流声明已覆盖可复购库存。任务签名/状态物替换按原物消费+新定义授权产物，同笔，不能直接改堆item_id。 character_deletion仅由角色删除.v1.json原committed授权，精确覆盖删除目标全部当前held资源，禁止其他业务借该原因终结；来源头/所有权及完整集合双向覆盖另验。",
+  "ordering": "输入按角色ID、源容器稳定槽位、stack_id排序；输出先保所有存续原ID的余量，再按目标既有槽位/stack_id合并，最后新堆最低空槽。每输入贡献先满足自身余量，再按输出顺序分配，剩余显式终结；同类多个输入按输入顺序分配。交易先两侧移出全部输入再布局，最终不能超槽/负重/保护量。",
+  "retention": "当前堆是未被后继消费且按NPC复购.v1.json最新已提交域迁移/数量结算属于持有域的输出的唯一物化视图；复购保管域另行闭合，逐件核对ID/修订/数量/作用域/owner。保完整依赖闭包并验证DAG、输出索引及单次消费；输入旧版本不是额外物品。跨角色交易把合并目标原来源及双方输入依赖都纳入计划，双方各存各当前堆必需闭包；历史闭包里其他角色输出不是本角色现持库存，不能实例化。压缩前必须保可验证数量/所有权证据，不以哈希替代来源。离线无法仅靠一侧档案证明另一角色未双花，采用71房主唯一决定及守卫，不声称防篡改。",
+  "atomicity": "候选flow随经济/库存/角色修订及事件收据同笔提交，保存/重放复用原ID/数量/贡献，不再次分配。非实际变动纯预览无flow。mint与consume双投影仍同一结算原子发布，不允许只提交其中一个。交易完整flow含双侧输出并绑定同71计划摘要和守卫，commit后不可重算。",
+  "initialization": "新角色及已知旧档真实库存各按实际发物/导入收据生成mint输出，不把空背包生成假事件；现有新格式缺来源拒绝，不按现物补历史。模板授予和旧导入不得重复。完整profile/provenance字段schema尚待，不在本轮伪称完整初始化已完成。",
+  "strictness": "JSON重复键、浮点/指数/布尔整数、孤立代理、空白身份拒绝；全部安全整数。schema仅结构，必须验证定义/任务/容量/来源/数量/事件唯一性/预留，不筛掉未知字段后投影通过。",
+  "remaining_work": [
+    "完整档案与容器/所有实例结构",
+    "唯一经济结算收据及provenance持久根结构",
+    "可复购堆保管设计已由NPC复购.v1.json采用，域迁移及实例终结片段已采用，完整事件/授权仍待",
+    "全部producer逐物品授权及剩余目录",
+    "实际Godot保存/拆合/使用/交易与LAN故障测试"
+  ],
+  "settlement_identity_owner_ref": {
+    "file": "结算身份.v1.json",
+    "pointer": ""
+  },
+  "current_heads_owner_ref": {
+    "file": "来源现态推导.v1.json",
+    "pointer": ""
+  },
+  "ascension_reset_owner_ref": {
+    "file": "升天武功与秘籍.v1.json",
+    "pointer": "/reset_events"
+  },
+  "character_deletion_owner_ref": {
+    "file": "角色删除.v1.json",
+    "pointer": ""
+  },
+  "cultivation_claim_owner_ref": {
+    "file": "历练与洗点.v1.json",
+    "pointer": "/stone_claim_events"
+  }
+}

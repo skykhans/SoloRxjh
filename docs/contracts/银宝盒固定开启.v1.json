@@ -1,0 +1,66 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "explicit_local_fixed_material_box_design_not_implemented_not_balanced",
+  "source_policy": "53正邪来源只列银宝盒10，未列内容；本地定义独立银宝盒20克/99堆/每开1固定强化石1（10克）。选择小额强化材料作为53支线收益，不冒充官网内容；不把银宝盒当白银/黄金/85宝盒，不进入首饰随机池。",
+  "item": {
+    "item_id": "quest_reward_bank53_silver_box",
+    "name": "银宝盒",
+    "kind": "reward_box",
+    "container": "inventory",
+    "max_stack": 99,
+    "weight_g": 20,
+    "binding": "character",
+    "warehouse": true,
+    "discard": true,
+    "sell_to_npc": false,
+    "sell_price": null,
+    "player_trade": false,
+    "buyback": false,
+    "equip": false,
+    "direct_use": true,
+    "recipe_input_only": false,
+    "purchase_allowed": false,
+    "initial_grant": 0,
+    "source_kind": "task_name_not_IREFcatalog_adoption",
+    "acquisition_refs": [
+      {
+        "file": "五十三级正邪钱庄任务.v1.json",
+        "pointer": "/quests/0/reward/items/0"
+      },
+      {
+        "file": "五十三级正邪钱庄任务.v1.json",
+        "pointer": "/quests/1/reward/items/0"
+      }
+    ],
+    "presentation_ref": "dev_item_quest_reward_bank53_silver_box"
+  },
+  "box_open": {
+    "inputs": [
+      {
+        "item_id": "quest_reward_bank53_silver_box",
+        "quantity": 1
+      }
+    ],
+    "outputs": [
+      {
+        "item_id": "enhancement_stone",
+        "quantity": 1,
+        "definition_ref": {
+          "file": "英雄主武器强化.v1.json",
+          "pointer": "/items/0"
+        }
+      }
+    ],
+    "qualification": "本人存活连接/脱战空闲/无挑战交易服务预留，所在地图允许物品使用；all14 level>=1/rank>=0。真实自己inventory精确盒/来源/数量/修订合法，仓库不可直接开。",
+    "capacity": "原完整库存须合法；消费盒1后预检强化石1/10克/99堆/角色绑定与真实最终槽。盒20→石10净重-10不免槽检查；最后盒释放1槽可放新石，剩余盒>0不释放槽，须石合法合堆或另空槽，不能跨定义合并。",
+    "transaction": "05/19单一use事务消费盒1，stack_flow消费reason use，新石loot来源须解析本精确输入盒与固定输出，角色库存修订各一次/持久收据。固定结果无RNG/费用/XP/银/历练/首饰实例。",
+    "deduplication": "相同request/负载返回原决定，不再消耗或发石；改负载同request拒绝；新request只开真实剩余盒。"
+  },
+  "failure_and_save": "资格/来源/原状态/修订/最终格重失败整笔保盒。保存不确定解析原决定重存，不重开或回装已移动/丢弃石。",
+  "persistence": "只inventory堆与来源，无新timer/schema字段；新建/known1..4初始盒0与无开盒收据，不补历史任务奖励；正式53两任务之外不授权。",
+  "pending": [
+    "Godot固定开盒/真实堆来源/槽重/保存/LAN功能测试",
+    "强化石1每盒与53任务10盒本地经济校准"
+  ]
+}

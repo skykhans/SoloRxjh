@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:earth-spirit-points:v1",
+  "$comment": "character.earth_spirit_points。跨世界共30点；稳定ID唯一、修订不超过角色修订、Unicode标签规则、有限数及原世界静态/动态落点资格由原owner联合校验。uniqueItems不能证明point_id唯一。",
+  "type": "array",
+  "maxItems": 30,
+  "uniqueItems": true,
+  "items": {
+    "$ref": "#/$defs/point"
+  },
+  "$defs": {
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "point_id",
+        "world_id",
+        "map_id",
+        "feet_position_m",
+        "yaw_radians",
+        "label",
+        "revision"
+      ],
+      "properties": {
+        "point_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "world_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "map_id": {
+          "enum": [
+            "story_valley_world",
+            "hyunbo_town",
+            "hyunbo_outskirts",
+            "liuzheng_pass",
+            "sanxie_pass",
+            "shenwu_gate",
+            "liushan_house",
+            "diling_cave_1",
+            "diling_cave_2",
+            "diling_cave_3",
+            "xuemo_cave_1",
+            "xuemo_cave_2",
+            "xuemo_cave_3",
+            "beihai_ice",
+            "nanlin_forest",
+            "huxia_valley",
+            "huating_plain",
+            "yanfei_city",
+            "jianhuang_sanctuary",
+            "anmi_village",
+            "nanming_lake"
+          ]
+        },
+        "feet_position_m": {
+          "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+        },
+        "yaw_radians": {
+          "$ref": "urn:solorxjh:character-location:v1#/properties/yaw"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^(?![\\s\\S]*[\\u0000-\\u001f\\u007f-\\u009f])\\S(?:[\\s\\S]*\\S)?$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  }
+}

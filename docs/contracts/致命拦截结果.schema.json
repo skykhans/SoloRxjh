@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:lethal-interception-result:v1",
+  "$comment": "仅已选择合法ready火凤/霸王且实际掷出一次概率的原伤害子结果，严格13字段。缺资格/不可拦截不造此结果。真实来源/优先级/概率/HP与随机流/成功冷却及生命终态另验，不是独立预留或死亡日志。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "target_actor_id",
+    "incoming_damage_event_id",
+    "selected_profile",
+    "chance_bp",
+    "hp_before",
+    "valid_max_hp",
+    "outcome",
+    "random_flow"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 81,
+      "maxLength": 81,
+      "pattern": "^lethal-intercept:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "target_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "incoming_damage_event_id": {
+      "$ref": "urn:solorxjh:combat-damage-identity:v1#/$defs/event_id"
+    },
+    "selected_profile": {
+      "enum": [
+        "bawang_lethal",
+        "lethal_keep10"
+      ]
+    },
+    "chance_bp": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4000
+    },
+    "hp_before": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "valid_max_hp": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 9007199254740991
+    },
+    "outcome": {
+      "enum": [
+        "success",
+        "failure"
+      ]
+    },
+    "random_flow": {
+      "$ref": "urn:solorxjh:random-decision-flow:v1",
+      "properties": {
+        "streams": {
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "properties": {
+              "owner_kind": {
+                "const": "character"
+              },
+              "draws": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "low": {
+                      "const": 0
+                    },
+                    "high": {
+                      "const": 9999
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

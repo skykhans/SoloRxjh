@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:music-timed-effects:v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "luanfeng",
+    "despair"
+  ],
+  "properties": {
+    "luanfeng": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "trigger_event_id",
+            "feihua_grade",
+            "remaining_steps"
+          ],
+          "properties": {
+            "trigger_event_id": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "feihua_grade": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 40
+            },
+            "remaining_steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 360
+            }
+          }
+        }
+      ]
+    },
+    "despair": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_actor_id",
+          "trigger_event_id",
+          "remaining_steps"
+        ],
+        "properties": {
+          "source_actor_id": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "trigger_event_id": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 360
+          }
+        }
+      }
+    }
+  },
+  "$comment": "唯一effects.music_timed；鸾凤自体一源冻结飞花等级，绝望固定阳明技能多施放者独立源；和弦仍原职业资源，不镜像到效果。"
+}

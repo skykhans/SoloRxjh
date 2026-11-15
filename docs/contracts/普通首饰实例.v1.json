@@ -1,0 +1,158 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "complete_single_jewelry_instance_shape_adopted_not_full_profile_not_implemented",
+  "scope": "66正式79款普通首饰完整单实例形状，67普通/名匠加工及18配置登记。8普通原异常已由66明确本地值；不含独立出尘戒、70独立新版武勋9款、其他装备/披风/堆叠物或完整角色档案。",
+  "structural_schema_ref": {
+    "file": "普通首饰实例.schema.json",
+    "pointer": ""
+  },
+  "catalog_ref": {
+    "file": "普通首饰基础定义.v1.json",
+    "pointer": "/items"
+  },
+  "processing_owner_ref": {
+    "file": "普通首饰加工.v1.json",
+    "pointer": ""
+  },
+  "root_policy": "完整根九字段必须全在、无额外字段，不新增growth/quantity/profile_id/position/derived_stats/临时武器防具字段。物品profile/类别/槽位由精确定义读取，位置只由外层唯一容器持有；不能投影筛字段掩盖未知根数据。",
+  "validation_order": [
+    "解析拒绝重复键/非法JSON/非有限数并保留数字token，根九字段严格结构校验；revision与processing_level只接受十进制整数token，不接受bool/float/string、小数/指数token，不在Godot解码后强转补救。",
+    "item_id精确属于66目录，绑定逐件匹配，owner_character_id等于包含该实例的角色；全部ID与收据ID非空且不能仅空白。",
+    "实例/血统ID与全部角色/容器/生效备用槽中的活实例全局唯一；一个实例只归一个位置，首饰类别必须兼容实际槽。不得把两个相同定义当成重复实例，也不得把同一个实例按两位置算两件。",
+    "revision严格非负安全整数；创建来源为正式商店购买、明确配置生成或精确白银/黄金宝盒loot创建或64级两任务精确圣冠指环quest_reward创建，角色/定义/实例/血统/初始状态一致且唯一生成，无重复授予。",
+    "processing_level<=精确定义上限；两加工字段按67及本配置来源语义核验，完整历史到正式创建，无环/无缺边/无伪造来源。",
+    "合法丧失等级/转职资格可保所有权及合法成长，但不生效；主动装备/切组及加工按各命令再查资格。不能因暂时失效跳过坏实例校验。",
+    "库存、总重量、所有收据及角色反气功分配/最终预算等外层完整校验通过后才接受档案或原子提交。"
+  ],
+  "fresh_creation": {
+    "revision": 0,
+    "processing_level": 0,
+    "processing_origin_receipt_id": null,
+    "policy": "正式创建分配新instance_id/lineage_id并写精确item_id/owner/binding及真实creation_receipt_id。新实例revision从0开始，同次购买角色/库存修订按原owner增加；新建模板不用于读档修复。",
+    "box_loot_ref": {
+      "file": "任务宝盒开启.v1.json",
+      "pointer": "/openings"
+    },
+    "box_loot_policy": "仅任务宝盒表白银/黄金各三定义，按原box精确区间匹配，六定义不得跨池；loot授权核已消费box/原始随机/唯一收据及九字段新实例、装备包一槽，不按任意loot字符串授权全部79款。",
+    "quest_reward_policy": "精确64级两任务圣冠指环1及76级两爱情故事金灵护符1授权；九字段新实例/血统/revision0/processing0/nullorigin/真实quest_reward收据与本任务完整输入/完成/装备包槽/精确5或20克及声明资源同笔，不以任意quest_reward字符串开放其余首饰。 另精确87级两任务天灵耳环1/10克，与本轮100夜明珠真实消费、金刚石1、完成同笔；固定max_hp_flat40，无随机加工。",
+    "quest_reward_refs": [
+      {
+        "file": "六十四至六十五级正邪寻回任务.v1.json",
+        "pointer": "/quests"
+      },
+      {
+        "file": "七十六级正邪爱情故事任务.v1.json",
+        "pointer": "/quests"
+      },
+      {
+        "file": "八十七级正邪南明洞秘密任务.v1.json",
+        "pointer": "/quests"
+      }
+    ]
+  },
+  "provenance": {
+    "initial": "processing_origin_receipt_id为null仅当level0且正式创建后无加工或配置修改。仅数值0不足以证明新建；名匠降0必须保最近失败收据。",
+    "processing": "非空最近来源可为67成功或失败尝试，必须验证该尝试完整前状态/材料费用/适用概率与唯一随机消费/结果及同血统角色链；不能只校验最近收据的最终数。",
+    "configuration": "另一合法来源类型为jewelry_processing_configuration，指向18明确确认的配置提交，前/后等级、实例血统及角色/库存修订明确；允许不满足日常等级/费用条件，但不豁免定义/结构/唯一性及最终库存安全。此来源不消费符/银、不抽随机，不生成加工成功记录。后续正常加工可以从该明确配置状态继续，必须仍记录该配置前缀，不伪造正常成本历史。",
+    "no_op": "参数中心仅提交与当前完全相同的加工等级或等价覆盖时不改实例/修订或配置日志；正常加工失败保级仍有消费/结果并更新最近尝试收据，不能当无操作。"
+  },
+  "configuration": {
+    "direct_field": "选定真实实例的processing_level严格0～10，origin/creation/instance/lineage/owner/revision不可由输入方案直接篡改；对应来源与修订由提交生成。",
+    "preview": "展示选定角色/实例、旧新加工贡献、170预算变化及分配处理。预算不足需明确同意清全部反气功分配与配置同时提交；取消无变化，冷却/旧效果不刷新。角色不满足日常资格时可保有该配置实例并明确不生效。",
+    "item_generation": "配置生成依66已知定义，新ID/血统及独立配置创建来源。若同时设非零等级，在同一事务先建立0/null创建锚再关联配置等级修改来源；不额外生成第二件或正常商店购买记录。",
+    "override_storage": "character.customization.explicit中的ordinary_jewelry_processing，角色独享稀疏覆盖；全局67只读。每个存在的profile覆盖对象至少一个已登记字段，移除覆盖字段恢复67当时权威值，不保存旧全局快照。",
+    "override_schema_ref": {
+      "file": "普通首饰实例.schema.json",
+      "pointer": "/$defs/processingParameterOverrides"
+    },
+    "overridable_fields": [
+      "ordinary.overall_success_probability_bp_by_source_level",
+      "master.overall_success_probability_bp_by_source_level",
+      "ordinary.silver_fee_by_source_level",
+      "master.silver_fee_by_source_level"
+    ],
+    "override_semantics": "每数组恰10项对应源级0～9，整体概率严格0～10000基点，费用非负安全整数。概率0必失败且不抽整体随机，10000必成亦不抽；其他概率一次比较。只改所选角色本人的加工请求，不改目标归属或他人服务；原条件跨阶/失败/保护规则仍按67。未知覆盖路径/多余字段拒绝。",
+    "quote_revision": "报价保存配置提交修订，修改/清除覆盖后旧报价拒绝；提交使用同修订角色有效概率费用，不接受客户端提交权威数值。结果收据保存精确有效参数及配置来源，不按后来覆盖值重判历史。",
+    "scope_boundary": "本次登记直接加工等级和四项概率/费用覆盖。加工贡献曲线/条件权重等其他18高级字段仍待逐字段登记，不能据此宣称U33全部范围已完成。",
+    "configuration_revision_owner_ref": {
+      "file": "角色配置修订.v1.json",
+      "pointer": ""
+    },
+    "effective_parameter_resolution": {
+      "scope": "only the registered four probability/fee arrays for79 ordinary and9 merit definitions; use existing processingParameterOverrides schema, no copied array definitions",
+      "inputs": "validated complete character, exact adopted item definition and actual instance processing_level, requested ordinary/master profile, original read-only processing profiles and same character customization.revision",
+      "validation_order": [
+        "Validate complete original configuration root and known override paths before selecting a group/profile/field. An unknown or malformed stored override rejects; do not ignore it and continue with global values.",
+        "Resolve exact definition to ordinary or merit catalog. ordinary reads only customization.explicit.ordinary_jewelry_processing; merit reads only customization.explicit.merit_jewelry_processing. The other group never contributes even when this group is absent.",
+        "Validate ordinary/master profile and actual source processing level integer0..9. Source level10 is already capped and rejects before array indexing or material/random allocation. Validate exact arrays via original schema; present null/empty arrays reject, not absence.",
+        "Read probability and fee independently by field presence in the selected profile. A present zero is authoritative; never use truthiness, nonzero checks or merge defaults that erase explicit0."
+      ],
+      "probability": "If selected profile has overall_success_probability_bp_by_source_level, use its[source_level]; otherwise use original67 corresponding array[source_level]. No tier scaling for probability. Effective0 or10000 skips only the overall draw per original RNG owner; a nontrivial success-target distribution may still require its own conditional draw.",
+      "fee": "If selected profile has silver_fee_by_source_level, use its[source_level] as final fee for either catalog, including0. Do not evaluate or multiply an unused global fee. Otherwise ordinary uses original67 fee[source_level]; merit uses original67 fee[source_level]*exact definition.processing_fee_multiplier with checked integer multiplication. Do not multiply an override again.",
+      "partial_override": "A fee-only profile keeps original probability; a probability-only profile keeps original fee/tier rule. Absent group/profile/field reads that specific original field only. Empty profile/group objects are malformed under existing minProperties1 and are removed when clearing their last field; explicit root may remain empty.",
+      "quote_and_history": "Bind effective probability, final fee and original configuration revision to the original quote/attempt. On a new submit recheck the actual revision/source/instance/eligibility and all original transaction conditions; do not trust client-provided effective values. An old committed attempt validates against its frozen original parameters/source proof, not current overrides. Original no-op and guarded trade rules remain in force.",
+      "limits": "This resolution changes only registered overall probability and final fee. It does not override material quantity, failure result, conditional target weights, processing cap, budget authorization, durability or ownership.",
+      "static_vectors": [
+        {
+          "catalog": "ordinary",
+          "source_level": 0,
+          "profile": "ordinary",
+          "probability_override": 0,
+          "fee_override": 0,
+          "expected_probability": 0,
+          "expected_fee": 0
+        },
+        {
+          "catalog": "merit",
+          "source_level": 0,
+          "profile": "ordinary",
+          "tier_multiplier": 6,
+          "probability_override": null,
+          "fee_override": 7,
+          "expected_probability": 10000,
+          "expected_fee": 7
+        },
+        {
+          "catalog": "merit",
+          "source_level": 0,
+          "profile": "ordinary",
+          "tier_multiplier": 6,
+          "probability_override": 0,
+          "fee_override": null,
+          "expected_probability": 0,
+          "expected_fee": 60000
+        },
+        {
+          "catalog": "ordinary",
+          "source_level": 0,
+          "profile": "ordinary",
+          "probability_override": null,
+          "fee_override": null,
+          "expected_probability": 10000,
+          "expected_fee": 10000
+        }
+      ],
+      "vector_null_semantics": "null in these test-vector override slots means field absent in the actual sparse object; persisted null is invalid. These are input/result test cases, not override serialization."
+    },
+    "override_edit_protocol": {
+      "changes_schema_ref": {
+        "file": "普通首饰实例.schema.json",
+        "pointer": "/$defs/processingParameterOverrideChanges"
+      },
+      "scope": "For either exact registered ordinary_jewelry_processing or merit_jewelry_processing group, changes is a nonempty profile map of nonempty selected registered field maps. Missing profile/field means preserve actual original value; null means remove this exact override field; array replaces all ten entries. No null profile/group, index patches, wildcard paths or implicit reset.",
+      "validation": "Validate complete original customization root and source history first, then entire changes before constructing candidate. Array constraints reuse original stored field schema; do not coerce strings/bools/floats, pad/truncate, sort or silently ignore unknown fields. This draft schema alone authorizes no save/event or resource mutation.",
+      "application": "Construct candidate from actual validated explicit map. Apply each selected profile/field exactly once: null removes if present, array replaces with exact validated array. After all selected changes, remove newly empty selected profiles then remove selected group if empty. Preserve every unselected group/profile/field and array order. Never store null/empty profile/group in persistent explicit. Clearing an absent field does not materialize its parent.",
+      "no_op": "Compare resulting sparse explicit structure to original by exact registered field presence and array values, ignoring object key order only. Clearing absent field or replacing identical array is no-op. Adding an explicit array equal to current global values is effective because future rule releases may differ; clearing a present override equal to current global values is also effective. No-op never prunes malformed original input: malformed original rejects first.",
+      "atomicity": "Validate complete candidate root and actual rule/source constraints; existing strict configuration request/event, revisions, permission, prepared trade and authority save gates must authorize changes before persistence. Both groups in one operation share one original configuration revision increment, with character revision+1 and inventory revision unchanged if only overrides change. No sequential partial save, RNG, fee, material or instance mutation.",
+      "restore": "Single-field restore emits null for that field. Profile/group restore expands only actual present registered fields to explicit nulls in one frozen preview; whole-root restore expands both actual groups. If no fields present return no-op without an empty changes command. Confirmation rechecks actual expected revisions; never clear fields added after preview by wildcard.",
+      "remaining": "Strict original override configuration event and producer adopted; actual full role/source/file/LAN/Godot implementation remains pending. Timer configuration event does not authorize these paths.",
+      "event_owner_ref": {
+        "file": "角色配置修订.v1.json",
+        "pointer": "/jewelry_override_events"
+      }
+    }
+  },
+  "legacy": "79目录没有已存在的运行首饰实例，旧档不得按名字猜映射或填九字段。未来若发现真实旧实例先写明确迁移；schema5完整档案其他字段仍待联审。",
+  "implementation_gate": "单首饰九字段结构及加工/configuration来源规则已采用；完整档案/收据日志/库存schema、独立出尘戒与未登记配置项、经济/资源/服务联审仍待。70新版武勋使用独立12字段schema，不向本普通实例添加耐久。未注册运行，不代表D1通过。"
+}

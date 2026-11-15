@@ -1,0 +1,355 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:warehouse-silver-event:v1",
+  "$comment": "仓银存取原owner日志的严格三阶段记录。摘要、来源头、精确整数token、会话资格、算术和阶段迁移须按owner语义验证；并非完整档案或LAN证明封套。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "silver_flow"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "silver_flow": {
+          "$ref": "urn:solorxjh:silver-flow:v1",
+          "properties": {
+            "accounts": {
+              "minItems": 2,
+              "maxItems": 2,
+              "prefixItems": [
+                {
+                  "properties": {
+                    "account": {
+                      "const": "carried_silver"
+                    },
+                    "previous_output": {
+                      "type": "object"
+                    },
+                    "opening_authorization": {
+                      "type": "null"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "account": {
+                      "const": "warehouse_silver"
+                    },
+                    "previous_output": {
+                      "type": "object"
+                    },
+                    "opening_authorization": {
+                      "type": "null"
+                    }
+                  }
+                }
+              ]
+            },
+            "movements": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "from_account_index": {
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "to_account_index": {
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "authorization": {
+                    "type": "null"
+                  }
+                },
+                "oneOf": [
+                  {
+                    "properties": {
+                      "from_account_index": {
+                        "const": 0
+                      },
+                      "to_account_index": {
+                        "const": 1
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "from_account_index": {
+                        "const": 1
+                      },
+                      "to_account_index": {
+                        "const": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "service_invalid",
+            "revision_changed",
+            "account_head_changed",
+            "rules_changed",
+            "explicit_cancel"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "world_id",
+        "character_id",
+        "service_npc_id",
+        "command_id",
+        "expected_character_revision",
+        "service_session_id",
+        "operation",
+        "amount"
+      ],
+      "properties": {
+        "world_id": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "character_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "service_npc_id": {
+          "enum": [
+            "npc_wei_dabao",
+            "npc_xiao_chunshui",
+            "npc_zhou_shutong",
+            "npc_wei_baibaibai",
+            "npc_xuanyuan_erguang",
+            "npc_jin_shiling",
+            "npc_huang_haohu"
+          ]
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "service_session_id": {
+          "type": "string",
+          "pattern": "^warehouse-service:[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 82,
+          "maxLength": 82
+        },
+        "operation": {
+          "enum": [
+            "deposit_silver",
+            "withdraw_silver"
+          ]
+        },
+        "amount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_digest",
+        "inventory_revision",
+        "carried_before",
+        "warehouse_before",
+        "carried_previous_output",
+        "warehouse_previous_output",
+        "service_context"
+      ],
+      "properties": {
+        "rules_digest": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "carried_before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "warehouse_before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "carried_previous_output": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "receipt_id",
+            "output_index"
+          ],
+          "properties": {
+            "receipt_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "output_index": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "warehouse_previous_output": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "receipt_id",
+            "output_index"
+          ],
+          "properties": {
+            "receipt_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "output_index": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "service_context": {
+          "$ref": "#/$defs/service_context"
+        }
+      }
+    },
+    "journal": {
+      "$comment": "profile.warehouse_silver_events唯一原owner数组；每次预留一条，终态原位替换。authority/身份/请求唯一性、allocation_index递增与跨owner水位覆盖须语义核验；此组件不是完整profile。",
+      "type": "array",
+      "items": {
+        "$ref": "urn:solorxjh:warehouse-silver-event:v1"
+      }
+    },
+    "service_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "opening_index"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "opening_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        }
+      }
+    }
+  }
+}

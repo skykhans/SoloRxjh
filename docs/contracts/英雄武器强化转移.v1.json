@@ -1,0 +1,1908 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_local_hero_transfer_design_not_implemented_growth_schema_dependency_open",
+  "scope": "六英雄主武器升天四/五/六式强化转移及明确项目新增七式转移；不同于普通武器晋阶和同阶段提真。",
+  "sources": [
+    {
+      "file": "../reference/升天五式强化转移规则.json",
+      "pointer": "/hero"
+    },
+    {
+      "file": "../reference/升天六式强化转移规则.json",
+      "pointer": "/hero_transfer"
+    },
+    {
+      "file": "../reference/英雄主武器阶段映射.json",
+      "pointer": "/mainline"
+    },
+    {
+      "url": "http://rxjh.17game.com/event/2026/content/gs.html",
+      "text_sha256": "08053f00803cdb42c9b0d2066034f0d67341e80294a41e08e6cb609419a5e061",
+      "adopted_fact": "甄凤柏适用升天4与升天5、6英雄强化符；普通/真9、10、11转任务分别具名。"
+    }
+  ],
+  "source_conflict_resolution": {
+    "ordinary_rule": "普通转移使用两个独立装备实例，仅复制强化与属性石；不采用本合同英雄配方。",
+    "hero_rule": "采用英雄专属说明全部属性保留，项目将一件原英雄主武器换为下一阶段同分支武器，不要求第二件主武器。",
+    "source_uncertainty": "公开文字未完整规定英雄中间物、符数量、附加费用和通用FAQ合成4手的适用边界。",
+    "project_choices": [
+      "项目只需一件源武器和一个对应符；英雄转移不额外要求合成4手。",
+      "同职业、同普通/真分支、逐阶段推进，不跨阶段、不普通提真；无合适目标定义则不生成配方。",
+      "司空揽杰为来源NPC，项目由现有泫勃刀剑笑执行同项服务，不把本地改编写成官网NPC地点。",
+      "本地两种符明码银两售卖，手续费0，必成；材料和服务均不使用现实支付。",
+      "真实强化只接受11至15。附加提升值非0、有效期提升或临时强化附着时先拒绝本服务；这是此服务的项目输入限制，不代表全装备系统否定15+[n]。",
+      "当前归档五/六式及2026改善页未载七式英雄转移；七式12配方、专用符名称、2亿银价与170级/rank12/adv12已交付门槛均明确项目新增，以在约定七式范围保留高强化路线，非官网事实。"
+    ]
+  },
+  "service_policy": {
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "requires_same_map": true,
+    "requires_alive_idle_out_of_combat_no_challenge": true,
+    "allowed_routes": [
+      "righteous",
+      "evil"
+    ],
+    "visible_recipes": "仅请求者职业和当前源武器分支的下一阶段，不能按队长职业显示或提交。",
+    "input_location": "equipment_bag_only; primary/secondary slots and warehouse must explicitly unequip/withdraw first",
+    "requires_source_owned_and_character_bound": true,
+    "requires_source_stage_exact": true,
+    "requires_delivered_character_quest": true,
+    "requires_source_not_reserved_by_other_transaction": true,
+    "requires_legal_input_containers_and_weight": "先验证原库存唯一归属/格数/当前重量合法，再计算替换结果；原超重不因扣符10克而放行，不修复坏库存。",
+    "target_equipment_validation": "在预览和提交时加载正式目标装备定义，校验职业、阶段、分支、等级、rank、全部成长字段和重量；候选来源行不是可执行物品定义。",
+    "missing_formal_definition": "configuration_error before quote or mutation; never construct a generic weapon from source row",
+    "enhancement_boost_guard_owner_ref": {
+      "file": "英雄武器附加提升.v1.json",
+      "pointer": "/processing_guard"
+    },
+    "instance_growth_schema_owner_ref": {
+      "file": "英雄主武器基础定义.v1.json",
+      "pointer": "/instance_growth_schema"
+    }
+  },
+  "items": [
+    {
+      "item_id": "hero_transfer_talisman_4",
+      "name": "火龙伏魔强化符（升天4）",
+      "kind": "equipment_processing_consumable",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "container": "inventory",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "allowed_recipe_target_stages": [
+        9
+      ],
+      "purchase_allowed": true,
+      "buy_price": 50000000,
+      "purchase_provider_id": "npc_daojianxiao",
+      "stock": "unlimited",
+      "minimum_purchase_level": 1,
+      "minimum_purchase_rank": 0,
+      "purchase_class_filter": "six hero class_ids from recipes only",
+      "presentation_ref": "dev_item_hero_transfer_talisman",
+      "source_policy": "名称与适用阶段来源于官网；本地银价/堆重/绑定/库存/取得地点是项目设计，不将商城元宝换算为银两。"
+    },
+    {
+      "item_id": "hero_transfer_talisman_5_6",
+      "name": "火龙伏魔强化符（升天5、6）",
+      "kind": "equipment_processing_consumable",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "container": "inventory",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "allowed_recipe_target_stages": [
+        10,
+        11
+      ],
+      "purchase_allowed": true,
+      "buy_price": 100000000,
+      "purchase_provider_id": "npc_daojianxiao",
+      "stock": "unlimited",
+      "minimum_purchase_level": 1,
+      "minimum_purchase_rank": 0,
+      "purchase_class_filter": "six hero class_ids from recipes only",
+      "presentation_ref": "dev_item_hero_transfer_talisman",
+      "source_policy": "名称与适用阶段来源于官网；本地银价/堆重/绑定/库存/取得地点是项目设计，不将商城元宝换算为银两。"
+    },
+    {
+      "item_id": "hero_transfer_talisman_7",
+      "name": "英雄七式强化转移符（项目）",
+      "kind": "equipment_processing_consumable",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "container": "inventory",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "allowed_recipe_target_stages": [
+        12
+      ],
+      "purchase_allowed": true,
+      "buy_price": 200000000,
+      "purchase_provider_id": "npc_daojianxiao",
+      "stock": "unlimited",
+      "minimum_purchase_level": 170,
+      "minimum_purchase_rank": 12,
+      "purchase_class_filter": "six hero class_ids from recipes only",
+      "presentation_ref": "dev_item_hero_transfer_talisman",
+      "source_policy": "七式专用符名称、用途、2亿银价、门槛/堆重/权限/取得均是项目新增；当前归档未给官网七式英雄转移方案，不沿用升天5、6符的官方适用范围。"
+    }
+  ],
+  "recipes": [
+    {
+      "recipe_id": "hero_transfer_zhen_fengbai_09_ordinary",
+      "class_id": "zhen_fengbai",
+      "variant": "ordinary",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_blood_orb_rank08",
+      "target_item_id": "weapon_blood_orb_rank09",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/8"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/10"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/7"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/9"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_zhen_fengbai_09_true",
+      "class_id": "zhen_fengbai",
+      "variant": "true",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_blood_orb_rank08_true",
+      "target_item_id": "weapon_blood_orb_rank09_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/9"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/11"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/8"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/10"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_zhen_fengbai_10_ordinary",
+      "class_id": "zhen_fengbai",
+      "variant": "ordinary",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_blood_orb_rank09",
+      "target_item_id": "weapon_blood_orb_rank10",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/10"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/12"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/9"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/11"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_zhen_fengbai_10_true",
+      "class_id": "zhen_fengbai",
+      "variant": "true",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_blood_orb_rank09_true",
+      "target_item_id": "weapon_blood_orb_rank10_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/11"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/13"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/10"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/12"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_zhen_fengbai_11_ordinary",
+      "class_id": "zhen_fengbai",
+      "variant": "ordinary",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_blood_orb_rank10",
+      "target_item_id": "weapon_blood_orb_rank11",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/12"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/14"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/11"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/13"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_zhen_fengbai_11_true",
+      "class_id": "zhen_fengbai",
+      "variant": "true",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_blood_orb_rank10_true",
+      "target_item_id": "weapon_blood_orb_rank11_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/13"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/15"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/12"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/14"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_han_feiguan_09_ordinary",
+      "class_id": "han_feiguan",
+      "variant": "ordinary",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_fire_dragon_rank08",
+      "target_item_id": "weapon_fire_dragon_rank09",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/26"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/27"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/24"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/25"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_han_feiguan_10_ordinary",
+      "class_id": "han_feiguan",
+      "variant": "ordinary",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_fire_dragon_rank09",
+      "target_item_id": "weapon_fire_dragon_rank10",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/27"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/29"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/25"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/27"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_han_feiguan_10_true",
+      "class_id": "han_feiguan",
+      "variant": "true",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_fire_dragon_rank09_true",
+      "target_item_id": "weapon_fire_dragon_rank10_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/28"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/30"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/26"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/28"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_han_feiguan_11_ordinary",
+      "class_id": "han_feiguan",
+      "variant": "ordinary",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_fire_dragon_rank10",
+      "target_item_id": "weapon_fire_dragon_rank11",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/29"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/31"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/27"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/29"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_han_feiguan_11_true",
+      "class_id": "han_feiguan",
+      "variant": "true",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_fire_dragon_rank10_true",
+      "target_item_id": "weapon_fire_dragon_rank11_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/30"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/32"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/28"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/30"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_tan_hualing_09_ordinary",
+      "class_id": "tan_hualing",
+      "variant": "ordinary",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_flower_sword_rank08",
+      "target_item_id": "weapon_flower_sword_rank09",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/43"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/45"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/40"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/42"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_tan_hualing_09_true",
+      "class_id": "tan_hualing",
+      "variant": "true",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_flower_sword_rank08_true",
+      "target_item_id": "weapon_flower_sword_rank09_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/44"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/46"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/41"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/43"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_tan_hualing_10_ordinary",
+      "class_id": "tan_hualing",
+      "variant": "ordinary",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_flower_sword_rank09",
+      "target_item_id": "weapon_flower_sword_rank10",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/45"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/47"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/42"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/44"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_tan_hualing_10_true",
+      "class_id": "tan_hualing",
+      "variant": "true",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_flower_sword_rank09_true",
+      "target_item_id": "weapon_flower_sword_rank10_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/46"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/48"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/43"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/45"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_tan_hualing_11_ordinary",
+      "class_id": "tan_hualing",
+      "variant": "ordinary",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_flower_sword_rank10",
+      "target_item_id": "weapon_flower_sword_rank11",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/47"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/49"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/44"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/46"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_tan_hualing_11_true",
+      "class_id": "tan_hualing",
+      "variant": "true",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_flower_sword_rank10_true",
+      "target_item_id": "weapon_flower_sword_rank11_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/48"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/50"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/45"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/47"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_mei_liuzhen_09_ordinary",
+      "class_id": "mei_liuzhen",
+      "variant": "ordinary",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_black_tortoise_bow_rank08",
+      "target_item_id": "weapon_black_tortoise_bow_rank09",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/61"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/63"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/57"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/59"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_mei_liuzhen_09_true",
+      "class_id": "mei_liuzhen",
+      "variant": "true",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_black_tortoise_bow_rank08_true",
+      "target_item_id": "weapon_black_tortoise_bow_rank09_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/62"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/64"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/58"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/60"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_mei_liuzhen_10_ordinary",
+      "class_id": "mei_liuzhen",
+      "variant": "ordinary",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_black_tortoise_bow_rank09",
+      "target_item_id": "weapon_black_tortoise_bow_rank10",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/63"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/65"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/59"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/61"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_mei_liuzhen_10_true",
+      "class_id": "mei_liuzhen",
+      "variant": "true",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_black_tortoise_bow_rank09_true",
+      "target_item_id": "weapon_black_tortoise_bow_rank10_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/64"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/66"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/60"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/62"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_mei_liuzhen_11_ordinary",
+      "class_id": "mei_liuzhen",
+      "variant": "ordinary",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_black_tortoise_bow_rank10",
+      "target_item_id": "weapon_black_tortoise_bow_rank11",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/65"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/67"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/61"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/63"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_mei_liuzhen_11_true",
+      "class_id": "mei_liuzhen",
+      "variant": "true",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_black_tortoise_bow_rank10_true",
+      "target_item_id": "weapon_black_tortoise_bow_rank11_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/66"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/68"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/62"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/64"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_lu_fenglang_09_ordinary",
+      "class_id": "lu_fenglang",
+      "variant": "ordinary",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_soul_spear_rank08",
+      "target_item_id": "weapon_soul_spear_rank09",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/79"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/81"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/74"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/76"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_lu_fenglang_09_true",
+      "class_id": "lu_fenglang",
+      "variant": "true",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_soul_spear_rank08_true",
+      "target_item_id": "weapon_soul_spear_rank09_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/80"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/82"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/75"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/77"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_lu_fenglang_10_ordinary",
+      "class_id": "lu_fenglang",
+      "variant": "ordinary",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_soul_spear_rank09",
+      "target_item_id": "weapon_soul_spear_rank10",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/81"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/83"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/76"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/78"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_lu_fenglang_10_true",
+      "class_id": "lu_fenglang",
+      "variant": "true",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_soul_spear_rank09_true",
+      "target_item_id": "weapon_soul_spear_rank10_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/82"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/84"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/77"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/79"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_lu_fenglang_11_ordinary",
+      "class_id": "lu_fenglang",
+      "variant": "ordinary",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_soul_spear_rank10",
+      "target_item_id": "weapon_soul_spear_rank11",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/83"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/85"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/78"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/80"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_lu_fenglang_11_true",
+      "class_id": "lu_fenglang",
+      "variant": "true",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_soul_spear_rank10_true",
+      "target_item_id": "weapon_soul_spear_rank11_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/84"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/86"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/79"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/81"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_dongling_shennv_09_ordinary",
+      "class_id": "dongling_shennv",
+      "variant": "ordinary",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_cold_jade_staff_rank08",
+      "target_item_id": "weapon_cold_jade_staff_rank09",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/97"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/99"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/91"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/93"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_dongling_shennv_09_true",
+      "class_id": "dongling_shennv",
+      "variant": "true",
+      "source_weapon_stage": 8,
+      "target_weapon_stage": 9,
+      "source_item_id": "weapon_cold_jade_staff_rank08_true",
+      "target_item_id": "weapon_cold_jade_staff_rank09_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/98"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/100"
+      },
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_4",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/92"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/94"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_dongling_shennv_10_ordinary",
+      "class_id": "dongling_shennv",
+      "variant": "ordinary",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_cold_jade_staff_rank09",
+      "target_item_id": "weapon_cold_jade_staff_rank10",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/99"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/101"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/93"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/95"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_dongling_shennv_10_true",
+      "class_id": "dongling_shennv",
+      "variant": "true",
+      "source_weapon_stage": 9,
+      "target_weapon_stage": 10,
+      "source_item_id": "weapon_cold_jade_staff_rank09_true",
+      "target_item_id": "weapon_cold_jade_staff_rank10_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/100"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/102"
+      },
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/94"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/96"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_dongling_shennv_11_ordinary",
+      "class_id": "dongling_shennv",
+      "variant": "ordinary",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_cold_jade_staff_rank10",
+      "target_item_id": "weapon_cold_jade_staff_rank11",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/101"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/103"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/95"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/97"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_dongling_shennv_11_true",
+      "class_id": "dongling_shennv",
+      "variant": "true",
+      "source_weapon_stage": 10,
+      "target_weapon_stage": 11,
+      "source_item_id": "weapon_cold_jade_staff_rank10_true",
+      "target_item_id": "weapon_cold_jade_staff_rank11_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/102"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/104"
+      },
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_5_6",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/96"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/98"
+      }
+    },
+    {
+      "recipe_id": "hero_transfer_zhen_fengbai_12_ordinary",
+      "class_id": "zhen_fengbai",
+      "variant": "ordinary",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_blood_orb_rank11",
+      "target_item_id": "weapon_blood_orb_rank12",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/14"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/16"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/13"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/15"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_zhen_fengbai_12_true",
+      "class_id": "zhen_fengbai",
+      "variant": "true",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_blood_orb_rank11_true",
+      "target_item_id": "weapon_blood_orb_rank12_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/15"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/17"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/14"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/16"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_han_feiguan_12_ordinary",
+      "class_id": "han_feiguan",
+      "variant": "ordinary",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_fire_dragon_rank11",
+      "target_item_id": "weapon_fire_dragon_rank12",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/31"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/33"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/29"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/31"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_han_feiguan_12_true",
+      "class_id": "han_feiguan",
+      "variant": "true",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_fire_dragon_rank11_true",
+      "target_item_id": "weapon_fire_dragon_rank12_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/32"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/34"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/30"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/32"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_tan_hualing_12_ordinary",
+      "class_id": "tan_hualing",
+      "variant": "ordinary",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_flower_sword_rank11",
+      "target_item_id": "weapon_flower_sword_rank12",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/49"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/51"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/46"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/48"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_tan_hualing_12_true",
+      "class_id": "tan_hualing",
+      "variant": "true",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_flower_sword_rank11_true",
+      "target_item_id": "weapon_flower_sword_rank12_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/50"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/52"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/47"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/49"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_mei_liuzhen_12_ordinary",
+      "class_id": "mei_liuzhen",
+      "variant": "ordinary",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_black_tortoise_bow_rank11",
+      "target_item_id": "weapon_black_tortoise_bow_rank12",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/67"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/69"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/63"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/65"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_mei_liuzhen_12_true",
+      "class_id": "mei_liuzhen",
+      "variant": "true",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_black_tortoise_bow_rank11_true",
+      "target_item_id": "weapon_black_tortoise_bow_rank12_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/68"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/70"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/64"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/66"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_lu_fenglang_12_ordinary",
+      "class_id": "lu_fenglang",
+      "variant": "ordinary",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_soul_spear_rank11",
+      "target_item_id": "weapon_soul_spear_rank12",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/85"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/87"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/80"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/82"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_lu_fenglang_12_true",
+      "class_id": "lu_fenglang",
+      "variant": "true",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_soul_spear_rank11_true",
+      "target_item_id": "weapon_soul_spear_rank12_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/86"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/88"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/81"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/83"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_dongling_shennv_12_ordinary",
+      "class_id": "dongling_shennv",
+      "variant": "ordinary",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_cold_jade_staff_rank11",
+      "target_item_id": "weapon_cold_jade_staff_rank12",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/103"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/105"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/97"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/99"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    },
+    {
+      "recipe_id": "hero_transfer_dongling_shennv_12_true",
+      "class_id": "dongling_shennv",
+      "variant": "true",
+      "source_weapon_stage": 11,
+      "target_weapon_stage": 12,
+      "source_item_id": "weapon_cold_jade_staff_rank11_true",
+      "target_item_id": "weapon_cold_jade_staff_rank12_true",
+      "source_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/104"
+      },
+      "target_identity_ref": {
+        "file": "../reference/英雄主武器阶段映射.json",
+        "pointer": "/mainline/106"
+      },
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "source_minimum_enhancement": 11,
+      "source_maximum_enhancement": 15,
+      "consumed_item_id": "hero_transfer_talisman_7",
+      "consumed_item_quantity": 1,
+      "silver_fee": 0,
+      "success_numerator": 1,
+      "success_denominator": 1,
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/98"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/100"
+      },
+      "adoption_basis": "explicit_project_stage7_extension_not_official_recipe"
+    }
+  ],
+  "instance_transform": {
+    "source_count": 1,
+    "separate_target_instance_required": false,
+    "source_consumed": true,
+    "new_output_instance_id": true,
+    "output_location": "source equipment-bag slot",
+    "output_binding": "same character binding as source",
+    "target_base_stats": "solely from explicit target definition; do not add both source and target base attack",
+    "preserved_fields": [
+      "enhancement",
+      "synthesis_entries",
+      "awakening_stage",
+      "element_attribute",
+      "evolution_tier",
+      "true_equipment",
+      "merit_equipment",
+      "jade_attributes",
+      "four_divine_state",
+      "enhancement_boost"
+    ],
+    "new_fields": {
+      "definition_id": "recipe.target_item_id",
+      "exclusive_weapon_advancement_stage": "recipe.target_weapon_stage",
+      "instance_id": "fresh globally unique instance ID",
+      "provenance": "transfer receipt with source instance ID, recipe ID and command ID"
+    },
+    "absent_optional_state": "按正式装备实例schema处理，合法空值保持空；字段缺失不能视为空并补齐坏档。",
+    "unregistered_fields": "reject schema or migration error; never silently drop a source field",
+    "field_compatibility": "逐字段验证目标装备允许的原状态；任何不兼容整笔拒绝，不截断强化、不抹除合成或觉醒。",
+    "enhancement_decrement": 0,
+    "target_lock_added": false,
+    "existing_binding_or_lock": "保留原角色绑定与既有锁；不加锁不表示解除绑定。",
+    "quest_side_effects": "仅检查角色晋级已交付；不改adv状态、不学技能、不发神物之石、经验/历练/武勋或其他物品。",
+    "true_side_effects": "普通和真各自保持分支，不消耗提真材料，不降真或自动提真。",
+    "exclusive_lineage": "六封印初始武器血统持续唯一；源消耗与新实例血统迁移同笔提交，仓库/装备组不得残留同血统第二件。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "recipe_id",
+      "recipe_version",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "显示原→目标定义/阶段/基础攻击，完整保留属性、消耗一个符、0银费及来源实例将消耗；拒绝原因必须明确。",
+    "commit_order": [
+      "重新验证角色、NPC、等级/rank/已交adv、源ID/归属/成长及报价修订。",
+      "在副本计算扣1符、消耗源武器、生成新实例、源槽放回及最终重量/容量与唯一血统。",
+      "所有检查通过后一次提交物品、角色修订、命令收据与来源血统；不调用随机数。",
+      "自动保存；已提交而保存失败时保内存提交/未保存标记，重试保存同一状态，不重新执行配方。"
+    ],
+    "bag_capacity": "装备包满时允许一换一；没有新增装备槽。材料包扣符只减占用，不产生材料。",
+    "weight": "最终携带重量=原重量-源武器重量-10克+目标武器重量；超过当前合法上限整笔拒绝，不能先扣符再拒绝。",
+    "cancel_or_stale_or_failure": "不消耗武器/符/钱，不迁移血统，不生成正式输出ID，不改修订或随机状态。",
+    "deduplication": "房主按角色/command_id串行提交；同命令同负载返回原收据，新负载复用旧ID拒绝。重复请求先查收据再判断已消失源。",
+    "lan": "仅房主校验请求者本人库存/角色；其他成员和队长没有代付或共享输出。",
+    "save_load": "源/目标定义与新ID、血统、成长、消耗和收据同快照；读入拒绝双归属、源目标并存、输出ID重复或来源链不匹配，不自动修复。"
+  },
+  "planned_checks": [
+    "47条配方（普通24/真23）身份引用、阶段与职业/分支一致；原35条与项目七式12条分开标识，不补造真火龙刀三式来源。",
+    "各配方等级/rank/前置adv分别少1、未交付、正确交付；11/15可转，10/16拒绝。",
+    "+11/0合成英雄原样变为下一式+11，+15/4合成和觉醒/属性石/奇玉/四神保持；基础攻击仅取目标。",
+    "普通源→真目标、跨职业、跨两阶段、无符/错符、穿戴/仓库/他人输入均拒绝。",
+    "满装备包一换一成功；最终重量等于上限成功、超1克拒绝，失败符/源均不变。",
+    "取消、过期报价、双击、同命令重试、保存失败重试、断线后读收据不重扣或复制。"
+  ],
+  "remaining_dependencies": [
+    "107主线基础装备身份已由英雄主武器基础定义.v1.json闭合（101新定义+6初始引用），真实强化逐级贡献已由英雄主武器强化.v1.json采用；其他成长/状态schema与允许转移状态仍待采用，基础和强化定义不能替代完整成长校验。",
+    "英雄主武器晋阶与提真.v1.json已采用95晋阶/29提真、三材料及两次甄奖励；英雄合成/神物之石由英雄武器合成与神物之石.v1.json采用；其他成长字段/贡献仍待。",
+    "七式12条已明确项目采用；高于七式不在本次交付范围，不生成stage13或复用七式符。",
+    "正式美术资源、引擎加载、背包/费用/LAN/存档故障验证尚未实现。"
+  ],
+  "static_review": {
+    "kind": "static_design_arithmetic_and_identity_review_not_runtime",
+    "recipe_identity_refs_checked": 94,
+    "formal_definition_refs_checked": 94,
+    "recipe_count": 47,
+    "ordinary_count": 24,
+    "true_count": 23,
+    "official_stage4_to6_adopted_recipes": 35,
+    "explicit_project_stage7_recipes": 12,
+    "eligibility_combinations": 5922,
+    "eligible_combinations": 752,
+    "runtime_tests_executed": false
+  }
+}

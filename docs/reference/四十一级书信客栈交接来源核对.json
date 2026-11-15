@@ -1,0 +1,167 @@
+{
+  "review_version": 1,
+  "checked_on": "2026-11-15",
+  "status": "source_flow_and_explicit_local_gaps_bound_to_formal_design_not_implemented",
+  "adoption_count_change": 2,
+  "quests": [
+    {
+      "reference_id": "QREF-63790-004",
+      "source_ref": {
+        "file": "任务参数.json",
+        "pointer": "/quests/27"
+      },
+      "body_ref": {
+        "file": "官网资料/目录正文.json",
+        "pointer": "/records/71/text"
+      },
+      "minimum_level_as_published": 41,
+      "accept_npc_id": "npc_liu_xu",
+      "reward_as_published": "幸运符(5%)",
+      "local_reward_decision": "既有5%符1，数量1为明确项目值，正式任务终交授权已登记，未实现。",
+      "source_flow": [
+        "转交书信给泫勃门主",
+        "金香玉探听",
+        "刀剑笑取钝菜刀",
+        "锋利菜刀给金香玉",
+        "泫勃门主领取回信",
+        "回信交本派关主",
+        "两种怪物材料各10终交关主"
+      ],
+      "source_item_names": [
+        "柳正关的书信",
+        "钝的菜刀",
+        "锋利的菜刀",
+        "三邪关的回信"
+      ],
+      "source_raws": [
+        "小山怪前牙10",
+        "利爪山魅前牙10"
+      ],
+      "local_flow_decisions": [
+        "接取时明确由关主发本轮书信1，源正文从转交开始未写发放动作；转交后真实消费，不凭对白保留副本。",
+        "金香玉探听仅推进阶段；泫勃门主回信须金香玉已收到对应菜刀或酱油的真实步骤收据，不能先领。",
+        "源回信名称分别三邪关的回信/柳正关的回信，但正文统一泫勃门主发；本地保名称差异并按正文门主发本轮独立回信，不冒称另一关主现场写信。",
+        "回信先交本派关主后才开始终交两类怪物材料，旧死亡不补新阶段。",
+        "钝→锋利修理来源步骤缺失，本地新增刀剑笑同NPC真实消费钝刀1/quest_exchange新建锋利刀1，不能原堆改item_id或静默变锋利。"
+      ],
+      "formal_owner_ref": {
+        "file": "../contracts/四十一级正邪书信客栈任务.v1.json",
+        "pointer": "/quests/0"
+      }
+    },
+    {
+      "reference_id": "QREF-63789-004",
+      "source_ref": {
+        "file": "任务参数.json",
+        "pointer": "/quests/76"
+      },
+      "body_ref": {
+        "file": "官网资料/目录正文.json",
+        "pointer": "/records/72/text"
+      },
+      "minimum_level_as_published": 41,
+      "accept_npc_id": "npc_chi_juan",
+      "reward_as_published": "幸运符(5%)",
+      "local_reward_decision": "既有5%符1，数量1为明确项目值，正式任务终交授权已登记，未实现。",
+      "source_flow": [
+        "转交书信给泫勃门主",
+        "金香玉探听",
+        "银娇龙借酱油",
+        "装满酱油瓶给金香玉",
+        "泫勃门主领取回信",
+        "回信交本派关主",
+        "两种怪物材料各10终交关主"
+      ],
+      "source_item_names": [
+        "三邪关的书信",
+        "装满酱油的酱油瓶",
+        "柳正关的回信"
+      ],
+      "source_raws": [
+        "铁掌神驼手套10",
+        "独眼怪人绷带10"
+      ],
+      "local_flow_decisions": [
+        "接取时明确由关主发本轮书信1，源正文从转交开始未写发放动作；转交后真实消费，不凭对白保留副本。",
+        "金香玉探听仅推进阶段；泫勃门主回信须金香玉已收到对应菜刀或酱油的真实步骤收据，不能先领。",
+        "源回信名称分别三邪关的回信/柳正关的回信，但正文统一泫勃门主发；本地保名称差异并按正文门主发本轮独立回信，不冒称另一关主现场写信。",
+        "回信先交本派关主后才开始终交两类怪物材料，旧死亡不补新阶段。",
+        "源未另写装酱油动作，本地银娇龙借出即为装满酱油瓶1，不额外虚构空瓶/酱油副本/另一采集任务。"
+      ],
+      "formal_owner_ref": {
+        "file": "../contracts/四十一级正邪书信客栈任务.v1.json",
+        "pointer": "/quests/1"
+      }
+    }
+  ],
+  "target_monster_review": {
+    "checked_on": "2026-11-15",
+    "scope": "source_identity_and_formal_four_actor_sixteen_home_adoption_not_implemented",
+    "targets": [
+      {
+        "source_ref": {
+          "file": "怪物参数.json",
+          "pointer": "/monsters/102"
+        },
+        "source_reference_id": "MREF-39820-005",
+        "name": "小山怪",
+        "level": 43,
+        "map_id": "liuzheng_pass",
+        "route": "righteous",
+        "task_material": "小山怪前牙",
+        "required_quantity": 10
+      },
+      {
+        "source_ref": {
+          "file": "怪物参数.json",
+          "pointer": "/monsters/103"
+        },
+        "source_reference_id": "MREF-39820-006",
+        "name": "利爪山魅",
+        "level": 44,
+        "map_id": "liuzheng_pass",
+        "route": "righteous",
+        "task_material": "利爪山魅前牙",
+        "required_quantity": 10
+      },
+      {
+        "source_ref": {
+          "file": "怪物参数.json",
+          "pointer": "/monsters/119"
+        },
+        "source_reference_id": "MREF-39819-008",
+        "name": "铁掌神驼",
+        "level": 46,
+        "map_id": "sanxie_pass",
+        "route": "evil",
+        "task_material": "铁掌神驼手套",
+        "required_quantity": 10
+      },
+      {
+        "source_ref": {
+          "file": "怪物参数.json",
+          "pointer": "/monsters/120"
+        },
+        "source_reference_id": "MREF-39819-009",
+        "name": "独眼怪人",
+        "level": 44,
+        "map_id": "sanxie_pass",
+        "route": "evil",
+        "task_material": "独眼怪人绷带",
+        "required_quantity": 10
+      }
+    ],
+    "existing_contract_check": "正式owner已唯一登记四个精确MREF及十六home，不复用39巨臂异人、43山精或三转本地怪。",
+    "source_level_policy": "保怪物原等级43/44/46/44；任务门槛41不代表怪物等级41。",
+    "death_owner_policy": "正式owner已登记唯一原死亡结算；按当前路线/当前任务/attempt/最终采集stage发精确目标对应原物1，各10独立封顶；书信往返阶段及旧死亡不产生后续采集信用。",
+    "adoption_count_change": 2,
+    "formal_monsters_ref": {
+      "file": "../contracts/四十一级正邪书信客栈任务.v1.json",
+      "pointer": "/monsters"
+    }
+  },
+  "remaining_runtime_work": [
+    "Godot阶段/NPC/物品流/原死亡/刷点导航/保存/LAN实现和功能测试",
+    "模型动作与任务难度/经济校准"
+  ]
+}

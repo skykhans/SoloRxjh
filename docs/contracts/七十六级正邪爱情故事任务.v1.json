@@ -1,0 +1,492 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "pointer": ""
+  },
+  "status": "two_full_local_staged_quest_designs_not_implemented_not_balanced",
+  "source_policy": "保76级/正邪/一次/10原物、四步NPC流程及金灵护符回避+9，历练未给数额本地采用30000，首饰数量1项目值。正派源血红桃花/流程红桃花合一本轮原物，谢晓风给真实情书后金香玉将携带原花制篮，不再多造花变体；邪派银蛟龙明确本地匹配既有银娇龙，不宣称官方别名，丝绸衣服/回信依完整正文。两派终奖复用79款中金灵护符固定evasion_flat9/20克九字段新实例，不加百分比回避或自动穿戴；独立于75链。",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-034",
+      "source_reference_id": "QREF-63790-034",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/57"
+      },
+      "name": "谢晓风的爱情故事 1",
+      "minimum_level": 76,
+      "route": "righteous",
+      "accept_npc_id": "npc_xie_xiaofeng",
+      "accept_map_id": "shenwu_gate",
+      "accept_interaction_anchor_id": "npc_xie_xiaofeng_service",
+      "accept_service_id": "romance76_righteous_accept",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xie_xiaofeng",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_xie_xiaofeng_service",
+          "service_id": "romance76_righteous_stage1",
+          "required_carried": [
+            {
+              "item_id": "romance76_righteous_raw",
+              "quantity": 10
+            }
+          ],
+          "consume": [],
+          "grant": [
+            {
+              "item_id": "romance76_righteous_letter",
+              "quantity": 1
+            }
+          ],
+          "grants_final_reward": false,
+          "action": "验花10并交付情书1，原花仍本人携带待制篮"
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_jinxiangyu",
+          "npc_map_id": "hyunbo_town",
+          "interaction_anchor_id": "npc_jinxiangyu_service",
+          "service_id": "romance76_righteous_stage2",
+          "required_carried": [
+            {
+              "item_id": "romance76_righteous_raw",
+              "quantity": 10
+            },
+            {
+              "item_id": "romance76_righteous_letter",
+              "quantity": 1
+            }
+          ],
+          "consume": [
+            {
+              "item_id": "romance76_righteous_raw",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "romance76_righteous_gift",
+              "quantity": 1
+            }
+          ],
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_wei_dabao",
+          "npc_map_id": "hyunbo_town",
+          "interaction_anchor_id": "npc_wei_dabao_service",
+          "service_id": "romance76_righteous_stage3",
+          "required_carried": [
+            {
+              "item_id": "romance76_righteous_gift",
+              "quantity": 1
+            },
+            {
+              "item_id": "romance76_righteous_letter",
+              "quantity": 1
+            }
+          ],
+          "consume": [
+            {
+              "item_id": "romance76_righteous_gift",
+              "quantity": 1
+            },
+            {
+              "item_id": "romance76_righteous_letter",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": false,
+          "action": "韦大宝收下同轮礼物与信件，记录唯一交接步骤，无额外物品凭据或主奖励"
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_xie_xiaofeng",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_xie_xiaofeng_service",
+          "service_id": "romance76_righteous_stage4",
+          "required_carried": [],
+          "consume": [],
+          "grant": [],
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 30000,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "jewelry_regular_necklace_ca7b83b92e0f",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "普通首饰基础定义.v1.json",
+              "pointer": "/items/31"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63789-034",
+      "source_reference_id": "QREF-63789-034",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/106"
+      },
+      "name": "上官晓仙爱情故事 1",
+      "minimum_level": 76,
+      "route": "evil",
+      "accept_npc_id": "npc_shangguan_xiaoxian",
+      "accept_map_id": "liushan_house",
+      "accept_interaction_anchor_id": "npc_shangguan_xiaoxian_service",
+      "accept_service_id": "romance76_evil_accept",
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shangguan_xiaoxian",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_shangguan_xiaoxian_service",
+          "service_id": "romance76_evil_stage1",
+          "required_carried": [
+            {
+              "item_id": "romance76_evil_raw",
+              "quantity": 10
+            }
+          ],
+          "consume": [
+            {
+              "item_id": "romance76_evil_raw",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "romance76_evil_gift",
+              "quantity": 1
+            },
+            {
+              "item_id": "romance76_evil_letter",
+              "quantity": 1
+            }
+          ],
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_yinjiaolong",
+          "npc_map_id": "hyunbo_town",
+          "interaction_anchor_id": "npc_yinjiaolong_service",
+          "service_id": "romance76_evil_stage2",
+          "required_carried": [
+            {
+              "item_id": "romance76_evil_gift",
+              "quantity": 1
+            },
+            {
+              "item_id": "romance76_evil_letter",
+              "quantity": 1
+            }
+          ],
+          "consume": [],
+          "grant": [],
+          "grants_final_reward": false,
+          "action": "银娇龙查看同轮丝绸衣服并告知可交韦大宝，只推进阶段，不消费/复制衣服或改库存修订"
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_wei_dabao",
+          "npc_map_id": "hyunbo_town",
+          "interaction_anchor_id": "npc_wei_dabao_service",
+          "service_id": "romance76_evil_stage3",
+          "required_carried": [
+            {
+              "item_id": "romance76_evil_gift",
+              "quantity": 1
+            },
+            {
+              "item_id": "romance76_evil_letter",
+              "quantity": 1
+            }
+          ],
+          "consume": [
+            {
+              "item_id": "romance76_evil_gift",
+              "quantity": 1
+            },
+            {
+              "item_id": "romance76_evil_letter",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": false,
+          "action": "韦大宝收下同轮礼物与信件，记录唯一交接步骤，无额外物品凭据或主奖励"
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_shangguan_xiaoxian",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_shangguan_xiaoxian_service",
+          "service_id": "romance76_evil_stage4",
+          "required_carried": [],
+          "consume": [],
+          "grant": [],
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 30000,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "jewelry_regular_necklace_ca7b83b92e0f",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "普通首饰基础定义.v1.json",
+              "pointer": "/items/31"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      }
+    }
+  ],
+  "items": [
+    {
+      "item_id": "romance76_righteous_raw",
+      "name": "血红桃花",
+      "source_reference_id": "QREF-63790-034",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/本任务/本轮attempt真实物品；原物只在stage1由指定怪产生，信件/衣服/花篮只按精确步骤发放或交换，不能跨派/轮使用或作为其他爱情任务完成证明。"
+    },
+    {
+      "item_id": "romance76_righteous_letter",
+      "name": "谢晓风的情书",
+      "source_reference_id": "QREF-63790-034",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/本任务/本轮attempt真实物品；原物只在stage1由指定怪产生，信件/衣服/花篮只按精确步骤发放或交换，不能跨派/轮使用或作为其他爱情任务完成证明。"
+    },
+    {
+      "item_id": "romance76_righteous_gift",
+      "name": "花篮",
+      "source_reference_id": "QREF-63790-034",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/本任务/本轮attempt真实物品；原物只在stage1由指定怪产生，信件/衣服/花篮只按精确步骤发放或交换，不能跨派/轮使用或作为其他爱情任务完成证明。"
+    },
+    {
+      "item_id": "romance76_evil_raw",
+      "name": "血魔金丝线",
+      "source_reference_id": "QREF-63789-034",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/本任务/本轮attempt真实物品；原物只在stage1由指定怪产生，信件/衣服/花篮只按精确步骤发放或交换，不能跨派/轮使用或作为其他爱情任务完成证明。"
+    },
+    {
+      "item_id": "romance76_evil_letter",
+      "name": "上官晓仙的回信",
+      "source_reference_id": "QREF-63789-034",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/本任务/本轮attempt真实物品；原物只在stage1由指定怪产生，信件/衣服/花篮只按精确步骤发放或交换，不能跨派/轮使用或作为其他爱情任务完成证明。"
+    },
+    {
+      "item_id": "romance76_evil_gift",
+      "name": "丝绸衣服",
+      "source_reference_id": "QREF-63789-034",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/本任务/本轮attempt真实物品；原物只在stage1由指定怪产生，信件/衣服/花篮只按精确步骤发放或交换，不能跨派/轮使用或作为其他爱情任务完成证明。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-034",
+        "stage_index": 1,
+        "route": "righteous",
+        "monster_id": "project_diling_white_face_halberd75",
+        "map_id": "diling_cave_1",
+        "item_id": "romance76_righteous_raw",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-034",
+        "stage_index": 1,
+        "route": "evil",
+        "monster_id": "xuemo_black_face_spike77",
+        "map_id": "xuemo_cave_1",
+        "item_id": "romance76_evil_raw",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "death_owner_ref": {
+      "file": "七十二级正邪洞窟地图任务.v1.json",
+      "pointer": "/collection"
+    },
+    "eligibility": "own exact route/quest/attempt/stage1,alive connected same world/map;solo original owner or19eligible original party member within30m/joined>=600steps;real raw below10",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ],
+    "capacity": "shared72..76owner preflights all eligible original death token candidates together,0g,at most3.76can coexist with chain75;halberd/spike outputs75raw and76raw at most2 per player;no partial personal tokens or separate ordinary reward dispatch",
+    "replay": "same death immutable,no new credit after free space/stage/route/world/attempt change;personal100% outside public loot/modifiers"
+  },
+  "lifecycle": {
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "class_scope": "all14classes",
+    "minimum_rank": 0,
+    "interaction_distance_mm": 2500,
+    "qualification": "own alive idle out-of-combat/nochallenge,level>=76/current exactroute;exact NPC/map/anchor/service within2500mm,original inventory/source/revision/stage/attempt valid;no75quest/letter/rank prerequisite",
+    "acceptance": "onlynot_accepted/neverdelivered at own declared accept NPC,uniqueattempt/stage1,no initial items/fee",
+    "readiness": "exact declared own attempt real carried requirements,not counters;Rstage1raw10/stage2raw10+letter1/stage3gift1+letter1/stage4no tokens;Estage1raw10/stage2and3gift1+letter1/stage4no tokens. Reject extra/wrong-stage/alien variant token sources,never clean or repair",
+    "stage_grants": "Rstage1checks raw10 retained and mints letter1 by exact quest_reward stage-only authorization,needs one extra material slot. Rstage2consumes raw10 via quest_delivery and mints gift1 underquest_exchange,retains letter;E stage1consumes raw10 and mints distinct gift1+letter1 viaquest_exchange,requires2final stacks and0g. Preflight original/final source/slots/weight and commit consume/mint/stage/receipts/character+inventory revisions once;never mutate old item_id or grant mainreward",
+    "view_only": "E stage2views same genuinegift+letter,advance3/step receipt/character revision only;no inventory revision/source/resource mutation. Only corresponding stage progression proves view,no automatic view by location",
+    "gift_delivery": "stage3韦大宝 consumes exact both gift1+letter1 and advances4 with source/receipt/revisions once,neither grant return-token nor main reward;cannot revisit old service to reissue gift or skip stage2",
+    "final_delivery": "stage4returns original NPC,requires prior durable stages and no quest tokens;preflight practice30000cap preview/explicit loss confirmation plus one free equipment_bag slot and carried+20g legal. Single05/19commit actualpractice/one new ordinary necklace instance/source/completion/receipts/revisions once. Freed quest material slots never substitute equipment slot;no XP/silver/RNG/rank/ascension/heal/cooldown changes",
+    "fresh_instance": "exact existingitem_id/characterbinding/newinstance_id/newlineage_id/owner/revision0/creation_receipt_id exactquest_reward/processing_level0/processing_origin_receipt_id null;all9fields by普通首饰实例.schema.json,not autoequipped;normalwear eligibility remains definition",
+    "practice_rule_ref": {
+      "file": "正邪收集任务公共规则.v1.json",
+      "pointer": "/lifecycle/practice"
+    },
+    "abandon": "confirmed cleanup only own3definitions/currentattempt,clearattempt/stage to not_accepted;no refund/extra letter/old gift restore;reacceptstage1 and recollect10even after韦大宝 receivedgift. Deliveredcannotabandon",
+    "repeat": "eachquestoncepercharacteracrossworlds;route/configchangespreservecompletion/receipts,wrongcurrentrouteinvalid",
+    "deduplication": "samecharacter/request/payloadreturnsoriginaldurablestep/finalbeforechecks,neverreinstallsletter/gift/necklace/resources;changedpayloadsamerequestrejects. Stageuniquecharacter/quest/attempt/stage,finaluniquecharacter/quest;oldattemptcommands/deathsdo notactonnewattempt",
+    "failure_and_save": "anyoriginal/source/endpoint/quantity/stage/route/revision/slot/weight/practiceconfirmationfailurepreservesallinputs/resources/state. Saveuncertaintyresolvesoriginaldecision/retriesthesamepersistence,notbusinessreplay",
+    "initialization": "newroles/knownlegacy1..4explicitnot_accepted/nullattempt/nullstage/no3tokens/receipts;level/locationnoautocomplete,newformatmissingfieldsreject"
+  },
+  "pending": [
+    "Godot fourstage/rawretention/viewonly/finaljewelry/practice/source/save/LAN functionaltests",
+    "localpractice30000/rewardandtravelcalibration"
+  ]
+}

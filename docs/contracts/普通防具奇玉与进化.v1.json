@@ -1,0 +1,354 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "project_design_not_implemented_not_registered",
+  "scope": "51普通1219件与55武勋106件精确目录1325件，含body/boots/gloves/inner_armor；77阻塞、21门派和初始短衫排除。",
+  "source_policy": {
+    "evidence": [
+      {
+        "file": "../reference/升天六式强化转移规则.json",
+        "pointer": "/faq",
+        "facts": "奇玉属性与强化/合成/觉醒独立，转移须独立处理奇玉；不证明本防具通用配方。"
+      },
+      {
+        "file": "../reference/官网资料/专题补充正文.json",
+        "pointer": "/records/6",
+        "facts": "装备复购说明具名进化Lv1/Lv2及提真，证明形态存在，不证明本项目数值/配方/可售权限。"
+      }
+    ],
+    "adoption": "防具四部位奇玉单槽、最低rank4、进化最低rank5、材料/概率/费用/贡献/失败保留全为项目采用。形态存在证据不伪称全部防具官方适用；不改变既有禁卖/复购权限。"
+  },
+  "eligibility_catalog_refs": [
+    {
+      "file": "普通防具基础定义.v1.json",
+      "pointer": "/items"
+    },
+    {
+      "file": "武勋防具基础定义.v1.json",
+      "pointer": "/items"
+    }
+  ],
+  "eligibility_partition": {
+    "jade_predicate": "exact catalog member AND eligibility_ref.minimum_completed_rank >= 4",
+    "jade_allowed_count": 882,
+    "jade_empty_only_count": 443,
+    "evolution_predicate": "exact catalog member AND eligibility_ref.minimum_completed_rank >= 5",
+    "evolution_allowed_count": 666,
+    "evolution_zero_only_count": 659,
+    "identity": "真/普通/武勋沿同一最低转职谓词，不生成新物品身份或改真标识；角色资格暂失仅暂停贡献和加工，不清合法成长。"
+  },
+  "items": [
+    {
+      "item_id": "armor_jade_defense_stone",
+      "name": "防具奇玉石·防御（项目）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 1000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 80,
+      "minimum_purchase_rank": 4,
+      "presentation_ref": "dev_item_armor_jade_defense_stone",
+      "source_policy": "本项目防具专用材料，数量/价格/堆重/绑定及本地取得为项目决定，不接受英雄/普通武器专用材料代替。"
+    },
+    {
+      "item_id": "armor_jade_max_hp_stone",
+      "name": "防具奇玉石·生命（项目）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 1500000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 80,
+      "minimum_purchase_rank": 4,
+      "presentation_ref": "dev_item_armor_jade_max_hp_stone",
+      "source_policy": "本项目防具专用材料，数量/价格/堆重/绑定及本地取得为项目决定，不接受英雄/普通武器专用材料代替。"
+    },
+    {
+      "item_id": "armor_jade_evasion_stone",
+      "name": "防具奇玉石·回避（项目）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 800000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 80,
+      "minimum_purchase_rank": 4,
+      "presentation_ref": "dev_item_armor_jade_evasion_stone",
+      "source_policy": "本项目防具专用材料，数量/价格/堆重/绑定及本地取得为项目决定，不接受英雄/普通武器专用材料代替。"
+    },
+    {
+      "item_id": "armor_evolution_stone",
+      "name": "防具进化石（项目）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 2000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 100,
+      "minimum_purchase_rank": 5,
+      "presentation_ref": "dev_item_armor_evolution_stone",
+      "source_policy": "本项目防具专用材料，数量/价格/堆重/绑定及本地取得为项目决定，不接受英雄/普通武器专用材料代替。"
+    }
+  ],
+  "jade_property_pool": [
+    {
+      "property_id": "armor_jade_defense",
+      "stat_key": "defense",
+      "value": 12,
+      "consumed_item_id": "armor_jade_defense_stone"
+    },
+    {
+      "property_id": "armor_jade_max_hp",
+      "stat_key": "max_hp_flat",
+      "value": 50,
+      "consumed_item_id": "armor_jade_max_hp_stone"
+    },
+    {
+      "property_id": "armor_jade_evasion",
+      "stat_key": "evasion",
+      "value": 20,
+      "consumed_item_id": "armor_jade_evasion_stone"
+    }
+  ],
+  "evolution_tiers": [
+    {
+      "tier": 0,
+      "defense_flat": 0,
+      "max_hp_flat": 0
+    },
+    {
+      "tier": 1,
+      "defense_flat": 20,
+      "max_hp_flat": 40
+    },
+    {
+      "tier": 2,
+      "defense_flat": 50,
+      "max_hp_flat": 100
+    }
+  ],
+  "jade_schema": {
+    "field": "jade_attributes",
+    "type": "ordered_array",
+    "maximum_entries": 1,
+    "fresh_value": [],
+    "entry_required_fields": [
+      "property_id",
+      "value",
+      "origin_receipt_id"
+    ],
+    "value": "严格整数排除bool/float/string，精确匹配jade_property_pool固定值；不接受任意范围或武器池。",
+    "nonempty_requires": "jade_predicate为真，成功收据为本角色同防具血统本服务奇玉赋予/替换，属性及值一致；武器/英雄/失败收据无效。",
+    "strictness": "443件仅空数组；缺字段、非数组、超过1条、未知/多余字段、坏值或坏收据拒绝，不补空、不裁剪、不删旧玉修复。"
+  },
+  "evolution_schema": {
+    "field": "evolution_tier",
+    "type": "strict_integer_excluding_bool_float_string",
+    "minimum": 0,
+    "maximum": 2,
+    "fresh_value": 0,
+    "positive_requires": "evolution_predicate为真，实际各次进化成功收据须同角色同防具血统本服务且原/目标tier相接；不以武器或失败凭证代替。",
+    "strictness": "659件仅0合法；缺字段/非法tier/坏收据拒绝，不补0、不裁剪。当前总贡献按单一tier替换，不累加旧tier；不开放tier3/降级/移除/返石。"
+  },
+  "service_policy": {
+    "planned_service_id": "npc_daojianxiao_ordinary_armor_jade_and_evolution",
+    "registered": false,
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "qualification": "奇玉角色至少80级且实际四转、进化至少100级且实际五转，均须已选正邪且满足目标防具全部职业/路线/体型/等级/转职/武勋资格。源须精确目录成员且满足对应加工谓词，位于本人装备背包，无占用，完整实例/原库存/绑定/血统/修订合法；存活脱战空闲、无挑战/传送/未结算战斗队列，NPC可用且同图2.5米内。",
+    "other_growth": "仅改目标成长字段，保留同实例ID/血统/真标识/其他合法成长；未知字段、未决非空成长或非空临时显示提升拒绝，不清除修复。"
+  },
+  "jade_assignment_recipes": [
+    {
+      "recipe_id": "ordinary_armor_jade_assign_armor_jade_defense",
+      "property_id": "armor_jade_defense",
+      "consumed_item_id": "armor_jade_defense_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 200000,
+      "success_probability_bp": 8000,
+      "source_slot": "空槽或不同属性；同属性拒绝",
+      "success": "赋予或替换单槽固定值和本次成功收据；旧玉无返还",
+      "failure": "消费但原槽及其他全部合法成长保持"
+    },
+    {
+      "recipe_id": "ordinary_armor_jade_assign_armor_jade_max_hp",
+      "property_id": "armor_jade_max_hp",
+      "consumed_item_id": "armor_jade_max_hp_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 200000,
+      "success_probability_bp": 8000,
+      "source_slot": "空槽或不同属性；同属性拒绝",
+      "success": "赋予或替换单槽固定值和本次成功收据；旧玉无返还",
+      "failure": "消费但原槽及其他全部合法成长保持"
+    },
+    {
+      "recipe_id": "ordinary_armor_jade_assign_armor_jade_evasion",
+      "property_id": "armor_jade_evasion",
+      "consumed_item_id": "armor_jade_evasion_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 200000,
+      "success_probability_bp": 8000,
+      "source_slot": "空槽或不同属性；同属性拒绝",
+      "success": "赋予或替换单槽固定值和本次成功收据；旧玉无返还",
+      "failure": "消费但原槽及其他全部合法成长保持"
+    }
+  ],
+  "jade_removal": {
+    "recipe_id": "ordinary_armor_jade_remove",
+    "requires_nonempty_jade": true,
+    "silver_fee": 100000,
+    "success_probability_bp": 10000,
+    "random_draw_required": false,
+    "success": "同实例仅jade_attributes写显式[]；不返石，不清其他合法字段",
+    "invalid": "空输入/无资格/坏字段拒绝，无消费"
+  },
+  "evolution_recipes": [
+    {
+      "recipe_id": "ordinary_armor_evolution_1",
+      "source_tier": 0,
+      "target_tier": 1,
+      "consumed_item_id": "armor_evolution_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000000,
+      "success_probability_bp": 6000
+    },
+    {
+      "recipe_id": "ordinary_armor_evolution_2",
+      "source_tier": 1,
+      "target_tier": 2,
+      "consumed_item_id": "armor_evolution_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 10000000,
+      "success_probability_bp": 4000
+    }
+  ],
+  "projection_policy": {
+    "application": "只生效组合法且未失效的防具实例各一次，双护手逐实际独立实例；奇玉和当前进化tier贡献分别加入普通防御/生命上限/回避评分来源，备用/包/仓无贡献。",
+    "hp": "生命只加上限，换组/失效/替换/移除/进化只按新上限下裁当前量，上限增加不回血、不复活；恢复资格不补已裁生命。",
+    "evasion": "20为命中公式目标回避rating平加，不是20%闪避、不新增一次闪避抽样。",
+    "gangqi": "本奇玉/进化防御不自动加入52罡气转换，当前输入仍限基础+真实强化+53合成防御；不改变梅柳真障力平加值，不产生PvE防御/平减/内力/气功/反气功或武器攻击贡献。",
+    "configuration": "正常来源各一次后再依18应用最终覆盖，不将成长来源重复加到最终覆盖上。"
+  },
+  "material_acquisition": {
+    "status": "design_pending_shop_registration",
+    "planned_service_id": "npc_daojianxiao_ordinary_armor_jade_evolution_materials",
+    "npc_id": "npc_daojianxiao",
+    "class_ids": [
+      "archer",
+      "assassin",
+      "blade",
+      "dongling_shennv",
+      "fighter",
+      "han_feiguan",
+      "lu_fenglang",
+      "mei_liuzhen",
+      "musician",
+      "physician",
+      "spear",
+      "sword",
+      "tan_hualing",
+      "zhen_fengbai"
+    ],
+    "allowed_routes": [
+      "righteous",
+      "evil"
+    ],
+    "quantity_range": [
+      1,
+      99
+    ],
+    "stock": "unlimited",
+    "definition_policy": "四材料本合同唯一items定义，14职业适配；每件按minimum_purchase_level/rank验购买门槛，不修改英雄/武器材料商店。",
+    "transaction": "本人存活脱战空闲、NPC/会话/同图2.5米有效，原库存合法；最终银两/格数/重量校验后扣随身银两/材料入包/修订/收据原子提交，重复返回原结果，保存失败仅重存。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "recipe_id",
+      "recipe_version",
+      "property_id_if_jade",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "展示原/目标奇玉或tier、精确材料/银费/概率、成功/失败结果和全部派生变化；缺完整派生owner不能产生可提交报价，报价不预抽随机。",
+    "commit": "房主按角色串行先查结果收据，再重验全部资格/完整schema/原库存/修订；副本扣费用材料并检最终格重，复制RNG后按需抽一次均匀[0,9999]，draw<bp成功；目标字段/成本/RNG/修订/收据原子提交。",
+    "success": "奇玉写选择属性/固定值/本次成功收据，成功替换旧玉无返还；进化升一tier并保有各次成功历史，原实例其他字段保持。",
+    "failure": "消耗精确材料/银两，原实例全部合法字段及旧来源收据保持，无损毁/降级/返石。",
+    "invalid_or_cancel": "同属性奇玉、空移除、满tier或非法目标等拒绝，无资源/RNG/修订变化；移除必成不抽样。",
+    "deduplication": "同命令同参数先返回原结果，不受当前已变属性/tier影响；同ID异参数拒绝，失败也记录消费/RNG结果但不作成长成功来源。",
+    "save_failure": "保留内存提交及未保存标记，只重存同结果，不重新扣费/抽样/替换。",
+    "load": "严格字段/目录分区/本防具成功收据/同角色血统及唯一实例检查；不制造历史、不删除坏状态。"
+  },
+  "implementation_gate": "完整根实例/档案schema、其他元素/其他药品/元素显示、派生/资源/经济与世界服务联审仍待；不据本合同注册运行或创建缺字段实例。",
+  "same_lineage_true_conversion_owner_ref": {
+    "file": "普通防具提真.v1.json",
+    "pointer": "/same_lineage_replacement_provenance"
+  },
+  "enhancement_boost_guard_owner_ref": {
+    "file": "普通防具附加提升.v1.json",
+    "pointer": "/processing_guard"
+  },
+  "instance_growth_schema_owner_ref": {
+    "file": "普通防具成长.v1.json",
+    "pointer": ""
+  }
+}

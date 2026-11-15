@@ -1,0 +1,45 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "derived_current_provenance_heads_adopted_no_persistent_head_cache_not_implemented",
+  "scope": "每次明确校验当前本地/权威快照应覆盖的角色集合；proof闭包内其他角色的旧输出仅作历史依赖，不自动生成对方当前库存或要求对方完整现态。只对scope角色的实物/保管/银两做闭合；跨scope转移仍核完整71决定/守卫/转让证明及必要前链，不靠缺对方当前数据假定未双花。",
+  "owners": {
+    "stack": "物品堆与来源.v1.json",
+    "instance": "唯一实例来源流.v1.json",
+    "silver": "银两来源流.v1.json",
+    "custody": "物品域迁移.v1.json"
+  },
+  "persistence": "来源依赖是完整正式事件和必要证明闭包，当前实物/余额仍在原角色/保管位置。头索引仅加载或候选验证时从已验证图计算的内存结构，不能另存head表或缺表时补历史。派生缓存失效重建，不作为另一权威。",
+  "node_keys": "业务输出节点精确(type,receipt_id,output_index)，type仅stack/instance/silver；type由引用所在owner决定，不加到已有前引用中。stack指stack_flow.outputs，instance指instance_flow.outputs，silver指silver_flow.accounts的after_balance。同一结算同时有三流时receipt_id相同合法，必须按type隔离，不能因收据ID相同串线或误判重复；每种type内同ID/索引的正文必须唯一。",
+  "event_authenticity": "先验证完整事件根、真实原authority与决定/角色连续水位、请求去重和全量规则，不先信任片段或摘要。仅已正式提交/合法传入的结果进入图；reserved/报价/preview/待决定候选不消费节点。不按JSON数组顺序、收据字符串或文件mtime判提交先后。独立业务输出可拓扑处理，有前引用的后继必须解析完整依赖。",
+  "build_nodes": "逐已验证事件建立各type输出不可变节点，拒绝同type键冲突/未知flow/坏根；输入引用必须命中同type完整输出，silver/instance/stack不能互借。输入指向缺失/自身/未来循环依赖拒绝；合法原结果重放按同事件去重，不新插另一个消费边。 升天初始化reset_events的三流及待领天机石stone_claim_events的铸造/合堆流按owner规定consume/mint/merge验证，同事件merge指向较早mint输出合法；禁止的是同flow自引、前向引用或循环，不把整个事件内依赖误判为自环。中间mint输出被merge消费后不再是现态头。",
+  "build_consumers": "堆每个flow.inputs和实例每个flow.inputs.previous_output消费对应业务节点；银两每个account.previous_output非null消费原账户节点。对每节点最多一已提交消费边，同事件同节点重复输入也拒绝，不因引用内容一样就当幂等。原样位置/域迁移不消费业务输出，不伪造新版本。",
+  "business_heads": "业务入消费度为0的输出是候选当前版本。堆按stack_id、实例按instance_id，银两按character_id/account聚合，当前scope内每身份/账户须恰一个候选；消费无输出则退役，不保0数量/墓碑实物。两同ID未消费版本不是两个合法位置，拒绝。是否有改版+1/合法同血统替换及终结仍须原owner验证，不从图形无环推断语义合法。",
+  "custody_heads": "堆/实例每个新业务输出的custody是域赋值，输入须指原ID最后有效域；intact迁移按previous_custody_receipt_id串接同target_id/kind的域，验证from等于原to或赋域且body_revision等于当时业务版本。域前状态最多一个已提交后继，同收据对不同物品迁移可各独立；不能仅按receipt_id全局去重忽略target。业务改版后域从新输出继续，旧域节点不允许再迁移。",
+  "combine_current": "业务版本与最终合法域联合决定现态：held归本角色实物注册表及一个正式位置，buyback归对应会话/原sale保管表，终结无任一活体域。最后业务输出在held但后续整物售出至buyback时，不能按出生域放回背包；最后buyback全量返回held亦然。合法时钟递减只按73权威证明比较正文，不因此造新业务头。",
+  "closure": "scope内held堆/实例候选与该角色两正文注册表精确双向一致，键/正文owner/定义/版本和每物唯一位置均匹配；buyback候选与该会话合法保管正文/队列精确一致，不与held重复。silver两账户after_balance精确等于角色silver/warehouse_silver，各有真实opening链；不能多头选最新、缺头补0或把历史快照再入账。",
+  "identity_retention": "除当前头之外必须保所有已分配实例/堆身份与新血统的退役/替换及授权证据，用于拒绝新ID复用；不是把完整旧实物恢复进注册表。允许压缩的只有原owner明确证明不再需要的重复副本，哈希/头索引不能替代未来来源/未决复购/对方未确认结果的完整依赖。",
+  "clock_boundary": "remaining自然递减不加业务消费边；从头节点到当前正文的时钟差须按原计时代次/权威快照验证。原头非空boost而当前为null必须有真实到期revise输出，不能凭当前步过期删字段。完整时钟证据结构尚待，头推导不能代替它。",
+  "missing_proof": "任何必要依赖缺失、图循环/双消费、多个候选头、未知来源/错当前域/跨scope错误激活均报具体字段/引用路径并拒绝快照或命令；不修复/挑一个头/从现物倒造创建记录。完整证明不足时无可运行新业务，不额外扫描真实用户存档尝试修复。",
+  "implementation_gate": "当前头内存派生算法设计已采用，取消独立持久head表/schema需求；完整事件与producer授权/完整证明闭包根、时钟/档案和Godot/LAN仍待，未执行真实加载/跨角色恢复/域迁移。",
+  "player_trade_extraction": {
+    "owner_ref": {
+      "file": "玩家交易.v1.json",
+      "pointer": "/persistent_record_validation"
+    },
+    "record_schema_ref": {
+      "file": "玩家交易结构.schema.json",
+      "pointer": "/$defs/host_record"
+    },
+    "receipt_id_pointer": "/trade_id",
+    "decision_pointer": "/decision",
+    "committed_value": "commit",
+    "flow_pointers": {
+      "silver": "/plan/transfer_provenance/silver_flow",
+      "stack": "/plan/transfer_provenance/stack_flow",
+      "instance": "/plan/transfer_provenance/instance_flow"
+    },
+    "authorization": "先通过原完整交易根/原规则/双方guard与准备保存及真实唯一决定授权，只对decision=commit提取非null三流；每流receipt_id精确trade_id=settlement_id。decision=null/abort即使plan内有完整合法候选流也不入图、不消费原节点、不产生输出。不能仅按路径发现flow就当成交。",
+    "duplicate": "world原journal与多个接收封套携带的同trade决定是同一原事件证明，须原完整身份/摘要/决定/冻结plan逐字段相同，再只建一组实际输出/消费边；同ID不同源拒绝，不把合法重复传输当两次转让或先set掩盖差异。历史after实际已继续转让/消耗不重激活旧输出。"
+  }
+}

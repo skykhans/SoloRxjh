@@ -1,0 +1,385 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "two_full_local_quest_designs_not_implemented_not_balanced",
+  "source_policy": "Preserve both source level37/faction/NPC/80 named tokens/400000silver/once; source monster field blank. Choose catalog thief38 and spear bandit38 as producers explicitly locally;stats,100%personal attempt token,zero weight,four homes each and common lifecycle are project design,not official drop evidence.",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-001",
+      "source_reference_id": "QREF-63790-001",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/24"
+      },
+      "name": "捉拿鱼贼",
+      "minimum_level": 37,
+      "route": "righteous",
+      "npc_id": "npc_liu_xu",
+      "npc_map_id": "liuzheng_pass",
+      "interaction_anchor_id": "npc_liu_xu_service",
+      "service_id": "capture_fish_thieves",
+      "requirements": [
+        {
+          "item_id": "quest_fish_thief_hook",
+          "quantity": 80
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 400000,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "single_npc"
+    },
+    {
+      "quest_id": "ref_QREF-63789-001",
+      "source_reference_id": "QREF-63789-001",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/73"
+      },
+      "name": "捉拿逃兵",
+      "minimum_level": 37,
+      "route": "evil",
+      "npc_id": "npc_chi_juan",
+      "npc_map_id": "sanxie_pass",
+      "interaction_anchor_id": "npc_chi_juan_service",
+      "service_id": "capture_deserters",
+      "requirements": [
+        {
+          "item_id": "quest_deserter_badge",
+          "quantity": 80
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 400000,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "single_npc"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_fish_thief_hook",
+      "name": "鱼钩",
+      "source_reference_id": "QREF-63790-001",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 80,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "explicit zero-weight quest evidence,not fishing tool/equippable belt"
+    },
+    {
+      "item_id": "quest_deserter_badge",
+      "name": "腰牌",
+      "source_reference_id": "QREF-63789-001",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 80,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "explicit zero-weight quest evidence,not fishing tool/equippable belt"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-001",
+        "monster_id": "liuzheng_pass_fish_thief38",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_fish_thief_hook",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 80
+      },
+      {
+        "quest_id": "ref_QREF-63789-001",
+        "monster_id": "sanxie_pass_spear_bandit38",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_deserter_badge",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 80
+      }
+    ],
+    "eligibility": "own active attempt,correct current quest route,alive connected same room/map;solo unique death owner or exact19party member snapshot within30m/joined>=600steps;own token total<80",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "no token/progress,record original death no-item outcome;freeing space/reconnect/abandon/reaccept never replays it;later distinct death may grant",
+    "modifiers": "100%personal task output separate from public loot,no finisher/training multiplier",
+    "commit": "one05/19host death transaction for all recipient outcomes;ordinary monster XP/practice/silver once,not duplicated by team token recipients",
+    "shared_spear_owner": {
+      "file": "三十七级正邪缉拿任务.v1.json",
+      "pointer": "/shared_spear_death_collection"
+    },
+    "death_routing": "长枪唯一shared_spear_death_collection统一37/38候选；盗鱼原owner唯一原死亡，普通收益一次。"
+  },
+  "monsters": [
+    {
+      "monster_id": "liuzheng_pass_fish_thief38",
+      "source_reference_id": "MREF-39820-008",
+      "name": "盗鱼村夫",
+      "level": 38,
+      "map_id": "liuzheng_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2660,
+      "max_mana": 0,
+      "attack_min": 114,
+      "attack_max": 152,
+      "ordinary_defense": 76,
+      "accuracy": 190,
+      "evasion": 76,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_capture_creature",
+      "xp_reward": 62666,
+      "practice_reward": 6266,
+      "silver_reward": 38,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liuzheng_pass_fish_thief38",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source name/level/region preserved;ordinary monster not martial NPC;stats/drop-producer choice/spawns local",
+      "source_name_as_published": "盗鱼村夫"
+    },
+    {
+      "monster_id": "sanxie_pass_spear_bandit38",
+      "source_reference_id": "MREF-39819-010",
+      "name": "长枪匪兵",
+      "level": 38,
+      "map_id": "sanxie_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2660,
+      "max_mana": 0,
+      "attack_min": 114,
+      "attack_max": 152,
+      "ordinary_defense": 76,
+      "accuracy": 190,
+      "evasion": 76,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_capture_creature",
+      "xp_reward": 62666,
+      "practice_reward": 6266,
+      "silver_reward": 38,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "sanxie_pass_spear_bandit38",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source name/level/region preserved;ordinary monster not martial NPC;stats/drop-producer choice/spawns local",
+      "source_name_as_published": "长枪匪兵"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "liuzheng_pass_fish_thief38_01",
+      "monster_id": "liuzheng_pass_fish_thief38",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -128,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_fish_thief38_02",
+      "monster_id": "liuzheng_pass_fish_thief38",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -128,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_fish_thief38_03",
+      "monster_id": "liuzheng_pass_fish_thief38",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -128,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_fish_thief38_04",
+      "monster_id": "liuzheng_pass_fish_thief38",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -128,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_spear_bandit38_01",
+      "monster_id": "sanxie_pass_spear_bandit38",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -128,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_spear_bandit38_02",
+      "monster_id": "sanxie_pass_spear_bandit38",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -128,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_spear_bandit38_03",
+      "monster_id": "sanxie_pass_spear_bandit38",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -128,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_spear_bandit38_04",
+      "monster_id": "sanxie_pass_spear_bandit38",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -128,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "no hostile spawn/entry,path return to home for healing,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "method": "verify0.45m monster radius+2m patrol margin against map bounds/solids/safe circles;0.35m player central x then z corridor;compare new homes to every existing map home",
+    "runtime_proven": false
+  },
+  "pending": [
+    "Godot quest/inventory/death/AI/save/LAN implementation and dynamic navigation tests",
+    "source creature models/animations and37level difficulty/economy calibration"
+  ],
+  "shared_spear_death_collection": {
+    "monster_id": "sanxie_pass_spear_bandit38",
+    "producer_refs": [
+      {
+        "file": "三十七级正邪缉拿任务.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "三十八级正邪回收任务.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "selection": "实际长枪actor，37原邪任务当前资格项与38本人邪派长矛<10最多两候选，独立封顶，不纳盗鱼/双枪/大刀producer。",
+    "capacity": "所有合格候选共同真实槽重来源预检，失败全部任务物无物，普通收益一次。",
+    "commit": "05/19唯一原死亡普通收益及个人候选同笔，原成功/无物决定持久，旧死亡不补。"
+  }
+}

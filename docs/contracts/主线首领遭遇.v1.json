@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-15",
   "status": "project_solo_mainline_encounter_design_not_implemented",
   "scope": "Q003-Q005 personal boss instancing; cooperative ordinary hunting/LAN/other activities remain required, not replaced by this solo mainline trial",
   "states": [
@@ -114,5 +114,325 @@
       "victory_reward_profile": "reference exact monster reward and fixed_loot in 旧三地区怪物.v1.json, never duplicate values",
       "quest_delivery_reward": "only later Cao turn-in, not included here"
     }
-  ]
+  ],
+  "fixed_reward_entitlement": {
+    "schema_ref": {
+      "file": "主线首领奖励权利.schema.json",
+      "pointer": ""
+    },
+    "embedding": "唯一放profile.worlds[world_id].story_boss_attempts[attempt_id]原记录的fixed_reward_entitlement字段；combat/failed显式null，胜利为严格九键权利。角色仅activities.story_boss三键活跃引用，成功离场清引用而保原world权利。完整attempt/world严格根仍待，不能另建profile奖励余额或第二份可领目录；client同源结果副本只为应用/ACK，不取得另一次授权。",
+    "creation": "仅真实终态boss死亡与原怪物经验/历练/任务目标同一正式结果创建phase=pending/claim_settlement_id=null。world/authority/角色/attempt/encounter须精确原场，death_receipt_id必须指原唯一已提交死亡；同死亡同角色最多一权利，同attempt最多一死亡。失败/放弃/旧档return或completed均不创建。",
+    "reward_resolution": "按rules_hash精确原规则包与encounter_id找到原monster.fixed_loot，保持原行序/ID/数量/绑定；不在权利再存矿石/药数量、随机结果或奖励总额。规则缺失/哈希不符保pending并报错，不按当前表重算。原死亡经验/历练已入账，领取绝不重复；任务回报另走原任务事件。",
+    "claim": "只接纳原角色/原authority且phase=pending的明确领取请求，完整原权利与death源通过后验证全部产物槽位/重量，原领取事件冻结输入后一次提交全部固定物品，并将本片段改claimed、claim_settlement_id指该唯一committed领取。输入/产物流/原权利键与实际正文双向覆盖；不可部分领取、发到仓库/邮件/共享地面或用configuration_grant替代。具体三阶段领取事件及日志见本owner.reward_claim_events；完整根/来源/结果封套未闭合前片段不授权直接发物。",
+    "identity": "唯一业务源键精确(world_id,authority_profile_id,character_id,attempt_id,death_receipt_id)。只在完整原attempt集合派生内存查找，不新增持久entitlement_id或第二去重表。同键异encounter/rules_hash拒绝；同原死亡出现于另一个attempt或角色不符合单人遭遇归属亦拒绝，不先合并重复。",
+    "transitions": "创建pending后，仅原领取committed将其改claimed并填唯一claim_settlement_id；领取reserved/aborted保持pending/null，不把预留当已领。claimed不可回pending/改收据/再次产物，即使实物已使用/出售/删除。attempt/死亡/规则身份全程不变。",
+    "lifetime": "离开私场或任务回报不删除pending；原场景可释放，权利仍由原authority保留，原角色之后在曹服务领取。再次死亡/重开/重连不重建怪或奖励。角色删除须按原删除owner终结本未领取权利的完整活动/证明状态；该严格终结设计缺失时阻止删除，不能让权利变无主。",
+    "recovery": "领取保存存疑停止新领取与资源操作，重读原正式完整权利及领取原日志。已claimed且完整同源commit只重放结果；pending且reserved恢复原请求；pending且aborted允许明确新领取请求但保同原死亡权利。组合不符/坏源/读失败保原状态报错，不按背包数量或任务完成猜领过。",
+    "remaining": "九键权利与三阶段领取原事件/日志已采用；完整活动/死亡来源、角色删除活动终结、多接收者结果保存闭包及实际Godot仍待，不据此运行发物或宣称D1通过。"
+  },
+  "reward_claim_events": {
+    "field": "profile.story_boss_reward_claim_events",
+    "initial_value": [],
+    "schema_ref": {
+      "file": "主线首领奖励领取事件.schema.json",
+      "pointer": ""
+    },
+    "journal": "原数组按allocation_index严格递增，预留追加/决定原位替换；最多一reserved，跨owner同角色互斥。四旧导入仅新目标profile初始化[]，已有目标保持；当前缺字段拒绝。",
+    "identity": "原通用计数身份，authority为该world原权威。request_id=71确定JSON编码[\"story_boss_reward_claim\",play_session_identity.session_id,command_id]字符串，request_digest完整command的71编码SHA256；先查原请求索引再判现有权利/位置，原committed即使药已用或角色已删除仍只回原结果。",
+    "preconditions": "当前角色会话active且本人存活/可交互、原world/authority/角色同权利，原death/attempt/encounter与规则完整验证，权利pending，cmd两修订相等且各可加1。面板入口须本胜利现场仍有效且非战斗，曹入口须实际对应NPC同图/范围/活体/闲置服务资格；客户端interaction字符串不授权。冻结前验证全部物品定义/槽位/重量及新身份，不足不预留不发半份。",
+    "plan": "只冻结原九键entitlement_before且必须pending/null，不复制奖励数量表。当前已验证规则hash须等其原rules_hash，依原monster.fixed_loot决定行序/数量/绑定。原权利完整键、原死亡及世界归属与command实际会话一致。",
+    "reserve": "counter+1及reserved同authority完整档案替换，角色/库存修订、实际实物和权利pending不变。该角色其他业务先收束本未决；不同角色遵原排他规则。保存存疑不发布候选。",
+    "commit": "重核原权利未消费、两修订/实际交互仍有效，按原fixed_loot全部铸造同角色held实物，原权利改claimed/claim_settlement_id本结算，角色revision与inventory_revision各+1，原记录改committed及stack_flows同一完整authority档案替换。LAN接收者依原连续结果保存/ACK；不以authority保存替代远端保存。",
+    "outputs": "恰一个原mint stack_flow，receipt_id本settlement_id，inputs/consumptions空，mint_authorization.kind=loot/authority_receipt_id本结算。outputs严格原fixed_loot行序，每行一个新堆，quantity/定义/绑定取原表，quest_scope=null/revision0/origin_receipt_id本结算、contributions=[]、custody=held；新ID沿72原[结算ID,角色ID,ordinal]算法，完整实际布局/容量核验，不自动覆盖原堆。当前三首领分别1/2/2行。此设计不含隐式合堆；显式后续合并沿原正常流，不借领取无来源地增既有数量。",
+    "authorization": "只有本owner committed与原死亡权利闭包共同授权此loot；reserved/aborted、独立kind字符串、旧主线完成或另一角色权利均不授权。领取只有固定物品，无silver_flow/instance_flow/随机决定/经验/历练/任务阶段/冷却变更，严格事件白名单拒绝这些额外字段。",
+    "abort": "明确取消、交互失效或原状态改变从reserved持久aborted，保身份/command/plan与已分配counter，不发物、不改两业务修订，权利仍pending/null。存疑先查正式决定，不能覆盖已commit为abort。新明确请求可再领取原pending权利。",
+    "recovery": "原请求reserved按同冻结输入恢复/重核交互决定，committed只重放原物品与claimed决定，aborted只回原取消。满包/断连/场景已离开不凭超时丢权利；进程重开原交互无有效现场时可按原状态终结interaction_invalid，原权利仍可日后曹处领取。缺原源/规则/读失败保日志报错。",
+    "remaining": "领取事件结构和原授权采用；完整attempt/死亡/布局来源及结果封套、角色删除活动终结、真实文件与Godot待，D1未通过。",
+    "item_definition_refs": {
+      "spirit_ore": {
+        "file": "剧情剑与玲珑竹.v1.json",
+        "pointer": "/items/2"
+      },
+      "consumable_hp_small": {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/items/15"
+      },
+      "recovery_profile": {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/item_profiles/initial_recovery_consumable"
+      }
+    },
+    "joint_validation": "按原rules_hash解析encounter→monster.fixed_loot与item_definition_refs，不在事件schema复制奖励数值。逐行比对输出数量/原定义/角色绑定/quest_scope与新堆来源；行数、顺序或绑定任一不符整笔拒绝。原command会话角色、entitlement_before全键、实际attempt死亡、flow.receipt_id与mint_authorization.authority_receipt_id须同源；两after修订各等冻结预期+1。候选只允许该角色新堆/布局/两修订、原权利pending→claimed及本日志决定变化，其他角色/账户/任务/经验/历练/冷却不变；历史加载按原决定及后续合法流重放，不拿当前背包数量代替来源证明。"
+  },
+  "state_machine": {
+    "scope": "原四态的完整事件分派表，验证设计而非新增存档镜像；状态由原attempt承载，原权利phase仍按其owner保存。表内to=null表示拒绝新决定，不是把attempt状态置null。",
+    "dispatch_order": "先查原事件/请求及完整结果链：同身份同正文已决定仅回原结果、异正文拒绝；仅尚未决定的新事件进入本表。表不是按客户端消息到达顺序选终局的依据，本轮终局裁定沿terminal_arbitration；完整战斗结果原事件/队列来源仍须原owner闭合。",
+    "initial_entry": "只有原entry_policy全部满足且完整目标预检通过，才以唯一新attempt进入combat；原角色/世界/authority/encounter/规则与来源身份冻结。失败重试创建新轮且保原失败历史；已胜利轮不能重开战斗或据任务已回报补造新轮。",
+    "events": [
+      "boss_death",
+      "player_death",
+      "confirmed_abandon",
+      "claim_committed",
+      "confirmed_return",
+      "quest_delivery",
+      "save_resume"
+    ],
+    "transitions": {
+      "combat": {
+        "boss_death": {
+          "to": "victory_reward_pending",
+          "effect": "victory"
+        },
+        "player_death": {
+          "to": "failed",
+          "effect": "player_failure"
+        },
+        "confirmed_abandon": {
+          "to": "failed",
+          "effect": "abandon_failure"
+        },
+        "claim_committed": {
+          "to": null,
+          "effect": "reject"
+        },
+        "confirmed_return": {
+          "to": null,
+          "effect": "reject"
+        },
+        "quest_delivery": {
+          "to": null,
+          "effect": "reject"
+        },
+        "save_resume": {
+          "to": "combat",
+          "effect": "resume"
+        }
+      },
+      "victory_reward_pending": {
+        "boss_death": {
+          "to": null,
+          "effect": "reject"
+        },
+        "player_death": {
+          "to": "victory_reward_pending",
+          "effect": "later_player_death"
+        },
+        "confirmed_abandon": {
+          "to": null,
+          "effect": "reject"
+        },
+        "claim_committed": {
+          "to": "victory_claimed",
+          "effect": "claim"
+        },
+        "confirmed_return": {
+          "to": "victory_reward_pending",
+          "effect": "return"
+        },
+        "quest_delivery": {
+          "to": "victory_reward_pending",
+          "effect": "delivery"
+        },
+        "save_resume": {
+          "to": "victory_reward_pending",
+          "effect": "resume"
+        }
+      },
+      "victory_claimed": {
+        "boss_death": {
+          "to": null,
+          "effect": "reject"
+        },
+        "player_death": {
+          "to": "victory_claimed",
+          "effect": "later_player_death"
+        },
+        "confirmed_abandon": {
+          "to": null,
+          "effect": "reject"
+        },
+        "claim_committed": {
+          "to": null,
+          "effect": "reject"
+        },
+        "confirmed_return": {
+          "to": "victory_claimed",
+          "effect": "return"
+        },
+        "quest_delivery": {
+          "to": "victory_claimed",
+          "effect": "delivery"
+        },
+        "save_resume": {
+          "to": "victory_claimed",
+          "effect": "resume"
+        }
+      },
+      "failed": {
+        "boss_death": {
+          "to": null,
+          "effect": "reject"
+        },
+        "player_death": {
+          "to": null,
+          "effect": "reject"
+        },
+        "confirmed_abandon": {
+          "to": null,
+          "effect": "reject"
+        },
+        "claim_committed": {
+          "to": null,
+          "effect": "reject"
+        },
+        "confirmed_return": {
+          "to": "failed",
+          "effect": "return"
+        },
+        "quest_delivery": {
+          "to": null,
+          "effect": "reject"
+        },
+        "save_resume": {
+          "to": "failed",
+          "effect": "resume"
+        }
+      }
+    },
+    "effects": {
+      "reject": "拒绝本新事件，不改attempt/权利/资源/任务/修订，不分配伪成功。原事件重放先沿dispatch_order处理。",
+      "victory": "仅原boss真实首次终态死亡；同笔原死亡决定、怪物经验/历练实际授予、本人原任务boss目标推进及pending权利。无固定实物mint，无任务回报银/经验；停止本轮boss再行动/再产收益，保完整必要死亡与来源证明。",
+      "player_failure": "仅本轮combat的本人原真实死亡，原生命事务写HP0/awaiting_respawn/pending_death.failed_activity_attempt_id_or_null=本attempt，与failed决定同笔；无boss死亡收益/权利，不自动复活或传送。",
+      "abandon_failure": "仅本轮存活者明确放弃；先预检原公共返回锚，实际资源/费用/冷却不退不刷新，failed决定与返回同笔。目的地不可用保combat和实际现场，不先失败再猜位置；本人已死亡走原生命事务而非放弃传送。 具体三阶段与原离场证明沿abandon_events，不写正常return_settlement_id。",
+      "claim": "仅原reward_claim_events本committed原子改变pending权利到claimed，并产原固定物品及两业务修订；本attempt同步victory_claimed。预留/取消从不触发本转移。",
+      "later_player_death": "胜利决定不可逆，按实际当前地点原生命事务处理新死亡；保本轮胜利/原死亡收益与pending或claimed权利，不将已胜利轮改failed，不重建boss。新死亡不得把已结束战斗的本轮写成失败活动；若实际在其他活动，引用其真实轮次。",
+      "return": "仅实际仍在本终局私场且本人存活/可交互，预检原公共锚成功后以当前资源返回；保本轮终态/权利/全部证明，释放的只是可释放战斗现场。已离场的新返回请求拒绝，原成功请求重放只回原结果；awaiting_respawn必须原显式复活，不借返回治疗。 具体三阶段决定沿本owner.return_events，原状态保留。",
+      "delivery": "只由原任务交付owner核真实曹服务/前置/物品/容量及原死亡目标证明，独立提交原任务回报。本attempt与pending/claimed不变，任务交付不替代领取，也不要求固定奖励已领；原任务已交付的重复新命令不能再发奖励。",
+      "resume": "同原attempt/状态/世界/authority/规则恢复，保持原资源/动作/冷却/随机/死亡/权利；combat恢复原完整现场，终态不生成boss。坏引用或缺完整现场报错，不用新局替代。"
+    },
+    "entitlement_invariants": {
+      "combat": "fixed_reward_entitlement=null，无本轮胜利死亡决定。",
+      "failed": "fixed_reward_entitlement=null，有原失败决定，终止未落效进攻沿原死亡/放弃owner。",
+      "victory_reward_pending": "严格原九键权利phase=pending/claim_settlement_id=null及唯一原胜利死亡决定。",
+      "victory_claimed": "严格原九键权利phase=claimed，claim_settlement_id解析原committed领取，与原胜利死亡同源。"
+    },
+    "scene_and_history": "原attempt状态不承担当前位置镜像。实际character位置/活跃活动引用与world原现场联合校验；离场不删原胜利/失败历史，claimed物品消耗也不删证明。多个旧pending历史可存在，当前至多一个真实combat；不得以当前只有一个活动引用覆盖旧pending。",
+    "concurrency": "死亡/领取/返回/交付在原authority锁及连续结果下串行验证当前正式版本；未确定保存先收束原决定，不让同一pending并发两次mint。LAN远端角色保存与ACK沿原链，不能把房主落盘当作接收者落盘。",
+    "deletion_gate": "角色删除前必须退出当前combat/收束所有未决并证明活动与外部来源闭包；现有删除事件没有权利没收或活动终结字段，不能静默丢pending、改claimed或附伪领取。严格删除终结设计完成前，涉及未闭合本轮引用/权利的目标拒绝删除。",
+    "remaining": "本表闭合四态分派与业务不变量；完整attempt/world严格字段、完整战斗结果/队列停止来源及死亡事务/结果封套、角色删除活动终结与实际运行仍待。不得据表宣称完整持久根或D1已通过。",
+    "terminal_arbitration": {
+      "adoption": "Q003～Q005单人首领的明确项目规则，沿23既有稳定伤害顺序，不冒充官网或晋级私场末步统一判胜规则。只裁本轮真实原结果；不新增终局缓存/死亡镜像/客户端winner字段。",
+      "damage_order_ref": {
+        "file": "战斗命中与减伤.v1.json",
+        "pointer": "/damage_credit/multiple_damage_events_same_step"
+      },
+      "input": "原attempt为combat，真实同authority/world/instance固定步，以及按23排序的完整原伤害结果。先处理此前未决/到期与原动作来源，单笔伤害必须完成其屏障/致命拦截/联动损失/最终生命状态，才向本表派发。0HP临时中间值、未决原结果或客户端击杀报告不是死亡。",
+      "order": "不同原伤害结果按23 action/root ID、hit/tick ordinal、target ID的原稳定顺序逐笔处理，不把整个固定步聚合为双方死亡再倒改已决定结果。一个原子结果必须完成全部原联动生命效应再裁本轮，不能把同笔玩家死亡拆到首领收益之后。",
+      "same_result": "同一完整原子结果使本人和本首领均首次终态死亡时，本轮只派player_death→failed；本人真实死亡照原生命owner保存，不派boss_death胜利，不发本轮怪物经验/历练/目标/固定权利。已拦截的0HP不算终态死亡，按原活动/职业拦截结果继续判定。",
+      "separate_results": "首个完整结果仅使首领终态死亡且本人当时存活，则立即原子提交victory_reward_pending及原收益/目标/权利；之后独立真实玩家死亡只能later_player_death，不撤胜利或再发奖。首个结果使本人终态死亡则立即failed；后来旧队列/迟到重复首领死亡不能转胜利或发本轮收益。",
+      "commands": "同一步战斗结果完成后才处理新放弃/返回/领取命令，重验实际生命/attempt状态与修订。战斗先已胜利的新放弃拒绝；已失败拒绝新活人放弃；仍combat且存活的明确放弃按原返回锚预检成功后同笔failed+返回，目标受占保持combat。原请求重放仍先按dispatch_order查已决定结果。",
+      "terminal_queue": "本轮首次终局后禁止接纳本首领新动作、生成新派生伤害或再发本轮收益；原未落效进攻队列须由原终局结果明确停止并保原来源，不能静默丢已提交伤害或退款。已提交的独立角色状态/其他合法来源仍沿各owner；无完整停止/恢复队列证明不得释放战斗现场。",
+      "pending_save": "首个裁定尚reserved/写入存疑时，不先派发后续依赖结果或发布胜负/领取面板。保完整已确认角色与world现场，核原正式决定后继续原顺序；失败重存原决定，不重排伤害、重抽随机、先让另一个死亡抢终局或造新attempt。",
+      "return_and_death": "胜利后本人已死亡即使保pending权利也不得活人返回/领取，先沿真实死亡/显式复活owner；权利保持原胜利。failed死亡的pending_death.failed_activity_attempt_id_or_null指本轮；胜利后独立死亡不把本轮补写成failed。",
+      "remaining": "完整伤害/死亡/队列终止事件、attempt/world严格根与多接收保存尚待。本规则提供裁定设计，不证明已有实际终局事务或可运行首领。"
+    }
+  },
+  "persistent_ownership": {
+    "world_field": "profile.worlds[world_id].story_boss_attempts[attempt_id]",
+    "world_initial_value": {},
+    "character_field": "character.activities.story_boss",
+    "character_initial_value": null,
+    "character_ref_schema": {
+      "file": "主线首领入场事件.schema.json",
+      "pointer": "/$defs/active_reference"
+    },
+    "authority": "原会话world的authority_profile_id唯一持有原attempt/完整现场/死亡与固定权利，offline同样。客户端只保存本人引用与原结果应用证明，不复制世界可写历史。世界map_id不代替world_id。",
+    "record_identity": "原attempt_id键必须等本记录原plan.attempt_id；world/authority/角色/encounter/rules_hash与原committed入场唯一绑定。encounter只从原interaction_id映射，entry_settlement_id解析原入场决定，不用同键覆盖旧轮或按数组位置选轮。新attempt三个离场字段显式null，普通返回/主动放弃/显式复活分别沿return_events/abandon_events/respawn_exit写唯一同源证明，最多一项非null；严格复活事件沿生命owner.respawn_events，完整致死源/共同决定及现场仍待，不能先填无来源ID。",
+    "reference": "三键引用只在本人确在该私场且活动尚未成功返回时非null，解析同一authority/world的本人原attempt。战斗与终局待返回都保锁；返回成功按原结果清引用，不删除world历史。多个旧pending在原world记录保留，曹服务按本人原权利查找，不靠当前active引用或另建奖励余额。",
+    "shared_roots": "本人资源/状态/姿态仅在原character正文，world现场保原本人ID与修订引用，不克隆本人面板；敌人/AI/动作/投射物及原排队事件只在world原现场。随机用原角色与world各自原流，不为每attempt生第二个seed或计数。",
+    "initialization": "只有显式新世界初始化story_boss_attempts={}，新角色及四已知旧导入activities.story_boss=null。导入角色不创建world、不把旧任务完成变新attempt/权利；已有world/其他角色引用完全保留。当前格式缺字段/孤立引用拒绝，不补空或移回公共地图。",
+    "retention": "完整原胜利/失败/入场/死亡/领取/返回来源历史不因清活跃引用删除；可释放战斗现场须原终态、返回及接收结果确认完整闭合，不能删除pending权利。外部原authority不可达保引用和角色守卫，不能本地重开同角色副本。",
+    "boundary": "原存放路径/三键引用、入场及终局活人返回事件已采用；完整attempt/world严格根、战斗放弃原事件已采用，死亡复活退出及完整队列停止结果仍待，无完整现场不启用真实入场/返回。"
+  },
+  "entry_events": {
+    "field": "profile.story_boss_entry_events",
+    "initial_value": [],
+    "schema_ref": {
+      "file": "主线首领入场事件.schema.json",
+      "pointer": ""
+    },
+    "journal": "原数组按allocation_index递增，预留追加、决定原位替换，最多一reserved；原同角色跨owner排他。通用counter/request索引覆盖本日志，不再分配独立活动计数。",
+    "request": "request_id=71确定JSON编码[\"story_boss_entry\",play_session_identity.session_id,command_id]字符串；request_digest=完整command的71编码SHA256。先查原请求再判当前阶段/场景，同原committed即使已死亡/离场/删除角色只回原入场结果，不再造怪或传送。",
+    "preflight": "真实当前会话active且world/authority/角色一致，两预期修订等正式角色；本人存活/空闲/非战斗、无其他活动/交易/未决。必须真实原公共入口同图/范围/视线及相应原任务boss阶段；客户端interaction字符串本身不授权。完整原规则/目标场景/敌定义/初始现场及返回锚必须可验证、本人新位置合法；任一不足不预留不传送。",
+    "plan": "仅冻结rules_hash与attempt_id；attempt_id=\"story-boss-attempt:\"+SHA256(71确定JSON编码[\"story_boss_attempt\",identity.settlement_id])小写hex。原通用结算先计划n及identity，全部候选检查通过才按原reserve持久分配；不另抽随机/按时间或存档条数造ID，目标键既存即冲突，不覆盖。",
+    "reserve": "同authority完整档案只写counter+1与本reserved，原角色两修订/姿态/资源/活动引用和world现场不变；重开恢复同输入，未有完整来源与规则则保未决报错。",
+    "commit": "重核冻结来源/两修订/入口资格，按原encounter建立同attempt初始combat完整现场，将本人location移至该原实例合法出生姿态、activities.story_boss设三键引用，角色revision=expected+1、inventory_revision=expected不变，本日志committed同一authority完整替换。world仅添加本attempt，不重置公共现场/其他轮/原world随机；初始boss按固定原定义不消费随机。",
+    "resources": "入场无费用/奖励/物品流/经验/历练/疗伤/复活/资源补满，任务boss目标不提前完成；角色/世界随机不消费，原动作/效果/冷却遵资格与原计时，不能借新场刷新。实际构造初始场景若需要未定义随机，必须补原调用点与random_flow后才可采用，禁止临时抽全局随机。",
+    "abort": "reserved明确取消、交互失效或状态改变可写aborted；保identity/command/plan与已分配counter，不造attempt、不改角色两修订/姿态/引用/资源。已commit不因后来失败转abort。新明确尝试另请求/结算/attempt。",
+    "recovery": "保存存疑先重读原正式档案。同committed只重放原引用/姿态决定且按连续结果序号应用，不把历史入场再应用到后来的角色；reserved重核同入口，无有效交互可interaction_invalid结束。LAN原authority保存后接收者须保存同结果并ACK才启用本人私场行为，缺远端证明保锁不复制离线副本。",
+    "joint_validation": "完整候选A→B只允许本日志reserved→committed、本world新增恰一原attempt及本人location/活动引用/revision变化；库存修订及其他完整角色字段原样，场景敌初态等原配置、无已接受根/投射物/死亡/奖励权利，固定权利null。initial combat现场不包含第二份本人正文。历史加载不将当前位置/等级与旧command直接比较，须原入场决定与后续结果链验证。",
+    "remaining": "入场严格事件、活动归属及终局活人返回事件已采用；完整attempt/敌人/动作/队列/world根、死亡与复活退出及多接收结果仍待，不能用局部schema启用真实入场或宣称D1通过。"
+  },
+  "return_events": {
+    "field": "profile.story_boss_return_events",
+    "initial_value": [],
+    "schema_ref": {
+      "file": "主线首领返回事件.schema.json",
+      "pointer": ""
+    },
+    "journal": "按原通用allocation_index递增，预留追加/决定原位替换，最多一reserved且同角色跨owner排他；不以返回另建私场计数或第二日志。",
+    "request": "request_id=71确定JSON编码[\"story_boss_return\",play_session_identity.session_id,command_id]字符串；request_digest完整七键command的71编码SHA256。原请求先查再判当前是否仍在场；同committed只重放原连续结果，不再次传送/清除后来的新活动引用，异摘要拒绝。",
+    "confirmation": "仅当前真实终局返回面板；pending权利必须明确确认留待曹处领取，command.leave_reward_pending=true；claimed/failed为false。该布尔只表本次离场确认，不是放弃/消费权利授权；客户端不能指定目标地图/锚/坐标或改attempt状态。",
+    "preflight": "当前原会话active、本人存活可交互/非战斗，原三键活动引用与command的world/authority/attempt精确一致，实际位置为该原encounter私场。原完整attempt须终局、来源闭合且未成功返回，两预期修订精确当前正式值、业务可+1。pending/claimed/null权利与四态不变量均满足；原返回锚从该encounter.return_anchor_id解析真实世界地图/姿态/导航/碰撞，失败不预留不移动。",
+    "plan": "只冻结rules_hash与attempt_state_before，规则必须等原attempt.rules_hash；attempt身份沿command+当前三键引用及原committed入场，不复制整份权利/位置/本人资源。返回目标只由同原规则包的encounter原锚解析，禁止改用当前表或最近可达点。",
+    "reserve": "同原authority完整档案counter+1与reserved同笔，角色/引用/位置/两修订/权利/世界轮次不变；冻结本角色业务，终局不再模拟该boss。目的地其他实体可继续变化，提交须重检占用。",
+    "commit": "重核原终局与引用/两修订/原面板及目标可落地后，本人location改原合法返回姿态、activities.story_boss=null，业务revision=expected+1、inventory_revision=expected；本原attempt.return_settlement_id由null写本结算，状态与固定权利原样，本记录committed同一完整authority替换。不存在其他活跃轮次时才清本引用，不能按selected或场景名清他人；原历史证明与待领奖仍在world原记录。",
+    "resources": "无银/物品/实例/随机流、任务/经验/历练/生命/资源/冷却变更，失败不复活、胜利不再发死亡收益，pending不改claimed。世界与本人原随机计数不动；返回不退入场后已消费物，也不重开普通世界既有怪物/刷新。",
+    "abort": "明确取消、面板失效、目标不可用或原状态改变可从reserved写对应aborted；保counter与原冻结输入，角色/引用/两修订/位置/world.return_settlement_id及权利不变。目标失败保终局现场与活跃锁，不能先清引用后寻找另一落点；同原已commit不改abort。",
+    "recovery": "存疑先核原正式完整决定。reserved重核同目标与资格，失败只沿原abort而不丢现场；committed只回原结果，历史加载从原连续结果链验证后继，不拿现在位置或活动引用等于旧值作要求。未知原包/缺源保待恢复；不按当前已在公共图猜返回成功。",
+    "lan_cleanup": "房主先持久唯一返回结果，client按原连续序保存本人位置/清引用/修订后ACK；未保存ACK禁止其新资源活动/换世界。原authority未确认全部相关接收结果前不释放所需终局恢复现场；ACK与引用清除不删除原轮次/权利/入场死亡领取返回证明。当前无完整现场压缩协议，不能借返回裁剪必要历史。",
+    "death_boundary": "awaiting_respawn不能用本返回事件；原显式复活沿respawn_exit同笔清本人实际活动引用/记录独立respawn_settlement_id。combat失败死亡及胜利后死亡分别核原死亡与权利，不伪造活人返回或重复加满资源。严格复活事件已采用，原死亡与完整现场闭包仍待，现门禁不因已有返回schema放开。",
+    "joint_validation": "预留A到提交B仅本日志决定、本角色location/activities.story_boss/revision及本attempt.return_settlement_id可变；库存修订/本人其余完整字段、原attempt状态/权利/死亡、其他角色/world/设置/原日志均保原值。返还ID唯一且解析本committed，角色与world同一次决定；历史验证允许后来的新活动/移动，不把旧返回重应用。",
+    "remaining": "终局活人返回结构/原授权与确认采用；完整attempt/world/位置源、死亡复活退出、完整队列停止来源及多接收结果保存仍待，D1未通过。"
+  },
+  "abandon_events": {
+    "field": "profile.story_boss_abandon_events",
+    "initial_value": [],
+    "schema_ref": {
+      "file": "主线首领放弃事件.schema.json",
+      "pointer": ""
+    },
+    "identity": "request_id=71确定JSON [\"story_boss_abandon\",play_session_identity.session_id,command_id]，digest完整六键command的71编码SHA256。原authority通用分配，不接客户端候选失败/返回位置/奖励/生命。先查同请求原决定，异摘要拒绝。",
+    "journal": "原数组依allocation_index递增，预留追加/决定原位替换，至多一reserved；同角色跨owner互斥。新profile/已知旧导入显式[]，已有profile保日志，现行缺字段拒绝。",
+    "confirmation": "仅本人当前真实首领combat的明确放弃确认，command.interaction_id=story_boss_abandon_confirmation；无需脱战或等待敌动作结束，但命令在本步既定战斗结果之后重验。普通返回/死亡页/客户端断线不是放弃确认。",
+    "preflight": "原会话active且world/authority/角色真实一致，本人存活可交互，三键activities.story_boss解析command.attempt_id与完整本轮combat现场，权利null且无终局/离场决定。两修订等实际，角色修订可+1。原encounter规则/来源/公共返回锚及精确目标姿态合法，拒绝时不改combat/不传送/不停止敌人。",
+    "plan": "只冻结rules_hash与attempt_state_before=combat；原规则包精确本attempt。原返回锚从encounter定义解析，不复制位置/本人资源/整个敌现场；完整来源与当前实际输入仍须原authority锁下校验。",
+    "reserve": "counter+1与reserved同authority保存，角色/活动/attempt/现场保持。本角色其他业务沿原未决门禁；已接受队列在原有序固定步边界处理，不能将预留当成功退出或免费清招。写入存疑先核原决定，不发布失败/返回。",
+    "commit": "按原terminal_arbitration重核实际combat/本人存活/会话/两修订及可落地目标，原committed_world_step为实际裁定边界。同一完整替换：attempt.state=failed、abandon_settlement_id=本identity.settlement_id、本人location=精确原公共返回姿态、activities.story_boss=null、角色revision+1/库存revision保持；权利仍null，return_settlement_id保持null。原本轮未落效进攻队列在此结果停止并保来源，不复制已提交伤害/费用，不能先清队列后失败。",
+    "allowed_diff": "仅本日志决定、本attempt失败/放弃证明及其明确停止的现场队列、本人位置/活动引用/业务修订与必要协议元数据；实际HP/内力/体力/职业状态/冷却/装备/物品/经验/任务/配置均保提交前真实值。无治疗/退款/奖励/目标推进。其他角色/world现场不受影响。",
+    "abort": "沿四原因user_cancelled/interaction_invalid/destination_unavailable/state_changed；取消预留保持真实既有战斗及资源，不伪造failed或恢复旧敌生命。已发生原死亡/胜利不能由本取消撤销。保存不确定不自动abort；原已committed重放只回原结果。",
+    "history": "原新attempt的abandon_settlement_id显式null；仅本committed由null写唯一证明，解析同角色/attempt/world/authority与原失败+返回。不能与正常return_settlement_id同时非null；失败后新轮新ID保原历史，不靠当前位置猜已放弃。死亡导致failed仍须原死亡/复活证明，不填本ID。",
+    "lan": "原authority持久本唯一结果，接收角色按连续结果保存失败/离场/修订后ACK；未确认前不释放恢复所需现场，不因ACK裁剪原历史。远端副本不另授权放弃/退款。",
+    "remaining": "严格放弃结构与原差异设计采用；完整attempt/战斗队列停止/死亡复活/位置与多接收结果闭包仍待，不据局部schema启用运行。"
+  },
+  "respawn_exit": {
+    "life_owner_ref": {
+      "file": "死亡与复活保存.v1.json",
+      "pointer": ""
+    },
+    "input": "原本人awaiting_respawn/HP0/完整pending_death及原死亡来源、原会话/角色三键activities.story_boss、同authority/world完整原attempt与实际私场位置。不是新客户端return/abandon命令，也不从failed_activity ID猜当前位置。",
+    "combat_failure": "原combat本人终态死亡先依state_machine提交failed，pending_death.failed_activity_attempt_id_or_null指本attempt，权利null；显式复活前保该引用与原失败来源。不存在合法combat+awaiting_respawn组合可通过复活顺带补失败。",
+    "won_then_died": "本轮已victory_reward_pending或victory_claimed后本人再死亡，原胜利/死亡收益/目标与权利不变；pending_death.failed_activity_attempt_id_or_null不指本轮。只要本人死亡时仍实际在该私场并保原活动引用，显式复活成功仍须按本协议离场，不能因为失败活动字段null遗漏活动锁。",
+    "preflight": "完整原死亡/本轮终局与位置归属一致，两正常离场证明和respawn_settlement_id均null；普通工棚锚story_workcamp_start且无training_gate_choice，按生命owner当前合法资源上限/职业复活规则生成完整候选，并核目标实际可落地。未知来源/锚受占/缺完整现场时保死亡页与引用，不改位置或清锁。",
+    "commit": "沿原显式复活唯一决定，同笔应用生命owner合法资源与active/null、精确工棚姿态、activities.story_boss=null，并将本attempt.respawn_settlement_id由null写本原复活结算ID。原attempt.state/胜利失败来源/固定权利原样，return_settlement_id及abandon_settlement_id保持null。不发本轮奖励/重复推进目标，不借复活创建新轮。",
+    "proof": "原新attempt三个离场字段return_settlement_id/abandon_settlement_id/respawn_settlement_id均显式null；最多一个非null，分别只解析同角色/attempt/world/authority的真实已提交普通返回/主动放弃/显式复活。respawn还必须引用本人原pending_death.death_event_id，恢复历史不能按当前active或在工棚猜已经离场。",
+    "unrelated_death": "本人已成功返回/放弃/复活离场后activities.story_boss=null，再在公共地图死亡不回写任何旧轮次离场字段；旧pending权利照常保留。非null引用解析别world/别人/已离场本轮则拒绝，不清字段修档。",
+    "revisions": "清活动引用/写本轮复活离场证明属于生命owner.respawn_events同一次提交：角色revision+1、库存保持，不再叠返回/放弃修订。本人资源/生命/位置和world离场记录由同authority完整决定发布；原死亡/完整队列与多接收保存仍待，不能先发partial结果。",
+    "recovery": "未决/存疑先核原死亡及原复活唯一决定；已提交仅回原结果不再补满资源、不重写离场ID。复活取消或失败保持原死亡/终局/权利与未离场引用；LAN未保存ACK前保必要现场与原会话守卫。",
+    "remaining": "死亡/复活三阶段原事件沿生命owner采用；完整致死源/共同决定、attempt/world/现场及网络多接收协议仍待，不代表可运行复活。",
+    "event_owner_ref": {
+      "file": "死亡与复活保存.v1.json",
+      "pointer": "/respawn_events"
+    }
+  }
 }

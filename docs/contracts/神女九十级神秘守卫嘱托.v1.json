@@ -1,0 +1,487 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_complete_local_learning_quest_design_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/神女九十级气功前置核对.json",
+    "record_url": "http://rxjh.17game.com/data/qgwg/200905/39825.htm",
+    "source_html_sha256": "85a74152bc22deb85803a171ea012df8df644d7e33e0660d6c4a69dc66589f28",
+    "published_requirement": "神女真武绝击需完成南明湖[神秘守卫的嘱托]90级任务",
+    "map_url": "http://rxjh.17game.com/data/mapnpc/200905/40134.htm",
+    "map_text_sha256": "770313254a70bae406333d932aceaca6833ebdc3f8d5d4b72fbc42103b013d48"
+  },
+  "source_policy": "只把90级/神女真武前置名称/南明湖与湖岛木桥/泫勃南方两入口当来源事实。守卫身份落点、90/rank4、原创怨影/十份凭证/0附奖和全部流程/价格/数值均为项目明确完整改编；不伪称原任务目标已查明，不用87/88三旧任务的完成记录解锁。",
+  "quest": {
+    "quest_id": "quest_dongling_qigong90",
+    "name": "神秘守卫的嘱托（神女90级本地改编）",
+    "class_id": "dongling_shennv",
+    "minimum_level": 90,
+    "minimum_rank": 4,
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "map_id": "nanming_lake",
+    "giver_and_turnin_npc_id": "project_npc_nanming_mysterious_guard",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "branch_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "cancelled_attempt_receipts",
+      "final_receipt_or_null"
+    ],
+    "stages": [
+      {
+        "stage_index": 1,
+        "name": "接取守卫嘱托",
+        "consume": [],
+        "grant": [],
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "next_stage_index": 2
+      },
+      {
+        "stage_index": 2,
+        "name": "收集十份湖灵之息并回报",
+        "consume": [
+          {
+            "item_id": "dongling90_lake_spirit_essence",
+            "quantity": 10
+          }
+        ],
+        "grant": [],
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "next_state": "delivered"
+      }
+    ],
+    "acceptance": "本人神女/90/rank>=4/合法正邪，精确南明湖守卫2.5米内、存活脱战空闲、无活动/传送及未结束派生；新main_attempt/branch/stage1收据同笔进入2，无费无礼包。接取前不能预刷任务物。",
+    "turnin": "当前同attempt stage2、固定本人职业/路线、等级90及rank>=4、本人背包合法同attempt湖灵之息恰10和所有producer来源可验证；守卫2.5米、存活脱战空闲无活动/传送，消费10/阶段2/final收据/delivered同05/19事务，写盘失败全不变。仓库物/别轮凭证/队友进度不代付。",
+    "repeat": "一角色终身一次；失败死亡不取消主链，不补资源/重发已得物；已交付不可重接刷普通任务奖励。"
+  },
+  "item": {
+    "item_id": "dongling90_lake_spirit_essence",
+    "name": "湖灵之息（守卫嘱托）",
+    "kind": "bound_quest_material",
+    "container_id": "inventory",
+    "stack_limit": 99,
+    "maximum_per_main_attempt": 10,
+    "weight_g": 0,
+    "binding": [
+      "character_id",
+      "quest_dongling_qigong90",
+      "main_attempt_id",
+      "producer_receipt"
+    ],
+    "permissions": {
+      "equip": false,
+      "use": false,
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false
+    },
+    "expiry": "none; whole quest cancellation deletes exact-attempt units"
+  },
+  "collection": {
+    "producer_id": "dongling90_wraith_essence",
+    "required_stage_index": 2,
+    "monster_id": "project_nanming_lake_wraith90",
+    "map_id": "nanming_lake",
+    "spawn_ids": [
+      "nanming_lake_wraith_east",
+      "nanming_lake_wraith_west",
+      "nanming_lake_wraith_north",
+      "nanming_lake_wraith_south"
+    ],
+    "item_id": "dongling90_lake_spirit_essence",
+    "quantity": 1,
+    "probability_bp": 10000,
+    "cap": 10,
+    "qualification": "真实终结死亡时本人连接/存活/同图且本主stage2；单人死亡owner或19合格普通组队经验成员快照各独立判断。仅本明确monster/4spawn代次，不认训练复制体/其他任务怪或配置击杀。",
+    "receipt": "死亡ID+个人+attempt+producer唯一，当前合法背包实物为数量唯一事实，不另存kill_count/collected/目标布尔。满包无法放新堆时记该死亡未获得，既有未满本轮堆可堆入；不留地面/邮箱副本，不腾格/重连补发。达到10后不发；接取前/取消后/交付后不出本物。",
+    "ordinary_rewards": "普通经验/历练/银/合格升天进度沿14/19独立发；任务物固定1不随终结/丹药/组队倍率增加，队友各有自己接取/阶段/背包与来源，不共享一人的十份。"
+  },
+  "monster": {
+    "monster_id": "project_nanming_lake_wraith90",
+    "name": "迷湖怨影（项目原创）",
+    "level": 90,
+    "map_id": "nanming_lake",
+    "combat_kind": "monster",
+    "boss": false,
+    "is_npc_martial": false,
+    "max_hp": 14400,
+    "max_mana": 0,
+    "attack_min": 540,
+    "attack_max": 630,
+    "ordinary_defense": 270,
+    "accuracy": 540,
+    "evasion": 180,
+    "critical_chance_bp": 0,
+    "critical_multiplier_bp": 15000,
+    "movement_mm_per_second": 3200,
+    "collision_radius_mm": 450,
+    "height_mm": 1800,
+    "qigong_allocations": {},
+    "rage_enabled": false,
+    "supports_blood_devil": false,
+    "xp_reward": 3095238,
+    "practice_reward": 309523,
+    "silver_reward": 90,
+    "ascension_progress_reward": 500,
+    "ascension_eligibility": "rank>=6 and monster>=recipientLevel-10;14/19 separate pool",
+    "fixed_loot": [],
+    "random_loot": [],
+    "empty_loot_reason": "除明确普通经验/历练/银及合格升天进度与本任务producer外普通物品空",
+    "finisher_reward_components": [
+      "experience",
+      "practice",
+      "silver"
+    ],
+    "source_catalog_region": "project_nanming_lake",
+    "source_spawn_location_as_published": null,
+    "identity_policy": "完整原创普通怪，不采用/合并南明湖怪物页实际写南明洞的四怪，不占198来源怪物已采用数；属性160L/6L..7L/3L/6L/2L、等级经验及银L是既有项目量级。",
+    "aggression": "proactive",
+    "model_spec": {
+      "presentation_id": "dev_nanming_lake_wraith90",
+      "status": "P4独立怨影开发表现规格；A正式模型待制作，不在失败时换已有怪"
+    }
+  },
+  "spawns": [
+    {
+      "spawn_id": "nanming_lake_wraith_east",
+      "monster_id": "project_nanming_lake_wraith90",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        48,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "nanming_lake_wraith_west",
+      "monster_id": "project_nanming_lake_wraith90",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        -48,
+        0,
+        0
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "nanming_lake_wraith_north",
+      "monster_id": "project_nanming_lake_wraith90",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        0,
+        0,
+        -48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "nanming_lake_wraith_south",
+      "monster_id": "project_nanming_lake_wraith90",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        0,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "patrol_radius_m": 2,
+      "safe_zones": "不得进入/攻击中央14米安全圆，按合法桥路回home，不瞬移跨水；水面/无地面不能充当路径，脱战按原AI回血边界。"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "map_layout": {
+    "x_bounds_m": [
+      -80,
+      80
+    ],
+    "z_bounds_m": [
+      -80,
+      80
+    ],
+    "floor_y_m": 0,
+    "walkable_regions": [
+      {
+        "region_id": "lake_platform_center",
+        "kind": "wooden_platform",
+        "x_bounds_m": [
+          -16,
+          16
+        ],
+        "z_bounds_m": [
+          -16,
+          16
+        ],
+        "floor_y_m": 0,
+        "thickness_m": 1,
+        "center_y_m": -0.5
+      },
+      {
+        "region_id": "lake_platform_east",
+        "kind": "wooden_platform",
+        "x_bounds_m": [
+          32,
+          64
+        ],
+        "z_bounds_m": [
+          -16,
+          16
+        ],
+        "floor_y_m": 0,
+        "thickness_m": 1,
+        "center_y_m": -0.5
+      },
+      {
+        "region_id": "lake_platform_west",
+        "kind": "wooden_platform",
+        "x_bounds_m": [
+          -64,
+          -32
+        ],
+        "z_bounds_m": [
+          -16,
+          16
+        ],
+        "floor_y_m": 0,
+        "thickness_m": 1,
+        "center_y_m": -0.5
+      },
+      {
+        "region_id": "lake_platform_north",
+        "kind": "wooden_platform",
+        "x_bounds_m": [
+          -16,
+          16
+        ],
+        "z_bounds_m": [
+          -64,
+          -32
+        ],
+        "floor_y_m": 0,
+        "thickness_m": 1,
+        "center_y_m": -0.5
+      },
+      {
+        "region_id": "lake_platform_south",
+        "kind": "wooden_platform",
+        "x_bounds_m": [
+          -16,
+          16
+        ],
+        "z_bounds_m": [
+          32,
+          64
+        ],
+        "floor_y_m": 0,
+        "thickness_m": 1,
+        "center_y_m": -0.5
+      },
+      {
+        "region_id": "lake_bridge_east",
+        "kind": "wooden_bridge",
+        "x_bounds_m": [
+          16,
+          32
+        ],
+        "z_bounds_m": [
+          -4,
+          4
+        ],
+        "floor_y_m": 0,
+        "thickness_m": 1,
+        "center_y_m": -0.5
+      },
+      {
+        "region_id": "lake_bridge_west",
+        "kind": "wooden_bridge",
+        "x_bounds_m": [
+          -32,
+          -16
+        ],
+        "z_bounds_m": [
+          -4,
+          4
+        ],
+        "floor_y_m": 0,
+        "thickness_m": 1,
+        "center_y_m": -0.5
+      },
+      {
+        "region_id": "lake_bridge_north",
+        "kind": "wooden_bridge",
+        "x_bounds_m": [
+          -4,
+          4
+        ],
+        "z_bounds_m": [
+          -32,
+          -16
+        ],
+        "floor_y_m": 0,
+        "thickness_m": 1,
+        "center_y_m": -0.5
+      },
+      {
+        "region_id": "lake_bridge_south",
+        "kind": "wooden_bridge",
+        "x_bounds_m": [
+          -4,
+          4
+        ],
+        "z_bounds_m": [
+          16,
+          32
+        ],
+        "floor_y_m": 0,
+        "thickness_m": 1,
+        "center_y_m": -0.5
+      }
+    ],
+    "solid_blocks": [],
+    "water_surface_y_m": -1.5,
+    "water_policy": "9矩形上表面并集是唯一可走/站立/寻路/刷怪地面；并集外为不可走水面，非全矩形地板，不可记录/传送到水面。水面视觉不产生伤害/经验/自动返回，边缘阻挡本人胶囊防跌落。",
+    "navigation_policy": "先对9矩形做几何并集再按胶囊半径收缩，桥与岛共边为内部接缝不设阻挡；只缩外边界，不能逐矩形独立收缩造成桥缝断路。0.35玩家/0.45敌胶囊、实烘NAV与实际地面/水岸相符，直线碰撞不能跨无地面空隙。",
+    "safe_zones": [
+      {
+        "zone_id": "nanming_lake_guard_hub",
+        "center_xz_m": [
+          0,
+          0
+        ],
+        "radius_m": 14,
+        "forbid_hostile_spawn_and_entry": true,
+        "automatic_recovery": false
+      }
+    ]
+  },
+  "public_entry_gate": {
+    "minimum_level": 60,
+    "minimum_rank": 3,
+    "required_quest": null,
+    "silver_fee": 0,
+    "item_fee": null,
+    "basis": "60/rank3为明确项目南明湖危险区门槛，神女90/rank4自然满足；来源未给数值，不与南明洞混用。返泫勃不设高阶门槛防降级配置后困住。"
+  },
+  "travel": "两源入口在泫勃镇南方x±12/z50，服务±12/48、返回±12/46；各连接南明湖中央平台对应±6/z10落点，湖出口标志±6/z14/服务±6/z12。4条固定有向连接，离开回对应镇锚，资格与2.5米交互/存活脱战/无活动等按世界图谱。不是碰到水边自动出图；服务锚仅合法接近示例。",
+  "reward": {
+    "experience": 0,
+    "practice": 0,
+    "silver": 0,
+    "items": [],
+    "qigong_id": "qigong_dongling_shennv_ad0f58ef4558",
+    "permission": "只以本任务delivered满足21真武绝击required_quest_id，目标十份在包/已杀十只/接取均不满足。等级/晋级/本职业及有效分配预算仍需按21/升级发点校验，不自动学书/分配气功/赠点。",
+    "effect_owner_file": "武功致命气功采用.v1.json",
+    "reason": "来源只载学习前置，无明确附奖；本地选择仅资格，普通打怪收益另计，不将0写成官方已查明值。"
+  },
+  "abandon": {
+    "confirmation": "列本轮湖灵之息数量与失去的任务进度，确认才清本attempt全部材料与阶段，保取消历史；无已支付费用可退，普通经验钱物不回滚。",
+    "transaction": "清本主凭证/状态置not_accepted、attempt/branch/stage/final=null、stage_receipts清空与取消收据同笔，失败全不变。新接是新attempt，旧死亡/交付请求不跨轮，已交付不可取消。"
+  },
+  "persistence": "角色保存init字段及真实绑定堆，producer死亡/个人/attempt收据归05/19统一权威记录。普通公共怪现场重建按世界owner，不能因此重发同代任务物；死亡不丢该绑定材料。无单独击杀数/已解锁资格布尔。新模板/四旧档显式init，无材料/完成/气功资格；已有角色/world不重置，新格式缺字段/错来源/量>10/坏堆/错NPC引用明确拒绝。",
+  "initialization": {
+    "state": "not_accepted",
+    "attempt_id_or_null": null,
+    "branch_id_or_null": null,
+    "stage_index_or_null": null,
+    "stage_receipts": [],
+    "cancelled_attempt_receipts": [],
+    "final_receipt_or_null": null
+  },
+  "source_isolation": {
+    "never_satisfy_with_quest_ids": [
+      "QREF-63790-049",
+      "QREF-63789-050",
+      "QREF-63791-024"
+    ],
+    "no_147_source_adoption_increment": true,
+    "nanming_cave_is_not_alias": true,
+    "original_90_quest_objectives_still_unknown": true
+  },
+  "pending": [
+    "Godot地面并集/NAV/桥边阻挡/泳水拒绝及真实采集战斗",
+    "正常神女90可胜性/经济与完整组队/存档故障",
+    "正式岛桥/守卫/怨影模型及UI/音频",
+    "官网90原任务正文事实缺口保留"
+  ],
+  "static_review": {
+    "date": "2026-11-14",
+    "kind": "static_design_geometry_and_independent_arithmetic_not_gameplay",
+    "walkable_rectangles": 9,
+    "internal_bridge_seam_points": 8,
+    "rejected_water_or_edge_points": 5,
+    "spawn_home_and_patrol_checks": 4,
+    "geometry": [
+      {
+        "map_id": "hyunbo_town",
+        "grid_m": 0.5,
+        "capsule_radius_m": 0.45,
+        "reachable_cells": 52639,
+        "target_count": 21,
+        "layout_actors_targets_sha256": "7b6c7ede0ded046e53cd11f1cfa9e157c057d45b37afbbb7657f4d80fe52b81a"
+      },
+      {
+        "map_id": "nanming_lake",
+        "grid_m": 0.5,
+        "capsule_radius_m": 0.45,
+        "reachable_cells": 21798,
+        "target_count": 9,
+        "layout_actors_targets_sha256": "c40a66620625bff65a330060862788dc88c8b95b304d8664a52f985c09de8fa2"
+      }
+    ],
+    "learning_gate_truth_table_cases": 504,
+    "eligible_learning_combinations_in_table": 4,
+    "inventory_cap_cases": 11,
+    "maximum_material_slots": 1,
+    "maximum_material_weight_g": 0,
+    "world_map_count": 70,
+    "world_anchor_count": 226,
+    "world_npc_count": 64,
+    "unique_service_count": 185,
+    "connections": 87,
+    "earth_spirit_maps": 21,
+    "limitations": "No Godot mesh/NAV, gameplay balance, runtime item/learning, persistence fault injection or LAN tests.",
+    "fixed_connections": 50,
+    "connection_kind_counts": {
+      "public_travel": 42,
+      "private_activity_entry": 4,
+      "private_activity_terminal_return": 4,
+      "training_room_selection": 37
+    },
+    "travel_gate_boundary_cases": 4,
+    "document_checks": {
+      "json_files": 126,
+      "local_markdown_links": 656,
+      "heading_fragments": 66,
+      "explicit_json_pointers": 49,
+      "arena_pointers": 9,
+      "duplicate_json_members": "none",
+      "diff_check": "passed"
+    }
+  }
+}

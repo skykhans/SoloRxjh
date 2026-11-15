@@ -1,0 +1,377 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "two_full_local_quest_designs_not_implemented_not_balanced",
+  "source_policy": "保QREF-63790-015/QREF-63789-015原57级/正邪/红凤凰或周叔通/头发或扇子15/经验260000及寒玉石/一次性。斜线奖励明确同笔同时给经验260000与通用寒玉石1，石数量1为项目值，非防御+7石。任务文字具名竹林小魔仙/竹神侍女，但198来源怪物目录无此名；本地新增同名项目怪，等级57、战斗收益、四home、个人100%及凭证0克/99堆/15封顶均为项目设定，不伪造MREF、不计来源怪采用。",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-015",
+      "source_reference_id": "QREF-63790-015",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/38"
+      },
+      "name": "竹林小魔仙的头发",
+      "minimum_level": 57,
+      "route": "righteous",
+      "npc_id": "npc_hong_fenghuang",
+      "npc_map_id": "liuzheng_pass",
+      "interaction_anchor_id": "npc_hong_fenghuang_service",
+      "service_id": "bamboo57_righteous",
+      "requirements": [
+        {
+          "item_id": "quest_bamboo57_hair",
+          "quantity": 15
+        }
+      ],
+      "reward": {
+        "experience": 260000,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "cold_jade_synthesis_stone",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "普通防具合成.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "single_npc"
+    },
+    {
+      "quest_id": "ref_QREF-63789-015",
+      "source_reference_id": "QREF-63789-015",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/87"
+      },
+      "name": "竹神侍女的扇子",
+      "minimum_level": 57,
+      "route": "evil",
+      "npc_id": "npc_zhou_shutong",
+      "npc_map_id": "sanxie_pass",
+      "interaction_anchor_id": "npc_zhou_shutong_service",
+      "service_id": "bamboo57_evil",
+      "requirements": [
+        {
+          "item_id": "quest_bamboo57_fan",
+          "quantity": 15
+        }
+      ],
+      "reward": {
+        "experience": 260000,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "cold_jade_synthesis_stone",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "普通防具合成.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "single_npc"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_bamboo57_hair",
+      "name": "竹林小魔仙的头发",
+      "source_reference_id": "QREF-63790-015",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 15,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "独立角色/任务/轮次实物凭证；头发和扇子均非可装备物、合成材料或可使用道具。"
+    },
+    {
+      "item_id": "quest_bamboo57_fan",
+      "name": "竹神侍女的扇子",
+      "source_reference_id": "QREF-63789-015",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 15,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "独立角色/任务/轮次实物凭证；头发和扇子均非可装备物、合成材料或可使用道具。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-015",
+        "monster_id": "project_righteous_bamboo_fairy57",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_bamboo57_hair",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 15
+      },
+      {
+        "quest_id": "ref_QREF-63789-015",
+        "monster_id": "project_evil_bamboo_attendant57",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_bamboo57_fan",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 15
+      }
+    ],
+    "eligibility": "own active attempt/correct current route/alive connected same room/map;solo unique death owner or exact19party member snapshot within30m/joined>=600steps;each token type below15",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "no token/progress,record original death no-item outcome;freeing space/reconnect/abandon/reaccept never replays it;later distinct death may grant",
+    "modifiers": "100%personal task output separate from public loot,no finisher/training multiplier",
+    "commit": "each eligible recipient at most one declared token/0g per distinct death;preflight actual final slots/weight and token cap,commit token/source receipt/inventory revision once with normal death rewards once;failure records no-item result,never replay",
+    "candidate_capacity": "最多一类零克凭证；不足15才生成1个，99堆内同轮合并，不能合并跨轮来源；格数/负重任一不合法则无任务输出，普通死亡结算仍一次。"
+  },
+  "pending": [
+    "Godot quest/monster AI/models/spawns/XP/inventory/save/LAN implementation and tests",
+    "57level combat time,ordinary reward and260000XP/cold jade economic calibration"
+  ],
+  "delivery_weight": "交15个零克凭证，发通用寒玉石1/10克，净增10克；同绑定99堆与最终槽重预检，14职业可领取不受商店筛选。260000经验依公共封顶实际/损失确认、等级属性与新covered_level发点同笔；原57级资格在奖励前检查。",
+  "monsters": [
+    {
+      "monster_id": "project_righteous_bamboo_fairy57",
+      "name": "竹林小魔仙",
+      "level": 57,
+      "map_id": "liuzheng_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 4560,
+      "max_mana": 0,
+      "attack_min": 228,
+      "attack_max": 285,
+      "ordinary_defense": 114,
+      "accuracy": 285,
+      "evasion": 114,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_bamboo57_creature",
+      "xp_reward": 265500,
+      "practice_reward": 26550,
+      "silver_reward": 57,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "project_righteous_bamboo_fairy57",
+        "status": "local creature model/animations pending"
+      },
+      "identity_policy": "仅采用57级任务文字怪名；来源怪物目录无匹配，等级57与全部数值/收益/home为项目值，无MREF、不计198来源采用。",
+      "source_task_reference_id": "QREF-63790-015"
+    },
+    {
+      "monster_id": "project_evil_bamboo_attendant57",
+      "name": "竹神侍女",
+      "level": 57,
+      "map_id": "sanxie_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 4560,
+      "max_mana": 0,
+      "attack_min": 228,
+      "attack_max": 285,
+      "ordinary_defense": 114,
+      "accuracy": 285,
+      "evasion": 114,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_bamboo57_creature",
+      "xp_reward": 265500,
+      "practice_reward": 26550,
+      "silver_reward": 57,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "project_evil_bamboo_attendant57",
+        "status": "local creature model/animations pending"
+      },
+      "identity_policy": "仅采用57级任务文字怪名；来源怪物目录无匹配，等级57与全部数值/收益/home为项目值，无MREF、不计198来源采用。",
+      "source_task_reference_id": "QREF-63789-015"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "project_righteous_bamboo_fairy57_01",
+      "monster_id": "project_righteous_bamboo_fairy57",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -12,
+        0,
+        104
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_righteous_bamboo_fairy57_02",
+      "monster_id": "project_righteous_bamboo_fairy57",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -4,
+        0,
+        104
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_righteous_bamboo_fairy57_03",
+      "monster_id": "project_righteous_bamboo_fairy57",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        4,
+        0,
+        104
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_righteous_bamboo_fairy57_04",
+      "monster_id": "project_righteous_bamboo_fairy57",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        12,
+        0,
+        104
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_bamboo_attendant57_01",
+      "monster_id": "project_evil_bamboo_attendant57",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -12,
+        0,
+        104
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_bamboo_attendant57_02",
+      "monster_id": "project_evil_bamboo_attendant57",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -4,
+        0,
+        104
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_bamboo_attendant57_03",
+      "monster_id": "project_evil_bamboo_attendant57",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        4,
+        0,
+        104
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_evil_bamboo_attendant57_04",
+      "monster_id": "project_evil_bamboo_attendant57",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        12,
+        0,
+        104
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "all map safe zones exclude hostile spawn/entry;path return,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  }
+}

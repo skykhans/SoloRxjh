@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:training-normal-attack:v1",
+  "$comment": "修炼怪普通攻击完整原动作快照严格白名单；不以投影allOf装完整对象。原身份/规则冻结来源/有限yaw/有效攻击区间/时序与真实命中结果/停止来源及游标双向覆盖另验；不是完整AI决定、world队列或命中结果。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action_id",
+    "world_id",
+    "authority_profile_id",
+    "source_actor_id",
+    "map_id",
+    "instance_id_or_null",
+    "accepted_world_step",
+    "admission",
+    "monster_id",
+    "rules_hash",
+    "target_actor_id",
+    "accepted_yaw_radians",
+    "attack_min",
+    "attack_max",
+    "accuracy",
+    "critical_chance_bp",
+    "critical_multiplier_bp",
+    "windup_steps",
+    "active_steps",
+    "recovery_steps",
+    "elapsed_steps",
+    "hit_offsets_in_active_steps",
+    "stop_event_id_or_null",
+    "hit_result_event_id_or_null"
+  ],
+  "properties": {
+    "action_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+    },
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "source_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "type": "null"
+    },
+    "accepted_world_step": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "admission": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/training_ai"
+    },
+    "monster_id": {
+      "enum": [
+        "training_beihai_01_monster_01",
+        "training_beihai_01_monster_02",
+        "training_beihai_01_monster_03",
+        "training_beihai_01_monster_04",
+        "training_beihai_02_monster_01",
+        "training_beihai_02_monster_02",
+        "training_beihai_02_monster_03",
+        "training_beihai_02_monster_04",
+        "training_beihai_03_monster_01",
+        "training_beihai_03_monster_02",
+        "training_beihai_03_monster_03",
+        "training_beihai_03_monster_04",
+        "training_beihai_04_monster_01",
+        "training_beihai_04_monster_02",
+        "training_beihai_04_monster_03",
+        "training_beihai_04_monster_04",
+        "training_beihai_05_monster_01",
+        "training_beihai_05_monster_02",
+        "training_beihai_05_monster_03",
+        "training_beihai_05_monster_04",
+        "training_beihai_06_monster_01",
+        "training_beihai_06_monster_02",
+        "training_beihai_06_monster_03",
+        "training_beihai_06_monster_04",
+        "training_beihai_07_monster_01",
+        "training_beihai_07_monster_02",
+        "training_beihai_07_monster_03",
+        "training_beihai_07_monster_04",
+        "training_beihai_08_monster_01",
+        "training_beihai_08_monster_02",
+        "training_beihai_08_monster_03",
+        "training_beihai_08_monster_04",
+        "training_beihai_09_monster_01",
+        "training_beihai_09_monster_02",
+        "training_beihai_09_monster_03",
+        "training_beihai_09_monster_04",
+        "training_nanlin_01_monster_01",
+        "training_nanlin_01_monster_02",
+        "training_nanlin_01_monster_03",
+        "training_nanlin_01_monster_04",
+        "training_nanlin_02_monster_01",
+        "training_nanlin_02_monster_02",
+        "training_nanlin_02_monster_03",
+        "training_nanlin_02_monster_04",
+        "training_nanlin_03_monster_01",
+        "training_nanlin_03_monster_02",
+        "training_nanlin_03_monster_03",
+        "training_nanlin_03_monster_04",
+        "training_nanlin_04_monster_01",
+        "training_nanlin_04_monster_02",
+        "training_nanlin_04_monster_03",
+        "training_nanlin_04_monster_04",
+        "training_nanlin_05_monster_01",
+        "training_nanlin_05_monster_02",
+        "training_nanlin_05_monster_03",
+        "training_nanlin_05_monster_04",
+        "training_nanlin_06_monster_01",
+        "training_nanlin_06_monster_02",
+        "training_nanlin_06_monster_03",
+        "training_nanlin_06_monster_04",
+        "training_nanlin_07_monster_01",
+        "training_nanlin_07_monster_02",
+        "training_nanlin_07_monster_03",
+        "training_nanlin_07_monster_04",
+        "training_nanlin_08_monster_01",
+        "training_nanlin_08_monster_02",
+        "training_nanlin_08_monster_03",
+        "training_nanlin_08_monster_04",
+        "training_nanlin_09_monster_01",
+        "training_nanlin_09_monster_02",
+        "training_nanlin_09_monster_03",
+        "training_nanlin_09_monster_04",
+        "training_dongling_01_monster_01",
+        "training_dongling_01_monster_02",
+        "training_dongling_01_monster_03",
+        "training_dongling_01_monster_04",
+        "training_dongling_02_monster_01",
+        "training_dongling_02_monster_02",
+        "training_dongling_02_monster_03",
+        "training_dongling_02_monster_04",
+        "training_dongling_03_monster_01",
+        "training_dongling_03_monster_02",
+        "training_dongling_03_monster_03",
+        "training_dongling_03_monster_04",
+        "training_dongling_04_monster_01",
+        "training_dongling_04_monster_02",
+        "training_dongling_04_monster_03",
+        "training_dongling_04_monster_04",
+        "training_dongling_05_monster_01",
+        "training_dongling_05_monster_02",
+        "training_dongling_05_monster_03",
+        "training_dongling_05_monster_04",
+        "training_dongling_06_monster_01",
+        "training_dongling_06_monster_02",
+        "training_dongling_06_monster_03",
+        "training_dongling_06_monster_04",
+        "training_dongling_07_monster_01",
+        "training_dongling_07_monster_02",
+        "training_dongling_07_monster_03",
+        "training_dongling_07_monster_04",
+        "training_dongling_08_monster_01",
+        "training_dongling_08_monster_02",
+        "training_dongling_08_monster_03",
+        "training_dongling_08_monster_04",
+        "training_dongling_09_monster_01",
+        "training_dongling_09_monster_02",
+        "training_dongling_09_monster_03",
+        "training_dongling_09_monster_04",
+        "training_huxia_01_monster_01",
+        "training_huxia_01_monster_02",
+        "training_huxia_01_monster_03",
+        "training_huxia_01_monster_04",
+        "training_huxia_02_monster_01",
+        "training_huxia_02_monster_02",
+        "training_huxia_02_monster_03",
+        "training_huxia_02_monster_04",
+        "training_huxia_03_monster_01",
+        "training_huxia_03_monster_02",
+        "training_huxia_03_monster_03",
+        "training_huxia_03_monster_04",
+        "training_huxia_04_monster_01",
+        "training_huxia_04_monster_02",
+        "training_huxia_04_monster_03",
+        "training_huxia_04_monster_04",
+        "training_huxia_05_monster_01",
+        "training_huxia_05_monster_02",
+        "training_huxia_05_monster_03",
+        "training_huxia_05_monster_04",
+        "training_huxia_06_monster_01",
+        "training_huxia_06_monster_02",
+        "training_huxia_06_monster_03",
+        "training_huxia_06_monster_04",
+        "training_huxia_07_monster_01",
+        "training_huxia_07_monster_02",
+        "training_huxia_07_monster_03",
+        "training_huxia_07_monster_04",
+        "training_huxia_08_monster_01",
+        "training_huxia_08_monster_02",
+        "training_huxia_08_monster_03",
+        "training_huxia_08_monster_04",
+        "training_huxia_09_monster_01",
+        "training_huxia_09_monster_02",
+        "training_huxia_09_monster_03",
+        "training_huxia_09_monster_04"
+      ]
+    },
+    "rules_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "target_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "accepted_yaw_radians": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/yaw"
+    },
+    "attack_min": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "attack_max": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "accuracy": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "critical_chance_bp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "critical_multiplier_bp": {
+      "type": "integer",
+      "minimum": 10000,
+      "maximum": 9007199254740991
+    },
+    "windup_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "active_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "recovery_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "hit_offsets_in_active_steps": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740990
+      }
+    },
+    "stop_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "hit_result_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:combat-damage-identity:v1#/$defs/event_id"
+        }
+      ]
+    }
+  }
+}

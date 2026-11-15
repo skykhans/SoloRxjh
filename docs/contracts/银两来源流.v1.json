@@ -1,0 +1,48 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "silver_accounts_and_directed_flows_adopted_not_full_economic_event_not_implemented",
+  "scope": "仅character.silver随身与character.warehouse_silver仓银，均非负安全整数；历练/经验/武勋/点数及其他资源由原owner，不混用银两流。",
+  "schema_ref": {
+    "file": "银两来源流.schema.json",
+    "pointer": ""
+  },
+  "account_fields": {
+    "carried_silver": "character.silver",
+    "warehouse_silver": "character.warehouse_silver"
+  },
+  "embedding": "同一正式事件有银两实际收入/支出/转账或新账户创建时恰一个silver_flow对象，receipt_id等于实际结算ID；纯无变化配置/预览/取消/拒绝无流。accounts保存受影响账户完整前/后余额及前业务输出，movements保存逐笔有方向的实际金额。外层仍须保存钱物/位置/角色库存修订/RNG/来源与完整事件，不由本流单独提交。",
+  "accounts": "每个character_id+account在单流恰一次，不额外存重复profile或账户ID。账户归原角色，前余额必须等于最后未消费前输出after_balance；previous_output精确指原silver_flow receipt_id与accounts输出索引，单一前输出仅一正式后继，无环。输出为本结算accounts数组对应元素及其after_balance，不新增镜像余额表。",
+  "opening": "只有真实新角色礼包或具名已知旧导入可无previous_output，以before_balance=0、明确opening_authorization建立本角色两个账户。22礼包随身最终2000、仓银0；2000需同事件new_character_grant实际收入腿，仓银0无腿也须独立创建锚。旧导入随身保真实来源银两、仓银0，不跑22礼包。不是把现有角色无历史账户重新开0；缺前链/新格式缺字段拒绝。",
+  "movement": "from/to为本流accounts索引；内部转账二者非null且不同、authorization=null。收入from=null/to有效、正amount及真实income授权；支出from有效/to=null、正amount及真实expense授权。二者不能都null，0额/负额/错索引拒绝。一个授权腿不可当另一腿的授权；枚举只是归类，实际owner必须核精确参数与唯一事件。",
+  "arithmetic": "对每账户以足够宽整数求全部入/出总额，after=before+in-out且最终0..9007199254740991；所有正额/前后余额只收十进制整数token，拒绝bool/float/指数/字符串。每账户总出账必须<=原before余额，不借本事件对方待入账/本次奖励支付自己费用；各笔在原余额中真实可付，即使双向净额0也分别证明。中间求和不可用浮点或安全整数溢出后截断。",
+  "internal_transfer": "仓银存取仅同character的carried_silver↔warehouse_silver，一笔金额>0，手续费0，不凭空收入或支出；71跨character只许carried_silver↔carried_silver，逐侧原余额足够，税0。禁止跨角色仓银或用仓银自动填日常消费。普通同账户自转无变化拒绝。",
+  "expenses": "NPC购买/复购、加工、扩容及其他服务按其原owner逐笔付费；角色日常费用只从carried_silver支出，取物按单位量收1两也记service_fee，不借免费仓银转账抹掉取物费用。零费用操作不造0金额腿；角色/库存修订由实际命令原owner一次，不因腿数/账户数重复加。",
+  "income": "22初始2000、已知导入银两、任务/掉落/NPC出售各按真实授权发物与服务证据；不将普通玩家转账记新铸造收入，不将任务银袋/发票擅换银两。NPC售出银与实际物品held→buyback或合法消费、单位价及数量同笔，不能按可售数量猜新收入。",
+  "configuration": "18直接设置随身/仓银使用明确configuration_increase或configuration_decrease差额腿，各指配置授权；不要求正常收入/费用路径，但不放宽安全整数/所有权/唯一性。原值相同无流；不得用配置来源伪造正常商店/掉落/任务。",
+  "closure": "角色当前silver/warehouse_silver精确等于各最后未消费账户输出；当前来源头按来源现态推导从完整已提交事件图在内存派生，不另存第二份余额。两个账户各真实opening前缀到当前无缺边，跨角色转账在同一权威结果中包含双方，client只应用原结果不重记收入。不另存持久头表；完整事件/证明闭包根仍待，不能按现余额造首条历史。",
+  "zero_and_gross": "非opening账户必须至少关联一笔正额腿；真实双向交易即使净额0仍按两笔转账保总送出/收到，不省略成无动作。若某业务根本不变钱，不附无意义空银两流。真实新角色/已知旧导入的零余额opening允许无腿：包括新仓银0和旧导入原随身银0，均须有真实opening_authorization；22新角色随身2000仍必须实际收入腿，不用零开户替代授予。",
+  "validation_order": [
+    "严格JSON/token/完整片段及账户/腿白名单。",
+    "账户唯一、原角色及最后业务前输出/唯一后继、opening真实授权。",
+    "腿索引/方向/逐owner收入费用或转账权限，完整原余额支付能力。",
+    "全部入出及前后算术/安全边界、实际费用材料与同结算物品流。",
+    "完整候选布局/重量/业务修订/来源闭合后同笔保存，重复原结果不再次记账。"
+  ],
+  "implementation_gate": "两银两账户版本及方向流投影采用；完整事件/费用与收入授权/完整证明闭包/档案与LAN结果仍待，未实现读档/仓银/交易/加工或经济平衡，不代表D1完成。",
+  "current_heads_owner_ref": {
+    "file": "来源现态推导.v1.json",
+    "pointer": ""
+  },
+  "character_deletion": {
+    "owner_ref": {
+      "file": "角色删除.v1.json",
+      "pointer": "/silver"
+    },
+    "policy": "只有原删除committed授权character_deletion销毁腿，目标两账户原头全额归零；不允许收入/转账/新开账户或其他事件借此减款。零余额无销毁腿但保原账户来源。"
+  },
+  "ordinary_armor_purchase_owner_ref": {
+    "file": "普通防具基础定义.v1.json",
+    "pointer": "/acquisition_policy/purchase_events"
+  }
+}

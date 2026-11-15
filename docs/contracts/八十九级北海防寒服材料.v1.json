@@ -1,0 +1,316 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "source_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/132"
+    },
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/73/text"
+    },
+    "published": "89级共同/金蓉蓉收黑毛30，王语然鉴定后收到最上级黑毛30，交金蓉蓉，原4步/780万经验/15%幸运符1/一次。",
+    "local": "14职业/三路线/rank0/无前置；鉴定包1为项目交接物，明确保持原黑毛30的来源链，最上级黑毛由鉴定产出，不新增同名怪物。0克/堆重/个人100%产物/强化加1500bp为本地规则。"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63788-010",
+    "source_reference_id": "QREF-63788-010",
+    "name": "准备段宫主的防寒服材料",
+    "minimum_level": 89,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_jin_rongrong",
+    "npc_map_id": "beihai_ice",
+    "interaction_anchor_id": "npc_jin_rongrong_service",
+    "service_id": "jin89_clothing",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "final_receipt_or_null"
+    ],
+    "acceptance": "本人存活/脱战/空闲/无挑战，89级/14职业/三路线/rank0，原金蓉蓉精确map/anchor/service<=2500mm，未接未完成；新attempt stage1，无费用/起始物，无79/87/五转前置。",
+    "stages": [
+      {
+        "stage_index": 1,
+        "npc_id": "npc_jin_rongrong",
+        "map_id": "beihai_ice",
+        "interaction_anchor_id": "npc_jin_rongrong_service",
+        "service_id": "jin89_clothing",
+        "consume": [
+          {
+            "item_id": "quest_beihai89_bear_fur",
+            "quantity": 30
+          }
+        ],
+        "grant": [
+          {
+            "item_id": "quest_beihai89_appraisal_parcel",
+            "quantity": 1
+          }
+        ],
+        "grant_reason": "quest_exchange",
+        "next_stage_index": 2
+      },
+      {
+        "stage_index": 2,
+        "npc_id": "npc_wang_yuran",
+        "map_id": "beihai_ice",
+        "interaction_anchor_id": "npc_wang_yuran_service",
+        "service_id": "wang89_appraisal",
+        "consume": [
+          {
+            "item_id": "quest_beihai89_appraisal_parcel",
+            "quantity": 1
+          }
+        ],
+        "grant": [
+          {
+            "item_id": "quest_beihai89_superior_fur",
+            "quantity": 30
+          }
+        ],
+        "grant_reason": "quest_exchange",
+        "requires_prior_stage_receipt_index": 1,
+        "next_stage_index": 3
+      },
+      {
+        "stage_index": 3,
+        "npc_id": "npc_jin_rongrong",
+        "map_id": "beihai_ice",
+        "interaction_anchor_id": "npc_jin_rongrong_service",
+        "service_id": "jin89_clothing",
+        "consume": [
+          {
+            "item_id": "quest_beihai89_superior_fur",
+            "quantity": 30
+          }
+        ],
+        "grant": [],
+        "requires_prior_stage_receipt_index": 2,
+        "next_stage_index": 4,
+        "apply_final_reward": true
+      },
+      {
+        "stage_index": 4,
+        "kind": "terminal_delivered",
+        "automatic_with_stage_index": 3,
+        "requires_additional_command": false,
+        "consume": [],
+        "grant": [],
+        "next_stage_index": null
+      }
+    ],
+    "source_stage_interpretation": "原4步：黑毛30交金蓉蓉→王语然鉴定→最上级黑毛交金蓉蓉→结束；本地第1步消费30新建封装鉴定包1（包内所收30的来源引用，仅权威交接不可拆），第2步消费包新建最上级黑毛30。封装包是明确项目交接物，不冒称官网所列物品，不另猎最上级北极熊。第4步随第3步自动终态，不另领奖。",
+    "inventory_by_stage": {
+      "1": {
+        "required_exact": {},
+        "collection_caps": {
+          "quest_beihai89_bear_fur": 30
+        }
+      },
+      "2": {
+        "required_exact": {
+          "quest_beihai89_appraisal_parcel": 1
+        }
+      },
+      "3": {
+        "required_exact": {
+          "quest_beihai89_superior_fur": 30
+        }
+      },
+      "4": {
+        "required_exact": {}
+      }
+    },
+    "reward": {
+      "experience": 7800000,
+      "practice": 0,
+      "silver": 0,
+      "items": [
+        {
+          "item_id": "enhancement_luck_charm_15",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "强化幸运符.v1.json",
+            "pointer": "/items/2"
+          }
+        }
+      ],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "reward_identity": "保来源780万经验与15%幸运符1，不按约5%动态重算。强化符5克/99堆/角色绑定，原三种真实强化任选一张，精确加1500bp/上限10000，基础必成拒选；非宝珠或四神符。",
+    "stage_transaction": "每步核本人当前attempt/严格阶段持物/完整前缀真实消费与交换收据/原合法库存及修订/精确NPCmap锚服务<=2500mm/存活脱战空闲无挑战。stage1消费30真黑毛后quest_exchange新建包1；stage2消费包后quest_exchange新建最上级黑毛30，输出来源链回指包和原30的消费收据。不能复制原物/修改旧堆ID/凭计数补物。每步05/19同笔角色库存修订各一次，失败全保。",
+    "delivery": "stage3原金蓉蓉核本轮最上级黑毛30及stage2交换收据；经验7800000沿公共封顶报价名义/实际/损失，正损失须显式确认，修订变动重报价，取消不消费。原合法库存先核，消费30后预检15%符1/5克/99堆/来源合堆及真实槽（可复用释放输入槽）。实际经验/实际升级基础属性及新covered_level发点/消费/符来源/唯一完成/stage4自动终态05/19同笔；实际经验0无0资源腿但符仍完整发1，不改银/历练/rank。",
+    "readiness": "stage1真实黑毛0..30且仅恰30可交；stage2只有当前包1与stage1真实消费收据；stage3只有当前最上级黑毛30与stage2交换收据；终态三任务物0，不留已鉴定包或原黑毛。",
+    "capacity_failure": "任一步资格/来源/前缀收据/原状态修订/交换最终槽重/符5克或经验报价确认/保存失败，整笔拒绝保原阶段和物品，不部分换物/发经验或符。",
+    "modifiers": "固定任务经验和符不进普通击杀组队池或终结者/修炼倍率。",
+    "repeat": "角色跨世界一次，不因路线/组队/轮次重置。",
+    "abandon": "确认仅清本轮现持三类任务物/步骤，已消费黑毛或包不返；重接新attempt从采30开始，旧死亡不补，完成不可放弃。",
+    "deduplication": "步骤character/quest/attempt/stage唯一，最终character/quest唯一；同request同payload回持久决定，改payload拒绝；历史结果不回装已消费黑毛或鉴定包，不重复发经验或幸运符。",
+    "save": "保存attempt/阶段/实际物来源、包对原30的消费来源链及完整交换收据/最终经验报价与完成收据；严格inventory_by_stage，不按数量补物，缺链/错轮/多余旧物拒绝。不确定保存解析原05/19决定重存，不能再交换或发经验符。"
+  },
+  "items": [
+    {
+      "item_id": "quest_beihai89_bear_fur",
+      "name": "北极熊的黑毛",
+      "source_reference_id": "QREF-63788-010",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 30,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "89本轮0克实物，原黑毛/最上级黑毛99堆各30封顶，项目封装包1堆/上限1。绑定character/quest/attempt，禁装用仓丢售交易加工，仅指定阶段交接与放弃清理。"
+    },
+    {
+      "item_id": "quest_beihai89_appraisal_parcel",
+      "name": "防寒服黑毛鉴定包",
+      "source_reference_id": "QREF-63788-010",
+      "source_kind": "explicit_project_handoff_parcel_not_source_item",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "89本轮0克实物，原黑毛/最上级黑毛99堆各30封顶，项目封装包1堆/上限1。绑定character/quest/attempt，禁装用仓丢售交易加工，仅指定阶段交接与放弃清理。",
+      "sealed_contents": "不是可开启容器或嵌套背包；权威来源元数据引用stage1所消费黑毛30的具体来源片段，包物品1占真实槽，不保留30份可用物。"
+    },
+    {
+      "item_id": "quest_beihai89_superior_fur",
+      "name": "最上级北极熊的黑毛",
+      "source_reference_id": "QREF-63788-010",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 30,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "89本轮0克实物，原黑毛/最上级黑毛99堆各30封顶，项目封装包1堆/上限1。绑定character/quest/attempt，禁装用仓丢售交易加工，仅指定阶段交接与放弃清理。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "monster_id": "beihai_polar_bear92",
+        "map_id": "beihai_ice",
+        "required_stage_index": 1,
+        "item_id": "quest_beihai89_bear_fur",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 30
+      }
+    ],
+    "qualification": "本人活跃本轮stage1/真实黑毛<30，存活连接同世界图，solo原死亡归属或19原奖励成员快照30m/入队>=600步；其他阶段不采。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "shared_bear_owner": {
+      "file": "八十七级北海灵丹研究.v1.json",
+      "pointer": "/shared_bear_death_collection"
+    },
+    "death_routing": "92北极熊原死亡仅87共享熊owner一次处理87熊胆/89黑毛；不调用猞猁owner或重复普通收益。",
+    "capacity_failure": "两任务独立资格/封顶，原死亡全部合格候选共同槽重/来源预检，任一失败不发任何任务物；普通收益一次，持久无物决定，腾包/重连/推进/重接不补旧死亡。",
+    "modifiers": "个人每合格原死亡100%1，不受终结者/修炼倍率。"
+  },
+  "monster_owner": {
+    "file": "八十七级北海灵丹研究.v1.json",
+    "pointer": "/monster"
+  },
+  "spawns_owner": {
+    "file": "八十七级北海灵丹研究.v1.json",
+    "pointer": "/spawns"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "travel_policy": "复用北海两既有NPC/锚及92熊4home，不新增地图/NPC/交通，不推进79/五转其他任务。",
+  "pending": [
+    "Godot三次真实物交接/封装来源/共享原死亡/经验封顶升级/15%符强化/保存与LAN功能测试",
+    "既有熊主动AI/动态导航/模型动作与89对92战斗及经济校准"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "custody": "实际定义消费/产出核验30黑毛→1包→30最上级黑毛→三任务物0；三行动端点精确匹配已注册服务。",
+    "player_grid": {
+      "step_m": 1,
+      "radius_m": 0.35,
+      "npc_collisions_included": true,
+      "connected_cells": 84851,
+      "existing_bear_homes_reachable": 4,
+      "existing_service_anchors_reachable": 2
+    },
+    "shared_candidate_arithmetic_cases": 128,
+    "enhancement_probability_levels_exhaustively_counted": 12,
+    "enhancement_draw_values_per_level": 10000,
+    "xp_remaining_cases": [
+      0,
+      1,
+      7799999,
+      7800000,
+      7800001
+    ],
+    "runtime_boundary": "静态定义/算术与网格检查不是Godot真实交换/共享原死亡/保存故障/强化RNG或动态导航测试。"
+  }
+}

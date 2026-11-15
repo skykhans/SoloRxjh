@@ -1,0 +1,97 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "persistent_quickbar_components_adopted_not_implemented",
+  "fields": {
+    "character.skill_bar": {
+      "file": "快捷栏.schema.json",
+      "pointer": "/$defs/skill_bar"
+    },
+    "character.item_bar": {
+      "file": "快捷栏.schema.json",
+      "pointer": "/$defs/item_bar"
+    }
+  },
+  "storage": "沿原模板平铺skill_bar四槽/item_bar三槽，数组位置是稳定槽位。null为空，清空不紧缩；不存名称/阶段/数量/冷却或第二快捷栏镜像。允许同一身份多槽，仍指同一技能/物品及原共享冷却，不复制资源。",
+  "skill_identity": "823ID=517普通主动+302升天+4旧剑技，精确原稳定身份；气功/反气功被动条目不能绑定为主动技能。此集合是已采用学习身份，技能实际可发动类型与职业仍按原定义审核。",
+  "item_identity": "item_bar只保存原正式item_id，不保存stack_id；须在加载与候选提交时核完整原物品目录、存在且原owner明确可主动使用。未知/仅材料/装备/被动携带物拒绝，不按名称猜身份或默认给使用行为。数量可为0，仓库存量不算可用。",
+  "initialization": {
+    "new_character": "14模板原skill_bar/item_bar逐位复制，授予与创建同笔；技能绑定指本模板实际授予，药绑定指原5+5定义，不额外发物。",
+    "known_legacy": "四已知旧来源保原兼容合同四剑技固定顺序，即使未学/未认主仍保槽并显示原不可用原因；item_bar显式[null,null,null]，原格式无此绑定不猜药栏。已有profile其他角色不变。",
+    "current_format": "两字段必需，缺失/长度不符/非法身份拒绝，不补空或截断。"
+  },
+  "binding_change": "明确换槽命令只改指定skill_bar或item_bar单槽；完整原事件按binding_events，保留原槽位顺序。绑定不授予技能/物品、不改变冷却，暂时资源/等级/装备不足不删除既有绑定。",
+  "use": "UI点击与按键生成同一原技能/物品命令，冻结槽位当时实际身份。技能按原已学/阶段/资源/目标/装备/活动/冷却校验。物品由原定义选择本人真实背包可用堆，稳定stack_id顺序，随后把精确堆ID/数量交原消费事件；显式旧堆请求失效拒绝，不换堆。归还符原读条成功才消费，绑定不授传送权。",
+  "transitions": "学新技能/认主/技能升级/气功或升天初始化/药耗尽/转地图不重排快捷栏。配置真实移除技能仍可保原合法ID不可用槽，不自动换技能；任何配置授予/移除授权沿18。旧导入未学四剑技的固定槽位不当作已学证据。",
+  "boundary": "快捷栏持久形状与换槽三阶段事件已采用；全物品主动使用目录闭合、完整角色/配置/网络结果及Godot UI/按键测试仍待，D1未通过。",
+  "binding_events": {
+    "field": "profile.quickbar_binding_events",
+    "schema_ref": {
+      "file": "快捷栏换槽事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "initial": [],
+    "command": "严格原会话identity/command_id/两预期修订/bar/slot_index/binding；bar精确skill_bar或item_bar，技能索引0..3/物品0..2，binding为精确身份或null。没有拖拽交换隐式副作用；交换两槽需另定义原子命令，当前一次只改一槽。",
+    "identity": "request_id为71确定编码[\"quickbar_binding\",play_session_identity.session_id,command_id]；摘要为71完整command的SHA256。原request_index先查同键，同摘要返回原阶段/决定、改参拒绝，不另取counter。",
+    "reservation": "原完整档案/active会话及ACK/两修订/槽位类型与身份通过；技能非null须本职业实际已学且原定义可主动发动，不要求当前资源/装备足以释放；物品非null须原目录明确可主动使用，不要求当前持有。不以绑定恢复未知技能/物品；清空null允许。相同原绑定拒绝无变化请求，不预留counter。无战斗/存活/地图服务门槛，换槽不解除原动作/封锁或冷却；原角色有未决业务时仍等待其终态。锁内冻结原规则hash与该槽binding_before，counter和reserved同档保存，业务不变。",
+    "commit": "同锁重核原会话/两修订/规则/原槽等plan.binding_before及候选资格。只将command指定槽改为binding，角色revision=命令预期+1，库存revision保持；不改其他六槽/学习表/钱物/动作/目标/冷却/读条已冻结身份，无任何资源流。原事件原位committed与角色同档提交，终态才发布原结果。",
+    "abort": "state_changed/rules_changed/session_invalid/explicit_cancel原位终止，无业务变化；identity/command/plan不变。保存不确定先重读正式档案核原状态，不另分配。重启旧active不恢复，旧reserved按session_invalid终止，已committed仅重放。",
+    "journal": "原数组预留追加/终态原位替换，allocation_index递增，与其他通用owner共同完整覆盖counter。保原请求/终态和槽位变化重放证据，删除角色不删除依赖，无压缩协议不裁剪。",
+    "initialization": "新profile/四已知旧导入新profile显式[]；已有profile保日志与counter，导入旧固定槽不伪造换槽历史；现行缺字段拒绝。",
+    "boundary": "完整档案/网络结果封套、物品可使用目录与Godot UI/按键/保存运行仍待。"
+  },
+  "activation_dispatch": {
+    "entry": "按键与点击先读当前item_bar槽原item_id；空槽无命令。界面选择不预留结算/不锁堆/不扣资源/不起冷却；仅完成原owner要求的全部参数与确认后提交原业务命令。不新增通用consume快捷入口，不按permissions.use或direct_use=true绕过原动作。",
+    "parameterized_items": [
+      {
+        "item_id": "earth_spirit_talisman",
+        "definition_ref": {
+          "file": "土灵符存点与移动.v1.json",
+          "pointer": "/item"
+        },
+        "dispatch": "saved_point_panel",
+        "rule": "打开原土灵符面板，玩家明确选择存点或移动；存点沿record，移动须明确原saved point身份并沿travel，不自动取首点/最近点或当前位置作为移动目标。"
+      },
+      {
+        "item_id": "regular_tianchi_pill",
+        "definition_ref": {
+          "file": "普通武器附加提升.v1.json",
+          "pointer": "/items/0"
+        },
+        "dispatch": "equipment_selection",
+        "rule": "打开原普通主武器提升选择，明确真实目标实例，按原use资格/血统/层数/计时与transaction提交，不自动用当前装备。"
+      },
+      {
+        "item_id": "armor_tianchi_pill",
+        "definition_ref": {
+          "file": "普通防具附加提升.v1.json",
+          "pointer": "/items/0"
+        },
+        "dispatch": "equipment_selection",
+        "rule": "打开原普通防具提升选择，明确真实目标实例，按原use资格/血统/层数/计时与transaction提交，不按装备槽猜目标。"
+      },
+      {
+        "item_id": "hero_tianchi_pill",
+        "definition_ref": {
+          "file": "英雄武器附加提升.v1.json",
+          "pointer": "/items/0"
+        },
+        "dispatch": "equipment_selection",
+        "rule": "打开原英雄主武器提升选择，明确真实目标实例，按原use资格/血统/层数/计时与transaction提交，不借普通武器入口。"
+      },
+      {
+        "item_id": "adv10_gu_memoir",
+        "definition_ref": {
+          "file": "第十次升职五式与回忆录试练.v1.json",
+          "pointer": "/items/1"
+        },
+        "dispatch": "quest_entry",
+        "rule": "提交原回忆录入场操作，先核本主stage3/花亭/孤傲杰2.5米及原入场条件；原册不消费，不生成通用消耗流。"
+      }
+    ],
+    "cancellation": "选择器/确认窗取消或槽已被重绑时结束本次界面操作，无原业务提交。选择界面冻结原item_id，提交前核槽仍同身份，再按原revision/精确stack_id构造业务请求；不把后来槽中另一物品替换进旧窗口。已提交原业务沿原owner恢复/取消边界，关闭窗口不抹已提交决定。",
+    "stacks": "界面可以显示真实可用堆及数量，最终提交时重新选定原定义允许的真实背包堆并冻结精确ID/版本，交原owner校验来源/数量；仓库不可远程使用。选择期间物品被移动/消费后请求失败，不自动换物/重发。",
+    "ordinary_use": "单一动作且不需额外选择的物品仍走其原背包使用命令/确认和原冷却。恢复药只沿原恢复流程，回城符只沿原读条流程，宝盒按原开启确认/随机结算，不把所有物品统一即刻consume1。",
+    "coverage": "本节只明确多参数分派边界与五项具名适配；全部可绑定物品目录及每类正式使用事件闭包仍待，不以扫描到use=true视为完整目录。"
+  }
+}

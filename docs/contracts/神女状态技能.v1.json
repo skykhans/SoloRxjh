@@ -16,7 +16,7 @@
     "cost_multiplier_for_each_stage": "new_stage_number",
     "qigong_or_ascension_point_cost": 0,
     "book_requirement": "explicitly_none_project_design",
-    "learning_provider": "泫勃派门主的本职业武学服务；实际场景映射仍待完成"
+    "learning_provider": "泫勃派门主npc_hyunbo_master/dongling_status_training本职业武学服务，世界图谱已登记，运行尚未实现"
   },
   "mana_policy": "local integer cost = ceil(published neigong-column number / 10); this is a project cost choice, not a claim that source heading proves original HP/mana consumption",
   "common_cast": {
@@ -179,7 +179,7 @@
       "stationary_distance_threshold_mm": 100,
       "movement_measure": "actual traversed distance in last interval; not net displacement",
       "teleport_counts_as_walk": false,
-      "stacking": "strongest 3/5 percent in one family tick",
+      "stacking": "one shared family phase; choose greatest capped base tick amount computed from current target maximum HP and original caster attack snapshot; do not choose percentage alone. Tie by root_event_id/source_actor_id/source_skill_id.",
       "rounding": "ceil",
       "normal_status_damage_protection_applies": true,
       "duration_per_extra_stage_steps": 60,
@@ -526,5 +526,144 @@
   "frame_policy": "eligible lethal damage first resolves a configured interceptor, otherwise HP zero marks death immediately; complete due damage/ticks then snapshot death facts; blood-devil bound-kill success precedes timeout; final deaths/hooks/cleanup once; other due ticks precede natural expiry; expiring delayed-burst trackers snapshotted before explosions",
   "reapplication_policy": "same caster/skill/target replaces that source with current parameters and duration; no duration addition; copied payload uses only its remaining duration; request/root deduplication never creates another application from a replay",
   "status_passive_modifiers_owner_file": "异常状态防护与解除气功.v1.json",
-  "duration_policy": "negative timed family base duration -> named outgoing/incoming normal-status modifiers once; save effective total and remaining bounded by effective total. Spread carries remaining without modifying again. Positive heal/immunity and instant effects use their own fixed timing."
+  "duration_policy": "negative timed family base duration -> named outgoing/incoming normal-status modifiers once; save effective total and remaining bounded by effective total. Spread carries remaining without modifying again. Positive heal/immunity and instant effects use their own fixed timing.",
+  "persistent_periodic_state": {
+    "field": "character.effects.dongling_periodic",
+    "world_entity_field": "完整世界/活动战斗实体同effects.dongling_periodic，目标隐含为持有实体；施加者不再存受害者镜像。",
+    "schema_ref": {
+      "file": "神女周期效果状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "healing": {
+        "sources": [],
+        "next_tick_remaining_steps": 0
+      },
+      "burn": {
+        "sources": [],
+        "next_tick_remaining_steps": 0,
+        "walked_distance_m": 0
+      }
+    },
+    "sources": "两族每来源原source_actor_id/source_skill_id/root_event_id/stage唯一归属，严格限制原两恢复或两烧伤ID。恢复另存原caster_rank/remaining_steps，烧伤另存application_event_id/reward_owner_id/snapshot_attack/timing；application_event_id定位本目标本次直接/传播落效原结果，root保原施法不替代本次传播证明。同目标/施加者/技能至多一条，新根替换来源而不相加余时，原已提交事件重放不刷新；按施加者/技能稳定排序。原根须证明实际学习/接受阶段/费用/目标及落效结果，传染沿原根保来源参数但须可追溯当前接收者的原传播结果。",
+    "healing": "持续固定1080，首次180步后且每180步一跳。每跳按目标该跳合法最终最大生命计算ceil(max_hp*(100+20*(stage-1))/10000)+caster_rank*5，各来源取最大本次请求量、同值按root_event_id/source_actor_id/source_skill_id唯一选择；只补实际缺失。原施法者晋级在接受时冻结，目标max_hp不冻结。致残/恢复封锁/已满使实际0仍消耗周期，不补跳；已标死目标不可治疗。初次空族正常6跳，末1080步到点跳先于到期，加入/替换非空族保相位。",
+    "burn_timing": "base_steps=360+60*(stage-1)。沿异常状态防护与解除气功application_order一次冻结修正：effective_total_steps=max(1,floor(base_steps*(10000+outgoing_gain_bp)*(10000-incoming_reduction_bp)/100000000))，基值/修正/总时长/余时均保存；正常最大1260，但schema通用negative_duration定义不代替原烧伤公式与来源校验。余时不得大于总时长，原修正必须匹配当时具名有效气功及规则集合。传染只保原修正/总时长/剩余，不重算或续满。",
+    "burn_movement": "族从空变非空设周期60/路程0。每实际世界步累计该受害实体真实扫掠/导航通过的脚位路径米数（分段长度之和），不以起终点直线替代；传送/切图不算步行。非有限值/负数/浮点溢出拒绝捕获，不截断为0；距离须追溯该族原周期内实际移动。保存原数值，读档/暂停不清；非空族新增/替换/传播接收与强弱接替不清或重开周期路程。",
+    "burn_selection": "每60步先判本区间walked_distance_m<0.1；正好0.1或更多不造成烧伤但照样消耗周期。合格时各来源按原技能300/500bp计算ceil(目标本跳合法最大生命*比例/10000)，再与原snapshot_attack*5取min；选择封顶后最大基础量，同值按root_event_id/source_actor_id/source_skill_id稳定选唯一伤害/奖励来源，再只走一次原状态伤害保护。不先按5%压掉有较高攻击上限的3%来源，不把各来源加总或重新加装备/气功威力。此明确选择修正原仅按3/5比例描述的不足。",
+    "step_order": "新增来源当步不扣首步。每实际推进步先累计本步真实路程，再扣进入本步前来源余时与周期；到点先使用本步到点前尚有效来源执行一跳（包括同时到期者），再删到0来源。族仍非空则到点重设原180/60，烧伤到点后路程0；族空周期0、烧伤路程0。新落效在上述旧周期/到期处理后加入，不能偷本步已到点跳；下一周期前全部到期则无补尾跳。",
+    "source_lifecycle": "暂停/离线冻结两族余时/相位/路程，权威同边界保存；会话实体移除与跨世界原最终状态遵循原模拟实体/会话规则，不能按墙钟或收包数补跳。目标死亡清两族来源/相位/路程；源实体死亡或离场不默认删已付目标持续效果。神女合法解除/免疫安全清烧伤而不清友方恢复，传染允许烧伤/禁止恢复；烧伤传播到已有非空烧伤族保接收方原周期/路程，不复制源目标的移动路程。 同施加者同烧伤技能再次传播到已有标记仅取较晚自然到期的合法来源；相同到期保既有来源，不用重复传播重开时长，仍保接收方原周期/路程。",
+    "reward_and_damage": "烧伤reward_owner_id为原实际本人character_id，真实NPC无玩家奖励为null；须原事件证明，null不抹source_actor死亡归属。周期不再抽命中/暴击或触发攻击/反气功/充能，目标实际敌方HP损失可给基础受伤怒气；单次死亡收益只沿唯一选中来源和原死亡收据。恢复不造成攻击或虚构奖励，跨图/死亡队员不纳入新的群体施加。",
+    "initialization": "14新角色及四已知旧来源sword新导入角色明确两族空表/周期0、烧伤路程0；不改已有其他角色，现行缺键拒绝。此初始化只负责本组件，不把effects其余缺字段补默认。",
+    "boundary": "恢复与烧伤周期组件已采用；阎王爆沿persistent_delayed_burst_state，控制/转移链接等仍待；原完整施加/传播/周期/移动/死亡结果、完整effects/角色/世界根及Godot仍待，D1未通过。"
+  },
+  "persistent_delayed_burst_state": {
+    "field": "character.effects.dongling_delayed_burst",
+    "world_entity_field": "原完整世界/活动实体effects同字段，目标隐含为持有实体，不在施加者再存一份受害者标记。",
+    "schema_ref": {
+      "file": "阎王爆效果状态.schema.json",
+      "pointer": ""
+    },
+    "source_skill_id": "status_dongling_7366d14a907b",
+    "initial": [],
+    "shape": "数组每来源精确source_actor_id/reward_owner_id/root_event_id/application_event_id/stage/snapshot_attack/timing/tracked_hp_loss八键，技能由本族唯一原ID确定不重复存常量。每目标/施加者至多一条，按施加者ID排序；不同施加者独立标记/累计/到期，不作最强取代。新根重施替换原来源/余时且累计0，不加时长或继承原累计；原落效事件重放不刷新或清累计。",
+    "provenance": "root_event_id为原阎王爆施法根，证明原学习/已接受阶段/费用/冷却与snapshot_attack；application_event_id为本目标本次实际落效的原权威结果身份，直接落效或传播都必须有明确接收者。传播保原施加者/root/阶段/攻击/时长修正/当前剩余，但application改为原本次传播落效结果且累计从0；不能只凭原源目标标记证明新目标来源。再次传播同原源到已有同施加者标记，只保较晚自然到期的合法来源；到期相同保既有来源，不刷新/清累计，避免利用重复传播重置受害者已累积损失。该传播合并选择是明确项目规则。",
+    "timing": "沿通用negative_duration五键：正常base_steps=600，outgoing_gain_bp/incoming_reduction_bp由原具名有效气功冻结一次，effective_total_steps=max(1,floor(600*(10000+outgoing_gain_bp)*(10000-incoming_reduction_bp)/100000000))，正常360～840。必须核余时<=原有效总时长及本目标原落效/扣时链；复制不重做修时或补满，配置例外须原明确参数授权，不用schema大整数上限冒充授权。新增当步不扣首步，实际世界步/暂停/离线与原会话边界统一。",
+    "tracking": "只计本目标标记实际存在期间的敌方真实HP损失，排除护盾承担/自付生命/过量/无HP变化；同原伤害事件每来源至多加一次，记录必须追溯原伤害/角色结果有序链，不从当前缺失生命反推累计。新来源不追算落效前伤害，治疗不减累计。每来源只加真实损失，不乘阶段或当前伤痕；安全精确整数累加/比例和攻击×20必须预先核溢出，溢出拒绝原整笔权威结算且不留下半步/部分目标伤害，不wrap或截断累计。",
+    "expiry_phase": "本步普通攻击及到点周期伤害先结算/记录累计和真实死亡/安全移除。随后扣本步前已有标记余时，对仍存活标记者的所有自然到期源一次冻结tracked_hp_loss/stage/snapshot_attack/原根/奖励归属及标记者脚位中心，统一移出活跃数组，再按标记者actor_id/source_actor_id/root_event_id稳定处理本批。新增标记当步不进到期批。到期0只步内临时，写盘前所有原到期源必须已移出且原爆发结果/死亡同边界持久，不存expired/pending_burst补做日志。",
+    "simultaneous": "本批到期源已按自然到期移除，前一个爆发不得再写入任何本批累计。对尚未到期且目标仍活的其他标记，爆发造成的真实HP损失照常计入，目标被杀则安全清该活跃标记不再爆。已进入本批并冻结的自然到期爆发不因其标记者随后被本批其他爆发杀死而取消；以冻结中心继续该唯一原结果，不把它误判为活跃标记死亡引爆。捕获前已死亡者从未进入本批。",
+    "burst_damage": "原基础=floor(tracked_hp_loss*(5000+500*(stage-1))/10000)，上限为原snapshot_attack*20，取min；真实0累计/0攻击保持0，不发虚构至少1伤害。以冻结中心5米，排除原标记者，对原施加者合法敌人按当次距离和稳定actor_id选最多5名，前序爆发已死者不再纳入；不要求施加者仍有活节点，关系/原归属仍须原权威实体身份可解析。每目标依原23状态保护及精确20delayed_burst_natural_expiry标签防护/回避一次，原爆发结果保存实际目标/随机/伤害/死亡，不在加载重查候选重抽。无合法接收者也终结本次自然到期，不保标记等以后再炸。",
+    "safe_removal": "神女解除/免疫、标记者真实死亡、原普通场景清理只安全删除，不建自然到期爆发。源施加者死亡/离场不默认删除尚合法受害者标记，已提交独立世界效果沿原历史身份归属；保存/暂停/读档不是到期或移除。普通可重建敌人按05原场景清理边界，完整活动则必须保原标记者/来源与累计，不拿重新刷出的怪替换。",
+    "reward_and_callbacks": "reward_owner_id为原实际玩家归属，真实NPC无玩家为null；原root与application共同授权，客户端不可自选。爆发不制造攻击/反气功/充能/新出血回调，不递归即时爆炸；真实敌方HP损失可沿原基础受伤怒气与其他未到期标记记录。死亡归属/奖励沿实际唯一伤害原收据，不按来源数量重复发奖。",
+    "initialization": "14新角色及四已知旧来源sword新导入角色显式[]；不造旧现场或改已有其他角色，现行缺字段拒绝。",
+    "boundary": "阎王爆活跃来源结构与批次裁决规则采用；完整施加/传播/伤害/自然到期结果与原授权、其余神女控制/链接及完整effects/角色/世界根和Godot仍待，D1未通过。"
+  },
+  "persistent_attribute_state": {
+    "field": "character.effects.dongling_attributes",
+    "world_entity_field": "原完整世界/活动战斗实体effects同字段；目标隐含为本实体，不在施加者另存目标效果镜像。",
+    "schema_ref": {
+      "file": "神女属性效果状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "weakening": [],
+      "revenge": [],
+      "proc_seal": [],
+      "immunity": []
+    },
+    "sources": "四表仅接受各原技能ID，每来源source_actor_id/source_skill_id/root_event_id/application_event_id/stage与本族必需快照；root证明原施法接受/参数，application证明本目标本次直接或传播落效。同目标/施加者/技能最多一条，各表按施加者/技能稳定排序。不同施加者独立计时，只有生效值按原族选强；不保存is_active/最终攻防/转移增量/封印后概率或最大HP副本。",
+    "duration": "负面弱化/复仇/封印复用negative_duration五键，实际base与当时具名修正/有效总时长/余时须原事件证明；公式只冻结一次，remaining<=total。弱化base=600+60*(stage-1)，复仇两阶段base均1800+120*(stage-1)，封印base=600；正免疫不套负面修时，免疫1固定360+60*(stage-1)，免疫2固定180。明确配置例外须原参数授权，不以结构上界猜授权。新增当步不扣首步，0到期移除且不保存；暂停/离线冻结，原会话模拟实体/最终状态边界统一。",
+    "weakening": "保存原caster_level，比例=500+10*floor(caster_level/10)+100*(stage-1)基点，不能加载时按现等级重算。接收者攻防锚按原stat_weakening.anchor_order用当前合法构筑重算（先排除全部怒气/弱化与转移，再怒气，再最强弱化），不保存旧减少量。按比例最大、同值root_event_id/source_actor_id/source_skill_id稳定选一条，实际攻防减少分别floor(anchor*比例/10000)。弱化1不转移，弱化2仅本次胜出链接可把实际减少各floor(减少/2)给施加者，转移不回流任何怒气/弱化锚，未胜出不发借用值。",
+    "transfer_link": "完整权威世界所有实体的weakening表中，同施加者弱化2至多一条；唯一链接就是受害实体上的原弱化2来源，运行索引从该唯一记录派生，不持久第二份caster.target或加成缓存。新弱化2实际成功落效与移除旧链接同结果；只接受施法/付费但被中断、免疫或落效失败不得提前删旧链接。任一方死亡/实际解除/自然到期或新成功链接替换均唯一移除并重算两方；源离场不等于源死亡，世界/会话变更须先取得原最终链接结果，不能因节点缺失本地补属性。传染白名单只收弱化1，绝不克隆转移链接。",
+    "revenge_armed": "phase=armed时trigger_death_event_id=null。原标记者成为本source_actor唯一真实死亡归属者才可激活；先固定原死亡事实，对该死者全部尚有效armed来源一次裁决：仍存活的实际击杀标记者转reduction，其他目标条件安全移除，不跨复活保留旧条件等待第二次死亡。本人因费用/环境/脚本而死或仅离线无相应敌方击杀者不触发，标记者本人同时已死不施加新减益。",
+    "revenge_reduction": "phase=reduction时trigger_death_event_id必须解析同原施加者的真实死亡与本标记者击杀归属；root/application仍保原条件来源，激活事实沿该唯一死亡结果。以原阶段及原冻结出/入向修正为本次减最大HP阶段设完整有效总时长，不沿用已消耗armed余时，也不再采样死者当前装备/气功。减幅按技能固定1500/3000bp各来源取最大，按排除本族的当前正上限减floor(上限*比例/10000)且保至少1；上限下降只clamp当前HP，结束不回血。来源施加者死亡已是激活原因，不因其节点死/移除就清已合法reduction。正常新根重施同技能仍替换为新armed来源，不能同时留该施加者该技能两阶段。",
+    "revenge_spread": "传染仅复制armed复仇条件，禁止复制已生效reduction及其死亡凭证到未实际击杀者；复制保原source/root/stage/原时长修正/剩余，application为本次原传播结果。再次传播同来源只保较晚到期者，相同到期保既有，不以传播清计时；本技能reduction也不被同根传播覆盖为新armed以擦除已生效惩罚。新的直接施法按正常新根替换。",
+    "proc_seal": "按有效来源最大1000+100*(stage-1)bp减目标普通/升天气功实际触发概率，最低0；反气功独立概率不动。原落效必须证明该目标实际有合资格可触发气功，不给普通野兽虚构气功；之后暂失资格不自动重计时/补效果。传染保来源/时长，不重新修时，重复同源取较晚到期，相同保既有；不保存封印后概率。",
+    "immunity": "多个合法正免疫来源独立计时，任一正余时即阻止具名神女负面并在原落效同结果安全清已有神女负面/转移链接，阎王爆不爆；也沿29原白名单安全清尸毒。不清友方恢复，不挡普通神女攻击，不泛化挡甄/刺客出血或所有负面。完整effects联验须禁止免疫与本族弱化/armed或reduction复仇/封印、神女烧伤/阎王爆/错乱混乱等被免疫族同时残留；本组件只含四表，其他原字段仍要联合校验。",
+    "death_and_replay": "目标死亡清四表并完成链接双方/相关最大HP和概率重算，真实死亡钩子与原生命凭证同结果；先固定归属再裁决复仇，复仇激活不能救回标死者。源死亡只按链接/armed复仇特殊钩子处理，其他已付目标独立效果沿原规则，不凭活节点丢来源。原application/死亡结果重放不二次移链接、激活复仇或恢复资源。安全移除/配置解除不构造自然到期奖励、击杀或新死亡。",
+    "initialization": "14新角色及四已知旧来源sword新导入角色明确四表[]，不造旧现场；已有其他角色保持，现行缺字段拒绝。",
+    "boundary": "弱化/转移、复仇、封印及免疫结构和明确来源/相互作用采用；错乱/混乱、完整神女及其他效果联验、完整原施加/死亡/配置/多接收者结果与Godot仍待，D1未通过。"
+  },
+  "persistent_control_state": {
+    "field": "character.effects.dongling_control",
+    "world_entity_field": "原完整世界/活动实体effects同字段，受控者即持有实体，不复制到施加者。",
+    "schema_ref": {
+      "file": "神女控制效果状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "forced_action_once": [],
+      "random_walk": {
+        "sources": [],
+        "next_direction_remaining_steps": 0,
+        "intent_event_id": null
+      }
+    },
+    "source_skills": {
+      "forced_action_once": "status_dongling_62d08e3b8efd",
+      "random_walk": "status_dongling_ff839e93c6e6"
+    },
+    "sources": "两族每来源source_actor_id/root_event_id/application_event_id/stage/timing五键；技能由族唯一原ID确定，不另存常量。root证明原施法，application证明本目标直接或合法传播落效。每族同施加者至多一条，按施加者稳定排序；新直接施法根替换原来源，不加时间，原落效重放不刷新。多个来源独立到期，同一决策/移动入口不能每源各发一动作。",
+    "duration": "错乱base_steps=300，混乱base_steps=180+12*(stage-1)；负面时长按原具名修正冻结一次并复用negative_duration五键，须核剩余<=有效总时长与原来源。30步重选间隔/2米移动意图不被负面时长气功延长。传播只允许混乱，保原阶段/时长修正/剩余和root，application指新接收者结果；重复同源仅取较晚到期，相同保既有相位和意图，不续满。错乱是一次决策，禁止传染。",
+    "forced_pool": "原施放前仅忽略受控者当前忙碌锁预查是否存在最终合法选项；已有已付动作照常完成。实际空闲决策时重新按原职业/武器/学习/资格/资源/冷却与真实目标策略预检每项：各合法战斗主动能力ID一票，另有一个合法普攻选项，技能按稳定ID排序且普攻排最后。技能多阶段不多给票，不因快捷栏四槽限制；学习/交互/任务/配置命令不入池。没有合法候选不抽/不支付/不消耗来源，保原等待至到期；不能免费施法或替换非法目标。",
+    "forced_accept": "同次空闲只处理root_event_id/source_actor_id/application_event_id最小的一条待决来源。候选数N=1确定选定且不消费块，N>1均匀抽0..N-1一次；选中能力的具体目标/正常费用/冷却及已接受动作按原冻结预检同笔提交，原选择结果与RNG保在这个真实原动作结果。成功接受同笔只消费本来源，其余来源等待以后空闲；动作未完成不再选择。提交资格/修订冲突则整笔不提交、不推进候选流/删除来源，不换选项重抽。后续已付动作中断仍沿正常规则不退费，不能复活已消费错乱。",
+    "random_walk": "空族首次落效设置next_direction_remaining_steps=1/intent_event_id=null，不当场抢已接受动作或凭控制来源重复抽方向；下一实际世界步首次合法移动决策选择8方向之一，再将下一重选设30。方向索引按世界XZ固定0北(0,-1)、1东北、2东、3东南、4南、5西南、6西、7西北，对角归一，生成正常2米移动意图；实际速度/导航/碰撞照原规则，不承诺0.5秒走满2米。意图结果保原起脚位/方向/目标脚位/实际原移动快照，控制组件仅引用该intent_event_id。路径走完/被挡可停留，重选前不补距离或为绕墙换方向。",
+    "walk_arbitration": "混乱多来源合用一个30步周期；每次重选按root_event_id/source_actor_id/application_event_id最小的有效来源授权一次受控者原移动决策，不把8方向选择叠加。非空族新加入/刷新/来源接替保原周期和已提交意图；余时到点前仍不得重复选择。空族清共享相位/引用并停止本控制意图未来移动，不取消其他已付战斗动作或清实际闪避冷却。实际硬控制/死亡/当前不可移动则不抽、不发非法意图，原30步余时到点后每30实际步重查一次；从未提交过首意图且仍为null时保持下一步重查1，不写0等待字段。",
+    "random_ownership": "错乱技能选择和混乱移动选择均是受控者自己的新原已接受动作/移动决策根，负面来源只是强制该决策的授权前因，须记录所用application_event_id。角色用该受控者character.random_state，NPC/怪物/伙伴自主行为用所属world.random_state；不是原施加者施法的命中或参数后代，不借Host当前选角或重新分配已有动作流。原技能接纳后命中等后代继续它实际原拥有者流。选择purpose固定为dongling_forced_action.choice或dongling_random_walk.direction，并由原决策根/受控actor/来源application定位；同一原决策每用途至多一次，只有已接受决策才消费，原random_flow与业务同结果保存。",
+    "save_and_expiry": "intent_event_id须定位本受控者原已提交合法移动意图及其方向/目标/来源与random_flow，不能读档重新选择方向、重走已消费路程或重设30。错乱的已选择技能只在原动作中保存，活跃待决表不得残留已成功接受的本来源。每实际步先执行本步仍有效控制决策/正常动作，再到期删除原来源；最后一步可完成已合格决策，0仅步内临时，捕获前须消费或删掉。新增来源当步不扣首步；暂停/离线冻结，原会话最终实体状态保持。",
+    "cleanup": "目标死亡、神女合法解除/免疫及普通场景安全清理移除本控制来源；混乱最后源消失停止该控制意图，重放清理不新抽。源施加者死亡/离场不默认删目标已付控制。意图未决/保存存疑只恢复原已提交或未提交事实，不用新方向兜底；完整原动作/移动/结果缺失拒绝恢复。",
+    "initialization": "14新角色及四已知旧来源sword新导入角色显式本组件空值，已有其他角色保持，现行缺键拒绝。",
+    "boundary": "控制活跃结构及明确决策/移动归属采用；完整原动作/移动schema、候选与目标选择器、导航/碰撞、原授权结果与Godot仍待，D1未通过。"
+  },
+  "persistent_effect_validation": {
+    "validation_projection_ref": {
+      "file": "神女效果联合.schema.json",
+      "pointer": ""
+    },
+    "fields": [
+      "character.life_state",
+      "character.effects.dongling_attributes",
+      "character.effects.dongling_periodic",
+      "character.effects.dongling_delayed_burst",
+      "character.effects.dongling_control"
+    ],
+    "policy": "仅原五字段联合投影，无新增持久包装；完整角色/effects必须先验全部已登记字段白名单，再取原字段验证。死亡四组件必须清空；正神女免疫不得残留被清除的负面族，恢复可保留。来源/时长/链接/死亡/实际动作和尸毒等外部族仍原owner语义联验，不因局部通过称完整effects已闭合。",
+    "persistent_family_fields": {
+      "stat_weakening": "dongling_attributes.weakening",
+      "revenge_max_hp": "dongling_attributes.revenge",
+      "proc_seal": "dongling_attributes.proc_seal",
+      "dongling_status_immunity": "dongling_attributes.immunity",
+      "periodic_heal": "dongling_periodic.healing",
+      "stationary_burn": "dongling_periodic.burn",
+      "delayed_burst": "dongling_delayed_burst",
+      "forced_action_once": "dongling_control.forced_action_once",
+      "random_walk": "dongling_control.random_walk"
+    },
+    "instant_families": [
+      "dispel_all_dongling",
+      "dispel_selected_family_party",
+      "percent_hp_burst",
+      "spread"
+    ],
+    "instant_policy": "四即时族仅原动作/结果持有当次目标/效果/消费，不创建持续效果假记录；共覆盖18原技能中的14持续技能与4即时技能，不代表这18招已实现或正式事件结果已齐全。"
+  }
 }

@@ -1,0 +1,126 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_local_seventh_advancement_design_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "record_url": "http://rxjh.17game.com/data/tasks/201907/63795.htm",
+    "source_html_sha256": "66e28b2c2bd0d57888dd3656b449dfe8ddfa8d0ef4977cbf0bc9eb77af03b0d8",
+    "text_sha256": "3a3645f295b472cdd691b7e603608c502efad096053dd7e01233219ba3657de9",
+    "text_reviewed_on": "2026-11-14",
+    "published_facts": "120级/升天一式、南林月宫姮娥接取，完成交10亿银两、500万历练和50天机石，升天二式全身环绕效果；新增武功/气功需书学习。",
+    "source_typo_policy": "前提栏天概石、完成栏天机石保留原文；本地采用已经定义的heavenly_stone实物。"
+  },
+  "source_policy": "保留公开等级/资源数量/NPC及二式资格；14职业、adv06已交付、两阶段交互/只扣携带库存/明确无额外资源物品奖励、保存去重与放弃为本地设计，不把官网未列额外奖误称官方0。",
+  "quest": {
+    "quest_id": "adv_07",
+    "minimum_level": 120,
+    "required_completed_rank": 6,
+    "requires_delivered": "adv_06",
+    "class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "accept_and_turnin_npc_id": "npc_yuegong_henge",
+    "map_id": "nanlin_forest",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "branch_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "final_receipt_or_null"
+    ],
+    "stages": [
+      {
+        "stage_index": 1,
+        "action": "月宫接取升天二式",
+        "consume": [],
+        "silver_fee": 0,
+        "practice_fee": 0,
+        "grant": [],
+        "next_stage_index": 2
+      },
+      {
+        "stage_index": 2,
+        "action": "交付费用并升天二式",
+        "consume": [
+          {
+            "item_id": "heavenly_stone",
+            "quantity": 50,
+            "owner_file": "历练与洗点.v1.json"
+          }
+        ],
+        "silver_fee": 1000000000,
+        "practice_fee": 5000000,
+        "grant": [],
+        "next_state": "delivered"
+      }
+    ],
+    "acceptance": "精确NPC/南林/<=2.5米，存活脱战空闲、无挑战/传送或未结束战斗派生；固定本人class/正邪、120级/rank恰6/adv06已交付，新attempt与stage1收据同事务进stage2，不预扣钱/历练/石。",
+    "ready_policy": "从当前stage2、真实携带钱/石/普通历练和所有前置派生，UI预览不预留/复制石，不单存交石数量。",
+    "repeat": "角色跨世界一次，最终不可重复；确认放弃可新attempt从头，不继承旧请求。"
+  },
+  "input_policy": {
+    "heavenly_stone": "只收本人背包真实heavenly_stone50，可精确跨堆取，不能用仓库石/升天点/升天历练进度/待领取石替代；先显式取仓/领取/合法重置获得实物。",
+    "currency": "仅扣携带银两1000000000与普通历练5000000，不扣武勋或升天进度，不自动仓库提钱。",
+    "item_permissions": "石定义/9999堆/1克及权限唯一沿历练与洗点owner；本任务不创建其他凭证或证明。",
+    "preflight": "缺任一输入/错堆归属/已预留/无原阶段/过期角色修订/存档失败均拒绝整笔，不先扣一部分或降级补资格。"
+  },
+  "final_reward": {
+    "required_rank_before": 6,
+    "completed_rank": 7,
+    "ascension_tier_after": 2,
+    "experience": 0,
+    "practice_granted": 0,
+    "silver_granted": 0,
+    "martial_merit_fee": 0,
+    "items": [],
+    "manual_policy": "不免费发/自动学习武功气功书；使用既有21/28本人二式书定义、等级/派别/费用检查。官网没有列额外奖励，本地明确选择无额外物品/资源。",
+    "stat_owner_file": "职业基础成长.v1.json",
+    "stat_policy": "按既有rank7核心增长/资格和已学技能生效规则重算，不再加另一份属性包；当前生命/内力/体力/特殊资源与冷却保持，不回满，不补普通/升天气功点或英雄武器。",
+    "appearance": "开放现有二式全身环绕效果，不新增头部发型奖励；渲染尚未实现。",
+    "commit": "最终stage2重新查120级/rank6/adv06delivered/本人attempt和派别/精确NPC/全部输入；消费50石、银/历练、rank6→7、stage完成/唯一交付收据/属性资格重算同05/19持久事务。失败保持全部旧值；重复请求只返回原结果。"
+  },
+  "abandon": "明确确认使活动状态not_accepted/attempt/branch/stage为null，保留原attempt取消及阶段历史收据，不删石/钱/历练，因为此前未预扣；delivered不可放弃。旧请求不作用重接新轮。",
+  "save": "保存attempt/固定branch/stage/state/收据及唯一真实库存和余额；接取后未交仍rank6，最终交付后rank7/石钱消费和收据必须一致。新格式缺字段/矛盾拒绝，不按120级补完成或补石。",
+  "initialization": "新角色与四已知旧档显式not_accepted/nullattempt/branch/stage/emptyreceipts，无免费石、钱或秘籍；不改变已有目标角色/世界。",
+  "travel": "复用南林船夫/公共布局/月宫实体，入南林不要求已二式；不复制NPC/另造传送边，不把在场当任务完成。",
+  "pending": [
+    "Godot14职业两派任务/真实背包扣石/付款/保存/LAN/外观验证",
+    "经济平衡与正式UI",
+    "八至十二转及其余D1缺项"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "class_route_combinations": 28,
+    "gate_checks": "119/120，rank6唯一，adv06交付；银999999999/1000000000、历练4999999/5000000、背包石49/50/51边界",
+    "conservation": "50石可由40+10跨堆精确消耗，51剩1；足额钱/历练后为0，rank6→7。重复最终收据不再扣；仅仓库50或点数/待领取50不满足实际bag输入。接取/放弃不预扣。",
+    "item_owner": "既有heavenly_stone9999堆/1克和来源正文哈希、单一月宫stage1/2服务匹配通过；不增加物品/地图/NPC。",
+    "geometry": "复用六转已核南林月宫服务/返回锚，无几何或交通变更。",
+    "runtime_status": "静态数据/边界/守恒核验，未执行Godot付款/背包/保存/LAN/外观用例。"
+  }
+}

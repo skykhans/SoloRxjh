@@ -1,0 +1,379 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:qigong-manual-event:v1",
+  "$comment": "读一本气功秘籍的唯一原owner三阶段日志。真实资格/输入来源/修订算术/请求身份与状态迁移另验，非完整档案或网络结果封套。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "learned_record",
+        "stack_flows"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "learned_record": {
+          "$ref": "urn:solorxjh:qigong-manual-records:v1#/items",
+          "properties": {
+            "consumption_ref": {
+              "properties": {
+                "flow_index": {
+                  "const": 0
+                },
+                "consumption_index": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        },
+        "stack_flows": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "$ref": "urn:solorxjh:stack-flow:v1",
+            "properties": {
+              "inputs": {
+                "minItems": 1,
+                "maxItems": 1
+              },
+              "outputs": {
+                "maxItems": 1
+              },
+              "consumptions": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "input_index": {
+                      "const": 0
+                    },
+                    "quantity": {
+                      "const": 1
+                    },
+                    "reason": {
+                      "const": "use"
+                    }
+                  }
+                }
+              },
+              "mint_authorization": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "state_changed",
+            "rules_changed",
+            "session_invalid",
+            "explicit_cancel"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "manual_id",
+        "stack_id"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "manual_id": {
+          "enum": [
+            "manual_qigong_blade_722781632d51",
+            "manual_qigong_blade_9d9c1f4a2388",
+            "manual_qigong_blade_6f7fd25c3753",
+            "manual_qigong_blade_e20d6fefe7bb",
+            "manual_qigong_blade_e6b3ad595de9",
+            "manual_qigong_blade_f7e00df50117",
+            "manual_qigong_blade_6ebfff1f6bc1",
+            "manual_qigong_blade_8281ed099137",
+            "manual_qigong_blade_dedae4d4bd0c",
+            "manual_qigong_blade_5870010d6245",
+            "manual_qigong_sword_ad348a425909",
+            "manual_qigong_sword_71616415cd41",
+            "manual_qigong_sword_e448690e8e0b",
+            "manual_qigong_sword_e20d6fefe7bb",
+            "manual_qigong_sword_e6b3ad595de9",
+            "manual_qigong_sword_f7e00df50117",
+            "manual_qigong_sword_4291cfbf9f01",
+            "manual_qigong_sword_8281ed099137",
+            "manual_qigong_sword_dedae4d4bd0c",
+            "manual_qigong_sword_92428499c8c4",
+            "manual_qigong_assassin_59df04f4e6da",
+            "manual_qigong_assassin_7d31c5bd5607",
+            "manual_qigong_assassin_6fbf0fec5c18",
+            "manual_qigong_assassin_e20d6fefe7bb",
+            "manual_qigong_assassin_38fc56f07575",
+            "manual_qigong_assassin_f7e00df50117",
+            "manual_qigong_assassin_aa15ccfcccb7",
+            "manual_qigong_assassin_8281ed099137",
+            "manual_qigong_assassin_dedae4d4bd0c",
+            "manual_qigong_assassin_6ef703b316e0",
+            "manual_qigong_spear_4f926e5e151c",
+            "manual_qigong_spear_40098ce68f2d",
+            "manual_qigong_spear_f7a9ed039560",
+            "manual_qigong_spear_ebc4db8590f4",
+            "manual_qigong_spear_e6b3ad595de9",
+            "manual_qigong_spear_f7e00df50117",
+            "manual_qigong_spear_0fd0be5106f8",
+            "manual_qigong_spear_8281ed099137",
+            "manual_qigong_spear_dedae4d4bd0c",
+            "manual_qigong_spear_5536e8e9c771",
+            "manual_qigong_archer_b6298438a062",
+            "manual_qigong_archer_61244271642b",
+            "manual_qigong_archer_6135db39d24f",
+            "manual_qigong_archer_e20d6fefe7bb",
+            "manual_qigong_archer_38fc56f07575",
+            "manual_qigong_archer_f7e00df50117",
+            "manual_qigong_archer_4a5af9a02816",
+            "manual_qigong_archer_8281ed099137",
+            "manual_qigong_archer_dedae4d4bd0c",
+            "manual_qigong_archer_9ae5c572cb4c",
+            "manual_qigong_physician_7cfd20ea2442",
+            "manual_qigong_physician_b163b72e6c51",
+            "manual_qigong_physician_6abb46da8a4b",
+            "manual_qigong_physician_e20d6fefe7bb",
+            "manual_qigong_physician_f6ccc8157234",
+            "manual_qigong_physician_f7e00df50117",
+            "manual_qigong_physician_4c3dba55c7dc",
+            "manual_qigong_physician_8281ed099137",
+            "manual_qigong_physician_dedae4d4bd0c",
+            "manual_qigong_physician_8159c31d10bb",
+            "manual_qigong_musician_7cbe186f2df0",
+            "manual_qigong_musician_410242d2d08a",
+            "manual_qigong_musician_0e7b55f01daa",
+            "manual_qigong_musician_e20d6fefe7bb",
+            "manual_qigong_musician_b2dfa92d60a7",
+            "manual_qigong_musician_f7e00df50117",
+            "manual_qigong_musician_92e2a06cde35",
+            "manual_qigong_musician_8281ed099137",
+            "manual_qigong_musician_dedae4d4bd0c",
+            "manual_qigong_musician_d69d2de60dbb",
+            "manual_qigong_han_feiguan_9b9acbfddd29",
+            "manual_qigong_han_feiguan_2198d87d10ce",
+            "manual_qigong_han_feiguan_2e9107f47d37",
+            "manual_qigong_han_feiguan_418fa30bb1a7",
+            "manual_qigong_han_feiguan_76ec4b44f3c1",
+            "manual_qigong_han_feiguan_f7e00df50117",
+            "manual_qigong_han_feiguan_e4e4cfe990a7",
+            "manual_qigong_han_feiguan_8281ed099137",
+            "manual_qigong_han_feiguan_dedae4d4bd0c",
+            "manual_qigong_han_feiguan_e5305a25c37e",
+            "manual_qigong_tan_hualing_ad348a425909",
+            "manual_qigong_tan_hualing_bb72b2f08de1",
+            "manual_qigong_tan_hualing_71616415cd41",
+            "manual_qigong_tan_hualing_e448690e8e0b",
+            "manual_qigong_tan_hualing_45a2d7927f05",
+            "manual_qigong_tan_hualing_76ec4b44f3c1",
+            "manual_qigong_tan_hualing_f7e00df50117",
+            "manual_qigong_tan_hualing_1b6c4efd4c82",
+            "manual_qigong_tan_hualing_8281ed099137",
+            "manual_qigong_tan_hualing_dedae4d4bd0c",
+            "manual_qigong_tan_hualing_844c4be23bc4",
+            "manual_qigong_fighter_2ef312886fbc",
+            "manual_qigong_fighter_63dcf4c5b075",
+            "manual_qigong_fighter_e20d6fefe7bb",
+            "manual_qigong_fighter_e6b3ad595de9",
+            "manual_qigong_fighter_f7e00df50117",
+            "manual_qigong_fighter_6eca356e71d0",
+            "manual_qigong_fighter_8281ed099137",
+            "manual_qigong_fighter_dedae4d4bd0c",
+            "manual_qigong_fighter_c4efd75feb72",
+            "manual_qigong_mei_liuzhen_15fbf2a219d2",
+            "manual_qigong_mei_liuzhen_ae4edb962d59",
+            "manual_qigong_mei_liuzhen_af1f0ddf7246",
+            "manual_qigong_mei_liuzhen_38fc56f07575",
+            "manual_qigong_mei_liuzhen_e20d6fefe7bb",
+            "manual_qigong_mei_liuzhen_f7e00df50117",
+            "manual_qigong_mei_liuzhen_1f53c7d8c16c",
+            "manual_qigong_mei_liuzhen_8281ed099137",
+            "manual_qigong_mei_liuzhen_dedae4d4bd0c",
+            "manual_qigong_mei_liuzhen_1c22fe455164",
+            "manual_qigong_lu_fenglang_a5f621132db5",
+            "manual_qigong_lu_fenglang_09a2cb459044",
+            "manual_qigong_lu_fenglang_b81958f390e1",
+            "manual_qigong_lu_fenglang_e6b3ad595de9",
+            "manual_qigong_lu_fenglang_d2afa6d6820e",
+            "manual_qigong_lu_fenglang_f7e00df50117",
+            "manual_qigong_lu_fenglang_72d196059e6e",
+            "manual_qigong_lu_fenglang_8281ed099137",
+            "manual_qigong_lu_fenglang_dedae4d4bd0c",
+            "manual_qigong_lu_fenglang_00e4ecba5ecf",
+            "manual_qigong_dongling_shennv_9a3ee0228aa9",
+            "manual_qigong_dongling_shennv_56b05bf76c42",
+            "manual_qigong_dongling_shennv_79ddc14fa08e",
+            "manual_qigong_dongling_shennv_e20d6fefe7bb",
+            "manual_qigong_dongling_shennv_f6ccc8157234",
+            "manual_qigong_dongling_shennv_f7e00df50117",
+            "manual_qigong_dongling_shennv_73e602492364",
+            "manual_qigong_dongling_shennv_8281ed099137",
+            "manual_qigong_dongling_shennv_dedae4d4bd0c",
+            "manual_qigong_dongling_shennv_cb3c6a7fc0ac",
+            "manual_qigong_zhen_fengbai_59df04f4e6da",
+            "manual_qigong_zhen_fengbai_7023016ad58f",
+            "manual_qigong_zhen_fengbai_070e70fe77b7",
+            "manual_qigong_zhen_fengbai_e20d6fefe7bb",
+            "manual_qigong_zhen_fengbai_38fc56f07575",
+            "manual_qigong_zhen_fengbai_d33fc09ee12f",
+            "manual_qigong_zhen_fengbai_f7e00df50117",
+            "manual_qigong_zhen_fengbai_bf60f49786ce",
+            "manual_qigong_zhen_fengbai_8281ed099137",
+            "manual_qigong_zhen_fengbai_dedae4d4bd0c"
+          ]
+        },
+        "stack_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "stack_input"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "stack_input": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "receipt_id",
+            "output_index"
+          ],
+          "properties": {
+            "receipt_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "output_index": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          }
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:solorxjh:qigong-manual-event:v1"
+      }
+    }
+  }
+}

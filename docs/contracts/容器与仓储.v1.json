@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-15",
   "status": "project_design_not_implemented_not_complete_item_catalog",
   "scope": "三个容器容量/扩容与七个仓管的角色私人仓储服务；不是账号共享仓库或完整物品权限表。",
   "authority": {
@@ -269,5 +269,50 @@
       "Godot UI/navigation",
       "LAN concurrency"
     ]
+  },
+  "persistent_layout": {
+    "schema_file": "物品容器布局.schema.json",
+    "body_registries": [
+      "character.item_stacks",
+      "character.equipment_instances"
+    ],
+    "registry_key": "各注册表键等于正文stack_id/instance_id；同角色及跨角色真实现持身份不得重复。只保当前本角色实物，不含preview/他人历史输出或复购保管。",
+    "containers": "character.inventory/equipment_bag/warehouse各精确expansion_level与slots；slots仅存占用格，条目精确slot_index/kind/target_id，slot从0起且严格递增不重复，空格由未出现索引表示。容量只从本合同扩容式推导，不保存第二份capacity。",
+    "equipment": "character.loadouts精确primary/secondary两组各14槽；character.gems精确6位；空槽显式null，非空为唯一实例ID。active_loadout_id仅primary/secondary。完整槽表按装备组与宝珠.v1.json，不允许缩回11槽。",
+    "closure": "两正文注册表每条恰好被一个正式容器槽/装备组槽/宝珠位引用；每个位置引用必须解析到正确种类、正确本角色owner和实际定义，注册表孤立条目/悬空引用/重复槽号/同ID跨位置均拒绝，不自动整理或删除修复。实例owner与外层角色必须一致，不能借注册表搬移重写所有权。",
+    "instance_dispatch": "equipment_instances每条通过已采用装备实例完整schema唯一分派，item_stacks每条通过物品堆完整schema；注册表禁止空白键/非对象/不完整正文或未知装备定义，逐定义权限/任务scope仍须业务校验。owned_inventory_state严格联合九个原平铺字段，不新建inventory_state持久包装，不复制正文；完整角色根须另保全角色白名单，不能先删未知字段再抽取九键通过校验。",
+    "validation_order": [
+      "严格JSON/token/布局白名单与容量",
+      "两注册表键与正文身份及逐定义完整类型",
+      "所有正式位置引用解析/全局单一位置/注册表恰好闭合",
+      "容器类别与仓储权限、装备槽兼容及合法暂失资格来源",
+      "堆上限/任务持有与保护量/来源流和实例来源",
+      "全部随身位置重量与合法超重凭证",
+      "候选变更后重查并原子保存正文/引用/费用/修订/收据"
+    ],
+    "revision": "inventory_revision严格非负安全整数，任何实际布局/容量/数量/实例库存状态变更的一个正式事件恰加1；同事件多个位置仅一次，纯预览和无变化排序不加。角色业务revision同事件按原owner增加，协议guard元数据不冒充库存变更。溢出拒绝。",
+    "initial": "正式新角色三容器expansion_level=0/slots=[]、两正文表={}、inventory_revision=0、两组14槽及6宝珠位=null、active_loadout_id=primary；这是礼包前基线，22实际礼包唯一提交后相应写正文/位置/来源及修订，不持久化空基线后重发。",
+    "legacy": "四组已知旧档导入为新角色初始化两空正文表及三0扩容容器，再按原背包顺序占连续槽和原weapon/armor对应primary.weapon/body；实际堆超定义上限须按原数量拆堆预检容量，拒绝溢出，不免费扩容/丢物。其他位置null、active=primary，实际导入与来源/库存修订同结算。目标其他角色/world不变；新格式缺布局字段拒绝。",
+    "buyback": "复购保管独立会话域不进角色持有注册表；真实出售/复购/清空必须原子转移并守恒。可复购物正文保管与退出故障适配仍待，不以简单删注册表代替。",
+    "instance_dispatch_owner_ref": {
+      "file": "已采用装备实例.v1.json",
+      "pointer": ""
+    },
+    "inventory_state_schema_ref": {
+      "file": "物品容器布局.schema.json",
+      "pointer": "/$defs/owned_inventory_state"
+    }
+  },
+  "silver_flow_owner_ref": {
+    "file": "银两来源流.v1.json",
+    "pointer": ""
+  },
+  "silver_transfer_event_owner_ref": {
+    "file": "仓银存取事件.v1.json",
+    "pointer": ""
+  },
+  "ordinary_armor_purchase_owner_ref": {
+    "file": "普通防具基础定义.v1.json",
+    "pointer": "/acquisition_policy/purchase_events/layout"
   }
 }

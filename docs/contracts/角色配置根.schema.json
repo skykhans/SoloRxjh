@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-customization:v1",
+  "$comment": "character.customization完整四键持久对象；explicit仅当前已登记两组覆盖。U33其他字段/来源事件仍需逐项采用，未知键拒绝，不剔除后读取。来源历史/严格整数token/完整角色另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format_version",
+    "revision",
+    "explicit",
+    "latest_event_ref"
+  ],
+  "properties": {
+    "format_version": {
+      "const": 1
+    },
+    "revision": {
+      "$ref": "urn:solorxjh:timed-source-configuration-event:v1#/$defs/configuration_metadata_projection/properties/revision"
+    },
+    "explicit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ordinary_jewelry_processing": {
+          "$ref": "urn:solorxjh:ordinary-jewelry-instance:v1#/$defs/processingParameterOverrides"
+        },
+        "merit_jewelry_processing": {
+          "$ref": "urn:solorxjh:ordinary-jewelry-instance:v1#/$defs/processingParameterOverrides"
+        }
+      }
+    },
+    "latest_event_ref": {
+      "$ref": "urn:solorxjh:timed-source-configuration-event:v1#/$defs/latest_event_ref"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:timed-source-configuration-event:v1#/$defs/configuration_revision_link"
+    },
+    {
+      "if": {
+        "properties": {
+          "revision": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "explicit": {
+            "maxProperties": 0
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:stack-flow:v1",
+  "$comment": "唯一正式结算收据内的stack_flow投影，不是完整经济收据或档案；数量守恒、跨档案消费唯一性、无环及授权语义另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_id",
+    "inputs",
+    "outputs",
+    "consumptions",
+    "mint_authorization"
+  ],
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "inputs": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "receipt_id",
+          "output_index"
+        ],
+        "properties": {
+          "receipt_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "output_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "character_id",
+          "stack",
+          "contributions",
+          "custody"
+        ],
+        "properties": {
+          "character_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "stack": {
+            "$ref": "urn:solorxjh:item-stack:v1"
+          },
+          "contributions": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "input_index",
+                "quantity"
+              ],
+              "properties": {
+                "input_index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9999
+                }
+              }
+            }
+          },
+          "custody": {
+            "$ref": "urn:solorxjh:item-custody-transfer:v1#/$defs/custody"
+          }
+        }
+      }
+    },
+    "consumptions": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "input_index",
+          "quantity",
+          "reason"
+        ],
+        "properties": {
+          "input_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9999
+          },
+          "reason": {
+            "enum": [
+              "use",
+              "craft",
+              "quest_delivery",
+              "quest_cleanup",
+              "npc_sale",
+              "discard",
+              "configuration_remove",
+              "buyback_cleanup",
+              "character_deletion"
+            ]
+          }
+        }
+      }
+    },
+    "mint_authorization": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "authority_receipt_id"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "new_character_grant",
+                "legacy_import",
+                "npc_purchase",
+                "loot",
+                "gather",
+                "quest_reward",
+                "craft_output",
+                "configuration_grant",
+                "quest_exchange",
+                "ascension_skill_reset",
+                "cultivation_claim"
+              ]
+            },
+            "authority_receipt_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mint_authorization": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "inputs": {
+            "minItems": 1
+          },
+          "outputs": {
+            "items": {
+              "properties": {
+                "contributions": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "inputs": {
+            "maxItems": 0
+          },
+          "outputs": {
+            "minItems": 1,
+            "items": {
+              "properties": {
+                "contributions": {
+                  "maxItems": 0
+                },
+                "custody": {
+                  "properties": {
+                    "kind": {
+                      "const": "held"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "consumptions": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

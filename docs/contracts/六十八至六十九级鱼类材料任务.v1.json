@@ -1,0 +1,441 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "two_full_local_quest_designs_not_implemented_not_balanced",
+  "source_policy": {
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/70/text"
+    },
+    "published": "68金香玉/铁臂司护守卫取鲶鱼20；69平十指/青面司护狂战取黄金鲤鱼20，各一次，奖励空栏。",
+    "local": "两怪目录无精确身份，仅按任务正文建项目怪，不伪造MREF；68/69等级、主动/东岛布局/四home/战斗收益、个人100%/0克99堆、14职业三路线rank0无前任务是本地。鱼是寻回携带材料，不是钓鱼功能。"
+  },
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63791-020",
+      "source_reference_id": "QREF-63791-020",
+      "name": "酸辣汤材料",
+      "minimum_level": 68,
+      "minimum_rank": 0,
+      "class_scope": "all14classes",
+      "routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "npc_id": "npc_jinxiangyu",
+      "npc_map_id": "hyunbo_town",
+      "interaction_anchor_id": "npc_jinxiangyu_service",
+      "service_id": "jin68_catfish",
+      "interaction_distance_mm": 2500,
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "qualification": "本人存活脱战空闲无挑战，68级/14职业/三路线/rank0，原NPCmap锚服务<=2500mm，无其他任务前置。接取不解锁南明湖交通，公共60级/rank3门槛保留。",
+      "acceptance": "未接未完成时精确原NPC端点按qualification接取，新唯一attempt，无起始物费用，公共南明湖通行另依原规则。",
+      "preaccept_items_count": false,
+      "requirements": [
+        {
+          "item_id": "quest_lake68_catfish",
+          "quantity": 20
+        }
+      ],
+      "readiness": "本人当前attempt真实鱼0..19为in_progress，恰20为ready；按实际来源与持物派生，不信影子计数。",
+      "reward": {
+        "experience": 1610526,
+        "practice": 161052,
+        "silver": 68000,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "repeat": "once per character across worlds; no daily/party/route/world reset",
+      "delivery": "仅本任务一次最终交付，精确原NPC/当前attempt真实鱼20/本人资格/真实最终凭证/原合法库存来源修订；奖励数额取reward与local_reward_ref同一方案。经验名义/实际/损失报价，正损失显式确认，修订变须重报价，取消不消费；历练和随身银必须全额容纳，上限9007199254740991，任一溢出整笔拒绝不截取/存仓/转移。消费本轮真实鱼20/实际经验和升级基础属性/新covered_level发点/全额历练银/唯一完成及自动终态05/19同笔；实际经验0无0经验腿。无物品或晋级奖励。",
+      "capacity_failure": "资格/真实来源/原库存修订/经验损失确认/历练银全额容量或保存失败整笔保鱼与活跃attempt，不部分交物或发资源。",
+      "modifiers": "固定任务经验不进组队普通池，不受金银/修炼/终结者倍率。",
+      "deduplication": "character/quest跨世界一次完成，同request同payload回原结果、异payload拒绝，不回装鱼或重发资源。",
+      "abandon": "确认清本轮鱼与任务状态，已完成不能放弃；未完成可新attempt重接，旧死亡不补。",
+      "save": "保存当前attempt/真实鱼来源与0..20持物派生状态、最终经验报价确认/全额历练银及唯一完成收据；缺来源/超20拒绝，不按计数补鱼。不确定保存解析05/19原决定重存，不重复交物或发奖。",
+      "reward_identity": "来源奖励空栏保持；明确沿既有本地数额，不称官网奖励，不附加物品或晋级。",
+      "source_stage_interpretation": "源单行流程保真实20鱼交原NPC一次终奖，不添加隐形交换/前任务/额外对白。",
+      "local_reward_ref": {
+        "file": "源空栏任务本地奖励.v1.json",
+        "pointer": "/rewards/0"
+      },
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/19"
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63791-021",
+      "source_reference_id": "QREF-63791-021",
+      "name": "收集药材2",
+      "minimum_level": 69,
+      "minimum_rank": 0,
+      "class_scope": "all14classes",
+      "routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "npc_id": "npc_pingshizhi",
+      "npc_map_id": "hyunbo_town",
+      "interaction_anchor_id": "hyunbo_physician_service",
+      "service_id": "ping69_gold_carp",
+      "interaction_distance_mm": 2500,
+      "states": [
+        "not_accepted",
+        "in_progress",
+        "ready_to_turn_in",
+        "delivered"
+      ],
+      "qualification": "本人存活脱战空闲无挑战，69级/14职业/三路线/rank0，原NPCmap锚服务<=2500mm，无其他任务前置。接取不解锁南明湖交通，公共60级/rank3门槛保留。",
+      "acceptance": "未接未完成时精确原NPC端点按qualification接取，新唯一attempt，无起始物费用，公共南明湖通行另依原规则。",
+      "preaccept_items_count": false,
+      "requirements": [
+        {
+          "item_id": "quest_lake69_gold_carp",
+          "quantity": 20
+        }
+      ],
+      "readiness": "本人当前attempt真实鱼0..19为in_progress，恰20为ready；按实际来源与持物派生，不信影子计数。",
+      "reward": {
+        "experience": 1736842,
+        "practice": 173684,
+        "silver": 69000,
+        "items": [],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "repeat": "once per character across worlds; no daily/party/route/world reset",
+      "delivery": "仅本任务一次最终交付，精确原NPC/当前attempt真实鱼20/本人资格/真实最终凭证/原合法库存来源修订；奖励数额取reward与local_reward_ref同一方案。经验名义/实际/损失报价，正损失显式确认，修订变须重报价，取消不消费；历练和随身银必须全额容纳，上限9007199254740991，任一溢出整笔拒绝不截取/存仓/转移。消费本轮真实鱼20/实际经验和升级基础属性/新covered_level发点/全额历练银/唯一完成及自动终态05/19同笔；实际经验0无0经验腿。无物品或晋级奖励。",
+      "capacity_failure": "资格/真实来源/原库存修订/经验损失确认/历练银全额容量或保存失败整笔保鱼与活跃attempt，不部分交物或发资源。",
+      "modifiers": "固定任务经验不进组队普通池，不受金银/修炼/终结者倍率。",
+      "deduplication": "character/quest跨世界一次完成，同request同payload回原结果、异payload拒绝，不回装鱼或重发资源。",
+      "abandon": "确认清本轮鱼与任务状态，已完成不能放弃；未完成可新attempt重接，旧死亡不补。",
+      "save": "保存当前attempt/真实鱼来源与0..20持物派生状态、最终经验报价确认/全额历练银及唯一完成收据；缺来源/超20拒绝，不按计数补鱼。不确定保存解析05/19原决定重存，不重复交物或发奖。",
+      "reward_identity": "来源奖励空栏保持；明确沿既有本地数额，不称官网奖励，不附加物品或晋级。",
+      "source_stage_interpretation": "源单行流程保真实20鱼交原NPC一次终奖，不添加隐形交换/前任务/额外对白。",
+      "local_reward_ref": {
+        "file": "源空栏任务本地奖励.v1.json",
+        "pointer": "/rewards/1"
+      },
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/20"
+      }
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_lake68_catfish",
+      "name": "鲶鱼",
+      "source_reference_id": "QREF-63791-020",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本轮鱼任务凭证0克99堆封20，不可直接吃/制药，不是普通可交易鱼；只原NPC终交或放弃清理。"
+    },
+    {
+      "item_id": "quest_lake69_gold_carp",
+      "name": "黄金鲤鱼",
+      "source_reference_id": "QREF-63791-021",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本轮鱼任务凭证0克99堆封20，不可直接吃/制药，不是普通可交易鱼；只原NPC终交或放弃清理。"
+    }
+  ],
+  "monsters": [
+    {
+      "monster_id": "project_lake_iron_arm_guard68",
+      "name": "铁臂司护守卫",
+      "level": 68,
+      "map_id": "nanming_lake",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 10880,
+      "max_mana": 0,
+      "attack_min": 408,
+      "attack_max": 476,
+      "ordinary_defense": 204,
+      "accuracy": 408,
+      "evasion": 136,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "xp_reward": 715789,
+      "practice_reward": 71578,
+      "silver_reward": 68,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "rank>=6 and monster>=recipientLevel-10;14/19 separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "除明确普通经验/历练/银及合格升天进度与本任务producer外普通物品空",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "source_catalog_region": "project_nanming_lake",
+      "source_spawn_location_as_published": null,
+      "identity_policy": "仅共同任务正文具名怪，怪物目录无精确行，不伪造MREF；等级/主动/战斗数值和湖东岛刷点为本地，鱼为寻回携带材料。",
+      "aggression": "proactive",
+      "model_spec": {
+        "presentation_id": "project_lake_iron_arm_guard68",
+        "status": "具名司护怪独立模型与攻击移动动作待美术"
+      }
+    },
+    {
+      "monster_id": "project_lake_blue_face_berserker69",
+      "name": "青面司护狂战",
+      "level": 69,
+      "map_id": "nanming_lake",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 11040,
+      "max_mana": 0,
+      "attack_min": 414,
+      "attack_max": 483,
+      "ordinary_defense": 207,
+      "accuracy": 414,
+      "evasion": 138,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "collision_radius_mm": 450,
+      "height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "xp_reward": 755148,
+      "practice_reward": 75514,
+      "silver_reward": 69,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "rank>=6 and monster>=recipientLevel-10;14/19 separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "除明确普通经验/历练/银及合格升天进度与本任务producer外普通物品空",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "source_catalog_region": "project_nanming_lake",
+      "source_spawn_location_as_published": null,
+      "identity_policy": "仅共同任务正文具名怪，怪物目录无精确行，不伪造MREF；等级/主动/战斗数值和湖东岛刷点为本地，鱼为寻回携带材料。",
+      "aggression": "proactive",
+      "model_spec": {
+        "presentation_id": "project_lake_blue_face_berserker69",
+        "status": "具名司护怪独立模型与攻击移动动作待美术"
+      }
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "project_lake_iron_arm_guard68_01",
+      "monster_id": "project_lake_iron_arm_guard68",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        40,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_lake_iron_arm_guard68_02",
+      "monster_id": "project_lake_iron_arm_guard68",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        40,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_lake_iron_arm_guard68_03",
+      "monster_id": "project_lake_iron_arm_guard68",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        40,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_lake_iron_arm_guard68_04",
+      "monster_id": "project_lake_iron_arm_guard68",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        40,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_lake_blue_face_berserker69_01",
+      "monster_id": "project_lake_blue_face_berserker69",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        56,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_lake_blue_face_berserker69_02",
+      "monster_id": "project_lake_blue_face_berserker69",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        56,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_lake_blue_face_berserker69_03",
+      "monster_id": "project_lake_blue_face_berserker69",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        56,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_lake_blue_face_berserker69_04",
+      "monster_id": "project_lake_blue_face_berserker69",
+      "map_id": "nanming_lake",
+      "home_feet_m": [
+        56,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63791-020",
+        "monster_id": "project_lake_iron_arm_guard68",
+        "map_id": "nanming_lake",
+        "item_id": "quest_lake68_catfish",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      },
+      {
+        "quest_id": "ref_QREF-63791-021",
+        "monster_id": "project_lake_blue_face_berserker69",
+        "map_id": "nanming_lake",
+        "item_id": "quest_lake69_gold_carp",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      }
+    ],
+    "qualification": "本人当前attempt活跃且真实鱼<20、存活连接同图世界；solo原死亡归属或19原成员30m/入队600步快照。按实际actor过滤独立任务，不把另一怪producer纳入。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "commit": "铁臂各唯一原死亡，青面仅shared_blue_death_collection统一69鱼/71像；实际actor过滤/全部候选容量预检、普通收益一次和来源05/19同笔，旧死亡不补。",
+    "modifiers": "个人100%每合格新死亡1，不受终结者/修炼倍率。",
+    "shared_blue_owner": {
+      "file": "六十八至六十九级鱼类材料任务.v1.json",
+      "pointer": "/shared_blue_death_collection"
+    }
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "本地proactive，不冒称来源刊载攻击方式；感知追击返home沿原AI，安全区与湖水外边界禁止进入。",
+      "safe_zone": "全部地图安全区禁止敌对出生/进入，按路径返home恢复，不瞬移。"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "pending": [
+    "Godot两任务物真实来源/普通与个人收益/终奖资源保存与LAN验证",
+    "湖岛桥动态导航、两项目怪美术及战斗奖励经济校准"
+  ],
+  "travel_policy": "原南明湖公共60级/rank3进出，不增传送或把接取等同通行；rank0可接，先按原晋级取得交通资格再去打怪。怪物/巡逻/追击按9矩形并集外边界收缩限制，不能跨水/逐矩形独立收缩切断桥。",
+  "shared_blue_death_collection": {
+    "monster_id": "project_lake_blue_face_berserker69",
+    "producer_refs": [
+      {
+        "file": "六十八至六十九级鱼类材料任务.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "七十一级地灵血魔传说.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "selection": "仅实际青面actor，69活跃黄金鲤鱼<20、71stage1地灵像<10最多两候选，独立封顶；其他actor的鱼/血魔像不纳本死亡。",
+    "capacity": "所有候选共同槽重来源预检，任一不足全部任务物无物；普通收益一次。",
+    "commit": "05/19唯一原死亡及全部个人候选来源/普通收益同笔；原无物/成功决定持久，旧死亡不补。"
+  }
+}

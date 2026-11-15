@@ -1,0 +1,438 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "gem_materials_recipe_identity_and_personal_base_reward_adopted_not_implemented",
+  "scope": "13现有两材料ID、26具名配方及16既定个人胜利基础奖励的精确物品投影；不闭合讨伐遭遇/额外奖池/NPC与完整经济收据。",
+  "gem_catalog_ref": {
+    "file": "装备宝珠基础定义.v1.json",
+    "pointer": "/items"
+  },
+  "items": [
+    {
+      "kind": "material",
+      "max_stack": 99,
+      "binding": "character",
+      "quest_scope": null,
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "direct_use": false,
+      "purchase_allowed": false,
+      "decompose": false,
+      "item_id": "raid_proof_hell_fire_dragon",
+      "name": "地狱火龙讨伐证明",
+      "weight_g": 1,
+      "source_policy": "ID沿13已有引用；20胜利/200稀有制作/45..55分解沿13/16既有项目方案。重量1克、99堆、角色绑定及可丢弃禁售为项目采用。",
+      "uses": [
+        "rare_gem_creation",
+        "gem_lucky_charm_creation"
+      ],
+      "acquisition": [
+        "qualified_personal_raid_victory",
+        "named_rare_gem_disassembly",
+        "explicit_configuration"
+      ]
+    },
+    {
+      "kind": "material",
+      "max_stack": 99,
+      "binding": "character",
+      "quest_scope": null,
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "player_trade": false,
+      "buyback": false,
+      "direct_use": false,
+      "purchase_allowed": false,
+      "decompose": false,
+      "item_id": "gem_luck_charm",
+      "name": "宝珠进化幸运符",
+      "weight_g": 10,
+      "source_policy": "ID沿13已有引用；20证明+200万制作及进化加10百分点沿13项目方案。重量10克、99堆及角色绑定为项目采用。",
+      "uses": [
+        "optional_single_charm_on_gem_evolution"
+      ],
+      "acquisition": [
+        "named_gem_lucky_charm_creation",
+        "explicit_configuration"
+      ]
+    }
+  ],
+  "recipes": [
+    {
+      "recipe_id": "gem_evolve_weapon_normal",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_weapon_normal",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_weapon_advanced",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_weapon_advanced",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_weapon_advanced",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_weapon_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_weapon_rare",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_weapon_rare",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_weapon_legendary",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_create_weapon_rare",
+      "recipe_version": 1,
+      "kind": "rare_gem_creation",
+      "output_item_id": "gem_weapon_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/rare_gem_creation"
+      }
+    },
+    {
+      "recipe_id": "gem_disassemble_weapon_rare",
+      "recipe_version": 1,
+      "kind": "rare_gem_disassembly",
+      "source_item_id": "gem_weapon_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/rare_gem_disassembly"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_body_normal",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_body_normal",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_body_advanced",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_body_advanced",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_body_advanced",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_body_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_body_rare",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_body_rare",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_body_legendary",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_create_body_rare",
+      "recipe_version": 1,
+      "kind": "rare_gem_creation",
+      "output_item_id": "gem_body_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/rare_gem_creation"
+      }
+    },
+    {
+      "recipe_id": "gem_disassemble_body_rare",
+      "recipe_version": 1,
+      "kind": "rare_gem_disassembly",
+      "source_item_id": "gem_body_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/rare_gem_disassembly"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_inner_armor_normal",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_inner_armor_normal",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_inner_armor_advanced",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_inner_armor_advanced",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_inner_armor_advanced",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_inner_armor_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_inner_armor_rare",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_inner_armor_rare",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_inner_armor_legendary",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_create_inner_armor_rare",
+      "recipe_version": 1,
+      "kind": "rare_gem_creation",
+      "output_item_id": "gem_inner_armor_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/rare_gem_creation"
+      }
+    },
+    {
+      "recipe_id": "gem_disassemble_inner_armor_rare",
+      "recipe_version": 1,
+      "kind": "rare_gem_disassembly",
+      "source_item_id": "gem_inner_armor_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/rare_gem_disassembly"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_glove_normal",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_glove_normal",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_glove_advanced",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_glove_advanced",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_glove_advanced",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_glove_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_glove_rare",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_glove_rare",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_glove_legendary",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_create_glove_rare",
+      "recipe_version": 1,
+      "kind": "rare_gem_creation",
+      "output_item_id": "gem_glove_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/rare_gem_creation"
+      }
+    },
+    {
+      "recipe_id": "gem_disassemble_glove_rare",
+      "recipe_version": 1,
+      "kind": "rare_gem_disassembly",
+      "source_item_id": "gem_glove_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/rare_gem_disassembly"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_boots_normal",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_boots_normal",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_boots_advanced",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_boots_advanced",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_boots_advanced",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_boots_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_evolve_boots_rare",
+      "recipe_version": 1,
+      "kind": "gem_evolution",
+      "source_item_id": "gem_boots_rare",
+      "input_instance_count": 2,
+      "input_labels": [
+        "A",
+        "B"
+      ],
+      "output_item_id": "gem_boots_legendary",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_evolution"
+      }
+    },
+    {
+      "recipe_id": "gem_create_boots_rare",
+      "recipe_version": 1,
+      "kind": "rare_gem_creation",
+      "output_item_id": "gem_boots_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/rare_gem_creation"
+      }
+    },
+    {
+      "recipe_id": "gem_disassemble_boots_rare",
+      "recipe_version": 1,
+      "kind": "rare_gem_disassembly",
+      "source_item_id": "gem_boots_rare",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/rare_gem_disassembly"
+      }
+    },
+    {
+      "recipe_id": "gem_create_luck_charm",
+      "recipe_version": 1,
+      "kind": "gem_lucky_charm_creation",
+      "rule_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": "/project_rules/gem_lucky_charm_creation"
+      }
+    }
+  ],
+  "recipe_values": "成本/概率/消费位置/产物数量只从各rule_ref取，不复制第二份参数表。进化五类型×三源品质=15、稀有制作5、分解5、幸运符制作1；无普通购买/免费生成配方，无传说进化或普通分解。",
+  "normal_reward": {
+    "source": "16既有项目个人基础胜利奖励，不新增额外掉落。",
+    "proof_item_id": "raid_proof_hell_fire_dragon",
+    "proof_quantity": 20,
+    "gem_quantity": 1,
+    "normal_gem_item_ids": [
+      "gem_weapon_normal",
+      "gem_body_normal",
+      "gem_inner_armor_normal",
+      "gem_glove_normal",
+      "gem_boots_normal"
+    ],
+    "selection": "五类型均匀整数[0,4]一次逻辑抽样，映射按本数组；底层无偏采样，不用有偏取模。使用权威该角色奖励随机序列，随机状态与结果同笔保存；NPC不抽不领，各合资格真实玩家各一份。",
+    "eligibility": "16/19该尝试仍有胜利资格且未终结退出失败的真实玩家；失败参与奖不含这20证明或普通宝珠。讨伐退出/胜利资格由活动owner唯一决定，不以本奖励合同恢复离队资格。",
+    "deduplication": "每attempt_id+character_id唯一胜利基础结果，查旧结果先于抽样；重连/重启/保存重试返回原结果和原随机状态，不再抽类型/补发。",
+    "capacity": "一次完整给予20证明+一颗已选类型普通宝珠，材料按原合法同定义/绑定/任务作用域堆合并及99上限拆分，宝珠占装备包一槽。无空间/重量时保已确定未领取结果，由原权威持久保存，禁止部分发证明、地面丢物或换类型重抽；后续领取在完整预检后同笔写数量流/新宝珠创建锚/位置/库存修订并标已领。",
+    "provenance": "胜利结果是一次授权；领取时证明用72授权铸造流、宝珠用单实例创建锚，共同引用同一胜利基础结果与实际领取结算。未领结果不是另一份现持实物，已领后不能再次授权。完整胜利/领取收据根及活动结算schema仍待。"
+  },
+  "processing": "按13正式报价/提交及完整来源原子处理；材料只从本角色可用背包堆消费，仓库不直接扣、无队伍共享。稀有制作明确五类型之一。失败进化消耗A和费用/选中符，B正文不变；成功新独立ID/血统。分解预检最多55证明；只在合法候选上开奖，原库存非法不靠扣材料修复。",
+  "stack_provenance": "两材料均非任务凭证，quest_scope恒null；物品堆七键及逐定义99上限，绑定character。按72消费/铸造各投影同一结算；不能将制作/分解当NPC出售复购。明确配置生成单独授权，不伪造胜利或配方历史。",
+  "parameter_resolution": "13未覆盖的项目重量/堆/绑定以本正式定义为准；其他强化符不得替代gem_luck_charm。角色独享参数覆盖仅已登记路径有效，未登记宝珠高级配方覆盖不接受。",
+  "implementation_gate": "两材料定义、26配方ID和个人基础奖励物品映射已采用；NPC地点/服务、完整讨伐遭遇与伙伴/额外掉落、完整收据/provenance和经济联审仍待，不注册运行。"
+}

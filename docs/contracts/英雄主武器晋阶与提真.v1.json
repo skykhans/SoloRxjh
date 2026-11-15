@@ -1,0 +1,4726 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_hero_promotion_and_true_conversion_design_not_implemented_other_growth_dependencies_open",
+  "scope": "六英雄主武器封印至七式，95普通晋阶配方（72普通分支+23真分支）及29同阶段提真；不代替角色晋级或英雄强化转移。",
+  "source_policy": {
+    "published": [
+      {
+        "url": "http://rxjh.17game.com/event/2026/content/index.html",
+        "text_sha256": "c3168503c57e811a9ac873b017c928e9b43332be11b67b983bf87707c94d2edd",
+        "facts": "甄凤柏先完成角色晋级，武器12阶段最低强化1/3/3/4/4/5/5/6/7/7/7/7，普通晋阶下降1；提真另算且130装备/强化7以上、金刚水玉及真龙宝器[武器]。神物之石在血雨丸四转与三式任务取得。"
+      },
+      {
+        "file": "../reference/升天六式强化转移规则.json",
+        "pointer": "/hero_transfer",
+        "facts": "专属武器通常晋阶需天世宝血珠且降低强化，强化转移另算。"
+      }
+    ],
+    "project_adoption": [
+      "其他五英雄来源没有逐阶段完整材料/强化表，项目各职业显式采用同一最低强化梯度与降1规则以保证可实现；不将甄凤柏来源宣称为六英雄官方表。",
+      "天世宝血珠在六至十二武器晋阶各消耗1至7个；一至五阶段无材料但有费用，属于明确本地改编，不把来源未知视为官方免费。",
+      "提真固定消耗各1材料及500万两、强化下降2，普通晋阶必成；数量/费用/降2均为项目值。",
+      "NPC采用现有泫勃刀剑笑，非声称还原黑风会或司空揽杰的官网武器任务。",
+      "神物之石仅甄凤柏普通四转/三式各给1，数量1是项目选择；其他五英雄本地晋阶附奖明确0，未证明官网无奖励。",
+      "所有配方保持一次有效初始血统，禁止换职业、跨级、从真还原普通或重复制造第二件主武器。"
+    ]
+  },
+  "class_adoption": [
+    {
+      "class_id": "zhen_fengbai",
+      "minimum_enhancement_by_target_stage": [
+        1,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        6,
+        7,
+        7,
+        7,
+        7
+      ],
+      "normal_promotion_loss": 1,
+      "evidence": "published zhen ordinary table; project extension for true branch"
+    },
+    {
+      "class_id": "han_feiguan",
+      "minimum_enhancement_by_target_stage": [
+        1,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        6,
+        7,
+        7,
+        7,
+        7
+      ],
+      "normal_promotion_loss": 1,
+      "evidence": "explicit local class adoption; official per-stage full rule not established"
+    },
+    {
+      "class_id": "tan_hualing",
+      "minimum_enhancement_by_target_stage": [
+        1,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        6,
+        7,
+        7,
+        7,
+        7
+      ],
+      "normal_promotion_loss": 1,
+      "evidence": "explicit local class adoption; official per-stage full rule not established"
+    },
+    {
+      "class_id": "mei_liuzhen",
+      "minimum_enhancement_by_target_stage": [
+        1,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        6,
+        7,
+        7,
+        7,
+        7
+      ],
+      "normal_promotion_loss": 1,
+      "evidence": "explicit local class adoption; official per-stage full rule not established"
+    },
+    {
+      "class_id": "lu_fenglang",
+      "minimum_enhancement_by_target_stage": [
+        1,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        6,
+        7,
+        7,
+        7,
+        7
+      ],
+      "normal_promotion_loss": 1,
+      "evidence": "explicit local class adoption; official per-stage full rule not established"
+    },
+    {
+      "class_id": "dongling_shennv",
+      "minimum_enhancement_by_target_stage": [
+        1,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        6,
+        7,
+        7,
+        7,
+        7
+      ],
+      "normal_promotion_loss": 1,
+      "evidence": "explicit local class adoption; official per-stage full rule not established"
+    }
+  ],
+  "service_policy": {
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "requires_same_map_available_npc": true,
+    "requires_alive_idle_out_of_combat_no_challenge": true,
+    "source_location": "own equipment_bag only; explicitly unequip/withdraw first",
+    "qualification": "actor class, route, level, completed rank, delivered adv quest, exact source definition/stage/true flag, enhancement and unreserved lineage checked on submit",
+    "minimum_enhancement_bound": "requires >= row minimum and <= source definition limit; negative/loss-underflow rejects, never clamp",
+    "growth_compatibility": "every inherited registered field must be valid on explicit target definition; unknown/missing growth schema rejects configuration before quoting",
+    "no_rng": true,
+    "enhancement_boost_guard_owner_ref": {
+      "file": "英雄武器附加提升.v1.json",
+      "pointer": "/processing_guard"
+    },
+    "instance_growth_schema_owner_ref": {
+      "file": "英雄主武器基础定义.v1.json",
+      "pointer": "/instance_growth_schema"
+    },
+    "requires_legal_input_containers_and_weight": "validate original inventory ownership/slot counts/weight before computing outputs; original overweight cannot be repaired by consuming promotion/true materials, no reward deferred/ground delivery"
+  },
+  "items": [
+    {
+      "item_id": "heavenly_blood_bead",
+      "name": "天世宝血珠",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 1000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 1,
+      "minimum_purchase_rank": 0,
+      "purchase_class_filter": "six hero class_ids only",
+      "presentation_ref": "dev_item_heavenly_blood_bead",
+      "acquisition": "explicit smith shop",
+      "source_policy": "名称沿来源；数量/堆重/绑定/权限/银价和本地取得为项目设计。"
+    },
+    {
+      "item_id": "diamond_water_jade",
+      "name": "金刚水玉",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 5000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 1,
+      "minimum_purchase_rank": 0,
+      "purchase_class_filter": "six hero class_ids only",
+      "presentation_ref": "dev_item_diamond_water_jade",
+      "acquisition": "explicit smith shop",
+      "source_policy": "名称沿来源；数量/堆重/绑定/权限/银价和本地取得为项目设计。"
+    },
+    {
+      "item_id": "true_dragon_weapon_treasure",
+      "name": "真龙宝器[武器]",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 10000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 1,
+      "minimum_purchase_rank": 0,
+      "purchase_class_filter": "six hero class_ids only",
+      "presentation_ref": "dev_item_true_dragon_weapon_treasure",
+      "acquisition": "explicit smith shop",
+      "source_policy": "名称沿来源；数量/堆重/绑定/权限/银价和本地取得为项目设计。"
+    },
+    {
+      "item_id": "divine_mystery_stone",
+      "name": "神物之石",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": false,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": false,
+      "buy_price": "not_applicable",
+      "stock": "not_applicable",
+      "purchase_provider_id": "not_applicable",
+      "minimum_purchase_level": 1,
+      "minimum_purchase_rank": 0,
+      "purchase_class_filter": "six hero class_ids only",
+      "presentation_ref": "dev_item_divine_mystery_stone",
+      "acquisition": "zhen ordinary stage4/stage8 advancement once each per character ledger, or explicit craft_divine_mystery_stone from英雄武器合成与神物之石.v1.json",
+      "source_policy": "名称沿来源；数量/堆重/绑定/权限/银价和本地取得为项目设计。"
+    }
+  ],
+  "promotion_recipes": [
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_02_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank01",
+      "target_item_id": "weapon_blood_orb_rank02",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/0"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/1"
+      },
+      "source_stage": 1,
+      "target_stage": 2,
+      "true_equipment": false,
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_delivered_character_quest_id": "adv_02",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 10000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_03_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank02",
+      "target_item_id": "weapon_blood_orb_rank03",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/1"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/2"
+      },
+      "source_stage": 2,
+      "target_stage": 3,
+      "true_equipment": false,
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_delivered_character_quest_id": "adv_03",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 50000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_04_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank03",
+      "target_item_id": "weapon_blood_orb_rank04",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/2"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/3"
+      },
+      "source_stage": 3,
+      "target_stage": 4,
+      "true_equipment": false,
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_delivered_character_quest_id": "adv_04",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 100000,
+      "success_probability_bp": 10000,
+      "reward_items": [
+        {
+          "item_id": "divine_mystery_stone",
+          "quantity": 1
+        }
+      ],
+      "reward_guard_key": "zhen_fengbai:ordinary:4"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_05_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank04",
+      "target_item_id": "weapon_blood_orb_rank05",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/3"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/4"
+      },
+      "source_stage": 4,
+      "target_stage": 5,
+      "true_equipment": false,
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_delivered_character_quest_id": "adv_05",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 500000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_06_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank05",
+      "target_item_id": "weapon_blood_orb_rank06",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/4"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/5"
+      },
+      "source_stage": 5,
+      "target_stage": 6,
+      "true_equipment": false,
+      "minimum_level": 115,
+      "minimum_rank": 6,
+      "required_delivered_character_quest_id": "adv_06",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 1000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_07_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank06",
+      "target_item_id": "weapon_blood_orb_rank07",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/5"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/6"
+      },
+      "source_stage": 6,
+      "target_stage": 7,
+      "true_equipment": false,
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "required_delivered_character_quest_id": "adv_07",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 2
+        }
+      ],
+      "silver_fee": 2000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_08_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank07",
+      "target_item_id": "weapon_blood_orb_rank08",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/6"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/7"
+      },
+      "source_stage": 7,
+      "target_stage": 8,
+      "true_equipment": false,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 6,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 3
+        }
+      ],
+      "silver_fee": 3000000,
+      "success_probability_bp": 10000,
+      "reward_items": [
+        {
+          "item_id": "divine_mystery_stone",
+          "quantity": 1
+        }
+      ],
+      "reward_guard_key": "zhen_fengbai:ordinary:8"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_09_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank08",
+      "target_item_id": "weapon_blood_orb_rank09",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/7"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/9"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": false,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_09_true",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank08_true",
+      "target_item_id": "weapon_blood_orb_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/8"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/10"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": true,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_10_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank09",
+      "target_item_id": "weapon_blood_orb_rank10",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/9"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/11"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": false,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_10_true",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank09_true",
+      "target_item_id": "weapon_blood_orb_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/10"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/12"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": true,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_11_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank10",
+      "target_item_id": "weapon_blood_orb_rank11",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/11"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/13"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": false,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_11_true",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank10_true",
+      "target_item_id": "weapon_blood_orb_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/12"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/14"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": true,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_12_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank11",
+      "target_item_id": "weapon_blood_orb_rank12",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/13"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/15"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": false,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_12_true",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank11_true",
+      "target_item_id": "weapon_blood_orb_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/14"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/16"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": true,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_02_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank01",
+      "target_item_id": "weapon_fire_dragon_rank02",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/17"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/18"
+      },
+      "source_stage": 1,
+      "target_stage": 2,
+      "true_equipment": false,
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_delivered_character_quest_id": "adv_02",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 10000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_03_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank02",
+      "target_item_id": "weapon_fire_dragon_rank03",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/18"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/19"
+      },
+      "source_stage": 2,
+      "target_stage": 3,
+      "true_equipment": false,
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_delivered_character_quest_id": "adv_03",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 50000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_04_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank03",
+      "target_item_id": "weapon_fire_dragon_rank04",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/19"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/20"
+      },
+      "source_stage": 3,
+      "target_stage": 4,
+      "true_equipment": false,
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_delivered_character_quest_id": "adv_04",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 100000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_05_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank04",
+      "target_item_id": "weapon_fire_dragon_rank05",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/20"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/21"
+      },
+      "source_stage": 4,
+      "target_stage": 5,
+      "true_equipment": false,
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_delivered_character_quest_id": "adv_05",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 500000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_06_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank05",
+      "target_item_id": "weapon_fire_dragon_rank06",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/21"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/22"
+      },
+      "source_stage": 5,
+      "target_stage": 6,
+      "true_equipment": false,
+      "minimum_level": 115,
+      "minimum_rank": 6,
+      "required_delivered_character_quest_id": "adv_06",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 1000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_07_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank06",
+      "target_item_id": "weapon_fire_dragon_rank07",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/22"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/23"
+      },
+      "source_stage": 6,
+      "target_stage": 7,
+      "true_equipment": false,
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "required_delivered_character_quest_id": "adv_07",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 2
+        }
+      ],
+      "silver_fee": 2000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_08_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank07",
+      "target_item_id": "weapon_fire_dragon_rank08",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/23"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/24"
+      },
+      "source_stage": 7,
+      "target_stage": 8,
+      "true_equipment": false,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 6,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 3
+        }
+      ],
+      "silver_fee": 3000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_09_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank08",
+      "target_item_id": "weapon_fire_dragon_rank09",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/24"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/25"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": false,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_10_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank09",
+      "target_item_id": "weapon_fire_dragon_rank10",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/25"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/27"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": false,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_10_true",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank09_true",
+      "target_item_id": "weapon_fire_dragon_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/26"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/28"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": true,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_11_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank10",
+      "target_item_id": "weapon_fire_dragon_rank11",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/27"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/29"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": false,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_11_true",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank10_true",
+      "target_item_id": "weapon_fire_dragon_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/28"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/30"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": true,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_12_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank11",
+      "target_item_id": "weapon_fire_dragon_rank12",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/29"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/31"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": false,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_12_true",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank11_true",
+      "target_item_id": "weapon_fire_dragon_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/30"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/32"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": true,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_02_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank01",
+      "target_item_id": "weapon_flower_sword_rank02",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/33"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/34"
+      },
+      "source_stage": 1,
+      "target_stage": 2,
+      "true_equipment": false,
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_delivered_character_quest_id": "adv_02",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 10000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_03_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank02",
+      "target_item_id": "weapon_flower_sword_rank03",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/34"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/35"
+      },
+      "source_stage": 2,
+      "target_stage": 3,
+      "true_equipment": false,
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_delivered_character_quest_id": "adv_03",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 50000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_04_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank03",
+      "target_item_id": "weapon_flower_sword_rank04",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/35"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/36"
+      },
+      "source_stage": 3,
+      "target_stage": 4,
+      "true_equipment": false,
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_delivered_character_quest_id": "adv_04",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 100000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_05_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank04",
+      "target_item_id": "weapon_flower_sword_rank05",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/36"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/37"
+      },
+      "source_stage": 4,
+      "target_stage": 5,
+      "true_equipment": false,
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_delivered_character_quest_id": "adv_05",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 500000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_06_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank05",
+      "target_item_id": "weapon_flower_sword_rank06",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/37"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/38"
+      },
+      "source_stage": 5,
+      "target_stage": 6,
+      "true_equipment": false,
+      "minimum_level": 115,
+      "minimum_rank": 6,
+      "required_delivered_character_quest_id": "adv_06",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 1000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_07_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank06",
+      "target_item_id": "weapon_flower_sword_rank07",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/38"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/39"
+      },
+      "source_stage": 6,
+      "target_stage": 7,
+      "true_equipment": false,
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "required_delivered_character_quest_id": "adv_07",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 2
+        }
+      ],
+      "silver_fee": 2000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_08_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank07",
+      "target_item_id": "weapon_flower_sword_rank08",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/39"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/40"
+      },
+      "source_stage": 7,
+      "target_stage": 8,
+      "true_equipment": false,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 6,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 3
+        }
+      ],
+      "silver_fee": 3000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_09_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank08",
+      "target_item_id": "weapon_flower_sword_rank09",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/40"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/42"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": false,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_09_true",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank08_true",
+      "target_item_id": "weapon_flower_sword_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/41"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/43"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": true,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_10_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank09",
+      "target_item_id": "weapon_flower_sword_rank10",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/42"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/44"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": false,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_10_true",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank09_true",
+      "target_item_id": "weapon_flower_sword_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/43"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/45"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": true,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_11_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank10",
+      "target_item_id": "weapon_flower_sword_rank11",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/44"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/46"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": false,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_11_true",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank10_true",
+      "target_item_id": "weapon_flower_sword_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/45"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/47"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": true,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_12_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank11",
+      "target_item_id": "weapon_flower_sword_rank12",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/46"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/48"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": false,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_12_true",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank11_true",
+      "target_item_id": "weapon_flower_sword_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/47"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/49"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": true,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_02_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank01",
+      "target_item_id": "weapon_black_tortoise_bow_rank02",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/50"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/51"
+      },
+      "source_stage": 1,
+      "target_stage": 2,
+      "true_equipment": false,
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_delivered_character_quest_id": "adv_02",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 10000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_03_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank02",
+      "target_item_id": "weapon_black_tortoise_bow_rank03",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/51"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/52"
+      },
+      "source_stage": 2,
+      "target_stage": 3,
+      "true_equipment": false,
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_delivered_character_quest_id": "adv_03",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 50000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_04_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank03",
+      "target_item_id": "weapon_black_tortoise_bow_rank04",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/52"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/53"
+      },
+      "source_stage": 3,
+      "target_stage": 4,
+      "true_equipment": false,
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_delivered_character_quest_id": "adv_04",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 100000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_05_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank04",
+      "target_item_id": "weapon_black_tortoise_bow_rank05",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/53"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/54"
+      },
+      "source_stage": 4,
+      "target_stage": 5,
+      "true_equipment": false,
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_delivered_character_quest_id": "adv_05",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 500000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_06_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank05",
+      "target_item_id": "weapon_black_tortoise_bow_rank06",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/54"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/55"
+      },
+      "source_stage": 5,
+      "target_stage": 6,
+      "true_equipment": false,
+      "minimum_level": 115,
+      "minimum_rank": 6,
+      "required_delivered_character_quest_id": "adv_06",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 1000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_07_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank06",
+      "target_item_id": "weapon_black_tortoise_bow_rank07",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/55"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/56"
+      },
+      "source_stage": 6,
+      "target_stage": 7,
+      "true_equipment": false,
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "required_delivered_character_quest_id": "adv_07",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 2
+        }
+      ],
+      "silver_fee": 2000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_08_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank07",
+      "target_item_id": "weapon_black_tortoise_bow_rank08",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/56"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/57"
+      },
+      "source_stage": 7,
+      "target_stage": 8,
+      "true_equipment": false,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 6,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 3
+        }
+      ],
+      "silver_fee": 3000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_09_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank08",
+      "target_item_id": "weapon_black_tortoise_bow_rank09",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/57"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/59"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": false,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_09_true",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank08_true",
+      "target_item_id": "weapon_black_tortoise_bow_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/58"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/60"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": true,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_10_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank09",
+      "target_item_id": "weapon_black_tortoise_bow_rank10",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/59"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/61"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": false,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_10_true",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank09_true",
+      "target_item_id": "weapon_black_tortoise_bow_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/60"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/62"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": true,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_11_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank10",
+      "target_item_id": "weapon_black_tortoise_bow_rank11",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/61"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/63"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": false,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_11_true",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank10_true",
+      "target_item_id": "weapon_black_tortoise_bow_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/62"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/64"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": true,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_12_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank11",
+      "target_item_id": "weapon_black_tortoise_bow_rank12",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/63"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/65"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": false,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_12_true",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank11_true",
+      "target_item_id": "weapon_black_tortoise_bow_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/64"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/66"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": true,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_02_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank01",
+      "target_item_id": "weapon_soul_spear_rank02",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/67"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/68"
+      },
+      "source_stage": 1,
+      "target_stage": 2,
+      "true_equipment": false,
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_delivered_character_quest_id": "adv_02",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 10000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_03_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank02",
+      "target_item_id": "weapon_soul_spear_rank03",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/68"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/69"
+      },
+      "source_stage": 2,
+      "target_stage": 3,
+      "true_equipment": false,
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_delivered_character_quest_id": "adv_03",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 50000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_04_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank03",
+      "target_item_id": "weapon_soul_spear_rank04",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/69"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/70"
+      },
+      "source_stage": 3,
+      "target_stage": 4,
+      "true_equipment": false,
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_delivered_character_quest_id": "adv_04",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 100000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_05_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank04",
+      "target_item_id": "weapon_soul_spear_rank05",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/70"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/71"
+      },
+      "source_stage": 4,
+      "target_stage": 5,
+      "true_equipment": false,
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_delivered_character_quest_id": "adv_05",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 500000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_06_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank05",
+      "target_item_id": "weapon_soul_spear_rank06",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/71"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/72"
+      },
+      "source_stage": 5,
+      "target_stage": 6,
+      "true_equipment": false,
+      "minimum_level": 115,
+      "minimum_rank": 6,
+      "required_delivered_character_quest_id": "adv_06",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 1000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_07_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank06",
+      "target_item_id": "weapon_soul_spear_rank07",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/72"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/73"
+      },
+      "source_stage": 6,
+      "target_stage": 7,
+      "true_equipment": false,
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "required_delivered_character_quest_id": "adv_07",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 2
+        }
+      ],
+      "silver_fee": 2000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_08_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank07",
+      "target_item_id": "weapon_soul_spear_rank08",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/73"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/74"
+      },
+      "source_stage": 7,
+      "target_stage": 8,
+      "true_equipment": false,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 6,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 3
+        }
+      ],
+      "silver_fee": 3000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_09_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank08",
+      "target_item_id": "weapon_soul_spear_rank09",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/74"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/76"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": false,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_09_true",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank08_true",
+      "target_item_id": "weapon_soul_spear_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/75"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/77"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": true,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_10_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank09",
+      "target_item_id": "weapon_soul_spear_rank10",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/76"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/78"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": false,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_10_true",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank09_true",
+      "target_item_id": "weapon_soul_spear_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/77"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/79"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": true,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_11_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank10",
+      "target_item_id": "weapon_soul_spear_rank11",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/78"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/80"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": false,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_11_true",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank10_true",
+      "target_item_id": "weapon_soul_spear_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/79"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/81"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": true,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_12_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank11",
+      "target_item_id": "weapon_soul_spear_rank12",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/80"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/82"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": false,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_12_true",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank11_true",
+      "target_item_id": "weapon_soul_spear_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/81"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/83"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": true,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_02_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank01",
+      "target_item_id": "weapon_cold_jade_staff_rank02",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/84"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/85"
+      },
+      "source_stage": 1,
+      "target_stage": 2,
+      "true_equipment": false,
+      "minimum_level": 35,
+      "minimum_rank": 2,
+      "required_delivered_character_quest_id": "adv_02",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 10000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_03_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank02",
+      "target_item_id": "weapon_cold_jade_staff_rank03",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/85"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/86"
+      },
+      "source_stage": 2,
+      "target_stage": 3,
+      "true_equipment": false,
+      "minimum_level": 60,
+      "minimum_rank": 3,
+      "required_delivered_character_quest_id": "adv_03",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 3,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 50000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_04_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank03",
+      "target_item_id": "weapon_cold_jade_staff_rank04",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/86"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/87"
+      },
+      "source_stage": 3,
+      "target_stage": 4,
+      "true_equipment": false,
+      "minimum_level": 80,
+      "minimum_rank": 4,
+      "required_delivered_character_quest_id": "adv_04",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 100000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_05_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank04",
+      "target_item_id": "weapon_cold_jade_staff_rank05",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/87"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/88"
+      },
+      "source_stage": 4,
+      "target_stage": 5,
+      "true_equipment": false,
+      "minimum_level": 100,
+      "minimum_rank": 5,
+      "required_delivered_character_quest_id": "adv_05",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 4,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 500000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_06_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank05",
+      "target_item_id": "weapon_cold_jade_staff_rank06",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/88"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/89"
+      },
+      "source_stage": 5,
+      "target_stage": 6,
+      "true_equipment": false,
+      "minimum_level": 115,
+      "minimum_rank": 6,
+      "required_delivered_character_quest_id": "adv_06",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 1000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_07_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank06",
+      "target_item_id": "weapon_cold_jade_staff_rank07",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/89"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/90"
+      },
+      "source_stage": 6,
+      "target_stage": 7,
+      "true_equipment": false,
+      "minimum_level": 120,
+      "minimum_rank": 7,
+      "required_delivered_character_quest_id": "adv_07",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 5,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 2
+        }
+      ],
+      "silver_fee": 2000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_08_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank07",
+      "target_item_id": "weapon_cold_jade_staff_rank08",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/90"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/91"
+      },
+      "source_stage": 7,
+      "target_stage": 8,
+      "true_equipment": false,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 6,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 3
+        }
+      ],
+      "silver_fee": 3000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_09_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank08",
+      "target_item_id": "weapon_cold_jade_staff_rank09",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/91"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/93"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": false,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_09_true",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank08_true",
+      "target_item_id": "weapon_cold_jade_staff_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/92"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/94"
+      },
+      "source_stage": 8,
+      "target_stage": 9,
+      "true_equipment": true,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 4
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_10_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank09",
+      "target_item_id": "weapon_cold_jade_staff_rank10",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/93"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/95"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": false,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_10_true",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank09_true",
+      "target_item_id": "weapon_cold_jade_staff_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/94"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/96"
+      },
+      "source_stage": 9,
+      "target_stage": 10,
+      "true_equipment": true,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 5
+        }
+      ],
+      "silver_fee": 10000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_11_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank10",
+      "target_item_id": "weapon_cold_jade_staff_rank11",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/95"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/97"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": false,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_11_true",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank10_true",
+      "target_item_id": "weapon_cold_jade_staff_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/96"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/98"
+      },
+      "source_stage": 10,
+      "target_stage": 11,
+      "true_equipment": true,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 6
+        }
+      ],
+      "silver_fee": 20000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_12_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank11",
+      "target_item_id": "weapon_cold_jade_staff_rank12",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/97"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/99"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": false,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_12_true",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank11_true",
+      "target_item_id": "weapon_cold_jade_staff_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/98"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/100"
+      },
+      "source_stage": 11,
+      "target_stage": 12,
+      "true_equipment": true,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 1,
+      "materials": [
+        {
+          "item_id": "heavenly_blood_bead",
+          "quantity": 7
+        }
+      ],
+      "silver_fee": 30000000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_zhen_fengbai_01_ordinary",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_sealed",
+      "target_item_id": "weapon_blood_orb_rank01",
+      "source_definition_ref": {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/items/13"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/0"
+      },
+      "source_stage": 0,
+      "target_stage": 1,
+      "true_equipment": false,
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_delivered_character_quest_id": "adv_01",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 1,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_han_feiguan_01_ordinary",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_sealed",
+      "target_item_id": "weapon_fire_dragon_rank01",
+      "source_definition_ref": {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/items/8"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/17"
+      },
+      "source_stage": 0,
+      "target_stage": 1,
+      "true_equipment": false,
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_delivered_character_quest_id": "adv_01",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 1,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_tan_hualing_01_ordinary",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_sealed",
+      "target_item_id": "weapon_flower_sword_rank01",
+      "source_definition_ref": {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/items/9"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/33"
+      },
+      "source_stage": 0,
+      "target_stage": 1,
+      "true_equipment": false,
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_delivered_character_quest_id": "adv_01",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 1,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_mei_liuzhen_01_ordinary",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_sealed",
+      "target_item_id": "weapon_black_tortoise_bow_rank01",
+      "source_definition_ref": {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/items/10"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/50"
+      },
+      "source_stage": 0,
+      "target_stage": 1,
+      "true_equipment": false,
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_delivered_character_quest_id": "adv_01",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 1,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_lu_fenglang_01_ordinary",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_sealed",
+      "target_item_id": "weapon_soul_spear_rank01",
+      "source_definition_ref": {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/items/11"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/67"
+      },
+      "source_stage": 0,
+      "target_stage": 1,
+      "true_equipment": false,
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_delivered_character_quest_id": "adv_01",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 1,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    },
+    {
+      "recipe_id": "hero_advance_dongling_shennv_01_ordinary",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_sealed",
+      "target_item_id": "weapon_cold_jade_staff_rank01",
+      "source_definition_ref": {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/items/12"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/84"
+      },
+      "source_stage": 0,
+      "target_stage": 1,
+      "true_equipment": false,
+      "minimum_level": 10,
+      "minimum_rank": 1,
+      "required_delivered_character_quest_id": "adv_01",
+      "allowed_routes": [
+        "unselected",
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 1,
+      "enhancement_loss": 1,
+      "materials": [],
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "reward_items": [],
+      "reward_guard_key": "not_applicable"
+    }
+  ],
+  "true_conversion_recipes": [
+    {
+      "recipe_id": "hero_true_zhen_fengbai_08",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank08",
+      "target_item_id": "weapon_blood_orb_rank08_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/7"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/8"
+      },
+      "weapon_stage": 8,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_zhen_fengbai_09",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank09",
+      "target_item_id": "weapon_blood_orb_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/9"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/10"
+      },
+      "weapon_stage": 9,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_zhen_fengbai_10",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank10",
+      "target_item_id": "weapon_blood_orb_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/11"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/12"
+      },
+      "weapon_stage": 10,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_zhen_fengbai_11",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank11",
+      "target_item_id": "weapon_blood_orb_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/13"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/14"
+      },
+      "weapon_stage": 11,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_zhen_fengbai_12",
+      "class_id": "zhen_fengbai",
+      "source_item_id": "weapon_blood_orb_rank12",
+      "target_item_id": "weapon_blood_orb_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/15"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/16"
+      },
+      "weapon_stage": 12,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_han_feiguan_09",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank09",
+      "target_item_id": "weapon_fire_dragon_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/25"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/26"
+      },
+      "weapon_stage": 9,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_han_feiguan_10",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank10",
+      "target_item_id": "weapon_fire_dragon_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/27"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/28"
+      },
+      "weapon_stage": 10,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_han_feiguan_11",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank11",
+      "target_item_id": "weapon_fire_dragon_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/29"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/30"
+      },
+      "weapon_stage": 11,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_han_feiguan_12",
+      "class_id": "han_feiguan",
+      "source_item_id": "weapon_fire_dragon_rank12",
+      "target_item_id": "weapon_fire_dragon_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/31"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/32"
+      },
+      "weapon_stage": 12,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_tan_hualing_08",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank08",
+      "target_item_id": "weapon_flower_sword_rank08_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/40"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/41"
+      },
+      "weapon_stage": 8,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_tan_hualing_09",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank09",
+      "target_item_id": "weapon_flower_sword_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/42"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/43"
+      },
+      "weapon_stage": 9,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_tan_hualing_10",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank10",
+      "target_item_id": "weapon_flower_sword_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/44"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/45"
+      },
+      "weapon_stage": 10,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_tan_hualing_11",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank11",
+      "target_item_id": "weapon_flower_sword_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/46"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/47"
+      },
+      "weapon_stage": 11,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_tan_hualing_12",
+      "class_id": "tan_hualing",
+      "source_item_id": "weapon_flower_sword_rank12",
+      "target_item_id": "weapon_flower_sword_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/48"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/49"
+      },
+      "weapon_stage": 12,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_mei_liuzhen_08",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank08",
+      "target_item_id": "weapon_black_tortoise_bow_rank08_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/57"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/58"
+      },
+      "weapon_stage": 8,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_mei_liuzhen_09",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank09",
+      "target_item_id": "weapon_black_tortoise_bow_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/59"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/60"
+      },
+      "weapon_stage": 9,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_mei_liuzhen_10",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank10",
+      "target_item_id": "weapon_black_tortoise_bow_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/61"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/62"
+      },
+      "weapon_stage": 10,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_mei_liuzhen_11",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank11",
+      "target_item_id": "weapon_black_tortoise_bow_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/63"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/64"
+      },
+      "weapon_stage": 11,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_mei_liuzhen_12",
+      "class_id": "mei_liuzhen",
+      "source_item_id": "weapon_black_tortoise_bow_rank12",
+      "target_item_id": "weapon_black_tortoise_bow_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/65"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/66"
+      },
+      "weapon_stage": 12,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_lu_fenglang_08",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank08",
+      "target_item_id": "weapon_soul_spear_rank08_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/74"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/75"
+      },
+      "weapon_stage": 8,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_lu_fenglang_09",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank09",
+      "target_item_id": "weapon_soul_spear_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/76"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/77"
+      },
+      "weapon_stage": 9,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_lu_fenglang_10",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank10",
+      "target_item_id": "weapon_soul_spear_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/78"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/79"
+      },
+      "weapon_stage": 10,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_lu_fenglang_11",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank11",
+      "target_item_id": "weapon_soul_spear_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/80"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/81"
+      },
+      "weapon_stage": 11,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_lu_fenglang_12",
+      "class_id": "lu_fenglang",
+      "source_item_id": "weapon_soul_spear_rank12",
+      "target_item_id": "weapon_soul_spear_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/82"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/83"
+      },
+      "weapon_stage": 12,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_dongling_shennv_08",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank08",
+      "target_item_id": "weapon_cold_jade_staff_rank08_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/91"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/92"
+      },
+      "weapon_stage": 8,
+      "minimum_level": 130,
+      "minimum_rank": 8,
+      "required_delivered_character_quest_id": "adv_08",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_dongling_shennv_09",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank09",
+      "target_item_id": "weapon_cold_jade_staff_rank09_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/93"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/94"
+      },
+      "weapon_stage": 9,
+      "minimum_level": 140,
+      "minimum_rank": 9,
+      "required_delivered_character_quest_id": "adv_09",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_dongling_shennv_10",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank10",
+      "target_item_id": "weapon_cold_jade_staff_rank10_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/95"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/96"
+      },
+      "weapon_stage": 10,
+      "minimum_level": 150,
+      "minimum_rank": 10,
+      "required_delivered_character_quest_id": "adv_10",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_dongling_shennv_11",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank11",
+      "target_item_id": "weapon_cold_jade_staff_rank11_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/97"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/98"
+      },
+      "weapon_stage": 11,
+      "minimum_level": 160,
+      "minimum_rank": 11,
+      "required_delivered_character_quest_id": "adv_11",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    },
+    {
+      "recipe_id": "hero_true_dongling_shennv_12",
+      "class_id": "dongling_shennv",
+      "source_item_id": "weapon_cold_jade_staff_rank12",
+      "target_item_id": "weapon_cold_jade_staff_rank12_true",
+      "source_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/99"
+      },
+      "target_definition_ref": {
+        "file": "英雄主武器基础定义.v1.json",
+        "pointer": "/items/100"
+      },
+      "weapon_stage": 12,
+      "minimum_level": 170,
+      "minimum_rank": 12,
+      "required_delivered_character_quest_id": "adv_12",
+      "allowed_routes": [
+        "righteous",
+        "evil"
+      ],
+      "source_minimum_enhancement": 7,
+      "enhancement_loss": 2,
+      "materials": [
+        {
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "true_dragon_weapon_treasure",
+          "quantity": 1
+        }
+      ],
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "reward_items": []
+    }
+  ],
+  "instance_transform": {
+    "source_consumed": true,
+    "output_new_instance_id": true,
+    "output_slot": "same equipment-bag slot as source",
+    "kept_fields": [
+      "character_binding",
+      "synthesis_entries",
+      "awakening_stage",
+      "element_attribute",
+      "evolution_tier",
+      "merit_equipment",
+      "jade_attributes",
+      "four_divine_state",
+      "existing_lock",
+      "enhancement_boost"
+    ],
+    "new_fields": {
+      "definition_id": "exact recipe target",
+      "enhancement": "source actual enhancement minus exact recipe enhancement_loss",
+      "exclusive_weapon_advancement_stage": "promotion target stage or unchanged conversion stage",
+      "true_equipment": "unchanged promotion branch, false→true conversion only",
+      "provenance": "new instance source ID + command + recipe receipt"
+    },
+    "derived_stats": "recompute all registered target contributions from exact definition and transformed growth inputs once: base, real_enhancement, synthesis, awakening, attribute_stone, jade, evolution and null boost. No carried source cache or twice-applied enhancement loss.",
+    "other_side_effects": "no character rank/quest/skills/points/HP restoration/XP/practice/merit; only explicit reward_items",
+    "no_implicit_fields": "only legitimately absent optional fields according to owning schema may remain absent; unknown or damaged fields are errors, never convert to empty"
+  },
+  "reward_policy": {
+    "character_state_key": "hero_weapon_progression",
+    "initial_value": {
+      "receipts": [],
+      "reward_stages": []
+    },
+    "reward_scope": "personal permanent character ledger, not current weapon instance or world; retained across transfer/new instance IDs/world change",
+    "reward_key": "character + reward_guard_key",
+    "already_rewarded": "if source/ledger is otherwise valid and same stage reward already exists, reject inconsistent replay before costs; do not silently award or suppress a second reward",
+    "commit": "costs + source consumed + weapon output + optional material reward + stage marker + receipt atomic",
+    "no_other_paths": "enhancement, true conversion and hero transfer never emit divine_mystery_stone",
+    "stone_function_boundary": "神物之石仍禁止直接使用；英雄武器合成与神物之石.v1.json采用本地四属性/50%单槽变更与六英雄有费制作，原官网完整池/概率仍未知。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "service_session_id",
+      "npc_id",
+      "recipe_id",
+      "recipe_version",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "show complete source/target registered growth values and all typed derived contributions, exact real enhancement loss, costs, reward and final capacity/weight; validate original inventory first, no quote from base+enhancement alone",
+    "capacity_weight": "compute final state after materials+source removal, one weapon in freed source slot and reward into inventory. stone reward can require one new material slot; final weight includes reward10g. Failure preserves all inputs, never use ground/mail or later free delivery.",
+    "same_weight": "all family stages are explicit constant class weight; normal stage1..5 without reward has unchanged final carried weight, stage4 zhen adds10g if no material consumed; other rows subtract material weights and add explicit rewards.",
+    "failure": "cancellation, stale quote, unmet condition, insufficient silver/materials/space/weight or incompatible field: no source/fee/material/RNG/revision changes",
+    "commit": "host serializes character, validates on copy then commits money, input/source/output/reward/lineage/ledger receipt and revision once; always100% no random",
+    "deduplication": "original same-command payload returns same receipt before looking for consumed source; different payload same ID rejects; a new command cannot re-use consumed source",
+    "save_failure": "keep committed memory/unsaved marker; retry same snapshot save, never re-run costs or grants",
+    "lan": "requester owns all costs/source/reward; no party sharing or leader qualification",
+    "load": "reject duplicate lineage, source and output both owned, mismatched stage/true, invalid reward markers or broken receipt ancestry; never auto-repair"
+  },
+  "remaining_dependencies": [
+    "英雄合成、火/毒属性、觉醒/四神、奇玉与进化均有独立采用合同，当前三名NPC武者投影已采用；其他元素/普通武器/防具、附加强化及完整反气功预算仍待。",
+    "神物之石本地变更/制作已采用；原官网完整属性池与概率缺口保留，其他八大奇宝范围待核。",
+    "白龙刀/黑灵剑/青雨丸等旁支另行采用；七式强化转移12配方由英雄武器强化转移.v1.json明确项目采用。",
+    "Godot真实晋阶/提真、背包/金钱/保存/LAN及经济平衡仍未实现验证。"
+  ],
+  "static_review": {
+    "kind": "static_recipe_graph_and_resource_arithmetic_not_runtime",
+    "promotion_recipe_count": 95,
+    "true_conversion_recipe_count": 29,
+    "definition_refs_verified": 248,
+    "reachable_weapon_ids_from_six_seals": 107,
+    "first_stage_neutral_definitions_verified": 6,
+    "gate_combinations": 20088,
+    "eligible_combinations": 2032,
+    "reward_slot_weight_cases": 42,
+    "stage4_cases_passing": 4,
+    "stage8_cases_passing": 14,
+    "world_service_ids_unique": 192,
+    "runtime_tests_executed": false
+  }
+}

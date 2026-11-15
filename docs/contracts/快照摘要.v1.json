@@ -1,0 +1,45 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "algorithm": "solorxjh-snapshot-sha256-f64-v1",
+  "scope": "仅已完整验证的角色/世界等含有限浮点值快照摘要；新建角色initial_character_digest及网络结果链原业务投影摘要采用。不替换71整数命令/ID/交易编码，不把摘要当授权、完整schema或可恢复正文。",
+  "input_gate": "先通过完整根白名单、重复键拒绝、严格整数token/安全整数及所有number有限性和真实业务范围。对象键必须字符串，拒绝孤立代理码点、未知宿主类型与非有限值。源小数/指数number仅按其原字段明确binary64解码；溢出或非零数下溢到0拒绝。整数原值只允许±9007199254740991内且转换为binary64须精确；不能靠摘要将非法浮点token变成合法整数。",
+  "tree_encoding": {
+    "null": "[\"null\"]",
+    "boolean": "[\"boolean\",true]或[\"boolean\",false]，先判断boolean再判断number，禁止bool当0/1。",
+    "string": "[\"string\",原字符串]；字符串转义逐字沿71：双引号/反斜杠反斜杠转义、控制U+0000..001F小写\\u00xx、其他Unicode直接UTF8，不正规化。",
+    "number": "[\"number\",\"hhhhhhhhhhhhhhhh\"]：所有已合法JSON数值（含整数）转IEEE754 binary64，以roundTiesToEven正确舍入，按大端8字节编码16小写hex。有限性与原字段token范围先验；-0统一+0的0000000000000000。1和1.0同值同编码，integer与number字段合法性仍由原schema/token规则决定。",
+    "array": "[\"array\",[各元素递归编码节点]]，顺序保持。",
+    "object": "[\"object\",[[原键,递归编码值],...]]，键按Unicode标量代码点升序；键自身按原字符串转义，不套string节点，不依赖UTF16排序或字典插入次序。空对象与空数组有不同标签。"
+  },
+  "serialization": "树中除boolean字面量外只含数组/字符串/null标签，无原JSON数字token；按上述明确结构拼接，无空白/BOM/尾换行，标签和hex均精确小写。所有数据层都套类型标签，用户数据形似编码树也不能与真实类型混淆。",
+  "digest": "SHA256(ASCII字节SoloRxjh:snapshot:v1加一个LF字节0a，再接编码树UTF8字节)，输出64小写hex。域前缀属于摘要输入，golden encoded_tree字段不含此前缀。",
+  "rebuild": "原规则hash必须冻结该算法版本和完整初始构造规则；恢复先用原command/plan重建完整原快照，再验原根与业务来源，最后重算摘要。摘要只比原初始/冻结快照，不比现在已成长角色；不存第二份编码树或浮点bits镜像。",
+  "golden_vectors": [
+    {
+      "input_json": "null",
+      "encoded_tree_utf8": "[\"null\"]",
+      "sha256": "69eb46ba5e2c68e0fb495aff9dd9dee7492d4381bb14f3bacb33e31ab2b784b8"
+    },
+    {
+      "input_json": "[0,-0.0,1,1.0,0.5,-2.5]",
+      "encoded_tree_utf8": "[\"array\",[[\"number\",\"0000000000000000\"],[\"number\",\"0000000000000000\"],[\"number\",\"3ff0000000000000\"],[\"number\",\"3ff0000000000000\"],[\"number\",\"3fe0000000000000\"],[\"number\",\"c004000000000000\"]]]",
+      "sha256": "5bdac1e455e2ab08ac13b10fdef454497065bcb4ca122f09af2b57ff4cc09f8a"
+    },
+    {
+      "input_json": "{\"yaw\":0.25,\"position\":[1.5,0,-2.75],\"name\":\"方尘\"}",
+      "encoded_tree_utf8": "[\"object\",[[\"name\",[\"string\",\"方尘\"]],[\"position\",[\"array\",[[\"number\",\"3ff8000000000000\"],[\"number\",\"0000000000000000\"],[\"number\",\"c006000000000000\"]]]],[\"yaw\",[\"number\",\"3fd0000000000000\"]]]]",
+      "sha256": "8defbeae33d07aa62ca99156b0b68b8df025ba06c1f1809ecb61a48cdb327ac8"
+    },
+    {
+      "input_json": "{\"😀\":\"中\\n文\",\"a\":true,\"z\":null}",
+      "encoded_tree_utf8": "[\"object\",[[\"a\",[\"boolean\",true]],[\"z\",[\"null\"]],[\"😀\",[\"string\",\"中\\u000a文\"]]]]",
+      "sha256": "6f35e2c628bbbb8dc07e737b49629255b225443158bfc657c3f13838e81d901c"
+    }
+  ],
+  "remaining": "规范与参考向量采用；完整快照根/实际严格token与binary64转换、Godot跨进程/导出程序一致性仍待，不据Python算例声称已实现。",
+  "network_business_projection_owner_ref": {
+    "file": "网络结果链.v1.json",
+    "pointer": "/result_envelope"
+  }
+}

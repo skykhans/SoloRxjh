@@ -1,0 +1,86 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "initial_ordinary_equipment_root_shape_adopted_not_implemented",
+  "scope": "仅22的八普通起手武器与见习短衫；不含六英雄封印、447普通新武器、1325目录防具、旧兼容装备或药品。",
+  "schema_ref": {
+    "file": "初始普通装备实例.schema.json",
+    "pointer": ""
+  },
+  "catalog_refs": [
+    {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/0"
+    },
+    {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/1"
+    },
+    {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/2"
+    },
+    {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/3"
+    },
+    {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/4"
+    },
+    {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/5"
+    },
+    {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/6"
+    },
+    {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/7"
+    },
+    {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/items/14"
+    }
+  ],
+  "growth_ref": {
+    "file": "角色初始模板.v1.json",
+    "pointer": "/initial_instance_profiles/ordinary_initial_equipment"
+  },
+  "permission_profiles_ref": {
+    "file": "角色初始模板.v1.json",
+    "pointer": "/item_profiles"
+  },
+  "root_fields": [
+    "instance_id",
+    "item_id",
+    "lineage_id",
+    "owner_character_id",
+    "binding",
+    "revision",
+    "creation_receipt_id",
+    "enhancement",
+    "synthesis_entries",
+    "awakening_stage",
+    "element_attribute",
+    "evolution_tier",
+    "true_equipment",
+    "merit_equipment"
+  ],
+  "layout": "七身份/创建元字段及原七平铺成长字段共14键；不新增growth、位置/数量/派生缓存。登记在本角色equipment_instances并且恰一个正式位置，item_id决定武器/body槽。",
+  "fixed_state": "全部enhancement_limit=0且无具名加工；七成长字段严格等于22显式初态。revision恒0，没有可变正文，无冗余state_origin_receipt_id。不新增four_divine_state/jade_attributes/enhancement_boost或英雄stage来凑其他装备schema；新增字段拒绝。",
+  "creation": "唯一新角色礼包、22已登记同职武器/衣服补购或18明确配置生成建立新instance_id/lineage_id、owner、绑定及独立creation_receipt_id；每次实际生成独立ID不可复用。创建收据证明实际角色/物品/来源、成本或明确配置授权及最终单一位置。配置不得制造正常礼包/购买记录。",
+  "no_regrant": "读档、死亡、切角色、旧档导入、礼包缺失或主手空不调用新角色赠装。补购要支付22已定100/50两并走明确服务；不能按缺物自动补购。",
+  "custody": "同角色位置迁移不改正文/creation/revision；外层库存修订按容器owner。丢弃删除需完整终结收据且不返材料；不能伪装成提真/转移/加工。均角色绑定且禁NPC出售/复购/玩家交易，仓储与丢弃依原权限profile。",
+  "configuration": "明确配置生成只能生成合法固定初态并建立独立配置创建来源；这九件不注册可加工字段修改。18合法成长编辑对本profile只有固定0/[]/false/null，等价提交无操作，不赠物/不改修订；若将来增加能力须先具名修改定义及合同，不接受未知字段。",
+  "validation_order": [
+    "拒绝重复键/非法数字；严格整数token不得bool/float/string，完整14键不抽字段掩盖坏根。",
+    "精确九ID及固定七成长；instance/lineage/owner/creation非空白、字符绑定及revision0。",
+    "创建授权/费用/唯一结算和单一活血统、注册表键等于instance_id、唯一位置及实际槽位。",
+    "库存容量/重量/当前资格与完整来源链另验，不用结构通过替代档案接受。"
+  ],
+  "legacy": "四已知旧档现有装备按旧兼容profile及明确导入映射处理，不按初始同名或缺字段套14键补初态。新格式缺字段拒绝。",
+  "implementation_gate": "仅九件初始普通装备完整根设计采用；全量档案/来源与实例终结收据、其余未采用类型仍待；七件旧兼容另用专用根。未实现Godot创建/读档/补购/丢弃/LAN，不代表D1完成。"
+}

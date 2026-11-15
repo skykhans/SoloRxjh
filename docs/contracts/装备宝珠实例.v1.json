@@ -1,0 +1,40 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "equipment_gem_complete_root_shape_adopted_not_implemented",
+  "catalog_ref": {
+    "file": "装备宝珠基础定义.v1.json",
+    "pointer": "/items"
+  },
+  "schema_ref": {
+    "file": "装备宝珠实例.schema.json",
+    "pointer": ""
+  },
+  "rules_ref": {
+    "file": "装备组与宝珠.v1.json",
+    "pointer": "/project_rules"
+  },
+  "root_fields": [
+    "instance_id",
+    "item_id",
+    "lineage_id",
+    "owner_character_id",
+    "binding",
+    "revision",
+    "creation_receipt_id"
+  ],
+  "layout": "七身份/创建元字段，revision恒0；类型/品质由item_id定义唯一确定，无需重复保存grade/type/效果/装备强化/位置/数量/时限。实例存equipment_instances，三容器或六宝珠位恰一处，不占主辅14槽。",
+  "identity": "新生独立instance_id与lineage_id，owner本角色且character绑定；创建收据保真实授权/费用/输入/结果，禁止缺来源补创建锚。未知品质/类型不按普通处理，已消费ID永不复用。",
+  "evolution": "13成功进化消费不同A/B并新生同类型下一品质一颗，输出新ID且新独立血统、revision0、创建锚指本进化结果；收据保两个输入终结边，不能选择一源血统覆盖另一源历史或当成单实例提真。失败只终结A，B完整正文及其创建锚/revision保持；费用/幸运符/RNG及角色库存修订写外层结果，不给B虚造加工入口。",
+  "disassembly": "只从装备包选一颗稀有，完整终结后产生13的45..55证明数量流；同事务守恒且无原宝珠现持残留。不将禁丢弃视为禁止具名稀有分解，也不将具名分解外推到普通/高级/传说。",
+  "custody": "同角色仓储/穿脱及主辅对应关系变化不改正文或revision；外层位置/库存修订。合法失资格保物且不生效，主动装配仍查140级/四式；两护手宝珠必须不同实例。",
+  "configuration": "18明确配置生成使用独立配置创建授权及新ID/血统。类型/品质不作为同ID可变字段；明确更换定义须预览旧实例终结+新定义独立实例/来源，或拒绝尚未登记操作，不偷偷改item_id/创建锚。未知字段与来源不因配置而豁免。",
+  "validation_order": [
+    "严格JSON/整数token及七键；revision只收整数0，不收bool/float/string。",
+    "精确20定义，ID/血统/owner/创建非空白，绑定character。",
+    "创建/两输入成功进化或明确配置授权、费用/RNG/输入终结及唯一活体/血统。",
+    "注册表键/owner/唯一位置、宝珠槽兼容、角色资格与装备对应及完整容量重量。"
+  ],
+  "legacy": "四已知旧档没有可凭同名补出的正式20宝珠；不补默认普通宝珠或六槽物品。未来真实旧宝珠须独立迁移合同。",
+  "implementation_gate": "单条宝珠完整根、类型分派及材料/26配方/既定个人基础奖励映射已采用；完整创建/进化/分解收据、NPC/完整讨伐遭遇与经济及Godot/LAN仍待。"
+}

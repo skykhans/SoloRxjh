@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:spear-fighter-timed-state:v1",
+  "$comment": "唯一effects.spear_fighter_timed，灭世自身增益与寒冰眩晕/电光禁移各单独持有；三族固定180步不套神女负面时长修正。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "martial_duel_attack20",
+    "nearby_stun",
+    "move_root"
+  ],
+  "properties": {
+    "martial_duel_attack20": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "trigger_event_id",
+            "remaining_steps"
+          ],
+          "properties": {
+            "trigger_event_id": {
+              "$ref": "#/$defs/nonblank_id"
+            },
+            "remaining_steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 180
+            }
+          }
+        }
+      ]
+    },
+    "nearby_stun": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_actor_id",
+          "trigger_event_id",
+          "remaining_steps"
+        ],
+        "properties": {
+          "source_actor_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "trigger_event_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 180
+          }
+        }
+      }
+    },
+    "move_root": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_actor_id",
+          "trigger_event_id",
+          "remaining_steps"
+        ],
+        "properties": {
+          "source_actor_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "trigger_event_id": {
+            "$ref": "#/$defs/nonblank_id"
+          },
+          "remaining_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 180
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "nonblank_id": {
+      "type": "string",
+      "pattern": "\\S"
+    }
+  }
+}

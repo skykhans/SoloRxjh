@@ -1,0 +1,139 @@
+{
+  "review_version": 1,
+  "checked_on": "2026-11-15",
+  "status": "source_verified_formal_local_design_bound_not_implemented",
+  "adoption_count_change": 2,
+  "quests": [
+    {
+      "reference_id": "QREF-63790-049",
+      "source_ref": {
+        "file": "任务参数.json",
+        "pointer": "/quests/72"
+      },
+      "body_ref": {
+        "file": "官网资料/目录正文.json",
+        "pointer": "/records/71/text"
+      },
+      "minimum_level": 87,
+      "route": "righteous",
+      "accept_npc_id": "npc_che_jingmo",
+      "ordered_post_accept_steps": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_hua_youque",
+          "action": "听南明湖秘密故事"
+        },
+        {
+          "stage_index": 2,
+          "npc_identity": "南明洞入口神秘守卫，待明确本地实体与服务",
+          "action": "听详细故事"
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_hua_youque",
+          "action": "交红色夜明珠100",
+          "source_monster": "冥土战士"
+        }
+      ],
+      "source_rewards": [
+        "金刚石",
+        "首饰"
+      ],
+      "source_omissions": [
+        "两奖励数量",
+        "首饰种类/取得方式/属性",
+        "入口守卫独立NPC目录身份与实际坐标"
+      ],
+      "local_constraints": [
+        "保原文最终花有缺，包括邪派温晓余讲述后仍回花有缺，不把两NPC按对称性自动交换。",
+        "保87级任务对91级怪的原始等级关系，不降怪等级冒充来源。"
+      ]
+    },
+    {
+      "reference_id": "QREF-63789-050",
+      "source_ref": {
+        "file": "任务参数.json",
+        "pointer": "/quests/122"
+      },
+      "body_ref": {
+        "file": "官网资料/目录正文.json",
+        "pointer": "/records/72/text"
+      },
+      "minimum_level": 87,
+      "route": "evil",
+      "accept_npc_id": "npc_shi_wei",
+      "ordered_post_accept_steps": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_wen_xiaoyu",
+          "action": "听南明湖秘密故事"
+        },
+        {
+          "stage_index": 2,
+          "npc_identity": "南明洞入口神秘守卫，待明确本地实体与服务",
+          "action": "听详细故事"
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_hua_youque",
+          "action": "交蓝色夜明珠100",
+          "source_monster": "冥土战士"
+        }
+      ],
+      "source_rewards": [
+        "金刚石",
+        "首饰"
+      ],
+      "source_omissions": [
+        "两奖励数量",
+        "首饰种类/取得方式/属性",
+        "入口守卫独立NPC目录身份与实际坐标"
+      ],
+      "local_constraints": [
+        "保原文最终花有缺，包括邪派温晓余讲述后仍回花有缺，不把两NPC按对称性自动交换。",
+        "保87级任务对91级怪的原始等级关系，不降怪等级冒充来源。"
+      ]
+    }
+  ],
+  "monster_source_resolution": {
+    "adopt_exact_source_ref": {
+      "file": "怪物参数.json",
+      "pointer": "/monsters/149"
+    },
+    "reference_id": "MREF-39815-001",
+    "level": 91,
+    "catalog_region": "南明洞",
+    "published_spawn": "南明洞",
+    "duplicate_conflict_ref": {
+      "file": "怪物参数.json",
+      "pointer": "/monsters/145"
+    },
+    "conflict_policy": "MREF-39816-001目录区域为南明湖但原出生位置仍南明洞，本地优先明确洞目录MREF-39815-001；不得双生两怪或移到湖面。"
+  },
+  "world_gaps": {
+    "existing_world_ref": {
+      "file": "../contracts/世界图谱.v1.json",
+      "pointer": ""
+    },
+    "existing_guard_ref": {
+      "file": "../contracts/神女九十级神秘守卫嘱托.v1.json",
+      "pointer": ""
+    },
+    "guard_boundary": "现project_npc_nanming_mysterious_guard明确只为90神女任务本地角色，identity_policy排除87/88合并；未经明确新采用决定不能复用。90神女任务不得因新地图被隐式改前置/物品或怪源。",
+    "registered_space_ref": {
+      "file": "../contracts/南明洞空间与入口.v1.json",
+      "pointer": ""
+    },
+    "resolved": "场景/交通/独立守卫/91怪与87两任务已正式设计登记，奖励采用金刚石1及天灵耳环1；Godot功能与资产验证待办。"
+  },
+  "completion_requirements": [
+    "已登记场景与交通/守卫；继续定义91冥土战士真实刷点/87三阶段收集与奖励。",
+    "100夜明珠超99堆须精确两堆与100上限派生、容量拒绝/真实本轮来源规则；两派分别独立定义，不共享物或跨派借物。",
+    "金刚石及首饰须明确本地数量/首饰定义与新实例来源权限、最终材料装备两类槽/重量预检和原子完成。",
+    "登记NPC服务/死亡唯一owner/奖励取得授权/新建迁移/放弃及保存LAN验收，完成后才改采用统计。"
+  ],
+  "formal_owner_ref": {
+    "file": "../contracts/八十七级正邪南明洞秘密任务.v1.json",
+    "pointer": ""
+  }
+}

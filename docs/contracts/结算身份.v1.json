@@ -1,0 +1,344 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "generic_settlement_allocation_identity_adopted_full_event_journals_pending_not_implemented",
+  "scope": "尚无专用结算ID算法的正式业务事件统一身份预留；不更改已采用trade_id=settlement_id、session begin、buyback-close等具名ID。完整事件根及pending/result owner记录仍待。",
+  "schema_ref": {
+    "file": "结算身份.schema.json",
+    "pointer": ""
+  },
+  "canonical_owner_ref": {
+    "file": "玩家交易.v1.json",
+    "pointer": "/canonical_digest"
+  },
+  "profile_initialization": {
+    "settlement_next_id": 0
+  },
+  "identity": "settlement_id=settlement:加71确定JSON编码[authority_profile_id,allocation_index] UTF8 SHA256小写摘要。身份精确五键：settlement_id/authority_profile_id/allocation_index/request_id/request_digest；不可变，不把IP/PID/角色名/文件时间当authority。request_digest为完整权威命令参数的71确定编码SHA256，参数具体白名单由各命令owner登记；摘要不证明授权。",
+  "allocation": "由实际写该结果的唯一authority持档案整体写锁，取profile.settlement_next_id=n，先确认n+1不超过安全整数。一次完整档案替换持久counter=n+1和原事件owner的reserved身份/请求摘要/不可变候选，成功后才可发外部prepare或发布任何资源结果；未持久不得对外宣称已分配。预留元数据不改变角色/库存业务修订，不发物不扣费不抽玩法RNG。",
+  "owner_storage": "不新建第二份全量结果或独立可用钱物库；身份作为该事件owner原有pending/result日志的一部分，counter与该记录同一authority档案保存。具体owner记录尚未有严格schema时不能用任意object运行预留；本身份片段不能代替完整pending/result日志。世界事件由房主档案持有相应世界日志；远端client只应用原authority结果及证明，不分配另一个本地结算。",
+  "request_deduplication": "request_id是命令owner规定的完整唯一请求键（含其会话/尝试/角色等原定作用域），不能裸用可重置客户端整数。按本合同request_index从已验证原owner日志派生内存索引，先查authority与完整请求键；同摘要返回原身份及原阶段/决定，不先消耗新计数，同键不同摘要拒绝。日志尚无严格完整schema/真实权威来源时不能建立可信索引或据counter猜新请求；不另存独立请求表。",
+  "reservation_lifecycle": "已持久预留的ID永不回收；取消/崩溃可让成功业务序列留计数缺口，但原预留身份/请求与原终态或待恢复记录须保留以供request_index完整覆盖。取消由原owner持久终态证明后才释放业务占用，counter不倒退不复用；终态压缩仍保原请求键/摘要/结算身份与决定去重证明。提交/中止由各owner规则决定，不能从编号缺口推断取消。",
+  "uncertain_save": "预留/决定替换返回不确定时停止该请求后续外发/新资源操作，重读同正式档案核counter与原owner日志的五键身份/摘要/阶段。只有已验证完整同一状态才继续原流程；缺任一、坏格式或读取失败报错保留待恢复，不看文件时间/tmp/备份猜成功，不盲换n或生成新请求重试。",
+  "exhaustion": "counter严格整数0..9007199254740991，不接受bool/float/指数token。n=9007199254740990可分配并持久counter=9007199254740991；该水位拒绝下一分配，不回绕或换随机算法。",
+  "ordering": "allocation_index仅本authority身份预留顺序，不是世界步、19每角色连续结果序号、交易序号或角色/库存修订。不同authority同n因authority_profile_id不同生成不同ID；同档多世界/角色共享此计数，不因切世界/角色归0。实际业务提交顺序按原owner日志，不按字符串摘要排序。",
+  "named_id_boundaries": [
+    "71交易保持world.player_trade_next_id与world_id:trade:n，settlement_id仍等于trade_id，不再消耗本通用counter。",
+    "角色会话begin保持session_id+:begin；复购会话结束保持buyback-close的原确定算法，不换成通用计数身份。",
+    "72消费/铸造stack_flow及73instance_flow的receipt_id沿同一实际结算，不为投影再分配业务ID；有序子结算若具独立来源边须使用各自已采用唯一ID。",
+    "新堆/实例/血统从原结算ID派生，不为这些资源身份再次预留结算counter。"
+  ],
+  "legacy": "新profile显式settlement_next_id=0；四已知旧格式导入新profile为0，导入已有profile保原counter及所有原事件日志/未决状态，不按源旧等级/存档计数覆盖。不知道的新schema5缺字段拒绝，不因旧代码未实现就补0。",
+  "implementation_gate": "通用身份、权威预留/去重派生索引与存疑保存/耗尽规则采用；不再要求独立持久请求索引表/schema。完整各类事件pending/result、各命令白名单、provenance/档案schema仍待，未实现Godot/文件/LAN，不代表D1完成。",
+  "request_index": {
+    "storage": "仅进程内派生缓存；权威仍是原事件owner唯一pending/result记录及正式档案。新档空事件集合派生空索引，无额外持久字段或缺表补空。加载、候选提交验证及缓存失效时从正式快照重建。",
+    "scope": "只索引由本通用计数算法分配的原事件；trade/session/buyback-close等专用算法由各原owner去重，不塞入本索引。不同事件owner仍共享同一authority请求键空间；各命令白名单编码须在request_id中含稳定owner/业务作用域，不能仅靠另一个隐式owner表避冲突。",
+    "input_validation": "先严格验证原事件完整schema、真实authority、请求参数白名单及71确定编码摘要、结算身份重算、所属档案与counter水位、日志阶段与决定；任一owner日志缺失/未知格式或闭包不足，拒绝完整快照/候选，不跳过该owner继续建立看似可用索引。proof中同一事件的引用副本不是第二个owner记录。",
+    "keys": "request键精确(authority_profile_id,request_id)；分配键精确(authority_profile_id,allocation_index)；结算键settlement_id。三键分别建内存唯一映射，request_digest不是键，不把同payload的不同合法请求合并。",
+    "uniqueness": "一个原owner记录承载同一预留身份到原终态，不把reserved与committed复制为两个可独立业务结果。不同owner记录即使五键完全相同也拒绝重复，不能选择较新/较高阶段一份。任一请求键指向不同身份、一个分配键绑定不同请求或不同结算ID、同结算ID关联不同五键均拒绝；无冲突仍须各owner业务语义验证。",
+    "watermark": "每条已持久身份allocation_index严格小于该authority档案settlement_next_id。取消/崩溃允许成功业务序列留缺口，但已原子持久的每次预留仍须在原owner日志保身份/请求/终态或待恢复记录；不能把缺失原日志当合法编号缺口。对同authority本通用分配0..counter-1须恰一可解析原记录覆盖，先核唯一记录数量等于counter，再核最小0/最大counter-1与严格唯一整数即可，无须按巨大counter分配数组。缺覆盖拒绝，不按最大现存序号重置counter。源格式已知迁移或未来压缩只有在其严格协议另证完整请求身份覆盖时可改表达，不许凭缺表省略。",
+    "lookup": "完整正式快照通过后，索引未命中才允许按本合同预留新身份。命中且request_digest不同拒绝；命中且相同则定位原owner记录：reserved继续其恢复规则，committed返回原决定/证明，aborted或cancelled返回原终态，禁止重新分配或重发资源。阶段名称以各owner严格状态枚举为准，不能运行未知通用字符串。",
+    "publication": "新预留只有原counter与唯一owner记录同档持久确认后才加入可信内存索引并允许外发；事件决定持久确认后更新原记录所指阶段，不增加第二索引业务记录。保存不确定立即废弃该候选缓存并冻结相关后续操作，重读正式档案完整校验后重建；重建失败保待恢复，不拿旧缓存继续分配。",
+    "retention": "取消/终态压缩/删除角色均不得抹掉未来重放所需请求键、完整不可变身份、请求摘要与各owner必需的授权参数/决定证明及依赖闭包。索引缓存或单一hash不能替代这些原记录。具体owner未定义合法压缩结构前不得压缩，不能为索引另造并行来源库。",
+    "boundaries": "索引命中只证明原请求位置，不证明该业务已提交、客户端已应用/保存、资源仍在原位置或允许重新发放。完整事件日志/各命令白名单与proof闭包根仍待采用，本内存算法不解除运行门禁。",
+    "profile_owner_registry": {
+      "projection_ref": {
+        "file": "档案日志投影.schema.json",
+        "pointer": ""
+      },
+      "owners": [
+        {
+          "field": "warehouse_silver_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/character_id",
+          "schema_ref": "urn:solorxjh:warehouse-silver-event:v1#/$defs/journal"
+        },
+        {
+          "field": "story_sword_binding_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:story-sword-binding-event:v1#/$defs/journal"
+        },
+        {
+          "field": "ascended_martial_upgrade_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:ascended-martial-upgrade-event:v1#/$defs/journal"
+        },
+        {
+          "field": "ascended_martial_learning_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:ascended-martial-learning-event:v1#/$defs/journal"
+        },
+        {
+          "field": "heavenly_stone_conversion_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:heavenly-stone-conversion-event:v1#/$defs/journal"
+        },
+        {
+          "field": "ascended_martial_reset_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:ascended-martial-reset-event:v1#/$defs/journal"
+        },
+        {
+          "field": "qigong_respec_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:qigong-respec-event:v1#/$defs/journal"
+        },
+        {
+          "field": "quickbar_binding_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:quickbar-binding-event:v1#/$defs/journal"
+        },
+        {
+          "field": "legacy_sword_training_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:legacy-sword-training-event:v1#/$defs/journal"
+        },
+        {
+          "field": "ordinary_active_training_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:ordinary-active-training-event:v1#/$defs/journal"
+        },
+        {
+          "field": "qigong_manual_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:qigong-manual-event:v1#/$defs/journal"
+        },
+        {
+          "field": "qigong_allocation_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:qigong-allocation-event:v1#/$defs/journal"
+        },
+        {
+          "field": "chord_cycle_setting_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:chord-cycle-setting-event:v1#/$defs/journal"
+        },
+        {
+          "field": "loadout_switch_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:loadout-switch-event:v1#/$defs/journal"
+        },
+        {
+          "field": "character_creation_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "profile",
+          "character_pointer": null,
+          "schema_ref": "urn:solorxjh:character-creation-event:v1#/$defs/journal"
+        },
+        {
+          "field": "legacy_import_pending",
+          "collection": "nullable_single",
+          "identity_pointer": "/settlement_identity",
+          "pending_scope": "profile",
+          "schema_ref": "urn:solorxjh:legacy-import-pending:v1"
+        },
+        {
+          "field": "legacy_import_receipts",
+          "collection": "array",
+          "identity_pointer": "/settlement_identity",
+          "pending_scope": "none",
+          "schema_ref": "urn:solorxjh:legacy-import-receipt:v1"
+        },
+        {
+          "field": "character_deletion_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "profile",
+          "character_pointer": null,
+          "schema_ref": "urn:solorxjh:character-deletion-event:v1#/$defs/journal"
+        },
+        {
+          "field": "story_boss_reward_claim_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:story-boss-reward-claim-event:v1#/$defs/journal"
+        },
+        {
+          "field": "story_boss_entry_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:story-boss-entry-event:v1#/$defs/journal"
+        },
+        {
+          "field": "story_boss_return_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:story-boss-return-event:v1#/$defs/journal"
+        },
+        {
+          "field": "timed_source_configuration_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:timed-source-configuration-event:v1#/$defs/journal"
+        },
+        {
+          "field": "jewelry_override_configuration_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:jewelry-override-configuration-event:v1#/$defs/journal"
+        },
+        {
+          "field": "merit_title_certification_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:merit-title-certification-event:v1#/$defs/journal"
+        },
+        {
+          "field": "merit_title_expiry_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:merit-title-expiry-event:v1#/$defs/journal"
+        },
+        {
+          "field": "merit_configuration_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:merit-configuration-event:v1#/$defs/journal"
+        },
+        {
+          "field": "story_boss_abandon_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:story-boss-abandon-event:v1#/$defs/journal"
+        },
+        {
+          "field": "respawn_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:character-respawn-event:v1#/$defs/journal"
+        },
+        {
+          "field": "death_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:character-death-event:v1#/$defs/journal"
+        },
+        {
+          "field": "ordinary_armor_purchase_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:ordinary-armor-purchase-event:v1#/$defs/journal"
+        },
+        {
+          "field": "heavenly_stone_claim_events",
+          "collection": "array",
+          "identity_pointer": "/identity",
+          "pending_phase": "reserved",
+          "pending_scope": "character",
+          "character_pointer": "/command/play_session_identity/character_id",
+          "schema_ref": "urn:solorxjh:heavenly-stone-claim-event:v1#/$defs/journal"
+        }
+      ],
+      "coverage": "本登记仅覆盖已采用profile原事件owner；完整档案还须枚举由通用算法分配的world等其他owner，未具严格结构者继续阻止运行。专用trade/session/buyback-close与远端证明副本不计本counter，不以局部登记齐全宣称完整来源闭合。",
+      "extraction": "逐owner先验完整原schema/语义再取身份。array逐条取，nullable_single仅null为空；不将缺字段当空。导入提交同笔移除pending并新增唯一同身份receipt，前后各计一条；同快照pending与receipt并存同身份仍是重复并拒绝，不做去重后计数。所有身份authority必须等实际本档案profile_id。",
+      "pending_conflicts": "从各原owner取reserved占用，旧导入非null直接占整个profile。profile占用与任何其他未决业务占用互斥；无profile占用时，同一实际角色的跨owner业务未决互斥，不同角色仅在各原owner允许、无共同资源/会话/世界排他占用且修订可合法推进时并存。角色ID从原command路径取，不能用当前selected_character_id推断；对远端角色仍核原会话/authority。原会话opening/closing、交易prepare与world/多接收者等占用必须从完整原owner另合并，不能仅检此profile数组登记。",
+      "revision_boundary": "完整档案写锁始终串行化每次替换，但不等于所有角色整个待决期互斥。不同角色的合法提交使用最新完整正式档案，保其他角色未决与结果，并按原owner递增修订；任何冻结整档revision的事务按其全档占用阻止插入写。设置/改名/删角色/切玩法等仍遵原owner门禁，不因只读投影或counter覆盖通过而放行。",
+      "validation_order": [
+        "完整档案与全部原owner白名单、严格数字token及原schema先验",
+        "枚举本档所有通用分配原记录，重算身份与请求摘要/作用域，验证来源与阶段",
+        "逐记录建立request/allocation/settlement三唯一映射；重复立即拒绝，不先合并",
+        "核唯一分配数量等counter且范围为0至counter-1；counter=0时必须无记录",
+        "独立核会话begin编号覆盖与远端证明归属，不混入通用counter",
+        "合并全部原业务占用并核互斥/冻结修订，最后才发布内存索引或允许候选保存"
+      ],
+      "death_composition_ref": {
+        "file": "死亡与复活保存.v1.json",
+        "pointer": "/death_events/composition"
+      }
+    }
+  }
+}

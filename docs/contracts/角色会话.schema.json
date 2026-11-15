@@ -1,0 +1,745 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-session:v1",
+  "$comment": "身份与持久守卫片段，外层pending_play_session可显式null；摘要关系、计数已预留、角色归属、权限和完整begin/结束收据语义另验。",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/identity"
+    },
+    {
+      "$ref": "#/$defs/guard"
+    }
+  ],
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_id",
+        "profile_id",
+        "character_id",
+        "allocation_index",
+        "world_id",
+        "authority_profile_id",
+        "mode"
+      ],
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "pattern": "^session:[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "profile_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "character_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "allocation_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "world_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "authority_profile_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "mode": {
+          "enum": [
+            "offline",
+            "lan_host",
+            "lan_client"
+          ]
+        }
+      }
+    },
+    "guard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "phase"
+      ],
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "phase": {
+          "enum": [
+            "opening",
+            "active",
+            "closing"
+          ]
+        }
+      }
+    },
+    "begin_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_id",
+        "identity"
+      ],
+      "properties": {
+        "receipt_id": {
+          "type": "string",
+          "pattern": "^session:[0-9a-f]{64}:begin(?![\\s\\S])",
+          "minLength": 78,
+          "maxLength": 78
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        }
+      }
+    },
+    "begin_journal": {
+      "$comment": "profile.character_session_begins，仅本profile分配的不可变begin；编号完整覆盖与身份/收据ID重算另验。",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/begin_receipt"
+      }
+    },
+    "admission_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_id",
+        "identity",
+        "decision",
+        "character_revision",
+        "inventory_revision",
+        "character_digest",
+        "rules_hash"
+      ],
+      "properties": {
+        "receipt_id": {
+          "type": "string",
+          "pattern": "^session:[0-9a-f]{64}:admission(?![\\s\\S])"
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "decision": {
+          "enum": [
+            "accepted",
+            "rejected"
+          ]
+        },
+        "character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "character_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "reason": {
+          "enum": [
+            "room_closed",
+            "room_full",
+            "identity_conflict",
+            "revision_conflict",
+            "rules_mismatch",
+            "invalid_character",
+            "explicit_cancel"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "decision": {
+                "const": "rejected"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "reason"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "admission_saved_ack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "admission_receipt_id",
+        "profile_revision"
+      ],
+      "properties": {
+        "admission_receipt_id": {
+          "type": "string",
+          "pattern": "^session:[0-9a-f]{64}:admission(?![\\s\\S])"
+        },
+        "profile_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "admission_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "admission",
+        "opening_character_base64",
+        "saved_ack"
+      ],
+      "properties": {
+        "admission": {
+          "$ref": "#/$defs/admission_receipt"
+        },
+        "saved_ack": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/admission_saved_ack"
+            }
+          ]
+        },
+        "opening_character_base64": {
+          "$ref": "#/$defs/opening_character_base64"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "admission": {
+                "properties": {
+                  "decision": {
+                    "const": "rejected"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "saved_ack": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "end_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_id",
+        "identity",
+        "activation",
+        "character_revision_before",
+        "character_revision_after",
+        "final_result_sequence",
+        "stack_flows",
+        "instance_flow"
+      ],
+      "properties": {
+        "receipt_id": {
+          "type": "string",
+          "pattern": "^buyback-close:[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "activation": {
+          "enum": [
+            "never_activated",
+            "activated"
+          ]
+        },
+        "character_revision_before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "final_result_sequence": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          ]
+        },
+        "stack_flows": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "urn:solorxjh:stack-flow:v1",
+            "properties": {
+              "inputs": {
+                "minItems": 1
+              },
+              "outputs": {
+                "maxItems": 0
+              },
+              "consumptions": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "reason": {
+                      "const": "buyback_cleanup"
+                    }
+                  }
+                }
+              },
+              "mint_authorization": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        "instance_flow": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "urn:solorxjh:instance-flow:v1",
+              "properties": {
+                "inputs": {
+                  "minItems": 1,
+                  "items": {
+                    "properties": {
+                      "custody": {
+                        "$ref": "urn:solorxjh:item-custody-transfer:v1#/$defs/custody",
+                        "properties": {
+                          "kind": {
+                            "const": "buyback"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "outputs": {
+                  "maxItems": 0
+                },
+                "retirements": {
+                  "minItems": 1,
+                  "items": {
+                    "properties": {
+                      "reason": {
+                        "const": "buyback_cleanup"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "activation": {
+                "const": "never_activated"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "stack_flows": {
+                "maxItems": 0
+              },
+              "instance_flow": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "identity": {
+                "properties": {
+                  "mode": {
+                    "const": "offline"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "final_result_sequence": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "final_result_sequence": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            }
+          }
+        }
+      ]
+    },
+    "world_session_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "admission",
+        "opening_character_base64",
+        "saved_ack",
+        "end"
+      ],
+      "properties": {
+        "admission": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/admission_receipt"
+            }
+          ]
+        },
+        "saved_ack": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/admission_saved_ack"
+            }
+          ]
+        },
+        "end": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/end_receipt"
+            }
+          ]
+        },
+        "opening_character_base64": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/opening_character_base64"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "admission": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "saved_ack": {
+                "type": "null"
+              },
+              "end": {
+                "$ref": "#/$defs/end_receipt",
+                "properties": {
+                  "activation": {
+                    "const": "never_activated"
+                  }
+                }
+              },
+              "opening_character_base64": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "opening_character_base64": {
+                "$ref": "#/$defs/opening_character_base64"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "admission": {
+                "type": "object",
+                "properties": {
+                  "decision": {
+                    "const": "rejected"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "saved_ack": {
+                "type": "null"
+              },
+              "end": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/$defs/end_receipt",
+                    "properties": {
+                      "activation": {
+                        "const": "never_activated"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "end": {
+                "type": "object",
+                "properties": {
+                  "activation": {
+                    "const": "activated"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "admission": {
+                "type": "object",
+                "properties": {
+                  "decision": {
+                    "const": "accepted"
+                  }
+                }
+              },
+              "saved_ack": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "saved_ack": {
+                "type": "object"
+              },
+              "end": {
+                "type": "object"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "end": {
+                "properties": {
+                  "activation": {
+                    "const": "activated"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "world_session_registry": {
+      "type": "object",
+      "patternProperties": {
+        "^session:[0-9a-f]{64}(?![\\s\\S])": {
+          "$ref": "#/$defs/world_session_record"
+        }
+      },
+      "additionalProperties": false
+    },
+    "client_session_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_record",
+        "activation_saved_profile_revision"
+      ],
+      "properties": {
+        "authority_record": {
+          "$ref": "#/$defs/world_session_record",
+          "properties": {
+            "admission": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "identity": {
+                      "properties": {
+                        "mode": {
+                          "const": "lan_client"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "end": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "identity": {
+                      "properties": {
+                        "mode": {
+                          "const": "lan_client"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "activation_saved_profile_revision": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "activation_saved_profile_revision": {
+                "type": "integer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "authority_record": {
+                "properties": {
+                  "admission": {
+                    "type": "object",
+                    "properties": {
+                      "decision": {
+                        "const": "accepted"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "authority_record": {
+                "properties": {
+                  "saved_ack": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "activation_saved_profile_revision": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "client_session_proofs": {
+      "type": "object",
+      "patternProperties": {
+        "^session:[0-9a-f]{64}(?![\\s\\S])": {
+          "$ref": "#/$defs/client_session_proof"
+        }
+      },
+      "additionalProperties": false
+    },
+    "opening_character_base64": {
+      "type": "string",
+      "minLength": 4,
+      "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?(?![\\s\\S])",
+      "$comment": "冻结原opening完整角色UTF8 JSON字节的规范RFC4648 Base64；严格解码/重编码、JSON根对象、有限数字/整数词元、完整角色及SHA256须语义验证。无另存重复摘要。"
+    }
+  }
+}

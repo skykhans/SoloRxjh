@@ -100,9 +100,17 @@
     }
   },
   "application": "only root attack_martial_skill, not normal basic/gather/heal/cost/DoT/reflection/derived extra. Use source class learned allocated positive effective grade. Passive effect eligibility is target-specific; group skill may hit monsters and martialNPCs with different applicable sword/fighter final modifiers.",
-  "skill_power_order": "declared base flat power per hit -> add own eligible flat passive bonus -> sum eligible same-scope skill-power percentage gains once, multiply/floor the flat component -> add action attack draw and apply declared phase coefficient -> crit/hit-time modifiers -> ordinary mitigation. Never multiply weapon/attack twice; flat0 base remains0 unless explicit flat-power addition exists.",
+  "skill_power_order": "declared base flat power per hit -> add own eligible flat passive bonus plus explicitly registered real-enhancement, synthesis, jade, evolution, temporary-enhancement-boost, awakening and attribute-stone martial-flat weapon contributions once -> sum eligible same-scope skill-power percentage gains including explicitly registered jewelry martial_power_bonus_bp once, multiply/floor flat component -> add action attack draw and apply phase coefficient -> crit/hit-time modifiers -> ordinary mitigation. Never multiply weapon/attack twice; explicit flat additions may make flat0 positive. Enhancement/synthesis owners must be valid, no contribution inferred from display names.",
   "fighter_final_order": "after ordinary defense/flat reduction, before percentage protections/shields, floor(final_stage_incoming*(10000+100*effective_grade)/10000) once on eligible monster/noncombo root hit; no reapplication to derived damage",
   "snapshots": "grade and base skill-power taken at accepted action, target combat_kind at accepted primary/actual hit identity validated; no retarget to change paid snapshot. Hit-stage target-specific eligibility recorded on damage receipt; anti debuff later affects new actions, no refund or re-charge.",
   "configuration": "explicit named stacking/order graph and checked integer math required; conflicting group/multi-hit flags or absent flat power/combat kind reject. Negative/overflow not truncated as0.",
-  "persistence": "store required action source snapshots and per-target modifier receipt, not mutable permanent base power. Save/replay never applies a second percentage or final-extra stage."
+  "persistence": "store required action source snapshots and per-target modifier receipt, not mutable permanent base power. Save/replay never applies a second percentage or final-extra stage.",
+  "equipment_jewelry_power_owner_ref": {
+    "file": "普通首饰基础定义.v1.json",
+    "pointer": "/contribution_policy/martial_power"
+  },
+  "merit_jewelry_owner_ref": {
+    "file": "新版武勋首饰.v1.json",
+    "pointer": "/contribution_policy"
+  }
 }

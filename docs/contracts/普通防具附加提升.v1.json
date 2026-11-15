@@ -1,0 +1,205 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "project_armor_boost_design_not_implemented",
+  "scope": "51普通/55武勋1325件登记enhancement_boost；127件160/170级body且真实enhancement15可用本防具天池神丹，1198件只允许null。其他道具/元素显示提升/截图特殊触发独立待采用。",
+  "source_policy": {
+    "evidence": [
+      {
+        "file": "../reference/2026高强化图示参数.json",
+        "pointer": "/boost_examples/1",
+        "facts": "真-神皇战袍男显示15+[2]、火10等复合项；不把+[2]当永久17或逐项推导本丹独立贡献。"
+      },
+      {
+        "file": "../reference/官网资料/专题补充正文.json",
+        "pointer": "/records/11",
+        "facts": "强15装备可用天池神丹、碧绿神草、灵脂仙草提升；正文未逐药绑定复合图、独立数值/概率/层数/时长。"
+      }
+    ],
+    "adoption": "127件范围、天池神丹防具专用身份、最多2层/30模拟分钟及防御/生命/平减贡献、价/权限为项目值，不宣称复现图示1400/932/1510/280或2%触发。碧绿/灵脂及元素显示仍待，不据此删除需求。"
+  },
+  "eligibility_catalog_refs": [
+    {
+      "file": "普通防具基础定义.v1.json",
+      "pointer": "/items"
+    },
+    {
+      "file": "武勋防具基础定义.v1.json",
+      "pointer": "/items"
+    }
+  ],
+  "eligibility_partition": {
+    "processing_predicate": "exact catalog member AND equipment_category == body AND eligibility_ref.minimum_level in [160,170] AND instance.enhancement == 15",
+    "capable_definition_count": 127,
+    "null_only_definition_count": 1198,
+    "identity": "真/普通/武勋沿同一谓词，保原身份；未完成形态若已在51正式基础目录则依精确谓词采用，不凭名称升级成完成品。"
+  },
+  "items": [
+    {
+      "item_id": "armor_tianchi_pill",
+      "name": "天池神丹（防具本地采用）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": true,
+      "recipe_input_only": false,
+      "purchase_allowed": true,
+      "buy_price": 5000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 160,
+      "minimum_purchase_rank": 11,
+      "presentation_ref": "dev_item_armor_tianchi_pill",
+      "source_policy": "天池神丹名沿专题；防具专用本地身份、范围/时长/贡献/价格/权限为项目采用，不接受英雄或普通武器丹替代。"
+    }
+  ],
+  "clock_ref": {
+    "file": "英雄武器附加提升.v1.json",
+    "pointer": "/clock"
+  },
+  "boost_schema": {
+    "field": "enhancement_boost",
+    "empty": null,
+    "required_fields": [
+      "boost_id",
+      "stacks",
+      "remaining_steps",
+      "origin_receipt_ids"
+    ],
+    "boost_id": "armor_tianchi_pill",
+    "stacks_range": [
+      1,
+      2
+    ],
+    "remaining_steps_range": [
+      1,
+      108000
+    ],
+    "strict_types": "stacks/remaining_steps严格整数，排除bool/float/string；对象精确四字段，receipt必须数组。",
+    "origin_receipt_ids": "不同且按使用顺序，数量精确等于stacks；同角色同防具血统本丹成功使用，形成1到当前层链且属同一计时世代。武器/英雄/失败/旧已到期世代收据拒绝。",
+    "nonempty_requires": "精确127件能力目录且真实enhancement15；角色后来失效/不生效不删状态，依时钟自然到期。其余1198件非空拒绝，不能读档清空修复。",
+    "initial": "合法正式新建显式null，不赠丹或提升；缺字段/0层/0剩余/未知boost拒绝。固定步到期边界按clock_ref在保存前原子置null。"
+  },
+  "use": {
+    "command_id": "use_armor_tianchi_pill",
+    "source_item_id": "armor_tianchi_pill",
+    "source_item_quantity": 1,
+    "target": "本人当前生效组已装备且合法未失效的127件body之一，不能包/仓/备用或其他部位；精确实例及修订。",
+    "minimum_level": 160,
+    "minimum_rank": 11,
+    "allowed_routes": [
+      "righteous",
+      "evil"
+    ],
+    "requires_source_real_enhancement": 15,
+    "qualification": "存活脱战空闲，无挑战/传送/未结算战斗队列，满足定义全部职业/路线/体型/等级/转职/武勋条件，原库存/完整实例/绑定/血统/修订合法。",
+    "silver_fee": 0,
+    "success_bp": 10000,
+    "rng_draws": 0,
+    "empty": "写本boost、1层、108000步及当前成功收据。",
+    "below_cap": "同boost加1层/追加本次成功收据，刷新共同剩余108000步，不建分层时钟。",
+    "at_cap": "2层拒绝，不耗丹/费用/RNG/修订、不刷新剩余；坏boost拒绝，不覆盖。"
+  },
+  "projection_policy": {
+    "defense_flat_by_stacks": [
+      0,
+      100,
+      200
+    ],
+    "max_hp_flat_by_stacks": [
+      0,
+      250,
+      500
+    ],
+    "flat_damage_reduction_by_stacks": [
+      0,
+      10,
+      20
+    ],
+    "application": "仅生效组合法未失效body按当前层总贡献各一次，不累加旧层；普通防御、生命上限和平减分别交各自来源和，平减沿战斗原唯一阶段。",
+    "clock": "显式共享clock_ref完整权威固定步/所有归属实例计时/暂停/保存/到期/修订规则，不用墙钟或只挂生效节点计时。卸装/入仓/备用/死亡/换图不清、不刷新；保留LAN离线角色继续依房主计时。",
+    "hp": "使用加层/恢复资格/换组不回血；失效/卸装/到期时当前生命只按新上限下裁，不复活，死亡仍0。",
+    "real_value_boundary": "真实enhancement恒15，显示15+[n]不写17；宝珠与反气功预算只读真实15，不输入15+n或提升元素真实stage。",
+    "gangqi": "本临时防御不自动进入52罡气三项输入，不改变转换比率，不把截图罡气280写固定奖励。",
+    "no_extra_effect": "无2%触发/攻击无视/反伤/气功点/障力/内力/元素阶段贡献；截图未明效果独立待核。",
+    "hit_timing": "防守命中按当前权威生效衣服来源，时钟先到期再接受动作；不回写其他攻击方已接受快照，不以动画延迟冻结过期防御。",
+    "combat_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/direct_pipeline"
+    }
+  },
+  "processing_guard": {
+    "rule": "合法非空enhancement_boost时，本防具强化/合成/元素赋予升阶移除/觉醒/四神/奇玉/进化/强化转移/提真均在报价与扣费前拒绝；转移双实例任一非空即拒绝。未知或损坏状态同样拒绝，不洗掉或复制提升。",
+    "end_policy": "仅自然到期，无提前移除配方。普通卸装/移动/仓储保状态/收据/时钟，仍遵原物品权限及最终格重。"
+  },
+  "material_acquisition": {
+    "status": "design_pending_shop_registration",
+    "planned_service_id": "npc_daojianxiao_ordinary_armor_boost_materials",
+    "npc_id": "npc_daojianxiao",
+    "class_ids": [
+      "archer",
+      "assassin",
+      "blade",
+      "dongling_shennv",
+      "fighter",
+      "han_feiguan",
+      "lu_fenglang",
+      "mei_liuzhen",
+      "musician",
+      "physician",
+      "spear",
+      "sword",
+      "tan_hualing",
+      "zhen_fengbai"
+    ],
+    "minimum_level": 160,
+    "minimum_rank": 11,
+    "allowed_routes": [
+      "righteous",
+      "evil"
+    ],
+    "quantity_range": [
+      1,
+      99
+    ],
+    "stock": "unlimited",
+    "transaction": "本人存活脱战空闲、NPC/会话/同图2.5米有效；原库存合法后验最终随身钱/格重/合堆，扣钱/入包/修订/收据原子提交，重复返原结果，保存失败只重存。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "command_id",
+      "target_instance_id",
+      "target_revision",
+      "active_equipment_revision",
+      "inventory_revision",
+      "character_revision",
+      "source_stack_id"
+    ],
+    "preview": "显示真实15+[原层→目标层]、本层总防御/生命上限/平减、共同30模拟分钟刷新及耗丹1；永久强化/元素/宝珠/预算/罡气输入不变。",
+    "commit": "房主先查命令结果，再重验完整schema/原库存/资格/目标归属和生效位置/资源修订，读提交时当前权威剩余；原子耗丹/写字段/成功收据/修订/派生失效，不抽RNG。",
+    "capacity": "先原库存合法再耗丹减10g，无产出格，不靠耗丹修复原超重。",
+    "duplicate": "同命令同参数仅返原结果，不重装旧层/旧时钟、不刷新已递减或已到期状态；同ID异参数拒绝。",
+    "cancel_or_invalid": "业务资源/修订/RNG不变；独立模拟时钟继续，不冻结或回滚已耗步数。",
+    "save_failure": "保留已提交内存及未保存标记，只重存，不再耗丹或刷新。",
+    "clock_revision": "普通remaining递减不改业务修订；到期写null时实例及受影响角色修订只增一次，沿clock_ref，不让每步计时反复作废业务报价。"
+  },
+  "implementation_gate": "完整根实例/档案schema、其他药品/元素显示/特殊触发、预算/派生/外观与经济联审仍待；本合同不注册服务或创建缺字段实例。",
+  "instance_growth_schema_owner_ref": {
+    "file": "普通防具成长.v1.json",
+    "pointer": ""
+  },
+  "full_instance_owner_ref": {
+    "file": "普通防具实例.v1.json",
+    "pointer": ""
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:sword-timed-effects:v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "wujian_boost",
+    "evaded_attack_token",
+    "martial_power"
+  ],
+  "properties": {
+    "wujian_boost": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "trigger_event_id",
+            "remaining_steps"
+          ],
+          "properties": {
+            "trigger_event_id": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "remaining_steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 180
+            }
+          }
+        }
+      ]
+    },
+    "evaded_attack_token": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "trigger_event_id",
+            "stacks",
+            "attack_upper",
+            "remaining_steps"
+          ],
+          "properties": {
+            "trigger_event_id": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "stacks": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "attack_upper": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "remaining_steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 600
+            }
+          }
+        }
+      ]
+    },
+    "martial_power": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "trigger_event_id",
+            "effective_grade",
+            "remaining_steps"
+          ],
+          "properties": {
+            "trigger_event_id": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "effective_grade": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40
+            },
+            "remaining_steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 180
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$comment": "唯一effects.sword_timed，天地token也适用于谭花灵；原动作持有已取token与命中结果，不能靠活跃token重放还层。"
+}

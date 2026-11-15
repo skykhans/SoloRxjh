@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:cave-anger-experience-boost:v1",
+  "$comment": "单一来源槽：null、原五键任务来源或独立四键配置来源；两来源严格互斥。配置不伪造任务ID/完成凭证。整数token/实际原配置事件/来源历史/时钟/world资格必须另验，不是完整档案根。",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_quest_id",
+        "world_id",
+        "remaining_world_steps",
+        "observed_world_step",
+        "grant_receipt_id"
+      ],
+      "properties": {
+        "source_quest_id": {
+          "enum": [
+            "ref_QREF-63790-045",
+            "ref_QREF-63789-046",
+            "ref_QREF-63791-019"
+          ]
+        },
+        "world_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "remaining_world_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 432000
+        },
+        "observed_world_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "grant_receipt_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source_quest_id": {
+                "const": "ref_QREF-63791-019"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "remaining_world_steps": {
+                "maximum": 324000
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "$ref": "urn:solorxjh:configured-world-timer-source:v1"
+    }
+  ]
+}

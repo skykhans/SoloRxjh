@@ -1,0 +1,158 @@
+{
+  "review_version": 1,
+  "checked_on": "2026-11-15",
+  "status": "source_verified_formal_local_design_bound_not_implemented",
+  "adoption_count_change": 2,
+  "scope": "两派85级嘱托2逐步来源与本地设计缺口；不是可执行任务合同。",
+  "quests": [
+    {
+      "reference_id": "QREF-63790-047",
+      "source_ref": {
+        "file": "任务参数.json",
+        "pointer": "/quests/70"
+      },
+      "body_ref": {
+        "file": "官网资料/目录正文.json",
+        "pointer": "/records/71/text"
+      },
+      "monster_ref": {
+        "file": "怪物参数.json",
+        "pointer": "/monsters/158"
+      },
+      "minimum_level_as_published": 85,
+      "repeat_as_published": "1 次",
+      "accept_npc_id": "npc_shangguan_xuan",
+      "ordered_post_accept_steps": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shangguan_yin",
+          "source_action": "对话",
+          "source_item_consumption": null
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_shangguan_xuan",
+          "source_action": "对话",
+          "source_item_consumption": null
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_shangguan_yin",
+          "source_action": "对话",
+          "source_item_consumption": null
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_shangguan_yin",
+          "source_action": "收集夺魂地灵圣母铃铛40并交给本NPC",
+          "source_item_consumption": 40
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_shangguan_xuan",
+          "source_action": "最终对话",
+          "source_item_consumption": null
+        }
+      ],
+      "source_rewards": [
+        "悟神丹",
+        "宝盒"
+      ],
+      "source_omissions": [
+        "悟神丹药效/数量/使用规则",
+        "宝盒类型/数量/内容与开启规则",
+        "实际奖励交付时点",
+        "逐步骤对话文本及本地前置条件"
+      ],
+      "monster_adoption_constraints": {
+        "source_level": 89,
+        "source_floor": 3,
+        "source_region": "地灵洞",
+        "source_subregion": "末端",
+        "must_not_reuse_87_witch_identity": true
+      }
+    },
+    {
+      "reference_id": "QREF-63789-048",
+      "source_ref": {
+        "file": "任务参数.json",
+        "pointer": "/quests/120"
+      },
+      "body_ref": {
+        "file": "官网资料/目录正文.json",
+        "pointer": "/records/72/text"
+      },
+      "monster_ref": {
+        "file": "怪物参数.json",
+        "pointer": "/monsters/167"
+      },
+      "minimum_level_as_published": 85,
+      "repeat_as_published": "1 次",
+      "accept_npc_id": "npc_murong_huo",
+      "ordered_post_accept_steps": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_feng_qingpiao",
+          "source_action": "对话",
+          "source_item_consumption": null
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_murong_huo",
+          "source_action": "对话",
+          "source_item_consumption": null
+        },
+        {
+          "stage_index": 3,
+          "npc_id": "npc_feng_qingpiao",
+          "source_action": "对话",
+          "source_item_consumption": null
+        },
+        {
+          "stage_index": 4,
+          "npc_id": "npc_feng_qingpiao",
+          "source_action": "收集摄魂血魔圣女铃铛40并交给本NPC",
+          "source_item_consumption": 40
+        },
+        {
+          "stage_index": 5,
+          "npc_id": "npc_murong_huo",
+          "source_action": "最终对话",
+          "source_item_consumption": null
+        }
+      ],
+      "source_rewards": [
+        "悟神丹",
+        "宝盒"
+      ],
+      "source_omissions": [
+        "悟神丹药效/数量/使用规则",
+        "宝盒类型/数量/内容与开启规则",
+        "实际奖励交付时点",
+        "逐步骤对话文本及本地前置条件"
+      ],
+      "monster_adoption_constraints": {
+        "source_level": 89,
+        "source_floor": 3,
+        "source_region": "血魔洞",
+        "source_subregion": "末端",
+        "must_not_reuse_87_witch_identity": true
+      },
+      "accept_npc_registration": "registered_in_world_catalog",
+      "accept_npc_id_role": "registered_id"
+    }
+  ],
+  "local_design_requirements": [
+    "对话1/2/3须真实独立步骤收据，不允许重复同NPC一次跳两步。仅第四阶段原死亡收铃铛，交足40后最终回原接取NPC。",
+    "第四阶段真实消费后第五阶段无物，最终资格依原阶段消费收据而非虚构第二份铃铛或重复交40。",
+    "悟神丹须独立明确效果/权限/实际资源封顶与确认语义，不按名称映射九转丹或其他已有药；宝盒须独立明确本地类型和开启产物，不把未注明宝盒声称为官方白银/黄金。",
+    "奖励定义、实例或材料来源/格重、使用/开启事务及精确取得授权闭合后，才可登记完整采用。",
+    "新增89级来源怪与home须核两洞三层已有85/87怪刷点、墙体/安全区和通行；不混进仅绑定四转八怪的死亡组。",
+    "正式合同完成后登记世界NPC服务/怪物部件、迁移与放弃规则/去重保存/LAN验收，并更新来源映射及统计。",
+    "慕容火已按NREF-40135-R020登记本地NPC/服务锚/走线；正式运行验证仍待Godot。"
+  ],
+  "formal_owner_ref": {
+    "file": "../contracts/八十五级正邪铃铛嘱托任务.v1.json",
+    "pointer": ""
+  }
+}

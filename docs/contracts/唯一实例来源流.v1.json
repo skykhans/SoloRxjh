@@ -1,0 +1,109 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "instance_flow_projection_adopted_not_full_event_not_implemented",
+  "scope": "2004已采用唯一实例版本/新生/替换/双输入进化/具名成长转移/跨角色转让与终结投影；未采用类型/完整档案/经济事件/时钟结果仍待。",
+  "owners": {
+    "schema": "唯一实例来源流.schema.json",
+    "instances": "已采用装备实例.v1.json",
+    "custody": "物品域迁移.v1.json",
+    "layout": "容器与仓储.v1.json",
+    "readable": "../73-唯一实例来源与终结校验合同.md"
+  },
+  "event_embedding": "正式结算恰一个instance_flow对象，receipt_id等于外层结算ID；无实例正文/终结变动时不附该投影，不能造空流。只有原样移位/域迁移时沿布局/custody_transfers，不重复消费同一业务版本。本投影无独立提交权，必须与角色钱物/材料stack_flows/随机/位置/修订/来源授权同笔。",
+  "inputs": "每项previous_output精确receipt_id/output_index指本实例最后业务版本输出；保存本次真实完整前正文及最后custody赋域/迁移ID与描述符。每个前输出只允许一次正式业务后继，全图无环，不能从原出生跳过中间修改。输入身份/owner/血统/修订与前输出一致，正文差异只允许下述已证明自然倒计时；纯位置/域迁移不使业务输出失效，但必须使用最新域。",
+  "clock_input": "武器/防具boost.remaining_steps自然递减不新造业务流，故输入快照可能比前输出少剩余。唯一允许差异为原owner合法权威世界快照证明的同一计时代次递减，不能增加/刷新、跨代、改层/凭证或偷偷置null。自然到期必须正式revise输出null并更新该owner状态来源/实例修订一次。完整时钟结果及证据结构仍待，不凭remaining数值相减自证。",
+  "output_snapshot": "每输出完整实例与held域，source_input_indices索引本流inputs且按具名operation顺序，非外部物品ID。嵌套instance须过精确类型根；所有来源证明/逐定义资格/真实前后差另验。当前已采用的六件可售旧兼容实例均buyback=false，未采用可复购实例或保管域加工，不能借本投影生成buyback；保管清空只能终结合法buyback输入。",
+  "create": "无实例前驱，creation_authorization非空且实际owner认可该kind/authority_receipt_id，初始grant/购买/掉落/任务/制作/明确配置逐类核授权一次。新instance_id/lineage_id全新、revision0、创建锚=receipt_id；有state_origin的根也指本结算。同笔配置非零修改需另正式后继事件，不能把同ID两个输出放本流混作原子内部版本。材料消费通过同结算stack_flows证明，不用伪造实例输入。 已知旧导入仅七兼容实例允许legacy_import授权并保原强化0..3，业务revision仍0，专用路径ID及血统按旧装备兼容instance_root；其余正常创建不借legacy_import绕过初始规则。",
+  "revise": "source_input_indices恰一项；同ID/item/lineage/owner/binding/创建锚，revision精确+1，更新该类型所需业务入口/加工/耐久来源，其余完整字段按owner保留。真实付费失败保成长但记录一次业务尝试属revise；拒绝/取消/无变化配置无流。七键宝珠/七键出尘戒/14键固定初始装备没有revise能力，不因通用操作新增可变字段。",
+  "replace": "一前驱，旧ID终结reason=replacement；新ID、同lineage/owner/binding、revision0、创建锚与最新入口为本结算。只限具名提真/英雄晋阶转移等精确配方，旧成长凭证沿替换边保留；不把源最初出生写成新ID创建。",
+  "combine": "两不同前驱，同角色合法宝珠A/B按索引顺序，二者终结reason=combination；13成功进化输出一颗指定下一品质，新ID、新独立lineage、revision0、创建锚本结算。两个旧血统均退役，不选其一冒充连续血统。失败仅A终结reason=craft、B没有业务输出/输入消费记录，外层结果记录B校验引用但其业务版本保持当前。",
+  "growth_transfer": "两不同前驱顺序为目标、源；目标输出同ID/item/lineage/owner/binding/创建锚，revision+1且最近入口本结算；源终结reason=growth_transfer_source。48/59具名双实例强化转移的typed元素及精确保留规则仍由各owner核验，不授权任意复制成长/合并血统。",
+  "ownership_transfer": "一前驱，同ID/item/lineage/binding/创建锚，实际owner切换到71另一角色且revision+1；只限9新版武勋首饰适配器，ownership_origin/durability_origin本结算且耐久0，processing及原执行角色来源保留。前owner与输出owner不能相同；输入输出均held，角色绑定实例禁止此操作，不新生实例/创建锚。",
+  "retirements": "每条input_index唯一。每个输入若有同ID存续输出则不得retire；若没有同ID输出必须恰一终结。每个输入最多支撑一个输出，不能克隆、分裂单件；replace/combine/growth_transfer同时引用已终结前驱是明确来源边，不把它重新激活。无输出终结依真实丢弃/制作/交付/清理/配置等权限及事件证明，不给零值墓碑留在现持表。 npc_sale仅显式可售且不可复购定义的真实NPC出售终结，必须同笔具有对应实际售款收入；可复购物售出沿custody迁移，不得直接终结。 death_consumption仅授权出尘戒死亡消耗owner规定的精确实例和真实死亡收据/当前生效槽位，其他装备不得使用；无戒指不造空instance_flow。 character_deletion仅由角色删除.v1.json原committed授权，精确覆盖删除目标全部当前held资源，禁止其他业务借该原因终结；来源头/所有权及完整集合双向覆盖另验。",
+  "id_and_lineage": "普通新生/双输入合成实例ID全局永不复用；lineage新生全局唯一。替换是唯一已采用换ID保血统路径；转让保同ID/血统，普通revise/成长转移目标同ID。任一时点每血统至多一个活体，历史完整旧快照不算当前实物。实例ID分配不消费玩法RNG；重试沿已持久计划保原ID，不重新授予。",
+  "closure": "依正式结算顺序消费业务前输出，联合最新custody迁移推导held/buyback当前活体；held与equipment_instances及唯一位置闭合，buyback与会话保管闭合。输入完整正文/最后域不符、前输出双后继、缺终结、孤立输出/坏索引/未知来源均拒绝，不由当前快照反推假历史。",
+  "validation_order": [
+    "严格JSON/token与完整白名单，完整输入/输出实例类型校验。",
+    "前输出存在且最后未消费，引用无环，最新域及合法时钟前正文。",
+    "operation基数、身份/修订/血统/创建锚及来源授权与具名规则。",
+    "每输入存续或终结恰一次、输入输出关联唯一、全局活体/血统。",
+    "同事件费用/材料/RNG/typed成长/配置或转让来源、最终布局/格重及角色修订。",
+    "同笔保存发布；重复同命令先返回原结果，不再消费旧前输出。"
+  ],
+  "implementation_gate": "仅完整实例来源/终结投影及语义采用；完整经济事件、逐producer授权schema、provenance索引与时钟/档案/恢复结构仍待，未实现Godot/文件/LAN。",
+  "atomic_composition": "同一配置命令要求0初态创建后再修改成长时，先在未发布候选内安排两个有序、各自唯一ID的正式子结算/来源流，后者引用前者输出；与配置结果同一原子档案替换后才发布，绝不先落盘/展示半件物品。两子事件不要求角色/库存修订重复加2，命令整体按原owner一次，实例从新生0到修改1；子结算编号/事件根结构仍须完整经济合同采用，不在实现中临时拼假ID。",
+  "identity_allocation": {
+    "policy_id": "instance_identity_v1",
+    "canonical_owner_ref": {
+      "file": "玩家交易.v1.json",
+      "pointer": "/canonical_digest"
+    },
+    "digest_input": [
+      "settlement_id",
+      "output_owner_character_id",
+      "new_instance_ordinal"
+    ],
+    "instance_prefix": "instance:",
+    "new_lineage_prefix": "lineage:",
+    "algorithm": "对71确定JSON编码的三元素数组[settlement_id,output_owner_character_id,new_instance_ordinal] UTF8计算SHA256小写十六进制。新instance_id=instance:+摘要；确需新血统时lineage_id=lineage:+同一摘要，前缀分离命名域。不是官方物品ID，不消费任何玩法随机。",
+    "ordinal": "每个正式结算每输出owner分别对create/replace/combine三种新ID输出按已固定outputs顺序计0起连续安全整数；revise/growth_transfer/ownership_transfer保ID不占序号。replace也占新实例序号但保源lineage，不产生新血统，故各lineage摘要序号允许缺口。ordinal不是output_index，不由背包排序/物品名/哈希/当前时间决定。",
+    "owner": "数组第二项取新实例真实输出owner；绑定由精确定义决定。跨角色转让保原ID/血统，不以接收者重算ID；该结算其他新生实例按其各自owner编号。",
+    "lineage": "create/combine生成lineage:+摘要；replace精确保源lineage。任何create/combine不得传入已有lineage冒充替换，不能把ID字符串后缀相同当配方或所有权证明。",
+    "planning": "原authority先分配唯一正式结算ID，确定输出顺序/owner/operation并计算全部新ID，再冻结不可变候选。准备/保存重试、房主结果重放、客户端应用与有序子结算都沿原计划；不得因当前空槽/输入消费/结果保存次序改变分配。不同子结算必须不同settlement_id。",
+    "collision": "提交前每个新instance_id与全局已分配/当前/已消费实例历史核唯一；仅create/combine的新lineage_id也须与所有已分配血统核唯一，replace保原合法血统不当成新血统碰撞。合法同命令重放必须匹配原计划并直接返回原结果；新事件碰撞是错误，拒绝整笔，不加盐/换序/重抽/覆盖/回收。SHA256不是签名，不能替代来源授权与唯一结算ID。",
+    "legacy": "四已知旧格式的七兼容装备导入使用旧档导入既定路径ID与旧装备兼容instance_root专用血统，不套新实例序号算法；正常新建七兼容实例仍按本instance_identity_v1。导入源字节/版本/逐路径映射与唯一授权必须验证，不凭legacy前缀允许未知来源。",
+    "test_vectors": [
+      {
+        "input": [
+          "settlement:test",
+          "character:test",
+          0
+        ],
+        "canonical_utf8_hex": "5b22736574746c656d656e743a74657374222c226368617261637465723a74657374222c305d",
+        "instance_id": "instance:ed0f3f2d9f167dbd240a48a0b4526bd3eed18dce54ec9ade2cbfbe0de13c3116",
+        "new_lineage_id": "lineage:ed0f3f2d9f167dbd240a48a0b4526bd3eed18dce54ec9ade2cbfbe0de13c3116"
+      },
+      {
+        "input": [
+          "结算:新建",
+          "角色:刀客",
+          1
+        ],
+        "canonical_utf8_hex": "5b22e7bb93e7ae973ae696b0e5bbba222c22e8a792e889b23ae58880e5aea2222c315d",
+        "instance_id": "instance:8ebeede2aae126dc53c58c8a609953d84ae154e7bae9c9a0b2195991cb2eef93",
+        "new_lineage_id": "lineage:8ebeede2aae126dc53c58c8a609953d84ae154e7bae9c9a0b2195991cb2eef93"
+      },
+      {
+        "input": [
+          "settlement:\"\\\n",
+          "character: ",
+          2
+        ],
+        "canonical_utf8_hex": "5b22736574746c656d656e743a5c225c5c5c7530303061222c226368617261637465723ae280a8222c325d",
+        "instance_id": "instance:648880e6fc8977486fe3c2a234d36769ac2ba46389ab8b5817eb392b9d4a96b4",
+        "new_lineage_id": "lineage:648880e6fc8977486fe3c2a234d36769ac2ba46389ab8b5817eb392b9d4a96b4"
+      }
+    ]
+  },
+  "settlement_identity_owner_ref": {
+    "file": "结算身份.v1.json",
+    "pointer": ""
+  },
+  "current_heads_owner_ref": {
+    "file": "来源现态推导.v1.json",
+    "pointer": ""
+  },
+  "death_consumption_owner_ref": {
+    "file": "出尘戒死亡消耗.v1.json",
+    "pointer": ""
+  },
+  "character_deletion_owner_ref": {
+    "file": "角色删除.v1.json",
+    "pointer": ""
+  },
+  "ordinary_armor_purchase_owner_ref": {
+    "file": "普通防具基础定义.v1.json",
+    "pointer": "/acquisition_policy/purchase_events"
+  }
+}

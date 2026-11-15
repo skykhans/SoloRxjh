@@ -1,0 +1,333 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:innate-profile-selection:v1",
+  "$comment": "character.innate_profiles仅保存当前已采用项目固有效果选择版本，不保存生效标记/概率/资源快照；职业绑定及实际等级晋级/封印/原触发来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format_version",
+    "selected_profile_ids"
+  ],
+  "properties": {
+    "format_version": {
+      "const": 1
+    },
+    "selected_profile_ids": {
+      "type": "array",
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "local_wangmei_mana_response",
+          "local_guagu_cleanse_response"
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "class_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "class_id",
+        "innate_profiles"
+      ],
+      "properties": {
+        "class_id": {
+          "$ref": "urn:solorxjh:class-special-resources:v1#/$defs/class_projection/properties/class_id"
+        },
+        "innate_profiles": {
+          "$ref": "urn:solorxjh:innate-profile-selection:v1"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "blade"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "sword"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "spear"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "physician"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": [
+                      "local_wangmei_mana_response"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "archer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "assassin"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "musician"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": [
+                      "local_guagu_cleanse_response"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "fighter"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "han_feiguan"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "tan_hualing"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "mei_liuzhen"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "lu_fenglang"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "dongling_shennv"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": [
+                      "local_wangmei_mana_response"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "class_id": {
+                "const": "zhen_fengbai"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "innate_profiles": {
+                "properties": {
+                  "selected_profile_ids": {
+                    "const": []
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

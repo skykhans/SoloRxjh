@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:accepted-direct-attack-identity:v1",
+  "$comment": "原已接纳直接攻击七字段联合投影，不新增持久身份包装或计数。完整原动作先验；仅玩家直接攻击与原432修炼刷点普通攻击，原会话/实体生命轮次/世界步/摘要和完整接纳来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "source_actor_id",
+    "map_id",
+    "instance_id_or_null",
+    "accepted_world_step",
+    "admission"
+  ],
+  "properties": {
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "source_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "accepted_world_step": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "admission": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/player_command"
+        },
+        {
+          "$ref": "#/$defs/training_ai"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "player_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "play_session_identity",
+        "command_id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "player_command"
+        },
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "training_ai": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "const": "training_ai"
+        }
+      }
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 78,
+      "maxLength": 78,
+      "pattern": "^combat-action:[0-9a-f]{64}(?![\\s\\S])"
+    }
+  }
+}

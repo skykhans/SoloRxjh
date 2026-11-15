@@ -1,0 +1,544 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/70/text"
+    },
+    "published": "15级银娇龙，三尾狐毛10/千年树皮1→韦取兽皮甲衣料1→银收衣料奖兽皮甲，一次。",
+    "local": "按精确现有奖励限七职业、伐木工首领绑定目录伐木工头、个人100%0克99堆/主动战斗属性/8home为明确本地。"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63791-005",
+    "source_reference_id": "QREF-63791-005",
+    "name": "银娇龙的自尊心1",
+    "minimum_level": 15,
+    "minimum_rank": 0,
+    "class_scope": [
+      "blade",
+      "sword",
+      "assassin",
+      "spear",
+      "archer",
+      "physician",
+      "han_feiguan"
+    ],
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_yinjiaolong",
+    "npc_map_id": "hyunbo_town",
+    "interaction_anchor_id": "npc_yinjiaolong_service",
+    "service_id": "yin15_armor",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "acceptance": "本人存活脱战空闲无挑战，15级/本任务七职业/三路线/rank0，银娇龙原map锚<=2500mm，未接未完成新attempt stage1，无初始物费用或其他前任务。来源未列职业限制；本地明确只对现有精确兽皮甲七职业开放，不伪称源全职业奖励，也不给其余七职业不可用内甲。领取rank0与实际穿戴rank1分别校验。",
+    "preaccept_items_count": false,
+    "source_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/4"
+    },
+    "stages": [
+      {
+        "stage_index": 1,
+        "npc_id": "npc_yinjiaolong",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "npc_yinjiaolong_service",
+        "service_id": "yin15_armor",
+        "consume": [
+          {
+            "item_id": "quest_pride15_fox_fur",
+            "quantity": 10
+          },
+          {
+            "item_id": "quest_pride15_bark",
+            "quantity": 1
+          }
+        ],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": null,
+        "next_stage_index": 2,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 2,
+        "npc_id": "npc_wei_dabao",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "npc_wei_dabao_service",
+        "service_id": "wei15_lining",
+        "consume": [],
+        "grant": [
+          {
+            "item_id": "quest_pride15_lining",
+            "quantity": 1
+          }
+        ],
+        "grant_reason": "quest_reward",
+        "requires_prior_stage_receipt_index": 1,
+        "next_stage_index": 3,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 3,
+        "npc_id": "npc_yinjiaolong",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "npc_yinjiaolong_service",
+        "service_id": "yin15_armor",
+        "consume": [
+          {
+            "item_id": "quest_pride15_lining",
+            "quantity": 1
+          }
+        ],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": 2,
+        "next_stage_index": null,
+        "apply_final_reward": true
+      }
+    ],
+    "inventory_by_stage": {
+      "1": {
+        "required_exact": {},
+        "collection_caps": {
+          "quest_pride15_fox_fur": 10,
+          "quest_pride15_bark": 1
+        }
+      },
+      "2": {
+        "required_exact": {}
+      },
+      "3": {
+        "required_exact": {
+          "quest_pride15_lining": 1
+        }
+      }
+    },
+    "source_stage_interpretation": "原三步：三尾狐毛10/伐木工首领千年树皮1交银→韦无输入领衣料1→银收衣料给兽皮甲1。伐木工首领与目录伐木工头的名字差异明确本地绑定同一来源具名20怪，非另一额外首领；不把源捕捉措辞设计为新抓宠系统。",
+    "reward": {
+      "experience": 0,
+      "practice": 0,
+      "silver": 0,
+      "items": [],
+      "rank_change": null,
+      "ascension_progress": 0,
+      "exactly_one_class_armor": [
+        {
+          "class_id": "blade",
+          "item_id": "armor_regular_blade_b3f6892d1d6a",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/124"
+          }
+        },
+        {
+          "class_id": "sword",
+          "item_id": "armor_regular_sword_887adbac6730",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/260"
+          }
+        },
+        {
+          "class_id": "assassin",
+          "item_id": "armor_regular_assassin_1d5f65ee53c5",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/396"
+          }
+        },
+        {
+          "class_id": "spear",
+          "item_id": "armor_regular_spear_e7c1e1b004ec",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/532"
+          }
+        },
+        {
+          "class_id": "archer",
+          "item_id": "armor_regular_archer_bd6031dd0500",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/668"
+          }
+        },
+        {
+          "class_id": "physician",
+          "item_id": "armor_regular_physician_896bbc2f8115",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/804"
+          }
+        },
+        {
+          "class_id": "han_feiguan",
+          "item_id": "armor_regular_han_feiguan_584be583efb6",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通防具基础定义.v1.json",
+            "pointer": "/items/1073"
+          }
+        }
+      ]
+    },
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "final_receipt_or_null"
+    ],
+    "delivered_with_stage_index": 3,
+    "delivery": "仅stage3银娇龙原端点及本人资格/当前attempt连续前缀/本轮真实衣料1来源，按本人职业唯一兽皮甲行；核原合法库存及独立装备格/1000克最终重量。消费衣料1、新唯一instance_id/lineage_id/character绑定/revision0与完整18键实例初态及实际创建来源、唯一完成/角色库存修订05/19同笔。无经验历练银或自动穿戴。普通防具完整档案/来源收据/派生外观与服务运行门禁未闭合前不得启用实际创建。",
+    "repeat": "角色跨世界一次；路线/队伍/放弃不重置完成。",
+    "abandon": "确认仅清本轮毛/树皮/衣料及步骤，已交输入不返；重接新attempt stage1重采，不能保留旧衣料/补旧死亡。完成不可放弃。",
+    "save": "保存两采集输入消费、无输入领衣料及最终消费/唯一完整兽皮甲创建收据，原完整防具18键与全部来源链另验；保存不确定解析05/19原决定，仅重存，不重领衣料或重造内甲。",
+    "deduplication": "同request同payload回原结果，异payload拒绝；不回装已仓储/丢弃/加工的内甲。",
+    "capacity_failure": "任一步资格/实际输入来源/阶段前缀/原修订或容量失败保原输入状态；stage2无输入领衣料必须当时真实材料空槽，不能借stage1过去释放槽或未来终交槽。终奖独立装备格与重量不足不消费衣料。",
+    "modifiers": "个人固定任务凭证/兽皮甲不进普通击杀组队池，不受终结者/修炼倍率。"
+  },
+  "items": [
+    {
+      "item_id": "quest_pride15_fox_fur",
+      "name": "三尾狐毛",
+      "source_reference_id": "QREF-63791-005",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本轮个人任务凭证0克99堆，非普通加工材料，禁止装备使用仓丢售交易加工，只当前步骤消费或放弃清理。"
+    },
+    {
+      "item_id": "quest_pride15_bark",
+      "name": "千年树皮",
+      "source_reference_id": "QREF-63791-005",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本轮个人任务凭证0克99堆，非普通加工材料，禁止装备使用仓丢售交易加工，只当前步骤消费或放弃清理。"
+    },
+    {
+      "item_id": "quest_pride15_lining",
+      "name": "兽皮甲衣料",
+      "source_reference_id": "QREF-63791-005",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "本轮个人任务凭证0克99堆，非普通加工材料，禁止装备使用仓丢售交易加工，只当前步骤消费或放弃清理。"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63791-005",
+        "required_stage_index": 1,
+        "monster_id": "hyunbo_three_tail_fox18",
+        "map_id": "hyunbo_outskirts",
+        "item_id": "quest_pride15_fox_fur",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63791-005",
+        "required_stage_index": 1,
+        "monster_id": "hyunbo_lumber_head20",
+        "map_id": "hyunbo_outskirts",
+        "item_id": "quest_pride15_bark",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 1
+      }
+    ],
+    "qualification": "仅本人当前attempt stage1/本任务七职业/存活连接同world同图，solo原归属或19原成员30m/入队600步快照，实际actor对应输入未达毛10/皮1封顶。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ],
+    "commit": "本owner两怪各唯一原死亡，实际actor仅匹配自身producer；普通收益一次与个人凭证来源05/19同笔；共同容量失败记录原无物决定，旧死亡不补。"
+  },
+  "monsters": [
+    {
+      "monster_id": "hyunbo_three_tail_fox18",
+      "source_reference_id": "MREF-39821-009",
+      "name": "三尾狐",
+      "level": 18,
+      "map_id": "hyunbo_outskirts",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 1800,
+      "max_mana": 0,
+      "attack_min": 54,
+      "attack_max": 72,
+      "ordinary_defense": 36,
+      "accuracy": 90,
+      "evasion": 36,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_pride15_creature",
+      "xp_reward": 8680,
+      "practice_reward": 868,
+      "silver_reward": 18,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "hyunbo_three_tail_fox18",
+        "status": "来源具名怪模型/动作待制作"
+      },
+      "identity_policy": "保来源名称/等级/泫勃区域，本地主动/数值/home。伐木工首领绑定目录伐木工头为本地称呼解释，无boss奖励倍率。",
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/87"
+      },
+      "aggression": "proactive"
+    },
+    {
+      "monster_id": "hyunbo_lumber_head20",
+      "source_reference_id": "MREF-39821-011",
+      "name": "伐木工头",
+      "level": 20,
+      "map_id": "hyunbo_outskirts",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2000,
+      "max_mana": 0,
+      "attack_min": 60,
+      "attack_max": 80,
+      "ordinary_defense": 40,
+      "accuracy": 100,
+      "evasion": 40,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_pride15_creature",
+      "xp_reward": 10095,
+      "practice_reward": 1009,
+      "silver_reward": 20,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "hyunbo_lumber_head20",
+        "status": "来源具名怪模型/动作待制作"
+      },
+      "identity_policy": "保来源名称/等级/泫勃区域，本地主动/数值/home。伐木工首领绑定目录伐木工头为本地称呼解释，无boss奖励倍率。",
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/89"
+      },
+      "aggression": "proactive"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "hyunbo_three_tail_fox18_01",
+      "monster_id": "hyunbo_three_tail_fox18",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -128,
+        0,
+        20
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_three_tail_fox18_02",
+      "monster_id": "hyunbo_three_tail_fox18",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -128,
+        0,
+        28
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_three_tail_fox18_03",
+      "monster_id": "hyunbo_three_tail_fox18",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -128,
+        0,
+        36
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_three_tail_fox18_04",
+      "monster_id": "hyunbo_three_tail_fox18",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        -128,
+        0,
+        44
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_lumber_head20_01",
+      "monster_id": "hyunbo_lumber_head20",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        128,
+        0,
+        20
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_lumber_head20_02",
+      "monster_id": "hyunbo_lumber_head20",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        128,
+        0,
+        28
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_lumber_head20_03",
+      "monster_id": "hyunbo_lumber_head20",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        128,
+        0,
+        36
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_lumber_head20_04",
+      "monster_id": "hyunbo_lumber_head20",
+      "map_id": "hyunbo_outskirts",
+      "home_feet_m": [
+        128,
+        0,
+        44
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "stage_transaction": {
+    "eligibility": "本人当前attempt/阶段与完整真实前缀、精确NPCmap锚服务<=2500mm、存活脱战空闲无挑战。",
+    "commit": "stage1毛10/皮1同笔消费及阶段前进；stage2韦无输入发衣料quest_reward须当时真实空材料槽；stage3衣料1消费/完整内甲创建/唯一完成05/19同笔。失败保原输入状态。",
+    "deduplication": "character/quest/attempt/stage唯一，同request同payload回原决定、异payload拒绝，不重发衣料或重造内甲。"
+  },
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "明确本地主动9m，沿原仇恨/脱战生命周期。",
+      "safe_zone": "全部地图安全区禁止敌对出生/进入，按路径返home恢复，不瞬移。"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "equipment_creation_owner": {
+    "file": "普通防具实例.v1.json",
+    "pointer": "/creation"
+  },
+  "pending": [
+    "Godot三步/真实无输入领料/完整防具创建与保存LAN故障验证",
+    "两怪模型动作/动态导航与数值校准"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:stamina-regeneration-state:v1",
+  "$comment": "character.stamina_regeneration仅恢复等待及余数，不复制当前体力/上限或冷却；满体力余数0等跨字段关系沿战斗owner另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "waiting_steps",
+    "fraction_remainder"
+  ],
+  "properties": {
+    "waiting_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 60
+    },
+    "fraction_remainder": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 59
+    }
+  }
+}

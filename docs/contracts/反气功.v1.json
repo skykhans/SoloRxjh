@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-13",
+  "updated_on": "2026-11-14",
   "status": "project_rules_and_identity_links_not_implemented_target_effects_pending",
   "identity_mapping_file": "武功气功来源映射.v1.json",
   "source_policy": "70090已公开29名称、十二转开放、只对主目标/普攻武功命中/独立概率及不受所有气功等级增加；V25只说明反气功点提升对怪防御。以下精确成本、概率、减级、计时、叠加与对怪防御系数均为项目设计。",
@@ -14,7 +14,27 @@
     "maximum_level_per_definition": 5,
     "points_per_level": 1,
     "all_qigong_level_bonus_applies": false,
-    "source_of_budget": "14合同4.1; level/effective equipment/explicit item budget only"
+    "source_of_budget": "14合同4.1; level/effective equipment/explicit item budget only",
+    "hero_weapon_equipment_budget_owner_ref": {
+      "file": "英雄武器反气功预算.v1.json",
+      "pointer": "/budget_application"
+    },
+    "regular_weapon_equipment_budget_owner_ref": {
+      "file": "普通武器反气功预算.v1.json",
+      "pointer": "/budget_application"
+    },
+    "armor_equipment_budget_owner_ref": {
+      "file": "普通防具反气功预算.v1.json",
+      "pointer": "/budget_application"
+    },
+    "temporary_item_budget_owner_ref": {
+      "file": "反气功临时药品.v1.json",
+      "pointer": "/budget_application"
+    },
+    "jewelry_processing_budget_owner_ref": {
+      "file": "普通首饰加工.v1.json",
+      "pointer": "/budget_application"
+    }
   },
   "proc": {
     "chance_bp": 2000,
@@ -354,5 +374,33 @@
         "qigong_zhen_fengbai_f7e00df50117"
       ]
     }
-  ]
+  ],
+  "merit_jewelry_owner_ref": {
+    "file": "新版武勋首饰.v1.json",
+    "pointer": "/contribution_policy/anti_qigong"
+  },
+  "persistent_state": {
+    "fields": [
+      "character.qigong.anti_allocations",
+      "character.qigong.anti_cooldowns"
+    ],
+    "schema_ref": {
+      "file": "反气功持久状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "anti_allocations": {},
+      "anti_cooldowns": {}
+    },
+    "ownership": "两个字段仍平铺在character.qigong；本schema仅联合验证组件，不保存anti_qigong_state包装。反气功29ID来自definitions，不按目标气功ID/显示名或施放者职业限制。技能库/角色根不再复制投入与冷却。",
+    "allocations": "anti_allocations为已知29ID到自有投入0..5的稀疏表，缺ID精确表示投入0，显式0合法；未知ID/坏数值拒绝。该表投入不花普通/升天池。正常解锁后14职业可投任一反气功；正常未解锁不允许正投入，配置例外须18原来源。",
+    "budget": "总预算仅由当前等级/实际十二转、合法生效装备/首饰、具名道具及18显式覆盖推导；未分配=总预算-sum(anti_allocations)，对怪防御按同一总预算一次计算，不另保存anti_budget/anti_unallocated或升级领取水位。旧导入initial_anti_qigong_budget=0仅声明导入低级角色推导值，不写第二份余额。",
+    "source_validation": "加载先验证完整角色/配置来源及所有实际生效装备/道具，重算预算和解锁；已投总和不得超预算，不能先清表修坏档。低等级/未十二转却正投入且无合法配置例外拒绝；冷却无需当前正投入或解锁，合法旧成功冷却可独立保留。29ID属于结构白名单不证明曾有合法分配或成功触发。",
+    "budget_loss": "合法换装/切组或配置降低预算时沿14预览确认；外部失效/药品到期在权威固定步执行。新预算不足原投入则同原事件把全部既有分配键值置0，不删键/不按ID顺序部分剪点；仍足够则不改分配。撤销解锁若无明确配置例外同笔全部清0。丢失的临时点不补偿、不返普通/升天点/物品；恢复预算/解锁不恢复旧分配。无合法条件变化来源的超预算快照拒绝。",
+    "cooldowns": "anti_cooldowns按29ID各最多一个精确remaining_steps/trigger_event_id记录，剩余严格整数1..180。缺ID表示当前无冷却；到0在原固定步删除该键，不保存0记录。成功应用才以180登记，失败/无资格不产生冷却；由同原root成功触发收据证明施放者/反气功ID/合法主目标与原随机决定，不能只凭字符串证明。",
+    "cooldown_lifecycle": "每个实际世界固定步递减一次，暂停/离线冻结，读档/重连不补步/重开180；普通计时不虚增业务修订。免费重分配、山参洗点、预算/解锁丧失、换装/换目标及目标死亡不清成功冷却；攻击者死亡/复活亦保留原剩余，不让复活重开触发。原成功限时削弱由接收者效果owner保留来源/剩余，不复制进此表；目标死亡只清其被施加效果。",
+    "reallocation": "反气功免费清分配按reallocation全部条件和18预览确认，将原表全部值置0；预算仍实时推导，保原成功冷却/已付目标效果，不耗山参/银两，不伪造退款收入。原事件/修订和重复请求来源仍须完整结算验证。",
+    "initialization": "新角色anti_allocations/anti_cooldowns显式{}/{}；四已知旧来源的新导入角色同值，旧剑技不转投入或成功来源。初始模板两值是本字段初值声明，不另写角色根。既有目标其他角色/世界不变，新格式缺字段拒绝。",
+    "boundary": "完整反气功分配/成功触发/外部预算变化事件、目标效果源与qigong/角色/结果封套仍待；组件结构不代替点数授权/原整数词元或Godot文件/LAN测试，不据此放行D1。"
+  }
 }

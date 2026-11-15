@@ -1,0 +1,131 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "adopted_growth_component_schema_not_implemented_not_full_instance_or_profile",
+  "scope": "51普通1219件+55武勋106件精确目录1325件已采用成长字段；不含77阻塞、21门派、初始短衫/其他装备。其他元素/药品/特殊触发仍是D1缺口，未来显式扩版，不能将未知状态当null。",
+  "structural_schema_ref": {
+    "file": "普通防具成长.schema.json",
+    "pointer": ""
+  },
+  "catalog_refs": [
+    {
+      "file": "普通防具基础定义.v1.json",
+      "pointer": "/items"
+    },
+    {
+      "file": "武勋防具基础定义.v1.json",
+      "pointer": "/items"
+    }
+  ],
+  "layout": "在现有完整实例上登记十个平铺成长字段，不新增growth嵌套对象，不把身份/修订/位置/血统/绑定字段移进成长。结构schema仅校验这十字段投影；根完整18键白名单依普通防具实例.v1.json，唯一实例/血统与位置依05/17及容器owner，未登记根字段不得投影时悄悄丢弃。",
+  "required_fields": {
+    "enhancement": {
+      "owner_ref": {
+        "file": "普通防具强化.v1.json",
+        "pointer": "/enhancement_field"
+      }
+    },
+    "synthesis_entries": {
+      "owner_ref": {
+        "file": "普通防具合成.v1.json",
+        "pointer": "/synthesis_schema"
+      }
+    },
+    "awakening_stage": {
+      "owner_ref": {
+        "file": "普通防具觉醒与四神.v1.json",
+        "pointer": "/awakening_schema"
+      }
+    },
+    "element_attribute": {
+      "owner_ref": {
+        "file": "普通防具属性石.v1.json",
+        "pointer": "/attribute_schema"
+      }
+    },
+    "evolution_tier": {
+      "owner_ref": {
+        "file": "普通防具奇玉与进化.v1.json",
+        "pointer": "/evolution_schema"
+      }
+    },
+    "true_equipment": {
+      "must_equal": "exact definition.true_equipment",
+      "type": "boolean_not_integer"
+    },
+    "merit_equipment": {
+      "must_equal": "exact definition.merit_equipment",
+      "type": "boolean_not_integer"
+    },
+    "four_divine_state": {
+      "owner_ref": {
+        "file": "普通防具觉醒与四神.v1.json",
+        "pointer": "/four_divine_schema"
+      }
+    },
+    "jade_attributes": {
+      "owner_ref": {
+        "file": "普通防具奇玉与进化.v1.json",
+        "pointer": "/jade_schema"
+      }
+    },
+    "enhancement_boost": {
+      "owner_ref": {
+        "file": "普通防具附加提升.v1.json",
+        "pointer": "/boost_schema"
+      }
+    }
+  },
+  "numeric_policy": "JSON布尔与整数分开，整数字段只接受十进制整数token，不接受bool/float/string或小数/指数token；JSON Schema的integer数学语义不足以拒绝1.0/1e0，故必须先保留原数字token类型并核验，Godot解码为double后不能再用is_equal_approx或int强转补救。所有整数须处于各owner范围及精确安全整数界。",
+  "validation_order": [
+    "解析时拒绝重复键/非法JSON/非有限数，保留数字token类型，不做缺字段补全或类型转换",
+    "先完整根实例身份/容器/绑定/修订白名单与全库存唯一性合法，未知根字段拒绝；不能靠抽取十字段隐藏坏根数据",
+    "十字段必须全在且结构符合structural_schema_ref，严格数字token及布尔规则通过",
+    "精确物品目录及true/merit标识、部位容量/能力和交叉字段规则通过；先验实例定义不变量，不以角色暂时失效为理由清成长",
+    "按各owner核属性/固定值/槽连续性/合法阶段、成功收据/角色/血统/操作链，59typed导入与60同血统替换严格限定",
+    "角色当前穿戴/加工资格与生效位置按具体命令判定，失效装备可保合法成长；61自然计时继续",
+    "加工副本结果再次按同一根/结构/语义/历史/最终格重完整校验后原子提交"
+  ],
+  "cross_field_rules": [
+    "true_equipment与merit_equipment必须是严格布尔且逐件等于精确静态定义，不能按名称或profile补标识。",
+    "enhancement严格0～definition.enhancement_limit；改变来源必须为52强化、59覆盖或60减2等明确成功记录，不以数值范围通过代替历史。",
+    "synthesis_entries长度<=definition.maximum_synthesis_entries，slot_index从0连续；属性和值精确53池，逐槽成功收据且同血统，不能复制别件。",
+    "awakening_stage<=definition.awakening_limit；four_divine_state非空必须definition.four_divine_allowed且awakening_stage>=1，神及防具成功凭证合法。能力为0的837件只能0/null。",
+    "jade_attributes长度<=definition.maximum_jade_entries且最多1，属性及固定值依57；evolution_tier<=definition.evolution_limit，各成功升级阶段历史依57。",
+    "element_attribute非空仅58火/毒真实1～definition.element_stage_limit；单槽互斥，typed来源或同血统替换按对应owner校验，其他元素不做中性/默认处理。",
+    "enhancement_boost非空必须definition.enhancement_boost_stack_limit>0、enhancement==15，boost_id精确armor_tianchi_pill，stacks<=能力且receipt数组数量==stacks、不同且按序属同一有效计时世代；剩余1～108000。",
+    "任何合法非空boost按61阻止加工，59双实例任一非空都拒绝；不得清boost来让输入合法。自然到期唯一边界置null，不把0剩余存成对象。"
+  ],
+  "fresh_creation": {
+    "explicit_growth_fields": {
+      "enhancement": 0,
+      "synthesis_entries": [],
+      "awakening_stage": 0,
+      "element_attribute": null,
+      "evolution_tier": 0,
+      "true_equipment": "copy exact definition boolean",
+      "merit_equipment": "copy exact definition boolean",
+      "four_divine_state": null,
+      "jade_attributes": [],
+      "enhancement_boost": null
+    },
+    "policy": "仅将来已注册正式新建路径，逐件独立ID/血统并验证精确目录；不得用此模板修补读档缺字段，不给旧初始短衫套此profile。"
+  },
+  "provenance_owner_refs": [
+    {
+      "file": "普通防具强化转移.v1.json",
+      "pointer": "/provenance_policy"
+    },
+    {
+      "file": "普通防具提真.v1.json",
+      "pointer": "/same_lineage_replacement_provenance"
+    }
+  ],
+  "processing": "52/53/56～61报价和提交均引用本唯一组件owner及各operation，不另建宽松schema。转移双输入/目标投影、提真旧/新实例均完整校验；材料购买不虚构目标装备检查。保存重试不重放成本/RNG/成长。",
+  "legacy_and_configuration": "新目录无旧运行实例映射，不据名字/防御/角色等级猜导入。旧初始短衫沿其原profile；后续若发现真实旧实例必须专门定义迁移，不在读取时补0/null。18显式配置与正常历史隔离，配置异常须带既定作用域标记，不能伪造成加工成功或削弱结构/安全不变量。",
+  "implementation_gate": "十字段成长组件与普通防具实例.v1.json的1325件完整18键根schema均已采用；完整档案/收据日志、其他元素/药品/特殊触发、预算及资源经济服务联审仍待。不代表D1/完整存档通过，不注册服务或运行创建实例。",
+  "full_instance_owner_ref": {
+    "file": "普通防具实例.v1.json",
+    "pointer": ""
+  }
+}

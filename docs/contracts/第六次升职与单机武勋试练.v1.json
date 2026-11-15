@@ -1,0 +1,1029 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "full_local_sixth_advancement_and_merit_trial_design_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "record_url": "http://rxjh.17game.com/data/tasks/201907/63796.htm",
+    "source_html_sha256": "8b2c87c19cf9da8024e0239f4a0a67918fcf0a3aad90228f171bc089d4cdf9bb",
+    "text_sha256": "22bfd2eb6ba3df28d0e3de0f18160ef1a1d9cb79421222cee3b0102511e4a5a8",
+    "rechecked_on": "2026-11-14",
+    "source_conditions": "115级五转以上、2000点以上武勋、南林月宫姮娥影子战、10亿银两/500万历练、升天一式及对应武功秘籍。",
+    "unpublished_fields": "原文未给逐阶段、武勋取得单机配方、影子战属性/时限或14职业秘籍逐本奖励；本合同本地定义，原未知不回写。"
+  },
+  "source_policy": "采用拥有武勋>=2000、晋级前rank恰5/adv05已交付、115级，最终晋级才付费；三阶段、两个单人私场、8胜可得2000武勋、28职业派别秘籍全套绑定、死亡/超时/放弃/保存与NPC位置为明确本地选择。旧1008沿14合同本地10000阈值，不再改释官网。",
+  "quest": {
+    "quest_id": "adv_06",
+    "minimum_level": 115,
+    "required_completed_rank": 5,
+    "requires_delivered": "adv_05",
+    "required_merit": {
+      "field": "character.martial_merit",
+      "comparison": ">=",
+      "value": 2000,
+      "consumed": false,
+      "local_boundary_policy": "明确以包含2000的边界采用中文以上；不是新增官网数值证明。"
+    },
+    "class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "accept_and_turnin_npc_id": "npc_yuegong_henge",
+    "map_id": "nanlin_forest",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "branch_id_or_null",
+      "stage_index_or_null",
+      "active_challenge_ref_or_null",
+      "stage_receipts",
+      "final_receipt_or_null"
+    ],
+    "stages": [
+      {
+        "stage_index": 1,
+        "action": "向月宫姮娥接取并接受影子试练",
+        "next_stage_index": 2,
+        "fees": {
+          "silver": 0,
+          "practice": 0
+        },
+        "grants": []
+      },
+      {
+        "stage_index": 2,
+        "action": "从月宫NPC进入影子私场，由本人击败影子",
+        "arena_id": "ascension_shadow_trial",
+        "next_stage_index_on_victory": 3,
+        "rank_after_victory": 5
+      },
+      {
+        "stage_index": 3,
+        "action": "回月宫提交试练并支付10亿银两及500万历练",
+        "final_reward_owner": "/final_reward",
+        "next_state": "delivered"
+      }
+    ],
+    "acceptance": "存活脱战空闲、无其他挑战/传送动作/未结算战斗队列，精确NPC/地图<=2.5米；本人固定class/正邪/等级/rank/adv05/武勋均检查，唯一新attempt不发奖励；stage1完成收据与进入stage2同事务。",
+    "ready_policy": "stage3+成功影子收据+最终费用和28行本人奖励布局可用，派生UI可交付；不另存影子击杀数或胜利物品。",
+    "repeat": "角色跨世界一次；失败子挑战可重试主stage2，主任务确认放弃后新主attempt从头。",
+    "abandon": "确认取消主attempt，若有活动子局先原子终结为主动失败并办理返回；状态not_accepted，活动attempt/branch/stage/challenge_ref为null，历史收据保留原attempt。重接新主attempt，原胜利收据不得复用；最终已交付不可放弃。"
+  },
+  "martial_merit": {
+    "field": "character.martial_merit",
+    "range": [
+      0,
+      9007199254740991
+    ],
+    "initial": 0,
+    "unit": "武勋点",
+    "owner_policy": "与宗门贡献、普通历练、名声独立；非物品、不能存仓或卖，不从等级/击杀/捐献自动推得。",
+    "trial_reward": 250,
+    "entry_overflow_preflight": "进试练前检查current<=9007199254740741；试练中禁止配置及其他主动武勋写入，原称号实际到期扣费/清除照常先结算。其间余额只能由原到期费用减少，故入场加250上界仍成立；胜利对终局实际余额checked_add250，不用入场余额覆盖，不截断/溢出。",
+    "consumption": "本六转只检查拥有，不扣2000；以后明确消费规则另列，不能复用门派contribution余额。",
+    "provenance": "普通武勋变动由真实试练胜利收据；18参数配置写入保独立来源标记且须先结束活动，不伪造挑战完成。",
+    "title_upkeep_interlock": {
+      "expiry_owner_ref": {
+        "file": "武勋阶段与称号资格.v1.json",
+        "pointer": "/expiry_events"
+      },
+      "clock_owner_ref": {
+        "file": "武勋阶段与称号资格.v1.json",
+        "pointer": "/upkeep/clock_ownership"
+      },
+      "scope": "两个私场均保留本人原称号，不额外认证/刷新/免月费。武勋试练只在真实胜利加250，影子试练不发武勋；活动独占限制阻用户配置与其他活动，不阻本角色强制到期业务。",
+      "step_order": "每个实际接纳角色步先完成称号到期及资格/预算/当前资源联验，再推进本步战斗命中/死亡，按原timing裁定胜负/超时，最后持久终局与实际奖励。到期前已接受动作仍遵原动作快照，新接受动作读取新资格，不借旧输入重新接受。",
+      "reward": "称号到期不足先清除，即使本步稍后胜利+250使余额足够也不补续费/复原称号。足额先扣后对实际余额加250；两个原决定各自保真实来源和业务修订，终局不得回写入场余额/凭证/旧角色修订。失败不返已合法扣费，影子胜利仅推进原任务阶段。",
+      "pending": "强制到期reserved/写入存疑未解决时，本私场该步战斗/期限推进及终局发布均等待原决定，保完整已确认现场；不先消费最终步、判超时或发250。不是暂停收费或玩家取消入口，恢复先核原决定，再从同一未消费战斗步继续。",
+      "revision": "到期提交后，后续终局须重新取实际character_revision及原库存修订，不能复用入场或到期前两修订。原到期和终局各按其owner递增一次业务修订；普通余时递减不造业务修订。完整终局/战斗事件尚待采用，本条不授权省略其来源。",
+      "terminal": "终局停止本局elapsed/敌AI/攻击与重复奖励；原角色实体若仍被接纳，称号继续按实际角色步计时。返回点被占不延长称号周期；离场不重置。角色实体未推进时不凭公共world经过步补扣。",
+      "disconnect": "本合同private_advancement_trials断线挂起时，私场与其中角色实体同时立即停止接纳模拟，称号与elapsed均保持；公共LAN实体10秒保留规则不用于追扣此已挂起私场。原会话/锁/现场仍保存，重连恢复实际余时，不读房间差步或墙钟。",
+      "remaining": "完整私场入场/战斗/终局事件、真实时钟来源及LAN保存仍待；只明确跨owner顺序和合法差异。",
+      "entry_qualification": "合法入场后到期扣费导致武勋低于2000，不追溯撤销影子子attempt或强制失败；继续实际战斗，合法胜利仍推进原stage2→3。最终交付仍按原quest.required_merit重验当前>=2000，不足不能扣费/晋级，须先完成离场再经合法新武勋试练取得。已交adv05/实际rank等其他原门槛不因此放宽。"
+    }
+  },
+  "merit_trial_profile": {
+    "state_fields": [
+      "active_challenge_ref_or_null",
+      "attempt_receipts"
+    ],
+    "initial": {
+      "active_challenge_ref_or_null": null,
+      "attempt_receipts": []
+    },
+    "service_npc_id": "npc_yuegong_henge",
+    "class_ids": [
+      "blade",
+      "sword",
+      "spear",
+      "physician",
+      "archer",
+      "assassin",
+      "musician",
+      "fighter",
+      "han_feiguan",
+      "tan_hualing",
+      "mei_liuzhen",
+      "lu_fenglang",
+      "dongling_shennv",
+      "zhen_fengbai"
+    ],
+    "routes": [
+      "righteous",
+      "evil"
+    ],
+    "quest_independence": "无需先接adv06或已有武勋；100级5转已交adv05即可开始，解决六转接取的前置循环。不发十转势力证物。",
+    "replay": "一次接受生成稳定attempt/instance，胜负/奖励唯一；客户端命令重发只返回原结果。终局后明确再次挑战才生成新attempt，不自动排队重战。"
+  },
+  "arena_layout": {
+    "x_bounds_m": [
+      -24,
+      24
+    ],
+    "z_bounds_m": [
+      -24,
+      24
+    ],
+    "floor_y_m": 0,
+    "floor_geometry": {
+      "kind": "bounded_walkable_plane",
+      "thickness_m": 1,
+      "center_y_m": -0.5
+    },
+    "solid_blocks": [
+      {
+        "id": "arena_pillar_west",
+        "center_m": [
+          -14,
+          2,
+          0
+        ],
+        "size_m": [
+          4,
+          4,
+          12
+        ]
+      },
+      {
+        "id": "arena_pillar_east",
+        "center_m": [
+          14,
+          2,
+          0
+        ],
+        "size_m": [
+          4,
+          4,
+          12
+        ]
+      }
+    ],
+    "player_spawn_m": [
+      0,
+      0,
+      -12
+    ],
+    "enemy_spawn_m": [
+      0,
+      0,
+      8
+    ],
+    "exit_marker_m": [
+      0,
+      0,
+      -20
+    ],
+    "exit_marker_radius_m": 0.5,
+    "exit_marker_height_m": 2,
+    "exit_interaction_m": [
+      0,
+      0,
+      -18
+    ],
+    "safe_zones": [],
+    "navigation_policy": "0.35玩家/0.45敌人胶囊扩张障碍及边界；真实导航/视线/投射物碰撞按23，不能穿柱和边界。",
+    "source_policy": "本地48米方形私场，两个arena独立命名空间共用几何，不共用敌人生命/计时/实体。"
+  },
+  "arenas": [
+    {
+      "arena_id": "faction_merit_trial",
+      "map_id": "instance_faction_merit",
+      "layout_pointer": "/arena_layout",
+      "enemy_id": "project_faction_merit_veteran100",
+      "time_limit_steps": 10800,
+      "entry_minimum_level": 100,
+      "entry_minimum_rank": 5,
+      "requires_delivered": "adv_05",
+      "minimum_rank_policy": "rank>=5;合法正邪14职业均可，六转后仍可作为武勋来源",
+      "entry_fee_silver": 0,
+      "entry_fee_practice": 0,
+      "win_result": "本次唯一胜利收据/武勋+250同事务；不推进任何adv06阶段",
+      "failure_result": "武勋不变，可从月宫NPC新建新attempt重试",
+      "repeat": "不限次数、无现实日刷新/日上限；每次实际击败同一新attempt敌人才授250，不因进入/读档发奖",
+      "combat_policy": "仅一个剑术教头，3.5米/秒追逐，进入2.2米时接受普通剑击；出界按有界寻路追逐，不传送至玩家脚下。"
+    },
+    {
+      "arena_id": "ascension_shadow_trial",
+      "map_id": "instance_ascension_shadow",
+      "layout_pointer": "/arena_layout",
+      "enemy_id": "project_yuegong_shadow115",
+      "time_limit_steps": 18000,
+      "entry_minimum_level": 115,
+      "entry_minimum_rank": 5,
+      "minimum_rank_policy": "必须rank==5且adv06当前stage2，不允许已一式再进",
+      "requires_delivered": "adv_05",
+      "required_merit": 2000,
+      "entry_fee_silver": 0,
+      "entry_fee_practice": 0,
+      "win_result": "击败收据和adv06stage2→3同事务，尚未六转，不给物品/资源",
+      "failure_result": "保留主任务stage2，失败子attempt终结，重新进入用新子attempt/新敌人；不恢复本人资源/冷却",
+      "repeat": "主任务stage3或delivered不能再挑战；失败允许新子attempt",
+      "combat_policy": "只攻击本人，接敌时若重击已就绪且<=5米优先重击，否则<=2.2米普通击，其他时寻路靠近；接受重击才启动600步冷却，普通动作独立120步冷却；首次两者ready，无相位切换/新增怪。"
+    }
+  ],
+  "enemies": [
+    {
+      "max_mana": 0,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3500,
+      "capsule_radius_mm": 450,
+      "capsule_height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "fixed_loot": [],
+      "random_loot": [],
+      "reward_xp": 0,
+      "reward_practice": 0,
+      "reward_silver": 0,
+      "reward_ascension_progress": 0,
+      "combat_random_owner": "23/19权威动作ID/命中随机/死亡收据；读档不再抽",
+      "target": "only exact living participant, no through-wall hits; not party members in another instance",
+      "definition_id": "project_faction_merit_veteran100",
+      "duel_equipment_projection": {
+        "activity_combat_kind": "npc_martial_duel",
+        "profile_version": 1,
+        "weapon": {
+          "equipment_kind": "fixed_stat_npc_weapon",
+          "awakening_stage": 0,
+          "deity_id": null
+        },
+        "body": {
+          "equipment_kind": "fixed_stat_npc_body",
+          "awakening_stage": 0,
+          "deity_id": null
+        },
+        "source_policy": "项目明确采用无觉醒/无四神的固定属性试练装备；并非缺字段推断，也不复制玩家装备。不生成可掉落物品，不改变既有attack/defense/AI。",
+        "damage_owner_ref": {
+          "file": "英雄武器觉醒与四神.v1.json",
+          "pointer": "/four_divine_damage"
+        },
+        "snapshot_policy": "入场固定此版本武器/衣服投影并存入敌人快照；恢复必须有完整原投影，不重新读取新版模板，不按玩家装备改神。未知版本/非法神/觉醒0有神/缺投影拒绝活动配置或读档；已接受根动作保武器快照，命中取本局敌人衣服投影。",
+        "scope_policy": "仅本私场本人和该敌人的敌对根直接攻击，双向使用35矩阵；普通BOSS、队友/其他实例、状态/反伤/衍生攻击不继承。",
+        "merit_jewelry": {
+          "item_ids": [],
+          "set_ids": [],
+          "npc_duel_damage_bonus_bp": 0,
+          "source_policy": "本具名NPC明确采用空首饰投影，无70基础/加工/套装贡献；保既有固定面板。与原武器/衣服投影同入场快照保存，缺字段拒绝，不从缺字段补空。",
+          "owner_ref": {
+            "file": "新版武勋首饰.v1.json",
+            "pointer": "/npc_duel_damage"
+          }
+        }
+      },
+      "name": "势力试练教头",
+      "level": 100,
+      "combat_kind": "martial_npc",
+      "is_npc_martial": true,
+      "weapon_family": "sword",
+      "max_hp": 24000,
+      "attack": 650,
+      "defense": 300,
+      "accuracy": 600,
+      "evasion": 200,
+      "presentation_ref": "dev_faction_merit_veteran",
+      "source_policy": "全部为本地NPC试练敌人，无官方怪物参考ID、不计198目录采用",
+      "attack_programs": [
+        {
+          "action_id": "merit_veteran_sword",
+          "windup_steps": 36,
+          "hit_ordinals_per_target": 1,
+          "recovery_steps": 84,
+          "cooldown_steps": 120,
+          "range_mm": 2200,
+          "arc_degrees": 90,
+          "attack_multiplier_bp": 10000,
+          "facing_locked_at_windup": true,
+          "damage_kind": "ordinary_physical_root_melee",
+          "critical_enabled": false,
+          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；重击仅显式1.5倍率，不暗加武功威力。"
+        }
+      ],
+      "action_cost_hp_mana_stamina": 0,
+      "qigong_and_status_programs": []
+    },
+    {
+      "max_mana": 0,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3500,
+      "capsule_radius_mm": 450,
+      "capsule_height_mm": 1800,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "fixed_loot": [],
+      "random_loot": [],
+      "reward_xp": 0,
+      "reward_practice": 0,
+      "reward_silver": 0,
+      "reward_ascension_progress": 0,
+      "combat_random_owner": "23/19权威动作ID/命中随机/死亡收据；读档不再抽",
+      "target": "only exact living participant, no through-wall hits; not party members in another instance",
+      "definition_id": "project_yuegong_shadow115",
+      "name": "月宫姮娥的影子",
+      "level": 115,
+      "combat_kind": "monster",
+      "boss": true,
+      "is_npc_martial": false,
+      "max_hp": 60000,
+      "attack": 850,
+      "defense": 450,
+      "accuracy": 800,
+      "evasion": 250,
+      "presentation_ref": "dev_yuegong_shadow",
+      "source_policy": "BOSS名据63796；115等级与战斗属性/AI/动作/时限为本地，非玩家镜像/非NPC武者",
+      "attack_programs": [
+        {
+          "action_id": "shadow_strike",
+          "windup_steps": 36,
+          "hit_ordinals_per_target": 1,
+          "recovery_steps": 84,
+          "cooldown_steps": 120,
+          "range_mm": 2200,
+          "arc_degrees": 90,
+          "attack_multiplier_bp": 10000,
+          "facing_locked_at_windup": true,
+          "damage_kind": "ordinary_physical_root_melee",
+          "critical_enabled": false,
+          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；重击仅显式1.5倍率，不暗加武功威力。"
+        },
+        {
+          "action_id": "shadow_moon_arc",
+          "windup_steps": 90,
+          "hit_ordinals_per_target": 1,
+          "recovery_steps": 90,
+          "cooldown_steps": 600,
+          "range_mm": 5000,
+          "arc_degrees": 120,
+          "attack_multiplier_bp": 15000,
+          "facing_locked_at_windup": true,
+          "warning": "接受时锁朝向，在地面显示真实5米/120度扇形直至命中，不能用全屏不可躲伤害代替",
+          "damage_kind": "ordinary_physical_root_melee",
+          "critical_enabled": false,
+          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；重击仅显式1.5倍率，不暗加武功威力。"
+        }
+      ],
+      "action_cost_hp_mana_stamina": 0,
+      "qigong_and_status_programs": []
+    }
+  ],
+  "entry_transaction": "从月宫NPC精确2.5米服务、存活脱战空闲、无活动挑战/传送或未结束动作派生、合法资格/已预检目标场景和NAV/模型/存档，创建world/character/attempt唯一instance并挂角色唯一挑战引用，移入后才开始私场计时；失败全不变。禁止帮手、队友/伙伴/宠物进入/攻击/分摊奖励，仅本人合法招式。",
+  "resource_policy": "保留真实生命/内力/体力、怒气/弦/障力/充能、状态/冷却/随机流及装备；进入/返回/失败重试均不补资源或清冷却。允许正常合法药品与职业动作，遵守共享冷却/实际库存；装备/配置/商店/仓储/跨图/其他挑战在私场禁用，不剥离已合法穿戴/已生效技能。影子为普通BOSS不借NPC武者标签，试练教头明确NPC武者。",
+  "timing": "60Hz，每个私场保存自己的elapsed_steps，仅实际推进模拟步扣期限；同固定步先按23结算动作/双方死亡，再判本人死亡为失败；本人存活且敌死为胜利，先于该步超时。本人/敌同时死亡失败不发武勋/目标完成。无有效胜利且elapsed达到limit则失败。",
+  "failure_and_exit": {
+    "reasons": [
+      "participant_death",
+      "alive_timeout",
+      "explicit_abandon_or_leave"
+    ],
+    "victory_return_anchor_id": "nanlin_yuegong_return",
+    "alive_failure_return_anchor_id": "nanlin_yuegong_return",
+    "death_return_anchor_id": "story_workcamp_start",
+    "death_rule": "正常死亡/复活规则，不发初始礼包；六转保持stage2。",
+    "explicit_leave": "活着可用退出装置<=2.5米或确认放弃命令，立即结束本子attempt；无费用/奖励/本人资源退款，不要求先脱战。放弃整个adv06同时取消活动子局并清主任务活动字段，旧轮收据不复用。",
+    "return_preflight": "alive terminal keeps authoritative terminal snapshot until exact declared return anchor is walkable/unoccupied; permit explicit retry of return without replaying victory/reward. Do not move to guessed nearby fallback.",
+    "no_auto_repeat": true
+  },
+  "final_reward": {
+    "stage_index": 3,
+    "required_rank_before": 5,
+    "completed_rank": 6,
+    "ascension_tier_after": 1,
+    "silver_fee": 1000000000,
+    "practice_fee": 5000000,
+    "martial_merit_fee": 0,
+    "experience": 0,
+    "practice_granted": 0,
+    "silver_granted": 0,
+    "manual_bindings": [
+      {
+        "class_id": "blade",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_original_blade_righteous_1",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "blade",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_original_blade_evil_1",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "sword",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_sword_righteous_23509d7aa225",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "sword",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_sword_evil_26ab489ccc52",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "spear",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_spear_righteous_99b98b3f167c",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "spear",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_spear_evil_aa29a51d105c",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "physician",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_physician_righteous_47778321f741",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "physician",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_physician_evil_a1a2dcd848cb",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "archer",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_original_archer_righteous_1",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "archer",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_original_archer_evil_1",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "assassin",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_assassin_righteous_first_enhancer",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "assassin",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_assassin_evil_first_enhancer",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "musician",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_musician_righteous_7e63111005a8",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_musician_righteous_083e2ec14fb5",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "musician",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_musician_evil_a328dc532735",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_musician_evil_934ed355719e",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "fighter",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_fighter_righteous_c848eb862a93",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_fighter_righteous_89dd84137c63",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "fighter",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_fighter_evil_c848eb862a93",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_fighter_evil_89dd84137c63",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "han_feiguan",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_han_feiguan_any_5035171ee088",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_han_feiguan_any_9f9f93eb6119",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_han_feiguan_any_9559805d81f4",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_han_feiguan_any_79fa356fbf16",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_han_feiguan_any_4a4f06eaa85d",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "han_feiguan",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_han_feiguan_any_5035171ee088",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_han_feiguan_any_9f9f93eb6119",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_han_feiguan_any_9559805d81f4",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_han_feiguan_any_79fa356fbf16",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_han_feiguan_any_4a4f06eaa85d",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "tan_hualing",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_tan_hualing_any_62563400f0b4",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_tan_hualing_any_76cde7b72606",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_tan_hualing_any_9cb85d13d013",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_tan_hualing_any_944b779c75d4",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_tan_hualing_any_736f5da00e34",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "tan_hualing",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_tan_hualing_any_62563400f0b4",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_tan_hualing_any_76cde7b72606",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_tan_hualing_any_9cb85d13d013",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_tan_hualing_any_944b779c75d4",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_tan_hualing_any_736f5da00e34",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "mei_liuzhen",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_3f2245491312",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_7fcb2a1ca840",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_ad4bd012c23b",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "mei_liuzhen",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_3f2245491312",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_7fcb2a1ca840",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_mei_liuzhen_any_ad4bd012c23b",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "lu_fenglang",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_lu_fenglang_any_da92444fbf45",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_lu_fenglang_any_2e77763961d7",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_lu_fenglang_any_8e3c26d02d77",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "lu_fenglang",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_lu_fenglang_any_da92444fbf45",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_lu_fenglang_any_2e77763961d7",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_lu_fenglang_any_8e3c26d02d77",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "dongling_shennv",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_02a657e33920",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_44e2fc954a19",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_aa072c16bdb7",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "dongling_shennv",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_02a657e33920",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_44e2fc954a19",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_dongling_shennv_any_aa072c16bdb7",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "zhen_fengbai",
+        "branch_id": "righteous",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_d788153f881b",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_9725da60ccdb",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_d231bd189329",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_0fdeb57f8485",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      },
+      {
+        "class_id": "zhen_fengbai",
+        "branch_id": "evil",
+        "manual_owner_file": "升天武功与秘籍.v1.json",
+        "grants": [
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_d788153f881b",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_9725da60ccdb",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_d231bd189329",
+            "quantity": 1
+          },
+          {
+            "item_id": "manual_ascended_zhen_fengbai_any_0fdeb57f8485",
+            "quantity": 1
+          }
+        ],
+        "selection_policy": "明确列出本合同采用时列出的本人本派或any一式秘籍；不按名字猜，不发其他职业/派别。数量和具体清单为本地设计；后续新增原创书不自动加入本次奖励，沿门主现有服务正常购买。"
+      }
+    ],
+    "manual_scope": "只授实际秘籍，不学招式/不给气功秘籍或点数礼包；已有同名书/已学能力仍发本次规定一册，不能卖/复购且不可重复晋级。神女116级书可先持有，实际学习仍检116；刀/弓本地补充一式书沿现有目录不伪造官方。",
+    "stat_owner_file": "职业基础成长.v1.json",
+    "stat_policy": "按现有rank6核心增量和ascended_level_bonus重算派生，不复制另一份奖励属性。保留当前资源/冷却，增上限不回满。升级点账按14自此覆盖后续等级，不追溯补普通/升天气功点；既有本地高等级升天基础面板补差规则照owner。",
+    "commit": "精确本人class/固定派别/当前attempt/stage3、adv05delivered/115级/rank5/武勋>=2000/影子胜利收据；检查携带10亿、普通历练500万和消费后本人28行所有书的真实背包格/重量/上限。扣银/历练/发全部书/rank5→6/主任务delivered/唯一最终收据/资格属性重算同05/19持久事务，失败不扣费不晋级。"
+  },
+  "deduplication": "主任务角色/adv06/attempt/stage及影子子attempt/死亡ID唯一；武勋试练角色/arena/attempt/victory唯一。世界/随机/死亡/角色变动同房主事务，重连只重放原结果，不依赖客户端自报击杀。",
+  "persistence": {
+    "world_field": "worlds[world_id].private_advancement_trials[instance_id]",
+    "role_fields": "adv06及merit_trial_profile各只持active_challenge_ref；两个引用最多一个非null，全角色也不得同时参与其他挑战。；本人姿态/生命/内力/体力/特殊资源/效果仍用原角色状态，不在world克隆第二份。",
+    "world_snapshot_fields": [
+      "world_id",
+      "instance_id",
+      "arena_id",
+      "owner_character_id",
+      "main_attempt_id_or_null",
+      "trial_attempt_id",
+      "state",
+      "elapsed_steps",
+      "participant_character_id_and_revision_ref",
+      "enemy_pose_hp_ai_actions_cooldowns",
+      "accepted_root_actions_and_derived_queues",
+      "random_state_and_consumption",
+      "death_and_settlement_receipts",
+      "terminal_return_pending"
+    ],
+    "authority": "房主唯一敌人/私场快照及角色当前权威状态组成完整保存：本人姿态/生命/特殊资源/状态只在角色状态，world通过角色ID/修订引用，不再复制本人完整面板。角色活动引用不另拷敌生命。远端只按05接收确认结果；离线本人即房主，05同笔存world+role。正常保存不要求停战，world保存期限/敌AI及双方已接受动作/投射/周期/随机队列、role保存本人真实资源，两者同修订恢复。",
+    "save_exit": "挂起同一attempt和期限/敌生命/随机/队列，不算失败、胜利或自动返回；恢复同一世界同一instance，不能新开满血敌。",
+    "disconnect": "仅该私场模拟挂起并持久保存；角色保持锁定在该实例，重连后恢复同一elapsed/动作/资源，其他LAN公共场景可继续。whole-offline固定步也冻结。不允许拿同一角色另入其他世界并复制私场。",
+    "new_world": "创建世界时显式初始化private_advancement_trials为空对象；已有新格式缺字段或引用无快照拒绝，不伪造空活动修复。已知旧档只建新角色档案无旧挑战，不改现有world。",
+    "terminal_cleanup": "胜负及奖励和角色引用清除/终局收据持久确认后，且返回成功才删除活跃战斗快照；保留唯一收据防重放。返回暂失败则保留终局快照和引用锁，不再计时/受伤/发奖。",
+    "external_effect_clocks": "外部修炼BUFF等继续遵守各自world时钟owner，进入私场不属于对应修炼主题因而失活；私场保存只引用其账本，不复制一份或借断线延长外部world期限。",
+    "validation": "严格校验arena/map/owner/主子attempt链接、状态/elapsed0..limit/生命/角色引用与所有动作随机收据。影子主stage3须有同主attempt成功子局且无活动模拟；正常运行中的stage2须绑定当前子局或明确未入场/失败终局。缺快照或同时两活动拒绝；终局pendingreturn引用保留不计作可继续战斗。"
+  },
+  "initialization": "新角色及四已知旧档显式martial_merit0、faction_merit_trial初始空引用/空收据；adv06 not_accepted/nullattempt/branch/stage/active_ref/emptyreceipts。新格式缺字段拒绝；旧等级不推已六转/已得武勋。",
+  "portable_travel": "两个精确私场禁止全部便携回城/土灵记录及移动/至尊与婚戒移动，验UI/命令/完成/保存恢复；退出走本合同终局，不消耗符，不允许改用合法外图落点绕开挑战。",
+  "reset_token_shop_binding": "月宫NPC同时绑定历练与洗点合同已定义的ascension_skill_reset_token商品，rank>=6、100万两原价；书学习/重置仍按原owner事务。",
+  "pending": [
+    "Godot14职业两派挑战可胜性/战斗/导航/计时/保存/跨机LAN验证",
+    "私场正式模型/影子预警/音效、美术现代UI和经济平衡",
+    "八至十二转及其余D1缺项"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-14",
+    "manual_bindings_checked": 28,
+    "manual_grants_across_28_bindings": 66,
+    "manual_books_per_role_range": [
+      1,
+      5
+    ],
+    "manual_review": "全部已有目录/本人派别/一式/rank6，每本1；最多5克，满60格无合堆则拒绝，空出本人所需1～5格恰可发。神女116书先持有而不提前学习。",
+    "boundary_review": "114/115、rank5唯一、1999/2000/2001、10亿及500万各差1、武勋不消费；八个不同实战胜利收据各250且重复不加，安全整数上限checked_add250检查。",
+    "timing_review": "两局末步本人活敌死胜先于超时；双方同死先判本人死亡失败；敌活至limit失败，limit-1仍active。",
+    "path_method": "0.45米统一保守胶囊，建筑/NPC/出口标记扩张AABB；1米四邻网格。两轴阻挡宽>1米，不可跨越单位网格边；全部目标整数，无近似端点接入。",
+    "maps": [
+      {
+        "map_id": "nanlin_forest",
+        "origin_xz_m": [
+          0,
+          134
+        ],
+        "radius_m": 0.45,
+        "reachable_grid_nodes": 84858,
+        "target_count": 5,
+        "geometry_and_targets_sha256": "95e39ef5dc267435425274ae57b0ce9fe21b173591a683b8d3e413260a730fd6",
+        "service_only_hash_refresh": "2026-11-14：仅增加adv08服务；几何/目标未变，沿用既有BFS记录，本次未重测该图导航。"
+      },
+      {
+        "map_id": "instance_faction_merit",
+        "origin_xz_m": [
+          0,
+          -12
+        ],
+        "radius_m": 0.45,
+        "reachable_grid_nodes": 2078,
+        "target_count": 3,
+        "geometry_and_targets_sha256": "1e86023ab16701ae8a755259414f7e4c295951962fd83a472285866b5423dfa4"
+      },
+      {
+        "map_id": "instance_ascension_shadow",
+        "origin_xz_m": [
+          0,
+          -12
+        ],
+        "radius_m": 0.45,
+        "reachable_grid_nodes": 2078,
+        "target_count": 3,
+        "geometry_and_targets_sha256": "1e86023ab16701ae8a755259414f7e4c295951962fd83a472285866b5423dfa4"
+      }
+    ],
+    "public_travel_review": "100级5转泫勃→南林及返回固定公共交通可达，无adv06/武勋前置；挑战进入另查资格。",
+    "runtime_status": "静态设计核验；未运行Godot战斗/胜率/药品/完整保存/LAN，不作实测通过结论。"
+  },
+  "merit_stage_title_owner_ref": {
+    "file": "武勋阶段与称号资格.v1.json",
+    "pointer": ""
+  }
+}

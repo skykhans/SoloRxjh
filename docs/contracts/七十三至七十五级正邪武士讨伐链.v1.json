@@ -1,0 +1,1641 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "six_full_local_quest_designs_not_implemented_not_balanced",
+  "source_evidence": {
+    "file": "../reference/官网资料/目录正文.json",
+    "pointer": ""
+  },
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "all map safe zones exclude hostile spawn/entry;path return,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "source_policy": "保QREF-63790/63789-031/032原73/74级路线、一次、具名NPC、数量及74级经验680万/5%符2/10%符2/任务书2。73未明示幸运符规格数量与历练值，本地明确5%符1/历练20000/任务书1，非官网数值。邪派73物品栏蓝色与流程绿色头巾冲突，本地采用物品栏蓝色10，红色5；各对应链锤战士与血镰守卫。正派73同狂刀掉紫色10/绿色5。74交物后持项目独立核验凭据再找长老终领，任务书1真实保留至终交才消费；后段前置为本地链设计，不以72完成作前置。白面摄魂神剑任务文本有名无怪物目录，本地74级一层，无伪造MREF；血镰守卫保原77级一层。 75两派保原材料栏三种5/5/10，正文正派陶氏/申氏数量语句含糊不另造怪/第四材料；物品栏三种来源怪精确对应，先交长老再找本门主领1450000经验与九转丹1（数量1为项目值）。74完成及真实任务书2为本地链前置，保留至75终交消费。",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-031",
+      "source_reference_id": "QREF-63790-031",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/54"
+      },
+      "name": "讨伐白面武士 (1/3)",
+      "minimum_level": 73,
+      "route": "righteous",
+      "accept_npc_id": "npc_shangguan_xuan",
+      "accept_map_id": "shenwu_gate",
+      "accept_interaction_anchor_id": "npc_shangguan_xuan_service",
+      "accept_service_id": "warrior73_righteous_accept",
+      "required_previous_quest_id": null,
+      "retained_previous_commission": null,
+      "collect_stage_index": 1,
+      "raw_requirements": [
+        {
+          "item_id": "warrior73_righteous_raw0",
+          "quantity": 10
+        },
+        {
+          "item_id": "warrior73_righteous_raw1",
+          "quantity": 5
+        }
+      ],
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shangguan_xuan",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_shangguan_xuan_service",
+          "service_id": "warrior73_righteous_stage1",
+          "consume": [
+            {
+              "item_id": "warrior73_righteous_raw0",
+              "quantity": 10
+            },
+            {
+              "item_id": "warrior73_righteous_raw1",
+              "quantity": 5
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 20000,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "enhancement_luck_charm_5",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "强化幸运符.v1.json",
+              "pointer": "/items/0"
+            }
+          },
+          {
+            "item_id": "warrior73_righteous_commission",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+              "pointer": "/items/2"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63790-032",
+      "source_reference_id": "QREF-63790-032",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/55"
+      },
+      "name": "讨伐白面武士 (2/3)",
+      "minimum_level": 74,
+      "route": "righteous",
+      "accept_npc_id": "npc_shangguan_xuan",
+      "accept_map_id": "shenwu_gate",
+      "accept_interaction_anchor_id": "npc_shangguan_xuan_service",
+      "accept_service_id": "warrior74_righteous_accept",
+      "required_previous_quest_id": "ref_QREF-63790-031",
+      "retained_previous_commission": {
+        "item_id": "warrior73_righteous_commission",
+        "quantity": 1
+      },
+      "collect_stage_index": 1,
+      "raw_requirements": [
+        {
+          "item_id": "warrior74_righteous_raw0",
+          "quantity": 20
+        }
+      ],
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_wei_baibaibai",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_wei_baibaibai_service",
+          "service_id": "warrior74_righteous_stage1",
+          "consume": [
+            {
+              "item_id": "warrior74_righteous_raw0",
+              "quantity": 20
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "warrior74_righteous_verified",
+              "quantity": 1
+            }
+          ],
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_shangguan_xuan",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_shangguan_xuan_service",
+          "service_id": "warrior74_righteous_stage2",
+          "consume": [
+            {
+              "item_id": "warrior74_righteous_verified",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": true,
+          "consume_previous_commission": {
+            "item_id": "warrior73_righteous_commission",
+            "quantity": 1,
+            "source_quest_id": "ref_QREF-63790-031",
+            "scope": "source quest completion_receipt_id,not current attempt"
+          }
+        }
+      ],
+      "reward": {
+        "experience": 6800000,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "enhancement_luck_charm_5",
+            "quantity": 2,
+            "definition_ref": {
+              "file": "强化幸运符.v1.json",
+              "pointer": "/items/0"
+            }
+          },
+          {
+            "item_id": "enhancement_luck_charm_10",
+            "quantity": 2,
+            "definition_ref": {
+              "file": "强化幸运符.v1.json",
+              "pointer": "/items/1"
+            }
+          },
+          {
+            "item_id": "warrior74_righteous_commission",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+              "pointer": "/items/4"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63789-031",
+      "source_reference_id": "QREF-63789-031",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/103"
+      },
+      "name": "讨伐黑颜武士 (1/3)",
+      "minimum_level": 73,
+      "route": "evil",
+      "accept_npc_id": "npc_xiang_qiushui",
+      "accept_map_id": "liushan_house",
+      "accept_interaction_anchor_id": "npc_xiang_qiushui_service",
+      "accept_service_id": "warrior73_evil_accept",
+      "required_previous_quest_id": null,
+      "retained_previous_commission": null,
+      "collect_stage_index": 1,
+      "raw_requirements": [
+        {
+          "item_id": "warrior73_evil_raw0",
+          "quantity": 10
+        },
+        {
+          "item_id": "warrior73_evil_raw1",
+          "quantity": 5
+        }
+      ],
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xiang_qiushui",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xiang_qiushui_service",
+          "service_id": "warrior73_evil_stage1",
+          "consume": [
+            {
+              "item_id": "warrior73_evil_raw0",
+              "quantity": 10
+            },
+            {
+              "item_id": "warrior73_evil_raw1",
+              "quantity": 5
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": true
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 20000,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "enhancement_luck_charm_5",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "强化幸运符.v1.json",
+              "pointer": "/items/0"
+            }
+          },
+          {
+            "item_id": "warrior73_evil_commission",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+              "pointer": "/items/8"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63789-032",
+      "source_reference_id": "QREF-63789-032",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/104"
+      },
+      "name": "讨伐黑颜武士 (2/3)",
+      "minimum_level": 74,
+      "route": "evil",
+      "accept_npc_id": "npc_xiang_qiushui",
+      "accept_map_id": "liushan_house",
+      "accept_interaction_anchor_id": "npc_xiang_qiushui_service",
+      "accept_service_id": "warrior74_evil_accept",
+      "required_previous_quest_id": "ref_QREF-63789-031",
+      "retained_previous_commission": {
+        "item_id": "warrior73_evil_commission",
+        "quantity": 1
+      },
+      "collect_stage_index": 1,
+      "raw_requirements": [
+        {
+          "item_id": "warrior74_evil_raw0",
+          "quantity": 20
+        }
+      ],
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shangguan_xiaoxian",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_shangguan_xiaoxian_service",
+          "service_id": "warrior74_evil_stage1",
+          "consume": [
+            {
+              "item_id": "warrior74_evil_raw0",
+              "quantity": 20
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "warrior74_evil_verified",
+              "quantity": 1
+            }
+          ],
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_xiang_qiushui",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xiang_qiushui_service",
+          "service_id": "warrior74_evil_stage2",
+          "consume": [
+            {
+              "item_id": "warrior74_evil_verified",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": true,
+          "consume_previous_commission": {
+            "item_id": "warrior73_evil_commission",
+            "quantity": 1,
+            "source_quest_id": "ref_QREF-63789-031",
+            "scope": "source quest completion_receipt_id,not current attempt"
+          }
+        }
+      ],
+      "reward": {
+        "experience": 6800000,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "enhancement_luck_charm_5",
+            "quantity": 2,
+            "definition_ref": {
+              "file": "强化幸运符.v1.json",
+              "pointer": "/items/0"
+            }
+          },
+          {
+            "item_id": "enhancement_luck_charm_10",
+            "quantity": 2,
+            "definition_ref": {
+              "file": "强化幸运符.v1.json",
+              "pointer": "/items/1"
+            }
+          },
+          {
+            "item_id": "warrior74_evil_commission",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "七十三至七十五级正邪武士讨伐链.v1.json",
+              "pointer": "/items/10"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63790-033",
+      "source_reference_id": "QREF-63790-033",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/56"
+      },
+      "name": "讨伐白面武士 (3/3)",
+      "minimum_level": 75,
+      "route": "righteous",
+      "accept_npc_id": "npc_shangguan_xuan",
+      "accept_map_id": "shenwu_gate",
+      "accept_interaction_anchor_id": "npc_shangguan_xuan_service",
+      "accept_service_id": "warrior75_righteous_accept",
+      "required_previous_quest_id": "ref_QREF-63790-032",
+      "retained_previous_commission": {
+        "item_id": "warrior74_righteous_commission",
+        "quantity": 1
+      },
+      "collect_stage_index": 1,
+      "raw_requirements": [
+        {
+          "item_id": "warrior75_righteous_raw0",
+          "quantity": 5
+        },
+        {
+          "item_id": "warrior75_righteous_raw1",
+          "quantity": 5
+        },
+        {
+          "item_id": "warrior75_righteous_raw2",
+          "quantity": 10
+        }
+      ],
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_shangguan_xuan",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_shangguan_xuan_service",
+          "service_id": "warrior75_righteous_stage1",
+          "consume": [
+            {
+              "item_id": "warrior75_righteous_raw0",
+              "quantity": 5
+            },
+            {
+              "item_id": "warrior75_righteous_raw1",
+              "quantity": 5
+            },
+            {
+              "item_id": "warrior75_righteous_raw2",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "warrior75_righteous_verified",
+              "quantity": 1
+            }
+          ],
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_che_jingmo",
+          "npc_map_id": "shenwu_gate",
+          "interaction_anchor_id": "npc_che_jingmo_service",
+          "service_id": "warrior75_righteous_stage2",
+          "consume": [
+            {
+              "item_id": "warrior75_righteous_verified",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": true,
+          "consume_previous_commission": {
+            "item_id": "warrior74_righteous_commission",
+            "quantity": 1,
+            "source_quest_id": "ref_QREF-63790-032",
+            "scope": "source quest completion_receipt_id,not current attempt"
+          }
+        }
+      ],
+      "reward": {
+        "experience": 1450000,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "consumable_quest_jiuzhuan_pill",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "九转丹任务恢复药.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      }
+    },
+    {
+      "quest_id": "ref_QREF-63789-033",
+      "source_reference_id": "QREF-63789-033",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/105"
+      },
+      "name": "讨伐黑颜武士 (3/3)",
+      "minimum_level": 75,
+      "route": "evil",
+      "accept_npc_id": "npc_xiang_qiushui",
+      "accept_map_id": "liushan_house",
+      "accept_interaction_anchor_id": "npc_xiang_qiushui_service",
+      "accept_service_id": "warrior75_evil_accept",
+      "required_previous_quest_id": "ref_QREF-63789-032",
+      "retained_previous_commission": {
+        "item_id": "warrior74_evil_commission",
+        "quantity": 1
+      },
+      "collect_stage_index": 1,
+      "raw_requirements": [
+        {
+          "item_id": "warrior75_evil_raw0",
+          "quantity": 5
+        },
+        {
+          "item_id": "warrior75_evil_raw1",
+          "quantity": 5
+        },
+        {
+          "item_id": "warrior75_evil_raw2",
+          "quantity": 10
+        }
+      ],
+      "stages": [
+        {
+          "stage_index": 1,
+          "npc_id": "npc_xiang_qiushui",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_xiang_qiushui_service",
+          "service_id": "warrior75_evil_stage1",
+          "consume": [
+            {
+              "item_id": "warrior75_evil_raw0",
+              "quantity": 5
+            },
+            {
+              "item_id": "warrior75_evil_raw1",
+              "quantity": 5
+            },
+            {
+              "item_id": "warrior75_evil_raw2",
+              "quantity": 10
+            }
+          ],
+          "grant": [
+            {
+              "item_id": "warrior75_evil_verified",
+              "quantity": 1
+            }
+          ],
+          "grants_final_reward": false
+        },
+        {
+          "stage_index": 2,
+          "npc_id": "npc_shi_wei",
+          "npc_map_id": "liushan_house",
+          "interaction_anchor_id": "npc_shi_wei_service",
+          "service_id": "warrior75_evil_stage2",
+          "consume": [
+            {
+              "item_id": "warrior75_evil_verified",
+              "quantity": 1
+            }
+          ],
+          "grant": [],
+          "grants_final_reward": true,
+          "consume_previous_commission": {
+            "item_id": "warrior74_evil_commission",
+            "quantity": 1,
+            "source_quest_id": "ref_QREF-63789-032",
+            "scope": "source quest completion_receipt_id,not current attempt"
+          }
+        }
+      ],
+      "reward": {
+        "experience": 1450000,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "consumable_quest_jiuzhuan_pill",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "九转丹任务恢复药.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      }
+    }
+  ],
+  "items": [
+    {
+      "item_id": "warrior73_righteous_raw0",
+      "name": "紫色头发",
+      "source_reference_id": "QREF-63790-031",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior73_righteous_raw1",
+      "name": "绿色头发",
+      "source_reference_id": "QREF-63790-031",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior73_righteous_commission",
+      "name": "白面武士讨伐任务书1",
+      "source_reference_id": "QREF-63790-031",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_commission",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character/quest/completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "完成书绑定来源任务/角色/完成收据，无attempt维度，后段终交才消费；封包与原物均独立定义，非可用货币/披风/装备。",
+      "maximum_owned": 1
+    },
+    {
+      "item_id": "warrior74_righteous_raw0",
+      "name": "失窃的黄金",
+      "source_reference_id": "QREF-63790-032",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior74_righteous_commission",
+      "name": "白面武士讨伐任务书2",
+      "source_reference_id": "QREF-63790-032",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_commission",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character/quest/completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "完成书绑定来源任务/角色/完成收据，无attempt维度，后段终交才消费；封包与原物均独立定义，非可用货币/披风/装备。",
+      "maximum_owned": 1
+    },
+    {
+      "item_id": "warrior74_righteous_verified",
+      "name": "归还黄金核验凭据",
+      "source_reference_id": "QREF-63790-032",
+      "source_kind": "explicit_project_stage_receipt_item",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior73_evil_raw0",
+      "name": "蓝色头巾",
+      "source_reference_id": "QREF-63789-031",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior73_evil_raw1",
+      "name": "红色头巾",
+      "source_reference_id": "QREF-63789-031",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior73_evil_commission",
+      "name": "黑颜武士讨伐任务书1",
+      "source_reference_id": "QREF-63789-031",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_commission",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character/quest/completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "完成书绑定来源任务/角色/完成收据，无attempt维度，后段终交才消费；封包与原物均独立定义，非可用货币/披风/装备。",
+      "maximum_owned": 1
+    },
+    {
+      "item_id": "warrior74_evil_raw0",
+      "name": "锦缎",
+      "source_reference_id": "QREF-63789-032",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior74_evil_commission",
+      "name": "黑颜武士讨伐任务书2",
+      "source_reference_id": "QREF-63789-032",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_commission",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "binding": "character/quest/completion_receipt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": false
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "完成书绑定来源任务/角色/完成收据，无attempt维度，后段终交才消费；封包与原物均独立定义，非可用货币/披风/装备。",
+      "maximum_owned": 1
+    },
+    {
+      "item_id": "warrior74_evil_verified",
+      "name": "归还锦缎核验凭据",
+      "source_reference_id": "QREF-63789-032",
+      "source_kind": "explicit_project_stage_receipt_item",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior75_righteous_raw0",
+      "name": "白面嗜血狂刀的面具",
+      "source_reference_id": "QREF-63790-033",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior75_righteous_raw1",
+      "name": "白面摄魂神剑的面具",
+      "source_reference_id": "QREF-63790-033",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior75_righteous_raw2",
+      "name": "白面巨戟战将的面具",
+      "source_reference_id": "QREF-63790-033",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior75_righteous_verified",
+      "name": "武士讨伐核验凭据（正派）",
+      "source_reference_id": "QREF-63790-033",
+      "source_kind": "explicit_project_stage_receipt_item",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior75_evil_raw0",
+      "name": "黑颜链锤战士的武器",
+      "source_reference_id": "QREF-63789-033",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior75_evil_raw1",
+      "name": "黑颜血镰守卫的武器",
+      "source_reference_id": "QREF-63789-033",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior75_evil_raw2",
+      "name": "黑颜刺锤战将的武器",
+      "source_reference_id": "QREF-63789-033",
+      "source_kind": "task_item_name_or_explicit_sealed_variant_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    },
+    {
+      "item_id": "warrior75_evil_verified",
+      "name": "武士讨伐核验凭据（邪派）",
+      "source_reference_id": "QREF-63789-033",
+      "source_kind": "explicit_project_stage_receipt_item",
+      "category": "quest_token",
+      "stack_limit": 1,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "仅角色/当前任务/attempt的真实物品；封包只由精确阶段quest_exchange创建，原物只由producer创建，不可当货币/装备或合成材料。"
+    }
+  ],
+  "monsters": [
+    {
+      "monster_id": "project_diling_white_face_sword74",
+      "name": "白面摄魂神剑",
+      "level": 74,
+      "map_id": "diling_cave_1",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 7400,
+      "max_mana": 0,
+      "attack_min": 296,
+      "attack_max": 370,
+      "ordinary_defense": 148,
+      "accuracy": 370,
+      "evasion": 148,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_cave_map_quest",
+      "xp_reward": 74000,
+      "practice_reward": 7400,
+      "silver_reward": 74,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "project_diling_white_face_sword74",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "正派任务正文命名、74级一层为项目值；邪派保来源目录77级一层；战斗/普通收益/刷点均项目值",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/55"
+      },
+      "source_kind": "task_text_named_actor_not_monster_catalog"
+    },
+    {
+      "monster_id": "xuemo_black_face_scythe77",
+      "source_reference_id": "MREF-39813-002",
+      "name": "黑颜血镰守卫",
+      "level": 77,
+      "map_id": "xuemo_cave_1",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 7700,
+      "max_mana": 0,
+      "attack_min": 308,
+      "attack_max": 385,
+      "ordinary_defense": 154,
+      "accuracy": 385,
+      "evasion": 154,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_cave_map_quest",
+      "xp_reward": 77000,
+      "practice_reward": 7700,
+      "silver_reward": 77,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "xuemo_black_face_scythe77",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "正派任务正文命名、74级一层为项目值；邪派保来源目录77级一层；战斗/普通收益/刷点均项目值",
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/160"
+      }
+    },
+    {
+      "monster_id": "project_diling_white_face_halberd75",
+      "name": "白面巨戟战将",
+      "level": 75,
+      "map_id": "diling_cave_1",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 7500,
+      "max_mana": 0,
+      "attack_min": 300,
+      "attack_max": 375,
+      "ordinary_defense": 150,
+      "accuracy": 375,
+      "evasion": 150,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_cave_map_quest",
+      "xp_reward": 75000,
+      "practice_reward": 7500,
+      "silver_reward": 75,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "project_diling_white_face_halberd75",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "正派白面巨戟战将仅任务文本命名，本地75级一层，无目录MREF；邪派黑颜刺锤战将保目录77级一层。战斗/收益与home项目值",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/56"
+      },
+      "source_kind": "task_text_named_actor_not_monster_catalog"
+    },
+    {
+      "monster_id": "xuemo_black_face_spike77",
+      "source_reference_id": "MREF-39813-003",
+      "name": "黑颜刺锤战将",
+      "level": 77,
+      "map_id": "xuemo_cave_1",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 7700,
+      "max_mana": 0,
+      "attack_min": 308,
+      "attack_max": 385,
+      "ordinary_defense": 154,
+      "accuracy": 385,
+      "evasion": 154,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3400,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_local_cave_map_quest",
+      "xp_reward": 77000,
+      "practice_reward": 7700,
+      "silver_reward": 77,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "xuemo_black_face_spike77",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "正派白面巨戟战将仅任务文本命名，本地75级一层，无目录MREF；邪派黑颜刺锤战将保目录77级一层。战斗/收益与home项目值",
+      "source_ref": {
+        "file": "../reference/怪物参数.json",
+        "pointer": "/monsters/161"
+      }
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "project_diling_white_face_sword74_01",
+      "monster_id": "project_diling_white_face_sword74",
+      "map_id": "diling_cave_1",
+      "home_feet_m": [
+        -24,
+        0,
+        80
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_diling_white_face_sword74_02",
+      "monster_id": "project_diling_white_face_sword74",
+      "map_id": "diling_cave_1",
+      "home_feet_m": [
+        -8,
+        0,
+        80
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_diling_white_face_sword74_03",
+      "monster_id": "project_diling_white_face_sword74",
+      "map_id": "diling_cave_1",
+      "home_feet_m": [
+        8,
+        0,
+        80
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_diling_white_face_sword74_04",
+      "monster_id": "project_diling_white_face_sword74",
+      "map_id": "diling_cave_1",
+      "home_feet_m": [
+        24,
+        0,
+        80
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_black_face_scythe77_01",
+      "monster_id": "xuemo_black_face_scythe77",
+      "map_id": "xuemo_cave_1",
+      "home_feet_m": [
+        -24,
+        0,
+        80
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_black_face_scythe77_02",
+      "monster_id": "xuemo_black_face_scythe77",
+      "map_id": "xuemo_cave_1",
+      "home_feet_m": [
+        -8,
+        0,
+        80
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_black_face_scythe77_03",
+      "monster_id": "xuemo_black_face_scythe77",
+      "map_id": "xuemo_cave_1",
+      "home_feet_m": [
+        8,
+        0,
+        80
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_black_face_scythe77_04",
+      "monster_id": "xuemo_black_face_scythe77",
+      "map_id": "xuemo_cave_1",
+      "home_feet_m": [
+        24,
+        0,
+        80
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_diling_white_face_halberd75_01",
+      "monster_id": "project_diling_white_face_halberd75",
+      "map_id": "diling_cave_1",
+      "home_feet_m": [
+        -24,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_diling_white_face_halberd75_02",
+      "monster_id": "project_diling_white_face_halberd75",
+      "map_id": "diling_cave_1",
+      "home_feet_m": [
+        -8,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_diling_white_face_halberd75_03",
+      "monster_id": "project_diling_white_face_halberd75",
+      "map_id": "diling_cave_1",
+      "home_feet_m": [
+        8,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_diling_white_face_halberd75_04",
+      "monster_id": "project_diling_white_face_halberd75",
+      "map_id": "diling_cave_1",
+      "home_feet_m": [
+        24,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_black_face_spike77_01",
+      "monster_id": "xuemo_black_face_spike77",
+      "map_id": "xuemo_cave_1",
+      "home_feet_m": [
+        -24,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_black_face_spike77_02",
+      "monster_id": "xuemo_black_face_spike77",
+      "map_id": "xuemo_cave_1",
+      "home_feet_m": [
+        -8,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_black_face_spike77_03",
+      "monster_id": "xuemo_black_face_spike77",
+      "map_id": "xuemo_cave_1",
+      "home_feet_m": [
+        8,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "xuemo_black_face_spike77_04",
+      "monster_id": "xuemo_black_face_spike77",
+      "map_id": "xuemo_cave_1",
+      "home_feet_m": [
+        24,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-031",
+        "stage_index": 1,
+        "route": "righteous",
+        "monster_id": "project_diling_white_face_blade72",
+        "map_id": "diling_cave_1",
+        "item_id": "warrior73_righteous_raw0",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63790-031",
+        "stage_index": 1,
+        "route": "righteous",
+        "monster_id": "project_diling_white_face_blade72",
+        "map_id": "diling_cave_1",
+        "item_id": "warrior73_righteous_raw1",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63790-032",
+        "stage_index": 1,
+        "route": "righteous",
+        "monster_id": "project_diling_white_face_sword74",
+        "map_id": "diling_cave_1",
+        "item_id": "warrior74_righteous_raw0",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      },
+      {
+        "quest_id": "ref_QREF-63789-031",
+        "stage_index": 1,
+        "route": "evil",
+        "monster_id": "xuemo_black_face_chain77",
+        "map_id": "xuemo_cave_1",
+        "item_id": "warrior73_evil_raw0",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-031",
+        "stage_index": 1,
+        "route": "evil",
+        "monster_id": "xuemo_black_face_scythe77",
+        "map_id": "xuemo_cave_1",
+        "item_id": "warrior73_evil_raw1",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63789-032",
+        "stage_index": 1,
+        "route": "evil",
+        "monster_id": "xuemo_black_face_scythe77",
+        "map_id": "xuemo_cave_1",
+        "item_id": "warrior74_evil_raw0",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      },
+      {
+        "quest_id": "ref_QREF-63790-033",
+        "stage_index": 1,
+        "route": "righteous",
+        "monster_id": "project_diling_white_face_blade72",
+        "map_id": "diling_cave_1",
+        "item_id": "warrior75_righteous_raw0",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63790-033",
+        "stage_index": 1,
+        "route": "righteous",
+        "monster_id": "project_diling_white_face_sword74",
+        "map_id": "diling_cave_1",
+        "item_id": "warrior75_righteous_raw1",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63790-033",
+        "stage_index": 1,
+        "route": "righteous",
+        "monster_id": "project_diling_white_face_halberd75",
+        "map_id": "diling_cave_1",
+        "item_id": "warrior75_righteous_raw2",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-033",
+        "stage_index": 1,
+        "route": "evil",
+        "monster_id": "xuemo_black_face_chain77",
+        "map_id": "xuemo_cave_1",
+        "item_id": "warrior75_evil_raw0",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63789-033",
+        "stage_index": 1,
+        "route": "evil",
+        "monster_id": "xuemo_black_face_scythe77",
+        "map_id": "xuemo_cave_1",
+        "item_id": "warrior75_evil_raw1",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63789-033",
+        "stage_index": 1,
+        "route": "evil",
+        "monster_id": "xuemo_black_face_spike77",
+        "map_id": "xuemo_cave_1",
+        "item_id": "warrior75_evil_raw2",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "death_owner_ref": {
+      "file": "七十二级正邪洞窟地图任务.v1.json",
+      "pointer": "/collection"
+    },
+    "eligibility": "current exact route/quest/attempt/stage1,alive/connected same world/map;solo original owner or19eligible original member within30m/joined>=600steps;each own raw stack below cap. Only one73/74/75chain leg active per current route through real predecessor completion;72may coexist",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ],
+    "capacity": "filter caps independently and preflight all72/73/74/75zero-g candidates together under death owner;at most3per recipient;no partial token grant or persistent kill counter",
+    "modifiers": "personal100%,not public loot,not finisher/training/party reward modifiers"
+  },
+  "lifecycle": {
+    "class_scope": "all14classes",
+    "minimum_rank": 0,
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "qualification": "own alive idle out-of-combat/no challenge,exact minimum_level/current route before rewards;same map/exact declared NPC/anchor/service within2500mm. Full original state/inputs/previous completion/commission provenance valid",
+    "acceptance": "exact own elder/not_accepted/never delivered;73no72prerequisite.74/75require actual preceding same-route73/74delivered and real source completion-bound commission1/2 held;check at accept/every stage and retain until final. Unique attempt/stage1,no fee/initial grant",
+    "stage_commands": "74stage1 consumes raw20,75stage1 consumes three5/5/10 raw variants;each grants its own exact attempt-bound verified receipt1 via quest_exchange and advances2 atomically with source/step/character+inventory revisions once after original/final capacity preflight. Retained predecessor letter checked but unconsumed;no main resources/rewards. Never mutate original stack item_id",
+    "final_delivery": "exact last stage consumes own attempt inputs and declared predecessor completion-bound letter;preflight all reward stacks/weight/slots,XP/practice confirmation and derived level/new covered awards;commit sources/actual resources/level awards/completion/receipts/revisions once under05/19.73reward5g+commission1,74reward20g+commission2,75reward10g pill and no letter. Leader75only after elder proof,never direct raw or level completion;no silver/RNG/rank/ascension/heal/cooldown change",
+    "silver": "allsix fixed0,no silver mutation/fee/warehouse flow",
+    "other_resources": "73practice20000/XP0;74XP6800000/practice0;75XP1450000/practice0. Positive cap loss requires preview tied to original revisions and explicit confirmation;decline rejects whole final with inputs/previous letter intact. Actual0 no fake resource mutation;no heal/cooldown/skill/rank grant",
+    "commissions": "each route commission1 only73final,commission2 only74final;stack1/0g/character+sourcequest+completion_receipt_id withoutattempt;74consumes1onlyfinal,75consumes2onlyfinal. Check true preceding completion and held source at accept/every stage. Abandon preserves predecessor letter;no missing-letter recreation or duplicate.75ends chain with no new letter",
+    "readiness": "derive actual declared stage inputs and retained previous commission from source-verified carried items,not stored kill counters or ready flags",
+    "abandon": "explicit confirmation clears only this active quest/current-attempt declared raw/sealed inputs,clears attempt/stage and resets not_accepted;prior completion-bound commission is not cleaned or refunded because not consumed yet. New attempt restarts own stage1,not earlier completed chain legs;completed cannot abandon",
+    "repeat": "each source quest once per character across worlds,one route chain cannot satisfy other route. Route/configuration changes preserve histories and do not reset letter/reward or permit wrong-route actions",
+    "deduplication": "same character/request same payload returns original durable result before current checks,never installs historical inventory;changed payload same request rejects. Stage receipt unique character/quest/attempt/stage;final completion unique character/quest. Old attempts/deaths/stages never act on new attempt",
+    "failure_and_save": "any original/commission/source/endpoint/stage/route/final layout/weight/silver/revision failure rejects whole stage before mutation. Persist original transaction/receipts under05/19;uncertain save resolves original decision and retries same persistence,no business replay/duplicate reward/letter recreation",
+    "initialization": "new role/knownlegacy1..4explicitly allsix not_accepted/nullattempt/nullstage/no task tokens/commissions/receipts;level/location no auto completion;missing newformat state rejects",
+    "experience_rule_ref": {
+      "file": "正邪收集任务公共规则.v1.json",
+      "pointer": "/lifecycle/experience"
+    },
+    "practice_rule_ref": {
+      "file": "正邪收集任务公共规则.v1.json",
+      "pointer": "/lifecycle/practice"
+    }
+  },
+  "pending": [
+    "Godot actual gameplay/source flows/save/LAN/cap awards/geometry tests",
+    "local73practice/charm values and72/74vs77combat calibration",
+    "Godot75final proof/commission2consumption/pill use and failure/save/LAN functional tests"
+  ]
+}

@@ -1,0 +1,376 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-deletion-event:v1",
+  "$comment": "原角色删除三阶段事件；完整角色/资源覆盖、身份请求摘要、修订/选择、真实授权与来源闭合另验，结构通过不启用运行。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "decision_profile_revision",
+        "silver_flow",
+        "stack_flows",
+        "instance_flow"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "decision_profile_revision": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 9007199254740991
+        },
+        "silver_flow": {
+          "$ref": "#/$defs/silver_flow"
+        },
+        "stack_flows": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/$defs/stack_flow"
+          }
+        },
+        "instance_flow": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/instance_flow"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "decision_profile_revision",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "decision_profile_revision": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 9007199254740991
+        },
+        "reason": {
+          "const": "user_cancelled"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "command_id",
+        "character_id",
+        "confirmed_name",
+        "expected_profile_revision",
+        "expected_character_revision",
+        "expected_inventory_revision"
+      ],
+      "properties": {
+        "command_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}(?![\\s\\S])",
+          "minLength": 32,
+          "maxLength": 32
+        },
+        "character_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "confirmed_name": {
+          "$ref": "urn:solorxjh:character-identity:v1#/$defs/character_name"
+        },
+        "expected_profile_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740989
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "reservation_profile_revision",
+        "selected_character_id_before",
+        "final_configuration_metadata"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "reservation_profile_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740990
+        },
+        "selected_character_id_before": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "final_configuration_metadata": {
+          "$ref": "urn:solorxjh:timed-source-configuration-event:v1#/$defs/configuration_metadata_projection"
+        }
+      }
+    },
+    "silver_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:silver-flow:v1"
+        },
+        {
+          "properties": {
+            "accounts": {
+              "minItems": 2,
+              "maxItems": 2,
+              "prefixItems": [
+                {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "after_balance": {
+                          "const": 0
+                        },
+                        "previous_output": {
+                          "type": "object"
+                        },
+                        "opening_authorization": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "account": {
+                          "const": "carried_silver"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "after_balance": {
+                          "const": 0
+                        },
+                        "previous_output": {
+                          "type": "object"
+                        },
+                        "opening_authorization": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "account": {
+                          "const": "warehouse_silver"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "movements": {
+              "maxItems": 2,
+              "items": {
+                "properties": {
+                  "from_account_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "to_account_index": {
+                    "type": "null"
+                  },
+                  "authorization": {
+                    "properties": {
+                      "kind": {
+                        "const": "character_deletion"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "stack_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1
+            },
+            "outputs": {
+              "maxItems": 0
+            },
+            "mint_authorization": {
+              "type": "null"
+            },
+            "consumptions": {
+              "minItems": 1,
+              "items": {
+                "properties": {
+                  "reason": {
+                    "const": "character_deletion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "instance_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:instance-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "items": {
+                "properties": {
+                  "custody": {
+                    "properties": {
+                      "kind": {
+                        "const": "held"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "outputs": {
+              "maxItems": 0
+            },
+            "retirements": {
+              "minItems": 1,
+              "items": {
+                "properties": {
+                  "reason": {
+                    "const": "character_deletion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:character-deletion-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    }
+  }
+}

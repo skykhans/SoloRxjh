@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-15",
   "status": "legacy_identity_xp_resources_equipment_skills_receipt_design_not_implemented_full_profile_mapping_pending",
   "source_archive": "../reference/旧存档结构基线.json",
   "accepted_version_pairs": [
@@ -124,20 +124,35 @@
     "source_is_read_only": true
   },
   "target_role": "Fang Chen sword preset, rank0 route unselected; do not run22new-character grants",
+  "earth_spirit_point_conversion": {
+    "accepted_sources": "four accepted schema/content pairs only",
+    "target_character_field": "earth_spirit_points",
+    "explicit_value": [],
+    "policy": "known source has no stored points; no talisman grant,no new-format missing-field repair"
+  },
   "training_gate_daily_conversion": {
     "accepted_sources": "only four explicitly accepted schema/content pairs",
-    "target_character_state": {"by_world": {}},
+    "target_character_state": {
+      "by_world": {}
+    },
     "policy": "no historical task tokens or delivery rewards; explicit new ledger, never missing-field repair for new formats"
   },
   "training_gate_buff_conversion": {
     "accepted_sources": "only the four explicitly accepted schema/content version pairs",
-    "target_character_state": {"by_world": {}},
+    "target_character_state": {
+      "by_world": {}
+    },
     "policy": "known legacy source has no training grant history; initialize empty ledger explicitly, never invent historical buffs or claims",
     "world_clock": "explicitly created target world starts training_gate_clock_steps at0; joining an existing world uses its authoritative persisted clock",
     "new_format_missing_fields": "reject; this legacy conversion is never a load repair"
   },
   "warehouse_silver_conversion": {
-    "accepted_source_schemas": [1, 2, 3, 4],
+    "accepted_source_schemas": [
+      1,
+      2,
+      3,
+      4
+    ],
     "target_field": "character.warehouse_silver",
     "target_value": 0,
     "carried_silver": "preserve exact old silver through existing mapping; never deposit it implicitly",
@@ -184,13 +199,34 @@
   },
   "point_migration": {
     "covered_level": "converted legacy level",
-    "level_award_spans": "if L>1, [2,L] kind legacy_import_skip, 0 ordinary/ascension normal award; none for L1",
+    "level_award_spans": "若转换后L>1，恰一六键段first_level=2/last_level=L/kind=legacy_import_skip/award_rule_version=1/qigong_points_awarded=0/ascension_points_awarded=0；L=1恰空。字段置于character.qigong，完整旧来源仍须验证。",
     "initial_ordinary_qigong_points": 0,
     "initial_ascension_points": 0,
     "initial_anti_qigong_budget": 0,
     "future_relevel": "never repeat processed import-skip levels",
     "normal_rules_after_import": "new future levels follow current table; no retroactive new-system points for imported levels",
-    "reason": "old saves have no new qigong/ascension pool, preserving historical martial levels does not award new pools"
+    "reason": "old saves have no new qigong/ascension pool, preserving historical martial levels does not award new pools",
+    "award_rule_version": 1,
+    "history_owner_ref": {
+      "file": "升级发点.v1.json",
+      "pointer": "/persistent_history"
+    },
+    "initial_qigong_allocations": {},
+    "shared_budget_owner_ref": {
+      "file": "升级发点.v1.json",
+      "pointer": "/persistent_shared_budget"
+    },
+    "initial_anti_allocations": {},
+    "initial_anti_cooldowns": {},
+    "anti_state_owner_ref": {
+      "file": "反气功.v1.json",
+      "pointer": "/persistent_state"
+    },
+    "initial_ascended_martial": {},
+    "ascended_martial_state_owner_ref": {
+      "file": "升天武功与秘籍.v1.json",
+      "pointer": "/persistent_learning_state"
+    }
   },
   "equipment_mapping_file": "旧装备兼容.v1.json",
   "resource_conversion": {
@@ -231,7 +267,7 @@
     "default_for_new_profile": [],
     "unique_receipt_key": "target_profile_id + source_sha256 + import_profile_id",
     "storage_unit": "same profile JSON atomic commit as imported role, not external index/DB",
-    "strict_fields": "schema validates shape only; arithmetic/references/deduplication require semantic validation",
+    "strict_fields": "严格schema覆盖原转换凭证、正式settlement_identity、原银两/背包堆快照及三种钱物来源流；账户、数量、身份摘要、逐路径映射、授权与完整角色关系仍须语义验证。",
     "version_pair": "exact accepted_version_pairs; independent enum membership insufficient",
     "source_numeric_token": "parse whole original JSON number grammar, finite0..100, rational floor must equal target_stamina; no eval/code/nonnumeric text",
     "conversion_relations": "source level/maxHP, targetXP and HP ceiling validated with pinned import-profile v1, not mutable present role. Imported sword rank0,no new HP qigong/overrides and old equipment/sect have no maxHP bonus; targetMaxHP=133+7*(sourceLevel-1). Old skills validated against source level. Later role configuration/level/equipment changes never rewrite historical conversion.",
@@ -241,8 +277,757 @@
     "revision": "positive commit revision <= current profile revision, no duplicate or future imports",
     "receipt_updates": "after original commit immutable except explicit present->deleted tombstone; live progression never rewrites conversion snapshot",
     "same_origin_changed_bytes": "explicit separate preview, no auto-merge as previously defined",
-    "receipt_unknown_versions_or_bad_relations": "reject profile/import; never rebuild index by guessing current role contents"
+    "receipt_unknown_versions_or_bad_relations": "reject profile/import; never rebuild index by guessing current role contents",
+    "economic_origin": {
+      "source_snapshot": "source_silver按原u32为0..4294967295；source_inventory_stacks保存实际原progress.inventory.stacks完整顺序与每堆item/count，最多12、count1..99，排序按原枚举healing_potion/linglong_bamboo/beast_hide/wolf_fang/spirit_ore非降序，同类允许多堆。源整体已知版本/规范化/语义检查通过后才可产生候选，不把仅字段形状通过当旧档有效。",
+      "identity": "settlement_identity沿通用结算分配。authority_profile_id必须target_profile_id，本地导入不借现LAN房主发资源。request_id为71确定JSON编码[target_profile_id,source_sha256,import_profile_id]字符串；request_digest为71确定编码六键对象target_profile_id/source_sha256/source_schema_version/source_content_version/import_profile_id/normalization_profile_version的SHA256。先按完整源去重，已导入或deleted均返回原记录，不分配新身份。",
+      "reservation_boundary": "通用counter与pending_import六键不可变种子同档持久后才提交角色/凭证；完整源字节、规则哈希、创建时间及原完整凭证摘要固定原候选重建，终态凭证不充当预留记录。最终source_proof持久重建输入已采用；完整目标角色/规则清单保留策略/事件与档案根仍待，未闭合前不可运行真实导入。",
+      "silver": "silver_flow恰两账户且规范顺序carried_silver索引0/warehouse_silver索引1；均before=0、previous_output=null、opening_authorization为legacy_import/本结算。after分别精确source_silver与0。source_silver=0时movements=[]；正额恰一from=null/to=0/amount=原source_silver收入腿，authorization为legacy_import/本结算，不造0腿、转账、费用或仓银收入。所有账户character_id均目标角色，flow.receipt_id必须本结算。",
+      "stacks": "源空时stack_flows=[]，否则恰一个legacy_import mint流；receipt_id为本结算，inputs/consumptions=[]，mint_authorization.kind=legacy_import且authority_receipt_id本结算。按源堆顺序映inventory_mapping，再按正式定义max_stack正数量拆堆，不跨原堆擅自合并；outputs逐项为target_character_id、完整七键堆、held域、contributions=[]。每物数量总和严格等于源快照，无额外奖励/未知物品，binding及quest_scope沿正式定义；全部revision0、origin_receipt_id本结算，新堆ID按72固定输出序号。最终布局/重量/保护量不合法整笔拒绝。",
+      "instances": "source_equipment空则instance_flow=null，否则恰一个流，receipt_id为本结算、inputs/retirements=[]。输出按规范源路径weapon、armor、bag按数值序排列，均create、source_input_indices=[]、held、creation_authorization=legacy_import/本结算。每条完整九键实例与source_equipment逐一同定义/原强化/派生ID，owner为目标角色，revision0、creation_receipt_id/state_origin_receipt_id均本结算；专用血统按旧装备兼容instance_root。不得漏项/增项/按同定义去重。",
+      "atomic_publication": "原导入结算唯一关联身份、转换凭证、三流、完整新角色/正文位置及来源闭包；新角色revision从0到1；有实际堆/实例及位置产出时inventory_revision从0到1，无任一实物产出时保持0；正式资源提交使档案revision加1一次，预留元数据的档案修订另按pending_import，committed_profile_revision为该真实档案修订，其他角色/world保持。预留元数据写入不增加角色/库存业务修订。新角色不进入玩法会话，不发新建礼包，不造旧历史强化/奖励收据。",
+      "retention": "流与源快照属于同一原凭证正式结果，不在另一日志复制可修改全量钱物。character_state是凭证唯一可变删除标记，删除角色不改原身份/钱物投影或转回present；图校验仅激活scope内当前角色，deleted历史输出不复活成新库存。完整删除结算仍由删除owner闭合，不能按缺角色猜deleted。",
+      "proof_boundary": "SHA256与源快照不是防篡改签名。首次与历史复核按receipt_policy.source_proof保留并严格验证原字节/完整旧角色/规范化和同规则结果，不只信少量快照。完整导入事件封套/producer授权及目标档案根仍待，proof字段不解除运行门禁。",
+      "schema_partition": "通用流schema按原owner继续严格校验，导入凭证另收紧：堆无输入/消费且仅legacy_import铸造、非空输出revision0/非任务scope；实例仅七旧兼容schema/create/revision0、无输入/退役；银两双开户规范顺序且仓银0/零银无腿正银一收入。schema不支持跨字段相等，全部receipt_id/authority_receipt_id、目标角色/原量/映射及源证明必须语义逐项匹配；不能凭kind字符串授予。"
+    },
+    "source_proof": {
+      "shape": "最终凭证必需source_proof四键source_base64/rules_hash/created_at_utc/reservation_profile_revision；字段精确沿pending种子，settlement_identity复用凭证已有字段，不另存第二份身份或完整可消费角色。新格式凭证缺本字段拒绝，不从当前角色倒造。",
+      "source": "实际原文件字节RFC4648标准带padding/无空白规范Base64；严格解码后重编码逐字相等，SHA256原字节必须等凭证source_sha256。按source_validation_contract重验原版本/完整结构/规范化及任务资源装备位置语义，摘要相等不替代源校验。source_base64不可指向本机路径、临时文件或外部数据库。",
+      "frozen_inputs": "rules_hash为原确认规则清单全集哈希，created_at_utc为原真实公历UTC整秒，reservation_profile_revision为原预留档案修订；原完整发行物沿规则清单historical_retention保留。恢复不取当前时间/新版规则，所需历史包缺失或不匹配报具体hash/版本并保记录，不改当前候选。",
+      "revision": "committed_profile_revision严格等source_proof.reservation_profile_revision+1；原预留修订不超过当前档案且可加1。身份authority必须target_profile_id、计数水位与请求键/摘要按原算法重算。新角色创建时间必须冻结时间，当前角色后续业务不改历史proof。",
+      "reconstruction": "由原字节、同规则、冻结时间、原结算身份及既定映射重建首次导入目标候选和本凭证全部不可变字段；conversion/source_equipment/源快照/三流与实际首次提交逐项一致。只校验历史首次候选，不重装或覆盖已成长/删除的当前角色。character_state=deleted必须有独立正式删除决定，不由导入重建改回present。",
+      "candidate_digest": "pending.candidate_receipt_digest仍对包含source_proof的完整首次凭证按71确定编码求SHA256，character_state固定present；proof自身不存该摘要，避免自引用。提交后原首次结果摘要可从冻结首次字段重算，deleted仅按真实删除决定解释，不拿当前可变标记与旧pending摘要直接比较。",
+      "custody": "预留时原字节在pending；提交同笔写原proof及凭证/新角色并清pending。稳态只在最终凭证持有原字节，不并存旁路源证明库。失败或存疑沿原正式档案恢复，禁止先清源种子再另写proof。",
+      "boundaries": "完整源重建输入/持久位置与历史完整发行保留策略已采用；实际发行物/规则全集验证、完整目标档案/事件封套、producer授权/删除决定及Godot源解码和几何仍待，不能因proof形状通过启用导入。"
+    }
   },
   "sect_mapping_file": "旧门派与委托.v1.json",
-  "retained_progress_mapping_file": "故事冒险门派进度.v1.json"
+  "retained_progress_mapping_file": "故事冒险门派进度.v1.json",
+  "world_snapshot_conversion": {
+    "accepted_sources": "only four accepted schema/content pairs",
+    "new_target_profile_worlds": {},
+    "policy": "empty host-world registry only when explicitly creating new target profile; preserve existing target profile worlds when importing another role",
+    "world_creation": "new target world creation explicitly initializes authoritative world ID/clock/all required spawn state; import itself does not create a duplicate fresh world",
+    "remote_join": "retain actual host world and protocol,never copy client-derived state into host snapshot",
+    "new_format_missing_field": "reject; no load repair"
+  },
+  "advancement_quest_conversion": {
+    "accepted_sources": "only four accepted schema/content pairs;source sword rank0/unselected has none of these adopted quests",
+    "owners": [
+      "第一次升职十阶段.v1.json",
+      "泫勃派推荐书任务.v1.json",
+      "第二次升职九阶段.v1.json",
+      "三转五十九级推荐书前置.v1.json",
+      "三转上半段猎物考验.v1.json",
+      "三转下半段与十四职业晋级.v1.json",
+      "第四次升职洞窟试练.v1.json",
+      "第五次升职五册真经.v1.json",
+      "第六次升职与单机武勋试练.v1.json",
+      "第七次升职升天二式.v1.json",
+      "第八次升职本地十一试练.v1.json",
+      "第九次升职四式与冰魄水玉.v1.json",
+      "第十次升职五式与回忆录试练.v1.json",
+      "第十一次升职六式三首领.v1.json",
+      "第十二次升职七式与三方盟约.v1.json"
+    ],
+    "target": "explicit not_accepted/null attempt/null stage;all declared branch fields null;empty stage/final/guide receipts;no adopted quest tokens or recommendation;no completion by imported level",
+    "existing_target_roles": "import creates separate role,never resets already played target role quests or host worlds",
+    "new_format_missing_fields": "reject;not load repair",
+    "owner_specific_initial_values": {
+      "adv_03_upper": {
+        "violation_count": null,
+        "failure_receipts": []
+      },
+      "adv_05": {
+        "book_stages": {},
+        "book_2_path_or_null": null,
+        "book_4_path_or_null": null,
+        "final_stage_or_null": null
+      },
+      "adv_05_rumor": {
+        "branch_id_or_null": null,
+        "final_receipt_or_null": null
+      },
+      "adv_06": {
+        "active_challenge_ref_or_null": null
+      },
+      "adv_08": {
+        "state": "not_started",
+        "chain_id_or_null": null,
+        "completed_subtask_receipts": [],
+        "active_subtask_attempt_or_null": null,
+        "cancelled_attempt_receipts": []
+      },
+      "adv_09": {
+        "state": "not_accepted",
+        "attempt_id_or_null": null,
+        "branch_id_or_null": null,
+        "stage_index_or_null": null,
+        "stage_receipts": [],
+        "cancelled_attempt_receipts": [],
+        "final_receipt_or_null": null
+      },
+      "adv_10": {
+        "state": "not_accepted",
+        "attempt_id_or_null": null,
+        "branch_id_or_null": null,
+        "stage_index_or_null": null,
+        "stage_receipts": [],
+        "active_challenge_ref_or_null": null,
+        "trial_victory_receipt_or_null": null,
+        "cancelled_attempt_receipts": [],
+        "final_receipt_or_null": null
+      },
+      "adv_11": {
+        "state": "not_accepted",
+        "attempt_id_or_null": null,
+        "branch_id_or_null": null,
+        "stage_index_or_null": null,
+        "stage_receipts": [],
+        "active_challenge_ref_or_null": null,
+        "trial_victory_receipt_or_null": null,
+        "cancelled_attempt_receipts": [],
+        "final_receipt_or_null": null
+      },
+      "adv_12": {
+        "state": "not_accepted",
+        "attempt_id_or_null": null,
+        "branch_id_or_null": null,
+        "stage_index_or_null": null,
+        "stage_receipts": [],
+        "alliance_purchase_receipts": {},
+        "active_challenge_ref_or_null": null,
+        "trial_victory_receipt_or_null": null,
+        "cancelled_attempt_receipts": [],
+        "final_receipt_or_null": null
+      }
+    }
+  },
+  "player_trade_conversion": {
+    "owner_file": "玩家交易.v1.json",
+    "pending_player_trade": null,
+    "policy": "only four accepted schema/content pairs; initialize only the separate imported role, preserve existing target roles and worlds including unresolved trade guards; import creates no world or trade journal; reject new-format missing fields"
+  },
+  "martial_merit_conversion": {
+    "accepted_sources": "only four known schema/content pairs, no source martial merit/trial data",
+    "martial_merit": 0,
+    "martial_merit_title_state": null,
+    "faction_merit_trial": {
+      "active_challenge_ref_or_null": null,
+      "attempt_receipts": []
+    },
+    "owner_file": "第六次升职与单机武勋试练.v1.json",
+    "policy": "explicit new resource/activity initialization only for imported new role; preserve existing target roles/worlds; reject new-format missing fields"
+  },
+  "adv10_proof_trial_conversion": {
+    "owner_file": "第十次升职五式与回忆录试练.v1.json",
+    "initial": {
+      "active_challenge_ref_or_null": null,
+      "attempt_receipts": []
+    },
+    "policy": "only imported new role; preserve existing target roles/worlds, reject new-format missing fields"
+  },
+  "zixia_effect_conversion": {
+    "owner_file": "第十一次升职六式三首领.v1.json",
+    "zixia_effect_or_null": null,
+    "policy": "only new imported role, no pill/free effect; preserve existing target roles/worlds; reject new-format missing field"
+  },
+  "dongling_qigong90_conversion": {
+    "owner_file": "神女九十级神秘守卫嘱托.v1.json",
+    "initial_values": {
+      "state": "not_accepted",
+      "attempt_id_or_null": null,
+      "branch_id_or_null": null,
+      "stage_index_or_null": null,
+      "stage_receipts": [],
+      "cancelled_attempt_receipts": [],
+      "final_receipt_or_null": null
+    },
+    "policy": "only new imported role;no material or completion/qualification,existing target role/world preserved;reject new-format missing fields"
+  },
+  "hero_weapon_progression_conversion": {
+    "owner_file": "英雄主武器晋阶与提真.v1.json",
+    "initial_values": {
+      "receipts": [],
+      "reward_stages": []
+    },
+    "policy": "only new imported Fang Chen sword role from the four accepted version pairs; no hero weapon/reward granted, existing target role/world untouched; new format missing fields reject"
+  },
+  "inventory_layout_conversion": {
+    "owner_file": "容器与仓储.v1.json",
+    "owner_pointer": "/persistent_layout",
+    "policy": "仅accepted_version_pairs四组旧来源的新导入角色；按原背包顺序与weapon/armor建立唯一正文注册表及位置引用，0扩容，不丢失超堆数量、不免费扩容；容量/类型/来源不合法整笔拒绝；导入事件有实际正文/位置产出时inventory_revision初始0加1，无任何实物产出则保持0；保其他目标角色/世界，现有新格式缺字段拒绝"
+  },
+  "play_session_conversion": {
+    "owner_file": "角色会话.v1.json",
+    "new_target_profile_character_session_next_id": 0,
+    "imported_character_pending_play_session": null,
+    "policy": "仅四组已知来源导入；仅新建目标档案初始化计数0及begin数组空/lan_session_proofs空映射，已有目标档案计数/begin数组/lan_session_proofs及其角色守卫/world不变；新导入角色guard=null；新格式缺字段拒绝",
+    "new_target_profile_character_session_begins": [],
+    "new_target_profile_lan_session_proofs": {}
+  },
+  "settlement_identity_conversion": {
+    "owner_file": "结算身份.v1.json",
+    "new_profile": {
+      "settlement_next_id": 0
+    },
+    "existing_profile": "保原settlement_next_id及原owner未决/结果日志，不覆盖/重置；不迁移源旧档不存在的业务计数为推测结算。",
+    "new_format": "缺字段拒绝，不套旧格式初始化。"
+  },
+  "equipment_instance_owner_ref": {
+    "file": "旧装备兼容.v1.json",
+    "pointer": "/instance_root"
+  },
+  "source_snapshot_schema_ref": {
+    "file": "旧档来源快照.schema.json",
+    "pointer": ""
+  },
+  "source_validation_contract": {
+    "basis": "原字段/serde未知字段拒绝、原12格99堆、七装备/8装备包及四版本规范化取归档旧存档结构基线；经验/HP/技能及几何校验沿固定liuli0.6基线，不将未知历史私服配置自动兼容。camera3..12取本项目原exploration配置，不当目标Godot镜头限制。",
+    "stages": "先严格解析原字节：拒绝重复键、NaN/Infinity、非法UTF8/孤立代理和非完整JSON；已声明整数必须原整数词元并在原类型范围，不把1.0/指数/bool强转。再精确选schema/content分支验证完整原根/嵌套字段，不先剔除未知字段或补默认。",
+    "version_shape": "schema1仅六个原progress字段；schema2多原adventure含sword_rank/armor_rank；schema3另必需martial/journey/sect且仍用adventure双rank，无loadout；schema4必需完整原adventure/loadout/martial/journey/sect并禁止adventure双rank。原root精确schema_version/content_version/progress/position/yaw/settings六键。",
+    "normalization": "只有原结构完全通过后，才按normalization_steps产生已知规范schema4候选并再次验证schema4分支及全部语义；保原字节摘要不对规范化后JSON重算来源。schema2/3的旧双rank均要求0..3，即使原解码器在未拥有剑时可能丢弃sword_rank，项目导入也不接受被忽略的非法rank；这是明确严格导入选择，不伪称原代码已检查该字段。",
+    "inventory": "最多12原堆、各count1..99、五个原物品枚举按Rust声明序非降序；同类重复堆合法，不按名称排序或先合并掩盖坏顺序。规范化不能修改银两/计数/数量或把0数量过滤掉。",
+    "numeric_relations": "原total_exp0..5000按experience_conversion旧曲线求级别；hp必须1..120+30*(L-1)，不是只验全局390。体力原词元按既定有理数0..100与量化规则，银两及原计数均u32；settings范围volume0..1/camera_distance3..12。position/yaw/settings/stamina转换为旧float32后还须有限，不要求十进制小数精确二进制表示；不能凭schema number允许任意巨大数。",
+    "equipment": "规范化后逐原定义验证active.weapon为四武器、active.armor为三护甲，各rank0..3；bag最多8且可重复同定义，装备在包不额外检查穿戴等级。实际装备武器/甲须满足旧minimum_level；未sword_owned阶段weapon=null且bag=[]，armor按原规则独立。源中多件浮仙剑不能静默合并/丢弃，若违反目标每角色唯一则按原明确映射缺口拒绝导入。",
+    "progress_relations": "规范化后按旧剑技兼容核四等级与sum(ranks)-1<L/技能2/3/4解锁，未认主只能原默认[1,0,0,0]；journey按旧阶段/5只猎物/重复轮数和主线前置核验；sect按旧晋升等级/已花贡献/阶段双前置与委托轮数核验，不能只看各u32。原工棚一次委托claimed目标关系沿故事冒险门派进度owner，不补领奖。",
+    "position": "原position二坐标及yaw按实际旧world/exploration静态配置与story.stage重建原collision_map验证：有限、严格在地图边界减player_radius内、不与恢复阻挡圆重叠。不可裁剪/传送/删采集阻挡后放行；这是P实际几何验证门槛，尚未运行。",
+    "output": "只有源完整结构、规范化和语义均通过，才构造同一次导入预览/凭证/钱物投影/完整目标候选；来源schema或摘要本身不证明目标角色可加载。导入pending已采用六键种子；完整目标角色/档案及原world几何映射仍待，未实现读取用户档案。",
+    "strict_import_differences": [
+      "项目对全部嵌套对象实行明确字段白名单；旧Inventory等未带deny_unknown_fields的对象可能忽略扩展字段，本项目拒绝，不伪称原解码器也拒绝。",
+      "项目要求完整loadout.weapon/armor两键，空值显式null；旧serde Option可能将缺键解作None，本项目不接受缺键自动补空。",
+      "schema2/3移除的sword_rank即使未拥有剑也须0..3，不接受旧迁移可能忽略的超界值。"
+    ]
+  },
+  "pending_import": {
+    "profile_field": "legacy_import_pending",
+    "schema_ref": {
+      "file": "旧档导入待决.schema.json",
+      "pointer": ""
+    },
+    "new_profile_value": null,
+    "scope": "原目标档案唯一导入owner预留种子，不是另一个角色正文/物品账。空闲档案一次最多一笔；已确认预留后只允许恢复并完成原提交，不引入同源aborted后永久无法再导入或换请求键重放的问题。",
+    "preconditions": "只在目标档案菜单且该档案无活动本地/房主玩法会话、未决角色会话/交易或资源保存时确认；先解决原守卫/结果，不能用导入冻结正在处理的LAN决定。持档案独占写锁核导入前现存角色至多5个、提交后至多6个及姓名与ID唯一、源/目标全量验证、已导入含deleted去重、所有目标子系统可构造；任一失败或用户取消均在预留前返回，不分配身份。其他档案不受此锁影响。",
+    "freeze": "六键精确settlement_identity/source_base64/rules_hash/candidate_receipt_digest/created_at_utc/reservation_profile_revision。source_base64为实际原文件字节RFC4648标准带padding、无空白换行的规范编码，不存用户绝对路径；严格解码后重新编码须逐字相同，原字节摘要/已知源结构/规范化语义须通过。created_at_utc为本次确认冻结的UTC整秒时间，严格真实公历时间，仅供新角色创建/首次saved_at展示，恢复不取新系统时间改变候选。",
+    "rules": "rules_hash沿规则清单.v1.json的完整正式资源集合算法，覆盖实际规则代码/配置/重映射与依赖，不只算本JSON或源文件。规则清单合同已采用；实际Godot完整目标配置/导出清单及角色构造仍待，不为未知配置补默认。恢复必须同一已验证规则集合与哈希，不以当前新版规则重新解释旧预留。",
+    "candidate": "持锁取通用counter=n，用同原source和身份构造唯一目标角色与终态凭证；目标身份/创建时间固定，所有转换/三流顺序和ID/原布局按已采用owner，不消费玩法RNG或继承当前所选角色状态。预先计算终态凭证：character_state=present、committed_profile_revision=reservation_profile_revision+1；candidate_receipt_digest为71确定编码该完整凭证的SHA256（凭证只含整数、字符串及结构，源体力词元仍是字符串）。完整角色由同原字节/同规则/同创建时间及固定导入映射确定重建并全量验证，不使用71去编码含浮点位置的整角色。",
+    "reserve": "预留前档案revision=r必须可加2，settlement_next_id=n可加1。一次完整档案替换写counter=n+1、pending种子与档案revision=r+1；reservation_profile_revision=r+1。此时未新增角色或终态凭证，不产生可消费流/来源头，既有角色业务/库存修订均不变。保存结果确定成功后才进入提交；确认后的UI显示原导入待完成，禁止新同档业务写入、切玩法/编辑/删除/第二次导入，允许只读查看、重试同笔与关闭应用。",
+    "commit": "重读原同档正式记录并持锁，核profile_id/authority、counter=n+1、当前档案revision=reservation_profile_revision、原身份/字节/规则与原源去重关系。由同种子重建完整候选与凭证，摘要必须等candidate_receipt_digest，完整目标结构/全部语义及钱物/位置/来源闭合仍须通过。一次完整档案替换添加唯一新角色和原终态凭证、清pending=null、档案revision再+1。新角色revision从0到1；有实际堆/实例及位置产出时inventory_revision从0到1，否则保持0；既有角色/world保持，预留元数据不重复计入角色修订。只有该正式终态可被provenance图消费。",
+    "uncertain_save": "任一步替换返回不确定立即停止该档案新写入，重读同正式档案。reserved种子/水位/身份一致则只恢复同笔；终态凭证完整且同身份/原摘要、pending=null且提交修订吻合则只返回原结果。其他组合、缺失或读取失败报错并保原待恢复，不按余额/角色存在/mtime/tmp/备份猜成功，不清counter/pending或另预留ID。只有确认预留从未持久且正式旧完整档案及水位可验证时才返回未提交，下一次明确确认可重新开始原请求；不能凭一次读不到记录就推断安全。",
+    "retry": "先查legacy_import_receipts完整源键，已有present/deleted均返回原终态；无终态但pending同源/同摘要则恢复原预留，其他源拒绝直到该待决完成。同源参数改变拒绝；不新增attempt计数或随机请求键逃过去重。身份预留后不提供资源取消/退款/改方案，关闭应用不丢pending；规则缺失/不匹配则报具体版本需求并保留，不能升级重算或静默弃单。",
+    "retention": "原pending源字节/规则哈希/冻结时间/预留修订在提交时转为最终凭证source_proof四键，与原身份/请求/完整三流及新角色同档落盘后清pending；不保第二份可消费角色或旁路证明库。未来复核按receipt_policy.source_proof核原字节/同规则与全部首次结果。删除角色保proof及原身份去重记录，不能因角色已删除抹原分配覆盖。",
+    "legacy_initialization": "新档显式null；四已知旧来源创建新目标档案null，导入已有档案必须先解决原非null待决，不能覆盖。未知schema5缺字段拒绝，不因原版本没字段补null。",
+    "remaining": "六键种子、预留-提交与最终source_proof四键重建输入及历史发行保留策略已采用；实际Godot完整配置/导出清单与历史发行物、目标角色/档案及完整事件根仍待，尚不可真实导入；文件替换/崩溃/多开/LAN未验证。"
+  },
+  "rules_manifest_owner_ref": {
+    "file": "规则清单.v1.json",
+    "pointer": ""
+  },
+  "poetry_practice_boost_conversion": {
+    "accepted_versions": "known legacy1..4only",
+    "target_field": "character.poetry_practice_boost",
+    "explicit_value": null,
+    "policy": "旧档无本任务来源，明确转换null不生成完成/领取/使用收据；新格式缺字段拒绝，不走旧档补值。",
+    "owner_ref": {
+      "file": "七十九级正邪吟诗大会.v1.json",
+      "pointer": "/timed_reward"
+    }
+  },
+  "cave_anger_experience_boost_conversion": {
+    "accepted_versions": "known legacy1..4only",
+    "target_field": "character.cave_anger_experience_boost",
+    "explicit_value": null,
+    "policy": "旧档无本任务来源，明确转换null不生成完成/领取/使用收据；新格式缺字段拒绝，不走旧档补值。",
+    "owner_ref": {
+      "file": "八十三级正邪洞窟愤怒任务.v1.json",
+      "pointer": "/timed_reward"
+    }
+  },
+  "network_receipt_conversion": {
+    "owner_ref": {
+      "file": "网络结果链.v1.json",
+      "pointer": "/initialization"
+    },
+    "imported_character_network_receipts": {},
+    "policy": "仅四已知schema/content来源的新导入角色显式空映射；既有目标其他角色/world及原水位不变。不导入远端世界/猜造历史ACK；未知新格式缺字段拒绝。"
+  },
+  "cultivation_conversion": {
+    "owner_ref": {
+      "file": "历练与洗点.v1.json",
+      "pointer": "/persistent_state"
+    },
+    "target_field": "character.cultivation",
+    "explicit_value": {
+      "practice": 0,
+      "ascension_progress": 0,
+      "unclaimed_heavenly_stones": 0
+    },
+    "policy": "仅四已知旧schema/content源的新导入角色显式0；旧格式无新历练/升天进度/待领天机石。原旧剑技预算不兑换，既有目标其他角色保持；新格式缺字段拒绝。"
+  },
+  "qigong_manual_conversion": {
+    "owner_ref": {
+      "file": "气功学习与秘籍.v1.json",
+      "pointer": "/persistent_manual_records"
+    },
+    "target_field": "character.qigong.learned_manuals",
+    "explicit_value": [],
+    "policy": "四已知旧来源的新导入角色空；旧剑技不映成气功书资格，既有其他角色不变，新格式缺失拒绝。"
+  },
+  "qigong_manual_event_conversion": {
+    "owner_ref": {
+      "file": "气功学习与秘籍.v1.json",
+      "pointer": "/manual_events"
+    },
+    "target_field": "profile.qigong_manual_events",
+    "new_profile_value": [],
+    "policy": "仅四已知旧来源创建新profile时显式空日志；导入已有profile保留完整原日志与settlement_next_id，不清空、不补造历史学习事件。旧剑技不转换书消费；新格式缺字段拒绝。"
+  },
+  "qigong_allocation_event_conversion": {
+    "owner_ref": {
+      "file": "气功学习与秘籍.v1.json",
+      "pointer": "/allocation_events"
+    },
+    "target_field": "profile.qigong_allocation_events",
+    "new_profile_value": [],
+    "policy": "仅四已知旧来源创建新profile时显式空日志；导入已有profile保留原日志与通用结算计数。旧四剑技不伪造新气功分配/收入历史，新格式缺字段拒绝。"
+  },
+  "qigong_respec_event_conversion": {
+    "owner_ref": {
+      "file": "历练与洗点.v1.json",
+      "pointer": "/qigong_respec_events"
+    },
+    "target_field": "profile.qigong_respec_events",
+    "new_profile_value": [],
+    "policy": "仅四已知旧来源创建新profile时显式[]；导入已有profile保原日志和通用结算计数，不为旧剑技生成新气功洗点/山参来源；新格式缺字段拒绝。"
+  },
+  "ascended_martial_upgrade_event_conversion": {
+    "owner_ref": {
+      "file": "升天武功与秘籍.v1.json",
+      "pointer": "/upgrade_events"
+    },
+    "target_field": "profile.ascended_martial_upgrade_events",
+    "new_profile_value": [],
+    "policy": "仅四已知旧来源新profile初始化空日志；已有profile保留原日志与通用计数，不伪造旧剑技升天点消费。现行格式缺字段拒绝。"
+  },
+  "ascended_martial_learning_event_conversion": {
+    "owner_ref": {
+      "file": "升天武功与秘籍.v1.json",
+      "pointer": "/learning_events"
+    },
+    "target_field": "profile.ascended_martial_learning_events",
+    "new_profile_value": [],
+    "policy": "四已知旧来源仅新profile显式空；已有profile保原日志/计数，不伪造旧技能书/银/历练消费；现行缺字段拒绝。"
+  },
+  "heavenly_stone_conversion_event_conversion": {
+    "owner_ref": {
+      "file": "升天武功与秘籍.v1.json",
+      "pointer": "/stone_conversion_events"
+    },
+    "target_field": "profile.heavenly_stone_conversion_events",
+    "new_profile_value": [],
+    "policy": "四已知旧来源仅新profile显式空日志；已有profile保原日志/通用计数，不追补石转换收入；现行缺字段拒绝。"
+  },
+  "ascended_martial_reset_event_conversion": {
+    "owner_ref": {
+      "file": "升天武功与秘籍.v1.json",
+      "pointer": "/reset_events"
+    },
+    "target_field": "profile.ascended_martial_reset_events",
+    "new_profile_value": [],
+    "policy": "四已知旧来源仅新profile空日志；已有profile保原日志/计数，不伪造旧技能退款；现行缺字段拒绝。"
+  },
+  "ordinary_active_state_conversion": {
+    "owner_ref": {
+      "file": "普通主动技能状态.v1.json",
+      "pointer": "/initialization"
+    },
+    "target_field": "character.skills.ordinary_active",
+    "new_character_value": {},
+    "policy": "仅四已知旧来源新导入角色显式空，不授教学/普通/英雄/辅助/神女技能；旧四剑技沿独立owner保原值，已有其他角色不改，现行缺字段拒绝。"
+  },
+  "ordinary_active_training_event_conversion": {
+    "owner_ref": {
+      "file": "普通主动技能状态.v1.json",
+      "pointer": "/training_events"
+    },
+    "target_field": "profile.ordinary_active_training_events",
+    "new_profile_value": [],
+    "policy": "四已知旧来源仅新profile显式空；已有profile保原日志/通用计数，不为旧四剑技造普通技能学费，现行缺字段拒绝。"
+  },
+  "legacy_sword_state_conversion": {
+    "owner_ref": {
+      "file": "旧剑技兼容.v1.json",
+      "pointer": "/persistent_learning_state"
+    },
+    "target_field": "character.skills.legacy_sword",
+    "policy": "四已知旧来源按真实原四级/导入收据映射ranks/origin_ref，变化列表空；不得新建零表覆盖原技能或重发Q001剑气。其他角色不变，现行缺字段拒绝。"
+  },
+  "legacy_sword_training_event_conversion": {
+    "owner_ref": {
+      "file": "旧剑技兼容.v1.json",
+      "pointer": "/training_events"
+    },
+    "target_field": "profile.legacy_sword_training_events",
+    "new_profile_value": [],
+    "policy": "四已知旧来源仅新profile空日志，已有profile保原日志/计数；导入起点不补造过去训练费，现行缺字段拒绝。"
+  },
+  "story_sword_binding_event_conversion": {
+    "owner_ref": {
+      "file": "剧情剑与玲珑竹.v1.json",
+      "pointer": "/binding_settlement"
+    },
+    "target_field": "profile.story_sword_binding_events",
+    "new_profile_value": [],
+    "policy": "四已知旧来源仅新profile显式空日志；导入已有profile保留原日志/通用计数，不为已认主历史伪造剧情授予收据，原剑技继续引用真实导入起点；现行格式缺字段拒绝。"
+  },
+  "quickbar_conversion": {
+    "owner_ref": {
+      "file": "快捷栏.v1.json",
+      "pointer": "/initialization"
+    },
+    "target_fields": [
+      "character.skill_bar",
+      "character.item_bar"
+    ],
+    "skill_bar": [
+      "legacy_sword_energy",
+      "legacy_sword_piercing",
+      "legacy_sword_guard",
+      "legacy_sword_mend"
+    ],
+    "item_bar": [
+      null,
+      null,
+      null
+    ],
+    "policy": "四已知来源新导入角色显式此两栏；四旧技能未学/未认主仍保原槽位不可用，不送教学/药。已有其他角色不变，现行缺字段拒绝。"
+  },
+  "quickbar_binding_event_conversion": {
+    "owner_ref": {
+      "file": "快捷栏.v1.json",
+      "pointer": "/binding_events"
+    },
+    "target_field": "profile.quickbar_binding_events",
+    "new_profile_value": [],
+    "policy": "四已知旧来源仅新profile空日志，已有profile保日志/计数；原固定槽初始化不伪造换槽事件，现行缺字段拒绝。"
+  },
+  "timers_conversion": {
+    "owner_ref": {
+      "file": "战斗冷却.v1.json",
+      "pointer": "/timers_root"
+    },
+    "target_field": "character.timers",
+    "new_character_value": {
+      "shared_cooldowns": {},
+      "ability_cooldowns": {},
+      "internal_cooldowns": {},
+      "intrinsic_cooldowns": {},
+      "loadout_switch_remaining_ms": 0
+    },
+    "policy": "四已知旧来源新导入角色无现场冷却，显式完整五键；其他角色保持，现行缺字段拒绝，不伪造触发事件。"
+  },
+  "loadout_switch_event_conversion": {
+    "owner_ref": {
+      "file": "装备组与宝珠.v1.json",
+      "pointer": "/switch_events"
+    },
+    "target_field": "profile.loadout_switch_events",
+    "new_profile_value": [],
+    "policy": "四已知旧来源仅新profile空日志，已有profile保原日志/计数；原生效组初始化不伪造切换事件，现行缺字段拒绝。"
+  },
+  "special_resource_conversion": {
+    "owner_ref": {
+      "file": "职业特殊资源.v1.json",
+      "pointer": "/persistent_state"
+    },
+    "target_field": "character.special_resources",
+    "new_character_value": {},
+    "policy": "四已知旧来源sword显式{}，不制造障力/和弦/护盾或来源；其他角色保持，现行缺字段拒绝。"
+  },
+  "chord_cycle_setting_event_conversion": {
+    "owner_ref": {
+      "file": "职业特殊资源.v1.json",
+      "pointer": "/musician/cycle_setting_events"
+    },
+    "target_field": "profile.chord_cycle_setting_events",
+    "new_profile_value": [],
+    "policy": "四已知旧来源仅新profile空日志；已有profile保日志/计数，初始化不伪造设置历史，现行缺字段拒绝。"
+  },
+  "rage_meter_conversion": {
+    "owner_ref": {
+      "file": "怒气出血与血雨恶魔.v1.json",
+      "pointer": "/rage/persistent_state"
+    },
+    "target_field": "character.rage_meter",
+    "new_character_value": 0,
+    "policy": "四已知旧来源无怒气，显式0；不创建自然/强制来源，不覆盖已有其他角色，现行缺字段拒绝。"
+  },
+  "stamina_regeneration_conversion": {
+    "owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/stamina_regeneration/persistent_state"
+    },
+    "target_field": "character.stamina_regeneration",
+    "new_character_value": {
+      "waiting_steps": 60,
+      "fraction_remainder": 0
+    },
+    "policy": "沿四旧来源原体力量化设计，不补体力/不扣离线时长；已有角色不改，现行缺字段拒绝。"
+  },
+  "progress_structure_ref": {
+    "file": "职业基础成长.v1.json",
+    "pointer": "/persistent_progress"
+  },
+  "life_state_conversion": {
+    "owner_ref": {
+      "file": "死亡与复活保存.v1.json",
+      "pointer": "/persistent_state"
+    },
+    "target_fields": [
+      "character.life_state",
+      "character.pending_death"
+    ],
+    "new_character_value": {
+      "life_state": "active",
+      "pending_death": null
+    },
+    "policy": "仅四已知合法正HP旧来源；原HP0仍拒绝，不创建死亡/复活历史，其他角色保持，现行缺字段拒绝。"
+  },
+  "random_state_conversion": {
+    "owner_ref": {
+      "file": "随机序列.v1.json",
+      "pointer": "/legacy_seed"
+    },
+    "target_field": "character.random_state",
+    "policy": "原source_sha256/已固定目标character_id确定新算法seed，next_block=0；四旧来源无对应随机现场，其他角色不变，现行缺字段拒绝。"
+  },
+  "location_structure_ref": {
+    "file": "世界图谱.v1.json",
+    "pointer": "/character_location"
+  },
+  "rage_effect_sources_structure_ref": {
+    "file": "怒气出血与血雨恶魔.v1.json",
+    "pointer": "/rage/persistent_effect_sources"
+  },
+  "bleeding_effect_structure_ref": {
+    "file": "怒气出血与血雨恶魔.v1.json",
+    "pointer": "/bleeding/persistent_state"
+  },
+  "blood_devil_challenge_structure_ref": {
+    "file": "怒气出血与血雨恶魔.v1.json",
+    "pointer": "/blood_devil/persistent_state"
+  },
+  "dongling_periodic_structure_ref": {
+    "file": "神女状态技能.v1.json",
+    "pointer": "/persistent_periodic_state"
+  },
+  "dongling_delayed_burst_structure_ref": {
+    "file": "神女状态技能.v1.json",
+    "pointer": "/persistent_delayed_burst_state"
+  },
+  "dongling_attribute_structure_ref": {
+    "file": "神女状态技能.v1.json",
+    "pointer": "/persistent_attribute_state"
+  },
+  "dongling_control_structure_ref": {
+    "file": "神女状态技能.v1.json",
+    "pointer": "/persistent_control_state"
+  },
+  "defense_effect_structure_ref": {
+    "file": "医师形移与云心护罩气功.v1.json",
+    "pointer": "/persistent_defense_state"
+  },
+  "lu_star_power_structure_ref": {
+    "file": "卢风郎四枪与属性石气功.v1.json",
+    "pointer": "/persistent_star_power_state"
+  },
+  "assassin_evade_bonus_structure_ref": {
+    "file": "连击与回避追击.v1.json",
+    "pointer": "/persistent_evade_bonus_state"
+  },
+  "lightness_effect_structure_ref": {
+    "file": "辅助武功采用.v1.json",
+    "pointer": "/persistent_lightness_state"
+  },
+  "auxiliary_timed_structure_ref": {
+    "file": "辅助武功采用.v1.json",
+    "pointer": "/persistent_auxiliary_timed_state"
+  },
+  "post_dispel_guard_structure_ref": {
+    "file": "异常状态防护与解除气功.v1.json",
+    "pointer": "/persistent_post_dispel_guard"
+  },
+  "spear_fighter_timed_structure_ref": {
+    "file": "枪格斗狂风与破甲气功.v1.json",
+    "pointer": "/persistent_timed_state"
+  },
+  "hp_recovery_block_structure_ref": {
+    "file": "致残恢复封锁.v1.json",
+    "pointer": "/persistent_state"
+  },
+  "half_defense_structure_ref": {
+    "file": "护身与破甲采用.v1.json",
+    "pointer": "/persistent_half_defense_state"
+  },
+  "venom_kill_structure_ref": {
+    "file": "刀系增伤与毒蛇封锁气功.v1.json",
+    "pointer": "/persistent_timed_state"
+  },
+  "sword_timed_structure_ref": {
+    "file": "剑系回避与火凤气功采用.v1.json",
+    "pointer": "/persistent_timed_state"
+  },
+  "music_timed_structure_ref": {
+    "file": "乐师和弦联动气功.v1.json",
+    "pointer": "/persistent_timed_state"
+  },
+  "physician_heal_defense_structure_ref": {
+    "file": "医师治疗与攻击联动气功.v1.json",
+    "pointer": "/persistent_heal_defense_state"
+  },
+  "transfer_guard_structure_ref": {
+    "file": "转攻与乾坤气功采用.v1.json",
+    "pointer": "/persistent_transfer_state"
+  },
+  "armor_suppression_structure_ref": {
+    "file": "烈日防具失效气功采用.v1.json",
+    "pointer": "/persistent_state"
+  },
+  "faction_timed_structure_ref": {
+    "file": "队伍怒气与势力气功.v1.json",
+    "pointer": "/persistent_faction_state"
+  },
+  "effects_root_structure_ref": {
+    "file": "角色效果根.v1.json",
+    "pointer": "/initialization"
+  },
+  "identity_conversion": {
+    "contract_ref": {
+      "file": "角色身份与外观.v1.json",
+      "pointer": ""
+    },
+    "schema_ref": {
+      "file": "角色身份.schema.json",
+      "pointer": ""
+    },
+    "character_id": "沿import_identity.role_id_derivation唯一目标ID。",
+    "name_class_appearance": "四已知来源均显式采用原合同fang_chen_preset，不执行新建模板。规范化同名冲突在预留前拒绝，不自动改名或追加后缀；用户先显式改已有角色名再预览。已导入/已删除去重优先。",
+    "created_at_utc": "精确原pending冻结时间，提交后source_proof同值；历史重建不取当前时间。",
+    "other_characters": "不改现有角色身份，现行缺字段/未知外观不套旧导入补值。"
+  },
+  "new_character_creation_boundary": {
+    "owner_ref": {
+      "file": "角色创建.v1.json",
+      "pointer": "/legacy"
+    },
+    "policy": "四旧导入不运行新建事件/礼包；显式新目标profile初始化character_creation_events=[]，已有目标保原数组与日志，现行缺字段拒绝。"
+  },
+  "settings_conversion": {
+    "owner_ref": {
+      "file": "档案元数据与设置.v1.json",
+      "pointer": "/legacy_settings"
+    },
+    "new_profile": "原volume/camera_distance映主音量/镜头，其他七项取明确默认；只属于显式新目标档案初始化。",
+    "existing_profile": "保完整原settings不变，四旧来源导入不重置当前档案/其他角色/本窗口偏好。"
+  },
+  "character_deletion_event_conversion": {
+    "target_field": "profile.character_deletion_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原数组，不因导入或角色删除清除历史"
+  },
+  "story_boss_reward_claim_event_conversion": {
+    "target_field": "profile.story_boss_reward_claim_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；旧故事return/completed不建立待领奖或领取成功事件"
+  },
+  "story_boss_entry_event_conversion": {
+    "target_field": "profile.story_boss_entry_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；旧故事进度不造新入场/attempt/world",
+    "character_field": "character.activities.story_boss",
+    "character_value": null
+  },
+  "story_boss_return_event_conversion": {
+    "target_field": "profile.story_boss_return_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；旧任务/位置不补新返回事件，导入不造世界或原attempt"
+  },
+  "lan_result_proof_conversion": {
+    "target_field": "profile.lan_result_proofs",
+    "new_profile_value": {},
+    "existing_profile_policy": "保原全部远端结果/来源证明，导入角色不造网络结果/world/head或ACK"
+  },
+  "timed_source_configuration_event_conversion": {
+    "target_field": "profile.timed_source_configuration_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；known1..4来源槽按原明确null迁移，不凭旧任务或等级造配置记录。"
+  },
+  "customization_conversion": {
+    "accepted_versions": "known legacy1..4only",
+    "target_field": "character.customization",
+    "explicit_value": {
+      "format_version": 1,
+      "revision": 0,
+      "explicit": {},
+      "latest_event_ref": null
+    },
+    "owner_ref": {
+      "file": "角色配置修订.v1.json",
+      "pointer": "/customization_root"
+    },
+    "policy": "已知旧档没有本配置根，明确初始化不造配置历史；其他旧版/当前新格式缺字段拒绝，不套此转换。现有角色保实际原配置根与历史。"
+  },
+  "jewelry_override_configuration_event_conversion": {
+    "target_field": "profile.jewelry_override_configuration_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志与配置链，known1..4按原空覆盖迁移，不凭当前参数造历史事件；当前格式缺字段拒绝。"
+  },
+  "innate_profile_selection_conversion": {
+    "target_field": "character.innate_profiles",
+    "known_legacy_1to4_value": {
+      "format_version": 1,
+      "selected_profile_ids": []
+    },
+    "policy": "四已知来源只映射sword；不执行22其他职业选择。当前格式缺字段不补，导入已有profile其他角色保原。"
+  },
+  "merit_title_certification_event_conversion": {
+    "target_field": "profile.merit_title_certification_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志/称号来源，不凭旧余额或已晋级生成认证事件；四已知旧来源新角色title_state仍明确null，当前格式缺字段拒绝。"
+  },
+  "merit_title_expiry_event_conversion": {
+    "target_field": "profile.merit_title_expiry_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原到期/续费历史，不凭墙钟/旧余额造逾期事件或补扣；四已知旧角色称号明确null，当前格式缺字段拒绝。"
+  },
+  "merit_configuration_event_conversion": {
+    "target_field": "profile.merit_configuration_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原配置日志/修订链与武勋来源；四已知旧来源原武勋0/称号null不造配置事件，现格式缺字段拒绝。"
+  },
+  "story_boss_abandon_event_conversion": {
+    "target_field": "profile.story_boss_abandon_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；不从旧任务/地点/死亡推放弃，导入不造world/attempt或离场证明"
+  },
+  "respawn_event_conversion": {
+    "target_field": "profile.respawn_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；四已知旧档只导入合法活体，不造历史死亡/复活，导入不改变既有角色生命与world"
+  },
+  "death_event_conversion": {
+    "target_field": "profile.death_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；四已知旧档原HP0拒绝，不造死亡来修复旧来源或改变已有角色/world"
+  },
+  "ordinary_armor_purchase_event_conversion": {
+    "target_field": "profile.ordinary_armor_purchase_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；四已知旧档不伪造历史银娇龙购买，源装备沿原严格兼容导入链，不改既有余额/实物/world"
+  },
+  "heavenly_stone_claim_event_conversion": {
+    "target_field": "profile.heavenly_stone_claim_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；四已知旧档按原cultivation转换，不伪造历史待领奖励/领取，不改既有角色石堆或点数"
+  }
 }

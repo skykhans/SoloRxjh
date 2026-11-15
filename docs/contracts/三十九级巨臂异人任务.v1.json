@@ -1,0 +1,499 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "two_full_local_quest_designs_not_implemented_not_balanced",
+  "source_policy": "Preserve source39level/faction/NPC/10headbands+5belts/3enhancement stones+one5%charm/once. Monster producer identity uses catalog巨臂异人42in each region;100%two below-cap personal tokens per death,zero weight/stats/four homes each are explicit local design.",
+  "quests": [
+    {
+      "quest_id": "ref_QREF-63790-003",
+      "source_reference_id": "QREF-63790-003",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/26"
+      },
+      "name": "打退巨臂异人",
+      "minimum_level": 39,
+      "route": "righteous",
+      "npc_id": "npc_xiao_chunshui",
+      "npc_map_id": "liuzheng_pass",
+      "interaction_anchor_id": "npc_xiao_chunshui_service",
+      "service_id": "giant_arm_righteous",
+      "requirements": [
+        {
+          "item_id": "quest_giant_arm_righteous_headband",
+          "quantity": 10
+        },
+        {
+          "item_id": "quest_giant_arm_righteous_belt",
+          "quantity": 5
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "enhancement_stone",
+            "quantity": 3,
+            "definition_ref": {
+              "file": "英雄主武器强化.v1.json",
+              "pointer": "/items/0"
+            }
+          },
+          {
+            "item_id": "enhancement_luck_charm_5",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "强化幸运符.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "single_npc"
+    },
+    {
+      "quest_id": "ref_QREF-63789-003",
+      "source_reference_id": "QREF-63789-003",
+      "source_ref": {
+        "file": "../reference/任务参数.json",
+        "pointer": "/quests/75"
+      },
+      "name": "打探巨臂异人消息",
+      "minimum_level": 39,
+      "route": "evil",
+      "npc_id": "npc_lu_xiaohuang",
+      "npc_map_id": "sanxie_pass",
+      "interaction_anchor_id": "npc_lu_xiaohuang_service",
+      "service_id": "giant_arm_evil",
+      "requirements": [
+        {
+          "item_id": "quest_giant_arm_evil_headband",
+          "quantity": 10
+        },
+        {
+          "item_id": "quest_giant_arm_evil_belt",
+          "quantity": 5
+        }
+      ],
+      "reward": {
+        "experience": 0,
+        "practice": 0,
+        "silver": 0,
+        "items": [
+          {
+            "item_id": "enhancement_stone",
+            "quantity": 3,
+            "definition_ref": {
+              "file": "英雄主武器强化.v1.json",
+              "pointer": "/items/0"
+            }
+          },
+          {
+            "item_id": "enhancement_luck_charm_5",
+            "quantity": 1,
+            "definition_ref": {
+              "file": "强化幸运符.v1.json",
+              "pointer": "/items/0"
+            }
+          }
+        ],
+        "rank_change": null,
+        "ascension_progress": 0
+      },
+      "common_rules_ref": {
+        "file": "正邪收集任务公共规则.v1.json",
+        "pointer": "/lifecycle"
+      },
+      "interaction_model": "single_npc"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "quest_giant_arm_righteous_headband",
+      "name": "巨臂异人头巾",
+      "source_reference_id": "QREF-63790-003",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "task evidence,not equippable head/belt"
+    },
+    {
+      "item_id": "quest_giant_arm_righteous_belt",
+      "name": "巨臂异人的腰带",
+      "source_reference_id": "QREF-63790-003",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "task evidence,not equippable head/belt"
+    },
+    {
+      "item_id": "quest_giant_arm_evil_headband",
+      "name": "巨臂异人头巾",
+      "source_reference_id": "QREF-63789-003",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "task evidence,not equippable head/belt"
+    },
+    {
+      "item_id": "quest_giant_arm_evil_belt",
+      "name": "巨臂异人的腰带",
+      "source_reference_id": "QREF-63789-003",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 5,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "task evidence,not equippable head/belt"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63790-003",
+        "monster_id": "liuzheng_pass_giant_arm42",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_giant_arm_righteous_headband",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63790-003",
+        "monster_id": "liuzheng_pass_giant_arm42",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_giant_arm_righteous_belt",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      },
+      {
+        "quest_id": "ref_QREF-63789-003",
+        "monster_id": "sanxie_pass_giant_arm42",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_giant_arm_evil_headband",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "quest_id": "ref_QREF-63789-003",
+        "monster_id": "sanxie_pass_giant_arm42",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_giant_arm_evil_belt",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 5
+      }
+    ],
+    "eligibility": "own active attempt/correct current route/alive connected same room/map;solo unique death owner or exact19party member snapshot within30m/joined>=600steps;each own token type below its cap",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "no token/progress,record original death no-item outcome;freeing space/reconnect/abandon/reaccept never replays it;later distinct death may grant",
+    "modifiers": "100%personal task output separate from public loot,no finisher/training multiplier",
+    "commit": "all actual39/52candidate outcomes and normal death result use shared_death_owner once",
+    "shared_death_owner": {
+      "file": "三十九级巨臂异人任务.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "monsters": [
+    {
+      "monster_id": "liuzheng_pass_giant_arm42",
+      "source_reference_id": "MREF-39820-004",
+      "name": "巨臂异人",
+      "level": 42,
+      "map_id": "liuzheng_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2940,
+      "max_mana": 0,
+      "attack_min": 126,
+      "attack_max": 168,
+      "ordinary_defense": 84,
+      "accuracy": 210,
+      "evasion": 84,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_giant_arm_creature",
+      "xp_reward": 116250,
+      "practice_reward": 11625,
+      "silver_reward": 42,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "liuzheng_pass_giant_arm42",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source name/level/region preserved;ordinary monster not martial NPC;stats/drop rules/spawns local",
+      "source_name_as_published": "巨臂异人"
+    },
+    {
+      "monster_id": "sanxie_pass_giant_arm42",
+      "source_reference_id": "MREF-39819-004",
+      "name": "巨臂异人",
+      "level": 42,
+      "map_id": "sanxie_pass",
+      "combat_kind": "monster",
+      "boss": false,
+      "is_npc_martial": false,
+      "max_hp": 2940,
+      "max_mana": 0,
+      "attack_min": 126,
+      "attack_max": 168,
+      "ordinary_defense": 84,
+      "accuracy": 210,
+      "evasion": 84,
+      "critical_chance_bp": 0,
+      "critical_multiplier_bp": 15000,
+      "movement_mm_per_second": 3000,
+      "qigong_allocations": {},
+      "rage_enabled": false,
+      "supports_blood_devil": false,
+      "reward_profile": "explicit_giant_arm_creature",
+      "xp_reward": 116250,
+      "practice_reward": 11625,
+      "silver_reward": 42,
+      "ascension_progress_reward": 500,
+      "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+      "fixed_loot": [],
+      "random_loot": [],
+      "empty_loot_reason": "explicit ordinary XP/practice/silver and active quest producer only; no unknown defaults",
+      "finisher_reward_components": [
+        "experience",
+        "practice",
+        "silver"
+      ],
+      "model_spec": {
+        "presentation_id": "sanxie_pass_giant_arm42",
+        "status": "source creature model/animations pending"
+      },
+      "identity_policy": "source name/level/region preserved;ordinary monster not martial NPC;stats/drop rules/spawns local",
+      "source_name_as_published": "巨臂异人"
+    }
+  ],
+  "spawns": [
+    {
+      "spawn_id": "liuzheng_pass_giant_arm42_01",
+      "monster_id": "liuzheng_pass_giant_arm42",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -144,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_giant_arm42_02",
+      "monster_id": "liuzheng_pass_giant_arm42",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -144,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_giant_arm42_03",
+      "monster_id": "liuzheng_pass_giant_arm42",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -144,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "liuzheng_pass_giant_arm42_04",
+      "monster_id": "liuzheng_pass_giant_arm42",
+      "map_id": "liuzheng_pass",
+      "home_feet_m": [
+        -144,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_giant_arm42_01",
+      "monster_id": "sanxie_pass_giant_arm42",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -144,
+        0,
+        -12
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_giant_arm42_02",
+      "monster_id": "sanxie_pass_giant_arm42",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -144,
+        0,
+        -4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_giant_arm42_03",
+      "monster_id": "sanxie_pass_giant_arm42",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -144,
+        0,
+        4
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "sanxie_pass_giant_arm42_04",
+      "monster_id": "sanxie_pass_giant_arm42",
+      "map_id": "sanxie_pass",
+      "home_feet_m": [
+        -144,
+        0,
+        12
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "proactive9m",
+      "safe_zones": "no hostile spawn/entry,path return to home for healing,never teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "method": "verify0.45m monster radius+2m patrol margin against map bounds/solids/safe circles;0.35m player central x then z corridor;compare new homes to every existing map home",
+    "runtime_proven": false
+  },
+  "pending": [
+    "Godot quest/inventory/material/death/AI/save/LAN implementation and dynamic navigation tests",
+    "source creature art and39level versus42difficulty/material economy calibration"
+  ],
+  "shared_death_collection": {
+    "monster_ids": [
+      "liuzheng_pass_giant_arm42",
+      "sanxie_pass_giant_arm42"
+    ],
+    "producer_refs": [
+      {
+        "file": "三十九级巨臂异人任务.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "五十二级正邪寻回任务.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "snapshot": "one original death/recipient/route/current attempts/inventory snapshot;filter exact actor and each39/52quest eligibility/type cap;up to one39headband,one39belt and two52tokens,each1,at most4per recipient;39caps10/5 and52caps7/7 stay independent",
+    "capacity": "build all actual candidate additions together using exact binding/provenance/merge/weight;any candidate cannot fit =>none awarded and each candidate records failed-capacity;inactive/capped/ineligible producer contributes nothing and cannot block others;no acceptance-order priority",
+    "commit": "original05/19death transaction contains all recipients/outcomes and normal XP/practice/silver once;only actual inventory changes advance inventory revision once for each recipient,not once per candidate;no candidates=no token-related revision",
+    "replay": "immutable original outcomes after freeing space/reconnect/abandon/reaccept;no old death can feed new attempt;later distinct death may grant",
+    "scope": "only two listed public actors/eight original homes;no training-room variant or second body/spawn per quest"
+  }
+}

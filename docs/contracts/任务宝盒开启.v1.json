@@ -1,0 +1,190 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "local_box_definition_and_opening_design_not_implemented_not_balanced",
+  "source_policy": "58级来源白银宝盒5、61级来源黄金宝盒10仅确定名称及数量，内容未载；两独立item_id/各20克99堆/角色绑定权限与各三结果4000/3000/3000池均为项目方案，不冒充官网掉落表。白银保原三首饰池，黄金明确天灵耳环/五毒链/地灵戒；银宝盒和碧玉宝盒不按别称归入。",
+  "items": [
+    {
+      "item_id": "quest_reward_silver_treasure_box",
+      "name": "白银宝盒",
+      "kind": "reward_box",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 20,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": null,
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": true,
+      "recipe_input_only": false,
+      "purchase_allowed": false,
+      "initial_grant": 0,
+      "source_kind": "task_name_not_IREFcatalog_adoption",
+      "acquisition_refs": [
+        {
+          "file": "五十八级正邪竹木任务.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "五十八级正邪竹木任务.v1.json",
+          "pointer": "/quests/1/reward/items/0"
+        }
+      ]
+    },
+    {
+      "item_id": "quest_reward_gold_treasure_box",
+      "name": "黄金宝盒",
+      "kind": "reward_box",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 20,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": null,
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": true,
+      "recipe_input_only": false,
+      "purchase_allowed": false,
+      "initial_grant": 0,
+      "source_kind": "task_name_not_IREFcatalog_adoption",
+      "acquisition_refs": [
+        {
+          "file": "六十一至六十三级正邪讨伐链.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "六十一至六十三级正邪讨伐链.v1.json",
+          "pointer": "/quests/3/reward/items/0"
+        }
+      ]
+    }
+  ],
+  "instance_owner_ref": {
+    "file": "普通首饰实例.v1.json",
+    "pointer": "/fresh_creation"
+  },
+  "stack_flow_ref": {
+    "file": "物品堆与来源.v1.json",
+    "pointer": ""
+  },
+  "instance_flow_ref": {
+    "file": "唯一实例来源流.v1.json",
+    "pointer": ""
+  },
+  "pending": [
+    "Godot box UI/RNG/source flow/inventory/save/LAN implementation and validation",
+    "reward pool economic calibration"
+  ],
+  "opening_rules": {
+    "quantity_per_command": 1,
+    "minimum_level": 1,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": "all legal routes",
+    "qualification": "own alive idle out-of-combat character,no challenge/trade/service reservation;real own carried inventory stack with exact definition/binding/provenance,quantity>=1;warehouse input rejects;wearing eligibility of output is not possession gate",
+    "request": "character_id/request_id/exact source stack_id and revision/expected character and inventory revisions;no client output/roll/probability or batch quantity;same request same payload returns original receipt before current checks,changed payload same request rejects",
+    "preflight": "validate full original state,actual source version and consume exactly1;reserve one equipment_bag slot and check total carried weight for every candidate before randomness. Material bag freed slot never substitutes for equipment bag. Box20g removed,outputs<=20g,net weight never increases but originally invalid/overweight state rejects;any failure consumes no box/RNG/revision",
+    "random": "authoritative server uses existing05/19persistent gameplay RNG,one logical uniform integer roll0..9999 after all candidate preflights;resolve exactly one contiguous interval in the exact input definition opening,no second success draw,no stat/processing roll;record RNG before/after and roll in original durable receipt;no client seed,party/finisher/training modifier or configuration override",
+    "creation": "one ordinary jewelry fresh nine-field instance,unique new instance_id/lineage_id,owner=opener,binding character,revision0,processing_level0,processing_origin_receipt_id=null,creation_receipt_id=opening settlement ID;place lowest available equipment_bag slot,never autoequip;source authorization loot must resolve this exact consumed box/candidate interval,not arbitrary loot string",
+    "commit": "single durable05/19event consumes box with stack_flow reason use,creates exactly one instance_flow loot output,commits RNG/result/final containers/character and inventory revisions each+1 once;no silver/XP/practice or fees. Box retained quantity uses original stack identity revision+1 once;last unit retires stack. Opening two different box stacks never grants additional rolls for same command",
+    "failure_and_save": "reject/cancel before commit has no changes;uncertain save resolves original durable settlement,retry same persistence not re-open/re-roll. Original receipt replay reports result and never reinserts removed/moved/discarded jewelry or box. New request may open next actual remaining box only",
+    "ui": "show three exact candidate names/weights/probabilities and one-box consumption before confirmation;then exact committed result. No paid key/extra roll/unknown consolation or mail delivery",
+    "definition_resolution": "exact source item_id must select exactly one openings entry and exact matching items definition;missing/unknown item or pool rejects,no name/type/rarity fallback;each entry refers to these same opening_rules,never mix pools"
+  },
+  "openings": [
+    {
+      "item_id": "quest_reward_silver_treasure_box",
+      "action_id": "open_silver_treasure_box",
+      "rules_ref": {
+        "file": "任务宝盒开启.v1.json",
+        "pointer": "/opening_rules"
+      },
+      "outcomes": [
+        {
+          "item_id": "jewelry_regular_earring_74f545848904",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通首饰基础定义.v1.json",
+            "pointer": "/items/1"
+          },
+          "roll_min": 0,
+          "roll_max": 3999,
+          "probability_bp": 4000
+        },
+        {
+          "item_id": "jewelry_regular_necklace_071e8ceed949",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通首饰基础定义.v1.json",
+            "pointer": "/items/24"
+          },
+          "roll_min": 4000,
+          "roll_max": 6999,
+          "probability_bp": 3000
+        },
+        {
+          "item_id": "jewelry_regular_ring_46b631ea201f",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通首饰基础定义.v1.json",
+            "pointer": "/items/44"
+          },
+          "roll_min": 7000,
+          "roll_max": 9999,
+          "probability_bp": 3000
+        }
+      ]
+    },
+    {
+      "item_id": "quest_reward_gold_treasure_box",
+      "action_id": "open_gold_treasure_box",
+      "rules_ref": {
+        "file": "任务宝盒开启.v1.json",
+        "pointer": "/opening_rules"
+      },
+      "outcomes": [
+        {
+          "item_id": "jewelry_regular_earring_b81d2d4306b2",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通首饰基础定义.v1.json",
+            "pointer": "/items/3"
+          },
+          "roll_min": 0,
+          "roll_max": 3999,
+          "probability_bp": 4000
+        },
+        {
+          "item_id": "jewelry_regular_necklace_dfc8993f791e",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通首饰基础定义.v1.json",
+            "pointer": "/items/27"
+          },
+          "roll_min": 4000,
+          "roll_max": 6999,
+          "probability_bp": 3000
+        },
+        {
+          "item_id": "jewelry_regular_ring_7253860b9f12",
+          "quantity": 1,
+          "definition_ref": {
+            "file": "普通首饰基础定义.v1.json",
+            "pointer": "/items/47"
+          },
+          "roll_min": 7000,
+          "roll_max": 9999,
+          "probability_bp": 3000
+        }
+      ]
+    }
+  ]
+}

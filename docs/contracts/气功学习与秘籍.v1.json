@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-15",
   "status": "learning_fields_project_items_and_trial_design_one_source_quest_unresolved_not_implemented",
   "source_file": "../reference/武功气功参数.json",
   "identity_mapping_file": "武功气功来源映射.v1.json",
@@ -36,7 +36,7 @@
   "manual_profile": {
     "id": "class_qigong_manual",
     "category": "qigong_manual",
-    "container": "consumable_bag",
+    "container": "inventory",
     "max_stack": 99,
     "weight_g": 1,
     "binding": "character",
@@ -4450,17 +4450,17 @@
       "minimum_rank": 4,
       "rank_basis": "published_level_or_quest_token_with_project_rank_adoption",
       "earliest_normal_level": 90,
-      "required_quest_id": null,
+      "required_quest_id": "quest_dongling_qigong90",
       "manual_id": null,
       "learning_profile_id": "qigong_condition_or_manual",
-      "learning_resolution_status": "blocked_missing_formal_source_quest_mapping",
+      "learning_resolution_status": "explicit_local_quest_adopted_source_details_retained_unknown",
       "required_source_quest": {
         "name": "神秘守卫的嘱托",
         "map": "南明湖",
         "level": 90,
         "source_description_requirement": true
       },
-      "null_quest_semantics": "unresolved while blocked, not no prerequisite; cannot export runtime condition"
+      "quest_owner_file": "神女九十级神秘守卫嘱托.v1.json"
     },
     {
       "qigong_id": "qigong_dongling_shennv_e7a674939ff3",
@@ -6453,6 +6453,37 @@
       },
       "enemy": {
         "definition_id": "trial_lu_qigong90_echo",
+        "duel_equipment_projection": {
+          "activity_combat_kind": "npc_martial_duel",
+          "profile_version": 1,
+          "weapon": {
+            "equipment_kind": "fixed_stat_npc_weapon",
+            "awakening_stage": 0,
+            "deity_id": null
+          },
+          "body": {
+            "equipment_kind": "fixed_stat_npc_body",
+            "awakening_stage": 0,
+            "deity_id": null
+          },
+          "source_policy": "项目明确采用无觉醒/无四神的固定属性试练装备；并非缺字段推断，也不复制玩家装备。不生成可掉落物品，不改变既有attack/defense/AI。",
+          "damage_owner_ref": {
+            "file": "英雄武器觉醒与四神.v1.json",
+            "pointer": "/four_divine_damage"
+          },
+          "snapshot_policy": "入场固定此版本武器/衣服投影并存入敌人快照；恢复必须有完整原投影，不重新读取新版模板，不按玩家装备改神。未知版本/非法神/觉醒0有神/缺投影拒绝活动配置或读档；已接受根动作保武器快照，命中取本局敌人衣服投影。",
+          "scope_policy": "仅本私场本人和该敌人的敌对根直接攻击，双向使用35矩阵；普通BOSS、队友/其他实例、状态/反伤/衍生攻击不继承。",
+          "merit_jewelry": {
+            "item_ids": [],
+            "set_ids": [],
+            "npc_duel_damage_bonus_bp": 0,
+            "source_policy": "本具名NPC明确采用空首饰投影，无70基础/加工/套装贡献；保既有固定面板。与原武器/衣服投影同入场快照保存，缺字段拒绝，不从缺字段补空。",
+            "owner_ref": {
+              "file": "新版武勋首饰.v1.json",
+              "pointer": "/npc_duel_damage"
+            }
+          }
+        },
         "class_id": "lu_fenglang",
         "combat_kind": "martial_npc",
         "level": 90,
@@ -6504,6 +6535,15 @@
         "death": "story_workcamp_start normal respawn; no initial pack",
         "save_exit": "same instance snapshot, not terminal return"
       }
+    },
+    {
+      "quest_id": "quest_dongling_qigong90",
+      "owner_file": "神女九十级神秘守卫嘱托.v1.json",
+      "class_id": "dongling_shennv",
+      "minimum_level": 90,
+      "minimum_rank": 4,
+      "completion_required": "delivered only; no automatic point/manual/grade",
+      "source_policy": "explicit local replacement, original quest objectives still unknown; never merge87/88task flags"
     }
   ],
   "source_conflicts": [
@@ -6522,5 +6562,107 @@
   ],
   "runtime_implemented": false,
   "d1_frozen": false,
-  "scope": "308source conditions; Dongling真武90 source quest unresolved blocks formal export;140manuals incl Tan护身 explicit local conflict choice."
+  "scope": "308 source conditions;2 explicit local90learning prerequisites (Lu/Dongling);140 manuals incl Tan护身 explicit local conflict choice. Runtime/gameplay not implemented.",
+  "persistent_manual_records": {
+    "field": "character.qigong.learned_manuals",
+    "schema_ref": {
+      "file": "气功秘籍记录.schema.json",
+      "pointer": ""
+    },
+    "initial": [],
+    "record": "每条精确manual_id/consumption_ref两键；后者精确receipt_id/flow_index/consumption_index，指原已提交学习收据stack_flows[flow_index].consumptions[consumption_index]，不复制完整消费流。manual_id为140本具名定义之一，授予的qigong_id及职业由manual_items唯一派生，不另存已学布尔或第二份ID。",
+    "uniqueness": "manual_id逐条唯一，同书不同消费引用也拒绝；一个原消费位置最多授权一条记录。uniqueItems只能拒绝完全相同对象，不能替代上述两向唯一性。未知书/越界索引/不存在收据/未决或失败事件拒绝。",
+    "authorization": "完整原学习事件必须已提交、归本角色及原authority/会话，记录ID等原receipt_id。引用消费reason=use、数量恰1且对应完整来源输入的精确manual_id；原输入/余量输出/来源数量守恒，书必须实际随身可用，不能消费仓库或借他人书。同收据所有学习结果逐条与记录双向覆盖，不以use字符串本身授权资格。原学习事件结构与结算身份按manual_events；真实来源闭包仍待。",
+    "lifecycle": "成功消费/追加记录与角色及库存修订同原事务保存。重放只回原结果，不再次消费/追加；洗点、降级或暂时失去晋级保记录，仅有效资格随当前条件重算。已经记录同manual_id拒绝再读且不耗书。原来源保留，不因书堆全耗尽/角色重连裁剪。",
+    "initialization": "新角色及四已知旧来源的新导入角色显式[]，旧四剑技不授予这140本书的资格；导入已有档其他角色不变。22模板引用persistent_qigong_root完整初值，本字段唯一在character.qigong.learned_manuals，不在skills/角色根保存副本。新格式缺字段拒绝。",
+    "boundary": "只闭合学习凭证结构及原消费定位，不是完整qigong/角色/学习事件或防篡改承诺，未闭合来源前不能启用业务。"
+  },
+  "manual_events": {
+    "field": "profile.qigong_manual_events",
+    "schema_ref": {
+      "file": "气功秘籍学习事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "event_schema_ref": {
+      "file": "气功秘籍学习事件.schema.json",
+      "pointer": ""
+    },
+    "initial": [],
+    "command": "精确play_session_identity/command_id/expected_character_revision/expected_inventory_revision/manual_id/stack_id；气功ID/职业由书定义派生，不接受client上传已学资格。原会话已启用、实际归属及17/21读书条件、职业/等级/晋级/任务和未学习/来源须先核。此为本人背包使用，不新增NPC服务窗口限制。",
+    "identity": "沿通用结算身份预留。request_id为71确定编码[\"qigong_manual_learning\",play_session_identity.session_id,command_id]字符串；request_digest为71编码完整command的SHA256。先查完整请求去重，命中回原阶段/决定，不先耗counter。同键改参数拒绝。",
+    "reservation": "持原authority档案锁冻结rules_hash与实际选定书堆当前stack_input来源引用；counter递增与reserved追加本数组同笔保存，原角色两修订/书/学习记录不变。每角色至多一条reserved，期间禁止该角色新资源业务。plan不存第二份库存或可支用书；不消费玩法随机。",
+    "commit": "原会话仍active且LAN接纳ACK完成，原规则、两修订、书堆及其来源/随身位置、全部资格与未学习条件复核。一次完整authority档案替换原位committed，消费精确选定manual_id的书1，追加唯一learned_record，角色/库存修订各+1。stack_flows恰1、输入恰1且等plan.stack_input，消费input0/quantity1/reasonuse；mintnull，书堆若原数量1则无输出并移除位置，否则唯一余量输出保持原堆身份/位置且数量-1/revision+1。其他钱物/气功分配/未分配点不变。",
+    "record_binding": "learned_record.manual_id等command.manual_id，consumption_ref.receipt_id等identity.settlement_id且flow_index/consumption_index均0；流receipt_id亦同原结算。该条等于角色新增的唯一记录，不能同时追加另一书资格。原来源图及实际堆正文/流守恒仍必须验证；输入指针形状不是书来源证明。",
+    "abort": "取消或复核状态/规则/会话失效按四原因原位aborted，无流/学习记录/业务修订变化，保原身份/command/plan。明确取消须真实成员及原会话/请求相符；已committed只回原结果，不能用取消返书或移除已学资格。",
+    "recovery": "重开先重读同正式档案完整验证；原会话须结束恢复，未提交reserved按session_invalid持久abort，不能从旧plan恢复active。committed/aborted只重放原结果；保存存疑先重读，不将可能committed覆盖成abort。决定成功持久后才发布，client角色结果/水位保存与ACK沿网络结果链。完整结果封套/角色来源仍待，不准运行。",
+    "journal": "allocation_index严格递增；各身份/request_id唯一，与所有通用owner联合覆盖counter。预留追加、终态原位替换，不能另存pending/result镜像。终态不可改/删；删除角色/结束不删原来源与去重。无压缩协议不裁剪，空间不足停止预留。",
+    "initialization": "新profile及四已知旧导入新profile显式[]；导入已有profile保原日志/计数，其他角色不变。新格式缺字段拒绝，不因未读过书补空。",
+    "boundary": "事件严格根不替代完整角色、通用结算/物品来源闭包或真实认证/文件/LAN故障验证，D1未通过。"
+  },
+  "allocation_events": {
+    "field": "profile.qigong_allocation_events",
+    "schema_ref": {
+      "file": "气功分配事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "event_schema_ref": {
+      "file": "气功分配事件.schema.json",
+      "pointer": ""
+    },
+    "initial": [],
+    "scope": "本人普通/升天气功自有点分配；一次请求一个已知qigong_id及quantity1..20。不读书、不洗点、不配置授予/移除资格，不新增NPC窗口条件。",
+    "command": "精确原play_session_identity/command_id/expected_character_revision/expected_inventory_revision/qigong_id/quantity。由完整权威角色推导职业、等级/晋级/任务/书资格及当前余额/该ID自有等级；client不上传可用余额、资格快照或效果等级。",
+    "identity": "request_id为71确定编码[\"qigong_allocation\",play_session_identity.session_id,command_id]字符串；request_digest为71编码完整command的SHA256。先沿通用结算request_index查完整原请求，同键同摘要回原阶段/决定，改参数拒绝，不重复消耗counter。",
+    "reservation": "完整正式档案/原会话active与LAN接纳ACK、两修订、当前学习资格、余额>=quantity和自有等级+quantity<=20均验证后，持原authority档案锁冻结rules_hash；counter+1与reserved追加同笔保存。余额/分配/两修订不变，不消费玩法随机。该角色在所有资源owner间至多一个互斥未决业务；有交易/配置/结束或其他资源占用不能并发预留，不另存可支用点数或角色镜像。",
+    "commit": "在同authority锁内重核原会话/ACK、rules_hash、两修订、实际职业/等级/晋级/任务/书资格、原预算总账和余额/自有上限。原位committed与角色同档保存：qigong_unallocated-=quantity；仅command.qigong_id的原自有值+quantity，缺键按稀疏表精确定义为0；character.revision+1，inventory_revision保持原值。其他技能分配、秘籍记录、发点历史、背包和钱物不变。",
+    "result_binding": "owned_level_after等原自有等级+quantity；qigong_unallocated_after等原余额-quantity；两修订分别等命令角色修订+1和库存修订原值。全角色按原状态/事件重放验证，仅这些数值不证明收入合法。一次只分配一个ID，不能夹带任务/书资格或BUFF；本事件无stack_flows/mint/物品消费字段。",
+    "eligibility": "当前失去等级/晋级或其他暂时资格时禁止新增分配与生效，但保留有合法来源的历史自有点/已读书，不将其视为必须删档的结构错误。异职业或被配置移除的资格保留须18明确配置不生效来源；缺必需书/任务且无原学习/合法配置来源仍拒绝。",
+    "abort": "state_changed/rules_changed/session_invalid/explicit_cancel四原因原位终止，保原身份/command/plan，余额/分配/角色和库存修订不变。明确取消核原真实成员/会话/请求；已提交只能回原决定，不用取消退款。",
+    "recovery": "重开重读同正式档案完整验证，旧会话不恢复active；旧reserved以session_invalid持久abort，终态仅重放。存疑保存先停后续业务并重读，不能将可能committed覆盖为aborted。持久确认后发布；LAN角色结果与连续序号/ACK沿网络结果链，完整封套仍待。",
+    "journal": "唯一原日志；候选与前一正式快照比较仅允许新reserved追加、原reserved一次变为committed/aborted或原条完全不变。identity/command/plan全程不可变，终态不得改写/互换/返回reserved或删除。allocation_index严格递增，身份/请求唯一，与其他通用owner共同覆盖settlement_next_id的全部预留。删除角色不裁剪来源；无合法压缩协议不删日志，空间不足停止预留。",
+    "initialization": "新profile及四已知旧来源新导入profile显式[]；已有profile导入保原日志与计数，新格式缺字段拒绝。",
+    "boundary": "严格事件组件不替代完整qigong/角色、收入支出与配置来源、认证、结果封套或真实文件/LAN故障测试；未完成D1，不授权运行。"
+  },
+  "persistent_qigong_root": {
+    "field": "character.qigong",
+    "schema_ref": {
+      "file": "气功持久根.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "covered_level": 1,
+      "level_award_spans": [],
+      "qigong_unallocated": 0,
+      "allocations": {},
+      "learned_manuals": [],
+      "anti_allocations": {},
+      "anti_cooldowns": {},
+      "ascension_unallocated": 0
+    },
+    "owners": {
+      "history": {
+        "file": "升级发点.v1.json",
+        "pointer": "/persistent_history"
+      },
+      "shared_budget": {
+        "file": "升级发点.v1.json",
+        "pointer": "/persistent_shared_budget"
+      },
+      "manuals": {
+        "file": "气功学习与秘籍.v1.json",
+        "pointer": "/persistent_manual_records"
+      },
+      "anti": {
+        "file": "反气功.v1.json",
+        "pointer": "/persistent_state"
+      },
+      "ascended_martial": {
+        "file": "升天武功与秘籍.v1.json",
+        "pointer": "/persistent_learning_state"
+      }
+    },
+    "validation": "先对完整八键根执行严格schema，不能投影丢未知键；随后原owner逐项核历史连续/来源、实际共享收支、分配资格、书消费与反气功预算/触发来源。结构合法不授权业务。",
+    "initialization": "22模板通过qigong_initial_state_ref引用本原八键initial，创建直接构造character.qigong，不再复制旧平铺初值。四已知旧导入covered_level与level_award_spans仍按原L/跳过段owner，其他六键按已定0/{}/[]；不借新建初值覆盖原导入历史。现行档缺键拒绝，历史格式只能经明确迁移，不在加载时补默认。",
+    "boundaries": "升天攻击武功的未分配余额ascension_unallocated唯一在本根；其已学阶段/实际投入归skills.ascended_martial。修行资源、战斗效果与profile原事件不复制进本根。八键根只闭合结构归属，完整技能/角色/profile/world及来源仍待。"
+  }
 }

@@ -207,5 +207,29 @@
   },
   "negative_status_policy": "stun/root are explicitly normalnegative tags, generic避减益 canreject; fixed3secondbaseline no normalduration modifiers unlessexplicitoptin, multi-source strongest remaining separate, sourceleave doesnotrefresh. Root doesnot become stun by itsname.",
   "persistence": "acceptedgrade/rage/armorpool/roar results, perhitroot/stun/bubble/derivedreceipts and remainingtimers/cooldowns saved once; previewsnoHP/RNG, ordinarysave waitsderivedend. Deathclearsactiveeffectsnotcooldowns, paused/offlinefreeze.",
-  "scope": "13nameddesigns; NPCduel scenario andall official skillphases/equipmentpool stillneedformal references/runtimeverification."
+  "scope": "13nameddesigns; NPCduel scenario andall official skillphases/equipmentpool stillneedformal references/runtimeverification.",
+  "persistent_defense_state_ref": {
+    "file": "医师形移与云心护罩气功.v1.json",
+    "pointer": "/persistent_defense_state"
+  },
+  "persistent_timed_state": {
+    "target_field": "character.effects.spear_fighter_timed",
+    "schema_ref": {
+      "file": "枪格斗持续效果状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": {
+      "martial_duel_attack20": null,
+      "nearby_stun": [],
+      "move_root": []
+    },
+    "legacy_import": "四已知旧来源均原初值；当前档缺字段拒绝，不生成NPC或虚构控制触发。",
+    "identity": "martial_duel_attack20为本枪客灭世狂舞qigong_spear_0fd0be5106f8的原触发凭证/余时。nearby_stun固定寒冰领域qigong_spear_5536e8e9c771，move_root固定电光石火qigong_fighter_66eff75328fa；每控制源只保source_actor_id/trigger_event_id/remaining_steps1..180，技能与目标由族及持有实体确定。",
+    "refresh": "每控制族每施放者最多一源，按source_actor_id排序；新的成功落效替换同源原凭证并刷新180，不叠长。不同源独立扣时，仍有任一源则限制存在，不保存合并最大余时或控制布尔；重放结果不刷新。自身灭世新成功触发刷新180，已存在真正怒气攻击加成>=20%时原规则禁止无用抽样/新源。",
+    "duel_attack": "灭世只许枪客本人、原真实NPC武者对抗活动成功根触发；原触发结果必须可定位该完整活动。它不是怒气，不冻结怒气计量/不加防御/不延长怒气；与实际怒气攻击加成取最大，不加总。后续怒气消失只沿原灭世余时，不刷新。",
+    "control": "寒冰只允许原5m内至多30个合法存活敌对武者NPC，原受伤枪客仍存活，真实原接收名单/距离/实例须证明；不是对任意野兽/玩家套控制。电光只在本人根攻击武功对原主目标的真实23命中失败后成功触发，其他免疫/几何失败不算。固定180，不套千蛛/电光朝露时长修正，入场仍可被明确避减益/免疫拒绝。",
+    "restrictions": "寒冰眩晕阻止移动与新动作接纳，并只取消既有可中断施法，不退款/清冷却；电光禁移只阻止普通移动/冲刺/位移，已有合法站立技能/物品仍允许，不升级为眩晕。新禁移落效同原结果停止当前自主移动/路径及尚未完成位移，已付费用不退，保实际碰撞位置；强制环境位移沿其独立规则，不凭禁移免伤。",
+    "lifecycle": "生成步不扣180，随后世界步入口扣旧源，0先移再动作接纳；暂停离线冻结。施放者离开/死亡不刷新或提前清已付控制，接收者死亡清三族，明确解除负面仅清对应控制源不清灭世正面。活动结束/场景安全清除依原活动结果，不允许独立重建普通NPC时保孤立控制目标引用。",
+    "validation": "完整角色/实体effects先验白名单；待复活三族初值，自体职业、NPC武者/活动、真实命中失败或受伤、来源唯一排序和原控制结果为语义校验。NPC完整活动/原施放结果尚待实现，组件不代表入口可运行。"
+  }
 }

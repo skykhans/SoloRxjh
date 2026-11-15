@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:qigong-state:v1",
+  "$comment": "character.qigong八字段根；原普通/升天气功组件及升天攻击未分配余额唯一归属。阶段/实际投入在skills.ascended_martial，完整来源与守恒另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "covered_level",
+    "level_award_spans",
+    "qigong_unallocated",
+    "allocations",
+    "learned_manuals",
+    "anti_allocations",
+    "anti_cooldowns",
+    "ascension_unallocated"
+  ],
+  "properties": {
+    "covered_level": {
+      "$ref": "urn:solorxjh:level-award-history:v1#/properties/covered_level"
+    },
+    "level_award_spans": {
+      "$ref": "urn:solorxjh:level-award-history:v1#/properties/level_award_spans"
+    },
+    "qigong_unallocated": {
+      "$ref": "urn:solorxjh:level-award-history:v1#/$defs/shared_qigong_budget/properties/qigong_unallocated"
+    },
+    "allocations": {
+      "$ref": "urn:solorxjh:level-award-history:v1#/$defs/allocations"
+    },
+    "learned_manuals": {
+      "$ref": "urn:solorxjh:qigong-manual-records:v1"
+    },
+    "anti_allocations": {
+      "$ref": "urn:solorxjh:anti-qigong-state:v1#/properties/anti_allocations"
+    },
+    "anti_cooldowns": {
+      "$ref": "urn:solorxjh:anti-qigong-state:v1#/properties/anti_cooldowns"
+    },
+    "ascension_unallocated": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:level-award-history:v1#/allOf/0"
+    }
+  ]
+}

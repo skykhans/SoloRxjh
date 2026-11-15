@@ -1,0 +1,132 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "two_bamboo_maps_five_npcs_and_canonical_adv04_services_registered_not_implemented",
+  "source_review_ref": {
+    "file": "../reference/八十级四转五段来源核对.json",
+    "pointer": ""
+  },
+  "source_policy": "80五段文字需楚留情/裘千米竹林守卫、石成金/严世镜/南宫木。三长老保精确NREF，两守卫仅任务正文具名无NREF不伪造。两竹林地图关联地区来自任务文字，几何/入口/零费交通/全部NPC位置为项目值；不声称官方原图坐标。",
+  "maps": [
+    {
+      "file": "世界图谱.v1.json",
+      "pointer": "/maps/77"
+    },
+    {
+      "file": "世界图谱.v1.json",
+      "pointer": "/maps/78"
+    }
+  ],
+  "npcs": [
+    {
+      "file": "世界图谱.v1.json",
+      "pointer": "/npcs/70"
+    },
+    {
+      "file": "世界图谱.v1.json",
+      "pointer": "/npcs/71"
+    },
+    {
+      "file": "世界图谱.v1.json",
+      "pointer": "/npcs/72"
+    },
+    {
+      "file": "世界图谱.v1.json",
+      "pointer": "/npcs/73"
+    },
+    {
+      "file": "世界图谱.v1.json",
+      "pointer": "/npcs/74"
+    }
+  ],
+  "ports": [
+    {
+      "connection_id": "travel_liuzheng_pass_to_yuanzhu_forest",
+      "paired_connection_id": "travel_yuanzhu_forest_to_liuzheng_pass",
+      "source_map_id": "liuzheng_pass",
+      "destination_map_id": "yuanzhu_forest",
+      "interaction_anchor_id": "liuzheng_pass_to_yuanzhu_forest_interact",
+      "destination_anchor_id": "yuanzhu_forest_to_liuzheng_pass_arrival"
+    },
+    {
+      "connection_id": "travel_yuanzhu_forest_to_liuzheng_pass",
+      "paired_connection_id": "travel_liuzheng_pass_to_yuanzhu_forest",
+      "source_map_id": "yuanzhu_forest",
+      "destination_map_id": "liuzheng_pass",
+      "interaction_anchor_id": "yuanzhu_forest_to_liuzheng_pass_interact",
+      "destination_anchor_id": "liuzheng_pass_to_yuanzhu_forest_arrival"
+    },
+    {
+      "connection_id": "travel_sanxie_pass_to_huozhu_forest",
+      "paired_connection_id": "travel_huozhu_forest_to_sanxie_pass",
+      "source_map_id": "sanxie_pass",
+      "destination_map_id": "huozhu_forest",
+      "interaction_anchor_id": "sanxie_pass_to_huozhu_forest_interact",
+      "destination_anchor_id": "huozhu_forest_to_sanxie_pass_arrival"
+    },
+    {
+      "connection_id": "travel_huozhu_forest_to_sanxie_pass",
+      "paired_connection_id": "travel_sanxie_pass_to_huozhu_forest",
+      "source_map_id": "huozhu_forest",
+      "destination_map_id": "sanxie_pass",
+      "interaction_anchor_id": "huozhu_forest_to_sanxie_pass_interact",
+      "destination_anchor_id": "sanxie_pass_to_huozhu_forest_arrival"
+    }
+  ],
+  "traffic_policy": {
+    "minimum_level": 1,
+    "minimum_rank": 0,
+    "required_quest": null,
+    "silver_fee": 0,
+    "item_fee": null,
+    "owner_ref": {
+      "file": "世界图谱.v1.json",
+      "pointer": "/travel_policy"
+    },
+    "commit": "精确双向public_travel/paired connection与marker须同批登记；05/19原地点、存活脱战无挑战/距离/目标占用导航预检，原子换图保存，同请求不二次传送；到达清旧交互，不因落点重叠自动反跳。"
+  },
+  "ordinary_death": {
+    "respawn_anchor_id": "story_workcamp_start",
+    "owner_ref": {
+      "file": "死亡与复活保存.v1.json",
+      "pointer": "/respawn"
+    },
+    "policy": "本公共洞窟为普通死亡，不创建修炼房选择或新复活点；按原死亡收据显式复活，失败保awaiting_respawn，不给初始礼包。"
+  },
+  "portable_actions": {
+    "source_map_ids": [
+      "yuanzhu_forest",
+      "huozhu_forest"
+    ],
+    "return_policy_ref": {
+      "file": "便携传送与修炼限制.v1.json",
+      "pointer": "/portable_return"
+    },
+    "policy": "两公共竹林可按六具名归还符原定义/路线/等级/费用/读条条件离开；不新增归还目标或物品，土灵21精确allowlist不扩，至尊/婚戒未采用权限不生效。"
+  },
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "method": "0.35m player 1m grid entry to guard/service/ports;solid/bounds/NPC clearance and route segments",
+    "reachable_cells": {
+      "shenwu_gate": 84849,
+      "liushan_house": 84849,
+      "liuzheng_pass": 84857,
+      "sanxie_pass": 84857,
+      "yuanzhu_forest": 54726,
+      "huozhu_forest": 54726
+    },
+    "walk_routes_checked": 9,
+    "route_sampling_mm": 100,
+    "route_correction": "严世镜路线经x28绕过石成金实体，不使用直线穿NPC。"
+  },
+  "remaining": [
+    "四转23阶段与五NPC服务已绑定，Godot端点执行尚待验证。",
+    "其他任务既有明确本地野外怪不因新增竹林地图自动迁移；竹林完整怪物覆盖仍须D1全域审查，不把暂无登记当最终无怪。",
+    "Godot传送/动态导航/服务/死亡/便携/保存/LAN实现验证与模型动作。"
+  ],
+  "quest_owner_ref": {
+    "file": "第四次升职洞窟试练.v1.json",
+    "pointer": "/quest"
+  }
+}

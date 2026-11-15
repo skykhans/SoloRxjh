@@ -1,0 +1,332 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "explicit_regular_jade_evolution_design_not_implemented",
+  "scope": "447新普通武器登记奇玉/进化字段；310件minimum_rank>=4可奇玉，266件minimum_rank>=5可进化；其余对应空/0合法。8初始武器及英雄/剧情/防具/首饰排除。",
+  "source_policy": {
+    "evidence": [
+      {
+        "file": "../reference/升天六式强化转移规则.json",
+        "pointer": "/faq",
+        "facts": "FAQ具名奇玉石属性、与合成/觉醒分开；普通转移不复制来源奇玉。英雄全部保留与普通FAQ范围有缺口，沿29明确项目单源保留。"
+      },
+      {
+        "file": "../reference/官网资料/专题补充正文.json",
+        "record_url": "http://rxjh.17game.com/event/2026/content/gs.html",
+        "text_sha256": "08053f00803cdb42c9b0d2066034f0d67341e80294a41e08e6cb609419a5e061",
+        "facts": "装备复购说明具名进化Lv1/Lv2和提真系列。此为形态存在证据，不是英雄加工参数或可售权限。"
+      }
+    ],
+    "adoption": "来源仅证明奇玉独立、进化Lv1/Lv2存在及转移兼容要求；普通单槽属性/门槛/材料/概率/费用/失败保留/贡献均为明确项目方案。与英雄同值是主动共享参数，不借英雄适用资格或转换规则。"
+  },
+  "catalog_ref": {
+    "file": "普通主武器基础定义.v1.json",
+    "pointer": "/items"
+  },
+  "jade_property_pool_ref": {
+    "file": "英雄武器奇玉.v1.json",
+    "pointer": "/property_pool"
+  },
+  "evolution_tiers_ref": {
+    "file": "英雄武器进化.v1.json",
+    "pointer": "/tiers"
+  },
+  "eligibility_partition": {
+    "jade_predicate": "exact catalog member AND minimum_rank>=4",
+    "jade_eligible_count": 310,
+    "jade_empty_only_count": 137,
+    "evolution_predicate": "exact catalog member AND minimum_rank>=5",
+    "evolution_eligible_count": 266,
+    "evolution_zero_only_count": 181,
+    "identity": "真/伪造/未完成均按定义门槛分区，身份不因加工改变；普通没有英雄独立武器stage。"
+  },
+  "items": [
+    {
+      "item_id": "regular_jade_attack",
+      "name": "普通奇玉石·攻击（项目）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 1000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 80,
+      "minimum_purchase_rank": 4,
+      "purchase_class_filter": "eight regular classes from 普通主武器基础定义.v1.json scope.classes",
+      "presentation_ref": "dev_item_hero_jade_attack",
+      "source_policy": "普通武器专用项目材料；与英雄专用材料身份/使用范围独立，复用开发占位图。价格/堆重/权限及本地取得为项目选择，不是官网普通材料全目录。"
+    },
+    {
+      "item_id": "regular_jade_martial",
+      "name": "普通奇玉石·武功（项目）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 1500000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 80,
+      "minimum_purchase_rank": 4,
+      "purchase_class_filter": "eight regular classes from 普通主武器基础定义.v1.json scope.classes",
+      "presentation_ref": "dev_item_hero_jade_martial",
+      "source_policy": "普通武器专用项目材料；与英雄专用材料身份/使用范围独立，复用开发占位图。价格/堆重/权限及本地取得为项目选择，不是官网普通材料全目录。"
+    },
+    {
+      "item_id": "regular_jade_accuracy",
+      "name": "普通奇玉石·命中（项目）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 800000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 80,
+      "minimum_purchase_rank": 4,
+      "purchase_class_filter": "eight regular classes from 普通主武器基础定义.v1.json scope.classes",
+      "presentation_ref": "dev_item_hero_jade_accuracy",
+      "source_policy": "普通武器专用项目材料；与英雄专用材料身份/使用范围独立，复用开发占位图。价格/堆重/权限及本地取得为项目选择，不是官网普通材料全目录。"
+    },
+    {
+      "item_id": "regular_weapon_evolution_stone",
+      "name": "普通武器进化石（项目）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 2000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 100,
+      "minimum_purchase_rank": 5,
+      "purchase_class_filter": "eight regular classes from 普通主武器基础定义.v1.json scope.classes",
+      "presentation_ref": "dev_item_hero_weapon_evolution_stone",
+      "source_policy": "普通武器专用项目材料；与英雄专用材料身份/使用范围独立，复用开发占位图。价格/堆重/权限及本地取得为项目选择，不是官网普通材料全目录。"
+    }
+  ],
+  "material_acquisition": {
+    "status": "design_pending_shop_registration",
+    "npc_id": "npc_daojianxiao",
+    "class_ids": [
+      "blade",
+      "sword",
+      "assassin",
+      "spear",
+      "archer",
+      "physician",
+      "musician",
+      "fighter"
+    ],
+    "allowed_routes": [
+      "righteous",
+      "evil"
+    ],
+    "eligibility": "逐item minimum_purchase_level/rank；普通专用材料只本合同配方消费，不接受hero_材料替代。",
+    "quantity_range": [
+      1,
+      99
+    ],
+    "stock": "unlimited",
+    "transaction": "原库存合法后检查最终银两/格重/可合堆；费用/入包/修订/收据原子提交，同命令回收据，保存失败只重存。"
+  },
+  "jade_schema": {
+    "field": "jade_attributes",
+    "type": "ordered_array",
+    "maximum_entries": 1,
+    "fresh_value": [],
+    "entry_required_fields": [
+      "property_id",
+      "value",
+      "origin_receipt_id"
+    ],
+    "value": "严格整数精确匹配jade_property_pool_ref；拒绝bool/float/string，不接受任意范围。",
+    "nonempty_requires": "minimum_rank>=4；属性精确属于池，收据为同角色同血统普通奇玉成功赋予/替换结果，属性及值匹配。",
+    "strictness": "字段必须存在；非数组/超过1/缺或多字段/坏值/坏收据拒绝，不补空、不裁剪。137件低阶只能显式空数组。"
+  },
+  "evolution_schema": {
+    "field": "evolution_tier",
+    "type": "strict_integer_excluding_bool_float_string",
+    "minimum": 0,
+    "maximum": 2,
+    "fresh_value": 0,
+    "positive_requires": "minimum_rank>=5，各次升级具有同角色同武器血统普通进化成功收据。",
+    "strictness": "181低阶仅0合法；缺字段/非法tier/坏收据拒绝，不补0、不裁剪；2阶不开放3阶或降级/移除。"
+  },
+  "service_policy": {
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "requires_same_map_available_npc": true,
+    "requires_alive_idle_out_of_combat_no_challenge": true,
+    "allowed_routes": [
+      "righteous",
+      "evil"
+    ],
+    "jade_minimum_level": 80,
+    "jade_minimum_rank": 4,
+    "evolution_minimum_level": 100,
+    "evolution_minimum_rank": 5,
+    "qualification": "精确对应分区且角色满足本服务及物品职业/等级/rank/路线；本人equipment_bag实例，先卸装备/先取仓，绑定/归属/完整成长合法，无占用，不跨角色供材料。",
+    "other_growth": "其他合法字段精确保留，未知/缺schema或非空临时强化/元素显示提升拒绝，不清除修复。",
+    "accepted_materials": "只接受精确普通专用材料及数量，英雄材料/幸运/保护/多余材料均拒绝。",
+    "instance_growth_schema_owner_ref": {
+      "file": "普通主武器基础定义.v1.json",
+      "pointer": "/instance_growth_schema"
+    },
+    "enhancement_boost_guard_owner_ref": {
+      "file": "普通武器附加提升.v1.json",
+      "pointer": "/processing_guard"
+    }
+  },
+  "jade_assignment_recipes": [
+    {
+      "recipe_id": "regular_weapon_jade_assign_attack_flat",
+      "target_property_id": "attack_flat",
+      "target_value": 12,
+      "consumed_item_id": "regular_jade_attack",
+      "consumed_item_quantity": 1,
+      "silver_fee": 200000,
+      "success_bp": 8000,
+      "accepted_input": "empty or different existing property; same-property assignment rejected before cost/RNG",
+      "success": "replace exactly one slot; old jade not returned",
+      "failure": "preserve old slot or empty, consume complete selected cost"
+    },
+    {
+      "recipe_id": "regular_weapon_jade_assign_martial_flat_power",
+      "target_property_id": "martial_flat_power",
+      "target_value": 30,
+      "consumed_item_id": "regular_jade_martial",
+      "consumed_item_quantity": 1,
+      "silver_fee": 200000,
+      "success_bp": 8000,
+      "accepted_input": "empty or different existing property; same-property assignment rejected before cost/RNG",
+      "success": "replace exactly one slot; old jade not returned",
+      "failure": "preserve old slot or empty, consume complete selected cost"
+    },
+    {
+      "recipe_id": "regular_weapon_jade_assign_accuracy_flat",
+      "target_property_id": "accuracy_flat",
+      "target_value": 20,
+      "consumed_item_id": "regular_jade_accuracy",
+      "consumed_item_quantity": 1,
+      "silver_fee": 200000,
+      "success_bp": 8000,
+      "accepted_input": "empty or different existing property; same-property assignment rejected before cost/RNG",
+      "success": "replace exactly one slot; old jade not returned",
+      "failure": "preserve old slot or empty, consume complete selected cost"
+    }
+  ],
+  "jade_removal": {
+    "recipe_id": "regular_weapon_jade_remove",
+    "requires_nonempty": true,
+    "silver_fee": 100000,
+    "material_count": 0,
+    "success_bp": 10000,
+    "rng_draws": 0,
+    "output_jade_attributes": [],
+    "returned_materials": [],
+    "same_instance": true,
+    "empty_input": "reject no fee/no RNG"
+  },
+  "evolution_recipes": [
+    {
+      "recipe_id": "regular_weapon_evolution_1",
+      "required_current_tier": 0,
+      "target_tier": 1,
+      "consumed_item_id": "regular_weapon_evolution_stone",
+      "consumed_item_quantity": 1,
+      "silver_fee": 5000000,
+      "success_bp": 6000
+    },
+    {
+      "recipe_id": "regular_weapon_evolution_2",
+      "required_current_tier": 1,
+      "target_tier": 2,
+      "consumed_item_id": "regular_weapon_evolution_stone",
+      "consumed_item_quantity": 2,
+      "silver_fee": 10000000,
+      "success_bp": 4000
+    }
+  ],
+  "projection_policy": {
+    "active_weapon_only": true,
+    "jade": "显式共享池：攻击12各加攻击界一次；攻击武功平威力30仅根攻击武功在同域百分比和phase前加入，普通攻击/治疗/状态/衍生额外命中不复制；命中20是rating平加。",
+    "evolution": "显式共享tier总值：0无贡献；1攻击各20/武功40；2攻击各50/武功100，取当前tier一次，绝不20+50或40+100。武功限根攻击武功同域百分比和phase前，普通攻击/治疗/状态/衍生额外命中不复制。",
+    "source_categories": [
+      "jade",
+      "evolution"
+    ],
+    "independence": "两来源与基础攻击/强化/合成/属性/觉醒独立，各只计一次；包/仓/备用不叠。不增加气功/反气功、生命内力或角色晋级，不按属性石翻倍。",
+    "persist": "仅字段及成功收据/血统历史，不持久化派生缓存；接受动作快照不被之后加工回写。",
+    "transformation": "普通两实例强化转移和提真/换定义未采用前，不套英雄保留规则；没有把来源奇玉随普通转移复制的通道。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "recipe_id",
+      "recipe_version",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "奇玉展示旧/新属性、成功80%、材料1+20万两，替换成功旧玉消失无返还；移除展示10万两必成无返还；进化展示0到1或1到2、总贡献/成本和失败保留，不称全属性倍率。全部派生owner缺失时无可提交报价。",
+    "commit": "房主按角色串行先查收据；校验资格/完整schema/原库存合法和资源修订；副本扣费/材料并检最终格重，复制RNG后需要时只抽一次均匀[0,9999]，draw<bp成功，字段/资源/RNG/修订/收据原子提交。",
+    "success": "原实例同血统，仅目标字段改变；奇玉写本次成功收据，进化升一tier且保存成功收据历史；其他字段保持。",
+    "failure": "扣精确材料/费用，原实例全部字段含来源收据保持，无毁/降级/退款。",
+    "deduplication": "同命令同参数返原收据，先于当前属性/tier校验；同ID异参数拒绝。失败收据不充作成长成功来源。",
+    "invalid_or_cancel": "不扣资源/不抽RNG/不变修订，报价不预抽；同属性赋予、空奇玉移除、满tier继续等拒绝。",
+    "save_failure": "保留内存提交及未保存标记，只重存同结果，不重复加工。",
+    "load": "严格字段/资格/成功收据/角色及武器血统/实例唯一性校验；不制造假历史或自动把坏状态清零。"
+  },
+  "implementation_gate": "本合同仅普通奇玉/进化设计。当前10字段结构已由基础合同登记；其他元素/强化其余贡献/反气功/显示提升、普通两实例转移/提真、服务注册与经济联审仍待，不激活运行、不增加世界服务数。"
+}

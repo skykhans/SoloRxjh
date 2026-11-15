@@ -145,7 +145,8 @@
         "rank": 1,
         "only_if_not_already_learned": true,
         "does_not_replace_hotbar_or_upgrade_existing_rank": true,
-        "owner_file": "旧剑技兼容.v1.json"
+        "owner_file": "旧剑技兼容.v1.json",
+        "origin_policy": "only exact zero ranks/null origin/empty history may receive the grant; valid legacy_import origin is preserved; malformed or unrelated origin is rejected, never repaired from learned rank"
       }
     },
     {
@@ -271,5 +272,27 @@
     "cancel_or_validation_failure": "no resource/item/rank/RNG changes",
     "save_retry": "same committed rank/resource result; no second deduction",
     "rank3_request": "reject without charge; never clamp or consume at cap"
+  },
+  "binding_settlement": {
+    "owner": "original story_bind_sword settlement; no separate claim command or skill-grant event log",
+    "scope": "Q001 final step only; report/take-sword events retain their own original identities and effects",
+    "reservation": "原会话已接纳并ACK、本人两预期修订、原story_stage=bind_sword、存活/非战斗/空闲/无挑战；同世界sword_binding_point距离<=2500mm且视线有效。核本人真实唯一fuxian_sword实例及原来源，不要求装备，不消耗或重建实例；authority锁内冻结原规则hash、角色职业、原技能完整起点、实例ID与原阶段。沿原结算counter/reserved与跨owner唯一未决规则，不新增独立领取身份。",
+    "new_sword": "真实sword职业且legacy_sword为四零/null origin/空变化列表时，同笔仅将legacy_sword_energy置1，origin_ref={kind:story_grant,receipt_id:本原认主结算ID}；其他三项与变化列表不变，免费起点不追加付费训练记录。",
+    "imported_sword": "真实sword职业且有可验证legacy_import起点及完整合法重放历史时，保留全部四级/origin_ref/变化列表；原能量至少1，原导入收据和等级预算核验通过。认主只解锁使用，不重复授予或替换导入来源。",
+    "other_classes": "非sword职业仍可完成剧情认主，但旧剑技必须保持四零/null origin/空变化列表，不授予剑技、不转换为其他职业技能。",
+    "reject": "原阶段尚未认主却已有story_grant来源、非剑客含旧剑技、缺原实例/来源、起点或历史不合法均拒绝；不按已学标记推定认主，不自动补剑/清级/补来源。",
+    "commit": "原认主日志committed、story_stage从bind_sword变gathering及上述唯一技能变更同档原子提交；character_revision=命令预期+1，inventory_revision保持原值。无物品流/银流/经验/历练/三点池/装备强化/快捷栏或冷却变更；Q001 delivered仅由新阶段派生，不再保存完成布尔值。",
+    "replay": "同请求重放原认主结果且不再授予；不同请求在gathering或后续阶段拒绝重复认主。保存结果不明确先核原日志，不补发；reserved恢复重核原条件再提交或沿原事件终止。",
+    "import_boundary": "导入已认主角色沿真实导入凭证恢复阶段与旧剑技起点，不制造历史认主收据；仅导入未认主且合法带原剑气的角色之后完成实际认主时走imported_sword分支。",
+    "boundary": "严格三阶段schema已登记；原实例/完整档案与请求索引/网络结果封套的来源闭合、Godot运行验证仍待，D1未通过。",
+    "target_field": "profile.story_sword_binding_events",
+    "initialization": "新profile及四已知旧导入新profile显式[]；导入已有profile保留原日志。原Q001认主仅登记本日志，不另建技能授予日志；历史已认主导入不伪造本事件。",
+    "schema_ref": {
+      "file": "剧情剑认主事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "identity": "request_id为71确定编码[\"story_sword_binding\",play_session_identity.session_id,command_id]字符串，request_digest为71完整command白名单正文SHA256。命令严格仅play_session_identity/command_id/expected_character_revision/expected_inventory_revision/interaction_id；不接收客户端阶段/职业/授予模式/技能快照。先沿通用request_index查原请求，同键同摘要返回原身份与阶段/决定，不取新counter；同键改参数拒绝。",
+    "journal": "唯一原数组预留追加，终态原位替换；identity/command/plan不可变，终态不改删。按allocation_index递增，与同authority其他通用owner共同覆盖settlement_next_id，禁止一事件同时登记其他授予日志。删除角色仍保请求及原认主/来源依赖，无明确压缩协议不得裁剪。",
+    "abort": "state_changed/rules_changed/session_invalid/explicit_cancel四原原因原位终止，无阶段/技能/业务修订变化。已提交仅重放不撤销起点；存疑保存先核正式原日志，不覆盖可能committed。重启不恢复旧active会话，旧reserved按session_invalid同档终止，保已预留counter与身份。"
   }
 }

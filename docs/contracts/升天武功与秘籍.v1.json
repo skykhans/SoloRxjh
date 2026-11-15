@@ -9,10 +9,10 @@
     "source_rows": 275,
     "paired_rows_expanded": 12,
     "source_row_ability_identities": 287,
-    "project_original_gap_abilities": 10,
+    "project_original_gap_abilities": 13,
     "source_mentioned_gap_abilities": 2,
-    "all_abilities": 299,
-    "all_stage_records": 2989
+    "all_abilities": 302,
+    "all_stage_records": 3019
   },
   "learning": {
     "rank_levels": {
@@ -63,7 +63,11 @@
     "stacking": "samebleed/fracture family strongest active amount per receiver, source records separate; samecaster/skill refresh remaining not add; shared family tick phase prevents extra pulse on refresh; firstpulse60steps after newemptyfamily, due finaltick beforeexpiry",
     "provenance": "actual damage root/source/caster/target and tick ordinal, no recursion/attackrage/charge/anti fromperiodic; defender received-rage and authoritative death once; Zhen伤痕 can recognize legitimate assassin bleed, never multiply storedbleed byZhen bonus",
     "immunity": "generic negative avoidance/resistance and explicit period shields apply byknown tags; Dongling-only immunity never silently blocks assassin family",
-    "snapshot": "first-enhancer phase/grade and bleed amount snapshotted at cast, later unlearn/phase change not rewrite paid source; spread only if explicitcopy rule permitsassassin family, not Dongling传染 by default"
+    "snapshot": "first-enhancer phase/grade and bleed amount snapshotted at cast, later unlearn/phase change not rewrite paid source; spread only if explicitcopy rule permitsassassin family, not Dongling传染 by default",
+    "bleeding_state_ref": {
+      "file": "怒气出血与血雨恶魔.v1.json",
+      "pointer": "/bleeding/persistent_state"
+    }
   },
   "mei_recovery": "7sourceself/回天 rows adopt exact phase power as barrier restored to actualdeficit, noHP/attackrandom/crit. beforepayment rejectfull/blocked/badbarrier; lateblock gives0withoutrefund. One ascended_barrier_recovery timer14400steps (4minutes) sharedby7; source5/7explicit4minutes preserved, remainingtiers samecooldown is project. Ordinary27group300remains separate source, no resetting either bycastingothergroup.",
   "lu_guard": "source40adopted as40percentchance atphase1, +200bp/phase; afterhostilegeometry/target alive/safezone/iframe before23accuracy, each monsterdirectroot against this caster rolls once, same root result covers itssegments. Success marksblockednotmiss/0damage and consumesno later hit/crit draws, no damagecallbacks; fails normalhitpipeline. NPCmartial/DoT/environment/selfcost not blocked. One sourcefamily strongest chance/duration not multipleindependentrolls; receipt persisted, no redraw onload.",
@@ -3087,6 +3091,36 @@
       "minimum_rank": 6,
       "minimum_level": 115,
       "required_route": "evil",
+      "unit_price": 1500000
+    },
+    {
+      "item_id": "manual_ascended_original_assassin_righteous_single_1",
+      "name": "《本地·破影刺·1式·正武功秘传》",
+      "profile_id": "ascended_martial_manual",
+      "ability_id": "ascended_original_assassin_righteous_single_1",
+      "minimum_rank": 6,
+      "minimum_level": 115,
+      "required_route": "righteous",
+      "unit_price": 1500000
+    },
+    {
+      "item_id": "manual_ascended_original_assassin_evil_single_1",
+      "name": "《本地·破影刺·1式·邪武功秘传》",
+      "profile_id": "ascended_martial_manual",
+      "ability_id": "ascended_original_assassin_evil_single_1",
+      "minimum_rank": 6,
+      "minimum_level": 115,
+      "required_route": "evil",
+      "unit_price": 1500000
+    },
+    {
+      "item_id": "manual_ascended_original_spear_righteous_single_1",
+      "name": "《本地·贯岳枪·1式·正武功秘传》",
+      "profile_id": "ascended_martial_manual",
+      "ability_id": "ascended_original_spear_righteous_single_1",
+      "minimum_rank": 6,
+      "minimum_level": 115,
+      "required_route": "righteous",
       "unit_price": 1500000
     }
   ],
@@ -42101,7 +42135,489 @@
           "duration_steps": 2340
         }
       ]
+    },
+    {
+      "ability_id": "ascended_original_assassin_righteous_single_1",
+      "class_id": "assassin",
+      "name": "本地·破影刺·1式·正",
+      "required_route": "righteous",
+      "ascension_tier": 1,
+      "minimum_rank": 6,
+      "source_learning_level": 115,
+      "source_ref": null,
+      "source_raw_power": null,
+      "source_scope_text": "",
+      "role": "attack",
+      "action_profile_id": "assassin_melee",
+      "maximum_phase": 10,
+      "base_target_cap": 1,
+      "target_cap_origin": "explicit authored single-target attack, no secondary hit",
+      "adopted_base_power": 500,
+      "power_origin": "project original power, no source numeric field",
+      "origin": "project_original_for_adv10_single_target_access_gap",
+      "gap_reason": "刺客两派既有单体升天项均为普攻增强状态；正派枪客已有四式前均为范围攻击。本地新增具名可学习单体，确保十转机制可达，不把普攻/邪派技能或自BUFF冒作单体攻击。",
+      "phases": [
+        {
+          "phase": 1,
+          "minimum_level": 115,
+          "minimum_rank": 6,
+          "mana_cost": 43,
+          "ascension_point_cost": 0,
+          "prerequisite_phase": null,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 500
+        },
+        {
+          "phase": 2,
+          "minimum_level": 116,
+          "minimum_rank": 6,
+          "mana_cost": 44,
+          "ascension_point_cost": 1,
+          "prerequisite_phase": 1,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 525
+        },
+        {
+          "phase": 3,
+          "minimum_level": 117,
+          "minimum_rank": 6,
+          "mana_cost": 45,
+          "ascension_point_cost": 2,
+          "prerequisite_phase": 2,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 550
+        },
+        {
+          "phase": 4,
+          "minimum_level": 118,
+          "minimum_rank": 6,
+          "mana_cost": 46,
+          "ascension_point_cost": 3,
+          "prerequisite_phase": 3,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 575
+        },
+        {
+          "phase": 5,
+          "minimum_level": 119,
+          "minimum_rank": 6,
+          "mana_cost": 47,
+          "ascension_point_cost": 4,
+          "prerequisite_phase": 4,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 600
+        },
+        {
+          "phase": 6,
+          "minimum_level": 120,
+          "minimum_rank": 6,
+          "mana_cost": 48,
+          "ascension_point_cost": 5,
+          "prerequisite_phase": 5,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 625
+        },
+        {
+          "phase": 7,
+          "minimum_level": 121,
+          "minimum_rank": 6,
+          "mana_cost": 49,
+          "ascension_point_cost": 6,
+          "prerequisite_phase": 6,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 650
+        },
+        {
+          "phase": 8,
+          "minimum_level": 122,
+          "minimum_rank": 6,
+          "mana_cost": 50,
+          "ascension_point_cost": 7,
+          "prerequisite_phase": 7,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 675
+        },
+        {
+          "phase": 9,
+          "minimum_level": 123,
+          "minimum_rank": 6,
+          "mana_cost": 51,
+          "ascension_point_cost": 8,
+          "prerequisite_phase": 8,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 700
+        },
+        {
+          "phase": 10,
+          "minimum_level": 124,
+          "minimum_rank": 6,
+          "mana_cost": 52,
+          "ascension_point_cost": 9,
+          "prerequisite_phase": 9,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 725
+        }
+      ]
+    },
+    {
+      "ability_id": "ascended_original_assassin_evil_single_1",
+      "class_id": "assassin",
+      "name": "本地·破影刺·1式·邪",
+      "required_route": "evil",
+      "ascension_tier": 1,
+      "minimum_rank": 6,
+      "source_learning_level": 115,
+      "source_ref": null,
+      "source_raw_power": null,
+      "source_scope_text": "",
+      "role": "attack",
+      "action_profile_id": "assassin_melee",
+      "maximum_phase": 10,
+      "base_target_cap": 1,
+      "target_cap_origin": "explicit authored single-target attack, no secondary hit",
+      "adopted_base_power": 500,
+      "power_origin": "project original power, no source numeric field",
+      "origin": "project_original_for_adv10_single_target_access_gap",
+      "gap_reason": "刺客两派既有单体升天项均为普攻增强状态；正派枪客已有四式前均为范围攻击。本地新增具名可学习单体，确保十转机制可达，不把普攻/邪派技能或自BUFF冒作单体攻击。",
+      "phases": [
+        {
+          "phase": 1,
+          "minimum_level": 115,
+          "minimum_rank": 6,
+          "mana_cost": 43,
+          "ascension_point_cost": 0,
+          "prerequisite_phase": null,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 500
+        },
+        {
+          "phase": 2,
+          "minimum_level": 116,
+          "minimum_rank": 6,
+          "mana_cost": 44,
+          "ascension_point_cost": 1,
+          "prerequisite_phase": 1,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 525
+        },
+        {
+          "phase": 3,
+          "minimum_level": 117,
+          "minimum_rank": 6,
+          "mana_cost": 45,
+          "ascension_point_cost": 2,
+          "prerequisite_phase": 2,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 550
+        },
+        {
+          "phase": 4,
+          "minimum_level": 118,
+          "minimum_rank": 6,
+          "mana_cost": 46,
+          "ascension_point_cost": 3,
+          "prerequisite_phase": 3,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 575
+        },
+        {
+          "phase": 5,
+          "minimum_level": 119,
+          "minimum_rank": 6,
+          "mana_cost": 47,
+          "ascension_point_cost": 4,
+          "prerequisite_phase": 4,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 600
+        },
+        {
+          "phase": 6,
+          "minimum_level": 120,
+          "minimum_rank": 6,
+          "mana_cost": 48,
+          "ascension_point_cost": 5,
+          "prerequisite_phase": 5,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 625
+        },
+        {
+          "phase": 7,
+          "minimum_level": 121,
+          "minimum_rank": 6,
+          "mana_cost": 49,
+          "ascension_point_cost": 6,
+          "prerequisite_phase": 6,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 650
+        },
+        {
+          "phase": 8,
+          "minimum_level": 122,
+          "minimum_rank": 6,
+          "mana_cost": 50,
+          "ascension_point_cost": 7,
+          "prerequisite_phase": 7,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 675
+        },
+        {
+          "phase": 9,
+          "minimum_level": 123,
+          "minimum_rank": 6,
+          "mana_cost": 51,
+          "ascension_point_cost": 8,
+          "prerequisite_phase": 8,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 700
+        },
+        {
+          "phase": 10,
+          "minimum_level": 124,
+          "minimum_rank": 6,
+          "mana_cost": 52,
+          "ascension_point_cost": 9,
+          "prerequisite_phase": 9,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 725
+        }
+      ]
+    },
+    {
+      "ability_id": "ascended_original_spear_righteous_single_1",
+      "class_id": "spear",
+      "name": "本地·贯岳枪·1式·正",
+      "required_route": "righteous",
+      "ascension_tier": 1,
+      "minimum_rank": 6,
+      "source_learning_level": 115,
+      "source_ref": null,
+      "source_raw_power": null,
+      "source_scope_text": "",
+      "role": "attack",
+      "action_profile_id": "spear_melee",
+      "maximum_phase": 10,
+      "base_target_cap": 1,
+      "target_cap_origin": "explicit authored single-target attack, no secondary hit",
+      "adopted_base_power": 500,
+      "power_origin": "project original power, no source numeric field",
+      "origin": "project_original_for_adv10_single_target_access_gap",
+      "gap_reason": "刺客两派既有单体升天项均为普攻增强状态；正派枪客已有四式前均为范围攻击。本地新增具名可学习单体，确保十转机制可达，不把普攻/邪派技能或自BUFF冒作单体攻击。",
+      "phases": [
+        {
+          "phase": 1,
+          "minimum_level": 115,
+          "minimum_rank": 6,
+          "mana_cost": 43,
+          "ascension_point_cost": 0,
+          "prerequisite_phase": null,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 500
+        },
+        {
+          "phase": 2,
+          "minimum_level": 116,
+          "minimum_rank": 6,
+          "mana_cost": 44,
+          "ascension_point_cost": 1,
+          "prerequisite_phase": 1,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 525
+        },
+        {
+          "phase": 3,
+          "minimum_level": 117,
+          "minimum_rank": 6,
+          "mana_cost": 45,
+          "ascension_point_cost": 2,
+          "prerequisite_phase": 2,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 550
+        },
+        {
+          "phase": 4,
+          "minimum_level": 118,
+          "minimum_rank": 6,
+          "mana_cost": 46,
+          "ascension_point_cost": 3,
+          "prerequisite_phase": 3,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 575
+        },
+        {
+          "phase": 5,
+          "minimum_level": 119,
+          "minimum_rank": 6,
+          "mana_cost": 47,
+          "ascension_point_cost": 4,
+          "prerequisite_phase": 4,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 600
+        },
+        {
+          "phase": 6,
+          "minimum_level": 120,
+          "minimum_rank": 6,
+          "mana_cost": 48,
+          "ascension_point_cost": 5,
+          "prerequisite_phase": 5,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 625
+        },
+        {
+          "phase": 7,
+          "minimum_level": 121,
+          "minimum_rank": 6,
+          "mana_cost": 49,
+          "ascension_point_cost": 6,
+          "prerequisite_phase": 6,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 650
+        },
+        {
+          "phase": 8,
+          "minimum_level": 122,
+          "minimum_rank": 6,
+          "mana_cost": 50,
+          "ascension_point_cost": 7,
+          "prerequisite_phase": 7,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 675
+        },
+        {
+          "phase": 9,
+          "minimum_level": 123,
+          "minimum_rank": 6,
+          "mana_cost": 51,
+          "ascension_point_cost": 8,
+          "prerequisite_phase": 8,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 700
+        },
+        {
+          "phase": 10,
+          "minimum_level": 124,
+          "minimum_rank": 6,
+          "mana_cost": 52,
+          "ascension_point_cost": 9,
+          "prerequisite_phase": 9,
+          "maximum_targets": 1,
+          "flat_power_per_hit": 725
+        }
+      ]
     }
   ],
-  "remaining_scope": "2Donglingpassiveeffects nowownedby神女杀星与尸毒气功.v1.json; D1stillrequiresonequestdependency and cross-system world/monster/drop/items/equipment/quests/activities design closure; allsourceactiveidentityadoption alone isnot fullD1oractualgameplay."
+  "remaining_scope": "2Donglingpassiveeffects nowownedby神女杀星与尸毒气功.v1.json; D1stillrequiresonequestdependency and cross-system world/monster/drop/items/equipment/quests/activities design closure; allsourceactiveidentityadoption alone isnot fullD1oractualgameplay.",
+  "persistent_learning_state": {
+    "field": "character.skills.ascended_martial",
+    "schema_ref": {
+      "file": "升天武功学习状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {},
+    "balance_field": "character.qigong.ascension_unallocated",
+    "identity": "302稳定ability_id稀疏表，缺键表示未学，不能写phase0；韩挥剑成河最多9，其他最多10。职业/路线/等级/晋级/依赖仍逐定义验；18有明确例外时保留但不生效。",
+    "learning": "learning_ref仅引用原已提交学习事件的书use消费位置；按本ability唯一manual定义逐项核本人身份、恰1本、原历练/银两与一阶段资格。正常读书创建phase1/空current_investment_entries，不复制书ID或再授点；18配置授予如无书消费须另定明确记录分支，当前结构不擅自放行。",
+    "investment": "每条当前投入恰receipt_id/kind/rules_hash/point_delta。upgrade为1至9，必须等原相邻新阶段减1，真实扣同余额，原规则哈希及已提交收据逐笔一致；配置调整可有符号/0但须18明确原事件授权。按原顺序求和全程非负且不溢出，终值为本技能当前实际投入；不按phase或当前价重算，不另存重复总额。单技能同receipt_id唯一；未知/未决/失败来源拒绝。",
+    "reset": "初始化按14取所有技能当前实际投入之和S，先核道具与S实物石容量及完整多接收者效果结算。原已提交重置事件保留被清除的完整各技能投入明细与退款授权，才同笔将所有已学phase置1/current_investment_entries置[]；learning_ref保留，未分配余额不变。原历史事件不得裁剪或当新收入重放，跨轮以原重置事件对齐。",
+    "conservation": "G从原升级历史/明确奖励，C从实际石转点，A/D从明确配置，R从所有原已提交初始化实际退款逐项解析；核14的G+C+A=U+sum(S)+R+D，任何中间项超精确整数上限先拒绝。只保存唯一余额与各技能实际当前账，不再保存可失配的G/C/A/R/D汇总镜像。 C的石转换收入仅由stone_conversion_events已提交原quantity解析，预留/失败均不入账。 R的实际退款只解析reset_events已提交refunded_points，并与其skills_before真实投入及退款石铸造逐项相等。",
+    "lifecycle": "角色/余额/物品/历练/阶段/投入与原profile事件同权威事务提交；重发只回原结果。失去资格保原学习与合法投入，不退款或清账；独立持续状态/冷却按原owner，不因改阶段刷新。",
+    "initialization": "新建与四已知旧来源新导入仅空表，旧四剑技不授302武功。新建通过原完整气功initial将qigong.ascension_unallocated置0；旧导入原0声明同映射，不保副本。配置授予分支与完整来源/结果封套仍待，结构不能直接启用业务。"
+  },
+  "upgrade_events": {
+    "field": "profile.ascended_martial_upgrade_events",
+    "schema_ref": {
+      "file": "升天武功升级事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "event_schema_ref": {
+      "file": "升天武功升级事件.schema.json",
+      "pointer": ""
+    },
+    "initial": [],
+    "command": "原会话identity/command_id/expected_character_revision/expected_inventory_revision/ability_id精确五键。只升级一个已学能力的相邻下一阶段；client不上传余额/支出/资格或新阶段，角色修订锁定原phase。",
+    "identity": "request_id为71确定编码[\"ascended_martial_upgrade\",play_session_identity.session_id,command_id]字符串，request_digest为71编码完整command的SHA256。先用原通用索引去重：同键同摘要回原阶段/决定，同键改参数拒绝，命中不再次取counter。",
+    "reservation": "先验完整档案、原active会话/接纳ACK、两修订、存活/非战斗/空闲/无挑战、当前职业/路线/等级/晋级/前置、已学原书来源与下一显式阶段。按下一阶段ascension_point_cost核实际余额和当前投入账加法不溢出，不借普通气功点/石实物/待领余额支付。authority档案锁内冻结rules_hash及phase_before，counter+1与reserved同笔保存；余额/技能/两修订不变，不用随机。每角色跨所有资源owner至多一个未决业务，不能与交易/配置/结束并发。",
+    "commit": "同锁重核全部原前置、规则/阶段/修订与真实总账。当前版本phase_after=phase_before+1，spent_points=phase_after-1且等原显式阶段费用，最大10/韩挥剑成河9。原位committed与角色同一完整authority档案提交：未分配升天点扣spent_points，唯一本ability.phase升1，current_investment_entries追加一条receipt_id=identity.settlement_id/kind=upgrade/rules_hash=plan.rules_hash/point_delta=spent_points；character.revision+1，inventory_revision保持。普通/升天气功、书、历练、银两、物品不变，无stack_flows或mint。",
+    "result_binding": "phase_after等原phase+1，ascension_unallocated_after等原余额-spent_points，两修订分别等命令角色修订+1/库存修订原值。追加条与本提交双向唯一对应，同技能同收据不得重复。结构允许的数值不代替原阶段/成本/余额/当前投入和完整G/C/A/R/D来源验证。",
+    "live_effects": "升级不刷新或替换已运行状态/冷却/投射/周期快照，不重算其他接收者原独立效果；只有后续新接受动作读新阶段，不因阶段字段变化额外治疗、清障或重新触发。",
+    "abort": "state_changed/rules_changed/session_invalid/explicit_cancel原位aborted，identity/command/plan保持不变，余额/阶段/投入/两修订不变。明确取消核真实原成员及会话/请求；committed仅回原决定，不以取消退点降阶段。",
+    "recovery": "重开先重读完整正式档案，旧会话不恢复active，旧reserved以session_invalid持久abort。存疑保存暂停后续业务并重读，不能把可能committed覆盖成abort；终态只重放。持久确认才发布，LAN沿原结果链/连续序号/接收者保存与ACK，完整封套仍待。",
+    "journal": "只允许新reserved追加、原reserved一次原位变committed/aborted或原条完全不变；identity/command/plan不可变，终态不可改删/互换/返回reserved。allocation_index递增且身份/请求唯一，跨owner联合覆盖通用counter。删除角色不裁剪来源；无压缩协议不删记录，空间不足停止预留。",
+    "initialization": "新profile及四已知旧来源新导入profile显式[]；已有profile导入保原日志/通用计数，不给旧剑技造升级历史。现行档缺字段拒绝，不在加载时补空。",
+    "boundary": "本事件闭合升级记录结构与提交设计；完整学习/石转换/初始化/配置事件、来源闭包和角色/profile/world及结果封套仍待，不代表业务或LAN故障实测。"
+  },
+  "learning_events": {
+    "field": "profile.ascended_martial_learning_events",
+    "schema_ref": {
+      "file": "升天武功学习事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "event_schema_ref": {
+      "file": "升天武功学习事件.schema.json",
+      "pointer": ""
+    },
+    "initial": [],
+    "command": "精确play_session_identity/command_id/expected_character_revision/expected_inventory_revision/manual_id/stack_id。ability_id由302本唯一书定义推导，不由client上传；本人背包使用不额外要求门主窗口。购买/拥有/仓储不授权学习。",
+    "identity": "request_id为71确定编码[\"ascended_martial_learning\",play_session_identity.session_id,command_id]，摘要为71完整command的SHA256；先查原请求，同键同摘要重放，同键改参数拒绝，不重复消耗counter。",
+    "reservation": "完整档案、原active会话/接纳ACK、两修订、存活/非战斗/空闲/无挑战、职业/路线/等级/晋级/明确依赖与尚未学本ability先验证。实际随身书堆来源和carried_silver唯一原输出链、历练原账均须合法；按源学习等级L核历练10L²/随身银100L和一书。authority锁内冻结rules_hash/stack_input/silver_input，counter+1与reserved同笔保存，业务字段不变。跨所有资源owner每角色至多一个未决业务，无随机。",
+    "commit": "同锁重核完整原条件/规则/修订/输入与余额，原位committed、精确书use1、历练减10L²、随身银减100L、本ability一阶段记录及角色/库存修订各+1同一完整authority档案提交。不赠点、不扣升天点、不自动换快捷栏；其他技能与资源不变。",
+    "book_flow": "stack_flows恰1，输入恰1且等plan.stack_input，消费input0/use/quantity1、mintnull，flow.receipt_id等identity.settlement_id。原堆1本则输出空并移除原位置；否则唯一余量与command.manual_id及原堆ID/本人绑定/位置相同，数量原值减1且1～98、修订原值+1、唯一input0贡献等余量；custody必须held，不移仓。未知/任务书或其他书拒绝。",
+    "silver_flow": "唯一accounts[0]为本角色carried_silver，previous_output等plan.silver_input且opening_authorization=null，真实原余额与正文一致。唯一movement从0到null/amount=100L，authorization为service_fee且authority_receipt_id等本identity.settlement_id；flow.receipt_id同本结算，after=before-amount，不借仓库/队友钱或新开账户支付。读书费用是已定学习费用，不因service_fee名称增加NPC条件。",
+    "learned_binding": "结果ability_id等书定义目标，learned_record恰phase1/空current_investment_entries/learning_ref。本learning_ref.receipt_id等identity.settlement_id，flow_index/consumption_index均0，等角色本ID新增记录；不得夹带另一能力或书资格。practice_paid=10L²，practice_after=原practice-practice_paid；两修订各等命令+1。费用来自本次规则冻结源学习等级，不能使用阶段后等级或书价；完整历练/书/银来源另验。",
+    "abort": "四原原因state_changed/rules_changed/session_invalid/explicit_cancel原位终止，identity/command/plan不变，无流/学习/扣费/业务修订变化；已提交只重放，不能以取消返书返费。",
+    "recovery": "重读正式完整档案，旧会话不恢复active；旧reserved按session_invalid持久abort。存疑保存先暂停并重读，不能覆盖可能committed；持久确认才发布，LAN沿连续结果/接收者保存/ACK，完整封套仍待。",
+    "journal": "唯一原数组，预留追加、终态原位替换；身份/命令/计划不可变，终态保留不可改删。allocation_index递增、身份/请求唯一、跨owner覆盖通用counter；角色删除不裁剪来源。空间不足停止预留，不另存pending/result镜像。",
+    "initialization": "新profile及四已知旧来源新导入profile显式[]，导入已有profile保原日志和通用计数，旧四剑技不伪造读书事件。现行格式缺字段拒绝。",
+    "boundary": "学习事件组件不等于完整角色/profile/world或历练/银/书来源闭包、认证、完整结果封套或实际文件/LAN故障验证；配置直接授予另需明确分支，D1未通过。"
+  },
+  "stone_conversion_events": {
+    "field": "profile.heavenly_stone_conversion_events",
+    "schema_ref": {
+      "file": "天机石转点事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "event_schema_ref": {
+      "file": "天机石转点事件.schema.json",
+      "pointer": ""
+    },
+    "initial": [],
+    "command": "原play_session_identity/command_id/expected_character_revision/expected_inventory_revision/stack_id/quantity精确六键。quantity为1～9999整数且不超过选定单堆实际可用数量；一次只转选定堆，不跨堆自动寻找/合并/消费仓库或任务保留量。",
+    "identity": "request_id为71确定编码[\"heavenly_stone_conversion\",play_session_identity.session_id,command_id]字符串，request_digest为71完整command的SHA256。先查原请求：同键同摘要回原阶段/决定，改参数拒绝，不重复分配counter。",
+    "reservation": "完整原档案/升天点G+C+A=U+S+R+D来源、原active会话/接纳ACK、两修订、已完成一式rank>=6、存活/非战斗/空闲/无挑战全部验证。选定随身heavenly_stone必须本人绑定/非任务/held且可用，扣除量不侵占任何任务保留/其他业务占用。核原余额+quantity及累计C和总额不溢出。authority锁内冻结rules_hash和该堆原stack_input，counter+1与reserved同笔保存；石/余额/修订不变，不消费随机。每角色跨资源owner至多一未决业务。",
+    "commit": "同锁重核原会话/资格/规则/修订、堆/来源/位置/可用量与完整预算，原位committed、实际use消费N石、character.qigong.ascension_unallocated+=N及角色/库存修订各+1同一完整authority档案提交。无银两/历练费用，不学技能/升阶段，不赠普通气功/反气功点，不改发点历史或待领数量。",
+    "flow_binding": "stack_flows恰1且flow.receipt_id=identity.settlement_id；inputs恰一等plan.stack_input。consumptions恰input0/quantity=command.quantity/reasonuse，mintnull。若原数量=N则输出空并移除原位置；否则唯一余量保持原stack_id/heavenly_stone/本人绑定/非任务/held和原背包位置，数量=原数量-N且1～9998、修订原值+1，贡献恰input0同余量。无新石授权，不把余量视为mint。",
+    "result_binding": "ascension_unallocated_after=原U+command.quantity，两修订分别=命令+1。本已提交事件command.quantity唯一计入预算C，不保存可重复兑现的转换凭证或第二余额/累计C镜像。任务消费、实物领取与技能退款不能冒作本事件入点；输入/消耗与角色变更双向对应，原石不能再次用于任务或转换。",
+    "abort": "state_changed/rules_changed/session_invalid/explicit_cancel原位aborted，保原身份/命令/计划，无流/余额/业务修订变化。明确取消核真实原成员/会话/请求；committed只回原决定，不能取消退石再保点。",
+    "recovery": "重读正式完整档案，旧会话不恢复active，旧reserved按session_invalid持久abort。存疑保存暂停后续业务并重读，不能覆盖可能committed。持久确认后发布，LAN连续结果/接收者保存/ACK沿原链，完整封套仍待。",
+    "journal": "唯一数组只允许预留追加、原reserved一次原位终态或原条不变；identity/command/plan不可改，终态不可改删。allocation_index递增、身份/请求唯一，与全部通用owner联合覆盖counter。角色删除不裁剪消费来源；无压缩协议保完整日志，空间不足停止预留。",
+    "initialization": "新profile及四已知旧来源新导入profile显式[]；导入已有profile保原日志与通用计数，不从旧等级/剑技/现有点数补造转石。新格式缺字段拒绝。",
+    "boundary": "结构与提交设计不替代实际堆/预算来源闭包、完整角色/profile/world、初始化/配置事件、结果封套或真实文件/LAN故障测试，D1未通过。"
+  },
+  "reset_events": {
+    "field": "profile.ascended_martial_reset_events",
+    "schema_ref": {
+      "file": "升天武功初始化事件.schema.json",
+      "pointer": "/$defs/journal"
+    },
+    "event_schema_ref": {
+      "file": "升天武功初始化事件.schema.json",
+      "pointer": ""
+    },
+    "initial": [],
+    "command": "原play_session_identity/command_id/expected_character_revision/expected_inventory_revision/stack_id五键；stack_id为本人选定随身ascension_skill_reset_token，不由client报退款量/旧技能或布局。",
+    "identity": "request_id为71确定编码[\"ascended_martial_reset\",play_session_identity.session_id,command_id]，摘要为71完整command的SHA256。原请求先去重，同键同摘要回原阶段/决定，改参数拒绝，不重分counter。",
+    "reservation": "原active会话/ACK、两修订、已完成一式/存活/非战斗/空闲/无挑战、道具可用、完整技能/点数来源先验。对全部已学302范围记录当前投入逐原规则/事件求和S>0，含配置有符号调整但各累计非负；不得按现价/阶段重算。预检所有中间和/预算R累计/修订不溢出，并按扣1道具后的最终堆叠/槽/重量核S石可入包，失败不取counter。持authority锁冻结rules_hash/原token stack_input/完整skills_before和实际需接收石的原堆merge_inputs；counter+1与reserved同笔保存，角色资源不变。跨owner同角色唯一未决业务，无随机。",
+    "capacity": "当前材料包最多200槽/石堆9999，故S结构上界1999800仅容量绝对上限，不是授点许可；真实空槽、原石和负重常更低。只用本人随身held/非任务/可用兼容石堆，任务保留/其他占用不能合并。按原槽号升序填可增加石堆至9999；其余按扣道具后最低空槽顺序新建满9999/末余堆。原数量已9999或未接收数量的堆不入merge_inputs、不修改。先核完整最终布局，不要求中间铸造堆占临时格，不塞仓库/地面或截断S。",
+    "commit": "同锁重核原条件/规则/两修订、全部skills_before/原投入和token/merge_inputs最新来源域与最终布局。原位committed、消费token1、恰S石实物退款、全部原已学能力phase=1/current_investment_entries=[]、角色/库存修订各+1同一完整authority档案提交。learning_ref保留；未学不新建，未分配升天点原值保持，不改普通武功/普通及升天气功/反气功/修行与银两。",
+    "flows": "固定flow0消费道具/唯一可选同堆余量，receipt_id=identity.settlement_id+:stack:consume；use恰1/input0/mintnull，余量同token/本人绑定/非任务/held、原数-1且最多98、原修订+1、贡献input0同余量。flow1 receipt_id=结算ID+:stack:mint，inputs/consumptions空，authorization.kind=ascension_skill_reset且authority_receipt_id等本结算；输出只S石、各1～9999/revision0/held/空贡献。此事件不可授权其他物品或数量。",
+    "merge": "merge_inputs为空时恰两个flow，mint输出直接为最终新堆。非空时恰第三flow，receipt_id=结算ID+:stack:merge，inputs先为plan.merge_inputs原槽升序、后为本flow1全部输出按索引升序，无重复；consumptions空/mintnull，只产天机石，所有数量来自原石和刚铸造石。终态只实例化最新输出头，中间mint输出已被消费不得另入库存。允许同事件指向更早flow，禁止前向/自环；跨flow消费唯一与完整DAG验证。",
+    "ids_and_layout": "新堆ID按物品堆与来源原算法，ordinal为本结算三个flow顺序中全局新ID输出序号，不每flow归零。flow2接收原石堆保原ID/位置、原revision+1；其余新输出使用后续新ordinal/revision0。中间mintID在flow2全消费后退役，不复用；所有输出origin_receipt_id为自己所属flow的receipt_id。最终布局按capacity顺序冻结，任何ID冲突或修订溢出整笔拒绝。",
+    "refund_binding": "refunded_points恰原skills_before全部current_investment_entries实际和，S石mint输出总和恰同值；ascension_unallocated_after等原U，两修订各等命令+1。plan.skills_before与原角色完整学习表相等，不能只报有点技能而丢一阶段记录。原已提交事件永久保留退款前明细，R只解析该事件实际S，预留/失败不计；退款不加U/C/待领。",
+    "effects": "同事务移除本人由重置阶段支持的持续普攻/双目标/挡怪来源，禁止退款后保留高阶段自增益；保原共享冷却及独立已付敌方减益/投射/周期原快照，后续动作才用新阶段。完整效果依赖/接收者及结果封套必须联审后启用，不能只清技能表。",
+    "abort": "state_changed/rules_changed/session_invalid/explicit_cancel原位终止，身份/命令/计划不变，不消费token、不发石、不改阶段/投入/修订。已committed只回决定，不用取消恢复投入又保退款石。",
+    "recovery": "重读正式完整档案，旧会话不恢复active；旧reserved按session_invalid持久abort。存疑保存先停后续并重读，不覆盖可能committed。仅持久确认才发布，LAN连续结果/接收者保存/ACK沿原链；禁止分别发布消费/铸造/合堆或清技能。",
+    "journal": "唯一原数组预留追加、终态一次原位替换；身份/命令/计划不可变，终态不可改删。allocation_index递增、请求/身份唯一，与所有owner联合覆盖counter。保原技能/物品退款依赖，角色删除不裁剪来源，无压缩协议不删；空间不足停止预留。",
+    "initialization": "新profile及四已知旧来源新profile显式[]；导入已有profile保原日志/计数，不为旧剑技伪造新投入/退款。现行缺字段拒绝。",
+    "boundary": "严格结构不能证明原投入/源物/最终布局/效果依赖、配置授权或完整角色/profile/world与结果封套；真实文件/LAN故障尚未测试，D1未通过。"
+  }
 }

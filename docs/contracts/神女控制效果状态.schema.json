@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dongling-control-effect-state:v1",
+  "$comment": "effects.dongling_control只保存错乱待决来源与混乱来源/共享重选周期/原移动意图引用，实际已接受技能/移动快照和RNG仍原动作结果持有。不是完整动作或效果根。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "forced_action_once",
+    "random_walk"
+  ],
+  "properties": {
+    "forced_action_once": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "random_walk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sources",
+        "next_direction_remaining_steps",
+        "intent_event_id"
+      ],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/source"
+          }
+        },
+        "next_direction_remaining_steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 30
+        },
+        "intent_event_id": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/nonblank_id"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "sources": {
+                "maxItems": 0
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "next_direction_remaining_steps": {
+                "const": 0
+              },
+              "intent_event_id": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "next_direction_remaining_steps": {
+                "minimum": 1
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "intent_event_id": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "next_direction_remaining_steps": {
+                      "const": 1
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "nonblank_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_actor_id",
+        "root_event_id",
+        "application_event_id",
+        "stage",
+        "timing"
+      ],
+      "properties": {
+        "source_actor_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "root_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "application_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "stage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "timing": {
+          "$ref": "urn:solorxjh:dongling-periodic-effect-state:v1#/$defs/negative_duration"
+        }
+      }
+    }
+  }
+}

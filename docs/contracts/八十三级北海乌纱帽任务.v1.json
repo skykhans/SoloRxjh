@@ -1,0 +1,251 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "source_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/128"
+    },
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/73/text"
+    },
+    "published": "83级共同，乞丐老人，猎魔法侍者取回乌纱帽，4440000经验，一次，采集/结束两阶段；来源未列帽数量。",
+    "local": "数量1/个人100%/0克堆1、14职业/三路线/rank0、无前任务及精确刷点/战斗普通收益为本地选择；来源86级魔法侍者保被动/西南区。"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63788-006",
+    "source_reference_id": "QREF-63788-006",
+    "name": "魔法侍者的乌纱帽",
+    "minimum_level": 83,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_beihai_beggar",
+    "npc_map_id": "beihai_ice",
+    "interaction_anchor_id": "npc_beihai_beggar_service",
+    "service_id": "beggar83_hat",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "qualification": "本人存活/脱战/空闲/无挑战，83级/14职业/三路线/rank0，原乞丐老人精确map/anchor/service<=2500mm，无79或其他北海/晋级前置。",
+    "acceptance": "仅未接且未完成，新建唯一attempt；无起始物/费用；公共北海交通原规则不变。",
+    "preaccept_items_count": false,
+    "requirements": [
+      {
+        "item_id": "quest_beihai83_beggar_hat",
+        "quantity": 1
+      }
+    ],
+    "readiness": "本人当前attempt真实帽0为in_progress，恰1为ready；由来源和持物派生，无影子计数。来源缺数量本地取1，不能按帽名穿戴或复制。",
+    "reward": {
+      "experience": 4440000,
+      "practice": 0,
+      "silver": 0,
+      "items": [],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "repeat": "once per character across worlds; no daily/party/route/world reset",
+    "delivery": "原乞丐老人端点核本人/当前attempt/真实乌纱帽1与原库存/来源/修订。报价4440000经验名义/实际/损失，正损失显式确认，原修订改变报价失效；取消保帽。实际0可完成但无0资源腿；帽消费、实际经验/实际升级基础属性/新covered_level发点、唯一完成与来源05/19同笔，角色库存修订各一次，无历练/银/物/晋级改变。",
+    "capacity_failure": "资格/来源/原库存/修订/报价/保存失败整笔保帽及活跃attempt，不部分消费或发经验，不按损失补物或其他资源。",
+    "modifiers": "固定任务经验不进组队普通池，不受金银/修炼/终结者倍率。",
+    "deduplication": "角色/本任务完成跨世界唯一；同request同payload回原持久决定，改payload拒绝；旧结果不回装帽或重发经验。",
+    "abandon": "确认只清本轮乌纱帽/任务状态，未完成可新attempt重接；旧死亡不补，不影响五转/八转同NPC服务。",
+    "save": "保存attempt/实际帽来源/状态和最终经验实际损失/完成收据；缺来源或多帽拒绝，状态按真实0/1推导。保存不确定先解析原05/19决定，不重跑奖励。",
+    "reward_identity": "固定4440000经验保源，不按约5%动态换算；本任务帽为个人凭证非可装备头饰，不发帽为装备奖励。",
+    "xp_cap": "按公共经验上限报价/实际损失与实际升级发点；不附加历练或把损失转换资源。",
+    "source_stage_interpretation": "原文两阶段为猎魔法侍者找回帽与任务结束；本地实际1即ready，在原NPC终交同一事务消费，不增加额外对白/回执或两次交帽。"
+  },
+  "item": {
+    "item_id": "quest_beihai83_beggar_hat",
+    "name": "乞丐老人的乌纱帽",
+    "source_reference_id": "QREF-63788-006",
+    "source_kind": "task_item_name_not_IREFcatalog_adoption",
+    "category": "quest_token",
+    "stack_limit": 1,
+    "weight_g": 0,
+    "maximum_per_active_attempt": 1,
+    "binding": "character/quest/attempt",
+    "permissions": {
+      "equip": false,
+      "direct_use": false,
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false,
+      "quest_delivery": true,
+      "abandon_cleanup": true
+    },
+    "sell_price": null,
+    "initial_grant": 0,
+    "identity_policy": "83级本轮帽凭证，明确本地1件/0克/堆1；不是头饰装备、其他任务道具或五转/八转凭证。"
+  },
+  "collection": {
+    "producers": [
+      {
+        "monster_id": "beihai_magic_attendant86",
+        "map_id": "beihai_ice",
+        "item_id": "quest_beihai83_beggar_hat",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 1
+      }
+    ],
+    "qualification": "本人活跃本轮/无帽，存活连接同世界图；solo原死亡归属或19原组队奖励成员快照30m/入队>=600步。已有帽封顶，旧死亡不补。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "原完整库存/真实材料槽及来源预检，0克仍占槽；原死亡失败结果持久化，腾包/重连/新轮不补。",
+    "commit": "本owner86魔法侍者唯一原死亡事务05/19，普通经验历练银一次及所有个人帽来源同笔；不调用其他北海怪owner再次结算。",
+    "modifiers": "个人每合格死亡1为本地100%，不受终结者/修炼物品倍率。"
+  },
+  "monster": {
+    "monster_id": "beihai_magic_attendant86",
+    "name": "魔法侍者",
+    "level": 86,
+    "map_id": "beihai_ice",
+    "combat_kind": "monster",
+    "boss": false,
+    "is_npc_martial": false,
+    "max_hp": 13760,
+    "max_mana": 0,
+    "attack_min": 516,
+    "attack_max": 602,
+    "ordinary_defense": 258,
+    "accuracy": 516,
+    "evasion": 172,
+    "critical_chance_bp": 0,
+    "critical_multiplier_bp": 15000,
+    "movement_mm_per_second": 3000,
+    "collision_radius_mm": 450,
+    "height_mm": 1800,
+    "qigong_allocations": {},
+    "rage_enabled": false,
+    "supports_blood_devil": false,
+    "reward_profile": "explicit_beihai_attendant86",
+    "xp_reward": 2266666,
+    "practice_reward": 226666,
+    "silver_reward": 86,
+    "ascension_progress_reward": 500,
+    "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+    "fixed_loot": [],
+    "random_loot": [],
+    "empty_loot_reason": "普通经验/历练/银两及精确任务producer；无其他普通物品掉落",
+    "finisher_reward_components": [
+      "experience",
+      "practice",
+      "silver"
+    ],
+    "aggression": "passive",
+    "model_spec": {
+      "presentation_id": "beihai_magic_attendant86",
+      "status": "魔法侍者模型/掌击/移动动作待美术制作"
+    },
+    "identity_policy": "保来源86级/被动/西南区，战斗数值明确本地等级×160HP/×6～7攻击/×3防/×6命中/×2回避；不混同洞窟83术士或85侍者。",
+    "source_reference_id": "MREF-39811-004",
+    "source_catalog_region": "北海冰宫",
+    "source_spawn_location_as_published": "西南区域",
+    "source_ref": {
+      "file": "../reference/怪物参数.json",
+      "pointer": "/monsters/174"
+    }
+  },
+  "spawns": [
+    {
+      "spawn_id": "beihai_magic_attendant86_01",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_magic_attendant86",
+      "home_feet_m": [
+        -120,
+        0,
+        40
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_magic_attendant86_02",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_magic_attendant86",
+      "home_feet_m": [
+        -120,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_magic_attendant86_03",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_magic_attendant86",
+      "home_feet_m": [
+        -120,
+        0,
+        56
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_magic_attendant86_04",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_magic_attendant86",
+      "home_feet_m": [
+        -120,
+        0,
+        64
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "passive as source，受攻击才仇恨，不因玩家接取任务主动攻击。",
+      "safe_zone": "全部地图安全区禁止敌对出生/进入，按路径返home恢复，不瞬移。"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "travel_policy": "既有公共北海往返，无83任务/晋级额外门槛；乞丐老人复用既有实体与服务锚，独立服务不推进五转或八转。",
+  "pending": [
+    "Godot原死亡/帽来源/经验确认及实际发点/存档/LAN功能验证",
+    "魔法侍者模型/动作/动态导航与83对86级战斗及奖励经济校准"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "spawn_clearance": "4home半径0.45+巡逻2米边界/墙/安全区/全部北海home点距通过。",
+    "player_grid": {
+      "step_m": 1,
+      "radius_m": 0.35,
+      "npc_collisions_included": true,
+      "connected_cells": 84852,
+      "reachable_new_homes": 4,
+      "existing_service_reachable": true
+    },
+    "custody": "真实帽0→合格原死亡1（封顶）→终交消费0，不是可装备头饰，无额外凭证/回装。",
+    "runtime_boundary": "经验剩余0/1/4439999/4440000/4440001、正损失确认/取消/实际升级发点与保存/LAN需Godot实际事务测试。"
+  }
+}

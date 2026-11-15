@@ -1,0 +1,286 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "source_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/126"
+    },
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/73/text"
+    },
+    "published": "79级共同/金蓉蓉/苍狼81牙10/经验3000000及历练23000/一次/采集与任务结束两阶段。",
+    "local": "全部14职业/三路线/rank0，无其他北海任务前置；个人本轮100%每死亡1/0克99堆10封顶、NPC与怪物具体布局和战斗收益为明确本地采用。"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63788-004",
+    "source_reference_id": "QREF-63788-004",
+    "name": "金蓉蓉的奇特爱好",
+    "minimum_level": 79,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_jin_rongrong",
+    "npc_map_id": "beihai_ice",
+    "interaction_anchor_id": "npc_jin_rongrong_service",
+    "service_id": "jin79_hobby",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "qualification": "本人存活/脱战/空闲/无挑战，79级/14职业/三路线/rank0，精确金蓉蓉map/anchor/service<=2500mm，无75北海任务/晋级前置。",
+    "acceptance": "仅未接且未完成，新建唯一attempt；无起始物/收费。公共北海交通原规则不变。",
+    "preaccept_items_count": false,
+    "requirements": [
+      {
+        "item_id": "quest_jin79_wolf_tooth",
+        "quantity": 10
+      }
+    ],
+    "readiness": "实际本人当前attempt真实牙齿0..10，10即ready_to_turn_in；不足10为in_progress。阶段由持物派生，不存影子采集计数或凭数量重建来源。",
+    "reward": {
+      "experience": 3000000,
+      "practice": 23000,
+      "silver": 0,
+      "items": [],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "repeat": "once per character across worlds; no daily/party/route/world reset",
+    "delivery": "原金蓉蓉端点核资格/当前attempt/原真实牙齿10，原库存/来源/修订合法；分别报价经验3000000及历练23000的名义/实际/损失，正损失分别显式确认。原修订改变须重报价，取消不消费。实际任一0也可完成但无0资源腿；消费10/实际经验与历练/实际升级基础属性/新covered_level发点/唯一完成及05/19来源收据同笔，角色库存修订各一次，无物品/银/晋级改变。",
+    "capacity_failure": "资格/来源/原状态/修订/报价/保存失败整笔保牙10与活跃任务；不部分消费或给资源，不以损失补银/物。",
+    "modifiers": "固定完成奖励不进组队普通池，不受金银/修炼/终结者倍率。",
+    "deduplication": "角色/本任务完成跨世界唯一，原request同payload回持久决定，改payload拒绝；旧结果不回装牙齿或重复发资源。",
+    "abandon": "确认只清本人当前attempt牙齿/任务状态，未完成才可重新接取新attempt；不退款/补物，旧死亡不补。",
+    "save": "保存状态/attempt/真实牙齿来源/最终完成及双资源实际损失收据，读取严格持物与来源推导ready；不确定保存先解析原05/19决定重存，不能重领奖。",
+    "reward_identity": "来源数值保300万经验/23000历练，不按来源约5%描述动态重算，不加猜测物品。",
+    "xp_cap": "经验/历练分别沿公共生命周期封顶报价和实际升级发点，不把任一资源损失转换成另一资源。",
+    "source_stage_interpretation": "来源2阶段为采集10与任务结束；本地accept→in_progress/10真实牙ready→原NPC终交消费10，同一最终事务完成，不插入额外消费/凭证/对白阶段。"
+  },
+  "item": {
+    "item_id": "quest_jin79_wolf_tooth",
+    "name": "苍狼的牙齿",
+    "source_reference_id": "QREF-63788-004",
+    "source_kind": "task_item_name_not_IREFcatalog_adoption",
+    "category": "quest_token",
+    "stack_limit": 99,
+    "weight_g": 0,
+    "maximum_per_active_attempt": 10,
+    "binding": "character/quest/attempt",
+    "permissions": {
+      "equip": false,
+      "direct_use": false,
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false,
+      "quest_delivery": true,
+      "abandon_cleanup": true
+    },
+    "sell_price": null,
+    "initial_grant": 0,
+    "identity_policy": "79爱好本轮个人凭证，0克/99堆/10封顶明确本地值，不是可装备项链或其他任务牙齿。"
+  },
+  "collection": {
+    "producers": [
+      {
+        "monster_id": "beihai_gray_wolf81",
+        "map_id": "beihai_ice",
+        "item_id": "quest_jin79_wolf_tooth",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "qualification": "本人活跃attempt且真实牙<10，存活连接同世界图；solo原死亡归属或19原组队奖励成员快照30m/入队>=600步。达到10不再产物，未接/完成/旧死亡不补。",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "原完整库存/来源合堆/真实材料槽重预检，容量失败原死亡持久无任务物；腾包重连/新轮不补，后续新死亡可发。",
+    "commit": "苍狼唯一shared_death_collection按79牙与77章75共同候选预检，普通收益一次/05/19同笔。",
+    "modifiers": "个人100%任务物不受终结者/修炼机会或数量倍率。",
+    "shared_owner": {
+      "file": "七十九级金蓉蓉爱好任务.v1.json",
+      "pointer": "/shared_death_collection"
+    }
+  },
+  "monster": {
+    "monster_id": "beihai_gray_wolf81",
+    "name": "苍狼",
+    "level": 81,
+    "map_id": "beihai_ice",
+    "combat_kind": "monster",
+    "boss": false,
+    "is_npc_martial": false,
+    "max_hp": 12960,
+    "max_mana": 0,
+    "attack_min": 486,
+    "attack_max": 567,
+    "ordinary_defense": 243,
+    "accuracy": 486,
+    "evasion": 162,
+    "critical_chance_bp": 0,
+    "critical_multiplier_bp": 15000,
+    "movement_mm_per_second": 3000,
+    "collision_radius_mm": 450,
+    "height_mm": 1800,
+    "qigong_allocations": {},
+    "rage_enabled": false,
+    "supports_blood_devil": false,
+    "reward_profile": "explicit_beihai_wolf81",
+    "xp_reward": 1430769,
+    "practice_reward": 143076,
+    "silver_reward": 81,
+    "ascension_progress_reward": 500,
+    "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool",
+    "fixed_loot": [],
+    "random_loot": [],
+    "empty_loot_reason": "普通经验/历练/银两及精确任务producer；无其他普通物品掉落",
+    "finisher_reward_components": [
+      "experience",
+      "practice",
+      "silver"
+    ],
+    "aggression": "passive",
+    "model_spec": {
+      "presentation_id": "beihai_gray_wolf81",
+      "status": "来源苍狼模型/动作待美术制作"
+    },
+    "identity_policy": "来源名称/81级/被动/北海南部保留，具体坐标与战斗为本地选择：等级×160HP/×6～7攻击/×3防/×6命中/×2回避。",
+    "source_reference_id": "MREF-39811-002",
+    "source_catalog_region": "北海冰宫",
+    "source_spawn_location_as_published": "正南方区域",
+    "source_ref": {
+      "file": "../reference/怪物参数.json",
+      "pointer": "/monsters/172"
+    }
+  },
+  "spawns": [
+    {
+      "spawn_id": "beihai_gray_wolf81_01",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_gray_wolf81",
+      "home_feet_m": [
+        -24,
+        0,
+        40
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_gray_wolf81_02",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_gray_wolf81",
+      "home_feet_m": [
+        -24,
+        0,
+        48
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_gray_wolf81_03",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_gray_wolf81",
+      "home_feet_m": [
+        -24,
+        0,
+        56
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "beihai_gray_wolf81_04",
+      "map_id": "beihai_ice",
+      "monster_id": "beihai_gray_wolf81",
+      "home_feet_m": [
+        -24,
+        0,
+        64
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "npc_binding": {
+    "npc_id": "npc_jin_rongrong",
+    "source_ref": {
+      "file": "../reference/NPC名称与入口.json",
+      "pointer": "/npcs/70"
+    },
+    "source_reference_id": "NREF-40131-007",
+    "position_basis": "官网原坐标1556 -536保参考，本地(20,0,8)与服务(20,0,10)为城镇安全区布局，不按来源坐标缩放。"
+  },
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "passive as source，受攻击才仇恨，不因玩家接取任务主动攻击。",
+      "safe_zone": "全部地图安全区禁止敌对出生/进入，按路径返home恢复，不瞬移。"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "travel_policy": "沿既有北海公共船与返程，不额外要求75任务或晋级；进入地图/靠近服务不自动接取或完成。",
+  "pending": [
+    "Godot收集/双资源报价/来源/实际升级发点/保存/LAN功能实现测试",
+    "苍狼与金蓉蓉模型/动作、动态导航、79对81级战斗及奖励经济校准"
+  ],
+  "static_review": {
+    "checked_on": "2026-11-15",
+    "runtime_proven": false,
+    "spawn_clearance": "4home半径0.45+巡逻2米边界/墙/安全区/全部既有北海home点距通过，保原20home。",
+    "player_grid": {
+      "step_m": 1,
+      "radius_m": 0.35,
+      "npc_collisions_included": true,
+      "connected_cells": 84852,
+      "reachable_new_homes": 4,
+      "reachable_new_service": true
+    },
+    "service_route": {
+      "route_id": "public_layout_to_npc_jin_rongrong_service",
+      "step_max_m": 0.1,
+      "samples": 383,
+      "all_clear": true,
+      "path_fix": "服务锚在NPC另一侧，路线经x24绕行，禁止x20从z0直穿NPC本体。"
+    },
+    "reward_scope": "3000000经验/23000历练名义实际损失与实际升级发点须Godot事务测试，不以静态检查冒充功能通过。"
+  },
+  "shared_death_collection": {
+    "monster_id": "beihai_gray_wolf81",
+    "producer_refs": [
+      {
+        "file": "七十九级金蓉蓉爱好任务.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "七十五至七十七级北海初访任务.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "selection": "仅实际苍狼actor，79活跃牙<10与77stage1章75<8最多两候选，独立封顶；银狐producer不纳本死亡。",
+    "capacity": "全部候选共同真实材料槽重来源预检，任一不足全部任务物无物；普通收益一次。",
+    "commit": "05/19唯一原死亡与全部候选来源同笔，原成功/无物决定持久，重连腾包新轮不补。"
+  }
+}

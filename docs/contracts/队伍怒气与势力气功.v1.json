@@ -214,5 +214,23 @@
   },
   "faction_policy": "gameplay-defined source faction/hostility not shared display title/sect name. Unselected normal player may still receive party fullmoon, but never inferred same-faction hero boon/redmoon. Defeat receipt never changes faction.",
   "persistence": "per-source/recipient/gas ID/remaining world steps, single-trigger receipt and original target list saved; pause/offline freezes; source leaves party/disconnect does not force refresh/duplicate or remove standalone duration. Recipient dies clears death-cleared buffs; pending respawn cannot receive.",
-  "scope": "these trigger adapters activate already adopted rage terminal profiles. They do not authorize missing NPC-faction activities, playerPvP, or all aura passives by name."
+  "scope": "these trigger adapters activate already adopted rage terminal profiles. They do not authorize missing NPC-faction activities, playerPvP, or all aura passives by name.",
+  "persistent_faction_state": {
+    "target_field": "character.effects.faction_timed",
+    "schema_ref": {
+      "file": "势力持续效果状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": {
+      "boon": [],
+      "stamina_reduction": []
+    },
+    "legacy_import": "四已知旧来源显式两空表，当前缺字段拒绝；不按称号/门派推断势力或补来源。",
+    "identity": "每族源精确施放者/原2具名气功/本接收者实际落效trigger/1..180余时；同施放者气功最多一源，按气功/施放者排序，新真实成功替换凭证/180不叠加，重放不刷新。",
+    "recipients": "原成功根必须保存真实队伍/非空势力/敌对关系/同场15m与最多30接收名单及实际落效证明；正面仅原实际同队同势力，负面仅原合法敌对NPC势力战斗者，不能假定中立相等/动物有势力/启用玩家PvP。后来新入队者不追加收件，离队/施放者断开不重置或复制已付效果。",
+    "boon": "任一合法活跃boon仅一次+100攻击两端/+100普通防御/+1000HP与内力上限，同族多个来源不叠。上限提高不回血回蓝，新触发刷新不补量；最后一源消失合法收窄当前资源到新上限，不造攻击/受击怒气/奖励。实际派生上限仍须合法正值。",
+    "stamina": "负面任一源仅对原非本族体力上限减floor(base*1500/10000)一次，多源不累减；当前体力合法收窄、消失不补体力，满体力恢复余数沿原资源联合规则。仅体力上限减益，不借混乱名称造随机走路或神女来源。固定180不套未采用时长修正。",
+    "timing_lifecycle": "生成步不扣新180，后续世界步入口旧源扣1、归0移除并原子重算上限/当前资源，再处理该步行为。暂停离线冻结；接收者死亡清两族，施放者死亡/离队/离线不改既有余时；明确解除按正负族权限，不自动回满。只改真实来源并集时派生，不保存最终上限副本。",
+    "validation": "完整effects白名单后，真实原接收资格/唯一排序/原结果与时长语义核验，待复活两空表。前三种怒气族仍唯一rage_sources，本组件不复制怒气/计量；实际NPC势力活动及原资源变化事务仍待实现。"
+  }
 }

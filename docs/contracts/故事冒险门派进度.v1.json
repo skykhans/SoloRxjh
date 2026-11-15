@@ -111,5 +111,55 @@
   ],
   "persistent_reward_receipt_rule": "new runtime task step event receipts are separate idempotency identities, not alternative stage booleans; on import no synthetic XP/items are replayed to manufacture absent historical logs",
   "configuration_policy": "explicitly configured story/sect exception must satisfy structural types and carry declared scoped exception; no ordinary source import gets automatic exception to fix contradictions",
-  "not_covered": "whole profile schema, all14class fields/effects/activities/inventory instances and new127source task definitions; component coverage never certifies full save import"
+  "not_covered": "whole profile schema, all14class fields/effects/activities/inventory instances and new127source task definitions; component coverage never certifies full save import",
+  "normal_history_schema_ref": {
+    "file": "故事冒险门派进度.schema.json",
+    "pointer": "/$defs/normal_history"
+  },
+  "normal_history_validation": "普通历史与四已知旧导入先运行normal_history完整根+十四项阶段/门派前置/一次委托阈值分支；重复轮数乘5、贡献守恒/等级、真实任务收据及源物品仍按原cross_field_validation完整验证。配置例外只在原显式来源与作用域证明后进入对应原规则，不用普通历史失败自动切例外。",
+  "normal_numeric_validation": {
+    "integer_gate": "先验全部非负安全整数且严格JSON整数token，bool/小数/指数不能靠数学等值通过。正常字段范围及十四项结构前置先验，不对坏值取整或截断。",
+    "repeat_hunts": "对i=0/1检查repeat_claimed[i] <= kills[i]整除5；实际领取前检查当前claimed小于kills整除5，下一轮claimed+1可表示，再按原owner一次领取。不要先乘5或给(余额+1)制造溢出。",
+    "sect_commissions": "三项sect.commissions_claimed各 <= 对应adventure计数整除3；对应关系精确野猪/霜狼/竹材，不能借另一计数或主线journey计数凑数。一次委托bool用原3/3/6阈值，与门派重复3计数分开。",
+    "contribution_balance": "晋级实际前缀费用沿原10/25/50，rank0/1/2/3为0/10/35/85。先核earned>=各扣项并从remaining=earned依次减晋级前缀、legacy_opening_spend、new_exchange_spend、available，每次扣项大于remaining即拒绝，末余须0；等价精确守恒，避免多个合法MAX加总溢出。不按差额给玩家补贡献。",
+    "external_preconditions": "rank对应等级至少3/5/8须读取同一完整角色progress推导等级，不能在此子根存level镜像。完整正常历史须具真实任务/捐献/委托/兑换或受支持旧导入来源；数值守恒不单独证明已获授权，配置例外沿原显式作用域另验。"
+  },
+  "normal_character_projection": {
+    "schema_ref": {
+      "file": "故事冒险门派进度.schema.json",
+      "pointer": "/$defs/normal_character_projection"
+    },
+    "extraction": "完整角色根先验，再从同角色progress及quests.retained_story_adventure提取两字段，不存包装/level镜像。normal_history阶段与字段约束同时运行。",
+    "threshold_sources": [
+      {
+        "sect_rank": 1,
+        "minimum_level": 3,
+        "minimum_total_xp": 2600,
+        "source_ref": {
+          "file": "等级经验.v1.json",
+          "pointer": "/records/2/minimum_total_xp"
+        }
+      },
+      {
+        "sect_rank": 2,
+        "minimum_level": 5,
+        "minimum_total_xp": 14000,
+        "source_ref": {
+          "file": "等级经验.v1.json",
+          "pointer": "/records/4/minimum_total_xp"
+        }
+      },
+      {
+        "sect_rank": 3,
+        "minimum_level": 8,
+        "minimum_total_xp": 47600,
+        "source_ref": {
+          "file": "等级经验.v1.json",
+          "pointer": "/records/7/minimum_total_xp"
+        }
+      }
+    ],
+    "maintenance": "三经验阈值由唯一等级经验records编译；配置生成/规则包构建须核schema门槛与源表相等，变表必须同步重编，不能在运行时硬编码另一曲线。等级数仅说明，不进入持久角色。",
+    "boundaries": "正常历史等级不足拒绝，不按等级赠门派晋级，也不清rank修档。显式配置降级/改门派仅按原配置来源及作用域处理，不能因本投影失败自动切例外；贡献账与任务来源仍须另验。"
+  }
 }

@@ -1,0 +1,208 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "source_quest_and_local_monster_designed_not_implemented_not_balanced",
+  "source_policy": "QREF-63791-010 gives24level/Pingshizhi/15zombie talismans/3000XP/200medium healing potions/once. No僵尸 row exists in archived198monster list and no exact符咒 item catalog row was found; quest itself is item-name evidence. Local producer below is explicitly new project monster,not an invented official source identity or an adoption of198.",
+  "quest": {
+    "quest_id": "ref_QREF-63791-010",
+    "source_reference_id": "QREF-63791-010",
+    "name": "研究僵尸符咒",
+    "minimum_level": 24,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_pingshizhi",
+    "npc_map_id": "hyunbo_town",
+    "service_id": "study_zombie_talismans",
+    "interaction_anchor_id": "hyunbo_physician_service",
+    "service_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "repeat": "once per character across worlds; no day/party/world reset",
+    "qualification": "alive,out of combat,idle,no challenge,level/class/route valid,NPC within2.5m",
+    "acceptance": "only not_accepted; no starting grants/fee; accepting again while active or delivered rejects",
+    "preaccept_items_count": false,
+    "required_item": {
+      "item_id": "quest_zombie_talisman",
+      "quantity": 15
+    },
+    "readiness": "derived from real carried bound tokens15; no second progress count",
+    "reward": {
+      "experience": 3000,
+      "practice": 0,
+      "silver": 0,
+      "items": [
+        {
+          "item_id": "consumable_hp_medium",
+          "quantity": 200,
+          "owner_file": "常规消耗品.v1.json"
+        }
+      ],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "reward_identity": "explicit adopted match to existing金创药（中）definition,not a new same-name medicine or inventory placeholder",
+    "delivery": "revalidate full quest/NPC/inputs; build actual final backpack after consume15 and insert200existing medium potions with legal stack merge/split/weight; atomically commit inventory,XP actual/loss,completed flag and receipt",
+    "capacity_failure": "any insufficient weight/slots rejects whole delivery and preserves15inputs/quest state,never partial potion quantity,ground bag or warehouse",
+    "xp_cap": "14personal cap; preview exact3000base/actual/loss before confirmation; loss not redirected or converted to potions",
+    "modifiers": "quest rewards outside team pool/finisher/training; no inferred supreme multiplier",
+    "abandon": "explicit confirmation clears only own quest tokens and active state,no reward/refund; may reaccept if never delivered",
+    "receipt": "world/character/quest/final-settlement and request/revision chain; completed identity persists across worlds,old request never awards twice",
+    "save": "05/19host result persistence+client confirmation; failed save retries same committed inventory/XP result,not fresh reward"
+  },
+  "item": {
+    "item_id": "quest_zombie_talisman",
+    "name": "僵尸符咒",
+    "source_reference_id": "QREF-63791-010",
+    "source_kind": "task_item_name_not_IREFcatalog_adoption",
+    "category": "quest_token",
+    "stack_limit": 99,
+    "weight_g": 5,
+    "binding": "character_id + quest_id",
+    "maximum_owned_for_quest": 15,
+    "permissions": {
+      "warehouse": false,
+      "sell": false,
+      "discard": false,
+      "trade": false,
+      "craft": false,
+      "direct_use": false,
+      "quest_turn_in": true,
+      "explicit_abandon_cleanup": true
+    },
+    "sell_price": null,
+    "initial_grant": 0
+  },
+  "collection": {
+    "monster_id": "project_zombie24",
+    "quantity": 1,
+    "probability_bp": 10000,
+    "personal_award": "separate declared task token,not public random-loot duplication; NPC companions none",
+    "eligibility": "active own task,alive connected same room,owned tokens<15; solo unique kill owner or exact19party reward-member snapshot (same party/map,within30m,joined>=600steps)",
+    "capacity_failure": "no token/no progress,death recordsfailedcapacity outcome; do not retry old death,rejoin or pickup to obtain; later distinct death may grant",
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id"
+    ],
+    "modifiers": "not ordinary drop; no26finisher/training fortune or quantity multiplier",
+    "commit": "monster death and all eligible recipient token outcomes one05/19host transaction; death receipt retains outcome through abandon/reaccept"
+  },
+  "monster": {
+    "monster_id": "project_zombie24",
+    "name": "制符僵尸（项目怪物）",
+    "source_reference_id": null,
+    "project_only": true,
+    "map_id": "hyunbo_outskirts",
+    "level": 24,
+    "combat_kind": "monster",
+    "boss": false,
+    "is_npc_martial": false,
+    "max_hp": 600,
+    "max_mana": 0,
+    "attack_min": 40,
+    "attack_max": 50,
+    "ordinary_defense": 48,
+    "accuracy": 120,
+    "evasion": 48,
+    "critical_chance_bp": 0,
+    "critical_multiplier_bp": 15000,
+    "movement_mm_per_second": 2200,
+    "qigong_allocations": {},
+    "rage_enabled": false,
+    "supports_blood_devil": false,
+    "reward_profile": "explicit_project_zombie",
+    "xp_reward": 12556,
+    "practice_reward": 1255,
+    "silver_reward": 24,
+    "ascension_progress_reward": 500,
+    "ascension_eligibility": "14completed first ascension and monsterLevel>=recipientLevel-10;19separate pool",
+    "fixed_loot": [],
+    "random_loot": [],
+    "empty_loot_reason": "explicit ordinary XP/practice/silver and active personal task token only; no unspecified material defaults",
+    "finisher_reward_components": [
+      "experience",
+      "practice",
+      "silver"
+    ],
+    "model_spec": {
+      "presentation_id": "project_zombie",
+      "status": "undead model/animation required,not final art"
+    }
+  },
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "project proactive9m",
+      "safe_zone": "all map safe zones prohibit hostile spawn/entry;path return to home for heal,no teleport"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn",
+    "scope": "reuse ordinary7200step respawn,5m exclusion,monotone world counter even on offline scene rebuild,19host ownership; only spawn IDs/monster ID differ"
+  },
+  "spawns": [
+    {
+      "spawn_id": "project_zombie24_01",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "project_zombie24",
+      "home_feet_m": [
+        -120,
+        0,
+        -24
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_zombie24_02",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "project_zombie24",
+      "home_feet_m": [
+        -120,
+        0,
+        24
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_zombie24_03",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "project_zombie24",
+      "home_feet_m": [
+        120,
+        0,
+        -24
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "project_zombie24_04",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "project_zombie24",
+      "home_feet_m": [
+        120,
+        0,
+        24
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "pending": [
+    "Godot quest capacity/loot/AI/save/LAN execution",
+    "undead model/animations and progression/medicine economy calibration"
+  ]
+}

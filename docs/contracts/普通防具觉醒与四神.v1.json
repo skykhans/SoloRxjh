@@ -1,0 +1,318 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "project_design_not_implemented_not_registered",
+  "scope": "51普通1219件与55武勋106件精确并集1325件登记觉醒/四神字段；仅body且物品最低已完成rank>=5的488件开放加工，其余837件只允许0/null。77阻塞、21门派、初始短衫和其他装备均不在服务范围。",
+  "source_policy": {
+    "source_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/21"
+    },
+    "published": "仅武器/衣服、至少觉醒1可赋四神、已赋神可继续觉醒、相克环、初赋手续费500万、幸运符可提高成功率、防具变更券100%；原NPC司空揽杰，原宝石来源boss不冒充本地已采用掉落。",
+    "project": "100级/五转且已选正邪、body最低rank>=5、觉醒上限5及防御/生命贡献、概率/材料数量/失败保留和刀剑笑商店均为项目采用，不把衣服四神开放扩给护手/靴/内甲。"
+  },
+  "eligibility_catalog_refs": [
+    {
+      "file": "普通防具基础定义.v1.json",
+      "pointer": "/items"
+    },
+    {
+      "file": "武勋防具基础定义.v1.json",
+      "pointer": "/items"
+    }
+  ],
+  "eligibility_partition": {
+    "processing_predicate": "exact catalog member AND equipment_category == body AND eligibility_ref.minimum_completed_rank >= 5",
+    "processing_count": 488,
+    "zero_only_predicate": "exact catalog member AND NOT processing_predicate",
+    "zero_only_count": 837,
+    "true_and_merit": "真/普通、普通目录/武勋目录按同一谓词分区；武勋额外穿戴条件仍须满足，不借英雄武器独立阶段。"
+  },
+  "items": [
+    {
+      "item_id": "armor_four_divine_change_ticket",
+      "name": "防具四神之力变更券",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "usage": "body_four_divine_change",
+      "purchase_allowed": true,
+      "buy_price": 10000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 100,
+      "minimum_purchase_rank": 5,
+      "purchase_class_filter": "14 adopted classes via ordinary_armor_four_divine adapter",
+      "presentation_ref": "dev_item_armor_four_divine_change_ticket",
+      "source_policy": "防具四神之力变更券名称及变更100%沿官网四神正文；银价1000万/堆99/10g/绑定权限与刀剑笑取得为项目采用，不能替代武器变更券。"
+    }
+  ],
+  "shared_material_refs": [
+    {
+      "item_id": "soul_collection_stone",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/0"
+    },
+    {
+      "item_id": "four_divine_luck_charm",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/2"
+    },
+    {
+      "item_id": "four_divine_gem_tortoise",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/3"
+    },
+    {
+      "item_id": "four_divine_gem_phoenix",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/4"
+    },
+    {
+      "item_id": "four_divine_gem_tiger",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/5"
+    },
+    {
+      "item_id": "four_divine_gem_dragon",
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/6"
+    }
+  ],
+  "deities_ref": {
+    "file": "英雄武器觉醒与四神.v1.json",
+    "pointer": "/deities"
+  },
+  "four_divine_damage_ref": {
+    "file": "英雄武器觉醒与四神.v1.json",
+    "pointer": "/four_divine_damage"
+  },
+  "awakening_schema": {
+    "field": "awakening_stage",
+    "type": "strict_integer_excluding_bool_float_string",
+    "minimum": 0,
+    "maximum": 5,
+    "fresh_value": 0,
+    "positive_requires": "精确processing_predicate为真，各次升级可追溯同角色/同衣服血统本防具觉醒成功收据；读取不补0，不能借武器/失败收据或配置外的虚构历史。",
+    "zero_only": "837件只允许0；角色资格暂失不清除合法成长，仅暂停贡献和加工。"
+  },
+  "four_divine_schema": {
+    "field": "four_divine_state",
+    "empty_value": null,
+    "nonempty_fields": [
+      "deity_id",
+      "origin_receipt_id"
+    ],
+    "requirements": "精确processing_predicate为真，awakening_stage>=1，deity_id为deities_ref成员，收据是同角色同衣服血统本防具赋予/变更成功且所选神一致。",
+    "strictness": "对象只准两字段；空字段显式null；缺字段/未知神/错类型/非空+觉醒0/错血统或武器收据均拒绝，不补默认或清状态修复。"
+  },
+  "awakening_projection": {
+    "defense_units_by_stage": [
+      0,
+      8,
+      16,
+      24,
+      32,
+      40
+    ],
+    "maximum_hp_units_by_stage": [
+      0,
+      20,
+      40,
+      60,
+      80,
+      100
+    ],
+    "authority": "衣服觉醒各阶项目总贡献，当前阶替代前阶而非累加；不借武器攻击/武功贡献。",
+    "application": "只生效组合法未失效的body实例，各项一次加入普通防御/生命上限来源；备用/背包/仓不贡献。上限变化只下裁当前量，不补血、不复活，恢复资格不补资源。",
+    "gangqi_boundary": "本觉醒防御不在52罡气已采用三项输入中，不自动转换；不加PvE防御/平减/障力/内力/反气功点。"
+  },
+  "awakening_recipes": [
+    {
+      "source_awakening_stage": 0,
+      "target_awakening_stage": 1,
+      "consumed_item_id": "soul_collection_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 1000000,
+      "success_probability_bp": 7000,
+      "random_draw_required": true,
+      "failure": "source stage and all fields unchanged; consumed materials and fee, no destruction/downgrade",
+      "recipe_id": "ordinary_armor_awaken_1"
+    },
+    {
+      "source_awakening_stage": 1,
+      "target_awakening_stage": 2,
+      "consumed_item_id": "soul_collection_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 2000000,
+      "success_probability_bp": 6000,
+      "random_draw_required": true,
+      "failure": "source stage and all fields unchanged; consumed materials and fee, no destruction/downgrade",
+      "recipe_id": "ordinary_armor_awaken_2"
+    },
+    {
+      "source_awakening_stage": 2,
+      "target_awakening_stage": 3,
+      "consumed_item_id": "soul_collection_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 3000000,
+      "success_probability_bp": 5000,
+      "random_draw_required": true,
+      "failure": "source stage and all fields unchanged; consumed materials and fee, no destruction/downgrade",
+      "recipe_id": "ordinary_armor_awaken_3"
+    },
+    {
+      "source_awakening_stage": 3,
+      "target_awakening_stage": 4,
+      "consumed_item_id": "soul_collection_stone",
+      "consumed_quantity": 4,
+      "silver_fee": 4000000,
+      "success_probability_bp": 4000,
+      "random_draw_required": true,
+      "failure": "source stage and all fields unchanged; consumed materials and fee, no destruction/downgrade",
+      "recipe_id": "ordinary_armor_awaken_4"
+    },
+    {
+      "source_awakening_stage": 4,
+      "target_awakening_stage": 5,
+      "consumed_item_id": "soul_collection_stone",
+      "consumed_quantity": 5,
+      "silver_fee": 5000000,
+      "success_probability_bp": 3000,
+      "random_draw_required": true,
+      "failure": "source stage and all fields unchanged; consumed materials and fee, no destruction/downgrade",
+      "recipe_id": "ordinary_armor_awaken_5"
+    }
+  ],
+  "four_divine_assign": {
+    "recipe_id": "ordinary_armor_four_divine_assign",
+    "requires_current_four_divine_state": null,
+    "requires_awakening_stage_at_least": 1,
+    "chosen_deity": "exact deities member selected before quote; material gem must match",
+    "consumed_gem_quantity": 1,
+    "silver_fee": 5000000,
+    "base_success_probability_bp": 7000,
+    "optional_luck": {
+      "item_id": "four_divine_luck_charm",
+      "maximum_quantity": 1,
+      "additional_probability_bp": 1000,
+      "consumed_on_success_or_failure": true
+    },
+    "success": "same instance, set chosen deity and receipt only",
+    "failure": "keep null four_divine_state, preserve awakening/element/synthesis/every other legal field; consume gem, fee and optional charm",
+    "random": "one uniform integer[0,9999], success iff < final probability, no random deity draw"
+  },
+  "four_divine_change": {
+    "recipe_id": "ordinary_armor_four_divine_change",
+    "requires_existing_divine": true,
+    "consumed_item_id": "armor_four_divine_change_ticket",
+    "consumed_quantity": 1,
+    "silver_fee": 0,
+    "success_probability_bp": 10000,
+    "random_draw_required": false,
+    "choice": "报价前选其余三神之一；相同神、空输入、宝石或幸运符附加均拒绝",
+    "success": "同衣服只改神和来源收据，全部其他合法字段保留"
+  },
+  "material_acquisition": {
+    "status": "design_pending_shop_registration",
+    "planned_service_id": "npc_daojianxiao_ordinary_armor_awakening_materials",
+    "npc_id": "npc_daojianxiao",
+    "class_ids": [
+      "archer",
+      "assassin",
+      "blade",
+      "dongling_shennv",
+      "fighter",
+      "han_feiguan",
+      "lu_fenglang",
+      "mei_liuzhen",
+      "musician",
+      "physician",
+      "spear",
+      "sword",
+      "tan_hualing",
+      "zhen_fengbai"
+    ],
+    "minimum_level": 100,
+    "minimum_rank": 5,
+    "allowed_routes": [
+      "righteous",
+      "evil"
+    ],
+    "quantity_range": [
+      1,
+      99
+    ],
+    "stock": "unlimited",
+    "definition_policy": "集魂石/幸运符/四宝石共6件以shared_material_refs唯一定义为准；防具变更券以本合同items/0为准，不改英雄或普通武器原商店筛选，不重复定义共享材料。",
+    "transaction": "本人存活脱战空闲且NPC/会话/同图2.5米有效；先验原库存合法，再验最终随身银两/格数/重量；扣钱/材料入包/修订/收据原子提交，重复返回原结果，保存失败仅重存。"
+  },
+  "service_policy": {
+    "planned_service_id": "npc_daojianxiao_ordinary_armor_awaken_and_four_divine",
+    "registered": false,
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "qualification": "角色100级且实际完成五转、已选正邪；满足衣服逐行职业/路线/体型/等级/转职/武勋全部条件，本人存活脱战空闲，无挑战/传送/未结算队列。源为processing_predicate精确成员且在本人装备背包，无占用，完整实例/库存/血统/绑定及修订合法。",
+    "scope_rejection": "低阶衣服、护手/靴/内甲、门派、初始短衫、阻塞来源与其他装备拒绝；未知/未决非空成长或非空临时显示提升拒绝，不删除修复。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "recipe_id",
+      "recipe_version",
+      "selected_deity_if_any",
+      "optional_luck_quantity_if_assign",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "展示原觉醒/神、目标、概率、所有选定材料/费用、成功与失败状态及全部派生变化；缺完整派生owner不得产生可提交报价。",
+    "commit": "房主按角色串行先查命令收据，校验全部资格/schema/原库存合法与资源修订；副本扣费用和材料并检最终格重，复制RNG后依配方开奖，字段/成本/RNG/修订/收据原子提交。",
+    "rng": "觉醒与初赋只抽一次均匀[0,9999]，draw<bp成功；变更必成不抽，无随机神选择。幸运符是否使用在报价前锁定，最多1且只初赋可用。",
+    "preservation": "同实例同血统；觉醒升阶只改觉醒，已赋神继续觉醒保神；初赋/变更只改神及来源收据，其他合法字段精确保留。不得跨资格把字段洗掉。",
+    "failure": "消耗所选精确材料与费用，原实例全部字段保持；无损毁/降阶，不返幸运符。",
+    "invalid_or_cancel": "无成本/RNG/修订变化，报价不预抽；满觉醒、已有神再初赋、空神变更、同神变更或券附幸运符均拒绝。",
+    "deduplication": "同命令同参数返回原收据，先于当前神/阶段校验；同ID异参数拒绝。失败也有费用/RNG收据，但不能充作成长来源。",
+    "save_failure": "保留内存提交及未保存标记，重存同结果，不重抽/扣费。",
+    "load": "严格阶段/神/资格分区/同角色衣服血统防具成功收据及唯一实例；不补字段、不猜NPC无神、不接受武器/英雄收据。"
+  },
+  "combat_integration": {
+    "owner_ref": {
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/four_divine_damage"
+    },
+    "defender_input": "命中时读取生效body实例的合法未失效four_divine_state；显式空槽、合法0/null的衣服或资格失效部位投影null，不借备用/内甲/门派槽。损坏/非法非空状态拒绝加载或提交，不能当无神。",
+    "attacker_input": "仍取接受动作时实际生效武器快照，不从衣服复制到攻击方。",
+    "scope": "仅既有npc_martial_duel根直接普通攻击/攻击武功，沿原25格矩阵及唯一阶段一次，不扩到野怪/非比武/DoT/反射/衍生额外命中。NPC对手必须明确武器/衣服神或null，缺配置阻止活动，不推默认无神。",
+    "requalification": "资格变化与投影一起提交，恢复仅重算，不触发治疗/复活或重新赋神。"
+  },
+  "implementation_gate": "完整根实例/档案schema、其他成长、其他药品/元素显示、派生/外观及服务经济联审未闭合，本合同不创建实例或注册世界服务。",
+  "same_lineage_true_conversion_owner_ref": {
+    "file": "普通防具提真.v1.json",
+    "pointer": "/same_lineage_replacement_provenance"
+  },
+  "enhancement_boost_guard_owner_ref": {
+    "file": "普通防具附加提升.v1.json",
+    "pointer": "/processing_guard"
+  },
+  "instance_growth_schema_owner_ref": {
+    "file": "普通防具成长.v1.json",
+    "pointer": ""
+  }
+}

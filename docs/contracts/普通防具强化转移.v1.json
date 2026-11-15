@@ -1,0 +1,4497 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "project_recipe_design_not_implemented_not_registered",
+  "scope": "51普通/55武勋目录内已完成防具130→140、140→150、150→160精确152配方；未完成/伪造、77阻塞、21门派、初始短衫及其他转移等级不开放。",
+  "source_refs": [
+    {
+      "file": "../reference/升天四式强化转移规则.json",
+      "pointer": "/ordinary"
+    },
+    {
+      "file": "../reference/升天五式强化转移规则.json",
+      "pointer": "/ordinary"
+    },
+    {
+      "file": "../reference/升天六式强化转移规则.json",
+      "pointer": "/ordinary_transfer"
+    }
+  ],
+  "source_policy": {
+    "published": "三档分别130→140/140→150/150→160；源强化11～15，100%成功/消耗源/目标不新增锁定，强化和属性石覆盖，目标合成/奇玉/觉醒保持；同进化/普通真武勋不混转。",
+    "project": "按同职业列表/路线/体型/具体部位/真假/武勋逐定义配对，四式不开放内甲，五/六式目标内甲2合其余4合。精确映射、材料数量1、银两商店价格/手续费0及保目标四神为项目采用，不把商城元宝换算为项目银价。",
+    "source_boundary": "只用已采用独立等级，不从物品名修源等级；候选防御未决不创建目标定义。不因同名/相似名或同为防具通配配方，未完成/伪造只在本服务排除，不更改其其他成长资格。"
+  },
+  "eligibility_catalog_refs": [
+    {
+      "file": "普通防具基础定义.v1.json",
+      "pointer": "/items"
+    },
+    {
+      "file": "武勋防具基础定义.v1.json",
+      "pointer": "/items"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ordinary_armor_transfer_rank4",
+      "name": "强化转移符〔防具〕（升天4）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 50000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 130,
+      "minimum_purchase_rank": 8,
+      "presentation_ref": "dev_item_ordinary_armor_transfer_rank4",
+      "source_policy": "道具档位/名称沿来源；本地银价/堆重/绑定/取得为项目值，不由官网元宝换算。"
+    },
+    {
+      "item_id": "ordinary_armor_transfer_rank5",
+      "name": "强化转移符〔防具〕（升天5）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 50000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 140,
+      "minimum_purchase_rank": 9,
+      "presentation_ref": "dev_item_ordinary_armor_transfer_rank5",
+      "source_policy": "道具档位/名称沿来源；本地银价/堆重/绑定/取得为项目值，不由官网元宝换算。"
+    },
+    {
+      "item_id": "ordinary_armor_transfer_rank6",
+      "name": "强化转移符〔防具〕（升天6）",
+      "kind": "growth_material",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": "not_applicable",
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": false,
+      "recipe_input_only": true,
+      "purchase_allowed": true,
+      "buy_price": 100000000,
+      "stock": "unlimited",
+      "purchase_provider_id": "npc_daojianxiao",
+      "minimum_purchase_level": 150,
+      "minimum_purchase_rank": 10,
+      "presentation_ref": "dev_item_ordinary_armor_transfer_rank6",
+      "source_policy": "道具档位/名称沿来源；本地银价/堆重/绑定/取得为项目值，不由官网元宝换算。"
+    }
+  ],
+  "recipes": [
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_blade_beb9287a2d24_armor_regular_blade_f1a052b1e6d8",
+      "source_item_id": "armor_regular_blade_beb9287a2d24",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/12"
+      },
+      "target_item_id": "armor_regular_blade_f1a052b1e6d8",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/14"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_blade_4e0a06b757b3_armor_regular_blade_2028df192b19",
+      "source_item_id": "armor_regular_blade_4e0a06b757b3",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/30"
+      },
+      "target_item_id": "armor_regular_blade_2028df192b19",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/32"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_blade_4b45c519e29c_armor_regular_blade_0c3f6c691c6f",
+      "source_item_id": "armor_regular_blade_4b45c519e29c",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/48"
+      },
+      "target_item_id": "armor_regular_blade_0c3f6c691c6f",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/50"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_blade_a709b16f9765_armor_regular_blade_c1d9fa5c07f5",
+      "source_item_id": "armor_regular_blade_a709b16f9765",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/66"
+      },
+      "target_item_id": "armor_regular_blade_c1d9fa5c07f5",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/68"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_sword_5ab0ee92bbfd_armor_regular_sword_8355ef4343d7",
+      "source_item_id": "armor_regular_sword_5ab0ee92bbfd",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/148"
+      },
+      "target_item_id": "armor_regular_sword_8355ef4343d7",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/150"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_sword_ee2f3e09269b_armor_regular_sword_3e1300ca140d",
+      "source_item_id": "armor_regular_sword_ee2f3e09269b",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/166"
+      },
+      "target_item_id": "armor_regular_sword_3e1300ca140d",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/168"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_sword_ae87e9c09a65_armor_regular_sword_8384d9eaeb81",
+      "source_item_id": "armor_regular_sword_ae87e9c09a65",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/184"
+      },
+      "target_item_id": "armor_regular_sword_8384d9eaeb81",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/186"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_sword_cb92d6bfb247_armor_regular_sword_5816b124d898",
+      "source_item_id": "armor_regular_sword_cb92d6bfb247",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/202"
+      },
+      "target_item_id": "armor_regular_sword_5816b124d898",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/204"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_assassin_f5cb8dc18f9b_armor_regular_assassin_34327c5d33a8",
+      "source_item_id": "armor_regular_assassin_f5cb8dc18f9b",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/284"
+      },
+      "target_item_id": "armor_regular_assassin_34327c5d33a8",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/286"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_assassin_82696a842fb9_armor_regular_assassin_42eadf34fb23",
+      "source_item_id": "armor_regular_assassin_82696a842fb9",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/302"
+      },
+      "target_item_id": "armor_regular_assassin_42eadf34fb23",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/304"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_assassin_26e51486aae1_armor_regular_assassin_0fbd2aac076a",
+      "source_item_id": "armor_regular_assassin_26e51486aae1",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/320"
+      },
+      "target_item_id": "armor_regular_assassin_0fbd2aac076a",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/322"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_assassin_33995452b08a_armor_regular_assassin_ec5a2a950ae5",
+      "source_item_id": "armor_regular_assassin_33995452b08a",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/338"
+      },
+      "target_item_id": "armor_regular_assassin_ec5a2a950ae5",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/340"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_spear_cf12769cc2d4_armor_regular_spear_bf25c7e4edb6",
+      "source_item_id": "armor_regular_spear_cf12769cc2d4",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/420"
+      },
+      "target_item_id": "armor_regular_spear_bf25c7e4edb6",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/422"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_spear_c1c795890e8b_armor_regular_spear_bbb5b19b272f",
+      "source_item_id": "armor_regular_spear_c1c795890e8b",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/438"
+      },
+      "target_item_id": "armor_regular_spear_bbb5b19b272f",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/440"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_spear_9d88fc695694_armor_regular_spear_708ff45fc705",
+      "source_item_id": "armor_regular_spear_9d88fc695694",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/456"
+      },
+      "target_item_id": "armor_regular_spear_708ff45fc705",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/458"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_spear_0bfbd5e69a76_armor_regular_spear_ee84eb817d6f",
+      "source_item_id": "armor_regular_spear_0bfbd5e69a76",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/474"
+      },
+      "target_item_id": "armor_regular_spear_ee84eb817d6f",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/476"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_archer_15095f9ee335_armor_regular_archer_002411758b89",
+      "source_item_id": "armor_regular_archer_15095f9ee335",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/556"
+      },
+      "target_item_id": "armor_regular_archer_002411758b89",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/558"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_archer_621d6e89c37e_armor_regular_archer_aefa3455ca72",
+      "source_item_id": "armor_regular_archer_621d6e89c37e",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/574"
+      },
+      "target_item_id": "armor_regular_archer_aefa3455ca72",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/576"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_archer_ead59023531b_armor_regular_archer_5503ad22804e",
+      "source_item_id": "armor_regular_archer_ead59023531b",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/592"
+      },
+      "target_item_id": "armor_regular_archer_5503ad22804e",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/594"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_archer_366d545ad353_armor_regular_archer_c5ff8fa51967",
+      "source_item_id": "armor_regular_archer_366d545ad353",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/610"
+      },
+      "target_item_id": "armor_regular_archer_c5ff8fa51967",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/612"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_physician_bb7cd9adc128_armor_regular_physician_d681a3f62eeb",
+      "source_item_id": "armor_regular_physician_bb7cd9adc128",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/692"
+      },
+      "target_item_id": "armor_regular_physician_d681a3f62eeb",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/694"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_physician_8eceb9bd53c1_armor_regular_physician_27f11e11e354",
+      "source_item_id": "armor_regular_physician_8eceb9bd53c1",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/710"
+      },
+      "target_item_id": "armor_regular_physician_27f11e11e354",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/712"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_physician_b9a5d6dd192e_armor_regular_physician_97417c72a114",
+      "source_item_id": "armor_regular_physician_b9a5d6dd192e",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/728"
+      },
+      "target_item_id": "armor_regular_physician_97417c72a114",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/730"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_physician_c0b0801f2d84_armor_regular_physician_9f3d6ec46245",
+      "source_item_id": "armor_regular_physician_c0b0801f2d84",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/746"
+      },
+      "target_item_id": "armor_regular_physician_9f3d6ec46245",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/748"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_musician_99de24dc72df_armor_regular_musician_76de3c120f8c",
+      "source_item_id": "armor_regular_musician_99de24dc72df",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/826"
+      },
+      "target_item_id": "armor_regular_musician_76de3c120f8c",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/830"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_musician_f24fbda7f1e9_armor_regular_musician_3cd46d60044d",
+      "source_item_id": "armor_regular_musician_f24fbda7f1e9",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/845"
+      },
+      "target_item_id": "armor_regular_musician_3cd46d60044d",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/849"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_musician_3990cf3ad559_armor_regular_musician_a3495d51fd51",
+      "source_item_id": "armor_regular_musician_3990cf3ad559",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/864"
+      },
+      "target_item_id": "armor_regular_musician_a3495d51fd51",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/868"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_musician_507452663004_armor_regular_musician_ad731d294a36",
+      "source_item_id": "armor_regular_musician_507452663004",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/883"
+      },
+      "target_item_id": "armor_regular_musician_ad731d294a36",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/887"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_zhen_fengbai_629083b5e060_armor_regular_zhen_fengbai_7aa8577e1fef",
+      "source_item_id": "armor_regular_zhen_fengbai_629083b5e060",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/984"
+      },
+      "target_item_id": "armor_regular_zhen_fengbai_7aa8577e1fef",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/986"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_zhen_fengbai_01e9a5e1cd30_armor_regular_zhen_fengbai_dc12047bbd80",
+      "source_item_id": "armor_regular_zhen_fengbai_01e9a5e1cd30",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/985"
+      },
+      "target_item_id": "armor_regular_zhen_fengbai_dc12047bbd80",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/987"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_han_feiguan_0a822e05b8b8_armor_regular_han_feiguan_78c4deaa9d99",
+      "source_item_id": "armor_regular_han_feiguan_0a822e05b8b8",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1001"
+      },
+      "target_item_id": "armor_regular_han_feiguan_78c4deaa9d99",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1003"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_han_feiguan_41dd3abe1791_armor_regular_han_feiguan_3db49f4b896e",
+      "source_item_id": "armor_regular_han_feiguan_41dd3abe1791",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1002"
+      },
+      "target_item_id": "armor_regular_han_feiguan_3db49f4b896e",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1004"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_han_feiguan_577045569695_armor_regular_han_feiguan_18861b1efc76",
+      "source_item_id": "armor_regular_han_feiguan_577045569695",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1016"
+      },
+      "target_item_id": "armor_regular_han_feiguan_18861b1efc76",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1018"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_han_feiguan_3fa826e7e297_armor_regular_han_feiguan_3c06b8409de1",
+      "source_item_id": "armor_regular_han_feiguan_3fa826e7e297",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1017"
+      },
+      "target_item_id": "armor_regular_han_feiguan_3c06b8409de1",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1019"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_tan_hualing_3a8e1d6122d0_armor_regular_tan_hualing_f64926c2e62a",
+      "source_item_id": "armor_regular_tan_hualing_3a8e1d6122d0",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1092"
+      },
+      "target_item_id": "armor_regular_tan_hualing_f64926c2e62a",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1094"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_tan_hualing_9bd31154b623_armor_regular_tan_hualing_ca5d8f3d8f18",
+      "source_item_id": "armor_regular_tan_hualing_9bd31154b623",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1093"
+      },
+      "target_item_id": "armor_regular_tan_hualing_ca5d8f3d8f18",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1095"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_fighter_c2982ffb3f26_armor_regular_fighter_a06075657335",
+      "source_item_id": "armor_regular_fighter_c2982ffb3f26",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1125"
+      },
+      "target_item_id": "armor_regular_fighter_a06075657335",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1133"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_fighter_88b0fef8a0ba_armor_regular_fighter_7a7fc6792af3",
+      "source_item_id": "armor_regular_fighter_88b0fef8a0ba",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1126"
+      },
+      "target_item_id": "armor_regular_fighter_7a7fc6792af3",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1135"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_fighter_bf3d4cbae89f_armor_regular_fighter_64585fde3654",
+      "source_item_id": "armor_regular_fighter_bf3d4cbae89f",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1127"
+      },
+      "target_item_id": "armor_regular_fighter_64585fde3654",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1136"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_fighter_e6671a8f5dd8_armor_regular_fighter_465a5c901a65",
+      "source_item_id": "armor_regular_fighter_e6671a8f5dd8",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1128"
+      },
+      "target_item_id": "armor_regular_fighter_465a5c901a65",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1138"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_fighter_f639f3fc5ed2_armor_regular_fighter_3f925d960bf5",
+      "source_item_id": "armor_regular_fighter_f639f3fc5ed2",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1129"
+      },
+      "target_item_id": "armor_regular_fighter_3f925d960bf5",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1134"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_mei_liuzhen_f0bea01bb3ba_armor_regular_mei_liuzhen_abed6f7ac4c1",
+      "source_item_id": "armor_regular_mei_liuzhen_f0bea01bb3ba",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1167"
+      },
+      "target_item_id": "armor_regular_mei_liuzhen_abed6f7ac4c1",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1169"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_mei_liuzhen_a6f819b78b89_armor_regular_mei_liuzhen_e5c2698f104f",
+      "source_item_id": "armor_regular_mei_liuzhen_a6f819b78b89",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1168"
+      },
+      "target_item_id": "armor_regular_mei_liuzhen_e5c2698f104f",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1170"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_lu_fenglang_7b6fa9273887_armor_regular_lu_fenglang_25799fdebb17",
+      "source_item_id": "armor_regular_lu_fenglang_7b6fa9273887",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1186"
+      },
+      "target_item_id": "armor_regular_lu_fenglang_25799fdebb17",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1188"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_lu_fenglang_95fa0d41b10d_armor_regular_lu_fenglang_6771085bef48",
+      "source_item_id": "armor_regular_lu_fenglang_95fa0d41b10d",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1187"
+      },
+      "target_item_id": "armor_regular_lu_fenglang_6771085bef48",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1189"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_dongling_shennv_c24235abdff2_armor_regular_dongling_shennv_54823be60bab",
+      "source_item_id": "armor_regular_dongling_shennv_c24235abdff2",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1201"
+      },
+      "target_item_id": "armor_regular_dongling_shennv_54823be60bab",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1203"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_regular_dongling_shennv_c18191440f13_armor_regular_dongling_shennv_51f69225dd66",
+      "source_item_id": "armor_regular_dongling_shennv_c18191440f13",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1202"
+      },
+      "target_item_id": "armor_regular_dongling_shennv_51f69225dd66",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1204"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_merit_zhen_fengbai_ca953239de48_armor_merit_zhen_fengbai_cc7aed4b4d17",
+      "source_item_id": "armor_merit_zhen_fengbai_ca953239de48",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/60"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_cc7aed4b4d17",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/62"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_merit_zhen_fengbai_fa4c42370d0d_armor_merit_zhen_fengbai_cc3fe5332ac0",
+      "source_item_id": "armor_merit_zhen_fengbai_fa4c42370d0d",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/61"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_cc3fe5332ac0",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/63"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_merit_zhen_fengbai_5d7c04bab429_armor_merit_zhen_fengbai_deec0a7b42f7",
+      "source_item_id": "armor_merit_zhen_fengbai_5d7c04bab429",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/84"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_deec0a7b42f7",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/86"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "gloves",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_merit_zhen_fengbai_3d1d1f89ab5b_armor_merit_zhen_fengbai_b5e6d59fdd6f",
+      "source_item_id": "armor_merit_zhen_fengbai_3d1d1f89ab5b",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/85"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_b5e6d59fdd6f",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/87"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "gloves",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_merit_zhen_fengbai_17d83ef658dc_armor_merit_zhen_fengbai_df964317a188",
+      "source_item_id": "armor_merit_zhen_fengbai_17d83ef658dc",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/96"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_df964317a188",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/98"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "boots",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_130_140_armor_merit_zhen_fengbai_a526e131ed84_armor_merit_zhen_fengbai_8aa1740157dd",
+      "source_item_id": "armor_merit_zhen_fengbai_a526e131ed84",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/97"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_8aa1740157dd",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/99"
+      },
+      "source_level": 130,
+      "target_level": 140,
+      "equipment_category": "boots",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank4",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_blade_f1a052b1e6d8_armor_regular_blade_3a2be1be6fcb",
+      "source_item_id": "armor_regular_blade_f1a052b1e6d8",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/14"
+      },
+      "target_item_id": "armor_regular_blade_3a2be1be6fcb",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/17"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_blade_2028df192b19_armor_regular_blade_56749e15c554",
+      "source_item_id": "armor_regular_blade_2028df192b19",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/32"
+      },
+      "target_item_id": "armor_regular_blade_56749e15c554",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/35"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_blade_0c3f6c691c6f_armor_regular_blade_16c8ee8213ff",
+      "source_item_id": "armor_regular_blade_0c3f6c691c6f",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/50"
+      },
+      "target_item_id": "armor_regular_blade_16c8ee8213ff",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/53"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_blade_c1d9fa5c07f5_armor_regular_blade_a35f37b34f89",
+      "source_item_id": "armor_regular_blade_c1d9fa5c07f5",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/68"
+      },
+      "target_item_id": "armor_regular_blade_a35f37b34f89",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/71"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_sword_8355ef4343d7_armor_regular_sword_fcffbebc9a2d",
+      "source_item_id": "armor_regular_sword_8355ef4343d7",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/150"
+      },
+      "target_item_id": "armor_regular_sword_fcffbebc9a2d",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/153"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_sword_3e1300ca140d_armor_regular_sword_0bfac97f642c",
+      "source_item_id": "armor_regular_sword_3e1300ca140d",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/168"
+      },
+      "target_item_id": "armor_regular_sword_0bfac97f642c",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/171"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_sword_8384d9eaeb81_armor_regular_sword_6d18588b11ab",
+      "source_item_id": "armor_regular_sword_8384d9eaeb81",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/186"
+      },
+      "target_item_id": "armor_regular_sword_6d18588b11ab",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/189"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_sword_5816b124d898_armor_regular_sword_7eb9e9ac7a1d",
+      "source_item_id": "armor_regular_sword_5816b124d898",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/204"
+      },
+      "target_item_id": "armor_regular_sword_7eb9e9ac7a1d",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/207"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_assassin_34327c5d33a8_armor_regular_assassin_49f90d3c0723",
+      "source_item_id": "armor_regular_assassin_34327c5d33a8",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/286"
+      },
+      "target_item_id": "armor_regular_assassin_49f90d3c0723",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/289"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_assassin_42eadf34fb23_armor_regular_assassin_a60918341174",
+      "source_item_id": "armor_regular_assassin_42eadf34fb23",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/304"
+      },
+      "target_item_id": "armor_regular_assassin_a60918341174",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/307"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_assassin_0fbd2aac076a_armor_regular_assassin_c5a851b46c28",
+      "source_item_id": "armor_regular_assassin_0fbd2aac076a",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/322"
+      },
+      "target_item_id": "armor_regular_assassin_c5a851b46c28",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/325"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_assassin_ec5a2a950ae5_armor_regular_assassin_22866429f9b3",
+      "source_item_id": "armor_regular_assassin_ec5a2a950ae5",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/340"
+      },
+      "target_item_id": "armor_regular_assassin_22866429f9b3",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/343"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_spear_bf25c7e4edb6_armor_regular_spear_8239369ca7e1",
+      "source_item_id": "armor_regular_spear_bf25c7e4edb6",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/422"
+      },
+      "target_item_id": "armor_regular_spear_8239369ca7e1",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/425"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_spear_bbb5b19b272f_armor_regular_spear_2269d4a9f04d",
+      "source_item_id": "armor_regular_spear_bbb5b19b272f",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/440"
+      },
+      "target_item_id": "armor_regular_spear_2269d4a9f04d",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/443"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_spear_708ff45fc705_armor_regular_spear_48243df792e5",
+      "source_item_id": "armor_regular_spear_708ff45fc705",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/458"
+      },
+      "target_item_id": "armor_regular_spear_48243df792e5",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/461"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_spear_ee84eb817d6f_armor_regular_spear_af24a7fb4d11",
+      "source_item_id": "armor_regular_spear_ee84eb817d6f",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/476"
+      },
+      "target_item_id": "armor_regular_spear_af24a7fb4d11",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/479"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_archer_002411758b89_armor_regular_archer_030c7d796920",
+      "source_item_id": "armor_regular_archer_002411758b89",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/558"
+      },
+      "target_item_id": "armor_regular_archer_030c7d796920",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/561"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_archer_aefa3455ca72_armor_regular_archer_9f9adbc9b48a",
+      "source_item_id": "armor_regular_archer_aefa3455ca72",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/576"
+      },
+      "target_item_id": "armor_regular_archer_9f9adbc9b48a",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/579"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_archer_5503ad22804e_armor_regular_archer_5634773d1c76",
+      "source_item_id": "armor_regular_archer_5503ad22804e",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/594"
+      },
+      "target_item_id": "armor_regular_archer_5634773d1c76",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/597"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_archer_c5ff8fa51967_armor_regular_archer_2ae62147f96b",
+      "source_item_id": "armor_regular_archer_c5ff8fa51967",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/612"
+      },
+      "target_item_id": "armor_regular_archer_2ae62147f96b",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/615"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_physician_d681a3f62eeb_armor_regular_physician_e55de7e49e03",
+      "source_item_id": "armor_regular_physician_d681a3f62eeb",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/694"
+      },
+      "target_item_id": "armor_regular_physician_e55de7e49e03",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/697"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_physician_27f11e11e354_armor_regular_physician_64ac126ff4ea",
+      "source_item_id": "armor_regular_physician_27f11e11e354",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/712"
+      },
+      "target_item_id": "armor_regular_physician_64ac126ff4ea",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/715"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_physician_97417c72a114_armor_regular_physician_4597de62d6ff",
+      "source_item_id": "armor_regular_physician_97417c72a114",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/730"
+      },
+      "target_item_id": "armor_regular_physician_4597de62d6ff",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/733"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_physician_9f3d6ec46245_armor_regular_physician_ca9da9997d48",
+      "source_item_id": "armor_regular_physician_9f3d6ec46245",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/748"
+      },
+      "target_item_id": "armor_regular_physician_ca9da9997d48",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/751"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_musician_76de3c120f8c_armor_regular_musician_1bc5d4315984",
+      "source_item_id": "armor_regular_musician_76de3c120f8c",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/830"
+      },
+      "target_item_id": "armor_regular_musician_1bc5d4315984",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/833"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_musician_3cd46d60044d_armor_regular_musician_13f8c047256e",
+      "source_item_id": "armor_regular_musician_3cd46d60044d",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/849"
+      },
+      "target_item_id": "armor_regular_musician_13f8c047256e",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/852"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_musician_a3495d51fd51_armor_regular_musician_37f152aa97be",
+      "source_item_id": "armor_regular_musician_a3495d51fd51",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/868"
+      },
+      "target_item_id": "armor_regular_musician_37f152aa97be",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/871"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_musician_ad731d294a36_armor_regular_musician_545beadf911d",
+      "source_item_id": "armor_regular_musician_ad731d294a36",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/887"
+      },
+      "target_item_id": "armor_regular_musician_545beadf911d",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/890"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_zhen_fengbai_7aa8577e1fef_armor_regular_zhen_fengbai_95e8c2c0aa38",
+      "source_item_id": "armor_regular_zhen_fengbai_7aa8577e1fef",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/986"
+      },
+      "target_item_id": "armor_regular_zhen_fengbai_95e8c2c0aa38",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/988"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_zhen_fengbai_dc12047bbd80_armor_regular_zhen_fengbai_79a0e44159a3",
+      "source_item_id": "armor_regular_zhen_fengbai_dc12047bbd80",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/987"
+      },
+      "target_item_id": "armor_regular_zhen_fengbai_79a0e44159a3",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/989"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_han_feiguan_78c4deaa9d99_armor_regular_han_feiguan_3bd2d367690f",
+      "source_item_id": "armor_regular_han_feiguan_78c4deaa9d99",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1003"
+      },
+      "target_item_id": "armor_regular_han_feiguan_3bd2d367690f",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1005"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_han_feiguan_18861b1efc76_armor_regular_han_feiguan_70afc01fd1fc",
+      "source_item_id": "armor_regular_han_feiguan_18861b1efc76",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1018"
+      },
+      "target_item_id": "armor_regular_han_feiguan_70afc01fd1fc",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1020"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_tan_hualing_f64926c2e62a_armor_regular_tan_hualing_d459231b3275",
+      "source_item_id": "armor_regular_tan_hualing_f64926c2e62a",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1094"
+      },
+      "target_item_id": "armor_regular_tan_hualing_d459231b3275",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1096"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_fighter_a06075657335_armor_regular_fighter_60bc2db30df6",
+      "source_item_id": "armor_regular_fighter_a06075657335",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1133"
+      },
+      "target_item_id": "armor_regular_fighter_60bc2db30df6",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1141"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_fighter_7a7fc6792af3_armor_regular_fighter_5b4d4e18e03e",
+      "source_item_id": "armor_regular_fighter_7a7fc6792af3",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1135"
+      },
+      "target_item_id": "armor_regular_fighter_5b4d4e18e03e",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1143"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_fighter_64585fde3654_armor_regular_fighter_4230db982df6",
+      "source_item_id": "armor_regular_fighter_64585fde3654",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1136"
+      },
+      "target_item_id": "armor_regular_fighter_4230db982df6",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1147"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_fighter_465a5c901a65_armor_regular_fighter_2cc52a1a5a90",
+      "source_item_id": "armor_regular_fighter_465a5c901a65",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1138"
+      },
+      "target_item_id": "armor_regular_fighter_2cc52a1a5a90",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1149"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_mei_liuzhen_abed6f7ac4c1_armor_regular_mei_liuzhen_e364c7b0c092",
+      "source_item_id": "armor_regular_mei_liuzhen_abed6f7ac4c1",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1169"
+      },
+      "target_item_id": "armor_regular_mei_liuzhen_e364c7b0c092",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1171"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_mei_liuzhen_e5c2698f104f_armor_regular_mei_liuzhen_7f2b9bbc67af",
+      "source_item_id": "armor_regular_mei_liuzhen_e5c2698f104f",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1170"
+      },
+      "target_item_id": "armor_regular_mei_liuzhen_7f2b9bbc67af",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1172"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_lu_fenglang_25799fdebb17_armor_regular_lu_fenglang_0b35e49dbb9e",
+      "source_item_id": "armor_regular_lu_fenglang_25799fdebb17",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1188"
+      },
+      "target_item_id": "armor_regular_lu_fenglang_0b35e49dbb9e",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1190"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_dongling_shennv_54823be60bab_armor_regular_dongling_shennv_6e6c6801ab87",
+      "source_item_id": "armor_regular_dongling_shennv_54823be60bab",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1203"
+      },
+      "target_item_id": "armor_regular_dongling_shennv_6e6c6801ab87",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1205"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_regular_dongling_shennv_51f69225dd66_armor_regular_dongling_shennv_d193863ecf04",
+      "source_item_id": "armor_regular_dongling_shennv_51f69225dd66",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1204"
+      },
+      "target_item_id": "armor_regular_dongling_shennv_d193863ecf04",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1206"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_merit_zhen_fengbai_cc7aed4b4d17_armor_merit_zhen_fengbai_32b95563f131",
+      "source_item_id": "armor_merit_zhen_fengbai_cc7aed4b4d17",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/62"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_32b95563f131",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/64"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_merit_zhen_fengbai_cc3fe5332ac0_armor_merit_zhen_fengbai_5945b19bb95c",
+      "source_item_id": "armor_merit_zhen_fengbai_cc3fe5332ac0",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/63"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_5945b19bb95c",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/65"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_merit_zhen_fengbai_b5e73ed6acc5_armor_merit_zhen_fengbai_2b4712cb4dbb",
+      "source_item_id": "armor_merit_zhen_fengbai_b5e73ed6acc5",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/74"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_2b4712cb4dbb",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/76"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "inner_armor",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 2
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_merit_zhen_fengbai_eefda9ef9f58_armor_merit_zhen_fengbai_428596aa3034",
+      "source_item_id": "armor_merit_zhen_fengbai_eefda9ef9f58",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/75"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_428596aa3034",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/77"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "inner_armor",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 2
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_merit_zhen_fengbai_deec0a7b42f7_armor_merit_zhen_fengbai_a8cd0c35ecb3",
+      "source_item_id": "armor_merit_zhen_fengbai_deec0a7b42f7",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/86"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_a8cd0c35ecb3",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/88"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "gloves",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_merit_zhen_fengbai_b5e6d59fdd6f_armor_merit_zhen_fengbai_8d931ac700cd",
+      "source_item_id": "armor_merit_zhen_fengbai_b5e6d59fdd6f",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/87"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_8d931ac700cd",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/89"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "gloves",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_merit_zhen_fengbai_df964317a188_armor_merit_zhen_fengbai_a24ca48d3354",
+      "source_item_id": "armor_merit_zhen_fengbai_df964317a188",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/98"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_a24ca48d3354",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/100"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "boots",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_140_150_armor_merit_zhen_fengbai_8aa1740157dd_armor_merit_zhen_fengbai_e935941a43ba",
+      "source_item_id": "armor_merit_zhen_fengbai_8aa1740157dd",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/99"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_e935941a43ba",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/101"
+      },
+      "source_level": 140,
+      "target_level": 150,
+      "equipment_category": "boots",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank5",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_blade_3a2be1be6fcb_armor_regular_blade_8594908363c5",
+      "source_item_id": "armor_regular_blade_3a2be1be6fcb",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/17"
+      },
+      "target_item_id": "armor_regular_blade_8594908363c5",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/18"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_blade_56749e15c554_armor_regular_blade_70d34882cbac",
+      "source_item_id": "armor_regular_blade_56749e15c554",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/35"
+      },
+      "target_item_id": "armor_regular_blade_70d34882cbac",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/36"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_blade_16c8ee8213ff_armor_regular_blade_935b2bf7d1d3",
+      "source_item_id": "armor_regular_blade_16c8ee8213ff",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/53"
+      },
+      "target_item_id": "armor_regular_blade_935b2bf7d1d3",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/54"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_blade_a35f37b34f89_armor_regular_blade_25e5ae694fb5",
+      "source_item_id": "armor_regular_blade_a35f37b34f89",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/71"
+      },
+      "target_item_id": "armor_regular_blade_25e5ae694fb5",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/72"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_sword_fcffbebc9a2d_armor_regular_sword_505a574a12d6",
+      "source_item_id": "armor_regular_sword_fcffbebc9a2d",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/153"
+      },
+      "target_item_id": "armor_regular_sword_505a574a12d6",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/154"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_sword_0bfac97f642c_armor_regular_sword_7630d4fc4258",
+      "source_item_id": "armor_regular_sword_0bfac97f642c",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/171"
+      },
+      "target_item_id": "armor_regular_sword_7630d4fc4258",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/172"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_sword_6d18588b11ab_armor_regular_sword_a55892089c06",
+      "source_item_id": "armor_regular_sword_6d18588b11ab",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/189"
+      },
+      "target_item_id": "armor_regular_sword_a55892089c06",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/190"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_sword_7eb9e9ac7a1d_armor_regular_sword_c81c51f86752",
+      "source_item_id": "armor_regular_sword_7eb9e9ac7a1d",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/207"
+      },
+      "target_item_id": "armor_regular_sword_c81c51f86752",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/208"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_assassin_49f90d3c0723_armor_regular_assassin_5c1ef6062b3b",
+      "source_item_id": "armor_regular_assassin_49f90d3c0723",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/289"
+      },
+      "target_item_id": "armor_regular_assassin_5c1ef6062b3b",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/290"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_assassin_a60918341174_armor_regular_assassin_f8f7b6208409",
+      "source_item_id": "armor_regular_assassin_a60918341174",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/307"
+      },
+      "target_item_id": "armor_regular_assassin_f8f7b6208409",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/308"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_assassin_c5a851b46c28_armor_regular_assassin_087284320641",
+      "source_item_id": "armor_regular_assassin_c5a851b46c28",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/325"
+      },
+      "target_item_id": "armor_regular_assassin_087284320641",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/326"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_assassin_22866429f9b3_armor_regular_assassin_8f606c31258c",
+      "source_item_id": "armor_regular_assassin_22866429f9b3",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/343"
+      },
+      "target_item_id": "armor_regular_assassin_8f606c31258c",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/344"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_spear_8239369ca7e1_armor_regular_spear_ce7cfe4a8d2b",
+      "source_item_id": "armor_regular_spear_8239369ca7e1",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/425"
+      },
+      "target_item_id": "armor_regular_spear_ce7cfe4a8d2b",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/426"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_spear_2269d4a9f04d_armor_regular_spear_754147d75e3e",
+      "source_item_id": "armor_regular_spear_2269d4a9f04d",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/443"
+      },
+      "target_item_id": "armor_regular_spear_754147d75e3e",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/444"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_spear_48243df792e5_armor_regular_spear_6ac67075d597",
+      "source_item_id": "armor_regular_spear_48243df792e5",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/461"
+      },
+      "target_item_id": "armor_regular_spear_6ac67075d597",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/462"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_spear_af24a7fb4d11_armor_regular_spear_50cb7487ceb7",
+      "source_item_id": "armor_regular_spear_af24a7fb4d11",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/479"
+      },
+      "target_item_id": "armor_regular_spear_50cb7487ceb7",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/480"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_archer_030c7d796920_armor_regular_archer_1b0cafab84a6",
+      "source_item_id": "armor_regular_archer_030c7d796920",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/561"
+      },
+      "target_item_id": "armor_regular_archer_1b0cafab84a6",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/562"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_archer_9f9adbc9b48a_armor_regular_archer_5ee704c36b08",
+      "source_item_id": "armor_regular_archer_9f9adbc9b48a",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/579"
+      },
+      "target_item_id": "armor_regular_archer_5ee704c36b08",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/580"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_archer_5634773d1c76_armor_regular_archer_80954a6681e7",
+      "source_item_id": "armor_regular_archer_5634773d1c76",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/597"
+      },
+      "target_item_id": "armor_regular_archer_80954a6681e7",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/598"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_archer_2ae62147f96b_armor_regular_archer_7838246409a1",
+      "source_item_id": "armor_regular_archer_2ae62147f96b",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/615"
+      },
+      "target_item_id": "armor_regular_archer_7838246409a1",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/616"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_physician_e55de7e49e03_armor_regular_physician_5a1bf63940e9",
+      "source_item_id": "armor_regular_physician_e55de7e49e03",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/697"
+      },
+      "target_item_id": "armor_regular_physician_5a1bf63940e9",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/698"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_physician_64ac126ff4ea_armor_regular_physician_0e3b64c733c0",
+      "source_item_id": "armor_regular_physician_64ac126ff4ea",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/715"
+      },
+      "target_item_id": "armor_regular_physician_0e3b64c733c0",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/716"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_physician_4597de62d6ff_armor_regular_physician_c911850d3589",
+      "source_item_id": "armor_regular_physician_4597de62d6ff",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/733"
+      },
+      "target_item_id": "armor_regular_physician_c911850d3589",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/734"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_physician_ca9da9997d48_armor_regular_physician_759d7f9b1d75",
+      "source_item_id": "armor_regular_physician_ca9da9997d48",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/751"
+      },
+      "target_item_id": "armor_regular_physician_759d7f9b1d75",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/752"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_musician_1bc5d4315984_armor_regular_musician_948635ae34d1",
+      "source_item_id": "armor_regular_musician_1bc5d4315984",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/833"
+      },
+      "target_item_id": "armor_regular_musician_948635ae34d1",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/834"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_musician_13f8c047256e_armor_regular_musician_b9b6136b9258",
+      "source_item_id": "armor_regular_musician_13f8c047256e",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/852"
+      },
+      "target_item_id": "armor_regular_musician_b9b6136b9258",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/853"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_musician_37f152aa97be_armor_regular_musician_0ad635a166c2",
+      "source_item_id": "armor_regular_musician_37f152aa97be",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/871"
+      },
+      "target_item_id": "armor_regular_musician_0ad635a166c2",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/872"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_musician_545beadf911d_armor_regular_musician_7bc322b2ad85",
+      "source_item_id": "armor_regular_musician_545beadf911d",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/890"
+      },
+      "target_item_id": "armor_regular_musician_7bc322b2ad85",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/891"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_zhen_fengbai_95e8c2c0aa38_armor_regular_zhen_fengbai_ce66037b1eeb",
+      "source_item_id": "armor_regular_zhen_fengbai_95e8c2c0aa38",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/988"
+      },
+      "target_item_id": "armor_regular_zhen_fengbai_ce66037b1eeb",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/990"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_zhen_fengbai_79a0e44159a3_armor_regular_zhen_fengbai_97eb229dbd39",
+      "source_item_id": "armor_regular_zhen_fengbai_79a0e44159a3",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/989"
+      },
+      "target_item_id": "armor_regular_zhen_fengbai_97eb229dbd39",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/991"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_han_feiguan_3bd2d367690f_armor_regular_han_feiguan_ad30798c352e",
+      "source_item_id": "armor_regular_han_feiguan_3bd2d367690f",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1005"
+      },
+      "target_item_id": "armor_regular_han_feiguan_ad30798c352e",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1006"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_han_feiguan_70afc01fd1fc_armor_regular_han_feiguan_0a85eecbd9be",
+      "source_item_id": "armor_regular_han_feiguan_70afc01fd1fc",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1020"
+      },
+      "target_item_id": "armor_regular_han_feiguan_0a85eecbd9be",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1021"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_tan_hualing_d459231b3275_armor_regular_tan_hualing_26e083aa6287",
+      "source_item_id": "armor_regular_tan_hualing_d459231b3275",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1096"
+      },
+      "target_item_id": "armor_regular_tan_hualing_26e083aa6287",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1097"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_fighter_60bc2db30df6_armor_regular_fighter_374ae94495b4",
+      "source_item_id": "armor_regular_fighter_60bc2db30df6",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1141"
+      },
+      "target_item_id": "armor_regular_fighter_374ae94495b4",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1144"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_fighter_5b4d4e18e03e_armor_regular_fighter_5013bb558ee0",
+      "source_item_id": "armor_regular_fighter_5b4d4e18e03e",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1143"
+      },
+      "target_item_id": "armor_regular_fighter_5013bb558ee0",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1145"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_fighter_4230db982df6_armor_regular_fighter_394f08d6ac6b",
+      "source_item_id": "armor_regular_fighter_4230db982df6",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1147"
+      },
+      "target_item_id": "armor_regular_fighter_394f08d6ac6b",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1150"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_fighter_2cc52a1a5a90_armor_regular_fighter_ffe274b396c4",
+      "source_item_id": "armor_regular_fighter_2cc52a1a5a90",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1149"
+      },
+      "target_item_id": "armor_regular_fighter_ffe274b396c4",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1151"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_mei_liuzhen_e364c7b0c092_armor_regular_mei_liuzhen_b11447f0e0cd",
+      "source_item_id": "armor_regular_mei_liuzhen_e364c7b0c092",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1171"
+      },
+      "target_item_id": "armor_regular_mei_liuzhen_b11447f0e0cd",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1173"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_mei_liuzhen_7f2b9bbc67af_armor_regular_mei_liuzhen_b364a8e81256",
+      "source_item_id": "armor_regular_mei_liuzhen_7f2b9bbc67af",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1172"
+      },
+      "target_item_id": "armor_regular_mei_liuzhen_b364a8e81256",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1174"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_lu_fenglang_0b35e49dbb9e_armor_regular_lu_fenglang_1270982d4981",
+      "source_item_id": "armor_regular_lu_fenglang_0b35e49dbb9e",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1190"
+      },
+      "target_item_id": "armor_regular_lu_fenglang_1270982d4981",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1191"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_regular_dongling_shennv_6e6c6801ab87_armor_regular_dongling_shennv_c9a7b007dba2",
+      "source_item_id": "armor_regular_dongling_shennv_6e6c6801ab87",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1205"
+      },
+      "target_item_id": "armor_regular_dongling_shennv_c9a7b007dba2",
+      "target_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1207"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": false,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_merit_zhen_fengbai_32b95563f131_armor_merit_zhen_fengbai_a92d30d15b00",
+      "source_item_id": "armor_merit_zhen_fengbai_32b95563f131",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/64"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_a92d30d15b00",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/66"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_merit_zhen_fengbai_5945b19bb95c_armor_merit_zhen_fengbai_0a3d0e0e52f2",
+      "source_item_id": "armor_merit_zhen_fengbai_5945b19bb95c",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/65"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_0a3d0e0e52f2",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/67"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "body",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_merit_zhen_fengbai_2b4712cb4dbb_armor_merit_zhen_fengbai_a26358600d4b",
+      "source_item_id": "armor_merit_zhen_fengbai_2b4712cb4dbb",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/76"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_a26358600d4b",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/78"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "inner_armor",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 2
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_merit_zhen_fengbai_428596aa3034_armor_merit_zhen_fengbai_db50679bf073",
+      "source_item_id": "armor_merit_zhen_fengbai_428596aa3034",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/77"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_db50679bf073",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/79"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "inner_armor",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 2
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_merit_zhen_fengbai_a8cd0c35ecb3_armor_merit_zhen_fengbai_139587ccc266",
+      "source_item_id": "armor_merit_zhen_fengbai_a8cd0c35ecb3",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/88"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_139587ccc266",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/90"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "gloves",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_merit_zhen_fengbai_8d931ac700cd_armor_merit_zhen_fengbai_cf071377913c",
+      "source_item_id": "armor_merit_zhen_fengbai_8d931ac700cd",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/89"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_cf071377913c",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/91"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "gloves",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_merit_zhen_fengbai_a24ca48d3354_armor_merit_zhen_fengbai_23c9a7effcf3",
+      "source_item_id": "armor_merit_zhen_fengbai_a24ca48d3354",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/100"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_23c9a7effcf3",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/102"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "boots",
+      "true_equipment": false,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    },
+    {
+      "recipe_id": "ordinary_armor_transfer_150_160_armor_merit_zhen_fengbai_e935941a43ba_armor_merit_zhen_fengbai_bda56a803c67",
+      "source_item_id": "armor_merit_zhen_fengbai_e935941a43ba",
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/101"
+      },
+      "target_item_id": "armor_merit_zhen_fengbai_bda56a803c67",
+      "target_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/103"
+      },
+      "source_level": 150,
+      "target_level": 160,
+      "equipment_category": "boots",
+      "true_equipment": true,
+      "merit_equipment": true,
+      "consumed_item_id": "ordinary_armor_transfer_rank6",
+      "consumed_quantity": 1,
+      "silver_fee": 0,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "required_target_synthesis_entries": 4
+    }
+  ],
+  "unmatched_source_definitions": [
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/89"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/99"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/113"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/123"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/225"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/235"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/249"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/259"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/361"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/371"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/385"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/395"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/497"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/507"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/521"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/531"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/633"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/643"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/657"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/667"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/769"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/779"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/793"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/803"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1038"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1048"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1062"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1072"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1130"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1131"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1132"
+      },
+      "target_level": 140,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/72"
+      },
+      "target_level": 140,
+      "reason": "rank4_source_no_inner_armor_two_synthesis_exception"
+    },
+    {
+      "source_item_ref": {
+        "file": "武勋防具基础定义.v1.json",
+        "pointer": "/items/73"
+      },
+      "target_level": 140,
+      "reason": "rank4_source_no_inner_armor_two_synthesis_exception"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/33"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/51"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/69"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/151"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/169"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/187"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/205"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/287"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/305"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/323"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/341"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/423"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/441"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/459"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/477"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/559"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/577"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/595"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/613"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/695"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/713"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/731"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/749"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/831"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/850"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/869"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/888"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1004"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1019"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1095"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1134"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1139"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1137"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1189"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1210"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1211"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1212"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1213"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1214"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1215"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1216"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1217"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1218"
+      },
+      "target_level": 150,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/15"
+      },
+      "target_level": 160,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    },
+    {
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1206"
+      },
+      "target_level": 160,
+      "reason": "no_unique_formal_target_with_exact_adopted_compatibility"
+    }
+  ],
+  "service_policy": {
+    "planned_service_id": "npc_daojianxiao_ordinary_armor_enhancement_transfer",
+    "registered": false,
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "qualification": "精确配方两实例均在本人装备背包，实例ID及血统不同且无占用，角色满足双定义全部等级/转职/职业/路线/体型/武勋资格；原库存/完整两实例/血统/绑定/来源收据及修订合法。存活脱战空闲，无挑战/传送/未结算战斗队列，NPC同图可用且2.5米内。",
+    "source_enhancement_range": [
+      11,
+      15
+    ],
+    "target_enhancement_range": [
+      0,
+      15
+    ],
+    "same_evolution_tier_required": true,
+    "temporary_display_boosts": "两实例临时强化/元素显示提升均须为空；其他未知/未决非空成长拒绝，不靠销毁源修复坏状态。",
+    "target_synthesis": "四式仅非内甲且4条；五/六式inner_armor2条，body/boots/gloves4条，均须连续有效且本服务owner成功凭证合法。不要求复制来源合成。"
+  },
+  "field_transform": {
+    "target_identity": "目标实例ID/物品定义/血统/角色绑定/位置/真假/武勋保持，不新增锁定标志；不把源血统合并到目标。",
+    "enhancement": "目标enhancement直接等于源真实enhancement，不取max；源11覆盖目标15结果11。",
+    "element": "源element_attribute为null则目标写null；非空则按本合同typed证明边导入精确元素/真实stage，目标origin_receipt_id写本次转移成功收据，不复制原source receipt为目标普通加工凭证。",
+    "preserved_target_fields": [
+      "synthesis_entries",
+      "awakening_stage",
+      "four_divine_state",
+      "jade_attributes",
+      "evolution_tier"
+    ],
+    "preserved_proofs": "保持目标原非转移字段及其原成功凭证；觉醒可不同但结果仍核四神觉醒前置，奇玉/进化按目标定义容量校验。源对应字段不转、不授新权。",
+    "source_consumption": "消耗符1及源实例，源不落地、不进仓、不返材料，不保留可再次转移活源副本。",
+    "projection": "按目标最终定义和最终真实成长重算全部贡献一次，不把源防御/障力/觉醒等整件属性缓存加到目标；生命等当前资源只下裁不补。"
+  },
+  "provenance_policy": {
+    "allowed_typed_field": "element_attribute only",
+    "proof": "转移成功收据不可变记录原源实例ID/血统/定义/修订、源精确元素值和其原成功证明、目标ID/血统/定义/原修订及配方/符消耗边。源原证明可为58属性成功或本合同先前合法转移成功；每层需可验证，拒绝循环/缺节点/错角色/重复消耗边。",
+    "target_load": "目标origin为本转移成功收据时，校验同角色/目标血统和最终元素/阶段，再沿typed边核原源证明与一次源消费；不能用source不再存在来跳过验证，源已销毁仍保存不可变证明。",
+    "not_authorized": "仅授权本次元素导入，不使源合成/觉醒/四神/奇玉/进化收据适用于目标，不复活源，不按共享收据合并血统。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "target_instance_id",
+      "target_revision",
+      "inventory_revision",
+      "character_revision",
+      "recipe_id",
+      "recipe_version",
+      "transfer_material_stack_id",
+      "command_id"
+    ],
+    "preview": "列源永久消耗、符1、费用0、目标强化可能下降/原元素可能清除和全部保留字段及最终派生；确认绑定双实例修订，缺完整派生或schema不可报价提交。",
+    "commit": "房主按角色串行先查同命令结果，后查源仍存在；原双实例及原库存必须合法，副本扣符/销毁源并覆盖目标两字段，生成typed证明，校验完整结果schema/目标全部凭证/最终格重后一次提交资源/实例/血统消耗边/修订/成功收据。",
+    "random": "100%必成，不抽RNG；不代表免资格或费用校验。",
+    "invalid_or_cancel": "不同部位/职业/路线/体型/真假/武勋、错档/错符、源≤10、进化不同、目标合成不足、坏schema/凭证/陈旧修订或取消均无资源/实例/RNG/修订变化；不得用消费源使原超重/坏库存变合法。",
+    "deduplication": "同命令同参数返回原成功收据，先于源存在校验；同ID异参数拒绝，重试不因源已消耗而再造或再扣符。",
+    "save_failure": "保留已提交内存及未保存标记，只重存同结果，不回滚后重做/复制源；LAN由房主执行同一命令。"
+  },
+  "material_acquisition": {
+    "status": "design_pending_shop_registration",
+    "planned_service_id": "npc_daojianxiao_ordinary_armor_transfer_materials",
+    "npc_id": "npc_daojianxiao",
+    "class_ids": [
+      "archer",
+      "assassin",
+      "blade",
+      "dongling_shennv",
+      "fighter",
+      "han_feiguan",
+      "lu_fenglang",
+      "mei_liuzhen",
+      "musician",
+      "physician",
+      "spear",
+      "sword",
+      "tan_hualing",
+      "zhen_fengbai"
+    ],
+    "quantity_range": [
+      1,
+      99
+    ],
+    "stock": "unlimited",
+    "transaction": "按各符minimum_purchase_level/rank检查角色实际进度，存活脱战空闲、NPC/会话/同图2.5米有效；原库存合法后验最终银两/格重，扣随身银两/入包/修订/收据原子提交，重复返原结果，保存失败仅重存。"
+  },
+  "implementation_gate": "完整根实例/档案schema、其他药品/元素显示/其他元素、完整派生/外观与活动经济/服务联审仍待；精确配方设计不代表可运行，世界服务不注册。",
+  "same_lineage_true_conversion_owner_ref": {
+    "file": "普通防具提真.v1.json",
+    "pointer": "/same_lineage_replacement_provenance"
+  },
+  "enhancement_boost_guard_owner_ref": {
+    "file": "普通防具附加提升.v1.json",
+    "pointer": "/processing_guard"
+  },
+  "instance_growth_schema_owner_ref": {
+    "file": "普通防具成长.v1.json",
+    "pointer": ""
+  },
+  "full_instance_owner_ref": {
+    "file": "普通防具实例.v1.json",
+    "pointer": ""
+  }
+}

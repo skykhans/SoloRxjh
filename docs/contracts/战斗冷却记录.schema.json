@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:combat-cooldown-record:v1",
+  "$comment": "单个尚未到期的战斗/物品冷却记录。组身份/原触发授权/原冻结上限与逐步扣时另验；不是完整timers根，反气功仍由其既有owner持有。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "remaining_steps",
+    "trigger_event_id"
+  ],
+  "properties": {
+    "remaining_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "trigger_event_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  }
+}

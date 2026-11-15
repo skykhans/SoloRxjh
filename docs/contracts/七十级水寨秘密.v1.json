@@ -1,0 +1,344 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/70/text"
+    },
+    "published": "70刀剑笑/15碎片/两次掌门/湖卫兵，四步，90分钟历练1.5倍，一次。",
+    "local": "14职业/三路线/rank0无其他前任务；图交换/检查保原物和复用警备兵为明确本地衔接，个人100%0克99堆。复用71项目铁锤，不新增怪/home。"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63791-022",
+    "source_reference_id": "QREF-63791-022",
+    "name": "水寨的秘密",
+    "minimum_level": 70,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_daojianxiao",
+    "npc_map_id": "hyunbo_town",
+    "interaction_anchor_id": "hyunbo_smith_service",
+    "service_id": "dao70_map",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "acceptance": "本人存活脱战空闲无挑战，70级/14职业/三路线/rank0，刀剑笑原map锚服务<=2500mm，未接未完成新attempt stage1，无初始物费用/其他前任务。南明湖公共60级/rank3另核，接取不解锁。",
+    "stages": [
+      {
+        "stage_index": 1,
+        "npc_id": "npc_daojianxiao",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "hyunbo_smith_service",
+        "service_id": "dao70_map",
+        "consume": [
+          {
+            "item_id": "quest_lake70_map_fragment",
+            "quantity": 15
+          }
+        ],
+        "grant": [
+          {
+            "item_id": "quest_lake70_mysterious_map",
+            "quantity": 1
+          }
+        ],
+        "grant_reason": "quest_exchange",
+        "requires_prior_stage_receipt_index": null,
+        "next_stage_index": 2,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 2,
+        "npc_id": "npc_hyunbo_master",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "hyunbo_master_service",
+        "service_id": "master70_inspect",
+        "consume": [],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": 1,
+        "next_stage_index": 3,
+        "apply_final_reward": false,
+        "required_real_items_before": [
+          {
+            "item_id": "quest_lake70_mysterious_map",
+            "quantity": 1
+          }
+        ],
+        "retain_exact": [
+          {
+            "item_id": "quest_lake70_mysterious_map",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "stage_index": 3,
+        "npc_id": "npc_hyunbo_master",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "hyunbo_master_service",
+        "service_id": "master70_decode",
+        "consume": [
+          {
+            "item_id": "quest_lake70_mysterious_map",
+            "quantity": 1
+          }
+        ],
+        "grant": [
+          {
+            "item_id": "quest_lake70_secret_map",
+            "quantity": 1
+          }
+        ],
+        "grant_reason": "quest_exchange",
+        "requires_prior_stage_receipt_index": 2,
+        "next_stage_index": 4,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 4,
+        "npc_id": "project_npc_nanming_lake_patrol117",
+        "map_id": "nanming_lake",
+        "interaction_anchor_id": "nanming_lake_patrol117_service",
+        "service_id": "lake70_secret_delivery",
+        "consume": [
+          {
+            "item_id": "quest_lake70_secret_map",
+            "quantity": 1
+          }
+        ],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": 3,
+        "next_stage_index": null,
+        "apply_final_reward": true
+      }
+    ],
+    "inventory_by_stage": {
+      "1": {
+        "required_exact": {},
+        "collection_caps": {
+          "quest_lake70_map_fragment": 15
+        }
+      },
+      "2": {
+        "required_exact": {
+          "quest_lake70_mysterious_map": 1
+        }
+      },
+      "3": {
+        "required_exact": {
+          "quest_lake70_mysterious_map": 1
+        }
+      },
+      "4": {
+        "required_exact": {
+          "quest_lake70_secret_map": 1
+        }
+      }
+    },
+    "source_stage_interpretation": "原四步保序：15碎片交刀剑笑→掌门→神秘地图交掌门→秘密地图交南明湖卫兵。项目明确刀剑笑拼成神秘图1，stage2掌门首次检查原图但保留，stage3解码消费该原图换秘密图1，stage4交湖卫兵。两次掌门分阶段不合并；湖卫兵明确复用已有南明湖警备兵任务NPC，称呼差异为本地身份采用，不新增或冒充来源目录ID。",
+    "reward": {
+      "experience": 0,
+      "practice": 0,
+      "silver": 0,
+      "items": [],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "final_receipt_or_null"
+    ],
+    "delivery": "仅stage4精确湖警备兵端点/本人资格/当前attempt与连续前缀/真实秘密图1及原库存来源修订；按同世界权威步先核原加成槽，任何仍有效本/异世界源拒绝保图，只有null或自然到期可领。消费图/授予324000步15000bp来源/一次完成与delivered、角色库存修订05/19同笔，不即时给历练经验银物品或治疗。",
+    "reward_identity": "保90模拟分钟历练1.5倍=60Hz324000步；不即时发历练，不和同族1.5相乘。",
+    "repeat": "角色跨世界一次，不因路线/队伍/新轮重置；最终character/quest唯一。",
+    "abandon": "确认只清当前attempt碎片/图与阶段，已交输入不返，新轮stage1重采15，旧死亡不补；完成不能放弃或重领计时。",
+    "save": "保存当前attempt/实际碎片消费及两图交换来源/两次掌门连续收据/最终完成与计时授予；源余时按同world权威步单调扣，不按完成补授。不确定保存解析05/19原决定重存。",
+    "modifiers": "固定终奖不进普通击杀组队池或终结者/修炼倍率。",
+    "capacity_failure": "任一资格/真实来源/阶段前缀/端点/原修订/交换最终槽重/已有计时源或时钟失败整笔保输入，不部分消费或覆盖倒计时。",
+    "source_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/21"
+    },
+    "delivered_with_stage_index": 4
+  },
+  "items": [
+    {
+      "item_id": "quest_lake70_map_fragment",
+      "name": "南明湖地图碎片",
+      "source_reference_id": "QREF-63791-022",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 15,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "70本轮任务凭证0克99堆，碎片15/两种图各1；禁使用仓丢售交易加工，只阶段交付与放弃清理。"
+    },
+    {
+      "item_id": "quest_lake70_mysterious_map",
+      "name": "南明湖神秘地图",
+      "source_reference_id": "QREF-63791-022",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "70本轮任务凭证0克99堆，碎片15/两种图各1；禁使用仓丢售交易加工，只阶段交付与放弃清理。"
+    },
+    {
+      "item_id": "quest_lake70_secret_map",
+      "name": "南明湖秘密地图",
+      "source_reference_id": "QREF-63791-022",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "70本轮任务凭证0克99堆，碎片15/两种图各1；禁使用仓丢售交易加工，只阶段交付与放弃清理。"
+    }
+  ],
+  "stage_transaction": {
+    "eligibility": "本人当前attempt/严格阶段和实际前缀/原物来源、精确NPCmap锚服务<=2500mm、存活脱战空闲无挑战。",
+    "commit": "碎片15消费换神秘图1；掌门检查只角色修订/原图保留；解码消费原图换秘密图1；湖卫兵消费秘密图/计时源授予与唯一完成按05/19同笔。",
+    "deduplication": "character/quest/attempt/stage唯一，同request同payload回原决定、异payload拒绝，历史结果不回装图/刷新倒计时。"
+  },
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63791-022",
+        "required_stage_index": 1,
+        "monster_id": "project_lake_iron_hammer_warlord71",
+        "map_id": "nanming_lake",
+        "item_id": "quest_lake70_map_fragment",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 15
+      }
+    ],
+    "qualification": "本人活跃当前attempt stage1/实际碎片<15、存活连接同世界图，solo原归属或19原成员30m/入队600步快照。",
+    "shared_owner": {
+      "file": "七十一级地灵血魔传说.v1.json",
+      "pointer": "/shared_hammer_death_collection"
+    },
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ],
+    "commit": "实际铁锤actor所有合格70碎片/71血魔像共同槽重预检、普通收益一次和个人来源05/19同笔；旧死亡不补。",
+    "modifiers": "个人100%新死亡1，不受终结者修炼倍率。"
+  },
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "skills": [],
+      "aggression": "本地proactive，不冒称来源刊载攻击方式；感知追击返home沿原AI，安全区与湖水外边界禁止进入。",
+      "safe_zone": "全部地图安全区禁止敌对出生/进入，按路径返home恢复，不瞬移。"
+    }
+  },
+  "respawn_owner": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "travel_policy": "原南明湖公共60级/rank3进出，不增传送或把接取等同通行；rank0可接，先按原晋级取得交通资格再去打怪。怪物/巡逻/追击按9矩形并集外边界收缩限制，不能跨水/逐矩形独立收缩切断桥。",
+  "pending": [
+    "Godot四步骤真实图来源/同槽计时互斥/扣时与共享死亡/保存LAN测试",
+    "地图解码表现及90分钟历练经济校准"
+  ],
+  "monster_owner": {
+    "file": "七十一级地灵血魔传说.v1.json",
+    "pointer": "/monster"
+  },
+  "spawns_owner": {
+    "file": "七十一级地灵血魔传说.v1.json",
+    "pointer": "/spawns"
+  },
+  "timed_reward": {
+    "character_field": "poetry_practice_boost",
+    "multiplier_bp": 15000,
+    "duration_world_steps": 324000,
+    "schema_ref": {
+      "file": "吟诗历练加成.schema.json",
+      "pointer": ""
+    },
+    "lifecycle_owner": {
+      "file": "七十九级正邪吟诗大会.v1.json",
+      "pointer": "/timed_reward"
+    },
+    "application_owner": {
+      "file": "七十九级正邪吟诗大会.v1.json",
+      "pointer": "/bonus_application"
+    },
+    "grant": "最终来源五字段world_id当前世界/remaining_world_steps324000/observed_world_step当前权威clock/source_quest_id本70任务/grant_receipt_id本次唯一完成；已有源/权威扣时/世界离线冻结/死亡保源/跨世界失活/同族取高规则沿owner，新建与已知旧档1..4原字段null不变。",
+    "configuration_source_ref": {
+      "file": "七十九级正邪吟诗大会.v1.json",
+      "pointer": "/timed_reward/configuration_source"
+    },
+    "source_boundary": "本70正常完成仅建324000步任务分支；有效配置源同样占poetry槽而阻覆盖。独立配置沿共享owner，不把配置凭证变装为任务完成来源。"
+  }
+}

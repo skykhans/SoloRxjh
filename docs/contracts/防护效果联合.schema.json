@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:defensive-effects-projection:v1",
+  "$comment": "仅原life_state/timers/effects.defense三字段联合校验，无新持久包装。死亡清效果但不清成功冷却，活跃效果必须有对应正冷却；原trigger一致/容量/真实扣时链另语义核验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "life_state",
+    "timers",
+    "defense"
+  ],
+  "properties": {
+    "life_state": {
+      "$ref": "urn:solorxjh:character-life-state:v1#/properties/life_state"
+    },
+    "timers": {
+      "$ref": "urn:solorxjh:character-cooldown-timers:v1"
+    },
+    "defense": {
+      "$ref": "urn:solorxjh:defensive-effect-state:v1"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "life_state": {
+            "const": "awaiting_respawn"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "defense": {
+            "const": {
+              "direct_attack_evasion_window": null,
+              "distance_mana_shield": null,
+              "bawang_lethal": null,
+              "far_received_damage_bubble": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "defense": {
+            "properties": {
+              "direct_attack_evasion_window": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "timers": {
+            "properties": {
+              "internal_cooldowns": {
+                "required": [
+                  "direct_attack_evasion_window"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "defense": {
+            "properties": {
+              "distance_mana_shield": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "timers": {
+            "properties": {
+              "internal_cooldowns": {
+                "required": [
+                  "distance_mana_shield"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "defense": {
+            "properties": {
+              "bawang_lethal": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "timers": {
+            "properties": {
+              "internal_cooldowns": {
+                "required": [
+                  "bawang_lethal"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "defense": {
+            "properties": {
+              "far_received_damage_bubble": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "timers": {
+            "properties": {
+              "internal_cooldowns": {
+                "required": [
+                  "far_received_damage_bubble"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

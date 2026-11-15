@@ -104,7 +104,8 @@
     "floor_geometry": {
       "kind": "bounded_walkable_plane",
       "thickness_m": 1,
-      "center_y_m": -0.5
+      "center_y_m": -0.5,
+      "blocks_combat_sight": true
     },
     "solid_blocks": [
       {
@@ -118,7 +119,8 @@
           14,
           6,
           14
-        ]
+        ],
+        "blocks_combat_sight": true
       },
       {
         "id_suffix": "ne_terrain",
@@ -131,7 +133,8 @@
           14,
           6,
           14
-        ]
+        ],
+        "blocks_combat_sight": true
       },
       {
         "id_suffix": "sw_terrain",
@@ -144,7 +147,8 @@
           14,
           6,
           14
-        ]
+        ],
+        "blocks_combat_sight": true
       },
       {
         "id_suffix": "se_terrain",
@@ -157,7 +161,8 @@
           14,
           6,
           14
-        ]
+        ],
+        "blocks_combat_sight": true
       }
     ],
     "actor_radius_m": 0.35,
@@ -899,8 +904,8 @@
     "reward_application": {
       "eligibility_snapshot": "at unique monster death settlement in a registered room, capture each recipient/kill owner alive,connected where required,actual same room/current theme,claim identity and positive remaining steps; no evaluation at later pickup or delivery",
       "monster_requirement": "each adopted room monster must explicitly tag ordinary reward components eligible for training bonuses and provide exact base values/drop table; absent values block D1/export, not default zero",
-      "personal_experience_after_team_allocation": "26finisher first modifies eligible base;19creates and splits team pool once; for each recipient with金 apply floor(allocated_share*15000/10000), then14personal cap/overflow. Separate base_share and personal_bonus in receipt; do not put personal bonus back in shared pool",
-      "personal_practice_after_team_allocation": "same order using independent practice pool and寿; do not derive practice from boostedXP, and do not multiply ascension progress",
+      "personal_experience_after_team_allocation": "依八十三级正邪洞窟愤怒任务/bonus_application统一个人经验倍率：26基数→19分配→有效修炼金15000与愤怒12000取max一次floor→14封顶/等级发点；bonus独立来源不回灌队池。",
+      "personal_practice_after_team_allocation": "寿与吟诗大会79共个人历练倍率族，依共享owner选max(10000,所有有效15000)，各个人base_share只floor乘一次，再按原上限处理，不连乘/不从XP反推历练，不改升天进度；仅寿的资格仍依本主题房间/周期与已领余时。",
       "public_monster_silver_bag": "if the unique kill owner qualifies for猪 at death, multiply the one ordinary monster silver bag after26finisher by15000/10000 and floor once; original pickup ownership remains; no copy per recipient and no bonus at pickup",
       "ordinary_random_drop_probability": "if unique kill owner qualifies for福, take each explicitly eligible ordinary chance after26finisher rounding/clamp, multiply15000/10000, floor then cap10000. One original trial/random draw, no extra quantity or extra roll;0 stays0",
       "excluded": [
@@ -914,7 +919,15 @@
       ],
       "team_conservation": "sum(base_shares)=team_pool; sum(actual_credits+cap_losses)=team_pool+sum(personal_buff_bonuses). Personal bonus is explicit generated reward, not a reallocated teammate share",
       "deduplication": "death_id and original payout/random result receipt include bonus source keys and base/final values; reconnect,retry,revive or room switch never reapply",
-      "required_monster_field": "training_reward_components: explicit subset of experience,practice,silver,random_drop; absent rejects export, empty requires a declared reason; never inferred from monster name or room recommendation"
+      "required_monster_field": "training_reward_components: explicit subset of experience,practice,silver,random_drop; absent rejects export, empty requires a declared reason; never inferred from monster name or room recommendation",
+      "practice_multiplier_owner_ref": {
+        "file": "七十九级正邪吟诗大会.v1.json",
+        "pointer": "/bonus_application"
+      },
+      "experience_multiplier_owner_ref": {
+        "file": "八十三级正邪洞窟愤怒任务.v1.json",
+        "pointer": "/bonus_application"
+      }
     },
     "persistence": {
       "character_field": "character.training_gate_buffs.by_world[world_id]",
@@ -932,7 +945,13 @@
       "no_duplicate_expiry_cache": "persist remaining steps plus common observation stamp, not a second independently editable absolute expiry",
       "world_scope": "foreign-world entries remain inactive and cannot be relabelled to current world; rejoining that world requires its authoritative clock/protocol, not treating it as a fresh grant",
       "restore": "validate all four theme records,world identity,clock and receipts before activating sources; missing malformed new fields reject; never grant on loading solely because state is absent",
-      "configuration_center": "18may explicitly edit effect time/claim state only as marked configuration transaction with preview; it does not count as a normal schedule grant"
+      "configuration_center": "18may explicitly edit effect time/claim state only as marked configuration transaction with preview; it does not count as a normal schedule grant",
+      "host_transaction_owner": "05/19world and settlement authority; grant/death changes world snapshot and character result under same host revision/receipt, clients confirm durable results; no separate regrant from stale local ledger",
+      "schema_ref": {
+        "file": "docs/contracts/修炼增益存档.schema.json",
+        "pointer": ""
+      },
+      "structural_boundary": "root has only by_world; each validated world has exact four themes. null claim requires zero remaining; nonnull cycle is bounded by maximum representable world step. Joint validation still requires claim cycle<=observed_world_step//1296000, observed step<=original authoritative world clock, legitimate remaining time and original grant/configuration proof; no future cycle or stale local regrant."
     }
   },
   "daily_tasks": {
@@ -1746,7 +1765,7 @@
     "producer_binding_requirement": "all16producer roles bind explicit same-theme/kind/item monster rows and spawns in修炼怪物与刷点.v1.json; validate144rows/432spawns; missing/conflicting references reject export",
     "collection_policy": {
       "ownership": "one quest token per eligible player, not duplication of public loot; NPC companions get none; each recipient must independently satisfy19normal kill participation and same-room rules",
-      "contribution": "use19qualification; not last-hit-only and not merely party member in another room",
+      "contribution": "solo: unique normal kill owner; grouped: exact19valid reward-member snapshot (same party/map,within30m,alive,connected,joined>=600world steps). No additional invented damage-share threshold; each must also have active matching task and same room/theme.",
       "receipt_key": [
         "world_id",
         "death_id",
@@ -1758,7 +1777,8 @@
       "progress": "physical bound tokens are sole objective inventory, not a second independently mutable count; partial set is in_progress, complete set ready_to_turn_in",
       "maximum": "grant only min(quantity_per_eligible_death,objective_requirement-owned_bound_quantity); never excess tokens",
       "eligibility_order": "day transition/expired round cleanup before death grants or turn-in in same step; a death at boundary belongs only new day if its quest was accepted that day",
-      "multiple_tasks": "eight independent quests; one active round per quest, may accept both of current theme and retain other theme tasks; no shared material between rounds"
+      "multiple_tasks": "eight independent quests; one active round per quest, may accept both of current theme and retain other theme tasks; no shared material between rounds",
+      "transaction_owner": "same host death transaction as修炼怪物与刷点 persistence: token creation/capacity outcome and source receipt committed with monster death; reconnect never retries a failed-capacity token grant"
     },
     "round_lifecycle": {
       "key": [
@@ -1778,7 +1798,121 @@
       "disconnect": "host reconciles world day and expiry before accepting commands; client cannot turn in old-day tokens after reconnect",
       "foreign_world": "other-world quests/tokens remain inactive, unspendable and still occupy carried slots; do not relabel them; on rejoining reconcile original authoritative clock and expire when required",
       "request_retry": "request_id + expected character revision + round identity; duplicate returns original transaction result; stale day/revision rejects, never silently starts a new round",
-      "save_failure": "committed memory result remains and save retry persists same receipt, never redo reward"
+      "save_failure": "committed memory result remains and save retry persists same receipt, never redo reward",
+      "same_day_identity": "Same-day abandon/reaccept retains the original world/character/quest/accepted-day key. No second attempt counter is introduced. Each real command has its own immutable original request outcome; each original death/item receipt remains consumed for that daily key even after its physical tokens were explicitly destroyed. A genuinely later eligible death may grant new tokens; replaying an earlier death never does.",
+      "request_order": "Under original authority, authenticate session and bind request to character/quest/day, then resolve the original immutable request outcome before comparing current state/revision or applying effects. Exact retry returns the original committed/aborted outcome and its original continuous result; it does not execute cleanup/acceptance/delivery against a later reaccepted state. Same request ID with different original digest rejects. An unresolved original reserved request must be recovered before a conflicting new command.",
+      "transition_table": {
+        "scope": "new distinct authorized requests only, after clock reconciliation and original request deduplication; token progress derived from actual carried bound items",
+        "events": [
+          "accept",
+          "eligible_death_token",
+          "deliver",
+          "confirmed_abandon",
+          "advance_day"
+        ],
+        "states": {
+          "not_accepted": {
+            "accept": "in_progress",
+            "eligible_death_token": "no_award",
+            "deliver": "reject",
+            "confirmed_abandon": "reject",
+            "advance_day": "not_accepted"
+          },
+          "in_progress": {
+            "accept": "reject",
+            "eligible_death_token": "derive_from_actual_tokens",
+            "deliver": "reject",
+            "confirmed_abandon": "not_accepted",
+            "advance_day": "not_accepted"
+          },
+          "ready_to_turn_in": {
+            "accept": "reject",
+            "eligible_death_token": "no_award",
+            "deliver": "delivered",
+            "confirmed_abandon": "not_accepted",
+            "advance_day": "not_accepted"
+          },
+          "delivered": {
+            "accept": "reject",
+            "eligible_death_token": "no_award",
+            "deliver": "reject",
+            "confirmed_abandon": "reject",
+            "advance_day": "not_accepted"
+          }
+        },
+        "guards": {
+          "accept": "Original same-theme device/pose, alive/out-of-combat/idle/no challenge; reconciled day current; last_delivered day must be null or strictly earlier than current day. No preaccept token credit. A rejected new command grants no items or completion marker.",
+          "eligible_death_token": "Original unique eligible death recipient snapshot, matching active daily key and original item producer; consult original death/item outcome first. Actual capacity and per-objective cap preflight. A failed-capacity outcome remains final for that death, although another distinct later death may qualify.",
+          "derive_from_actual_tokens": "Commit only the authorized actual item units. Recompute all objective quantities from same-key owned bound items: complete -> ready_to_turn_in, otherwise in_progress. Do not increment an independent progress counter.",
+          "deliver": "Original same-theme device/pose and alive/idle guards, exact original bound inputs, full capacity/amount/source/revision preflight; consume exact inputs and apply declared reward/XP cap once, mark both day fields=current day with immutable original delivery receipt. Any failed preflight retains ready state and all actual inputs; no partial reward.",
+          "confirmed_abandon": "Explicit confirmation only for active state; consume exact current-key tokens with authorized source proof, set accepted day null and state not_accepted, preserve last-delivered marker and all old death/request outcomes. Failed cleanup leaves active state/items unchanged.",
+          "advance_day": "Only actual authoritative day strictly advances; use clock_reconciliation daily projection, retain last-delivered marker and historical proofs. This internal transition cannot be requested by a client or triggered by wall time."
+        },
+        "no_award": "No new token or task progress; original death may still settle its other legitimate components. Never replay original death or its other rewards to retry task capacity.",
+        "configuration": "Marked configuration transactions remain separate source authorization; this normal-play matrix cannot be used to certify configured progress or mint configuration rewards."
+      },
+      "retry_scenarios": [
+        {
+          "case": "old_abandon_after_reaccept",
+          "sequence": [
+            "accept request A day0",
+            "death X grants token",
+            "abandon request B consumes current tokens",
+            "accept request C day0",
+            "death Y grants token",
+            "retry identical request B"
+          ],
+          "expected": "return original B outcome; retain Y token and current active state; no second cleanup"
+        },
+        {
+          "case": "old_death_after_reaccept",
+          "sequence": [
+            "accept request A day0",
+            "death X grants token",
+            "abandon request B",
+            "accept request C day0",
+            "replay death X"
+          ],
+          "expected": "return original X outcome; no token recreation or other death reward; active task unchanged"
+        },
+        {
+          "case": "failed_capacity_after_space_freed",
+          "sequence": [
+            "accept day0",
+            "death X records no capacity",
+            "free actual bag slot",
+            "replay death X",
+            "new distinct eligible death Y"
+          ],
+          "expected": "X stays no award; Y may grant only after original current-state/capacity checks"
+        },
+        {
+          "case": "delivered_then_new_accept_same_day",
+          "sequence": [
+            "deliver request A day0",
+            "new accept request B day0"
+          ],
+          "expected": "reject B; retain delivery marker and exact original reward/source proof"
+        },
+        {
+          "case": "retry_delivery_after_next_day_accept",
+          "sequence": [
+            "deliver request A day0",
+            "authoritative day1 reconciliation",
+            "accept request B day1",
+            "retry identical request A"
+          ],
+          "expected": "return original A outcome; do not award twice or replace day1 state/tokens"
+        },
+        {
+          "case": "changed_duplicate_digest",
+          "sequence": [
+            "commit original request A",
+            "submit request A with different quest/day/confirmation or original expected revision"
+          ],
+          "expected": "reject digest conflict; no current state mutation"
+        }
+      ]
     },
     "persistence": {
       "character_field": "character.training_gate_daily.by_world[world_id]",
@@ -1797,7 +1931,12 @@
       "invariants": "known8quest IDs, valid day<=authoritative day; active accepted_day=current reconciled day; delivered requires accepted day=last_delivered day and exact receipt; not_accepted has null accepted day and no round tokens; token provenance agrees with role/world/quest/day; unknown/missing new-format fields reject",
       "first_world": "explicitly initialize all8quest states not_accepted and null accepted/delivered day at validated current world step; never a load repair",
       "initialization": "new character and accepted legacy1..4conversion empty by_world; no invented past quest rewards",
-      "configuration_center": "edits require marked18configuration transaction; cannot impersonate normal delivery/death receipt"
+      "configuration_center": "edits require marked18configuration transaction; cannot impersonate normal delivery/death receipt",
+      "schema_ref": {
+        "file": "docs/contracts/修炼每日任务存档.schema.json",
+        "pointer": ""
+      },
+      "structural_boundary": "root has only by_world; each world has all eight known quests. not_accepted requires null accepted day; all other states require nonnull accepted day; delivered also requires nonnull last-delivered day. Joint validation requires days<=observed_world_step//5184000, delivered accepted day=last-delivered day, active accepted day=observed day and last delivered day strictly earlier if present; reconciles original authoritative clock before actions and checks actual tokens/receipts. Schema alone cannot compare integer fields or prove provenance."
     }
   },
   "monster_owner": {
@@ -1805,5 +1944,178 @@
     "monsters_pointer": "/monsters",
     "spawns_pointer": "/spawns",
     "schedule_pointer": "/summon_schedule"
+  },
+  "clock_reconciliation": {
+    "status": "deterministic_design_not_implemented_requires_original_source_transactions",
+    "owner": "original world.training_gate_clock_steps and the same character training_gate_buffs/training_gate_daily records; no extra persisted reconciliation cache",
+    "inputs": [
+      "fully validated original world identity/authority and current safe integer world step T",
+      "complete character and original source journals including actual bound token stacks",
+      "existing buff observation B and daily observation D independently; never assume the two stamps equal"
+    ],
+    "validation_before_projection": [
+      "Validate complete original records and source proofs before computing a candidate. Require 0<=B<=T and 0<=D<=T; reject rewind, malformed/missing records and unavailable original authority. No clamping future stamps to T.",
+      "For each theme, null claim means remaining=0 and no unaccounted grant; nonnull claim cycle<=B//1296000. Positive remaining must be justified by its original grant and elapsed steps, or an explicitly authorized configuration transaction. A legitimate expired nonnull claim remains nonnull.",
+      "Daily source day is D//5184000. Each nonnull accepted/last-delivered day<=source day. Active states require accepted day=source day and last-delivered day, if present, strictly smaller. delivered requires accepted day=last-delivered day and original delivery receipt. not_accepted requires null accepted day and no active-round tokens. Actual item provenance and objective quantities determine in_progress/ready_to_turn_in."
+    ],
+    "buff_projection": {
+      "elapsed": "delta=T-B computed only after range/ordering validation; no multiplication or wall clock",
+      "per_theme": "remaining_after = remaining_before-delta if delta<remaining_before else 0; retain last_claimed_cycle_or_null exactly",
+      "stamp": "observed_world_step_after=T even when all timers already zero",
+      "grant_boundary": "reconciliation never grants or refreshes a bundle. Normal eligible grant is a separate original grant decision after reconciliation; it tests current cycle/window and retained theme claim. Configuration proofs never impersonate normal grant receipts."
+    },
+    "daily_projection": {
+      "day_before": "D//5184000",
+      "day_after": "T//5184000",
+      "same_day": "preserve all eight records and their tokens exactly; update observation to T",
+      "advanced_day": "for every quest with nonnull accepted day<day_after, remove only actual carried tokens bound to that exact original world/character/quest/accepted day. Preserve original token consumption/source history and all delivery/death receipts. Set state=not_accepted and accepted_day_index_or_null=null; retain last_delivered_day_index_or_null. A previously not_accepted quest remains unchanged.",
+      "no_iterated_rewards": "jumping multiple days performs one projection to current day, never one reward/acceptance/reset credit per skipped day",
+      "stamp": "observed_world_step_after=T",
+      "foreign_world": "only reconcile entries for the available original authoritative world. Other-world entries/tokens retain original identities and occupy their actual slots; never consume them in this projection."
+    },
+    "atomicity": "Derive one complete candidate before accepting gameplay actions at T. Validate exact expired token set and original source consumption authorization, source heads, inventory placement, all other character/world fields and revision/result requirements. Commit cleanup and both stamps together under the original authority transaction; failure leaves original state intact and blocks dependent actions. Do not invent a separate persistent day counter or remove tokens before the corresponding decision. Strict original source event/receipt and complete world/character roots remain required before runtime implementation.",
+    "ordering": "At T perform original day transition/cleanup and buff expiry reconciliation before any death token grant, delivery or new accepted action. Then process eligible normal buff grants per original grant order. Same-step death/event tie ordering remains original combat owner, not an invented ordering here.",
+    "idempotence": "Projecting a valid committed result again at the same T has delta0, same day and no additional cleanup. Retry returns original transaction decision/result rather than allocating a second consumption. A later legal T must use the actual current committed state.",
+    "vectors": [
+      {
+        "kind": "buff",
+        "observed": 431990,
+        "current": 431990,
+        "claim": 0,
+        "remaining": 10,
+        "expected_claim": 0,
+        "expected_remaining": 10
+      },
+      {
+        "kind": "buff",
+        "observed": 431990,
+        "current": 431999,
+        "claim": 0,
+        "remaining": 10,
+        "expected_claim": 0,
+        "expected_remaining": 1
+      },
+      {
+        "kind": "buff",
+        "observed": 431990,
+        "current": 432000,
+        "claim": 0,
+        "remaining": 10,
+        "expected_claim": 0,
+        "expected_remaining": 0
+      },
+      {
+        "kind": "buff",
+        "observed": 431990,
+        "current": 9007199254740991,
+        "claim": 0,
+        "remaining": 10,
+        "expected_claim": 0,
+        "expected_remaining": 0
+      },
+      {
+        "kind": "buff",
+        "observed": 431990,
+        "current": 432000,
+        "claim": null,
+        "remaining": 0,
+        "expected_claim": null,
+        "expected_remaining": 0
+      },
+      {
+        "kind": "daily",
+        "observed": 5183998,
+        "current": 5183999,
+        "state": "in_progress",
+        "accepted": 0,
+        "last_delivered": null,
+        "expected_state": "in_progress",
+        "expected_accepted": 0,
+        "expected_last_delivered": null,
+        "cleanup_round": null
+      },
+      {
+        "kind": "daily",
+        "observed": 5183999,
+        "current": 5184000,
+        "state": "ready_to_turn_in",
+        "accepted": 0,
+        "last_delivered": null,
+        "expected_state": "not_accepted",
+        "expected_accepted": null,
+        "expected_last_delivered": null,
+        "cleanup_round": 0
+      },
+      {
+        "kind": "daily",
+        "observed": 5183999,
+        "current": 5184000,
+        "state": "delivered",
+        "accepted": 0,
+        "last_delivered": 0,
+        "expected_state": "not_accepted",
+        "expected_accepted": null,
+        "expected_last_delivered": 0,
+        "cleanup_round": 0
+      },
+      {
+        "kind": "daily",
+        "observed": 5184000,
+        "current": 15552000,
+        "state": "not_accepted",
+        "accepted": null,
+        "last_delivered": 0,
+        "expected_state": "not_accepted",
+        "expected_accepted": null,
+        "expected_last_delivered": 0,
+        "cleanup_round": null
+      },
+      {
+        "kind": "daily",
+        "observed": 5184000,
+        "current": 5184000,
+        "state": "in_progress",
+        "accepted": 1,
+        "last_delivered": 0,
+        "expected_state": "in_progress",
+        "expected_accepted": 1,
+        "expected_last_delivered": 0,
+        "cleanup_round": null
+      }
+    ],
+    "reject_vectors": [
+      {
+        "reason": "clock_rewind",
+        "observed": 101,
+        "current": 100
+      },
+      {
+        "reason": "future_claim_at_observation",
+        "observed": 1295999,
+        "claim": 1
+      },
+      {
+        "reason": "never_granted_with_remaining",
+        "claim": null,
+        "remaining": 1
+      },
+      {
+        "reason": "future_daily_acceptance",
+        "observed": 5183999,
+        "accepted": 1
+      },
+      {
+        "reason": "delivered_days_disagree",
+        "state": "delivered",
+        "accepted": 1,
+        "last_delivered": 0
+      },
+      {
+        "reason": "active_already_delivered_same_day",
+        "state": "in_progress",
+        "accepted": 1,
+        "last_delivered": 1
+      }
+    ]
   }
 }

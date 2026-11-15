@@ -1,0 +1,230 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "reference": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/14"
+    },
+    "published": "QREF-63791-015 level33/Jinxiangyu/two named meats/300000 silver/3000 practice/once; quantities,producer list and previous quest prerequisite absent",
+    "project": "10 of each meat,100g each,99stack,personal active-attempt tokens,100% one per qualified death from existing red bears35/yellow tigers36 in either public faction region;no prior cooking quest/rank/route gate;not official quantities or drop evidence"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63791-015",
+    "source_reference_id": "QREF-63791-015",
+    "name": "寻求料理材料 2",
+    "minimum_level": 33,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_jinxiangyu",
+    "npc_map_id": "hyunbo_town",
+    "interaction_anchor_id": "npc_jinxiangyu_service",
+    "service_id": "cooking_materials_2",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "qualification": "alive,out of combat,idle,no challenge,NPC within2.5m,level/class/route valid; no earlier cooking task/advancement prerequisite",
+    "acceptance": "only not_accepted and never delivered; create unique attempt,no fee/start items; active/delivered acceptance rejects",
+    "preaccept_items_count": false,
+    "requirements": [
+      {
+        "item_id": "quest_prime_blood_bear_meat",
+        "quantity": 10
+      },
+      {
+        "item_id": "quest_prime_yellow_tiger_meat",
+        "quantity": 10
+      }
+    ],
+    "readiness": "derive from actual carried own-character/quest/active-attempt10 of each; no shadow progress counter; same token type from both regions combines under existing source-stack rules and single shared cap10",
+    "reward": {
+      "experience": 0,
+      "practice": 3000,
+      "silver": 300000,
+      "items": [],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "repeat": "once per character across worlds; no faction/party/daily reset",
+    "delivery": "revalidate qualification/attempt and both real inputs; preflight final inventory and carried silver cap; preview practice3000 applied/overflow; one05/19 durable transaction consumes10each,credits300000 carried silver and actual practice,marks delivered and persists receipt/resource flows; character and inventory revisions each+1",
+    "capacity_failure": "silver overflow or invalid final layout rejects entire delivery,preserves all inputs/active attempt; no partial silver/reward,warehouse or compensation",
+    "practice_cap_ref": {
+      "file": "历练与洗点.v1.json",
+      "pointer": "/practice"
+    },
+    "practice_overflow": "allocated3000,applied=min(3000,maximum-current),overflow=3000-applied; preview exact loss and require confirmation; never replace silver overflow rejection with clipping; no XP conversion",
+    "silver_flow": "one authorized quest_reward income leg300000 into carried;warehouse unchanged; keep original generic settlement identity; ordinary death silver is separate once",
+    "modifiers": "quest silver/practice fixed outside party pools/finisher/training/supreme multipliers",
+    "abandon": "explicit confirmation atomically clears only own active-attempt two meats and resets to not_accepted; no reward/refund,never touches adv02skins; reaccept new unique attempt,old requests/deaths cannot replay",
+    "deduplication": "character/quest/final completion unique across attempts/worlds;original request returns original receipt,new completion after delivered rejects; no repeated credit on route change/reconnect",
+    "save": "persist attempt/state/real inputs/result and resource flows with05/19; uncertain persistence resolves original settlement before retry; no fresh reward"
+  },
+  "items": [
+    {
+      "item_id": "quest_prime_blood_bear_meat",
+      "name": "上等血熊肉",
+      "source_reference_id": "QREF-63791-015",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 100,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "quest meat only;not healing food or adv02skin"
+    },
+    {
+      "item_id": "quest_prime_yellow_tiger_meat",
+      "name": "上等黄虎肉",
+      "source_reference_id": "QREF-63791-015",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 100,
+      "maximum_per_active_attempt": 10,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "quest meat only;not healing food or adv02skin"
+    }
+  ],
+  "collection": {
+    "producers": [
+      {
+        "monster_id": "liuzheng_pass_red_bear35",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_prime_blood_bear_meat",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "monster_id": "liuzheng_pass_yellow_tiger36",
+        "map_id": "liuzheng_pass",
+        "item_id": "quest_prime_yellow_tiger_meat",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "monster_id": "sanxie_pass_red_bear35",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_prime_blood_bear_meat",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      },
+      {
+        "monster_id": "sanxie_pass_yellow_tiger36",
+        "map_id": "sanxie_pass",
+        "item_id": "quest_prime_yellow_tiger_meat",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 10
+      }
+    ],
+    "eligibility": "own active attempt,alive connected same room/map,solo unique kill owner or exact19party reward-member snapshot within30m and joined>=600steps;below own type cap10; no faction restriction for meat",
+    "probability_bp": 10000,
+    "quantity_per_qualified_death": 1,
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "item_id"
+    ],
+    "capacity_failure": "record no-item outcome on original death;no retry after freeing space/reconnect/abandon/reaccept;later distinct death may grant",
+    "modifiers": "personal task output,not public loot; no finisher/training multiplier"
+  },
+  "shared_death_collection": {
+    "monster_ids": [
+      "liuzheng_pass_red_bear35",
+      "liuzheng_pass_yellow_tiger36",
+      "sanxie_pass_red_bear35",
+      "sanxie_pass_yellow_tiger36",
+      "sanxie_pass_white_tiger37",
+      "project_righteous_one_eye_bandit57"
+    ],
+    "producer_refs": [
+      {
+        "file": "寻求料理材料二任务.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "第二次升职九阶段.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "五十六级正邪追赃任务.v1.json",
+        "pointer": "/collection/producers"
+      },
+      {
+        "file": "三转五十九级推荐书前置.v1.json",
+        "pointer": "/collection/producers"
+      }
+    ],
+    "scope": "exact listed public actors only;all producer refs filtered by actual monster ID;no food from white tiger/one-eye bandit because no matching food producer;other adv02white/rank3producers retain original independent rules",
+    "snapshot": "one original death/recipient/route/current attempts/stages/selected branches/inventory snapshot;each matching producer separately applies its own quest eligibility and token cap;no quest can borrow another quest stage/route/attempt",
+    "capacity": "build all actual below-cap candidate additions together with exact binding/provenance/merge/weight;any cannot fit =>none awarded and all actual candidates record failed-capacity;inactive/capped/ineligible producers add nothing and do not block eligible others;no acceptance-order priority",
+    "commit": "same05/19host death transaction includes all recipients and outcomes;ordinary XP/practice/silver once under original actor owner,never multiplied by number of quests;actual inventory output advances recipient inventory revision once,not per candidate;no candidate=no token-related revision",
+    "replay": "immutable original death outcomes through free-space change/reconnect/abandon/reaccept,new attempt cannot replay old death;later distinct death can grant"
+  },
+  "monster_owner": {
+    "file": "第二次升职九阶段.v1.json",
+    "pointer": "/monsters",
+    "filter_monster_ids": [
+      "liuzheng_pass_red_bear35",
+      "liuzheng_pass_yellow_tiger36",
+      "sanxie_pass_red_bear35",
+      "sanxie_pass_yellow_tiger36"
+    ]
+  },
+  "spawn_owner": {
+    "file": "第二次升职九阶段.v1.json",
+    "pointer": "/spawns",
+    "expected_filtered_spawn_count": 16,
+    "filter_policy": "only monster_owner.filter_monster_ids; no new or copied spawns"
+  },
+  "travel_policy": "existing hyunbo_outskirts bidirectional public travel to liuzheng_pass/sanxie_pass is level1/rank0/no quest/zero fee; no rank2gate added; return to Jinxiangyu through original town connection",
+  "initialization": "new role and known1..4legacy imports explicitly not_accepted/null attempt/no tokens; level never auto-completes; unknown newer-format missing required state rejects",
+  "pending": [
+    "Godot quest/inventory/practice/silver/death/save/LAN implementation and runtime tests",
+    "33level versus35/36 creatures and300000 silver/3000practice economy calibration"
+  ]
+}

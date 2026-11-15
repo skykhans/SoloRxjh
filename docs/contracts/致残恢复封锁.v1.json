@@ -230,5 +230,20 @@
       "effect_profile_id": "disable_hp_recovery3seconds",
       "attack_speed_scaled_chance": true
     }
-  ]
+  ],
+  "persistent_state": {
+    "target_field": "character.effects.hp_recovery_block",
+    "schema_ref": {
+      "file": "致残封锁状态.schema.json",
+      "pointer": ""
+    },
+    "initial_value": [],
+    "legacy_import": "四已知旧来源显式空表，当前缺字段拒绝；不从旧HP数值构造负面来源。",
+    "fields": "每源精确source_actor_id/source_ability_id/trigger_event_id/remaining_steps1..180，技能只允许原14bindings；trigger为原直接根动作主目标实际伤害后成功致残的落效结果，须能证明原class对应气功、原有效等级/概率及原主目标存活。根动作与本次实际落效详情由该原结果持有。",
+    "identity": "同施放者+气功最多一源，按source_ability_id/source_actor_id排序；新实际成功落效替换同源凭证及180，不叠长。不同源独立计时，任一正余时即封锁，不存合并余时/恢复许可布尔。重放原结果不抽样、不刷新。",
+    "timing": "生成步不扣新180；后续世界步入口扣旧源，0先移除再执行恢复。原触发当次已结算的恢复不倒扣，只影响后续真实到期恢复；暂停离线冻结。固定180且不套千蛛/电光朝露神女负面修时。",
+    "recovery": "封锁HP恢复而不删除既有治疗来源，受阻周期正常消费不补跳；对梅柳真另外封锁障力恢复但不封内力/体力/怒气或非治疗护罩。新全无效恢复请求原接纳前拒绝；已付后遇封锁不退费。复活沿原死亡合同，不受此存活负面代替。",
+    "lifecycle": "接收者死亡清空；施放者死亡/离线不清不刷新原剩余时间，明确解除沿本族权限安全删除对应源。无法证明原来源/现行缺字段拒绝，不补造根事件。",
+    "validation": "完整effects白名单后再验证排序唯一/原触发来源/真实扣时，待复活必须空表；组件不证明实际治疗/多接收者事务已实现。"
+  }
 }

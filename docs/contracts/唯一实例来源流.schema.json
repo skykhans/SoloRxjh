@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:instance-flow:v1",
+  "$comment": "正式结算收据内instance_flow投影；仅2004已采用实例完整快照。版本/ID/血统/所有权/前域/时钟/授权/费用及终结守恒另验，不是完整经济事件。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_id",
+    "inputs",
+    "outputs",
+    "retirements"
+  ],
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "previous_output",
+          "instance",
+          "previous_custody_receipt_id",
+          "custody"
+        ],
+        "properties": {
+          "previous_output": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "receipt_id",
+              "output_index"
+            ],
+            "properties": {
+              "receipt_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "output_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            }
+          },
+          "instance": {
+            "$ref": "urn:solorxjh:adopted-equipment-instance:v1"
+          },
+          "previous_custody_receipt_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "custody": {
+            "$ref": "urn:solorxjh:item-custody-transfer:v1#/$defs/custody"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operation",
+          "instance",
+          "source_input_indices",
+          "custody",
+          "creation_authorization"
+        ],
+        "properties": {
+          "operation": {
+            "enum": [
+              "create",
+              "revise",
+              "replace",
+              "combine",
+              "growth_transfer",
+              "ownership_transfer"
+            ]
+          },
+          "instance": {
+            "$ref": "urn:solorxjh:adopted-equipment-instance:v1"
+          },
+          "source_input_indices": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 2,
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "custody": {
+            "$ref": "urn:solorxjh:item-custody-transfer:v1#/$defs/custody"
+          },
+          "creation_authorization": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "authority_receipt_id"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "new_character_grant",
+                      "npc_purchase",
+                      "loot",
+                      "quest_reward",
+                      "craft_output",
+                      "configuration_grant",
+                      "legacy_import"
+                    ]
+                  },
+                  "authority_receipt_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "operation": {
+                  "enum": [
+                    "create"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "source_input_indices": {
+                  "minItems": 0,
+                  "maxItems": 0
+                },
+                "creation_authorization": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "authority_receipt_id"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "new_character_grant",
+                        "npc_purchase",
+                        "loot",
+                        "quest_reward",
+                        "craft_output",
+                        "configuration_grant",
+                        "legacy_import"
+                      ]
+                    },
+                    "authority_receipt_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    }
+                  }
+                },
+                "custody": {
+                  "properties": {
+                    "kind": {
+                      "const": "held"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "operation": {
+                  "enum": [
+                    "revise",
+                    "replace",
+                    "ownership_transfer"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "source_input_indices": {
+                  "minItems": 1,
+                  "maxItems": 1
+                },
+                "creation_authorization": {
+                  "type": "null"
+                },
+                "custody": {
+                  "properties": {
+                    "kind": {
+                      "const": "held"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "operation": {
+                  "enum": [
+                    "combine",
+                    "growth_transfer"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "source_input_indices": {
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "creation_authorization": {
+                  "type": "null"
+                },
+                "custody": {
+                  "properties": {
+                    "kind": {
+                      "const": "held"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "retirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "input_index",
+          "reason"
+        ],
+        "properties": {
+          "input_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "reason": {
+            "enum": [
+              "discard",
+              "craft",
+              "replacement",
+              "combination",
+              "growth_transfer_source",
+              "quest_delivery",
+              "quest_cleanup",
+              "configuration_remove",
+              "buyback_cleanup",
+              "npc_sale",
+              "death_consumption",
+              "character_deletion"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "anyOf": [
+    {
+      "properties": {
+        "inputs": {
+          "minItems": 1
+        }
+      }
+    },
+    {
+      "properties": {
+        "outputs": {
+          "minItems": 1
+        }
+      }
+    }
+  ]
+}

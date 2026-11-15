@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dongling-attribute-effect-state:v1",
+  "$comment": "唯一effects.dongling_attributes：弱化/转移、复仇两阶段、属性封印及神女免疫来源；无派生属性缓存或第二份施加者链接表。来源身份/时长/唯一全世界转移链接及死亡授权须原owner语义核验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "weakening",
+    "revenge",
+    "proc_seal",
+    "immunity"
+  ],
+  "properties": {
+    "weakening": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/weakening_source"
+      }
+    },
+    "revenge": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/revenge_source"
+      }
+    },
+    "proc_seal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/proc_seal_source"
+      }
+    },
+    "immunity": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/immunity_source"
+      }
+    }
+  },
+  "$defs": {
+    "nonblank_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "weakening_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_actor_id",
+        "source_skill_id",
+        "root_event_id",
+        "application_event_id",
+        "stage",
+        "caster_level",
+        "timing"
+      ],
+      "properties": {
+        "source_actor_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "source_skill_id": {
+          "enum": [
+            "status_dongling_c9958e0c8771",
+            "status_dongling_e84161107cd4"
+          ]
+        },
+        "root_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "application_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "stage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "caster_level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 180
+        },
+        "timing": {
+          "$ref": "urn:solorxjh:dongling-periodic-effect-state:v1#/$defs/negative_duration"
+        }
+      }
+    },
+    "revenge_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_actor_id",
+        "source_skill_id",
+        "root_event_id",
+        "application_event_id",
+        "stage",
+        "phase",
+        "trigger_death_event_id",
+        "timing"
+      ],
+      "properties": {
+        "source_actor_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "source_skill_id": {
+          "enum": [
+            "status_dongling_afd828efca45",
+            "status_dongling_b28820c57f8f"
+          ]
+        },
+        "root_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "application_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "stage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "phase": {
+          "enum": [
+            "armed",
+            "reduction"
+          ]
+        },
+        "trigger_death_event_id": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/nonblank_id"
+            }
+          ]
+        },
+        "timing": {
+          "$ref": "urn:solorxjh:dongling-periodic-effect-state:v1#/$defs/negative_duration"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "phase": {
+                "const": "armed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "trigger_death_event_id": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "trigger_death_event_id": {
+                "$ref": "#/$defs/nonblank_id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "proc_seal_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_actor_id",
+        "source_skill_id",
+        "root_event_id",
+        "application_event_id",
+        "stage",
+        "timing"
+      ],
+      "properties": {
+        "source_actor_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "source_skill_id": {
+          "enum": [
+            "status_dongling_f277eb3094bd"
+          ]
+        },
+        "root_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "application_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "stage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "timing": {
+          "$ref": "urn:solorxjh:dongling-periodic-effect-state:v1#/$defs/negative_duration"
+        }
+      }
+    },
+    "immunity_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_actor_id",
+        "source_skill_id",
+        "root_event_id",
+        "application_event_id",
+        "stage",
+        "remaining_steps"
+      ],
+      "properties": {
+        "source_actor_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "source_skill_id": {
+          "enum": [
+            "status_dongling_01dc8769d8f5",
+            "status_dongling_1f7fbf458953"
+          ]
+        },
+        "root_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "application_event_id": {
+          "$ref": "#/$defs/nonblank_id"
+        },
+        "stage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "remaining_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 900
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source_skill_id": {
+                "const": "status_dongling_1f7fbf458953"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "remaining_steps": {
+                "maximum": 180
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "immunity": {
+            "minItems": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "weakening": {
+            "maxItems": 0
+          },
+          "revenge": {
+            "maxItems": 0
+          },
+          "proc_seal": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

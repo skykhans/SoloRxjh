@@ -1,0 +1,120 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "explicit_local_reward_and_use_design_not_implemented_not_balanced",
+  "source_policy": "仅85级正047/邪048具名悟神丹与宝盒，源未给数量/药效/盒类型内容。明确本地各1，悟神丹即时历练50000、宝盒确定开金刚石1+寒玉石1；不声称官网原效，不把本盒别名化白银/黄金盒，不与九转丹混用。",
+  "items": [
+    {
+      "item_id": "consumable_quest_wushen_pill",
+      "name": "悟神丹",
+      "kind": "consumable",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 10,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": null,
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": true,
+      "recipe_input_only": false,
+      "purchase_allowed": false,
+      "minimum_use_level": 1,
+      "minimum_use_rank": 0,
+      "use_class_filter": "all14classes",
+      "presentation_ref": "dev_item_consumable_quest_wushen_pill",
+      "quest_reward_acquisition_refs": [
+        {
+          "file": "八十五级正邪铃铛嘱托任务.v1.json",
+          "pointer": "/quests/0/reward/items/0"
+        },
+        {
+          "file": "八十五级正邪铃铛嘱托任务.v1.json",
+          "pointer": "/quests/1/reward/items/0"
+        }
+      ]
+    },
+    {
+      "item_id": "quest_reward_entrust85_box",
+      "name": "宝盒",
+      "kind": "reward_box",
+      "container": "inventory",
+      "max_stack": 99,
+      "weight_g": 20,
+      "binding": "character",
+      "warehouse": true,
+      "discard": true,
+      "sell_to_npc": false,
+      "sell_price": null,
+      "player_trade": false,
+      "buyback": false,
+      "equip": false,
+      "direct_use": true,
+      "recipe_input_only": false,
+      "purchase_allowed": false,
+      "initial_grant": 0,
+      "source_kind": "task_name_not_IREFcatalog_adoption",
+      "acquisition_refs": [
+        {
+          "file": "八十五级正邪铃铛嘱托任务.v1.json",
+          "pointer": "/quests/0/reward/items/1"
+        },
+        {
+          "file": "八十五级正邪铃铛嘱托任务.v1.json",
+          "pointer": "/quests/1/reward/items/1"
+        }
+      ],
+      "presentation_ref": "dev_item_quest_reward_entrust85_box"
+    }
+  ],
+  "pill_use": {
+    "practice": 50000,
+    "practice_owner_ref": {
+      "file": "正邪收集任务公共规则.v1.json",
+      "pointer": "/lifecycle/practice"
+    },
+    "qualification": "本人存活连接/脱战空闲/无挑战，所在地图允许普通物品使用，真实inventory本定义合法来源堆>=1；all14 level>=1/rank>=0。原角色资源/库存/来源/修订合法，不能从仓库直接用。",
+    "cap_policy": "使用前报价原历练/50000/实际/损失与原修订；正损失须明确确认，取消整笔保药；原历练已满实际0时拒绝不消耗，不造零资源腿。",
+    "transaction": "05/19唯一use事务真实消费1、入账实际历练/损失与来源、角色库存修订各一次；不受组队/怪物倍率影响，无XP/银/治疗/冷却/计时buff/洗点或永久属性改变。",
+    "deduplication": "同角色request相同负载先返回原持久决定，不重扣/重加；改负载同request拒绝；原值变化使报价失效重新报价，不静默接受新损失。"
+  },
+  "box_open": {
+    "inputs": [
+      {
+        "item_id": "quest_reward_entrust85_box",
+        "quantity": 1
+      }
+    ],
+    "outputs": [
+      {
+        "item_id": "diamond_synthesis_stone",
+        "quantity": 1,
+        "definition_ref": {
+          "file": "英雄武器合成与神物之石.v1.json",
+          "pointer": "/items/0"
+        }
+      },
+      {
+        "item_id": "cold_jade_synthesis_stone",
+        "quantity": 1,
+        "definition_ref": {
+          "file": "普通防具合成.v1.json",
+          "pointer": "/items/0"
+        }
+      }
+    ],
+    "qualification": "本人存活连接/脱战空闲/无挑战，所在地图允许物品使用，真实inventory本定义盒/来源/数量/修订合法；all14 level>=1/rank>=0，不受石的商店职业条件限制。",
+    "capacity": "消费盒1后预检两石各10克/99堆/角色绑定及真实最终槽。盒20克换两石20克净重0，但原合法库存及最终容量仍须核；盒剩余>0不释放槽，最后一盒才释放一槽，两新定义可能需两个槽，合堆仅同定义合法目标。",
+    "transaction": "05/19唯一use事务消费盒1并loot来源（授权必须解析本精确盒消费与固定输出）创建两石、库存角色修订各一次及持久收据；固定结果不抽RNG，不沿白银黄金池，不发装备实例，不部分发/延发。",
+    "deduplication": "相同request负载返回原完整输出与收据不再开，改负载拒绝；无新的roll或补发。"
+  },
+  "failure_and_save": "任何资格/来源/原资源/报价/修订/最终格重失败整笔保药或盒；保存不确定仅解析原决定重存，不重跑使用/开启。",
+  "persistence": "复用inventory堆来源与practice资源，无新buff/冷却/schema字段。新角色及已知旧档1..4初始0，不补使用/开盒收据；本精确两任务奖励之外来源不授权，配置另须明确原有定义权限，不由本文件默许。",
+  "pending": [
+    "Godot使用报价/固定开盒/真实堆与资源来源/保存/LAN功能测试",
+    "本地药效与双石经济校准"
+  ]
+}

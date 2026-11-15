@@ -1,0 +1,322 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_local_quest_design_not_implemented_not_balanced",
+  "source_policy": {
+    "source_ref": {
+      "file": "../reference/任务参数.json",
+      "pointer": "/quests/134"
+    },
+    "body_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/73/text"
+    },
+    "published": "95共同/石惊天及遗体/7步/指甲20和安息符1/固定1300万经验/一次，原stage3和4两次写20交付。",
+    "local": "14职业/三路线/rank0无前任务；两批各20真实消费/个人100%/凭证0克与固定遗体位置是本地解释，保来源文字。复用既有项目100级飞天僵尸，不捏造怪物目录ID。"
+  },
+  "quest": {
+    "quest_id": "ref_QREF-63788-012",
+    "source_reference_id": "QREF-63788-012",
+    "name": "灵魂的自由",
+    "minimum_level": 95,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_shi_jingtian",
+    "npc_map_id": "beihai_ice",
+    "interaction_anchor_id": "npc_shi_jingtian_service",
+    "service_id": "shi95_funeral",
+    "interaction_distance_mm": 2500,
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "ready_to_turn_in",
+      "delivered"
+    ],
+    "state_fields": [
+      "state",
+      "attempt_id_or_null",
+      "stage_index_or_null",
+      "stage_receipts",
+      "final_receipt_or_null"
+    ],
+    "acceptance": "本人存活脱战空闲无挑战，95级/14职业/三路线/rank0，石惊天原NPCmap锚服务<=2500mm，未接未完成，新attempt stage1无起始物/费用，无93/五转或其他任务前置。",
+    "reward": {
+      "experience": 13000000,
+      "practice": 0,
+      "silver": 0,
+      "items": [],
+      "rank_change": null,
+      "ascension_progress": 0
+    },
+    "delivery": "仅stage6原石惊天，核当前attempt/stage5真实安息符消费与连续步骤、本人资格及原角色修订；固定1300万经验名义/实际/损失报价，正损失显式确认，修订变化重报，取消不完成。实际经验/升级基础属性与新covered_level发点/唯一完成和自动终态05/19同笔，实际0无0经验腿；不再收指甲或符，不发历练银物品。",
+    "reward_identity": "保来源固定1300万经验，不按所述约5%动态换算，无额外银或物。",
+    "repeat": "角色跨世界一次，最终character/quest唯一，路线/轮次/队伍不重置。",
+    "abandon": "确认清本轮残余指甲或符与阶段收据，已交第一/第二批不返；新attempt从stage1重新查遗体，旧死亡不补，完成不能放弃。",
+    "save": "保存attempt/完整阶段与当前实物来源/两批真实指甲消费及符交换、葬礼消费/终奖收据；stage6无物必须有stage5实际消费收据，缺链拒绝，不按计数补符。不确定写盘先解析05/19原决定重存。",
+    "capacity_failure": "资格/前缀/真实来源/原库存修订/交换最终槽重或经验确认/保存失败整笔保当前阶段输入，不部分交物。",
+    "modifiers": "个人任务物和固定终奖不进普通组队收益倍率或终结者/修炼倍率。",
+    "stages": [
+      {
+        "stage_index": 1,
+        "npc_id": "project_npc_shi_colleague_corpse95",
+        "map_id": "beihai_ice",
+        "interaction_anchor_id": "shi_colleague_corpse95_service",
+        "service_id": "corpse95_find_and_rite",
+        "consume": [],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": null,
+        "next_stage_index": 2,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 2,
+        "npc_id": "npc_shi_jingtian",
+        "map_id": "beihai_ice",
+        "interaction_anchor_id": "npc_shi_jingtian_service",
+        "service_id": "shi95_funeral",
+        "consume": [],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": 1,
+        "next_stage_index": 3,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 3,
+        "npc_id": "npc_shi_jingtian",
+        "map_id": "beihai_ice",
+        "interaction_anchor_id": "npc_shi_jingtian_service",
+        "service_id": "shi95_funeral",
+        "consume": [
+          {
+            "item_id": "quest_beihai95_zombie_nail",
+            "quantity": 20
+          }
+        ],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": 2,
+        "next_stage_index": 4,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 4,
+        "npc_id": "npc_pingshizhi",
+        "map_id": "hyunbo_town",
+        "interaction_anchor_id": "hyunbo_physician_service",
+        "service_id": "ping95_rest_seal",
+        "consume": [
+          {
+            "item_id": "quest_beihai95_zombie_nail",
+            "quantity": 20
+          }
+        ],
+        "grant": [
+          {
+            "item_id": "quest_beihai95_rest_seal",
+            "quantity": 1
+          }
+        ],
+        "grant_reason": "quest_exchange",
+        "requires_prior_stage_receipt_index": 3,
+        "next_stage_index": 5,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 5,
+        "npc_id": "project_npc_shi_colleague_corpse95",
+        "map_id": "beihai_ice",
+        "interaction_anchor_id": "shi_colleague_corpse95_service",
+        "service_id": "corpse95_find_and_rite",
+        "consume": [
+          {
+            "item_id": "quest_beihai95_rest_seal",
+            "quantity": 1
+          }
+        ],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": 4,
+        "next_stage_index": 6,
+        "apply_final_reward": false
+      },
+      {
+        "stage_index": 6,
+        "npc_id": "npc_shi_jingtian",
+        "map_id": "beihai_ice",
+        "interaction_anchor_id": "npc_shi_jingtian_service",
+        "service_id": "shi95_funeral",
+        "consume": [],
+        "grant": [],
+        "grant_reason": null,
+        "requires_prior_stage_receipt_index": 5,
+        "next_stage_index": 7,
+        "apply_final_reward": true
+      },
+      {
+        "stage_index": 7,
+        "kind": "terminal_delivered",
+        "automatic_with_stage_index": 6,
+        "requires_additional_command": false,
+        "consume": [],
+        "grant": [],
+        "next_stage_index": null
+      }
+    ],
+    "inventory_by_stage": {
+      "1": {
+        "required_exact": {}
+      },
+      "2": {
+        "required_exact": {}
+      },
+      "3": {
+        "required_exact": {},
+        "collection_caps": {
+          "quest_beihai95_zombie_nail": 20
+        }
+      },
+      "4": {
+        "required_exact": {},
+        "collection_caps": {
+          "quest_beihai95_zombie_nail": 20
+        }
+      },
+      "5": {
+        "required_exact": {
+          "quest_beihai95_rest_seal": 1
+        }
+      },
+      "6": {
+        "required_exact": {}
+      },
+      "7": {
+        "required_exact": {}
+      }
+    },
+    "source_stage_interpretation": "源7步完整保序；stage3明确指甲20交石惊天，stage4又带20交平十指，两交付按字面各真实消费20，分两批新采共40，但同时最多20。原物品栏仅写20与两处交付的歧义保原文，明确本地解释，不暗返第一批或伪造转交凭证。stage5消费安息符留实际葬礼收据，stage6石惊天凭收据无物终奖，stage7自动结束。"
+  },
+  "stage_transaction": {
+    "eligibility": "当前attempt/精确NPCmap锚服务<=2500mm/存活脱战空闲无挑战/连续前缀与严格阶段持物。",
+    "commit": "stage1/2仅角色修订和对白，stage3消费第一批20；stage4消费新第二批20并交换符1，阶段/来源/库存修订05/19同笔；stage5真实符消费与葬礼收据，stage6无物终奖。失败整笔保输入。",
+    "deduplication": "character/quest/attempt/stage唯一；同request同payload回原决定，异payload拒绝，原历史不回装输入/符或重奖。"
+  },
+  "collection": {
+    "producers": [
+      {
+        "quest_id": "ref_QREF-63788-012",
+        "required_stage_index": 3,
+        "monster_id": "project_beihai_flying_zombie100",
+        "map_id": "beihai_ice",
+        "item_id": "quest_beihai95_zombie_nail",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      },
+      {
+        "quest_id": "ref_QREF-63788-012",
+        "required_stage_index": 4,
+        "monster_id": "project_beihai_flying_zombie100",
+        "map_id": "beihai_ice",
+        "item_id": "quest_beihai95_zombie_nail",
+        "quantity": 1,
+        "probability_bp": 10000,
+        "cap": 20
+      }
+    ],
+    "qualification": "本人当前attempt stage3或4且当前实际指甲<20、存活连接同图世界，solo原归属或19原成员30m/入队600步快照。两阶段互斥，无提前40或旧死亡补第二批。",
+    "shared_owner": {
+      "file": "第五次升职五册真经.v1.json",
+      "pointer": "/shared_zombie_death_collection"
+    },
+    "receipt_key": [
+      "world_id",
+      "spawn_id",
+      "generation",
+      "death_id",
+      "character_id",
+      "quest_id",
+      "attempt_id",
+      "stage_index",
+      "item_id"
+    ],
+    "capacity_failure": "唯一owner五转断枪/95指甲/93符全部合格候选槽重共同预检，任一不足全部任务物无物，普通收益一次，原决定持久不补。",
+    "modifiers": "个人100%每合格新死亡1，不受终结者/修炼倍率。"
+  },
+  "monster_owner": {
+    "file": "第五次升职五册真经.v1.json",
+    "pointer": "/monsters/2"
+  },
+  "spawns_owner": {
+    "file": "第五次升职五册真经.v1.json",
+    "pointer": "/spawns"
+  },
+  "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
+  "travel_policy": "原公共北海/泫勃往返，无专用传送。遗体为固定常驻非敌对/不可伤害NPC，不参与攻击归属、普通奖励或刷新代数，不要求击杀生成。每人当前轮查验/葬礼收据独立，不移动/销毁共享遗体。",
+  "pending": [
+    "Godot两批各20/无物终交/遗体个人交互/共享死亡/保存与LAN验证",
+    "遗体/葬礼美术、动态导航与95对100级战斗经济校准"
+  ],
+  "items": [
+    {
+      "item_id": "quest_beihai95_zombie_nail",
+      "name": "飞天僵尸的指甲",
+      "source_reference_id": "QREF-63788-012",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 20,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "95当前attempt任务实物，0克99堆；指甲两阶段各封20/符1，非装备或可用消耗品，禁止使用仓丢售交易加工。"
+    },
+    {
+      "item_id": "quest_beihai95_rest_seal",
+      "name": "灵魂安息符",
+      "source_reference_id": "QREF-63788-012",
+      "source_kind": "task_item_name_not_IREFcatalog_adoption",
+      "category": "quest_token",
+      "stack_limit": 99,
+      "weight_g": 0,
+      "maximum_per_active_attempt": 1,
+      "binding": "character/quest/attempt",
+      "permissions": {
+        "equip": false,
+        "direct_use": false,
+        "warehouse": false,
+        "sell": false,
+        "discard": false,
+        "trade": false,
+        "craft": false,
+        "quest_delivery": true,
+        "abandon_cleanup": true
+      },
+      "sell_price": null,
+      "initial_grant": 0,
+      "identity_policy": "95当前attempt任务实物，0克99堆；指甲两阶段各封20/符1，非装备或可用消耗品，禁止使用仓丢售交易加工。"
+    }
+  ],
+  "corpse_source_ref": {
+    "file": "../reference/官网资料/目录正文.json",
+    "pointer": "/records/73/text"
+  }
+}

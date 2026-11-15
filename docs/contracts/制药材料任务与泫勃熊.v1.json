@@ -1,0 +1,245 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-14",
+  "status": "one_source_quest_and_one_source_monster_designed_not_implemented_not_balanced",
+  "source_policy": "QREF-63791-004 gives14level/Pingshizhi/paw100silver,gall200silver/unlimited; MREF-39821-008 gives熊/15level/hyunbo region; two item refs give names only. Monster stats/drop odds/positions/quest batch model/permissions are local design.",
+  "quest": {
+    "quest_id": "ref_QREF-63791-004",
+    "source_reference_id": "QREF-63791-004",
+    "name": "寻找制药材料",
+    "minimum_level": 14,
+    "minimum_rank": 0,
+    "class_scope": "all14classes",
+    "routes": [
+      "unselected",
+      "righteous",
+      "evil"
+    ],
+    "npc_id": "npc_pingshizhi",
+    "npc_map_id": "hyunbo_town",
+    "npc_service_id": "exchange_bear_medicine_materials",
+    "interaction_anchor_id": "hyunbo_physician_service",
+    "service_distance_mm": 2500,
+    "requires": "alive,out of combat,idle,no challenge; real carried unreserved materials,not warehouse",
+    "repeat": "unlimited explicit rounds; accept creates one in_progress round; successful exchange completes that round,explicit reaccept allocates next round; no automatic chaining",
+    "accept_fee_silver": 0,
+    "preaccept_items_count": true,
+    "objectives": "choose0..99bear_paw and0..99bear_gall,integer each,total>=1; both types optional individually,never require an invented pair",
+    "unit_rewards": {
+      "bear_paw": 100,
+      "bear_gall": 200
+    },
+    "source_reward_preserved": true,
+    "xp_reward": 0,
+    "practice_reward": 0,
+    "items_reward": [],
+    "other_reward_policy": "explicit local no additional XP/practice/progression; source only names per-piece silver",
+    "round_fields": [
+      "round_id",
+      "state",
+      "last_settlement_id_or_null"
+    ],
+    "states": [
+      "not_accepted",
+      "in_progress",
+      "delivered"
+    ],
+    "ready_policy": "any legal selected positive quantities available permit exchange; selection is UI preview,not independently saved progress count",
+    "abandon": "confirmation leaves all ordinary materials untouched,clears current in_progress round without refund/reward; next accept allocates new round ID",
+    "command_fields": [
+      "character_id",
+      "world_id",
+      "quest_id",
+      "round_id",
+      "request_id",
+      "expected_revision",
+      "bear_paw_quantity",
+      "bear_gall_quantity"
+    ],
+    "commit": "revalidate current round/qualification/NPC distance/quantities/material identity/unreserved inventory and silver ceiling; compute100*paw+200*gall; atomically consume exact selected materials,credit exact silver,mark delivered,receipt+revision",
+    "capacity_failure": "silver would exceed17ceiling rejects whole transaction,no material removal/partial quantity/warehouse credit",
+    "modifiers": "quest reward not NPCsale; no vendor-price multiplier,no team pool/training/26finisher multiplier; no inferred future supreme service modifier",
+    "deduplication": "round completed once; same request/settlement replays original,stale round rejects,never assigns retry to newly accepted round",
+    "save_policy": "same05/19host durable transaction and client confirmation; save failure retries same committed result,not materials/reward again",
+    "configuration_center": "18marked explicit edits distinct from ordinary exchange; no fake quest completion receipt"
+  },
+  "items": [
+    {
+      "item_id": "bear_paw",
+      "name": "熊掌",
+      "source_reference_id": "IREF-39807-005-1",
+      "category": "quest_exchange_material",
+      "stack_limit": 99,
+      "weight_g": 50,
+      "binding": "character",
+      "permissions": {
+        "warehouse": true,
+        "discard": true,
+        "sell": false,
+        "trade": false,
+        "craft": false,
+        "direct_use": false,
+        "quest_exchange": true
+      },
+      "sell_price": null,
+      "preaccept_inventory_counts": true,
+      "initial_grant": 0,
+      "source": "hyunbo_bear15 public random loot,one actual bag trial per drop row; normal19ownership,not per-party copies",
+      "identity_policy": "bear_gall is not 花熊的熊胆; no merging by substring"
+    },
+    {
+      "item_id": "bear_gall",
+      "name": "熊胆",
+      "source_reference_id": "IREF-39807-006-1",
+      "category": "quest_exchange_material",
+      "stack_limit": 99,
+      "weight_g": 20,
+      "binding": "character",
+      "permissions": {
+        "warehouse": true,
+        "discard": true,
+        "sell": false,
+        "trade": false,
+        "craft": false,
+        "direct_use": false,
+        "quest_exchange": true
+      },
+      "sell_price": null,
+      "preaccept_inventory_counts": true,
+      "initial_grant": 0,
+      "source": "hyunbo_bear15 public random loot,one actual bag trial per drop row; normal19ownership,not per-party copies",
+      "identity_policy": "bear_gall is not 花熊的熊胆; no merging by substring"
+    }
+  ],
+  "monster": {
+    "monster_id": "hyunbo_bear15",
+    "source_reference_id": "MREF-39821-008",
+    "name": "熊",
+    "level": 15,
+    "map_id": "hyunbo_outskirts",
+    "combat_kind": "monster",
+    "boss": false,
+    "is_npc_martial": false,
+    "max_hp": 400,
+    "max_mana": 0,
+    "attack_min": 30,
+    "attack_max": 40,
+    "ordinary_defense": 30,
+    "accuracy": 75,
+    "evasion": 30,
+    "critical_chance_bp": 0,
+    "critical_multiplier_bp": 15000,
+    "movement_mm_per_second": 2500,
+    "qigong_allocations": {},
+    "rage_enabled": false,
+    "supports_blood_devil": false,
+    "reward_profile": "explicit_source_bear_local_values",
+    "xp_reward": 6105,
+    "practice_reward": 610,
+    "silver_reward": 15,
+    "ascension_progress_reward": 500,
+    "ascension_eligibility": "14first ascension and monster>=recipientLevel-10;19separate pool,otherwise0",
+    "fixed_loot": [],
+    "random_loot": [
+      {
+        "item_id": "bear_paw",
+        "probability_bp": 5000,
+        "quantity": 1
+      },
+      {
+        "item_id": "bear_gall",
+        "probability_bp": 3000,
+        "quantity": 1
+      }
+    ],
+    "drop_trials": "two independent original draws,one bag for19kill owner;26may modify explicitly eligible ordinary chance but never repeat trials; training modifier absent outside registered rooms",
+    "finisher_reward_components": [
+      "experience",
+      "practice",
+      "silver",
+      "random_drop"
+    ],
+    "model_spec": {
+      "presentation_id": "hyunbo_bear",
+      "status": "bear model/animations required,not final art"
+    }
+  },
+  "ai_owner": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/ai",
+    "overrides": {
+      "normal_attack_range_mm": 1800,
+      "normal_windup_steps": 36,
+      "recovery_steps": 84,
+      "skills": [],
+      "aggression": "local proactive within9m; source aggression field absent",
+      "safe_zone": "honor every map safe zone/obstacle; return by valid path to home to heal,never teleport or grant reward"
+    }
+  },
+  "spawns": [
+    {
+      "spawn_id": "hyunbo_bear15_01",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_bear15",
+      "home_feet_m": [
+        -24,
+        0,
+        -60
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_bear15_02",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_bear15",
+      "home_feet_m": [
+        -24,
+        0,
+        -80
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_bear15_03",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_bear15",
+      "home_feet_m": [
+        24,
+        0,
+        -60
+      ],
+      "yaw_radians": 0
+    },
+    {
+      "spawn_id": "hyunbo_bear15_04",
+      "map_id": "hyunbo_outskirts",
+      "monster_id": "hyunbo_bear15",
+      "home_feet_m": [
+        24,
+        0,
+        -80
+      ],
+      "yaw_radians": 0
+    }
+  ],
+  "respawn": {
+    "ordinary_wait_steps": 7200,
+    "exclusion_mm": 5000,
+    "blocked": "wait at0if player within5m or occupied/nav-invalid,never select other location",
+    "generation": "world/spawn/generation unique death settlement,increment once on actual respawn",
+    "save": "ordinary story/public rebuild policy05,not training persistent actor policy; keep granted inventory/quest states/receipts and character timers; ordinary unpicked drops not preserved with exit warning",
+    "lan": "host simulated shared room,entry/party change never resets live encounter; only whole offline scene restore uses declared rebuild policy",
+    "generation_persistence": {
+      "world_field": "world.ordinary_spawn_generations[spawn_id]",
+      "new_world": "explicit empty map before spawning; first actual actor generation0,then persist last-issued generation",
+      "new_actor": "ordinary respawn or offline scene rebuild must issue last+1 before actor can generate combat/rewards; no reuse from resetting scene-local counter",
+      "commit": "last-issued counter and actor creation result under05/19host world revision; persist before eligible live actor,write failure leaves actor unspawned; disconnected client never issues generation",
+      "scope": "only monotone identity counter/death receipts persisted for rebuildable ordinary scene,not its discarded HP or AI snapshot",
+      "validation": "integer0..9007199254740991; checked increment,overflow errors; new-format missing existing world counter rejects; explicit new adoption requires marked content initialization,not load repair"
+    }
+  },
+  "pending": [
+    "Godot NPC exchange UI/loot/AI/transaction execution",
+    "bear model/animations and full early-growth economy calibration"
+  ]
+}
