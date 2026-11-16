@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dongling-random-walk-motion:v1",
+  "$comment": "原movement父十二键混乱移动单步结果，与手动/自动/怪物普通导航同本人同T互斥；仅引用唯一原意图，实际轨迹进度与余时沿原父认证，不另存路径缓存/余距/停止标志。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "speed_mm_per_second",
+    "path_positions",
+    "after_yaw_radians",
+    "event_id",
+    "source_actor_id",
+    "intent_event_id_or_null",
+    "outcome"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "speed_mm_per_second": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/speed_mm_per_second"
+    },
+    "path_positions": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/path_positions"
+    },
+    "after_yaw_radians": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/after_yaw_radians"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 85,
+      "maxLength": 85,
+      "pattern": "^dongling-walk-motion:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:dongling-random-walk-intent:v1#/$defs/source_actor_id"
+    },
+    "intent_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:dongling-random-walk-intent:v1#/$defs/event_id"
+        }
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "action_locked",
+        "control_locked",
+        "wait_reselect",
+        "moved",
+        "blocked",
+        "arrived"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^ordinary-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^training-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "action_locked",
+              "control_locked",
+              "wait_reselect"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "speed_mm_per_second": {
+            "const": 0
+          },
+          "path_positions": {
+            "maxItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "speed_mm_per_second": {
+            "minimum": 1
+          },
+          "intent_event_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "moved",
+              "arrived"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "path_positions": {
+            "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "wait_reselect"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "intent_event_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "intent_event_id_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "action_locked",
+              "control_locked"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

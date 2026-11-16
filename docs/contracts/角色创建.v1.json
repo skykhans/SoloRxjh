@@ -62,6 +62,17 @@
     "scope": "已登记新增组件及原完整气功根的创建绑定；其他已采用角色组件与完整根门禁保持，不将局部绑定当完整角色。",
     "bindings": [
       {
+        "character_field": "character.basic_combo_window_or_null",
+        "initial_value_ref": {
+          "file": "角色初始模板.v1.json",
+          "pointer": "/initial_state_profile/basic_combo_window_or_null"
+        },
+        "schema_ref": {
+          "file": "普通攻击连段窗口.schema.json",
+          "pointer": ""
+        }
+      },
+      {
         "character_field": "character.customization",
         "initial_value_ref": {
           "file": "角色初始模板.v1.json",
@@ -126,6 +137,72 @@
           "file": "武勋称号凭证.schema.json",
           "pointer": ""
         }
+      },
+      {
+        "character_field": "character.quests.adv_03_upper",
+        "initial_value_ref": {
+          "file": "三转上半段猎物考验.v1.json",
+          "pointer": "/persistent_state/initial"
+        },
+        "schema_ref": {
+          "file": "三转上半段任务状态.schema.json",
+          "pointer": ""
+        }
+      },
+      {
+        "character_field": "character.quests.adv_03",
+        "initial_value_ref": {
+          "file": "三转下半段与十四职业晋级.v1.json",
+          "pointer": "/persistent_state/initial"
+        },
+        "schema_ref": {
+          "file": "三转下半段任务状态.schema.json",
+          "pointer": ""
+        }
+      },
+      {
+        "character_field": "character.activities",
+        "initial_value_ref": {
+          "file": "主线首领遭遇.v1.json",
+          "pointer": "/persistent_ownership/character_root/initial"
+        },
+        "schema_ref": {
+          "file": "角色活动根.schema.json",
+          "pointer": ""
+        }
+      },
+      {
+        "character_field": "character.quests.adv_01",
+        "initial_value_ref": {
+          "file": "第一次升职十阶段.v1.json",
+          "pointer": "/persistent_state/initial"
+        },
+        "schema_ref": {
+          "file": "一转任务状态.schema.json",
+          "pointer": ""
+        }
+      },
+      {
+        "character_field": "character.quests.adv_02",
+        "initial_value_ref": {
+          "file": "第二次升职九阶段.v1.json",
+          "pointer": "/persistent_state/initial"
+        },
+        "schema_ref": {
+          "file": "二转任务状态.schema.json",
+          "pointer": ""
+        }
+      },
+      {
+        "character_field": "character.quests.ref_QREF-63791-016",
+        "initial_value_ref": {
+          "file": "泫勃派推荐书任务.v1.json",
+          "pointer": "/persistent_state/initial"
+        },
+        "schema_ref": {
+          "file": "泫勃推荐书任务状态.schema.json",
+          "pointer": ""
+        }
       }
     ],
     "construction": "Use actual frozen rules_hash original release/template/schema closure; resolve declared original initial-value reference and copy its explicit initial value to its one real character field, validate that complete value under its original schema and owner. Missing initial definition/schema/unknown field fails before counter reservation; never synthesize an empty component as repair.",
@@ -135,7 +212,15 @@
     "history": "Later legitimate point/training/configuration changes do not need to equal the original initial values; validate actual original creation input/digest and successor source/event history. Missing current fields never borrow the new-character initializer.",
     "legacy": "Known1..4 import uses its own explicit conversions and never this new-character receipt, digest, new ID or initial inventory grants. Existing current-format roles preserve actual configuration/history and training/point fields.",
     "remaining": "这些组件绑定不闭合其余任务/活动/完整角色/profile/world/source根，也不证明实际保存/UI/Godot执行。",
-    "qigong": "创建通过22原qigong_initial_state_ref与本binding解析同一原八键初值，校验后直接写character.qigong；不得将owner引用键、旧平铺点数/秘籍/反气功声明写角色。covered_level1/零余额/空分配与原正常升级起点一致，初始普通首招另归skills，不造读书/分配/发点事件。"
+    "qigong": "创建通过22原qigong_initial_state_ref与本binding解析同一原八键初值，校验后直接写character.qigong；不得将owner引用键、旧平铺点数/秘籍/反气功声明写角色。covered_level1/零余额/空分配与原正常升级起点一致，初始普通首招另归skills，不造读书/分配/发点事件。",
+    "activities_root_ref": {
+      "file": "主线首领遭遇.v1.json",
+      "pointer": "/persistent_ownership/character_root"
+    },
+    "adv03_lower_ref": {
+      "file": "三转下半段与十四职业晋级.v1.json",
+      "pointer": "/persistent_state"
+    }
   },
   "skill_construction_ref": {
     "file": "普通主动技能状态.v1.json",

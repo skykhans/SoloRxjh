@@ -1,0 +1,481 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:cooking-material-delivery-event:v1",
+  "$comment": "料理材料交付原三阶段，10后腿消费/5香木盒mint与可选合堆/永久完成同笔。真实来源、数量和修订、布局/容量、请求唯一及共同父另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "quest_after",
+        "stack_flows"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "quest_after": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:cooking-material-quest-state:v1"
+            },
+            {
+              "properties": {
+                "phase": {
+                  "const": "delivered"
+                }
+              }
+            }
+          ]
+        },
+        "stack_flows": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/consume_flow"
+            },
+            {
+              "$ref": "#/$defs/mint_flow"
+            },
+            {
+              "$ref": "#/$defs/merge_flow"
+            }
+          ],
+          "items": false
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "interaction_invalid",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command"
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "quest_before",
+        "inventory_before",
+        "inputs",
+        "reward_merge_inputs"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "quest_before": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:cooking-material-quest-state:v1"
+            },
+            {
+              "properties": {
+                "phase": {
+                  "const": "in_progress"
+                }
+              }
+            }
+          ]
+        },
+        "inventory_before": {
+          "$ref": "urn:solorxjh:item-locations:v1#/properties/inventory"
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "previous_output",
+              "stack"
+            ],
+            "properties": {
+              "previous_output": {
+                "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+              },
+              "stack": {
+                "allOf": [
+                  {
+                    "$ref": "urn:solorxjh:item-stack:v1"
+                  },
+                  {
+                    "properties": {
+                      "item_id": {
+                        "const": "quest_frog_hindleg"
+                      },
+                      "binding": {
+                        "const": "character"
+                      },
+                      "quantity": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 10
+                      },
+                      "quest_scope": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "quest_id",
+                          "attempt_id"
+                        ],
+                        "properties": {
+                          "quest_id": {
+                            "const": "ref_QREF-63791-001"
+                          },
+                          "attempt_id": {
+                            "$ref": "urn:solorxjh:item-stack:v1#/$defs/questScope/properties/attempt_id"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "reward_merge_inputs": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/reward_merge_input"
+          }
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:cooking-material-delivery-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    "reward_stack": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:item-stack:v1"
+        },
+        {
+          "properties": {
+            "item_id": {
+              "const": "quest_reward_aromatic_wood_box"
+            },
+            "binding": {
+              "const": "character"
+            },
+            "quest_scope": {
+              "type": "null"
+            },
+            "quantity": {
+              "minimum": 1,
+              "maximum": 99
+            }
+          }
+        }
+      ]
+    },
+    "reward_merge_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previous_output",
+        "stack"
+      ],
+      "properties": {
+        "previous_output": {
+          "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+        },
+        "stack": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/reward_stack"
+            },
+            {
+              "properties": {
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 98
+                },
+                "revision": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740990
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "consume_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "maxItems": 10
+            },
+            "outputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "minItems": 1,
+              "maxItems": 10,
+              "items": {
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10
+                  },
+                  "reason": {
+                    "const": "quest_delivery"
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "mint_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "allOf": [
+                  {
+                    "properties": {
+                      "stack": {
+                        "$ref": "#/$defs/reward_stack"
+                      },
+                      "custody": {
+                        "const": {
+                          "kind": "held"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "revision": {
+                            "const": 0
+                          },
+                          "quantity": {
+                            "const": 5
+                          }
+                        }
+                      },
+                      "contributions": {
+                        "maxItems": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "mint_authorization": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "quest_reward"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "merge_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 2,
+              "maxItems": 6
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 5,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "$ref": "#/$defs/reward_stack"
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "reward_merge_inputs": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "maxItems": 2
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "stack_flows": {
+            "minItems": 3
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,9 @@
 {
   "contract_version": 1,
+  "supreme_processing_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/processing_effect"
+  },
   "updated_on": "2026-11-14",
   "status": "explicit_regular_synthesis_design_not_implemented_not_balanced",
   "scope": "447件普通新主武器，含两条原异常的具名本地采用；不含8初始武器、英雄/剧情剑/防具/首饰/披风。伪造/未完成允许本项合成为项目选择，不变物品身份。",
@@ -154,7 +158,7 @@
     ],
     "preview": "显示原条目、目标槽、所选固定值、成功率/成功与失败状态、材料/费用及全部派生变化；完整派生owner不足时不提供可提交报价。",
     "commit": "房主按角色串行，先查命令收据；校验角色/NPC/资格/实例schema/原库存合法/资源及全部修订，在副本扣一石和5000两并校验最终格重，复制RNG后开奖；实例/费用/RNG/修订/收据一起提交。",
-    "rng": "首槽必成不抽；其余均匀整数[0,9999]一次，draw<bp成功；无随机属性抽取、无幸运/保护道具输入。",
+    "rng": "按supreme_processing_owner_ref在原槽基础上加有效至尊500bp并封顶10000；最终必成不抽，其余均匀整数[0,9999]一次，draw<有效bp成功；无随机属性抽取、无幸运/保护道具输入。",
     "idempotency": "同命令同参数返回原收据，不按现槽再执行；同命令异参数拒绝；失败也形成扣款收据，但不得用作条目origin。",
     "invalid_or_cancel": "不扣款/材料，不耗RNG、不变修订，不提前开奖；四槽满拒绝，不存在第5槽。",
     "save_failure": "保留内存提交状态与未保存标记，只重存原结果，不重新合成。",

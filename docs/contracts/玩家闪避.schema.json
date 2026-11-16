@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-dodge:v1",
+  "$comment": "十八键完整闪避根；stop_event_id_or_null非null保中断时最后真实e0..23，未停止e24仅为自然完成历史根。活跃占用仅stop=null且e0..23；原方向、费用/规则/来源与停止证明由父联合认证，不复制位置/剩余距离/无敌标志/冷却。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "source_actor_id",
+    "accepted_world_step",
+    "action_id",
+    "admission_event_id",
+    "rules_hash",
+    "accepted_direction_xz",
+    "elapsed_steps",
+    "stamina_cost",
+    "total_steps",
+    "distance_mm",
+    "cooldown_steps",
+    "invulnerability_first_step_inclusive",
+    "invulnerability_last_step_inclusive",
+    "stop_event_id_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "accepted_world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 77,
+      "maxLength": 77,
+      "pattern": "^dodge-action:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "admission_event_id": {
+      "type": "string",
+      "minLength": 80,
+      "maxLength": 80,
+      "pattern": "^dodge-admission:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:direct-attack-admission-result:v1#/properties/rules_hash"
+    },
+    "accepted_direction_xz": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "number",
+        "minimum": -1,
+        "maximum": 1
+      }
+    },
+    "elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 24
+    },
+    "stamina_cost": {
+      "const": 20
+    },
+    "total_steps": {
+      "const": 24
+    },
+    "distance_mm": {
+      "const": 3000
+    },
+    "cooldown_steps": {
+      "const": 60
+    },
+    "invulnerability_first_step_inclusive": {
+      "const": 4
+    },
+    "invulnerability_last_step_inclusive": {
+      "const": 12
+    },
+    "stop_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:dodge-stop:v1#/properties/event_id"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "stop_event_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "elapsed_steps": {
+            "maximum": 23
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,9 +1,9 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-16",
   "status": "earth_spirit_saved_points_designed_not_implemented",
   "source_reference": "../reference/辅助装备与服务类道具.md",
-  "source_policy": "old service reference lists30stored earth-spirit points and supreme unlimited earth-spirit commands;55886bans training point storage/movement. Baseline30without subscription,item costs/permissions,public-map allowlist and travel rules below are local design, not verified official base item mechanics. Supreme entitlement is not implemented here.",
+  "source_policy": "old service reference lists30stored earth-spirit points and supreme unlimited earth-spirit commands;55886bans training point storage/movement. Baseline30without subscription,item costs/permissions,public-map allowlist and travel rules below are local design, not verified official base item mechanics. Supreme no-item record/travel design is owned by至尊服务.v1.json#/unlimited_earth_spirit_effect; runtime remains disabled pending full parents.",
   "item": {
     "item_id": "earth_spirit_talisman",
     "name": "土灵符",
@@ -39,6 +39,12 @@
       "initial_grant": 0
     }
   },
+  "supreme_service_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/unlimited_earth_spirit_effect"
+  },
+  "profile_expiry_dispatch_ref": {"file": "至尊服务.v1.json", "pointer": "/expiry_dispatch"},
+  "channel_state_owner_ref": {"file": "便携传送与修炼限制.v1.json", "pointer": "/channel_state"},
   "point_capacity": 30,
   "capacity_scope": "one character total across all worlds,not30perworld; no account/party sharing",
   "map_rules": [
@@ -231,9 +237,10 @@
       "expected_revision",
       "new_label",
       "replace_point_id_or_null",
-      "expected_point_revision_or_null"
+      "expected_point_revision_or_null",
+      "authorization_kind"
     ],
-    "requires": "alive,out of combat,idle,no challenge; at least1unreserved carried earth_spirit_talisman; current source map allowed and entry qualification valid; current pose navigation/collision valid",
+    "requires": "alive,out of combat,idle,no challenge; explicit source mode requires either at least1unreserved carried earth_spirit_talisman or original valid supreme entitlement under supreme owner; no automatic mode switch; current source map allowed and entry qualification valid; current pose navigation/collision valid",
     "duration_steps": 0,
     "item_consumed": 0,
     "cooldown_started": false,
@@ -248,18 +255,18 @@
       "file": "便携传送与修炼限制.v1.json",
       "pointer": "/portable_return"
     },
-    "reuse": "same alive/out-of-combat/idle/no-challenge/cooldown0,180step channel,damage-first cancellation,600step shared portable_return cooldown,real-unit reservation,atomic consume1/receipt and no healing as base",
+    "reuse": "same alive/out-of-combat/idle/no-challenge/cooldown0,180step channel,damage-first cancellation,600step shared portable_return cooldown and no healing as base; ordinary earth_spirit_travel reserves/consumes1 real unit; supreme_talisman_travel explicitly uses entitlement branch under supreme owner without item reservation/consumption",
     "extra_command_fields": [
       "point_id",
       "expected_point_revision"
     ],
     "destination": "authoritative existing point world/map/feet/yaw,not client supplied coordinates; must match current world; validate exact current map rule and current entry gate before acceptance and completion",
     "entry_gate": "resolve named connection minimum_level/minimum_rank/required_quest; AND checks, source/return edge must not replace forward qualification; missing connection rejects",
-    "point_lock": "reserve point ID/revision alongside real item during channel; edit/delete/overwrite that point rejected until finish/cancel,other point operations remain allowed when their own command preconditions pass",
+    "point_lock": "reserve point ID/revision alongside ordinary real item or supreme entitlement-source reference during channel; edit/delete/overwrite that point rejected until finish/cancel,other point operations remain allowed when their own command preconditions pass",
     "same_map": "distance to stored destination<2.5m rejects; otherwise allowed subject base rules",
     "blocked_or_changed": "invalid/occupied/water/closed/nav-invalid target or invalid current gate cancels without cost/cooldown; never pick nearest valid point,delete point or send to town",
     "prohibited_old_point": "load rejects forbidden map/invalid pose; do not silently delete corrupted point; a valid formerly reachable point blocked by dynamic actor remains stored but travel fails",
-    "supreme": "no free/infinite command path until exact supreme entitlement owner is designed; never trust UI subscription flag"
+    "supreme": "supreme_talisman_travel follows supreme_service_owner_ref: explicit no-item branch, recheck active service after world timer at completion, expiry cancels before completion, valid renewal retains original channel with proven ancestry; no automatic ordinary-item charge. Full parents/schema pending, runtime disabled; never trust UI subscription flag"
   },
   "manage": {
     "rename": "alive/out of combat/idle/no challenge,valid point/revision and label; explicit character transaction,does not change coordinates",
@@ -272,7 +279,7 @@
     "legacy1to4": [],
     "load": "validate0..30unique points,all fields,map allowlist/world identities/finite valid static pose/revisions; new-format missing field rejects,no empty default repair",
     "inactive_world": "validate static config for foreign point; dynamic collision rechecked only when authoritative original world is available; not invalid just because current world differs",
-    "reservations": "save point ID/revision and single carried-unit reference in accepted travel action,not second copies of item or pose; restore same action remaining steps via base owner",
+    "reservations": "save point ID/revision and exactly one explicit authorization branch: ordinary single carried-unit reference or supreme real profile/service-source reference; no copied item/pose/balance. Restore same action remaining steps and validate original source chain via base/supreme owner",
     "host": "05/19same current-revision character transaction,host validates real world and destination; client cannot record arbitrary coordinates or assert entitlement",
     "schema_ref": {
       "file": "docs/contracts/土灵存点.schema.json",

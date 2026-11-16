@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:blood-devil-expiry-capture:v1",
+  "$comment": "原scope rules_and_timers捕获余时1挑战，移除活跃本体后保本T末步裁决资格；不是新效果/时钟/日志/独立提交。必须由完整历史父结果及原挑战来源认证，战后终止与消费捕获同笔。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "target_actor_id",
+    "world_step",
+    "rules_hash",
+    "challenge_before"
+  ],
+  "properties": {
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:scope-step-state:v1#/properties/instance_id_or_null"
+    },
+    "target_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "rules_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "challenge_before": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:blood-devil-challenge-state:v1"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "remaining_steps": {
+              "const": 1
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    }
+  ]
+}

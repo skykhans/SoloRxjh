@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-rebuild-drop-cleanup:v1",
+  "$comment": "普通现场整体重建的四键掉落清理子结果；嵌入原唯一生命周期共同提交，不独立分配身份或写第二日志。保真实收束后before全部三类未领权利，after三映射空由原owner规定；不是完整场景重建事件或角色/world保存父。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "scope_before",
+    "monster_silver_drops",
+    "ordinary_item_drops",
+    "bamboo_drops"
+  ],
+  "properties": {
+    "scope_before": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:scope-step-state:v1"
+        },
+        {
+          "properties": {
+            "instance_id_or_null": {
+              "type": "null"
+            },
+            "phase_or_null": {
+              "type": "null"
+            },
+            "map_id": {
+              "not": {
+                "anyOf": [
+                  {
+                    "$ref": "urn:solorxjh:world-step-state:v1#/$defs/private_map_id"
+                  },
+                  {
+                    "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "monster_silver_drops": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:monster-silver-scene-drop:v1#/$defs/drops"
+        },
+        {
+          "additionalProperties": {
+            "properties": {
+              "source_death_event_id": {
+                "$ref": "urn:solorxjh:ordinary-monster-death-identity:v1#/properties/event_id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ordinary_item_drops": {
+      "$ref": "urn:solorxjh:ordinary-item-scene-drop:v1#/$defs/drops"
+    },
+    "bamboo_drops": {
+      "$ref": "urn:solorxjh:bamboo-scene-drop:v1#/$defs/drops"
+    }
+  }
+}

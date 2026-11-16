@@ -1,0 +1,50 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "strict_two_growth_material_purchase_adopted_not_runtime",
+  "schema_ref": {
+    "file": "成长材料购买事件.schema.json",
+    "pointer": ""
+  },
+  "material_definitions": [
+    {
+      "file": "衣饰热血石合成.v1.json",
+      "pointer": "/material"
+    },
+    {
+      "file": "英雄主武器强化.v1.json",
+      "pointer": "/items/0"
+    }
+  ],
+  "stack_owner_ref": {
+    "file": "物品堆与来源.v1.json",
+    "pointer": ""
+  },
+  "layout_owner_ref": {
+    "file": "容器与仓储.v1.json",
+    "pointer": ""
+  },
+  "field": "profile.growth_material_purchase_events",
+  "initial_value": [],
+  "scope": "仅heat_blood_synthesis_stone与enhancement_stone，两者沿原唯一定义，角色绑定/非任务/10克/99堆；前者10000两，后者500两。此衣饰成长购买适配器明确现有14职业、等级>=1/rank>=0可购，不复制或修改原强化石六英雄加工目录，不授权其他材料/任务/礼包或初始授予。",
+  "service": {
+    "planned_service_id": "npc_daojianxiao_growth_material_purchase",
+    "npc_id": "npc_daojianxiao",
+    "registered": false
+  },
+  "command": "严格七键play_session_identity/command_id/expected_character_revision/expected_inventory_revision/interaction_id/item_id/quantity，quantity为原严格整数1..99，不截断/自动拆单。interaction_id绑定真实本人刀剑笑服务、项目适配器/物品/数量/价格/完整预览/规则；同角色未决占用、状态/NPC交互资格沿原经济服务门禁。",
+  "identity": "原通用分配，request_id为71确定JSON [\"growth_material_purchase\",play_session_identity.session_id,command_id]；request_digest为完整七键command的71编码SHA256。先查原请求，异参拒绝，committed只回原决定，即使材料后续已加工/移动/删除也不再发物，aborted只回原取消。",
+  "plan": "恰rules_hash/unit_price/inventory_before/merge_inputs四键，按原expected_inventory_revision冻结完整inventory布局。merge_inputs仅原材料包中实际接收增量>0的兼容合法held/非任务/本人绑定同item旧堆，按原槽号升序、再stack_id原UTF8序；每堆1..98、业务修订可+1、未占用、真实来源前输出。最多99堆，不将满堆/不接收堆加入或改版。",
+  "allocation": "将完整购买量Q依原槽序填旧堆至99，仅接收正增量的旧堆保ID/原槽位且revision+1；余量R>0新建一堆revision0到原inventory最低空槽。Q<=99故最多一个新最终堆。无余量不要求空槽，装备包/仓库空槽不能代替材料格；禁止自动整理/入仓/丢弃/部分成交。最终随身重量=原真实重量+Q*10，核完整当前承重/槽位。",
+  "reserve": "真实定义/服务/完整库存源头、原两修订与实际接收堆修订可推进、完整费用Q*unit_price及容量重量均通过才counter+1/reserved同档保存。费用最大990000，核足额本人carried_silver；不扣仓银、不分期。预留不改钱物/随机/两修订，不因报价冻结角色其他实际计时。",
+  "mint": "stack_flows[0]为唯一npc_purchase铸造：inputs/consumptions空、outputs恰本人held/绑定/非任务同item/Q颗/revision0/contributions[]，authority_receipt_id本settlement。merge_inputs空时单流receipt_id=settlement，ordinal0新堆直接入最低空槽。",
+  "merge": "merge_inputs非空时恰两流，首mint receipt_id=settlement+:stack:mint，第二=settlement+:stack:merge，无mint/consumptions。merge.inputs先原merge_inputs的previous_output按槽序，再指同事件mint唯一输出。按allocation输出各旧ID/槽/数量旧值+增量/revision+1，再输出R>0新堆；contributions精确旧输入全部数量和mint分配量，合计守恒。中间mint堆只留历史，不占临时库存格、不保活体。",
+  "identities": "沿原stack_identity_v1按全结算新ID ordinal编号，不按flow重置。无merge时ordinal0为新最终堆；有merge时ordinal0临时堆完整消费退役，若R>0使用后续ordinal1新ID/revision0。旧接收堆保ID，未接收堆保持；新ID碰撞/溢出整笔拒绝，不复用临时ID/换盐。",
+  "silver": "receipt_id本settlement，本人carried_silver真实前账户且opening=null，唯一index0→null npc_purchase支出、authority本settlement，amount=Q*plan.unit_price，after=before-amount>=0；unit_price精确原物品价格。不能将费用改service_fee、仓银或伪造opening。",
+  "commit": "原定义/规则/服务/两修订/完整库存/钱及原源头重核一致，最终stack/silver流/最新活体头/位置/重量、character/inventory各+1及正式结果同笔替换；无实例流/随机流/随机消耗，不变配置修订。原连续计时合法变化沿实际父结果认证，不能恢复报价旧时钟。",
+  "abort": "user_cancelled/interaction_invalid/state_changed保原身份与取消记录，钱物/随机/两修订不变。原自然到期若阻塞本同角色reserved，先依原真实变化持久取消失效报价再预留到期，不能双reserved或互等。缺来源/读失败/存疑写保现场报错，不当容量不足吞掉损坏。",
+  "journal": "原profile数组allocation_index递增、预留追加/决定原位替换，至多一reserved并合并原跨owner占用。新profile与四已知旧导入新目标显式[]，已有当前格式缺字段拒绝，不凭现物补材料购买历史。",
+  "recovery": "committed重放原决定，不重新铸造/扣钱/合堆或回装旧库存；reserved复核原完整计划，合法失效按原原因取消，存疑先查正式决定。两流中间输出完整依赖保留，只有最后未消费头进入活体表。",
+  "implementation_gate": "两明确材料购买严格原事件/日志/通用索引与来源授权设计采用。完整角色/profile/来源头闭包、NPC真实服务/网络producer/文件LAN与Godot仍待，registered=false；不据结构通过开放其他材料。",
+  "eligibility": "本人存活、脱战空闲，刀剑笑真实NPC可用且同图距离<=2500毫米，无挑战/传送/未结算战斗及冲突事务。现有14职业、等级>=1/rank>=0；角色未解锁衣饰穿戴体型不影响购买通用材料。原完整库存/银两来源合法，不能在仓库或远程服务直接购买。"
+}

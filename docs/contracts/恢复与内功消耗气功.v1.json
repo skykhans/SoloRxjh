@@ -128,7 +128,11 @@
     "eligible": "explicit recovery_martial_skill/HP_heal profile, including20Dongling recovery ticks; no lifesteal/HP potions/resurrection/barrier/mana",
     "periodic": "one cast grade snapshot kept for all valid ticks; do not multiply already boosted stored amount again each tick",
     "group": "same caster coefficient once independently on each legal target base amount",
-    "no_new_procs": "magnitude modifier does not manufacture hit/crit/rage/charge events"
+    "no_new_procs": "magnitude modifier does not manufacture hit/crit/rage/charge events",
+    "ordinary_support_potency_owner_ref": {
+      "file": "辅助武功采用.v1.json",
+      "pointer": "/cast_action_protocol/physician_heal_potency"
+    }
   },
   "mana_reduction": {
     "reduction_bp_per_effective_level": 100,
@@ -137,7 +141,7 @@
     "eligible_source": "one effective learned own-class Taiji source",
     "combine_with_auxiliary": "base* (10000-TaijiReduction) * (10000-strongestAuxReduction) /100000000; upward round once after product, positive result minimum1; no repeated per-source round or additive65percent cutoff",
     "zero_original_cost": 0,
-    "blood_devil": "after all ordinary reductions, explicit new martial cost override0; before affordability checks; no payment refund on already paid actions",
+    "blood_devil": "after all ordinary reductions, query blood_devil_effective_challenge_owner_ref at new martial admission (active or authenticated same-T expiry capture), then override instant martial HP/mana/stamina fees to0 before affordability; preserve named passive500 fee exception and previous payments",
     "does_not_change": [
       "HPcost",
       "stamina_cost",
@@ -150,5 +154,9 @@
     "named_proc_fee_exception": "甄凤柏内功联动气功.v1.json weapon_boost500 explicitly permits Taiji alone for extra passive500fee; ordinary auxiliary/blooddevil waiver not inferred"
   },
   "grade_policy": "existing learning conditions and named20/40 caps, temporary0 contributes zero; baseline restoration still follows item/skill definition. Missing modifier source/cost profile rejects, not guessed.",
-  "persistence": "store chosen cast recovery/cost snapshot and spent receipt, not another permanent base restore number. Potion quantity/effect/cooldown commit together; late block no catchup; same cast/tick replay no second heal."
+  "persistence": "store chosen cast recovery/cost snapshot and spent receipt, not another permanent base restore number. Potion quantity/effect/cooldown commit together; late block no catchup; same cast/tick replay no second heal.",
+  "blood_devil_effective_challenge_owner_ref": {
+    "file": "怒气出血与血雨恶魔.v1.json",
+    "pointer": "/blood_devil/effective_challenge"
+  }
 }

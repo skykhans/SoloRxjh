@@ -39,7 +39,10 @@
         "inventory_revision_after",
         "committed_world_step",
         "instance_flow",
-        "offensive_stop"
+        "offensive_stop",
+        "dodge_stop_or_null",
+        "cancelled_portable_channel_id_or_null",
+        "cancelled_support_action_id_or_null"
       ],
       "properties": {
         "phase": {
@@ -74,8 +77,50 @@
         },
         "offensive_stop": {
           "$ref": "#/$defs/offensive_stop"
+        },
+        "dodge_stop_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "urn:solorxjh:dodge-stop:v1",
+              "properties": {
+                "reason": {
+                  "const": "death"
+                }
+              }
+            }
+          ]
+        },
+        "cancelled_portable_channel_id_or_null": {
+          "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/cancelled_portable_channel_id_or_null"
+        },
+        "cancelled_support_action_id_or_null": {
+          "$ref": "urn:solorxjh:player-support-cast:v1#/$defs/cancelled_support_action_id_or_null"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "cancelled_support_action_id_or_null": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "dodge_stop_or_null": {
+                "type": "null"
+              },
+              "cancelled_portable_channel_id_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
     },
     {
       "type": "object",
@@ -152,7 +197,8 @@
       "required": [
         "rules_hash",
         "pending_death_after",
-        "equipment_before"
+        "equipment_before",
+        "death_location"
       ],
       "properties": {
         "rules_hash": {
@@ -226,8 +272,122 @@
               ]
             }
           }
+        },
+        "death_location": {
+          "$ref": "urn:solorxjh:character-location:v1"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "pending_death_after": {
+                "required": [
+                  "training_gate_choice"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "death_location": {
+                "properties": {
+                  "map_id": {
+                    "enum": [
+                      "training_beihai_01",
+                      "training_beihai_02",
+                      "training_beihai_03",
+                      "training_beihai_04",
+                      "training_beihai_05",
+                      "training_beihai_06",
+                      "training_beihai_07",
+                      "training_beihai_08",
+                      "training_beihai_09",
+                      "training_nanlin_01",
+                      "training_nanlin_02",
+                      "training_nanlin_03",
+                      "training_nanlin_04",
+                      "training_nanlin_05",
+                      "training_nanlin_06",
+                      "training_nanlin_07",
+                      "training_nanlin_08",
+                      "training_nanlin_09",
+                      "training_dongling_01",
+                      "training_dongling_02",
+                      "training_dongling_03",
+                      "training_dongling_04",
+                      "training_dongling_05",
+                      "training_dongling_06",
+                      "training_dongling_07",
+                      "training_dongling_08",
+                      "training_dongling_09",
+                      "training_huxia_01",
+                      "training_huxia_02",
+                      "training_huxia_03",
+                      "training_huxia_04",
+                      "training_huxia_05",
+                      "training_huxia_06",
+                      "training_huxia_07",
+                      "training_huxia_08",
+                      "training_huxia_09"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "death_location": {
+                "properties": {
+                  "map_id": {
+                    "not": {
+                      "enum": [
+                        "training_beihai_01",
+                        "training_beihai_02",
+                        "training_beihai_03",
+                        "training_beihai_04",
+                        "training_beihai_05",
+                        "training_beihai_06",
+                        "training_beihai_07",
+                        "training_beihai_08",
+                        "training_beihai_09",
+                        "training_nanlin_01",
+                        "training_nanlin_02",
+                        "training_nanlin_03",
+                        "training_nanlin_04",
+                        "training_nanlin_05",
+                        "training_nanlin_06",
+                        "training_nanlin_07",
+                        "training_nanlin_08",
+                        "training_nanlin_09",
+                        "training_dongling_01",
+                        "training_dongling_02",
+                        "training_dongling_03",
+                        "training_dongling_04",
+                        "training_dongling_05",
+                        "training_dongling_06",
+                        "training_dongling_07",
+                        "training_dongling_08",
+                        "training_dongling_09",
+                        "training_huxia_01",
+                        "training_huxia_02",
+                        "training_huxia_03",
+                        "training_huxia_04",
+                        "training_huxia_05",
+                        "training_huxia_06",
+                        "training_huxia_07",
+                        "training_huxia_08",
+                        "training_huxia_09"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "journal": {
       "type": "array",

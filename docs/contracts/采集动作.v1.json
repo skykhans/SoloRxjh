@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "status": "采集请求/接纳/根/推进/生效及统一队列路由采用；完整共同父未闭合，不授权独立运行",
+  "source_owner_refs": [
+    {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/gathering"
+    },
+    {
+      "file": "剧情剑与玲珑竹.v1.json",
+      "pointer": "/gathering"
+    },
+    {
+      "file": "寻找木柴任务与采集.v1.json",
+      "pointer": "/gather"
+    }
+  ],
+  "schema_refs": {
+    "action": {
+      "file": "玩家采集动作.schema.json",
+      "pointer": ""
+    },
+    "advance": {
+      "file": "采集推进结果.schema.json",
+      "pointer": ""
+    },
+    "effect": {
+      "file": "采集生效结果.schema.json",
+      "pointer": ""
+    },
+    "firewood_request": {
+      "file": "木柴采集请求.schema.json",
+      "pointer": ""
+    },
+    "admission": {
+      "file": "采集接纳结果.schema.json",
+      "pointer": ""
+    }
+  },
+  "identity": {
+    "encoding": "沿原71合同规范化编码/哈希规则，以下数组逐项保原类型，不拼接字符串或重排。ID正文摘要为小写SHA256；输入必须来自真实原接纳/父证明，不能凭客户端自报或重算当前规则认证历史。",
+    "admission": "gather-admission: + hash([\"gather_admission\",world_id,authority_profile_id,map_id,instance_id_or_null,world_step,source_actor_id,request.play_session_identity.session_id,request.command_id])；world_step等成功根accepted_world_step。原命令同会话跨结果种类去重，重放直接回原采集或攻击结果，不能换当前T重新路由；原完整请求摘要沿71认证。",
+    "action": "gather-action: + hash([\"gather_action\",admission_event_id])",
+    "advance": "gather-advance: + hash([\"gather_advance\",action_id,world_step])",
+    "effect": "gather-effect: + hash([\"gather_effect\",action_id])",
+    "drop": "gather-drop: + hash([\"gather_drop\",effect_event_id])；只在bamboo_felled创建一次原场景领取权。"
+  },
+  "root": {
+    "fields": "二十一键根冻结原世界/authority/scope、生命actor、接纳T/ID、规则摘要、采集种类、节点及接纳代次。位置、工具、采集者character、剩余时长、奖励量与占用bool不再复制。节点位置及角色身份沿原owner解析。",
+    "timing": "接受T为e0，不在本T推进。仅真实获授scope后续步每次e加1，竹36步且e13落效，木柴180步且e180落效。自然到总时长不造完成/停止事件；停止只能在总时长前，保真实e与已有落效引用。",
+    "fees": "两类HP/内功/体力费用均0。竹本人原gathering固有冷却接纳时设36，按原计时扣除；木柴根cooldown_steps=0，成功后的1800属于共享节点。失败/停止不回滚已消费时间或原冷却。",
+    "stop": "引用首次真实原停止父ID，不造第二停止日志。死亡取原committed.identity.settlement_id，正式end取原receipt_id，迁移取原迁移身份；木柴敌伤/失联/移动等取消引用真正持有取消的原父结果。原父尚未严格持有此子变更时不得仅写一个字符串声称已闭合。自然结束后不再写停止，重复来源不重复清预留。",
+    "stop_owner_refs": [
+      {
+        "file": "死亡与复活保存.v1.json",
+        "pointer": "/gather_stop"
+      },
+      {
+        "file": "角色会话.v1.json",
+        "pointer": "/end_records/gather_stop"
+      }
+    ]
+  },
+  "advance": {
+    "phase": "post_combat开始先处理本T战斗已固定的死亡/敌伤取消，再推进仍活跃且accepted_world_step<T的采集根；在本阶段新的活动/服务输入前完成。竹到期效果按原action_id未经规范化UTF8排序。新输入或前阶段已拒绝命令不得在本阶段重试。",
+    "single_step": "每动作每真实scope步最多一个十二键决定。正常cancelled_firewood_action_id_or_null=null，after=before+1且不超总时长；逐步资格取消则引用精确本action_id、after=before、effect=null，根stop绑定本advance.event_id。子结果context/actor/action须与唯一根完全一致。正常到原effect_step才带同父effect引用，其余步null；root.effect到期后永久保留，advance.effect只在落效步非null。",
+    "pause": "离线整场暂停不推进；LAN按原scope继续。木柴失联明确取消；其他停止资格只沿各原owner，不把全部动作统一清空。",
+    "atomicity": "原post_combat父同笔持有推进、根e/效果引用及实际节点/经验/掉落/物品变化；未确认不得前移阶段、独立发奖或把effect另记一份日志。恢复须认证原完整before与真实剩余来源，不能由当前节点重建已完成效果。",
+    "worklist": {
+      "schema_ref": {
+        "file": "场景固定步状态.schema.json",
+        "pointer": "/properties/post_combat_pending_gather_action_ids_or_null"
+      },
+      "field": "post_combat_pending_gather_action_ids_or_null为原scope唯一null或动作ID数组，非独立context/日志，不复制world/T/规则或根正文。仅phase=post_combat为数组，空[]说明本采集工作段已完成；其他阶段必须null。",
+      "freeze": "combat最终原父确认本T必要伤害/死亡波及原批全部闭合后，进入post_combat同笔冻结该scope accepted_gathers中accepted_world_step<T、stop=null、e<duration的全部旧根action_id，按未经规范化UTF8字节序递增；空集合也安装[]。只依真实完整根全集与原输入/伤害结果，不能按镜头/在线玩家/节点有无预留筛掉应处理项。已因本T敌伤/死亡停止的根不再入队，若停止尚待其明确post_combat前置父则保原待处理来源并在消费前收束。",
+      "head": "只处理当前队首：先认证原scope/生命/完整根及本T先行取消证明。仍活跃则先做eligibility_check：正常同父e+1及必要effect，资格取消同父保e/写stop/释放本人同代预留；两者保存唯一advance并删除队首。先行原合法停止则只核真实停止父并消费队首，不补advance/e或落效。未经合法停止根消失、已处理本T却仍在队列、缺源均拒绝。",
+      "ordering": "所有旧采集推进沿同一action_id全序，非到期的推进也消费一项，竹同代第三击归属由这一原序决定。当前T新接纳e0根不在冻结集合；同动作同T至多一个advance，同已消费请求不会因切stage重入。",
+      "recovery": "恢复先验证原进入post_combat的完整冻结证明，再把当前数组与初始有序全集的精确剩余后缀对照；已移除前缀逐项解析原不可变推进/停止父及效果/共同提交。不能从after根/当前节点重建初始全集、重新排序或追加重连请求，不另存next_index/完成ID集合。存疑先核原正式决定，不先删队首。",
+      "exit": "仅队列空后才允许本阶段新的F拾取/服务/活动输入按原owner次序执行；[]不证明血魔/其他post_combat工作已完成。全部必要阶段来源闭合后，置本字段null和进入finalize同笔；不能因队列空提前完成整个阶段。",
+      "boundary": "十字段投影与本旧采集剩余队列采用，原完整combat退出/取消/推进共同父、初始全集来源与其他post_combat输入context仍待；不独自授权运行。"
+    },
+    "eligibility_check": "处理仍活跃旧木柴队首时，在e+1之前从真实before重验角色存活/原任务仍active、同scope、距节点<=2米及原视线；任一正常资格失效用本advance原父取消并消费队首，保e、代次/冷却/资源，无effect或输出。恰2米合法；不等e180才检查。节点缺失、代次/预留矛盾、位置或任务来源缺失是坏现场并拒绝原父，不伪装正常取消；外部目标销毁/迁移若已有自身原停止父则认证后走先行停止路径。格重和15份上限仍仅到期检查，不提前取消。竹保原第13步落效资格规则，不套用木柴逐步取消。"
+  },
+  "bamboo": {
+    "validity": "e13重验原节点/代次、未倒、本人合法生命/scope及原2米/朝向/视线；不换目标。合法hits0或1得到bamboo_hit，hits2得到bamboo_felled。目标失效得到bamboo_invalidated，无经验/掉落；本动作后摇仍走至e36。",
+    "hit": "两种成功均原hits加1、本人经验加10，不走战斗命中/队伍资源/随机；第三击同父hits3/remaining1800。多动作同代第三击后，后续到期者invalidated。成长数值溢出或来源损坏拒绝整父，不能伪装成正常目标失效。",
+    "drop": "仅bamboo_felled非null scene_drop_id，节点脚位创建最后有效采击者的一单位linglong_bamboo领取权；本effect不铸造held物品堆。实际拾取才按原gather来源授权铸造并更新任务携带量，满包掉落留地。六键场景领取权与正式拾取事件沿pickup_owner_ref，完整场景/输入共同父仍待。",
+    "pickup_owner_ref": {
+      "file": "竹材掉落与拾取.v1.json",
+      "pointer": ""
+    }
+  },
+  "firewood": {
+    "completion": "e180先确认未被本T敌伤等取消，重验原任务/生命/作用域/2米/视线、同代节点与本动作唯一预留及最终格重/携带上限。成功firewood_collected同父生成一单位本人+任务绑定held木柴、节点generation+1/recharge1800/collector=null，根自然e180完成。 原任务携带上限按真实inventory+knight_bag本任务总量，不因移分区获得额外15份；输出仍仅inventory。",
+    "capacity": "最终格重不足或携带上限得到firewood_capacity_rejected，effect仍存在但无物品流；只释放仍属本动作的预留，不增代次/冷却，根自然e180完成。不会转仓库或地面。",
+    "invalidity": "每次原推进在e+1前沿advance.eligibility_check检查，包含e179准备完成的真实before。普通资格/目标失效在原e停止，无落效；不再允许推进到e180生成另一个目标失效结论。同一原父内检查与完成之间不得夹入其他权威写入。缺失/伪造预留、代次来源矛盾或所有者指向别的动作属于损坏，拒绝原父保before，不清别人的预留。",
+    "flow": "成功stack_flows恰单gather mint或mint→merge两流，非成功与全部竹结论严格[]。唯一mint无inputs/consumptions/contributions、恰本人held/quest_firewood数量1/revision0/binding=character、quest_scope仅原quest_id。正式落效event_id是原采集父持有的一次业务来源，authority_receipt_id精确本event_id；不另分配通用结算，不把来源字符串当授权。",
+    "allocation": {
+      "before": "e180在原共同父真实before完整核当前held库存及来源/修订/布局，所有本人同任务木柴携带总量须<15；容量按最终+500克及实际原inventory检查。挑第一个可接收的本人held/character绑定/同quest_id旧木柴堆，按真实槽号再stack_id UTF8排序，旧堆数量1..14、revision可+1。不能把仓库/其他任务/其他角色/非最新来源混入，坏堆不跳过后强制新建。",
+      "no_merge": "无可接收旧堆时stack_flows恰一个mint，receipt_id=本effect.event_id，原stack_identity_v1以本effect.event_id作唯一结算源、ordinal0派生新堆ID/revision0，入最低空inventory槽。无空槽正常firewood_capacity_rejected且stack_flows=[]；不找别包/仓库/地面。",
+      "merge": "有旧堆时恰两流。首mint receipt_id=effect.event_id+:stack:mint，authority_receipt_id仍effect.event_id，ordinal0临时堆数量1；次merge receipt_id=effect.event_id+:stack:merge，inputs按旧堆previous_output、该mint唯一输出顺序恰两项。merge无授权/consumptions，output恰旧ID/本人/held/原绑定任务/原槽，quantity=旧+1、revision=旧+1、origin_receipt_id=merge ID，contributions依次为input0旧全量与input1数量1。临时堆全消费退役，只留历史、不占临时格，不生成第二新堆或改其他槽/版本。",
+      "bounds": "任一总量/500克重量/修订/节点代次安全整数预检、实际堆来源或新ID冲突错误拒绝原完整父保before；不把溢出/损坏降级为容量拒绝。合法携带上限/最终重量或槽不足则具名容量失败，保原节点代次/无共享冷却，仅释放本动作预留。",
+      "atomicity": "选择旧堆、源消费/铸造/合并、最新held头/槽/重量、人物和库存真实业务修订与节点generation+1/recharge1800/collector=null、原e180推进/落效结果在同一个原post_combat共同决定。节点计时和动作推进本身不凭此伪增库存修订；真正成功入包两业务修订各+1，失败不改库存。父保存effect.stack_flows一次，不在独立profile事件日志复制本effect。完整父schema与跨接收者结果仍待。",
+      "recovery": "原effect唯一ID绑定原action/node_generation，确认已提交只回其原单/双流，不因木柴后来上交/清理/合并再发1或回装旧堆。未确认先查原正式共同父，保真实计划/来源；不能恢复时按当前空槽重选合堆目标/重分配ID。"
+    },
+    "partition_policy_ref": {
+      "file": "寻找木柴任务与采集.v1.json",
+      "pointer": "/partition_policy"
+    }
+  },
+  "integration_boundary": "原scope严格六表accepted_gathers与五类跨四表占用、原六kind队列及竹原请求路由、四键木柴请求和十四键采集结果已采用。实际完整输入/接纳/取消父、真实经验/场景领取权与物品共同提交继续待；严格投影不能单独授权运行。普通竹不持久现场与木柴持久world节点维持原生命周期。D1未通过，Godot未开始。",
+  "admission": {
+    "queue": "沿原七键direct_attack_admission_worklist_or_null，竹保原八键player_command请求，木柴四键player_firewood_gather；均在原source_actor/command_id UTF8全序中处理。先冻结原意图，不预选根/node_generation或改写kind。实际队首处理before才路由，结果与移除队首、真实原取消/费用/预留/根同笔，不另建采集输入表。",
+    "bamboo_dispatch": "仅normal_attack可采竹；显式六已知竹ID无论当前是否倒地/超距均路由采集并按资格接纳/拒绝，不因其失效转普通攻击或最近竹。其他未知显式ID沿原直接攻击目标拒绝，不自动修正。无显式目标时沿原近攻击锥敌优先；无该敌且2米内存在原合法植物才按实际距离、node_id UTF8排序取最近。无合法植物保原普通朝向攻击分支。武功永不采集。判定在战斗武器/普攻触发前，采集成功/失败均不借普通攻击生成伤害/随机/战斗资源。",
+    "before": "合法本会话仍Playing并控制真实source_actor、同world/authority/scope与当前生命；按原五类联合占用、同T成功、控制/活动和原节点几何认证。已成功的其他本T动作不因后来停止获第二次成功机会。竹需原gathering冷却就绪、原未倒节点与2米/朝向/LOS，木柴需原任务active、非战斗、携带<15、2米/LOS、同堆无冷却且无预留；不要求装备工具或战斗武器。木柴最终格重沿e180重验，不预扣材料/格子。",
+    "result": "十四键采集接纳结果保原request与真实source_actor，accepted只引用accepted_gathers唯一e0根，reason=null；rejected无根且reason为明确原原因，无新费用/冷却/预留/经验/物品，原木柴被本新输入取消仍沿显式引用同父停止。成功竹设本人gathering冷却36；成功木柴同父写collector_action指本根，冻结实际node_generation。已知不合法输入结构/来源冲突拒绝协议，不用玩法reason掩盖损坏。",
+    "reason_order": "在结构及真实来源已认证后，首个玩法失败按session_not_active、source_unavailable、action_occupied（含本T已有成功）、hard_controlled、activity_forbidden、target_not_eligible（含错误地图/倒竹/木柴冷却）、out_of_range、line_of_sight_blocked、facing_required（仅竹）、cooldown_active（仅竹）、node_reserved（仅木柴）、in_combat（仅木柴）、quest_not_active（仅木柴）、owned_limit_reached（仅木柴）顺序。无该族条件即跳过，不能抽随机或以另一节点修正。",
+    "combo": "成功采集沿原combo_window.other_actions清旧普通窗口，拒绝不清；不推进普通连段、不占普通武器攻击冷却。原后摇末12步本地普攻缓存按原owner发送后才形成正式请求；不得为采集另建自动连采/重试缓存。",
+    "cancellation": "经过来源/正文去重认证的新攻击/闪避/技能/明确木柴交互意图，沿原输入父先取消自动路线；木柴交互用既有explicit_cancel，竹仍用原普攻hostile_input，不新增路线终止原因。对正在木柴采集者，原owner规定的新移动/攻击/技能/闪避/交互先取消旧根/仅本人预留，再判断新意图玩法资格；即使新动作拒绝也不恢复旧木柴。该取消引用真实新输入/接纳父结果ID，无费用退款；若旧根本T才成功，取消后仍因同T成功守卫拒绝第二动作。未知来源/重复已决定输入不重复取消，七类原结果的显式引用沿cancellation_binding，完整原输入共同父仍待。"
+  },
+  "cancellation_binding": {
+    "field": "cancelled_firewood_action_id_or_null是原取消来源结果的必有nullable动作引用，无独立gather-stop事件/日志/原因副本。引用指accepted_gathers唯一活跃firewood根，不能指竹、完成/停止旧根或另生命/另scope。没有该真实取消时显式null；缺表/坏源/多占用是错误，不能填null掩盖。",
+    "source_schema_refs": [
+      {
+        "file": "直接攻击接纳结果.schema.json",
+        "pointer": "/properties/cancelled_firewood_action_id_or_null"
+      },
+      {
+        "file": "闪避接纳结果.schema.json",
+        "pointer": "/properties/cancelled_firewood_action_id_or_null"
+      },
+      {
+        "file": "辅助位移接纳结果.schema.json",
+        "pointer": "/properties/cancelled_firewood_action_id_or_null"
+      },
+      {
+        "file": "采集接纳结果.schema.json",
+        "pointer": "/properties/cancelled_firewood_action_id_or_null"
+      },
+      {
+        "file": "玩家徒步移动结果.schema.json",
+        "pointer": "/properties/cancelled_firewood_action_id_or_null"
+      },
+      {
+        "file": "自动路径接纳结果.schema.json",
+        "pointer": "/properties/cancelled_firewood_action_id_or_null"
+      },
+      {
+        "file": "战斗伤害结果.schema.json",
+        "pointer": "/properties/cancelled_firewood_action_id_or_null"
+      },
+      {
+        "file": "采集推进结果.schema.json",
+        "pointer": "/properties/cancelled_firewood_action_id_or_null"
+      }
+    ],
+    "new_input": "来源认证与同session/command_id正文去重之后，实际新玩家攻击/技能/闪避/木柴交互意图，或本T手动非零轴、明确新自动路线输入，先在所属原结果同父取消本人旧木柴，再判新命令玩法资格。新命令accepted/rejected均可能带引用；协议错误/重复已决定输入不产生新取消。AI直接攻击接纳始终null。手动request=null或双轴0必须null；单Shift/镜头转向不取消。自动逐步推进不是新输入，不新增取消字段或再次取消。",
+    "damage": "项目明确敌伤取消采用原outcome=resolved且hp_resolution.actual_hostile_hp_loss>0：本人真实敌方直接/周期/状态爆发实际损失均可，blocked/miss/盾全吸收或实际0不取消。破罩自罚不加入敌伤基数；成功致命拦截仍实际敌伤>0则可取消。源关系/目标生命与实际HP来源须真实认证，不凭正整数推敌对。",
+    "binding": "引用非null则原结果实际event_id精确等根stop_event_id_or_null；原before必须stop=null/e<180，保原真实e和已有历史，原节点collector必须等本action且同代。原父同笔释放该预留、写根停止及本结果、原输入/伤害业务与队首消费；代次/共享冷却不变，无木柴/XP/费用退款。不得用取消旧引用清后来收集者。",
+    "ordering": "原伤害实际HP结算后、同父最终死亡之前先处理本木柴正敌伤取消，随后真死父不覆盖已停止首因；非敌伤真死仍沿原死亡父直接停止。这样到期e180不会先发物再回收。同T旧动作被新输入取消后，原本T已成功守卫保持，不允许第二成功。",
+    "lifecycle": "死亡/正式end仍直接绑定原正式ID，不为这些父加本字段；原stop_owner_refs保持。临时失联沿connection_owner_ref原连接转换结果。逐步发现目标资格/范围/视线失效沿advance.eligibility_check原推进父停止；外部目标销毁/迁移自身的完整来源父仍待，不凭推进事件伪造先前外部转换。真实取消不补e180。",
+    "boundary": "八类原结果取消引用与同父语义采用，采集推进十二键；玩家接纳/徒步结果十四键、自动路径十三键、伤害二十一键。完整输入/伤害before、迁移父、连接观察共同父与world共同决定仍待；字段通过不证明事务运行闭合。",
+    "connection_owner_ref": {
+      "file": "角色会话.v1.json",
+      "pointer": "/connection_lifecycle/cancel_binding"
+    }
+  }
+}

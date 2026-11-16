@@ -1,0 +1,756 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:aromatic-wood-box-open-event:v1",
+  "$comment": "香木宝盒固定开启三阶段结构；原输入/余盒/5药来源与同背包布局、请求身份及数量修订关系另验。尚待日志与完整父接入。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "stack_flows"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "stack_flows": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/consume_flow"
+            },
+            {
+              "$ref": "#/$defs/mint_flow"
+            },
+            {
+              "$ref": "#/$defs/merge_flow"
+            }
+          ],
+          "items": false
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "source_unavailable",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "stack_id",
+        "expected_stack_revision"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "stack_id": {
+          "$ref": "urn:solorxjh:item-stack:v1#/properties/stack_id"
+        },
+        "expected_stack_revision": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/expected_inventory_revision"
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "inventory_before",
+        "box_input",
+        "reward_merge_inputs"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "inventory_before": {
+          "$ref": "urn:solorxjh:item-locations:v1#/properties/inventory"
+        },
+        "reward_merge_inputs": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/reward_merge_input"
+          }
+        },
+        "box_input": {
+          "$ref": "#/$defs/box_input"
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:aromatic-wood-box-open-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    "reward_stack": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:item-stack:v1"
+        },
+        {
+          "properties": {
+            "item_id": {
+              "const": "consumable_hp_small"
+            },
+            "binding": {
+              "const": "character"
+            },
+            "quest_scope": {
+              "type": "null"
+            },
+            "quantity": {
+              "minimum": 1,
+              "maximum": 99
+            }
+          }
+        }
+      ]
+    },
+    "reward_merge_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previous_output",
+        "stack"
+      ],
+      "properties": {
+        "previous_output": {
+          "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+        },
+        "stack": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/reward_stack"
+            },
+            {
+              "properties": {
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 98
+                },
+                "revision": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740990
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "consume_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "outputs": {
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/box_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "maximum": 98
+                          },
+                          "revision": {
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  },
+                  "contributions": {
+                    "minItems": 1,
+                    "maxItems": 1,
+                    "items": {
+                      "properties": {
+                        "input_index": {
+                          "const": 0
+                        },
+                        "quantity": {
+                          "maximum": 98
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "consumptions": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "input_index": {
+                    "const": 0
+                  },
+                  "quantity": {
+                    "const": 1
+                  },
+                  "reason": {
+                    "const": "use"
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "mint_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "allOf": [
+                  {
+                    "properties": {
+                      "stack": {
+                        "$ref": "#/$defs/reward_stack"
+                      },
+                      "custody": {
+                        "const": {
+                          "kind": "held"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "revision": {
+                            "const": 0
+                          },
+                          "quantity": {
+                            "const": 5
+                          }
+                        }
+                      },
+                      "contributions": {
+                        "maxItems": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "mint_authorization": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "loot"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "merge_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 2,
+              "maxItems": 6
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 5,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "$ref": "#/$defs/reward_stack"
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "box_stack": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:item-stack:v1"
+        },
+        {
+          "properties": {
+            "item_id": {
+              "const": "quest_reward_aromatic_wood_box"
+            },
+            "binding": {
+              "const": "character"
+            },
+            "quest_scope": {
+              "type": "null"
+            },
+            "quantity": {
+              "minimum": 1,
+              "maximum": 99
+            }
+          }
+        }
+      ]
+    },
+    "box_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previous_output",
+        "stack"
+      ],
+      "properties": {
+        "previous_output": {
+          "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+        },
+        "stack": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/box_stack"
+            },
+            {
+              "properties": {
+                "revision": {
+                  "maximum": 9007199254740990
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "reward_merge_inputs": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "maxItems": 2
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "stack_flows": {
+            "minItems": 3
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "box_input": {
+                "properties": {
+                  "stack": {
+                    "properties": {
+                      "quantity": {
+                        "const": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "prefixItems": [
+              {
+                "properties": {
+                  "outputs": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "stack_flows": {
+            "prefixItems": [
+              {
+                "properties": {
+                  "outputs": {
+                    "minItems": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "reward_merge_inputs": {
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "prefixItems": [
+              {},
+              {},
+              {
+                "properties": {
+                  "inputs": {
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "outputs": {
+                    "minItems": 1,
+                    "maxItems": 2
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "reward_merge_inputs": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "prefixItems": [
+              {},
+              {},
+              {
+                "properties": {
+                  "inputs": {
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "outputs": {
+                    "minItems": 2,
+                    "maxItems": 3
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "reward_merge_inputs": {
+                "minItems": 3,
+                "maxItems": 3
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "prefixItems": [
+              {},
+              {},
+              {
+                "properties": {
+                  "inputs": {
+                    "minItems": 4,
+                    "maxItems": 4
+                  },
+                  "outputs": {
+                    "minItems": 3,
+                    "maxItems": 4
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "reward_merge_inputs": {
+                "minItems": 4,
+                "maxItems": 4
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "prefixItems": [
+              {},
+              {},
+              {
+                "properties": {
+                  "inputs": {
+                    "minItems": 5,
+                    "maxItems": 5
+                  },
+                  "outputs": {
+                    "minItems": 4,
+                    "maxItems": 5
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "reward_merge_inputs": {
+                "minItems": 5,
+                "maxItems": 5
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "prefixItems": [
+              {},
+              {},
+              {
+                "properties": {
+                  "inputs": {
+                    "minItems": 6,
+                    "maxItems": 6
+                  },
+                  "outputs": {
+                    "minItems": 5,
+                    "maxItems": 5
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

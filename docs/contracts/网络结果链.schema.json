@@ -1064,6 +1064,97 @@
               ]
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:public-travel-result:v1"
+            },
+            "record": {
+              "$ref": "urn:solorxjh:public-travel-result:v1"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:player-support-cast-admission:v1"
+            },
+            "record": {
+              "$ref": "urn:solorxjh:player-support-cast-admission:v1"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:support-cast-effect:v1"
+            },
+            "record": {
+              "$ref": "urn:solorxjh:support-cast-effect:v1"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:dongling-support-cast-admission:v1"
+            },
+            "record": {
+              "$ref": "urn:solorxjh:dongling-support-cast-admission:v1"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "record"
+          ],
+          "properties": {
+            "owner": {
+              "const": "urn:solorxjh:dongling-direct-attack-admission:v1"
+            },
+            "record": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:dongling-direct-attack-admission:v1"
+                },
+                {
+                  "properties": {
+                    "source_actor_id": {
+                      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+                    }
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     },
@@ -1083,7 +1174,8 @@
         "inventory_revision_after",
         "character_before_digest",
         "character_after_digest",
-        "character_after_base64"
+        "character_after_base64",
+        "required_profile_world_step_or_null"
       ],
       "properties": {
         "play_session_identity": {
@@ -1168,6 +1260,18 @@
         },
         "character_after_base64": {
           "$ref": "urn:solorxjh:character-session:v1#/$defs/opening_character_base64"
+        },
+        "required_profile_world_step_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          ]
         }
       },
       "$comment": "完整传输/重放封套结构，原业务正文与本地保存水位分开。Base64必须解码全量角色并先验完整根/来源，快照业务摘要仅剔除network_receipts；完整角色根未采用前不能应用此封套。",
@@ -1193,6 +1297,26 @@
                 "type": "string",
                 "minLength": 1,
                 "pattern": "\\S"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "required_profile_world_step_or_null": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "producer": {
+                "properties": {
+                  "owner": {
+                    "const": "urn:solorxjh:character-session:v1#/$defs/end_receipt"
+                  }
+                }
               }
             }
           }

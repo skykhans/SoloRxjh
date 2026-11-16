@@ -1,0 +1,112 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "apparel_dismantling_design_not_authorized_instance_flow_or_runtime",
+  "scope": "全部1155精确衣饰，0..15强化各可分解；47功能记录不在本配方范围。分解与无产物主动丢弃、自然整件到期是不同终结原因。",
+  "identity_schema_ref": {
+    "file": "衣饰目录身份.schema.json",
+    "pointer": ""
+  },
+  "enhancement_owner_ref": {
+    "file": "衣饰强化.v1.json",
+    "pointer": ""
+  },
+  "synthesis_owner_ref": {
+    "file": "衣饰热血石合成.v1.json",
+    "pointer": ""
+  },
+  "lifetime_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": ""
+  },
+  "source": {
+    "record_file": "../reference/V25图示核对记录.md",
+    "section": "3. 强化披风分解确认",
+    "published": "已实际查看gs7.png：强化披风分解需第二层确认，输入当日日期MMDD；未证明本项目具体配方和产物。",
+    "project": "所有衣饰可分解，输出本地角色绑定通用热血石，数量1+floor(真实强化/3)，额外1000两；为可预览的有限回收项目方案，不退原合成条数、强化石、银两或纪念时长。"
+  },
+  "recipe": {
+    "recipe_id": "apparel_dismantle",
+    "consumed_instance_quantity": 1,
+    "silver_fee": 1000,
+    "output_item_id": "heat_blood_synthesis_stone",
+    "output_item_definition_ref": {
+      "file": "衣饰热血石合成.v1.json",
+      "pointer": "/material"
+    },
+    "quantity_formula": "1 + floor(enhancement / 3)",
+    "quantity_by_enhancement": [
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      4,
+      4,
+      4,
+      5,
+      5,
+      5,
+      6
+    ],
+    "random_draw_required": false,
+    "output_binding": "character",
+    "output_scope": "仅本角色inventory合法堆，不进装备包、不自动卖掉/入仓/寄邮件；输出材料来源必须真实引用本分解消费实例及正式结果。"
+  },
+  "service": {
+    "planned_service_id": "npc_daojianxiao_apparel_dismantle",
+    "registered": false,
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "qualification": "本人存活脱战空闲，无挑战/传送/未结算战斗，NPC可用且同图2.5米内；唯一输入本人equipment_bag真实held、未占用且完整身份/成长/来源/当前余时合法。无需穿戴体型/职业合格，只需合法持有；仓/两套cape须先明确取出/卸下。"
+  },
+  "confirmation": {
+    "first": "展示目标instance_id对应独立款式/强化/已有合成/绑定/实际余时、不可逆销毁、确定输出数量及1000两。仅选目标/预览不消费。",
+    "enhanced": "enhancement>0才必须第二层输入当日四位ASCII MMDD，保前导零；禁止空格/全角数字/自动补全或按钮自动填值。确认值不是密码，不作账号认证。0级仍需第一层明确销毁确认，其date_input必须null。",
+    "date_authority": "由执行房主操作系统的本地日历日期在报价时确定，客户端显示房主提示；明确这是交互确认用墙钟，与衣饰寿命的模拟步时钟无关，不据日期推进寿命。冻结完整ISO calendar_date于本原服务报价及正式结果、输入仅MMDD，提交先核房主当前本地日期与冻结日期相等再严格比对四字节。",
+    "midnight": "跨本地午夜或房主系统日历变化使未提交报价失效，重新预览/确认；不能借提交时新日期悄悄替换原提示。正式提交后重放先去重，不因日期已变而重复销毁或拒认旧结果。",
+    "target_changes": "选择另一实例、强化/合成/纪念到期等业务修订变化、服务会话变更或重开界面均使原确认失效，必须重新审阅；不能凭同名/同MMDD把确认转给新目标。",
+    "cancel": "任一层取消均不扣钱/实例/材料/随机/修订，不新增正式终结事件。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "recipe_id",
+      "recipe_version",
+      "expected_enhancement",
+      "expected_output_quantity",
+      "calendar_date_or_null",
+      "date_input_or_null",
+      "command_id"
+    ],
+    "clock": "审阅不冻结期限；原角色rules_and_timers先推进、整件到期先按期限终结，旧分解报价失效且无回收产物。纪念属性到期使revision改变，重新审阅；未到期真实余时须原权威实际步对账，不写回报价旧余时。",
+    "admit": "房主串行先去重，异参数同命令拒绝；重验完整输入/原来源头、本人最新域、修订/会话/服务资格、固定公式输出、确认及日期、随身银两。0级calendar_date_or_null/date_input_or_null都必须null；强化件均非空且相互匹配。",
+    "capacity": "在候选中移除唯一输入并扣1000两，再将1..6材料合入允许同定义同绑定堆/空材料槽，核最终分区容量和全域重量。装备包腾出一格不等于材料包有格，不能把输出塞入装备槽、丢弃超量或先消费后报错。",
+    "commit": "同一正式事件消费精确旧实例/当前唯一域与来源头、终结全部成长、生成具名材料stack_flow和扣银/修订/结果；角色/inventory各+1且无存活衣饰后继，不创建新衣饰或转移旧血统给材料。不退/复制原合成石来源，不借重复确认多发。",
+    "random": "确定数量，不消费任何角色或世界随机流，也不为分解补抽。",
+    "save_and_replay": "已提交保存失败保同结果仅重存；存疑核原决定/实例头/材料来源，不再次毁物扣钱或发石。取消或预检失败无部分终结/材料/银费/修订。"
+  },
+  "authorization_gate": "专用apparel_dismantling终结原因及严格三阶段分解/材料mint与可选merge事件已采用；仍需完整档案/角色/真实时钟/来源及NPC/网络运行适配，保持registered=false，不借discard/到期授权发物。",
+  "definition_owner_ref": {
+    "file": "衣饰基础定义.v1.json",
+    "pointer": ""
+  },
+  "full_instance_owner_ref": {
+    "file": "衣饰实例.v1.json",
+    "pointer": ""
+  },
+  "apparel_dismantling_owner_ref": {
+    "file": "衣饰分解事件.v1.json",
+    "pointer": ""
+  }
+}

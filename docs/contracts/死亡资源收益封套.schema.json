@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:death-resource-envelope:v1",
+  "$comment": "原死亡共同决定中的五键资源收益封套。三池与个人结果逐ID/数量/源相等、party全集、solo归属与倍率/角色转换须语义联验；不含物品/银包/生命周期，不是完整死亡或world。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "party_or_null",
+    "experience_pool_or_null",
+    "practice_pool_or_null",
+    "ascension_pool_or_null",
+    "personal_credits"
+  ],
+  "properties": {
+    "party_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "party_id",
+            "members"
+          ],
+          "properties": {
+            "party_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "members": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "urn:solorxjh:death-party-member-snapshot:v1"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "experience_pool_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:death-reward-pool:v1"
+        }
+      ]
+    },
+    "practice_pool_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:death-reward-pool:v1"
+        }
+      ]
+    },
+    "ascension_pool_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:death-reward-pool:v1"
+        }
+      ]
+    },
+    "personal_credits": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:death-personal-resource-credit:v1"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "experience_pool_or_null": {
+            "type": "null"
+          },
+          "practice_pool_or_null": {
+            "type": "null"
+          },
+          "ascension_pool_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "personal_credits": {
+            "maxItems": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "personal_credits": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

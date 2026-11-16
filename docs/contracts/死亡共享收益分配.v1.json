@@ -1,0 +1,58 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-16",
+  "status": "shared_allocation_design_runtime_pending",
+  "authority_ref": "../19-局域网组队聊天与多开.md",
+  "pool_schema_ref": {
+    "file": "死亡共享收益池.schema.json",
+    "pointer": ""
+  },
+  "scope": "原唯一死亡共同决定内经验/普通历练/升天进度分别采用本原分配算法；无额外收益日志、随机或新通用结算。资格与个人倍率/上限仍归19及各原owner。",
+  "snapshot": "使用原死亡同一实际before的成员/连接/生命/场景/30m/入队600步与本步迁入资格；记录完整资格源在原父。合格成员按character_id未经规范化UTF8字节序唯一排序。等级取该死亡前1..180实际等级，XP升级不能倒改本次权重。未知/缺坏队伍来源报错，不退回单人。",
+  "pool": "n=len(allocations)，W=sum(level)。base为原绝命唯一合法分量修正后的非负安全整数；pool=floor(base*(20+n-1)/20)。采用足够宽精确整数/除法，先检查结果可存范围；中间乘积不得用浮点或以MAX截断。总人数与权重仅从原唯一行计算，不另存可冲突缓存。",
+  "allocation": "每行qi=floor(pool*level_i/W)，r=pool-sum(qi)。依原UTF8顺序前r行各加1，其余不变；0<=r<n，每人最多补1。不是按小数余数大小重排。所有allocated和pool非负且sum(allocated)=pool，重复ID即使正文不同也拒绝。",
+  "resources": "经验与普通历练各自独立base/池/分配；升天进度先按原一式/怪物等级筛独立子组，再单独算人数权重。某资源合格集合空时该池为null，不构造allocations=[]或除0；是否正常单人归属仍由原真实死亡归属判定，不能凭某子组空给全队或杀手补份额。",
+  "personal": "分配后按本死亡已认证源取原个人最高倍率、一次floor，再按各资源合法上限记实际/溢出。XP满级成员仍参与普通池，不回流溢出；NPC份额进入自己原成长记录，不复制到主人。个人加成不回灌pool；任务物/交付奖励/普通银两不混入此池。",
+  "commit": "完整原死亡父保死亡身份、资格依据、三资源原池或null、每人实际原状态转换及来源/个人增量/溢出；同共同决定与死亡生命周期、普通物品/个人任务结果提交。个人失败与整体决定策略须由完整父明确，不能先给部分人再重算池。重放回原结果，退队/重连/升级/腾包不重算。",
+  "boundary": "本结构闭合共享池算法与审查落点，不是完整死亡父。完整成员资格来源、个人资源转移/来源、完整死亡共同父及world多接收者协议仍待；P/T实现和实际平衡后续验证。",
+  "member_snapshot_schema_ref": {
+    "file": "死亡队伍成员快照.schema.json",
+    "pointer": ""
+  },
+  "member_snapshot_protocol": {
+    "coverage": "原队伍在死亡共同before的成员全集各一行，包含不合格者，character_id及actor_id各唯一；不能先滤掉断线/死亡/远处者后声称覆盖全集。实际party_id、成员关系、world/authority/死亡scope/T及原角色会话/队伍来源由共同父持有，行内不复制世界身份。无队时沿真实solo归属，不造虚拟入队时间。",
+    "qualification": "同原world/authority且map与instance均等死亡scope、hp>0、T>=joined_world_step且T-joined_world_step>=600、真实脚位置距原死亡点<=30米。position复用既有米制XYZ，范围按原19采用三维欧氏距离平方<=900，不将米误当毫米或对距离取整；有限性/合法原位置需先验。玩家connected_or_null=true；NPC显式null，按原NPC活跃同行来源，不捏造玩家连接。",
+    "migration": "destination_arrival_event_id_or_null仅引用原已提交公共交通本T迁入当前目的scope的accepted结果；非null即该生命本死亡不合格，须解析原迁移/会话/共同父证明确实本T/本人/目的scope，不能随意填字符串排除成员。null同样须原完整迁移历史证明本T无此事件，不能将缺证明当未迁入；不另存eligible布尔或arrived_T。",
+    "reasons": "UI从原行与父派生全部实际失败原因，顺序为scope不符、死亡、玩家断开、本步迁入、入队不足、超范围；理由显示不改原资格，只有全部满足才进入各普通资源池。升天子组再按原额外资格筛选。坏源/未来入队步/未知成员不是正常不合格而是拒绝坏共同决定。",
+    "boundary": "成员十一字段快照及判定设计采用；完整队伍变更/会话/NPC共同父、三池封套与个人转换仍待，不能凭快照单独发奖。"
+  },
+  "personal_credit_schema_ref": {
+    "file": "死亡个人资源入账.schema.json",
+    "pointer": ""
+  },
+  "personal_credit_protocol": {
+    "identity": "每个至少在一个原非null资源池有分配行的character_id恰一子结果；每个字段是否null逐资源与真实原池行对应，allocated=0也保该池合法零行，不以0当缺席。三字段全null拒绝，不对未参与者造空入账。NPC走本NPC原记录，不发给主人。",
+    "capped": "经验cap=371126840985，普通历练cap=9007199254740991。A=floor(allocated*multiplier_bp/10000)，room=cap-before，applied=min(A,room)，overflow=A-applied，after=before+applied。以精确宽整数验证中间值；个人倍率放大后A可能超安全整数，若applied/overflow或其他需保存结果超MAX则整原决定拒绝，不截断/换乘序。before/after须等原角色真实相应字段；个人增量A-allocated由原结果派生，无新加成余额。",
+    "sources": "经验10000/12000/15000、历练10000/14000/15000只允许原19相应源最高倍率；10000表示无有效额外源。完整源/规则/世界时钟在共同父保留，不能仅凭枚举值授予加成。升天进度不受上述倍率。",
+    "ascension": "仅原合格升天子组行可非null。S=progress_before+allocated，generated=S//10000，progress_after=S%10000；stones_applied=min(generated,MAX-pending_before)，stones_overflow=generated-stones_applied，pending_after=pending_before+stones_applied。原before/after精确对应cultivation字段；不生成inventory实物，不因pending满额抹余数，不把丢失石兑换经验/历练或补队友。",
+    "level": "经验before/after沿等级经验阈值推出前后等级；升级发点/covered_level区间、基础成长与当前HP/mana上限调整仍同原死亡决定，按原14/职业成长/点数owner，不在本结果复制level或第二点数账。资格/分配权重只用死亡before等级。",
+    "atomicity": "原共同决定需先预检全部接收者合法完整状态、源与可保存结果，算完三池/个人入账/升级/任务物再一次发布。一个接收者结构或来源坏则拒绝整个候选决定，保原未决，不先给其他人；合法满级/待领满是明确溢出结果而非坏源。实际多档案保存按原05/19权威封套/确认，不能把网络重试当重新入账。",
+    "boundary": "本资源子结果只声明入账数字与原余额关系；完整角色/点数after、倍率来源/资格及三池/死亡world共同父尚待，不凭子schema启用发奖。"
+  },
+  "resource_envelope_schema_ref": {
+    "file": "死亡资源收益封套.schema.json",
+    "pointer": ""
+  },
+  "envelope_protocol": {
+    "placement": "五键resource收益封套作为原唯一死亡决定的一个原字段；普通/修炼死亡均复用，不在profile新建资源日志或给每池分配事件号。它只覆盖XP/普通历练/升天资源，不取代原银包、物品/任务、随机、致死伤害、停止根、角色转换与world共同父。",
+    "party": "party_or_null非null必须等原死亡归属对应真实队伍ID及死亡before完整成员快照；null只可由已认证原归属/队伍状态明确允许的solo模式产生。空有效子组可使某池null，但不能删party快照把坏来源当solo。",
+    "bijection": "逐池行character_id唯一且UTF8严格递增；personal_credits.character_id按相同顺序且唯一，集合恰三池行ID并集。每人每资源对象非null当且仅当该池存在本人行；其allocated逐值相等，level等原资格快照真实before。三池均null时credits恰[]，零分配的合法行仍必须有结果，不因为数值0漏掉。",
+    "eligibility": "原父先从party完整快照或solo认证源推导各资源允许集合，资源配置明确不授予者池null；池行集合必须精确等对应允许集合，不得只取部分合法成员扩大余人份额。升天子组独立，普通XP/历练实际定义及资格逐项核验。",
+    "audit": "先验完整原死亡/归属/规则及成员源，再验三池分配与个人数额/倍率源/封顶，最后联验实际角色成长/发点与各域来源和world。封套同身份全文一致只作传输重放，不重新发奖；异文拒绝。",
+    "boundary": "资源共同封套结构已采用；完整生命周期+银包/物品/任务/随机+角色after/world父及LAN保存证明仍待，不能把五键封套当完整死亡事务。",
+    "ordinary_death_outcome_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/respawn/death_outcome"
+    }
+  }
+}

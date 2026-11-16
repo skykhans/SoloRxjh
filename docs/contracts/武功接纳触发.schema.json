@@ -1,0 +1,486 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:martial-admission-procs:v1",
+  "$comment": "原攻击武功根martial_admission_procs，按真实调用顺序保存实际抽过的三字段结果；无调用为空数组，失败保false，不填null占位。不含原刺客两专用触发（沿其独立快照），不复制随机日志/派生增幅/角色面板。十四具名源二十一合法序列形状；真实职业/阶段/血层/费用/等级与随机用途仍须原接纳父完整证明。",
+  "oneOf": [
+    {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 0,
+      "items": false
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/sword_rage"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/tan_rage"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/musician_gain"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/han_gain"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/mei_attack"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/lu_stone"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/zhen_weapon"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/spear_duel"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/sword_power"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/physician_gain"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/han_stack"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/han_extreme"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/sword_rage"
+        },
+        {
+          "$ref": "#/$defs/sword_power"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": false,
+      "prefixItems": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/physician_gain"
+            },
+            {
+              "properties": {
+                "triggered": {
+                  "const": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$ref": "#/$defs/physician_double"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/han_stack"
+        },
+        {
+          "$ref": "#/$defs/han_extreme"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/han_stack"
+        },
+        {
+          "$ref": "#/$defs/han_gain"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/han_extreme"
+        },
+        {
+          "$ref": "#/$defs/han_gain"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/han_stack"
+        },
+        {
+          "$ref": "#/$defs/han_extreme"
+        },
+        {
+          "$ref": "#/$defs/han_gain"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/zhen_extra_targets"
+        }
+      ]
+    },
+    {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/zhen_weapon"
+        },
+        {
+          "$ref": "#/$defs/zhen_extra_targets"
+        }
+      ]
+    }
+  ],
+  "$defs": {
+    "draw": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "qigong_id",
+        "effective_grade",
+        "triggered"
+      ],
+      "properties": {
+        "qigong_id": {
+          "type": "string"
+        },
+        "effective_grade": {
+          "$ref": "urn:solorxjh:normal-admission-proc:v1#/oneOf/1/properties/effective_grade"
+        },
+        "triggered": {
+          "$ref": "urn:solorxjh:normal-admission-proc:v1#/oneOf/1/properties/triggered"
+        }
+      }
+    },
+    "sword_rage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_sword_526d7146868a"
+            }
+          }
+        }
+      ]
+    },
+    "tan_rage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_tan_hualing_526d7146868a"
+            }
+          }
+        }
+      ]
+    },
+    "musician_gain": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_musician_92e2a06cde35"
+            }
+          }
+        }
+      ]
+    },
+    "han_gain": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_han_feiguan_9b9acbfddd29"
+            }
+          }
+        }
+      ]
+    },
+    "mei_attack": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_mei_liuzhen_15fbf2a219d2"
+            }
+          }
+        }
+      ]
+    },
+    "lu_stone": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_lu_fenglang_a5f621132db5"
+            }
+          }
+        }
+      ]
+    },
+    "zhen_weapon": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_zhen_fengbai_9eca08cd0894"
+            }
+          }
+        }
+      ]
+    },
+    "spear_duel": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_spear_0fd0be5106f8"
+            }
+          }
+        }
+      ]
+    },
+    "sword_power": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_sword_4291cfbf9f01"
+            }
+          }
+        }
+      ]
+    },
+    "physician_gain": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_physician_e73e0539ee71"
+            }
+          }
+        }
+      ]
+    },
+    "physician_double": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_physician_6abb46da8a4b"
+            }
+          }
+        }
+      ]
+    },
+    "han_stack": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_han_feiguan_7eb4aed2b2b4"
+            }
+          }
+        }
+      ]
+    },
+    "han_extreme": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_han_feiguan_2e9107f47d37"
+            }
+          }
+        }
+      ]
+    },
+    "zhen_extra_targets": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/draw"
+        },
+        {
+          "properties": {
+            "qigong_id": {
+              "const": "qigong_zhen_fengbai_d33fc09ee12f"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

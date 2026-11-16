@@ -1,5 +1,9 @@
 {
   "contract_version": 1,
+  "supreme_processing_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/processing_effect"
+  },
   "updated_on": "2026-11-15",
   "status": "ordinary_armor_synthesis_design_not_runtime_ready_not_balanced",
   "scope": "仅51普通1219件及55武勋106件的精确目录并集1325件；不含77异常基础值、21门派、初始短衫或其他装备。",
@@ -395,7 +399,7 @@
       "command_id"
     ],
     "preview": "显示空槽/所选属性固定值、成功率、石/银费及成功失败全部派生；完整成长owner未闭合不可生成可提交报价",
-    "commit": "房主按角色串行先查已提交成功或失败收据；同命令异参数拒绝。重验全部资格/修订/原库存，副本扣1具名石和5000随身银两、验最终格重，必成不抽样，其他从0..9999均匀抽一次，draw<bp成功，RNG/费用/实例/修订/收据一起原子提交",
+    "commit": "房主按角色串行先查已提交成功或失败收据；同命令异参数拒绝。重验全部资格/修订/原库存，副本扣1具名石和5000随身银两、验最终格重，按supreme_processing_owner_ref算原基础+有效至尊500bp封顶10000的最终概率，必成不抽样，其他从0..9999均匀抽一次，draw<bp成功，RNG/费用/实例/修订/收据一起原子提交",
     "success": "只追加一条连续槽，value取所选池固定值，origin_receipt_id写本次成功收据；其他合法字段保留",
     "failure": "同样扣石和银费，数组/全部防具字段保留，记录失败结果以去重",
     "invalid_cancel_full": "不扣材料/钱、不抽样、不改修订；内甲长度2已满，其他长度4已满，不用第3/4槽配方越过内甲上限",

@@ -1,0 +1,555 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:hyunbo-recommendation-delivery-event:v1",
+  "$comment": "泫勃推荐书前置最终交付三阶段事件；同一提交消费本attempt完整10斧/5证物、发唯一推荐书、增加11000XP并推进原气功等级历史。输入全集/数量求和、经验封顶算术、等级发点来源及完整共同父另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase", "identity", "command", "plan"],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase", "identity", "command", "plan", "character_revision_after", "inventory_revision_after", "quest_after", "stack_flows", "progress_after", "qigong_after"],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "quest_after": {
+          "$ref": "urn:solorxjh:hyunbo-recommendation-quest-state:v1"
+        },
+        "stack_flows": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/consume_flow"
+            },
+            {
+              "$ref": "#/$defs/mint_flow"
+            }
+          ],
+          "items": false
+        },
+        "progress_after": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:character-progress:v1"
+            },
+            {
+              "properties": {
+                "completed_rank": {
+                  "const": 1
+                },
+                "route": {
+                  "const": "unselected"
+                },
+                "hp": {
+                  "minimum": 1
+                },
+                "total_xp": {
+                  "minimum": 6352000
+                }
+              }
+            }
+          ]
+        },
+        "qigong_after": {
+          "$ref": "urn:solorxjh:qigong-state:v1"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase", "identity", "command", "plan", "reason"],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "interaction_invalid",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "interaction_id",
+        "confirmed_experience_cap_loss"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/play_session_identity"
+        },
+        "command_id": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/command_id"
+        },
+        "expected_character_revision": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/expected_character_revision",
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/expected_inventory_revision",
+          "maximum": 9007199254740990
+        },
+        "interaction_id": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/interaction_id"
+        },
+        "confirmed_experience_cap_loss": {
+          "type": "boolean"
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "quest_before",
+        "inventory_before",
+        "inputs",
+        "progress_before",
+        "qigong_before",
+        "experience"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "quest_before": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:hyunbo-recommendation-quest-state:v1"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": "in_progress"
+                },
+                "completion_receipt_id_or_null": {
+                  "type": "null"
+                }
+              }
+            }
+          ]
+        },
+        "inventory_before": {
+          "$ref": "urn:solorxjh:item-locations:v1#/properties/inventory"
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 15,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/material_input"
+          },
+          "allOf": [
+            {
+              "contains": {
+                "type": "object",
+                "required": ["stack"],
+                "properties": {
+                  "stack": {
+                    "required": ["item_id"],
+                    "properties": {
+                      "item_id": {
+                        "const": "recommendation_bandit_axe"
+                      }
+                    }
+                  }
+                }
+              },
+              "minContains": 1,
+              "maxContains": 10
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": ["stack"],
+                "properties": {
+                  "stack": {
+                    "required": ["item_id"],
+                    "properties": {
+                      "item_id": {
+                        "const": "recommendation_bandit_proof"
+                      }
+                    }
+                  }
+                }
+              },
+              "minContains": 1,
+              "maxContains": 5
+            }
+          ]
+        },
+        "progress_before": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:character-progress:v1"
+            },
+            {
+              "properties": {
+                "completed_rank": {
+                  "const": 1
+                },
+                "route": {
+                  "const": "unselected"
+                },
+                "hp": {
+                  "minimum": 1
+                },
+                "total_xp": {
+                  "minimum": 6341000
+                }
+              }
+            }
+          ]
+        },
+        "qigong_before": {
+          "$ref": "urn:solorxjh:qigong-state:v1"
+        },
+        "experience": {
+          "$ref": "#/$defs/experience"
+        }
+      }
+    },
+    "experience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base_award",
+        "credited",
+        "discarded"
+      ],
+      "properties": {
+        "base_award": {
+          "const": 11000
+        },
+        "credited": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 11000
+        },
+        "discarded": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 11000
+        }
+      }
+    },
+    "material_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previous_output",
+        "stack"
+      ],
+      "properties": {
+        "previous_output": {
+          "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+        },
+        "stack": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:item-stack:v1"
+            },
+            {
+              "properties": {
+                "item_id": {
+                  "enum": [
+                    "recommendation_bandit_axe",
+                    "recommendation_bandit_proof"
+                  ]
+                },
+                "binding": {
+                  "const": "character"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10
+                },
+                "quest_scope": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "quest_id",
+                    "attempt_id"
+                  ],
+                  "properties": {
+                    "quest_id": {
+                      "const": "ref_QREF-63791-016"
+                    },
+                    "attempt_id": {
+                      "$ref": "urn:solorxjh:item-stack:v1#/$defs/questScope/properties/attempt_id"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "consume_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 2,
+              "maxItems": 15,
+              "uniqueItems": true
+            },
+            "outputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "minItems": 2,
+              "maxItems": 15,
+              "uniqueItems": true,
+              "items": {
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10
+                  },
+                  "reason": {
+                    "const": "quest_delivery"
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "mint_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "urn:solorxjh:item-stack:v1"
+                      },
+                      {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv02_recommendation"
+                          },
+                          "binding": {
+                            "const": "character"
+                          },
+                          "quest_scope": {
+                            "type": "null"
+                          },
+                          "quantity": {
+                            "const": 1
+                          },
+                          "revision": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "contributions": {
+                    "maxItems": 0
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "quest_reward"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:hyunbo-recommendation-delivery-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "committed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "delivered"
+              }
+            }
+          },
+          "command": {
+            "properties": {
+              "expected_character_revision": {
+                "maximum": 9007199254740990
+              },
+              "expected_inventory_revision": {
+                "maximum": 9007199254740990
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "plan"
+        ],
+        "properties": {
+          "plan": {
+            "properties": {
+              "experience": {
+                "properties": {
+                  "discarded": {
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "confirmed_experience_cap_loss": {
+                "const": true
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "command": {
+            "properties": {
+              "confirmed_experience_cap_loss": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

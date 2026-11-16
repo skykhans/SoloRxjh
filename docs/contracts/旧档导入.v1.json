@@ -124,6 +124,16 @@
     "source_is_read_only": true
   },
   "target_role": "Fang Chen sword preset, rank0 route unselected; do not run22new-character grants",
+  "portable_travel_admission_event_conversion": {
+    "target_field": "profile.portable_travel_admission_events",
+    "policy": "四已知旧源新目标显式[]，已有目标保原日志/未决；现行缺字段拒绝，不从当前读条推造接纳历史。"
+  },
+  "portable_travel_channel_conversion": {
+    "accepted_sources": "four accepted schema/content pairs only",
+    "target_character_field": "portable_travel_channel_or_null",
+    "explicit_value": null,
+    "policy": "已知旧源无已接纳读条，新导入角色显式null；已有目标保合法动作，不恢复旧源瞬移或消费；现行缺字段拒绝。"
+  },
   "earth_spirit_point_conversion": {
     "accepted_sources": "four accepted schema/content pairs only",
     "target_character_field": "earth_spirit_points",
@@ -334,10 +344,6 @@
     "existing_target_roles": "import creates separate role,never resets already played target role quests or host worlds",
     "new_format_missing_fields": "reject;not load repair",
     "owner_specific_initial_values": {
-      "adv_03_upper": {
-        "violation_count": null,
-        "failure_receipts": []
-      },
       "adv_05": {
         "book_stages": {},
         "book_2_path_or_null": null,
@@ -401,7 +407,30 @@
         "cancelled_attempt_receipts": [],
         "final_receipt_or_null": null
       }
-    }
+    },
+    "owner_specific_initial_refs": {
+      "adv_03_upper": {
+        "file": "三转上半段猎物考验.v1.json",
+        "pointer": "/persistent_state/initial"
+      },
+      "adv_03": {
+        "file": "三转下半段与十四职业晋级.v1.json",
+        "pointer": "/persistent_state/initial"
+      },
+      "adv_01": {
+        "file": "第一次升职十阶段.v1.json",
+        "pointer": "/persistent_state/initial"
+      },
+      "adv_02": {
+        "file": "第二次升职九阶段.v1.json",
+        "pointer": "/persistent_state/initial"
+      },
+      "ref_QREF-63791-016": {
+        "file": "泫勃派推荐书任务.v1.json",
+        "pointer": "/persistent_state/initial"
+      }
+    },
+    "application": " adv_01、adv_02、adv_03_upper与adv_03完整根各仅取owner_specific_initial_refs各原严格初值，不继承通用模板键或把引用元数据写角色。 ref_QREF-63791-016仅取原owner三键完整初值，不继承通用stage/branch/receipts或复制推荐书物品。"
   },
   "player_trade_conversion": {
     "owner_file": "玩家交易.v1.json",
@@ -456,7 +485,7 @@
   "inventory_layout_conversion": {
     "owner_file": "容器与仓储.v1.json",
     "owner_pointer": "/persistent_layout",
-    "policy": "仅accepted_version_pairs四组旧来源的新导入角色；按原背包顺序与weapon/armor建立唯一正文注册表及位置引用，0扩容，不丢失超堆数量、不免费扩容；容量/类型/来源不合法整笔拒绝；导入事件有实际正文/位置产出时inventory_revision初始0加1，无任何实物产出则保持0；保其他目标角色/世界，现有新格式缺字段拒绝"
+    "policy": "仅accepted_version_pairs四组旧来源的新导入角色；按原背包顺序与weapon/armor建立唯一正文注册表及位置引用，0扩容，不丢失超堆数量、不免费扩容；容量/类型/来源不合法整笔拒绝；导入事件有实际正文/位置产出时inventory_revision初始0加1，无任何实物产出则保持0；保其他目标角色/世界，现有新格式缺字段拒绝 新导入角色knight_bag显式{slots:[]}，既有目标角色分区保持；不从旧inventory移物或推断至尊权益。 新导入角色knight_bag_overweight_or_null显式null；既有目标角色保原合法来源，不按重量补造到期。"
   },
   "play_session_conversion": {
     "owner_file": "角色会话.v1.json",
@@ -945,7 +974,11 @@
     "new_profile_value": [],
     "existing_profile_policy": "保原日志；旧故事进度不造新入场/attempt/world",
     "character_field": "character.activities.story_boss",
-    "character_value": null
+    "character_value": null,
+    "character_root_ref": {
+      "file": "主线首领遭遇.v1.json",
+      "pointer": "/persistent_ownership/character_root"
+    }
   },
   "story_boss_return_event_conversion": {
     "target_field": "profile.story_boss_return_events",
@@ -1029,5 +1062,184 @@
     "target_field": "profile.heavenly_stone_claim_events",
     "new_profile_value": [],
     "existing_profile_policy": "保原日志；四已知旧档按原cultivation转换，不伪造历史待领奖励/领取，不改既有角色石堆或点数"
+  },
+  "apparel_purchase_event_conversion": {
+    "target_field": "profile.apparel_purchase_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；四已知旧档没有已采用衣饰/本地购买事件，不造物或购买历史。仅新建目标档案显式初始化空数组，已有当前格式缺字段拒绝，不把缺失当空或再次购买。"
+  },
+  "apparel_processing_event_conversion": {
+    "target_field": "profile.apparel_processing_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；四已知旧档不伪造衣饰加工/材料/随机历史，仅新目标显式[]；当前格式缺字段拒绝，不以旧强化映射生成衣饰加工结果。"
+  },
+  "apparel_dismantling_event_conversion": {
+    "target_field": "profile.apparel_dismantling_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；四已知旧档不伪造分解/回收材料历史，仅新目标显式[]，当前格式缺字段拒绝。"
+  },
+  "apparel_expiry_event_conversion": {
+    "target_field": "profile.apparel_expiry_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；四已知旧档不伪造衣饰/实际步或到期历史，仅新目标显式[]，当前格式缺字段拒绝。"
+  },
+  "basic_combo_window_conversion": {
+    "owner_ref": {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/basic_combo_policy/persistent_window"
+    },
+    "target_field": "character.basic_combo_window_or_null",
+    "initial": null,
+    "policy": "仅四已知schema/content来源的新导入角色显式null，不生成普通攻击/完成历史。已有目标角色/window/world保持；现行格式缺字段拒绝，不以导入补窗口。"
+  },
+  "growth_material_purchase_event_conversion": {
+    "target_field": "profile.growth_material_purchase_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志；四已知旧档不伪造两成长材料购买/铸造历史，仅新目标显式[]，当前格式缺字段拒绝。"
+  },
+  "bamboo_pickup_event_conversion": {
+    "target_field": "profile.bamboo_pickup_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧档仅新目标显式[]，已有目标保原日志/未决，不按旧竹材现物伪造采倒/拾取历史；当前格式缺字段拒绝。"
+  },
+  "supreme_service_conversion": {
+    "owner_ref": {
+      "file": "至尊服务.v1.json",
+      "pointer": "/ownership"
+    },
+    "schema_ref": {
+      "file": "至尊服务状态.schema.json",
+      "pointer": ""
+    },
+    "target_field": "profile.supreme_service_or_null",
+    "new_profile_value": null,
+    "existing_profile_policy": "四已知旧来源新目标显式null，不按角色等级/背包同名道具或旧时间猜权益。已有目标保既存权益/余时/全部来源与活动guard，不覆盖null/加时/造激活历史；当前格式缺字段拒绝，不能借导入修复坏档。"
+  },
+  "supreme_service_purchase_event_conversion": {
+    "target_field": "profile.supreme_service_purchase_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧来源仅新目标显式[]，已有目标保原购买事件/未决和物品来源；不按现物或权益倒造购买。当前格式缺字段拒绝。"
+  },
+  "supreme_service_activation_event_conversion": {
+    "target_field": "profile.supreme_service_activation_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧来源仅新目标显式[]；已有目标保原事件/未决/权益来源，不能由现有服务余时倒造激活。当前格式缺字段拒绝。"
+  },
+  "knight_bag_move_event_conversion": {
+    "target_field": "profile.knight_bag_move_events",
+    "policy": "四已知旧来源新建目标档案显式[]，导入已有目标保原日志及未决；不从物品当前位置补造移动历史。当前格式缺字段拒绝。"
+  },
+  "firewood_state_conversion": {
+    "owner_ref": {
+      "file": "寻找木柴任务与采集.v1.json",
+      "pointer": "/persistent_state"
+    },
+    "policy": "四已知旧来源新导入角色firewood_task显式not_accepted/null，不从旧竹材或源任务名推断进度；已有角色保原合法任务/来源。新目标firewood_delivery_events=[]，已有目标保原日志/未决；当前缺字段拒绝。"
+  },
+  "firewood_transition_event_conversion": {
+    "target_field": "profile.firewood_task_transition_events",
+    "policy": "四已知旧来源新建目标显式[]，已有目标保原日志/未决；不从当前active/木柴缺失推断历史接取放弃，当前格式缺字段拒绝。"
+  },
+  "cooking_material_transition_conversion": {
+    "owner_ref": {
+      "file": "五级寻找料理材料.v1.json",
+      "pointer": "/transition_protocol"
+    },
+    "target_field": "profile.cooking_material_task_transition_events",
+    "policy": "四已知旧来源新目标档案显式[]，已有目标保原日志/未决；新导入角色按本任务初值，已有角色不重置。当前格式缺字段拒绝，不从后腿/已开盒倒造接取或交付。"
+  },
+  "cooking_material_delivery_conversion": {
+    "target_field": "profile.cooking_material_delivery_events",
+    "policy": "四已知旧源新目标显式[]；已有目标保原日志/未决，原已存在角色状态/完成来源不重置，不从香木盒或等级倒造交付。当前格式缺字段拒绝。"
+  },
+  "aromatic_wood_box_open_conversion": {
+    "target_field": "profile.aromatic_wood_box_open_events",
+    "policy": "四已知旧源新目标显式[]；已有目标保原日志及未决。不从余盒/药品倒造开盒历史，不重发历史奖励；当前格式缺字段拒绝。"
+  },
+  "monster_silver_pickup_conversion": {
+    "target_field": "profile.monster_silver_pickup_events",
+    "policy": "四已知旧源新目标显式[]；已有目标保原日志/未决，不从当前银余额倒造拾取记录，不重发银包。当前格式缺字段拒绝。"
+  },
+  "adv03_lower_transition_event_conversion": {
+    "target_field": "profile.adv03_lower_transition_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志/计数/未决；四旧来源新角色只按原任务初态，不造接取/放弃历史。"
+  },
+  "adv03_lower_stage_event_conversion": {
+    "target_field": "profile.adv03_lower_stage_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "保原日志/计数/未决；四旧来源新角色按原任务初态，不造阶段交换或最终晋级历史。"
+  },
+  "ordinary_item_pickup_event_conversion": {
+    "target_field": "profile.ordinary_item_pickup_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧源仅新目标显式[]；已有目标保原日志/计数/未决及来源，不按现物倒造普通怪死亡或领取；当前格式缺字段拒绝。"
+  },
+  "adv03_upper_state_conversion": {
+    "target_field": "character.quests.adv_03_upper",
+    "initial_value_ref": {
+      "file": "三转上半段猎物考验.v1.json",
+      "pointer": "/persistent_state/initial"
+    },
+    "schema_ref": {
+      "file": "三转上半段任务状态.schema.json",
+      "pointer": ""
+    },
+    "policy": "仅四已知旧源新导入角色显式原六键未接初值，不从等级/原旧主线推已交付，不造失败/接取/交付历史；已有目标其他角色保原实际状态/来源，当前格式缺键/旧错误violation_count拒绝。"
+  },
+  "adv03_upper_transition_event_conversion": {
+    "target_field": "profile.adv03_upper_transition_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧源仅新目标显式[]；已有目标保原日志/计数/未决及原推荐书/本轮来源，不按等级或现物倒造接取/放弃。当前格式缺字段拒绝。"
+  },
+  "adv03_upper_stage_event_conversion": {
+    "target_field": "profile.adv03_upper_stage_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧源仅新目标显式[]；已有目标保原阶段日志、计数、未决、原任务和成长/气功/实物来源。不得按等级、现物或当前任务状态倒造阶段交付。当前格式缺字段拒绝。"
+  },
+  "activities_state_conversion": {
+    "target_field": "character.activities",
+    "schema_ref": {
+      "file": "角色活动根.schema.json",
+      "pointer": ""
+    },
+    "initial_value_ref": {
+      "file": "主线首领遭遇.v1.json",
+      "pointer": "/persistent_ownership/character_root/initial"
+    },
+    "accepted_sources": "仅accepted_version_pairs列明的四种旧来源，原来源无本活动；导入新角色精确构造原完整初值，不创建world/attempt/入场或奖励收据。",
+    "existing_target_roles": "已有目标角色及world活动/来源/待领取权利不修改；导入另建角色，不从旧主线完成或等级推导本活动完成。",
+    "current_format": "当前格式必须校验原完整activities及实际world/会话/位置双向闭包；缺根/缺story_boss/未知成员/孤立引用拒绝，不清引用或补null。",
+    "boundary": "只定义已知旧源新角色活动根构造；完整角色/world/source与原导入共同提交仍待。"
+  },
+  "adv01_transition_event_conversion": {
+    "target_field": "profile.adv01_transition_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧源仅新目标显式空；已有目标保原日志/计数/未决及其他角色，不按等级/装备倒造一转接取或放弃。当前格式缺字段拒绝。"
+  },
+  "adv01_stage_event_conversion": {
+    "target_field": "profile.adv01_stage_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧源仅新目标显式空；已有目标保原日志/计数/未决及来源，不按等级装备或任务状态倒造阶段和最终银奖励。当前格式缺字段拒绝。"
+  },
+  "adv02_transition_event_conversion": {
+    "target_field": "profile.adv02_transition_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧源仅新目标显式空；已有目标保原日志/计数/未决及其他角色，不按等级/路线/回城符倒造二转接取或放弃。当前格式缺字段拒绝。"
+  },
+  "adv02_stage_event_conversion": {
+    "target_field": "profile.adv02_stage_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧源仅新目标显式空；已有目标保原全部日志/计数/未决及其他角色，不按等级/路线/推荐书/回城符倒造二转阶段完成。当前格式缺字段拒绝。"
+  },
+  "hyunbo_recommendation_transition_event_conversion": {
+    "target_field": "profile.hyunbo_recommendation_transition_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧来源仅新目标空；已有目标保原完整日志/计数/未决及其他角色，不按等级或二转状态倒造原推荐书接取/放弃；当前格式缺字段拒绝。"
+  },
+  "hyunbo_recommendation_delivery_event_conversion": {
+    "target_field": "profile.hyunbo_recommendation_delivery_events",
+    "new_profile_value": [],
+    "existing_profile_policy": "四已知旧源仅新目标显式空；已有目标保原日志/计数/未决，不按等级、物品或二转进度倒造前置完成/XP/推荐书。当前格式缺字段拒绝。"
   }
 }

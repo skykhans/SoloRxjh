@@ -202,7 +202,7 @@
     "requires_target_alive_after_hit": true,
     "persistent_state": {
       "field": "character.effects.bleeding",
-      "world_entity_field": "原完整活动/世界战斗实体effects.bleeding，同一实体只一份，不复制到施加者角色；普通可重建怪物场景清理沿05原边界。",
+      "world_entity_field": "本明确采用的世界怪物actor.effects.bleeding，受体限制/根与生命周期沿普通怪效果根.v1.json；同族原来源结构只存目标实体一次。",
       "schema_ref": {
         "file": "出血效果状态.schema.json",
         "pointer": ""
@@ -221,7 +221,45 @@
       "damage": "每次仅对实际仍存活目标运行原23状态保护一次，无新命中/暴击/普通防御或甄伤痕/血魔再次加乘；保护为0仍消耗该周期、不补跳。派生出血不再触发攻击/出血/攻击怒气/反气功/充能；受害真实HP损失可给基础受伤怒气。实际死亡归属与奖励只沿本次选中来源和唯一死亡收据，不对全部来源各发奖。",
       "lifecycle": "暂停/离线冻结，源实体模拟/移除及跨世界最终余时沿原会话边界；同权威捕获来源与周期，不用保存日期补跳。目标死亡清来源/周期；明确安全移除最后来源才清周期。洗点/技能升降级不改已付敌方负面快照；传染及神女专属解除/免疫不因共享bleed标签自动复制/移除刺客或甄出血。合法通用解除另须原具名规则。",
       "initialization": "14新角色及四已知旧来源新导入角色显式sources=[]/next_tick_remaining_steps=0，旧无现场不伪造出血；不改已有其他角色，现行缺键拒绝。完整effects其他字段另闭合，不用此初始化代替全根。",
-      "boundary": "组件只闭合出血结构及明确相位/选择规则。原施加/周期伤害/死亡事件完整结果与授权、全部世界实体/角色effects根和实际Godot仍待，D1未通过。"
+      "boundary": "原出血组件、周期身份、11字段施加与10字段推进结果形状采用。真实施加/原计时来源与周期伤害/死亡授权、全部world/角色effects根和父决定及实际Godot仍待，D1未通过。",
+      "tick_identity": {
+        "root": "本原出血源的周期damage root=\"bleeding-root:\"+SHA256(71确定JSON [\"bleeding_periodic_source\",root_event_id,source_actor_id,source_ability_id,实际target_actor_id] UTF8)。root_event_id仍保原施加攻击根，source_ability_id保持原null/能力ID；不把普通攻击root直接作为周期伤害root，避免同target/ordinal0与直接命中冲突。新真实施加根替换产生新周期root；重放原施加不换root/刷新来源。该root由原六键源及实际持有目标确定，不新增live root字段/计数表。",
+        "phase_origin": "从原真实施加/替换子结果及完整当时family before/after取得该源初始共享next_tick_remaining_steps=F，范围1..60；空族初次F60，非空族保当时既有相位，新施加在当步旧周期/删除之后才加入。F保在原施加结果的实际历史context，不复制到活跃六键source或从当前相位猜测。原同source根施加最多一次，缺原F来源拒绝到期候选。",
+        "ordinal": "当前普通300步来源在本次真实扣时前remaining=R>0时，本步扣后实际源年龄E=301-R。只有原族周期此步归0、该源属于到点前合法候选且E>=F、(E-F)%60=0才有该源本次机会ordinal=(E-F)//60，范围0..4。用已接纳源扣时年龄，不能用T-施加world_step，避免实体缺席/暂停期间世界继续造成跳号；不新增每来源tick_count。被较强源压过的机会不造该弱源伤害，后来首次选中允许ordinal有空缺，不补过去弱源跳数。",
+        "selection": "原族一次到点只按原最强/稳定同值规则选唯一赢家，damage action_or_root_event_id为赢家上述周期root、target_id为原目标生命、ordinal为赢家该机会序号；原scope/执行步与原真实事件一致。根/赢家/相位/快照及原周期推进来源必须可认证，不能用当前最强缓存重建历史。普通来源以外的配置改变/传播均须原专属授权与明确相位来源，不用本公式兜底未知时长。",
+        "last_tick_capture": "扣原余时/族相位到点时，先在删除本步remaining0来源之前捕获赢家原before/实际tick快照与上述身份，形成原合法到期项；随后才删到期源并按仍有来源设60/无源设0。该捕获随原计时/删除决定保在同父固定步context，后续移动/伤害批冻结只沿已认证到期来源，不重新扫当前effects找已删除赢家。捕获不是提前扣HP/给奖励，也不运行原伤害随机。",
+        "queue": "真实到期项归原23.step_resolution.persisted_batch普通批，按同原root/ordinal/target排序执行；原计时到点来源在批冻结前后须完整保存，普通批source proof可解析本历史源，即使其活跃remaining已0删除。实际命中时仍核目标生命/状态保护及明确持续来源存续规则；原施加者死亡/离场不自动抹掉已付出血。目标已死不补跳/换新生命，未中/保护为0不重开相位。",
+        "recovery": "原周期推进/到期捕获/删除与父阶段游标同笔，原伤害及批项移除各按其原完整决定；存疑不得先删除唯一必要源证明或重新捕获同一到点。历史通过施加F/源年龄/赢家及原结果重建，不能以当前sources为空断言当步无末跳。原施加/计时子结果形状已采用，完整真实来源和父world阶段仍待，不能据身份公式运行。"
+      },
+      "clock_result": {
+        "schema_ref": {
+          "file": "出血周期推进结果.schema.json",
+          "pointer": ""
+        },
+        "field": "原world实体计时阶段的10字段出血推进子结果；before/after直接复用原六键source/共享相位组件作历史输入输出，不设第二live效果表。仅步首已有非空sources且本目标确实接纳一个模拟步时生成；空族/暂停/移除冻结不制造空计时事件。新落效/替换另归原施加结果，本结果不能夹带新根、修时或伤害。",
+        "identity": "event_id=\"bleeding-clock:\"+SHA256(71确定JSON [\"bleeding_clock\",world_id,authority_profile_id,map_id,instance_id_or_null,target_actor_id,world_step] UTF8)。scope/目标为原持有效果实体真实生命，world_step为其实际接纳的原权威逻辑步；同目标同实际步最多一推进，新源同T后来落效不重跑。相同ID异正文拒绝，不另分配通用结算counter。",
+        "before": "精确该目标在本步原周期阶段前已合法存续的原完整bleeding组件；按原source_actor/ability顺序、唯一来源键、root/快照/余时与原施加及此前推进链核验，不用投影掩盖坏extra字段。父context须证明目标生命/实体模拟状态与原步；目标已死而保非空族是坏现场，不借本结果静默清理。",
+        "advance": "对before每来源remaining减1，共享next_tick也减1。本步族到点仅before.next_tick=1，必须先沿原规则从before全部合法来源选最强/稳定同值赢家，再删除减至0来源。剩余按原稳定source顺序保所有其他字段原值；非空after相位=到点时60、未到点时before相位-1，空after相位0。不按目标数重复扣时、不按墙钟/世界大步差一次吞多个到点。",
+        "due": "非到点due=null；到点due严格source_index/hit_or_tick_ordinal两字段。source_index指before.sources中的唯一真实最强赢家，范围须实际在数组内，不是after索引；该来源本步到0也不能改选幸存弱源。ordinal严格tick_identity的原F/源年龄机会序号，并沿before赢家/目标派生bleeding-root。此两字段只属历史到期证明，不存活跃赢家缓存/复制source快照/新增计数。",
+        "queue": "本结果/after/原到期身份及父阶段进度同一world决定保存；due非null形成后续普通批唯一候选，原批冻结必须沿本结果/原before及赢家施加F读取，不从已删除effects扫回。未冻结前该结果仍为完整父计时context，不建立第二待办日志；普通批候选与原due双向完整覆盖，不遗漏或重复引用。同结果due只允许原target生命，不能重绑复活体。",
+        "no_damage": "本结果无HP损失/状态保护抽样/经验或奖励，也不先写combat-damage结果；实际执行到期伤害才走原统一19字段结果。原计时已正确推进后，合法目标失效/保护或后续决定并不退族周期/补跳；真实计时来源不能被伤害重试重新执行。",
+        "replay": "历史before/after只核原决定，已提交同T重放回原结果，不将旧after覆盖后来新根/伤害清理/死亡后的当前effects。reserved/存疑先查父完整原决定，不能先持久after丢赢家再补due，不能重扣本步或重新择强。所需原施加F/此前扣时/完整before和阶段链未闭合拒绝依赖推进。",
+        "boundary": "出血推进结果形状及before赢家/after删除/批次归属采用；原真实施加结果/完整父world计时阶段与来源、角色-world封套及Godot仍待，D1未完成。"
+      },
+      "application_result": {
+        "schema_ref": {
+          "file": "出血施加结果.schema.json",
+          "pointer": ""
+        },
+        "field": "原直接攻击回调的成功出血施加/替换子结果，严格11字段；before/after为目标真实原bleeding历史组件，source_index只索引after中本次施加源。不新建通用结算日志/活跃F字段。未具备资格、抽样失败或未实际施加不制造本状态变化结果；这些判定仍须原完整攻击结果/context记录，不以缺本结果证明已正确判定。",
+        "identity": "event_id=\"bleeding-apply:\"+SHA256(71确定JSON [\"bleeding_application\",world_id,authority_profile_id,map_id,instance_id_or_null,target_actor_id,after.sources[source_index].root_event_id,after.sources[source_index].source_actor_id,after.sources[source_index].source_ability_id] UTF8)。同攻击根/目标/同原来源至多一次，triggering_damage_event_id只是该根真实获选合格命中的证据，不纳入ID使多段重复施加。摘要字段与真实原作用域须一致，同ID异正文拒绝。",
+        "source": "triggering_damage_event_id须解析原本步direct/resolved合格命中，目标命中后仍存活且状态可受出血；甄另须正实际敌伤，刺客按原能力命中资格，不将甄实际损失前提套给刺客；原攻击根、施加者及能力阶段均与after被索引源吻合。甄内建null沿原一次合格概率及实际损失快照公式；12刺客沿原能力阶段bleed_per_tick，不借甄概率。概率消费归真实执行抽样的原结果，不在本状态结果复制随机段；完整具名调用/失败判定记录仍待闭合。",
+        "before": "精确原回调执行前的完整效果组件；本步旧周期/删除已完成，先前回调的新来源也在此before中。来源须原稳定排序、唯一source_actor/ability键与完整施加/计时链认证。原目标生命及world_step与触发伤害执行context相同，不能跨复活或以客户端当前状态代替。",
+        "after": "按本次source_actor_id/source_ability_id唯一键插入或替换一条原六键源，remaining_steps=300，原root_event_id/归属/快照从真实获选攻击确定。其余来源逐字段不变，不扣时、不删除其他来源、不叠时长；按原source_actor/ability稳定顺序排列，source_index为真实插入/替换后位置且在数组内。旧同根已施加的重放查原结果，不再次替换或刷新。",
+        "phase": "before为空族时after.next_tick_remaining_steps=60；before非空时after相位严格等于before相位。该after相位即本次新源唯一初始F，范围1..60，供原tick_identity及clock_result读取；不从world_step差/当前活跃组件猜F，不额外保存可推导镜像字段。新源当步不扣时、不立即跳。",
+        "atomicity": "本状态结果、目标效果after及原伤害回调有序完成与原父决定同笔保存；原combat-damage.callback_event_ids在真实调用位置引用此event_id。父未决先查原完整决定，不先落effects再补来源；原结果重放返回历史结果，不将旧after覆盖后来扣时/新根/死亡后的当前组件。无需独立通用reserved、角色修订或另一个世界阶段。",
+        "boundary": "成功施加历史状态/F来源形状已采用；真实触发资格/概率和失败记录、全部回调context、父world/角色根与实际保存恢复/Godot尚未闭合，D1未完成。"
+      }
     }
   },
   "blood_devil": {
@@ -260,7 +298,7 @@
       "stamina": 0
     },
     "cost_override_order": "after base/rampage/healing cost arithmetic, before base/enhanced affordability checks; both candidate branches may be zero; old payments never refunded",
-    "damage_bonus_sample_time": "current challenge state at direct damage settlement, not an extra multiplier on derived bleed ticks",
+    "damage_bonus_sample_time": "effective_challenge at direct damage settlement, including authenticated same-T pending expiry capture; never multiply derived bleed ticks",
     "eligible_context_part_of_combat_state": true,
     "initial_cooldown_steps": 0,
     "direct_bonus_and_scar_order": "at direct hit, apply eligible scar and active challenge bonuses as separate multiplicative sources once; derived bleed never reapplies them",
@@ -276,17 +314,67 @@
         "pointer": ""
       },
       "initial": null,
-      "shape": "null代表inactive；非null四键trigger_event_id/activity_attempt_id/opponent_actor_id/remaining_steps代表challenge。原成功拦截事件就是挑战身份，不再分配并行challenge_id；world/session由原活动与权威接纳定位，不在效果内复制。免敌伤/新武功即时HP内力体力费用0/直接增伤20%由本体存在及本步裁决阶段派生，不另存三布尔或计时器。",
+      "shape": "null代表inactive；非null四键trigger_event_id/activity_attempt_id/opponent_actor_id/remaining_steps代表challenge。原成功拦截事件就是挑战身份，不再分配并行challenge_id；world/session由原活动与权威接纳定位，不在效果内复制。免敌伤/新武功即时HP内力体力费用0/直接增伤20%由活跃本体或本T已认证的expiry_capture及本步裁决阶段派生，不另存三布尔或计时器。",
       "activation": "仅原甄凤柏60级三转/已投入且正有效等级、合格NPC武者活动/真实存活敌对职业对手、内部冷却就绪的成功致命拦截创建。原结果须保原资格/构筑/伤害/随机流与唯一实际对手；HP截留1、本体300、本人血魔怒气来源300和timers.internal_cooldowns.blood_devil=36000及原trigger_event_id同笔。失败正常死亡不创建本体/来源/成功冷却，原已选致命拦截不得另抽其他拦截。",
       "references": "activity_attempt_id必须定位同world/session原支持本能力并可完整保存的真实活动尝试；opponent_actor_id须该活动同快照的原绑定对手，非本人。未裁决挑战捕获边界双方仍存活、敌对且至少一方真实NPC。缺对手/活动/完整动作命中投射物与随机快照拒绝恢复，不替换对手/克隆现场/补满窗口。加载原已发生死亡或活动结束而仍未裁决本体属于坏快照，不能靠本地重新计算获救。",
-      "time": "沿原实际60Hz世界步。成功创建当步不扣首步；以后本体与同次内部成功冷却按相同世界步推进，暂停/离线冻结，捕获统一已处理边界。第300步本体余时可在内部待裁决阶段降0，但该步攻击/周期及免敌伤/零新施法费用/增伤仍按本步尚待裁决挑战有效；完成伤害与死亡事实后先合法获救再到期失败。0仅步内临时值，捕获/写盘前必须终态移除，严格组件不接受0。",
-      "cooldown_consistency": "活动挑战存续期间必须同本人原trigger_event_id的blood_devil成功冷却；普通未配置参数下冷却余时恒等于35700+本体余时。此为二者同笔启动/同世界步的语义核验，不把35700写成新持久值或假定schema最大值就是实际授权。若原正式配置事件授权其他实际时长，须沿该原冻结值与扣时链核差额，缺授权拒绝。冷却不是挑战本体，提前获救/解除/死亡/配置清挑战仍不清成功冷却。",
-      "rage_separation": "本体创建的本人血魔来源以同trigger_event_id作为rage_sources.root_event_id，profile=blood_devil_five_seconds。该来源若仍存在，须同本人/同根且余时等于本体；合法神女解除怒气可令来源先消失，本体仍保免敌伤/新费用0/直接增伤。不存在本体不得残留该血魔来源；本体仍在也不得因缺来源重新创建。自然/其他队友怒气及倍率来源各自保原规则，不与挑战共用剩余。",
-      "success": "原权威先固定已发生伤害与唯一死亡归属事实，仅仍存活本人直接或亲自施加伤害状态击杀原指定对手才获救，包括第300步；伙伴/灵兽/队友代杀不算。成功原结果移除本体和同根本人血魔怒气来源，保持当前实际HP/其他来源及已启动冷却，不创建额外击杀/奖励。多人互绑逐一按已经固定事实裁决，不让后来裁决改写原归属。",
+      "time": "沿原实际60Hz角色/实体接纳步。创建当步不扣；旧本体r>1扣1，旧r=1不把0写入活跃组件，而是在原rules_and_timers完整父结果中捕获expiry_capture，同笔将活跃本体置null。捕获使本T攻击/周期及免敌伤/新武功即时费用0/直接增伤20%仍按待裁决挑战有效，完成伤害/死亡事实后先判获救再到期失败。捕获不是新挑战/额外一角色步，不能续到T+1；严格活跃组件始终只接受1..300或null。",
+      "cooldown_consistency": "活跃正余时本体须同原trigger_event_id的blood_devil成功冷却；普通原值下余时关系为35700+本体余时。末步捕获后无活跃本体，原冷却实际扣至35700，以challenge_before.remaining_steps=1及本步原冷却转换验证，不能再要求35700+活跃余时或冻结冷却。配置时长沿原已授权冻结值与实际步链核验；获救/失败/解除/死亡均不清成功冷却。",
+      "rage_separation": "本体创建的本人血魔来源以同trigger_event_id作为rage_sources.root_event_id，profile=blood_devil_five_seconds。该来源若仍存在，须同本人/同根且余时等于本体；合法神女解除怒气可令来源先消失，本体仍保免敌伤/新费用0/直接增伤。本体不在且无本T有效expiry_capture时不得残留该血魔来源；本体仍在也不得因缺来源重新创建。自然/其他队友怒气及倍率来源各自保原规则，不与挑战共用剩余。",
+      "success": "原权威先固定已发生伤害与唯一死亡归属事实，仅仍存活本人直接或亲自施加伤害状态击杀原指定对手才获救，包括第300步；伙伴/灵兽/队友代杀不算。成功原结果移除本体和同根本人血魔怒气来源，保持当前实际HP/其他来源及已启动冷却，不创建额外击杀/奖励。多人互绑逐一按已经固定事实裁决，不让后来裁决改写原归属。 到期捕获同样使用此原归属判定，不因活跃字段已null漏掉末步获救。",
       "failure": "未获救到期、原对手被其他人杀/移除或活动要提前结束时，在关活动前唯一结算挑战失败；死亡cause=blood_devil_failure，原失败活动/对手与原死亡收据绑定，绕过全部致命拦截，绝不再抽血魔或其他保命。若本人此前已被环境/脚本等不可拦截原因真实标死，沿该原死亡原因和唯一死亡清理本体，不改写第二次血魔失败死亡；已死者不能凭同一步对手死亡获救。",
-      "terminal_provenance": "获救/失败/原死亡清理/明确配置解除均在原权威事件结果中记录原trigger_event_id、原绑定对手/尝试及实际终止原因；本体置null和相关移除/生命/活动/冷却保持同结果，不另建挑战日志或以null冒充正常成功。正常失败沿原死亡凭证，配置解除只走原预览/配置来源，不登记正常获救/击杀/奖励。完整终止结果封套与来源结构仍待。",
+      "terminal_provenance": "获救/失败/原死亡清理/明确配置解除均在原权威事件结果中记录原trigger_event_id、原绑定对手/尝试及实际终止原因；本体置null和相关移除/生命/活动/冷却保持同结果，不另建挑战日志或以null冒充正常成功。正常失败沿原死亡凭证，配置解除只走原预览/配置来源，不登记正常获救/击杀/奖励。正常终止子结果沿terminal_result严格schema；完整父封套与来源仍待。 末步由原expiry_capture定位唯一原挑战；裁决消费该捕获与清同根来源/原死亡或获救结果同笔，不从null猜挑战已终止。",
       "initialization": "14新角色及四已知旧来源sword新导入角色显式null，不制造挑战历史；其他已有角色保持，现行缺字段拒绝。",
-      "boundary": "本体严格结构和明确裁决/关联规则已采用；至少一个真实NPC武者活动/构筑/入口、完整活动与触发/终止结果、effects根及Godot仍待，D1未通过。"
+      "boundary": "本体严格结构和明确裁决/关联规则已采用；武勋试练具名NPC武者活动/构筑/入口已设计，仍待严格活动根及完整活动与触发/终止结果、effects根及Godot仍待，D1未通过。",
+      "expiry_capture": {
+        "schema_ref": {
+          "file": "血魔到期捕获.schema.json",
+          "pointer": ""
+        },
+        "embedding": "仅原scope本T rules_and_timers完整角色/实体结果和后续真实阶段context持有该不可变捕获，战斗/战后引用同一原捕获；不新增profile日志、角色effects槽、计数或第二剩余时钟。原scope阶段context完整根尚待，本schema不独立授权。",
+        "source": "world/authority/scope/T/目标须等历史父before真实接纳，rules_hash等原包；challenge_before逐字段等目标当步原活跃四键本体且remaining_steps=1，原trigger/attempt/对手和活动存活资格必须认证。没有旧r=1不生成；旧r>1/新建300/另一角色或其他T捕获均不接受。",
+        "atomicity": "捕获、活跃本体置null、同根血魔怒气源自然到期及成功冷却本步扣1、本人完整规则计时结果及移除原队首同笔。之前已合法解除怒气者仍不补建来源。不得先清本体再补捕获，或只捕获而保活跃本体并再扣一次。",
+        "effective": "仅在同scope同T尚未裁决的原阶段有效，持有者原生命仍存活才享受原挑战保护/费用及增伤。实际血魔怒气来源仍按自身扣时到期，本捕获不重建怒气/成功冷却，不为未来新T延时；原已接纳动作仍按其真实快照。",
+        "terminal": "战斗完成的原伤害/死亡事实固定后，按原success/failure决定恰一次终态。本人已由环境等真实死亡则清理原捕获且保原死亡原因；别人代杀/原对手移除/活动结束沿失败，不把活跃null当安全跳过。post_combat完成前捕获必须被终态消费，进入finalize/null或授予新T不得残留。",
+        "recovery": "加载原非null阶段时读取原捕获、当步动作/批/原唯一终态决定，继续原未决裁决；不再减计时、不把challenge_before放回effects、不重新抽保命或从现在对手HP推旧归属。已消费捕获仅作为不可变历史证据保留，不能恢复为当前待裁决项。",
+        "boundary": "末步捕获结构及阶段可保存规则已采用；完整父context/活动根/终止producer与多接收者持久结构仍待，未实现运行。"
+      },
+      "terminal_result": {
+        "schema_ref": {
+          "file": "血魔终止结果.schema.json",
+          "pointer": ""
+        },
+        "embedding": "原完整战斗死亡/战后权威决定的不可变子结果，只保在该原父结果及必要来源context，不新建profile日志、通用结算分配或第二角色after。正常三种outcome不含配置解除；U33配置分支须原独立授权事件，未采用前不得借此结果清挑战。",
+        "identity": "event_id=\"blood-devil-terminal:\"+SHA256(71确定JSON [world_id,authority_profile_id,target_actor_id,challenge_before.trigger_event_id] UTF8)小写hex；同原挑战最多一个终止ID，T不参与分配。重复同ID须完整结果相同，不因重试或后来T另造成功/失败结果。",
+        "source": "world/authority/scope/目标/T/规则须等原父决定。source_kind=active时challenge_before精确等该原裁决before的活跃本体；expiry_capture时精确等本scope本T原未消费捕获内challenge_before且余时1，目标/原挑战/活动/对手逐字段一致。本人target不能等opponent，原触发必须同一有效挑战。不能用任意四键描述符授权终止。",
+        "selection": "先固定同T伤害/真实死亡归属事实。本人已实际死亡则already_dead，evidence为该原真实致死事件；存活且本人直接或亲自状态伤害对绑定对手真实终结才rescued，evidence为对手原真实致死事件；其余绑定对手代杀/移除/活动结束或末步到期才failed。timeout仅expiry_capture且evidence=null，由原捕获与完整父战斗事实证明未获救；其他三种失败必须引用实际代杀/移除/活动结束事件。原因不能从现在HP或缺实体倒推。",
+        "failure_death": "failed结果本身是本次唯一blood_devil_failure致死来源；本人为角色时，原profile.death_events提交的command.lethal_event_id等本event_id，due/committed_world_step等本T，plan.pending_death_after.cause_kind=blood_devil_failure且原活动/对手绑定一致。绕过全部致命拦截，无新随机抽样。终止结果不含反向death_settlement_id，原共同父决定验证恰一次死亡及五槽副作用，避免终止与死亡相互嵌套/循环依赖。NPC沿原活动实体终结owner，不伪造角色death_events。 plan.pending_death_after.death_event_id亦等本event_id，failed_activity_attempt_id_or_null等原挑战activity_attempt_id；plan.pending_death_after.source_actor_id_or_null明确null，血魔挑战失败不是对手新敌伤，不据此触发敌对死亡武勋首饰耐久损失；原出尘戒所有真实死亡消耗规则照常。",
+        "already_dead": "evidence必须命中该目标原真实致死来源，保原死亡cause/致死事件与唯一死亡凭证。终止清理与该原死亡同一父决定，不再分配第二死亡/伤害/奖励，不再增加一次角色/库存业务修订。不能因本人和对手同T死亡把本人改判获救。",
+        "rescued": "本人仍存活，清本体/同根本人血魔怒气来源及本T待裁决捕获；保持实际HP/资源、其他怒气来源、成功冷却和已付动作。该角色终止结果按原一次业务变更推进角色revision+1，库存不变；若同原父业务已包含此次角色变更则合并一次，不额外加第二次。原对手击杀/掉落/奖励只沿原真实致死事件，不把rescued作为新击杀。",
+        "atomicity": "终止结果、本体/原同根来源/捕获清理、原失败死亡或获救的角色after与活动差异同一正式父决定，预检全接收者及来源成功后才能发布。失败死亡沿原死亡角色revision+1及实际五槽库存规则，不为终止另+1；已提交后结果/归属不可改。无任意效果/动作/费用/冷却重置权限。",
+        "recovery": "先解析原触发/活跃或捕获源及原完整战斗事实，再验证唯一终止和同步死亡/获救结果。重放只返回同原决定；不能再抽保命/扣血/加修订/重发奖励，不把已消费捕获重新激活。无法证明完整父提交就保原未决，不凭合法event_id或null活跃字段猜已完成。",
+        "boundary": "正常终止结果形状与授权/死亡回指/重放设计采用；完整活动/战斗父context、原角色world及多接收者结果根仍待。此子结果尚不作为独立网络producer或可运行系统。"
+      },
+      "activation_result_owner_ref": {
+        "file": "战斗命中与减伤.v1.json",
+        "pointer": "/lethal_interception_result"
+      }
+    },
+    "effective_challenge": {
+      "scope": "原完整权威context中按目标与真实处理边界派生唯一血魔挑战，不持久active/free_cost/immune等缓存，不新建查询结果日志。所有血魔费用/保护/增伤及无挑战门槛统一引用本规则，不能只检查effects.blood_devil_challenge非null。",
+      "inputs": "实际world/authority/scope/T/target、原完整角色或NPC活动实体/生命、原活跃本体、原本T未消费末步捕获及唯一终止决定；均须完整来源认证。客户端显示状态、假capture或合法形状不构成查询输入授权。",
+      "active": "活跃本体存在时必须为原严格四键正余时、原触发/活动/绑定对手与当前合法阶段一致，且没有该原挑战已提交终止。本目标不得同时有待消费末步捕获；一并存在属原子边界损坏，拒绝context，不能任选一个或重复叠加。",
+      "captured": "无活跃本体时，只接受同world/authority/scope/T/目标及原挑战的真实未消费expiry_capture。阶段仅rules_and_timers内该目标已完成本人计时之后，或direct_attack_admission/movement_and_due_capture/combat/post_combat内尚未终止时。rule队列仍含本人却宣称该捕获已提交、捕获已消费/已终止、过期T/异scope/到finalize或null阶段仍保待决捕获，均是坏context并拒绝，不能返回普通false掩盖残留。NPC以原实体规则进度证明已处理，不伪造角色会话队列。",
+      "life": "任何可发布完整边界须本人仍存活才能有有效挑战。已提交死亡的同一父决定必须已用already_dead或failed终止并清活跃/捕获；不能让待复活角色凭未清捕获享保护/免费/获救。处理中原不可拦截死亡候选只在该唯一父事务内部处理，不发布半清状态。",
+      "result": "无活跃本体且无原当前待决捕获、完整父来源已证明无未收束挑战时，结果为无挑战；否则合法活跃或捕获恰一源，结果为该原trigger/attempt/opponent的有效挑战。缺必要父证明或双源/残留等错误直接拒绝。查询不扣时、不消费捕获、不抽RNG、不创建怒气或冷却。",
+      "protection": "有效挑战对原明示敌方直接/敌方持续/敌方状态爆发伤害提供原免疫；在各pipeline原最先资格/免疫阶段拒绝敌伤，不进入命中/伤害/防御被动费用或护罩吸收。环境/脚本不可拦截、本人费用及blood_devil_failure不因此免疫；不得把免疫推广为所有生命变化无效。",
+      "cost": "新合法武功接纳在原基础费用及普通减耗运算后、可付费检查前，将该次即时HP/内力/体力费覆盖0。学习/道具数量/银两/冷却/接纳前置不免除，旧支付不返还。内功血雨额外500被动费仍沿原named_proc_fee_exception，不因本查询为真免除；资格/随机及额外付费均仍原顺序。",
+      "damage": "仅原直接攻击伤害结算时查询有效挑战并按原顺序乘12000bp一次；先前已接纳动作不提前冻结该命中时增伤，出血/其他派生周期不再乘。末步捕获与正余时本体使用同一贡献身份，不双乘；原怒气来源独立到期，查询不补建它。",
+      "service": "所有要求无挑战的服务/学习/交易/配置资格，均要求本查询合法且无挑战；本体null但末步捕获未收束仍拒绝。终止后按各服务原阶段/脱战/占用/资格重验，不从查询无挑战直接推服务可用。",
+      "boundary": "统一派生查询与原消费者取值时点采用；完整父context/实体/活动来源及运行查询尚待，不能仅据本规则或schema运行。"
+    },
+    "eligible_activity_owner_ref": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/blood_devil_adaptation"
     }
   },
   "persistence": "natural meter and source timers; bleed family phase and source damage/credit snapshots; blood-devil phase/opponent/activity/deadline/cooldown/committed random and death facts. Freeze offline/pause; never rebuild a removed rage source from core blood-devil state."

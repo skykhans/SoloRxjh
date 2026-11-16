@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:apparel-instance:v1",
+  "$comment": "1155精确衣饰完整11字段根，已接入3159装备分派；绑定/期限结构受约束，严格整数token、连续合成槽及真实来源/归属/时钟仍须owner联合核验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "instance_id",
+    "item_id",
+    "lineage_id",
+    "owner_character_id",
+    "binding",
+    "revision",
+    "creation_receipt_id",
+    "state_origin_receipt_id",
+    "enhancement",
+    "synthesis_entries",
+    "lifetime_remaining_steps_or_null"
+  ],
+  "properties": {
+    "instance_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "item_id": {
+      "$ref": "urn:solorxjh:apparel-catalog-id:v1"
+    },
+    "lineage_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "owner_character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "binding": {
+      "enum": [
+        "unbound",
+        "character"
+      ]
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "creation_receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "state_origin_receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "enhancement": {
+      "$ref": "urn:solorxjh:apparel-growth:v1#/properties/enhancement"
+    },
+    "synthesis_entries": {
+      "$ref": "urn:solorxjh:apparel-synthesis-entries:v1"
+    },
+    "lifetime_remaining_steps_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5184000
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "apparel_42609",
+              "apparel_42608",
+              "apparel_42604"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "binding": {
+            "const": "character"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "binding": {
+            "const": "unbound"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "enum": [
+              "apparel_48735",
+              "apparel_48734",
+              "apparel_48733",
+              "apparel_48732",
+              "apparel_48731",
+              "apparel_48730",
+              "apparel_48729",
+              "apparel_48728",
+              "apparel_42609",
+              "apparel_42608",
+              "apparel_42605",
+              "apparel_42604",
+              "apparel_42603",
+              "apparel_42602",
+              "apparel_40080",
+              "apparel_40079",
+              "apparel_40074",
+              "apparel_40073",
+              "apparel_40072",
+              "apparel_40071",
+              "apparel_40068",
+              "apparel_40067",
+              "apparel_40066",
+              "apparel_40065",
+              "apparel_40064",
+              "apparel_40063",
+              "apparel_40062",
+              "apparel_40061",
+              "apparel_40060",
+              "apparel_40059",
+              "apparel_40058",
+              "apparel_40057",
+              "apparel_40056",
+              "apparel_40055"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "lifetime_remaining_steps_or_null": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5184000
+          }
+        }
+      },
+      "else": {
+        "if": {
+          "properties": {
+            "item_id": {
+              "enum": [
+                "apparel_39992",
+                "apparel_39991"
+              ]
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "lifetime_remaining_steps_or_null": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5184000
+            }
+          }
+        },
+        "else": {
+          "properties": {
+            "lifetime_remaining_steps_or_null": {
+              "type": "null"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

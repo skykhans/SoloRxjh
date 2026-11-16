@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:auto-route-state:v1",
+  "$comment": "原world角色运动现场auto_route_or_null，仅null或原路径凭证/剩余路点两键，不复制目的地/run/索引/已完成集合。终止五键由原父保存，状态直接清null；历史来源与精确后缀、取消原因另验。",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_event_id",
+        "remaining_waypoints"
+      ],
+      "properties": {
+        "route_event_id": {
+          "$ref": "urn:solorxjh:auto-route-admission:v1#/$defs/route_event_id"
+        },
+        "remaining_waypoints": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4096,
+          "items": {
+            "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "terminal_event_id": {
+      "type": "string",
+      "minLength": 84,
+      "maxLength": 84,
+      "pattern": "^auto-route-terminal:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "terminal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "route_event_id",
+        "world_step",
+        "reason",
+        "final_position"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/terminal_event_id"
+        },
+        "route_event_id": {
+          "$ref": "urn:solorxjh:auto-route-admission:v1#/$defs/route_event_id"
+        },
+        "world_step": {
+          "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+        },
+        "reason": {
+          "enum": [
+            "reached",
+            "obstructed",
+            "manual_input",
+            "hostile_input",
+            "dodge_input",
+            "explicit_cancel",
+            "death",
+            "session_end",
+            "scope_changed",
+            "scene_changed",
+            "input_isolated",
+            "replaced"
+          ]
+        },
+        "final_position": {
+          "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+        }
+      }
+    }
+  }
+}

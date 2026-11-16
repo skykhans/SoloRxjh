@@ -1,0 +1,309 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-on-foot-motion-result:v1",
+  "$comment": "原movement_and_due_capture父决定持有的十四键手动徒步结果；轨迹首尾即原位置前后，不重复位置副本。真实输入/源生命/速度合成/碰撞路径/有限坐标/原父同笔证明另验。特殊位移与自动寻路不能冒充此结果。 原结果显式持有cancelled_firewood_action_id_or_null，仅原本人活跃木柴被该真实新输入/正实际敌伤取消时非null；根以本event_id停止，来源/预留同父联验。 必有cancelled_portable_channel_id_or_null引用同父清除的原便携读条；无真实取消显式null，不新增取消日志/物品流。来源/同生命/预留与首因须联合验证。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "event_id",
+    "world_step",
+    "source_actor_id",
+    "request_or_null",
+    "outcome",
+    "speed_mm_per_second",
+    "path_positions",
+    "after_yaw_radians",
+    "cancelled_firewood_action_id_or_null",
+    "cancelled_portable_channel_id_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/instance_id_or_null"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 78,
+      "maxLength": 78,
+      "pattern": "^player-motion:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-normal-attack:v1#/properties/source_actor_id"
+    },
+    "request_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:player-movement-command:v1"
+        }
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "idle",
+        "action_locked",
+        "moved",
+        "blocked"
+      ]
+    },
+    "speed_mm_per_second": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "path_positions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 17,
+      "items": {
+        "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+      }
+    },
+    "after_yaw_radians": {
+      "type": "number"
+    },
+    "cancelled_firewood_action_id_or_null": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/$defs/cancelled_firewood_action_id_or_null"
+    },
+    "cancelled_portable_channel_id_or_null": {
+      "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/cancelled_portable_channel_id_or_null"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "idle",
+              "action_locked"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "speed_mm_per_second": {
+            "const": 0
+          },
+          "path_positions": {
+            "maxItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "speed_mm_per_second": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "moved"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "request_or_null": {
+            "type": "object"
+          },
+          "path_positions": {
+            "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "action_locked",
+              "blocked"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "request_or_null": {
+            "type": "object"
+          },
+          "path_positions": {
+            "maxItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "outcome": {
+            "const": "idle"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request_or_null": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "if": {
+          "properties": {
+            "request_or_null": {
+              "properties": {
+                "move_x": {
+                  "const": 0
+                },
+                "move_forward": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "outcome": {
+              "const": "idle"
+            }
+          }
+        },
+        "else": {
+          "properties": {
+            "outcome": {
+              "enum": [
+                "action_locked",
+                "moved",
+                "blocked"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "properties": {
+              "request_or_null": {
+                "type": "null"
+              }
+            }
+          },
+          {
+            "properties": {
+              "request_or_null": {
+                "type": "object",
+                "properties": {
+                  "move_x": {
+                    "const": 0
+                  },
+                  "move_forward": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "properties": {
+              "request_or_null": {
+                "type": "null"
+              }
+            }
+          },
+          {
+            "properties": {
+              "request_or_null": {
+                "type": "object",
+                "properties": {
+                  "move_x": {
+                    "const": 0
+                  },
+                  "move_forward": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

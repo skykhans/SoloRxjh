@@ -1,5 +1,9 @@
 {
   "contract_version": 1,
+  "supreme_processing_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/processing_effect"
+  },
   "updated_on": "2026-11-15",
   "status": "explicit_hero_enhancement_design_not_implemented_not_balanced",
   "scope": "仅107主线英雄武器真实强化0至15；不采用普通装备、首饰、宝珠概率，亦非提真/武器晋阶/强化转移。",
@@ -1049,7 +1053,7 @@
     "active_group_only": true,
     "weapon_stage_change": "recompute coefficient from explicit target definition when a named progression recipe changes stage; retaining enhancement never means retaining old cached bonus in addition to target bonus",
     "persisted_inputs": "definition ID and actual enhancement; no persistent cached derived attack or martial power",
-    "random": "未选符沿tier基础概率；选5%/10%/15%符按optional_luck_charm_owner_ref计算有效概率。有效10000不抽样，其余房主从0..9999均匀单抽，draw<有效bp成功；不另抽幸运符随机。",
+    "random": "tier为基础概率，合法选符加成沿optional_luck_charm_owner_ref；本人有效至尊再沿supreme_processing_owner_ref加500bp，统一封顶10000。未选符也须核实际至尊来源；无有效权益才沿原基础概率。有效10000不抽样，其余房主从0..9999均匀单抽，draw<有效bp成功；不另抽幸运符随机。",
     "success": "same instance ID, enhancement+1 only; consumes exact stone count and fee",
     "failure": "same instance ID and enhancement; consumes exact stone count and fee; every other source field unchanged; no destruction or downgrade",
     "rank15": "reject before quote/charge/random, no enhancement16 recipe",
@@ -1110,5 +1114,9 @@
   "optional_luck_charm_owner_ref": {
     "file": "强化幸运符.v1.json",
     "pointer": "/processing"
+  },
+  "growth_material_purchase_owner_ref": {
+    "file": "成长材料购买事件.v1.json",
+    "pointer": ""
   }
 }

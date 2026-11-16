@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-16",
+  "status": "explicit_monster_locomotion_designed_not_runtime",
+  "scope": "仅二十种公共普通怪80刷点与修炼144定义432刷点；其他NPC武者/伙伴/首领/私场敌人须按各自采用，不因NPC标签套本合同。",
+  "schema_ref": {
+    "file": "怪物徒步移动结果.schema.json",
+    "pointer": ""
+  },
+  "ordinary_ai_owner_ref": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/ordinary_ai"
+  },
+  "training_ai_owner_ref": {
+    "file": "修炼怪物与刷点.v1.json",
+    "pointer": "/ai/state_machine"
+  },
+  "path_algorithm_ref": {
+    "file": "自动寻路与移动.v1.json",
+    "pointer": "/astar"
+  },
+  "neutral_trace_ref": {
+    "file": "玩家徒步移动.v1.json",
+    "pointer": "/collision/trace"
+  },
+  "ownership": "每活体每实际scope步至多一个原movement_and_due_capture子结果，且bornT不跑。原阶段父冻结本T可参与真实实体全集及before；先完成玩家及其他具名移动owner，再冻结本怪物段的真实目标位置来源，怪物按source_actor_id原UTF8顺序执行。所有怪物段的目标位置从此同一冻结before取得，不能按逐怪物处理顺序追读后来更新的位置。只改原actor脚位置/yaw，不改AI/目标/等待/HP/效果或动作游标；完整父保必要来源，不新增actor移动日志或路径缓存。",
+  "identity": "event_id=monster-motion:加SHA256(71确定JSON [\"monster_on_foot_motion\",world_id,authority_profile_id,source_actor_id,world_step] UTF8)小写hex。T是实际获步，不含路线/速度/结果。普通/修炼生命前缀及地图须精确原actor/槽/定义；同ID异正文拒绝，重放回原结果不再移动。",
+  "destination": {
+    "idle": "idle无移动，outcome=idle。",
+    "attack": "当前真实攻击仍占用，或正常完成关联仍在attack等待下一AI处理时，outcome=action_locked，保持原yaw，不因根本T将完成提前移动。",
+    "patrol": "取actor唯一patrol_destination_or_null的真实非null位置；不得改选点。",
+    "chase": "取本怪物段冻结before中原target当前生命脚位；目标必须沿原AI仍合法，坏引用拒绝，已知失效应先由原AI转return。不把已进攻击范围的移动结果当本T补接纳资格；下一实际接纳阶段重验。",
+    "return": "取原同spawn精确home；封锁中已到家保持原位，arrived只是到达位置证明，不授权回血或退出return。"
+  },
+  "control": "真实禁移动保存control_locked；已付占用按原action_locked。非占用且原混乱族有效时本普通导航结果不产生，由confusion_motion_owner_ref的唯一控制移动职责处理，不将其伪装成正常blocked/idle。原普通重试等待暂停，不清目标/目的地/受损HP。",
+  "speed": "本步只取原rules_hash锁定monster.movement_mm_per_second及明确适用的已采用效果；本集合无玩家身轻/轻功/体重/Shift加成，禁止套玩家4000/6500或U33角色覆盖。正速度来自实际八/144定义，预算speed/60000米，每步保分数不逐步取整。中间整数乘加与所有位置/yaw/路径长度必须有限且按原安全规则检查；未知修改来源报错，不默认原速。",
+  "navigation": "复用path_algorithm_ref的0.5米XZ格点、八邻接1000/1414代价、起终点连接、A*稳定优先级/同g父规则、连续可见平滑及1048576展开/4096路点限制；把玩家0.35米圆脚印明确替换为原怪物0.45米半径/1.8米高完整胶囊，并检查原真实地面与头顶净空。各边/起终点/平滑线段完整扫掠，禁角切；不得套玩家安全区可走规则。只有实体已合法生成的真实位置才能作为起点，无效起点拒绝，不移最近点。导航每次可移动步从真实before到原既定目的地重算，无持久路径副本/索引。",
+  "collision": "建筑/围栏/竹干/关闭入口/场景边界/外部水面与明确服务NPC静态足迹是实心；玩家/战斗怪物不形成动态堵路墙，沿既有玩家移动项目选择保持一致，出生占用排除仍单独执行。全程脚中心不得进入原地图闭安全区：普通按原地图安全区，修炼按原闭8米圈，不互换或额外将攻击范围加到安全半径。每段完整胶囊连续扫掠，沿已选路线走至最早合法接触点，不墙滑偏离该路段/穿薄墙；重复点不记轨迹。动态入口变化造成阻挡可保本步真实部分移动后blocked，禁止把部分移动丢掉或宣称到达。",
+  "budget": "从本真实起点沿本次确定路线逐段消费同一个水平米距预算；到路点后只用剩余预算，恰好到点按原路点赋位，不用epsilon提前吞点。地面Y来自各合法路径地面，非沿直线穿越台阶/地形。轨迹只保原起点、实际折点与终点，1..17项且无连续重复，首尾精确父before/after；超过17点或原16次求解接触预算仍未收束则movement_solver_limit拒绝整个父、保before，不截短成功。A* search_limit同样为明确错误，不当合法blocked或启动重试吞错。",
+  "outcomes": "idle/action_locked/control_locked/retry_wait严格速度0/单点原位且原yaw；原锁由完整父认证。已在精确目的地可arrived/速度0/单点，不补走一步；真实走到目的地为arrived/正速度/实际轨迹，未到且合法前进为moved；原合法无路径或实际阻挡为blocked/原正速度，可单点或保真实部分路径。arrived不直接改AI/回血/攻击。moved首尾有实际差异；blocked必须有真实不通/接触来源，缺导航不是blocked。",
+  "yaw": "有实际非零移动时取最后一段水平非零方向atan2(-dx,-dz)；无实际位移保持原yaw，不能因路径规划先朝不存在方向转身。正在攻击锁定yaw沿原动作，普通移动不得覆盖accepted_yaw。",
+  "retry": "唯一remaining_ai_wait_steps由原AI结果写。patrol/return前一实际普通移动结果若blocked，下一实际AI quiet_tick从原剩余0安装60；该步若真实允许普通导航则消费一拍after=59，硬控/占用/混乱控制移动优先时保60暂停。之后每个实际允许普通导航的AI quiet_tick递减一次，after>0时本普通移动retry_wait，after刚0时允许重试。因此原阻挡后第60个可消费普通导航步首次重试，不按worldT差补扣。启动核紧邻原普通blocked及后续控制/AI父链，不得跨控制暂停丢弃未消费重试或反复读旧blocked重设60；暂停恢复沿原唯一等待值。合法目标切换/forced_return按原转换清等待，已return反复越界不清等待。chase不使用此巡逻/返乡计时，其真实无可达路径由下一AI按已知失效返乡。",
+  "atomicity": "位置/yaw、本移动结果与原阶段怪物队首消费同一完整父决定。原AI等待变化已在前置AI共同父，不由移动再扣。全体移动完成才冻结原进攻推进全集，未完成来源不得先进入combat。恢复核原冻结全集、已提交前缀/剩余后缀及真实逐项结果，不从当前位置重新挑集合或再走一次；冻结导航/场景修订不完整拒绝恢复。",
+  "boundary": "本轮普通/修炼正常导航移动与唯一重试职责、原混乱控制移动分派已采用；其他NPC、错乱强制动作及完整阶段父/实际场景导航/保存和Godot仍待，不以结构或参考路径模型宣称运行通过。",
+  "confusion_motion_owner_ref": {
+    "file": "神女状态技能.v1.json",
+    "pointer": "/persistent_control_state/random_walk_protocol"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:auto-route-motion:v1",
+  "$comment": "原movement父十二键自动路径单步结果，与手动移动同本人同T互斥；沿同一徒步速度/碰撞/轨迹规则。到达/受阻终止与原剩余路点前缀消费、真实位移预算及完整父另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "route_event_id",
+    "speed_mm_per_second",
+    "path_positions",
+    "after_yaw_radians",
+    "terminal_event_id_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 76,
+      "maxLength": 76,
+      "pattern": "^auto-motion:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "route_event_id": {
+      "$ref": "urn:solorxjh:auto-route-admission:v1#/$defs/route_event_id"
+    },
+    "speed_mm_per_second": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/speed_mm_per_second"
+    },
+    "path_positions": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/path_positions"
+    },
+    "after_yaw_radians": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/after_yaw_radians"
+    },
+    "terminal_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:auto-route-state:v1#/$defs/terminal_event_id"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "speed_mm_per_second": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "path_positions": {
+            "maxItems": 1
+          },
+          "terminal_event_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

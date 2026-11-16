@@ -95,22 +95,34 @@
     "actual_loss_reward_credit_resources",
     "eligible_post_hit_passives_and_anti_qigong"
   ],
-  "post_hit_policy": "dead target has no on-target effect; hostile direct hit requires successful accuracy and actual HP damage for bleed/charge/offensive rage. Mei recovery and anti eligibility keep their owning contracts; shield-only hit may still be a valid anti primary hit if target lives.",
+  "post_hit_policy": "dead target has no on-target effect; hostile direct hit requires successful accuracy and actual HP damage for bleed/charge/offensive rage. Mei recovery and anti eligibility keep their owning contracts; shield-only hit may still be a valid anti primary hit if target lives. 本轮公共被动蛤蟆的正敌伤认目标与原actor同笔变化沿ordinary_passive_aggro_owner_ref的retaliation_damage/retaliation_atomicity；不以伤害已提交却未写原目标的半笔推进，也不把blocked/miss/0损失当认敌。",
   "periodic_pipeline": [
     "source_snapshot_and_tick_phase",
     "alive_relationship_safezone_eligible_immunity",
     "explicit_status_protection_no_hit_no_crit_no_second_defense",
+    "eligible_existing_physician_cloud_absorption_without_creation",
     "zhen_shield_only_if_explicit_hostile_status_damage",
     "hp_loss_and_lethal_interception",
+    "linked_cloud_break_penalty_and_final_life_state_once",
     "actual_received_rage_and_activity_credit_only"
   ],
   "mei_barrier_applies_to": "direct hostile attack only; not periodic or self cost",
-  "status_burst_pipeline": "20 declared base/cap -> explicit status protection (no ordinary attack accuracy/crit) -> hostile status shield -> HP loss; never replay direct skill/proc pipeline",
+  "status_burst_pipeline": [
+    "source_snapshot_and_declared_status_base_cap",
+    "status_burst_eligibility_and_protection",
+    "eligible_existing_physician_cloud_absorption_without_creation",
+    "zhen_shield_only_if_explicit_hostile_status_damage",
+    "hp_loss_capped_to_remaining_and_explicit_eligible_interception",
+    "linked_cloud_break_penalty_and_final_life_state_once",
+    "explicit_owner_allowed_actual_loss_credit_only"
+  ],
   "damage_credit": {
     "actual_hp_loss_excludes": [
       "self_payment",
       "overkill",
-      "shield_absorption"
+      "shield_absorption",
+      "shield_break_penalty",
+      "lethal_interception_restoration"
     ],
     "killer": "owner of first committed event making target death terminal; activity lethal interceptor may postpone terminal death",
     "pet_owner_not_same_as_self_for_blood_devil": true,
@@ -138,7 +150,66 @@
       "direct_hostile_attack"
     ],
     "blocks_periodic_environment_or_cost": false,
-    "counter_resets_from_potion_or_menu": false
+    "counter_resets_from_potion_or_menu": false,
+    "fixed_step_timing": {
+      "admission": "本T接纳时elapsed_steps=0，20体力、60步冷却及原归一化方向同父一次提交；本T占用动作但不推进位移、不获得第4步无敌。冷却沿战斗冷却原clock_policy，不另建动作内冷却计数。",
+      "advance": "仅后续实际获授scope世界步，在movement_and_due_capture的本人唯一移动职责中从e推进到e+1，每步预算3000/24=125毫米。普通身轻/轻功/奔跑不修改本预算。只推进一次，原动作before及本T已提交结果认证，不按渲染dt或补跑墙钟。",
+      "invulnerability": "本人仍存活且原根stop=null、本T实际推进后的e处于4..12时，在其后的本T直接攻击命中判定免direct_hostile_attack；e=3和13不免。该窗口不由本步实际走出距离决定，完全受阻仍按已消耗动作步推进。周期/环境/自身费用不受本窗口保护。",
+      "completion": "e=24的最后一次125毫米预算处理后结束动作；本T普通徒步不因动作已完成而再移动。停止/死亡中断后不保留闪避无敌；暂停/离线不推进e，恢复不重放已完成步骤。"
+    },
+    "collision_policy": "沿玩家徒步移动collision的0.35米脚印、真实地面并集、实心范围与连续扫掠/切向滑动；每步仅消费125毫米预算，阻挡损失不累积到下一步，不在24步结束补足3米。完全受阻仍为合法已付动作，不采用辅助位移接纳前250毫米门槛。求解预算耗尽沿原movement_solver_limit拒绝本推进父并保before，不伪造成功。",
+    "state_boundary": "原十八键闪避根由action_schema_ref采用，沿rules_hash冻结本版20/24/3000/60/4/12六参数。活跃占用仅stop_event_id_or_null=null且e0..23；自然完成保e24且stop=null，中断保最后真实e0..23及唯一stop引用。位置沿world唯一owner，不复制剩余距离/步数/无敌bool/冷却。完整玩家动作联合、输入/阶段父schema继续待。",
+    "request_schema_ref": {
+      "file": "闪避请求.schema.json",
+      "pointer": ""
+    },
+    "action_schema_ref": {
+      "file": "玩家闪避.schema.json",
+      "pointer": ""
+    },
+    "admission_schema_ref": {
+      "file": "闪避接纳结果.schema.json",
+      "pointer": ""
+    },
+    "advance_schema_ref": {
+      "file": "闪避推进结果.schema.json",
+      "pointer": ""
+    },
+    "admission_binding": {
+      "request": "六键请求只表达一次闪避按键及当时方向。原session可靠序号/command_id认证真实操作者和本T封口；双轴零沿原before朝向，非零沿玩家徒步移动camera公式归一化。方向一经接受不随后续镜头、WASD或碰撞改变；不借重复请求重开动作。",
+      "eligibility": "原当前生命/合法scope与活动允许、Idle且无不兼容硬控、原dodge冷却已就绪且体力>=20全部通过后才接纳。已被墙完全挡住不拒绝闪避；普通碰撞无250毫米门槛。源/配置/规则包非法为原父校验错误，不伪造玩法拒绝。多重玩法不满足按source_unavailable、action_occupied、hard_controlled、cooldown_active、insufficient_stamina、activity_forbidden顺序取首因。 本T此前已成功接纳任一已采用占用动作时，即使随后停止也以action_occupied拒绝新闪避；不以当前已无占用绕过每T一次成功。",
+      "commit": "原完整输入父同笔持有十四键决定、原接纳十八键动作e0且stop_event_id_or_null=null、20体力实扣/恢复等待重置、timers.intrinsic_cooldowns.dodge正60及trigger_event_id=本admission event、原普通连击窗口清理和路线/待服务交互取消。拒绝action_id=null，不创建动作或支付；闪避输入取消自动路线由原输入取消owner处理，不误写为玩法成功。冷却本T在接纳前已完成扣时，接受后的60不在同T再次扣。",
+      "identity": "沿71确定JSON UTF8数组SHA256：接纳event_id=dodge-admission:加hash([\"dodge_admission\",world_id,authority_profile_id,session_id,command_id])；action_id=dodge-action:加hash([\"player_dodge\",world_id,authority_profile_id,session_id,command_id])。session_id取原play_session_identity.session_id，根只回指原唯一决定，不复制请求。",
+      "replay": "同session/command只返回原接纳决定，同ID异正文拒绝；处理后scope/装备/资源变化不能重新判定旧命令。拒绝也消费原命令，不能冷却就绪后把旧拒绝改成功。未获授当前真实scope步不分配接纳。"
+    },
+    "advance_binding": {
+      "parent": "原movement_and_due_capture父按本人唯一移动职责冻结before根/位置及真实T；须accepted_world_step<T、stop=null且活跃e0..23、本人存活且仍同scope，before_elapsed与根一致，after=before+1。scope不获步不推进，无单独渲染/墙钟补跑。进入进攻队列前先完成包括闪避在内的全部本人/实体实际移动。",
+      "trace": "原十一键结果path首尾严格等于world位置before/after，沿原扫掠折点有限/地面/0.35米半径及最多16接触，实际水平总长<=0.125米。连续相同点不重复，完全受阻单点仍推进e；移动预算不在新步追偿。结果无客户端请求/第二最终位置/速度/无敌旗标。",
+      "identity": "event_id=dodge-advance:加SHA256(71确定JSON UTF8数组 [\"dodge_advance\",world_id,authority_profile_id,action_id,world_step])；同动作同T仅一结果，由原父完整持有。before/after差、真实碰撞及位置更新必须共同提交，重放不重复移动/扣步。",
+      "completion": "after=24同父只释放本动作占用且保历史根/推进来源、stop仍null，不启动普通连击窗口、不刷新冷却、不再生成同T手动或自动移动。自然完成不另生成中断结果；死亡/迁移/会话结束沿stop_binding保最后实际e，不伪造e24。"
+    },
+    "stop_schema_ref": {
+      "file": "闪避中断结果.schema.json",
+      "pointer": ""
+    },
+    "stop_binding": {
+      "sources": "death仅原最终死亡成功决定，cause_event_id精确原致死lethal_event_id；成功致命拦截仍存活不终止。scope_changed仅原已获准真实map/instance/world/authority迁移决定，cause指原迁移结果；保存本旧scope/source_actor而非目的地身份。session_end仅原正式玩法会话结束/角色移除决定，cause指原会话结束证明，不以进程不存在或连接超时猜测已结束。原来源父/身份及角色/旧scope必须完整可认证。",
+      "not_interrupts": "暂停/离线冻结/临时失联/菜单隔离只冻结其owner规定的推进，不生成中断。普通非致死伤害、WASD、新闪避/攻击输入、冷却到期、碰撞受阻不取消已接受动作或免去后摇；硬控在接纳前拒绝，本版不凭硬控名字自动新增已接纳闪避打断来源。另有明确打断来源采用前不得运行该扩展。",
+      "selection": "原父before中本人只有stop=null且e0..23的闪避才生成中断，已完成e24/已停止不再终止。死亡后发生迁移或会话结束仅保首次原结果，不覆盖reason/cause/e；若不同父抢同before，沿原串行修订与阶段顺序只允许首个提交。并非按reason名排序追溯改写已提交结果。",
+      "same_step": "中断不授予额外模拟步，允许accepted_world_step=T且e0同T终止；若本T推进已提交，中断保该推进后的e与位置。若先中断，之后不能再推进/免疫；自然e24先完成则后来的死亡不产生闪避stop。同一完整死亡/迁移父若尚有未提交推进候选，按其真实阶段before统一计算而不发布半笔。",
+      "identity": "event_id=dodge-stop:加SHA256(71确定JSON UTF8数组 [\"dodge_stop\",action_id])；每动作唯一中断。正文十一键由原原因父持有一次，根stop_event_id_or_null只指此event。cause指原致死/迁移/结束源，不反向复制死亡父结算身份，避免子结果与其父相互当来源。",
+      "commit": "同原死亡/迁移/会话结束父一次提交中断正文、根stop引用及本占用释放，保原e/位置，停止后的直接攻击免疫立即失效。已付20体力、恢复等待和原冷却只沿各时钟合法变化，不退费/清零/重启。闪避不属于死亡offensive_stop直接攻击根集合，不能伪造combat-action根或塞入该进攻清单。",
+      "restore": "恢复校验原动作/接纳/最后真实推进与唯一stop正文、完整cause源及父。stop存在则原动作不可再推进/提供免疫；e<24而无stop只有原合法活跃现场才可继续，不能凭资源/冷却推断动作已完成。旧根重放不终止复活后新根，不改其生命ID或迁移到新的scope。",
+      "boundary": "十八键根、十一键中断结构及死亡committed/会话end收据的显式null或具名中断分支已采用；完整玩家占用联合、迁移结果、完整死亡/会话父before-after及原子保存继续待，不据子schema宣称D1或运行已通过。"
+    },
+    "shared_admission_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/direct_attack_admission_phase/shared_action_queue"
+    },
+    "confusion_motion_binding_ref": {
+      "file": "神女状态技能.v1.json",
+      "pointer": "/persistent_control_state/random_walk_protocol/scope_change"
+    }
   },
   "attack_interval": {
     "owner": "22 action snapshot after attack contributions; pve attack contribution included once for PvE snapshot",
@@ -147,7 +218,7 @@
     "future_proc_reduction_changes_old_interval": false,
     "old_paid_action_keeps_cost_and_action_snapshot": true
   },
-  "random_order": "accepted-cast after admission/payment may have explicitly named action-snapshot proc draws (e.g怒海 or eligible Lu weapon attribute-stone double); record their result first. At actual hit: geometry/alive eligibility before accuracy draw, interval draw only if nonsingleton, one applicable critical draw, then explicit callbacks/anti stable ordering. Paid miss never rewinds earlier accepted-cast draws.",
+  "random_order": "accepted-cast先通过全部原接纳及费用资格，再按具名owner调用动作快照随机；刺客三息绝击的保点先于其条件点数实扣，随后具名增伤，其他触发沿各原owner顺序。所有费用/随机/根仍同原接纳父决定提交，不把保点当免除3点先决资格。At actual hit: geometry/alive eligibility before accuracy draw, interval draw only if nonsingleton, one applicable critical draw, then explicit callbacks/anti stable ordering. Paid miss never rewinds earlier accepted-cast draws.",
   "life_cycle": "committed damage/credit/resource/death effects one transaction. Bad config rejected before starting action; save failure re-saves original result. Complete activity state required for blood-devil persistence. Other NPC/skill effects without explicit profiles cannot become runtime defaults.",
   "stamina_regeneration": {
     "amount_per_second": 10,
@@ -224,7 +295,7 @@
     "scope": "23既有同步稳定伤害顺序及神女尸毒后置一轮的明确项目执行细化；不新增world时钟、持久sorted_ids或第二攻击队列。完整队列仍归原world现场，原角色随机与source事件归属不变。",
     "id_comparator": "合法原ID按未经Unicode规范化的原UTF8字节作无符号逐字节字典序，首个不同字节较小者先；一方为另一方前缀时较短者先。禁止本地语言/区域比较、大小写折叠、转拼音或先比较JSON转义文本。输入须已按原owner严格合法，坏编码/未知ID拒绝候选而非排序时修复。",
     "base_key": "同实际固定步的普通根命中/周期tick共用键(action_or_root_event_id,hit_or_tick_ordinal,target_id)，两个ID用原字节比较，中间ordinal为非负安全整数数值比较，2在10前。根/周期不会仅因事件类型或施加者职业额外抢先，原具体触发时点与阶段仍由各owner决定。跨world/instance/不同逻辑步不混排，原scope/实际world_step必须先验证。",
-    "due_set": "从原已接受动作/周期与实际world队列解析本阶段真实到期项；只有按原规则已经合法接纳且到期的事件入批。拒绝/重复旧请求/客户端伪造到期不是新项。读取队列后不能为抢先而把新迟到事件插到已提交游标之前；缺原事件/错时点或恢复游标不一致保现场报错，不能按收包顺序补跑。合法同一步接纳/即时落效必须由原动作owner明确其阶段，未定义时不临时选顺序。",
+    "due_set": "从原已接受动作/周期与实际world队列解析本阶段真实到期项；只有按原规则已经合法接纳且到期的事件入批。拒绝/重复旧请求/客户端伪造到期不是新项。读取队列后不能为抢先而把新迟到事件插到已提交游标之前；缺原事件/错时点或恢复游标不一致保现场报错，不能按收包顺序补跑。合法同一步接纳/即时落效必须由原动作owner明确其阶段，未定义时不临时选顺序。 目的scope本T公共交通新迁入目标沿public_arrival_eligibility_owner_ref不进入新目标集合，其他源不得凭当前位置补造针对其本T伤害。",
     "unique_key": "同键在原权威待处理批中至多一个事件；重复持久队列槽或同键异完整来源/正文拒绝，不能set去重后掩盖坏现场。传输同事件副本先经原请求/已提交结果精确相等验证，只回原决定，不新入队、再抽随机或再加游标。原稳定事件身份不得由客户端重新命名来改变排序。",
     "atomic_result": "每项完成原完整命中/防护/损失/拦截/联动损失/死亡及明示原同步回调，才进入下项。原明确反射/尸毒/独立状态等分支各沿其owner的同步或排队规则，不能一律展开成新根、插队或推迟到下一步。真实死亡分支由死亡owner唯一协调，来源子结果不另占业务reserved；保存存疑阻该依赖游标继续，不发布半笔。",
     "corpse_wave_owner_ref": {
@@ -235,10 +306,46 @@
     "new_events": "原命中回调本步新增周期/后续段只按各owner明确的首tick/首落效步入原队列，不因本阶段还在运行就补一个即时tick。没有已采用时点的派生不能进入任何阶段，不能统一推迟一帧当默认修复。",
     "cleanup": "普通批及允许的一次尸毒波真实结果全部确定后才进行本步最终清理；每个死亡先保存其原快照/来源及所需权利和队列证明。终局活动按自身规则停新进攻/保待返回，不清已决定结果；待保存/未ACK现场不得仅因本步结束就释放。",
     "random": "同一批真实逐项执行时沿原random_flow消费所属流，几何/存活/资格先验再按原调用点抽取；排序不预先抽全部目标、共享同一随机值或以接收消息重排调用。稳定锁序只决定持锁，不代替本节业务抽样顺序。",
-    "remaining": "此设计明确同批比较/唯一性/后置波；完整实际动作/周期/派生队列与保存游标结构、致死子结果及LAN/Godot仍待，不以排序算例证明运行。",
+    "remaining": "当前scope批次结构/队列消费取消及一次后置波规则采用；完整实际动作/周期/投射源、父world阶段/完整决定与LAN/Godot仍待，不以排序或队列模型宣称运行通过。",
     "admission_phase_owner_ref": {
       "file": "战斗命中与减伤.v1.json",
       "pointer": "/direct_attack_admission_phase"
+    },
+    "persisted_batch": {
+      "schema_ref": {
+        "file": "固定步伤害批次.schema.json",
+        "pointer": ""
+      },
+      "field": "原world.combat_resolution_batches的当前scope批次组件，七字段；该集合就是本步真实待处理伤害队列，不另建sorted_ids/next_index/完成标志/第二待办表。未来时点仍由原动作/周期/投射/派生owner保存，未到期者不复制到当前批。world根及全固定步阶段封套仍待，组件本身不授权推进。",
+      "scope": "每批明确world/authority/map/instance/world_step，父world同一scope至多一批，公共/private沿原实际场景身份核验。每项仅action_or_root_event_id/target_id/hit_or_tick_ordinal与corpse_sort_source_or_null四字段，和批scope重建原七伤害键，不重复保存event_id或scope。不同scope批不把单一实例时间/暂停/时限混用，调度顺序另归父world明确阶段。",
+      "freeze": "普通批在本步原到期来源/移动碰撞阶段完成后冻结实际全部候选，严格原base_key排序，phase=ordinary且各项corpse source=null。完整原来源与世界阶段须证明既不少合法到期项也不插未来/迟到/已停止项；原键重复即拒绝，不能set去重。冻结后不因重载/重连重新从actor扫描加入本轮，迟到输入依原admission_phase排后步。 原周期到期与余时0同一步的来源必须先由原周期owner在删除前捕获，普通批从该已认证到期context接收候选，不仅扫描冻结时仍活跃effects；出血按bleeding_due_source_ref的末跳/周期root/ordinal规则。原world完整阶段不得用统一“先删所有到期效果”吞掉合法末跳。",
+      "consume": "执行首项必须沿真实来源构造原combat-damage身份；本项结果、直属孩子/同步回调、必要死亡/停止/资源/随机与该项从pending_items移除同一完整父决定。未中/前置阻断也须原正式结果才移除。保存存疑保原未决决定及上次正式队列，不先pop/加游标；重放原决定不再移除当前下一项。无需next_index，已决定项在原来源/结果中保留必要历史而不复制进pending列表。",
+      "cancellation": "原较早死亡/AI合法返回/召唤到期等真实停止事件同笔可移除该scope中其精确旧source生命的尚未落效项，原root/owner和全部取消清单须可认证；不是为每项伪造miss/blocked伤害。取消保未移除项原相对顺序，不能仅根据目标死亡就取消所有来袭根；已知死目标后续仍按原合法来源决定资格。未知root/source、漏取消/额外取消拒绝；停止证明不能替代仍应实际完成的同步回调。",
+      "corpse_wave": "ordinary.pending_items真正为空且全部原同步子决定完成后，沿本步已认证首次死亡及原尸毒捕获来源冻结唯一后置波，原批同scope切phase=corpse_wave，项corpse_sort_source保original_death_root_id/winning_source_id。按原(original_death_root,winning_source,target)UTF8排序，伤害root/ordinal仍精确该原尸毒源实际身份，不拿排序键替代伤害七键。空波也完成该阶段，不扫描现存尸体重建；爆发新死亡不入第二波。父world阶段记录必须证明本步只切一次，不能以空队列猜从未运行。",
+      "completion": "corpse_wave.pending_items真正为空且必要回调/接收者决定闭合后，才沿父world本步清理阶段移除该批。空ordinary是尚待波阶段，空corpse是尚待父阶段完成，二者不靠null/空集合自动补时。批移除与父world阶段完成同笔，读档按其正式原阶段恢复，禁止从actors重新填已清批。实际跨scope顺序/世界完整阶段仍须父world明确。",
+      "recovery": "加载先完整batch白名单/唯一scope、每项原source/目标生命与due/phase、严格键序、原已提交前项/取消及世界阶段双向核验；不排序修复、不丢未知项、不把重复候选吞掉。每次恢复只重取原已决定结果或继续精确原首未决项，历史来源/随机区间和孩子归属认证后才推进。队列与必要角色/世界共享决定尚未闭合时不得运行。",
+      "boundary": "当前scope批次字段与无重复游标的消费/取消/后置波恢复规则采用；完整world根/全阶段、实际动作周期投射来源及父决定/多接收者协议、Godot仍待，D1未完成。"
+    },
+    "bleeding_due_source_ref": {
+      "file": "怒气出血与血雨恶魔.v1.json",
+      "pointer": "/bleeding/persistent_state/tick_identity"
+    },
+    "scope_step_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/scope_step_lifecycle"
+    },
+    "scope_binding": {
+      "schema_ref": {
+        "file": "世界固定步状态.schema.json",
+        "pointer": "/$defs/instance_binding"
+      },
+      "shape": "79地图的公共null/私场非空实例分派共用原世界scope定义；已接纳直接攻击身份、伤害七键及完整结果、出血施加/计时、致命拦截和云心破裂均采用，不允许批次合法而子结果另造公共私人副本。",
+      "equality": "每项原动作/周期真实scope与父batch/scope阶段/world正式身份一致；原damage七键与完整结果相等，拦截/破罩/回调按原实际执行context逐一核world/authority/map/instance/目标生命。仅每个对象各自通过公私形状不足以证明彼此相等或原私场入场权限；不同合法instance字符串也不得交叉拼接。",
+      "boundary": "共用结构约束不替代原actor/活动attempt授权、真实事件摘要/来源或完整父决定认证；多段/跨场景在途来源仍须原owner明确，不能因字符串非空放行。"
+    },
+    "public_arrival_eligibility_owner_ref": {
+      "file": "场景迁移.v1.json",
+      "pointer": "/destination_eligibility"
     }
   },
   "event_identity": {
@@ -251,10 +358,10 @@
     "root_target": "action_or_root_event_id解析真实已接纳动作或原周期源；target_id解析该原作用域中真实目标实体生命轮次，不是只含可重用spawn槽名。刷怪新generation/活动新轮不得复用旧目标身份，离场重连同实体保原身份；完整actor根/ID生成及原动作结构仍待采用，不以任意非空字符串或display名补实体。",
     "ordinal": "hit_or_tick_ordinal是原动作该段/原周期真实序号，非负安全整数；对同目标同序号最多一次结果。多目标仅target_id不同；后续多段/tick须原owner明确下一序号，重连/保存不重置或另用world_step生成第二次身份。",
     "event_id": "event_id=\"combat-damage:\"+SHA256(71确定JSON [\"combat_damage\",world_id,authority_profile_id,map_id,instance_id_or_null,action_or_root_event_id,target_id,hit_or_tick_ordinal]的UTF8)。实际事件保原event_id时须重算精确相等；本哈希标识原作用，不分配通用结算counter。两个相同ID完整来源/正文须一致，不能把digest碰撞/异正文当同结果吞掉。",
-    "role_session": "玩家根动作在其原接纳/快照保存真实play_session_identity，伤害沿该来源验证，不用接收目标当前会话替换旧动作来源。世界NPC/怪物/伙伴事件按原world authority及原世界流，不虚构玩家session_id来凑去重键。七键不替代成员/来源/实体存活与关系授权。",
+    "role_session": "玩家根动作在其原接纳/快照保存真实play_session_identity，伤害沿该来源验证，不用接收目标当前会话替换旧动作来源。世界NPC/怪物/伙伴事件按原world authority及原世界流，不虚构玩家session_id来凑去重键。七键不替代成员/来源/实体存活与关系授权。 内部强制player根由admission.choice_event_id与当时完整权威会话/源生命历史认证角色流归属，metadata不伪造session；不拿接收者当前会话替代原历史。",
     "replay": "完整七键及原event_id相同的已提交原结果只回原决定，原世界步/几何/随机/伤害/回调/死亡不重算。相同七键不能因换会话/重发命令造新伤害；合法新动作必须真实重新接纳并取得新原root身份。",
     "death": "本伤害确实是终态致死原结果时，death_events.command.lethal_event_id精确本event_id；死亡通用结算编号另归唯一death owner，不拿伤害哈希当通用counter身份。其他原环境/脚本/配置致死沿其原专属身份，不能假造伤害记录凑本schema。 若剩余敌伤未终态致死、但后续云心破罩罚血致死，角色死亡指cloud-break原子结果而非本伤害event_id；本伤害保其实际损失/归属，不据最后角色HP0倒推自己是致死项。原破罩结果沿linked_cloud_break_result_ref。",
-    "remaining": "身份投影/摘要及角色与世界来源分离采用；完整actor/root/周期/伤害结果/队列与原子保存仍待，不能据七键合法授权命中。",
+    "remaining": "身份/摘要与完整19字段伤害结果形状采用；实际原actor/root/周期/执行历史context、所有公式/回调来源、队列/父决定与原子保存仍待，不能据结构合法授权命中。",
     "training_actor_identity_ref": {
       "file": "docs/contracts/修炼怪物与刷点.v1.json",
       "pointer": "/persistence/actor_identity"
@@ -266,10 +373,18 @@
     "player_actor_owner_ref": {
       "file": "死亡与复活保存.v1.json",
       "pointer": "/player_actor_identity"
+    },
+    "result_schema_ref": {
+      "file": "战斗伤害结果.schema.json",
+      "pointer": ""
     }
   },
   "accepted_attack_timing": {
-    "scope": "仅明确normal_attack或attack_martial_skill直接攻击根：22各普攻combo_stages及直接攻击定义、24/25/27/28实际直接攻击profile。自恢复/治疗/格挡/采集/闪避/传送/周期/即时派生不因字段相似继承此规则，须沿自身owner。此为项目60Hz时序采用，不宣称官网帧表。 修炼怪物与刷点原ai的普通攻击明确接入同一直接攻击时序，冻结其原normal_*与recovery_steps，不把NPC的零费用改成玩家费用或伪造玩家会话。",
+    "player_normal_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/player_normal_attack"
+    },
+    "scope": "仅明确normal_attack或attack_martial_skill直接攻击根：22各普攻combo_stages及直接攻击定义、24/25/27/28实际直接攻击profile。自恢复/治疗/格挡/采集/闪避/传送/周期/即时派生不因字段相似继承此规则，须沿自身owner。此为项目60Hz时序采用，不宣称官网帧表。 修炼怪物与刷点原ai的普通攻击明确接入同一直接攻击时序，冻结其原normal_*与recovery_steps，不把NPC的零费用改成玩家费用或伪造玩家会话。 六转两具名私场private_trial_ai的三个原attack_programs亦明确接入本时序，保持原零费用及单步有效阶段，不借用玩家职业费用。 本轮二十种公共普通怪ordinary_ai明确接入36/1/84、offset[0]的本直接时序；保持原公共地图、安全区及零费用规则。",
     "schema_ref": {
       "file": "已接受攻击时序.schema.json",
       "pointer": ""
@@ -299,27 +414,362 @@
     "training_action_owner_ref": {
       "file": "修炼怪物与刷点.v1.json",
       "pointer": "/persistence/normal_attack"
+    },
+    "private_trial_action_owner_ref": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/persistence/enemy_behavior/actions"
+    },
+    "normal_geometry_owner_ref": {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/basic_attack_geometry"
+    },
+    "normal_speed_source_ref": {
+      "file": "辅助武功采用.v1.json",
+      "pointer": "/assassin_displacement_policy/basic_speed_timing"
+    },
+    "normal_speed_snapshot": "仅新接纳normal_attack按原辅助效果真实来源取同族最强合法速度倍率；分别按原basic_speed_timing对原profile前摇/后摇向上取整且至少1步，有效时长及命中偏移不变。无该合法来源则保原profile时序；不得把辅助动作本身的cast_steps/recovery_steps拿来缩放普攻。原角色规则计时阶段已到期的来源不参与随后接纳；接纳后来源到期/被清除/换装或加载不重算已冻结时序。完整动作保真实来源与规则版本证明，五字段时序投影不承担来源认证。",
+    "fast_attack_accuracy_source_ref": {
+      "file": "刺客必杀与超必杀气功采用.v1.json",
+      "pointer": "/profiles/fast_attack_accuracy"
+    },
+    "fast_attack_accuracy_snapshot": "刺客先发制人在上述合法速度修正完成后，以冻结W+A+R<=30判定快攻；正生效等级每级命中+1，折入同次接纳的真实命中快照一次。无合法快打时也按真实总时长判定，不额外要求快打存在；总时长31不满足。不得按动画帧率/实际等待时间/当前buff或恢复后的当前等级重新判定，不能让攻击武功或派生命中借此普攻资格。",
+    "player_martial_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/player_martial_attack"
+    },
+    "ordinary_action_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/ordinary_combat"
     }
+  },
+  "direct_combat_registries": {
+    "schema_ref": {
+      "file": "已采用直接战斗注册表.schema.json",
+      "pointer": ""
+    },
+    "fields": "原world每真实map/instance公共scope采用accepted_direct_attacks、normal_projectiles、martial_projectiles、accepted_dodges、accepted_aux_displacements、accepted_gathers、accepted_support_casts七字段唯一正文注册表，不持久第二combat_registry包装。初次真实创建scope显式七个空对象，当前格式缺字段拒绝，不用模板重建已有未决现场；完整scope创建/world根仍由原owner认证。",
+    "dispatch": "actions每键严格原combat-action ID，正文五类完整根分派：玩家普通、玩家攻击武功、修炼普通、两具名私场敌攻击、本轮二十种公共普通怪普通攻击。normal_projectiles与martial_projectiles各按专用ID前缀及完整六键正文分派；各键等于正文ID。其他未采用NPC/伙伴/派生根拒绝，不以空对象代替。 accepted_dodges按dodge-action键存十八键闪避根，accepted_aux_displacements按aux-displacement-action键存二十四键位移根；不混入accepted_direct_attacks、弹体或进攻推进队列。所有表键须等于正文原ID，任何其他动作/字段拒绝而不降级。 accepted_gathers按gather-action键存二十一键采集根，竹/木柴各严格分型；只在本表存一次，不混入直接攻击、弹体或进攻推进队列。 accepted_support_casts按support-action键保存十九键51能力普通辅助根，键等正文action_id；不混入直接攻击/弹体/进攻推进队列。",
+    "scope": "动作正文world/authority/map/instance逐项等于该真实scope；弹体沿原dispatch/action解析同scope，不能用当前玩家位置替换。历史原根跨角色迁移仍保其原scope归属；只要有在途/队列/活动/窗口或原历史引用，该原scope及必要全文/来源不能因玩家离场直接释放。",
+    "references": "玩家占用查询、私场enemy.behavior.accepted_action_id_or_null、修炼/公共普通AI当前根和接纳结果均只引用此actions唯一全文；连段前驱/发射/弹体/伤害原根引用亦同。normal_projectiles不内嵌第二完整根；弹体action/dispatch三ID双向核对、原根必须投射handler且原发射projectile_id等于本项，不能一个根本ordinal0挂两弹体或一弹体挂两个根。 martial_projectiles同样只引用唯一原武功根/发射；每个真实ordinal至多一弹体，三ID及根发射列表逐项认证，不能跨ordinal共用。 闪避/辅助位移接纳结果和推进只引用各自唯一正文，死亡/正式会话结束按其owner停止原根，不再在角色保存完整动作副本。 采集推进/生效、木柴collector_action与接纳只引用accepted_gathers唯一全文；节点预留不得另存完整根。 普通辅助接纳/落效和生命周期停止仅引用accepted_support_casts唯一根，目标效果源按各原owner保存，不在角色复制动作。",
+    "occupation": "六类已采用玩家动作（普通攻击/攻击武功/闪避/辅助位移/采集/普通辅助施放）跨五动作表联合查询adopted_player_action_occupation。直接攻击含NPC不得当玩家；完成/停止历史根不占用。初始治疗/神女/升天等其他施放仍须各原owner闭合，不能据已采用根无占用补完整Idle。",
+    "retention": "全部接纳/发射/推进/终止/伤害子结果只在原完整父历史保存一次，注册表不再复制事件数组或完成集合。正文/原接纳父before/规则包及必要来源按实际依赖保留；根动作e到总长不代表无后代可回收。回收必须证明原引用全集闭合且原保存/LAN水位允许，不新增本表单独refcount/代际计数。",
+    "atomicity": "原接纳新根、新发射建弹体、推进/停止及原队列/角色引用共同父决定内安装/更新；旧对象不得先删后由当前模板补回。完整父before/after和跨角色/活动变化仍按原保存协议共同认证，本投影不新增profile日志或通用结算。",
+    "boundary": "七表组合五类直接根、闪避、辅助位移、采集、51普通辅助及两类弹体；八kind用户/AI队列与六类玩家占用已采用。内部强制路由、完整阶段/取消父、其他动作与实际world共同保存仍待，D1未通过。"
+  },
+  "normal_offense_advance_worklist": {
+    "field": "normal_offense_advance_worklist_or_null",
+    "schema_ref": {
+      "file": "普通攻击推进队列.schema.json",
+      "pointer": ""
+    },
+    "ownership": "原scope movement_and_due_capture复用同一七字段剩余队列，原玩家普通/武功根、本轮六公共普通怪根和两类弹体只保ID；根类型从唯一actions正文分派，弹体以前缀分派，不另存kind/原对象副本/游标/完成集合。修炼/私场NPC及其他未采用推进源仍归各自owner。",
+    "freeze": "原本T实际移动完成的完整父决定同笔冻结玩家普通/武功根、本轮六公共普通怪根及两类旧弹体推进全集并装本字段，空集合也装pending_ids=[]；此前null不证明可跳过真实移动，须原movement完成来源。不在阶段恢复时重新扫描当前注册表补全集。根条件accepted<T且原clock_policy本人获步、stop=null、e<总长；弹体条件原dispatch.world_step<T、terminal=null且其真实scope获步，不要求施放者仍占用根或仍在线（停场/死亡沿原各owner）。",
+    "order": "按完整ID的UTF8字节升序：combat-action根在先，随后martial-projectile再normal-projectile。每ID只一项，不另按当前角色或到期时点重排。全部原根及冻结时已在场旧弹体逐队首推进，新发射弹体本T不加入且保持0。",
+    "consume": "仅处理队首。普通/武功根及两类弹体严格核其专用推进结果；本项e变化/发射或终止/角色窗口/必要原候选或新弹体、子结果与移除队首同一原父决定。无命中/无到期也必须有真实一次推进结果，不用空队列猜曾移动。若合法原停止在处理前已取消该项，必须同笔消费队首并保原stop/terminal证明，不伪造after=before+1结果或静默略过；异常缺对象/来源冲突拒绝恢复。 本轮公共普通怪非到期项核专用十键推进；e36到期项仅同笔冻结原ordinal0战斗候选并移除本队首，保根e36/null命中，本推进在combat队首随真实伤害共同提交。恢复依冻结before及原候选认证，不能要求该项在movement已有推进结果或按当前e重新补入。",
+    "recovery": "原移动完成父决定保存不可变全集及冻结before，后续完整父决定的真实推进/停止结果证明按顺序已处理前缀，当前pending_ids必须精确是原剩余后缀。不能用当前e或弹体终止null推算已处理数，不能把已清或新创建对象重排回队列；存疑先核原正式决定。rules_hash认证本阶段原规则包，旧根各自冻结rules_hash另验历史，不强迫旧根改成当前规则。",
+    "exit": "队列空仅证明已采用玩家与本轮公共普通怪进攻这一工作段完成，不证明其他移动/NPC/周期捕获已完成。全部真实来源闭合后，本字段清null、冻结完整ordinary批和进入combat同笔；进入combat仍有非空或本阶段未完成来源的现场拒绝。scope在其他阶段字段必须null；完整movement阶段细context仍待，不能凭本七字段跳过其他owner。",
+    "boundary": "玩家普通/武功根、本轮六公共普通怪根及两类弹体共用七字段推进队列已采用；原真实移动、其他NPC源、完整world阶段context与多角色共同提交仍待。",
+    "movement_owner_ref": {
+      "file": "玩家徒步移动.v1.json",
+      "pointer": "/step_order"
+    },
+    "ordinary_monster_advance_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/ordinary_combat/advance"
+    }
+  },
+  "normal_projectile_advance": {
+    "schema_ref": {
+      "file": "普通攻击弹体推进结果.schema.json",
+      "pointer": ""
+    },
+    "scope": "仅原冻结队列中尚未终止的普通弹体实际移动一次，非创建步和停止清理。原根已完成后摇不阻仍合法飞行；真实死亡停止则不移动，引用原停止终止证明消费队首。",
+    "identity": "event_id=normal-projectile-advance:加SHA256(71确定JSON数组 [\"normal_projectile_advance\",world_id,authority_profile_id,projectile_id,world_step])；不含前后进度/终止原因或目标。每弹体本T至多一笔，同ID异正文拒绝，读取只回原结果。",
+    "joint_checks": "世界/scope/T须解析同原发射及当前父获步来源；before等于原父before弹体e，after=before+1<=原根L，等于父after弹体e。推进前terminal=null且原dispatch.world_step<T。终止字段若非null，必须解析本步原actor/solid/range结果且等于弹体after终止引用；无终止则after<L。offensive_stop不是飞行推进终止，不能消耗一虚构飞行步。",
+    "atomicity": "精确扫掠、e推进、本步接触/到期终止及候选创建、原队首移除同一完整父决定。只是无碰撞飞行仍持真实十键结果，接触不重抽命中，命中在原combat批处理。父context/实际碰撞来源仍须完整认证，不新增单独通用日志。",
+    "boundary": "十键弹体逐步结果与队首消费衔接已采用；实际扫掠/阶段context及共同父来源和Godot尚待。"
+  },
+  "normal_attack_advance": {
+    "worklist_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/normal_offense_advance_worklist"
+    },
+    "schema_ref": {
+      "file": "普通攻击推进结果.schema.json",
+      "pointer": ""
+    },
+    "ownership": "十键子结果只由原scope movement_and_due_capture完整父决定持有，原根仍仅elapsed_steps游标，不另存推进历史数组/最新推进ID/完成标志。原连段完成证明从该父决定的本结果及真实根after认证，不在角色再缓存完成时钟。",
+    "eligibility": "仅本scope实际获授T且原accepted_world_step<T、原本人生命/占用仍合法、stop=null且e<总时长的玩家普通根推进。新根、已停止/正常完成根或本人未获准的冻结步不产生此结果；不能按T差补跑。接纳阶段因旧根仍占用而拒绝的命令不随本阶段后摇完成自动补接纳。",
+    "phase": "本结果在movement_and_due_capture，按原移动完成后的真实几何处理旧根到期与旧弹体扫掠，在进入combat前形成原ordinary批。direct_attack_admission仅完成新请求及旧根推进资格，不在该阶段先做弹体碰撞或消费本步命中。发射本T的新弹体保持0，下个获准scope步首次移动。",
+    "identity": "event_id=normal-advance:加SHA256(71确定JSON数组 [\"normal_attack_advance\",world_id,authority_profile_id,action_id,world_step])；不含before/after/发射结果或目标。每根本world步最多一笔；同ID异正文拒绝，恢复只回原结果，不把已完成游标再加1。",
+    "joint_checks": "本结果world/authority/map/instance等于原根和真实父scope，before_elapsed_steps等于父before根e，after_elapsed_steps=before+1且<=冻结W+A+R，after等于父after根e。原根除e及本次到期写入dispatch引用外不因推进改数值/规则/原来源；根停止由原死亡/活动决定处理，不伪造本推进。有限yaw/原源历史与完整根仍先验。",
+    "dispatch": "仅before=W且after=W+1时，本结果dispatch_event_id_or_null必须非null，解析同root/scope/T/ordinal0原唯一发射结果并等于根after引用；本步其他推进该字段必须null，即便根此前已有发射引用仍不在每个后摇结果重复声称新发射。e推进/发射及近战候选或新弹体与原父同笔，空挥也有正式发射结果。",
+    "completion": "仅before=总时长-1且after=总时长、原stop=null为首次正常完成，原占用释放与stage1/2建窗口60或stage3不建同一父决定。窗口本T不扣的证明从本结果T与原父创建变化认证，不新增creation_step缓存。真实空挥/未中也可完成；已停止根不得生成本结果伪造完成，仍在途弹体不因占用释放删除。",
+    "atomicity": "本结果和完整父根/角色占用/窗口、必要发射/弹体或候选共同决定，不是另建通用settlement。阶段内逐根分别提交时，原完整父context必须保原推进资格全集及已提交结果的前缀/剩余关系，不能靠当前e重新扫描把同T处理两次。完整阶段context仍须闭合后才能实际恢复运行。",
+    "boundary": "普通根推进子结果及发射/完成来源采用；原movement阶段全集/顺序/完整角色-world父before/after与逐项故障恢复仍待，未执行Godot运行。"
+  },
+  "player_normal_attack": {
+    "registry_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/direct_combat_registries"
+    },
+    "advance_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/normal_attack_advance"
+    },
+    "schema_ref": {
+      "file": "玩家普通攻击.schema.json",
+      "pointer": ""
+    },
+    "ownership": "原公共战斗动作注册表按action_id唯一保存全文，原角色占用/接纳结果/连段前驱窗口/发射/弹体只引用，不各持一份完整根。十四职业普通根严格白名单，攻击武功/NPC根保原各自schema，不能以玩家源冒名。",
+    "admission": "admission_event_id须解析原outcome=admitted且request.attack_kind=normal_attack的唯一结果，其action_id/原候选session/command/source/world/scope/T/rules_hash与本根逐项相同，并按原身份owner重算action_id。原请求显式主目标与本primary一致，yaw精确从原aim_turn_u16转换；实际装备实例/职业武器/profile和本次生命必须由原接纳父认证，不用当前selected角色或同名武器替代。初建e0/未停止/未发射，无命中抽数。",
+    "combo": "stage1前驱null；stage2/3前驱必须等于本次接纳原before窗口.completed_action_id，且解析同本人生命/武器/规则profile/作用域的正常完成前一段及原60机会有效证明；消费窗口与新根同笔。不能从客户端requested_stage设普攻段，不能只凭一个完整旧根证明窗口尚有效。stage3倍率12000，其余10000。",
+    "frozen_sources": "attack_min/max、accuracy、flat_power与暴击、几何、时序复用各原owner；所有适用确定性来源及未折入区间的一次直接增幅，沿本admission_event原共同父完整before、支付/触发决定和原rules_hash历史认证并派生，不额外复制完整角色或开放snapshot对象。原父证明必须保到本根/后代/来源引用结束，缺失则拒绝恢复，不能转读当前effects/气功/装备。乾坤读取该原接纳基础支付后HP，血魔有效挑战含原同T捕获；相关值只能从原共同决定认证。此依赖须完整父schema闭合，根结构本身不证明来源齐全。",
+    "joint_checks": "完整根先验白名单，再投影核各已采用组件；另核区间顺序、两暴击段和、真实时序来源/W+A+R安全且e在界内、增程精确寿命、成功武器池及已取次击源。所有数值乘加前按integer_arithmetic检查，不能仅凭组件各自合法接受联合错误。根不保存可派生phase/余时/当前占用布尔。",
+    "dispatch_and_stop": "e<=W未发射则dispatch=null；真实第W+1步必须同笔存唯一原dispatch，之后e>W保其引用。合法停止在首次发射前可保null，停止后不推进e/补发。stop_event只记录根占用期间真实停止，不能把e强设总时长冒充完成；正常完成根不因后续死亡改为停止，未落效弹体/候选仍由原死亡owner独立处理。每次发射/停止均要原父决定与源回指。",
+    "retention": "e到总时长仅释放占用并按原窗口owner建连段机会，不代表整根可删除；弹体/待定命中/派生/窗口前驱及历史任一有引用则保根/原接纳与规则证明。已付根不因换装/洗点/读档/当前会话重算、重付或重抽。",
+    "boundary": "完整普通根严格字段组合已采用，关联原几何/数值/触发/次击/武器池/暴击/时序/发射/弹体；真实共同父完整角色/world before/after及规则包来源闭包、实际推进占用和Godot仍待，不能仅以根schema合法宣称D1通过。"
+  },
+  "normal_projectile": {
+    "registry_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/direct_combat_registries"
+    },
+    "advance_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/normal_projectile_advance"
+    },
+    "schema_ref": {
+      "file": "普通攻击弹体状态.schema.json",
+      "pointer": ""
+    },
+    "terminal_schema_ref": {
+      "file": "普通攻击弹体状态.schema.json",
+      "pointer": "/$defs/terminal"
+    },
+    "ownership": "原公共战斗弹体集合按projectile_id唯一保存六字段正文，原普通发射决定只引用；原推进父历史持有八字段终止结果，弹体只引用terminal_event_id。作用域/规则及方向/速度/半径/最大射程寿命分别从同原发射/完整根认证，不复制第二套可分叉属性。",
+    "creation": "仅原kind=projectile发射同笔创建，三ID必须双向等于原action/dispatch及派生projectile_id。origin_position冻结发射时本人实际脚位置+[0,1,0]米；1米为本地项目发射高度选择，非官网值，不按模型动画socket或当前读档位置重建。completed_flight_steps=0且终止null。原锁定yaw按Godot绕正Y、模型-Z前方派生水平单位方向[-sin(yaw),0,-cos(yaw)]，不追踪目标转向。",
+    "first_move": "发射当world步只创建不移动；随后原clock_policy实际接纳且world_step大于原发射步的scope步，在movement_and_due_capture原移动完成后处理既有根/子项时各至多移动一次。无玩家输入也正常推进；暂停/私场挂起冻结，离线不补跑，不能让创建后遍历同数组额外移动。真实scope角色步与原world父证明负责防重复，不加弹体第二时钟。",
+    "movement": "根冻结速度v毫米每秒、射程R毫米、最大步L=ceil(R*60/v)。活跃e需0<=e<L；下一步k=e+1，扫掠从min(e*v/60,R)到min(k*v/60,R)的闭区间真实路径，保分数不每步取整丢距，最后一步夹到精确R。位置由origin+方向*距离/1000派生，不保存可漂移累计浮点位置。v/射程/半径仍核原十四profile与增程owner。",
+    "collision": "以冻结半径100mm扫掠，本步首个真实敌对可碰实体或实心障碍终止；友方不受伤且不拦箭，不因其碰撞体取首命中。接触距离相同先实心障碍，两个敌对实体同距按原ID UTF8字节序选一；每实体多hurtbox合并为同一生命身份，接触资格按原关系/活体/安全区几何规则。终止距离必须在本步扫掠区间内且为真实最近接触，起点重叠允许距离0。原主目标不因拦截替换。",
+    "terminal": "actor_contact须唯一真实目标，创建原ordinary候选而非直接判HP命中；solid_contact须真实稳定地图collider引用且无目标；到精确R仍无碰撞为range_exhausted，距离=R且e=L。碰撞和耗尽均把e置本次已处理k，终止结果保精确travel_distance_mm；范围终点同距碰撞先于耗尽。offensive_stop只引用原合法死亡/活动停止事件，保持原e和已走距离，不再移动/创建候选。每个弹体只一终止，后续死亡不改已提交接触终止；未落效候选仍沿原停止集合取消。",
+    "identity": "终止event_id=normal-projectile-terminal:加SHA256(71确定JSON [\"normal_projectile_terminal\",projectile_id])，不含T/原因/碰撞目标或距离；同ID异正文拒绝，重放返回原结果。正文有限浮点数不参与71整数身份摘要，拒NaN/Infinity与非有限坐标。",
+    "joint_validation": "活跃e小于根L且终止null；终止非null必须解析本弹体真实原结果，碰撞e在1..L，耗尽e=L，停止e在0..L-1且距离=min(e*v/60,R)。所有距离界、最早接触、原发射来源和逐scope实际步均依完整父证明校验。各原根最大L不超过83，但不能仅凭schema83接受短寿命profile的超龄弹体。",
+    "atomicity": "e推进/终止结果/原批候选创建同一原推进父决定，正式未决不推进下一步。读取核已有终止及候选/消费决定，不把已空队列视为未碰撞。终止弹体在原决定/根后代/历史仍引用时保留；不新增通用日志、已命中集合或重复伤害结果。",
+    "boundary": "普通弹体六字段与八字段终止结构、首移/步距/终点排序采用；完整玩家根、真实场景碰撞/父推进共同提交及Godot扫掠/保存仍待，不以本静态结构宣称运行完成。"
+  },
+  "normal_attack_dispatch": {
+    "projectile_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/normal_projectile"
+    },
+    "schema_ref": {
+      "file": "普通攻击发射结果.schema.json",
+      "pointer": ""
+    },
+    "scope": "仅原玩家normal_attack的唯一ordinal0，按完整原根handler分近战/投射，十键且不复制规则包/攻击数值/角色面板。原根同scope及真实rules_hash唯一认证；不是攻击武功/NPC通用发射或伤害结果。",
+    "identity": "按71整数确定JSON分别计算event_id=normal-dispatch:加SHA256([\"normal_attack_dispatch\",world_id,authority_profile_id,action_id,0])和projectile_id=normal-projectile:加SHA256([\"normal_attack_projectile\",world_id,authority_profile_id,action_id,0])。两摘要不含当前T/目标/结果，重放同根同ordinal只返回原决定，同ID异正文拒绝；不因目标消失或重载而产生第二发射。",
+    "due": "只在原真实动作步k=W+1且offset0到期创建一次，原accepted_world_step必须早于本world_step；原根e从W推进W+1与本决定、队列项或新弹体同笔。到期前没有发射决定，真实停止先发生时不得发射，也不伪造空挥来填停止缺口。e已越过到期却无原决定/合法停止证明的存档拒绝，不能按当前目标补发。",
+    "melee": "kind=melee仅target_actor_ids数组，按原冻结90度/高度/距离及本步真实关系/活体/障碍选最多1个。原主目标确实合格则优先，否则按原距离/ID选真实其他目标且不能变原主目标。无合格目标保存[]，仍消费本次发射。每个选中目标创建原ordinary批候选(action_id,target_id,ordinal0,corpse_sort_source_or_null=null)，批次与原逐项处理仍在各自原owner；几何/生命等在真实落效前再验，不能把入选等同命中成功。",
+    "projectile": "kind=projectile仅projectile_id，不携近战目标或伪造combat-damage引用。原根锁定朝向及实际发射位置/冻结几何生成该唯一新弹体；原主目标仍归根，弹体后续扫掠首碰不能重绑原主目标。新弹体完整结构必须与本决定共同认证，不能只有字符串就视为已生成。首次移动/飞行消耗的实际阶段仍由投射owner明确后才能运行，不能默认发射当步多移动一次。",
+    "atomicity": "决定由原直接攻击推进父结果持有，原根只引用同event_id，不再复制完整决定；父结果、e推进、近战原队列插入或弹体创建在原同world阶段共同提交。没有另加通用日志/第二完成集/发射游标。进入combat前冻结到期全集的原队列规则保持，不能在消费已冻结批时插入旧键。",
+    "recovery": "恢复核原根/接纳、停止与原父决定以及队列或弹体的完整原来源；已消费队列项看原伤害/无效决定，不因当前队列已空推断未发射。近战[]有正式决定，投射发射与后续接触是不同来源；取消/死亡不撤销已提交发射，未落效弹体是否停止仍依原死亡owner。",
+    "boundary": "普通根唯一发射结果及其身份/到期/原队列衔接已采用；完整玩家根组合、真实推进父before/after和投射实际碰撞运行仍待，schema合法不代表命中或Godot运行已完成。"
+  },
+  "normal_critical_snapshot": {
+    "schema_ref": {
+      "file": "普通攻击暴击快照.schema.json",
+      "pointer": ""
+    },
+    "source_ref": {
+      "file": "刺客必杀与超必杀气功采用.v1.json",
+      "pointer": "/supercritical"
+    },
+    "fields": "原根basic_profile_id与四暴击字段联合投影，不重复保存class/暴击包装/段终点。critical_chance_bp是最终普通暴击段宽度，不是已含超必杀的总概率；原规则基础500基点及15000倍率，不允许凭未登记来源提高普通倍率。",
+    "freeze": "接纳时按真实职业与原生效气功冻结概率/倍率，命中时才抽数。刺客/弓手超必杀段S=min(4000,100*真实心神有效等级)，普通段C=min(原真实普通暴击概率,9500-S)，须显式验S+C<=9500。刺客超倍率20000+100*真实致手有效等级，弓手20000；正资格来源缺失等级按原合法0贡献，不为未知配置补0。其他十二职业S=0且超倍率null，普通段按原0..10000边界认证。",
+    "selection": "原合格真实命中在区间/原威力阶段后，只沿原critical调用点抽一次0..9999整数r。r<S为超必杀，S<=r<S+C为普通暴击，其余普通伤害；不先普通暴击后再抽超必杀，不把15000与超倍率连乘。结果沿原伤害决定保存原抽数与最终类型，不新增暴击日志或在接纳预抽。",
+    "labels": "超必杀包含critical标签供原防御回调一次使用，不等于刺客终结武功或直接杀死；派生/反射/周期/恢复不借根的超必杀资格新抽。原几何失败/命中失败不进入暴击抽样，读取不从当前气功改旧段宽/倍率。",
+    "validation": "schema约束职业字段形状与单段边界，完整根还必须认证原角色/规则包/气功来源、两段联合和及原随机消费。合格概率边界不授权任意暴击率；阶数/等级变化不重算已付根。",
+    "boundary": "普通暴击和两职业互斥超必杀快照已采用；完整玩家根组合、命中结果因果、实际父共同决定及发射/投射现场仍待，未执行Godot暴击验证。"
+  },
+  "normal_attack_input": {
+    "schema_ref": {
+      "file": "普通攻击数值输入.schema.json",
+      "pointer": ""
+    },
+    "fields": "原完整normal_attack根attack_min/attack_max/accuracy/flat_power_per_hit四字段联合验证，不保存第二input包装或角色面板缓存。数值均非负安全整数，attack_min<=attack_max；0区间/0命中属性/0固定威力均合法，不补最小1。",
+    "freeze": "原实际接纳基础支付及具名接纳触发完成后，按原角色/装备/效果各贡献owner的既定次序冻结普通攻击区间和命中。PvE攻击仅在真实PvE上下文合成一次，基础武器/元素池及成功武器差量各只合成一次；后来的装备/源失效/气功等级变化不改原根。完整根原rules_hash及接纳父before必须逐项复算证明，单四字段合法不能授权任意面板。",
+    "weapon_pool_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/normal_weapon_proc_pool"
+    },
+    "proc_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/normal_admission_proc"
+    },
+    "speed_accuracy_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/accepted_attack_timing/fast_attack_accuracy_snapshot"
+    },
+    "flat_power_owner_ref": {
+      "file": "刀系增伤与毒蛇封锁气功.v1.json",
+      "pointer": "/kill_monster_defense_power"
+    },
+    "flat_power": "普通profile不因攻击武功有平威力就继承该数值。仅真实适用普通明确固定威力来源进入flat_power_per_hit；刀百战原buff按其未反馈基础防御快照与原3000基点生成普通固定威力，不能读本次含该buff防御再递归增长。其余无适用固定威力源时显式0。卢毒属性石的武功威力不得进入本字段。",
+    "separation": "attack_min/max不含普攻段系数、韩/乐师直接增幅、暴击或已消费次击加成；这些保原独立字段/来源并在原流水线各应用一次。乾坤、怒海、梅普通区间增幅按各原owner合成区间，不把技能平威力也乘进去。命中几何/活体/关系在抽数前重验，accuracy本身不是最终命中概率。",
+    "sampling": "真正合格命中时才沿原hit先抽命中，命中失败不抽区间/暴击。attack_min==attack_max直接取该值不抽区间，否则原随机协议取含两端均匀整数。不得在接纳预抽伤害、每hurtbox重抽或由当前面板替换旧区间。原首主目标次击加成及命中回调继续沿各自owner，不在冻结区间里提前重复计入。",
+    "arithmetic": "所有来源类型、区间有序及每次乘加前的安全范围在接纳候选检查；越界拒绝整候选，不截断/补默认/以最终floor较小放行中间溢出。正式决定后的恢复只回放原值与来源，不换新算法重算已付攻击。",
+    "boundary": "四个普通攻击基础数值输入及来源/流水线边界已采用；完整玩家根仍须组合原身份/武器/时序/几何/暴击/确定性贡献/次击/触发与实际逐项结果，接纳共同父证明和投射现场仍待。"
+  },
+  "normal_weapon_proc_pool": {
+    "field": "weapon_proc_pool_or_null",
+    "schema_ref": {
+      "file": "普通攻击武器触发池.schema.json",
+      "pointer": ""
+    },
+    "joint_schema_ref": {
+      "file": "普通攻击武器触发池.schema.json",
+      "pointer": "/$defs/proc_pool_projection"
+    },
+    "scope": "仅完整玩家normal_attack根原字段；卢/甄本次成功触发时必须有对应非null四键池，其他来源成功、失败或无抽样必须null。两字段联合投影不保存第二包装，池不复制qigong等级/触发布尔/随机或整件装备。",
+    "source": "weapon_instance_id精确指本次接纳时当前组实际装备的兼容英雄武器；沿原接纳父before完整实例、item定义/规则包与真实成长/属性石凭证认证。不能取备用组/背包/仓储/其他角色武器，不能以相同item_id换另一instance。父before及来源证明在根/后代/历史仍引用时不得回收，读取不能用当前装备重建旧池。",
+    "lu_owner_ref": {
+      "file": "英雄武器属性石.v1.json",
+      "pointer": "/projection_policy"
+    },
+    "lu": "kind=lu_attribute_stone只取原武器element_attribute的element_id/真实stage1..10，空元素不能成功触发。由原rules_hash元素表按阶段派生三字段贡献，成功增加一次原池差量：火attack_flat每阶段5加两个攻击端点，毒accuracy_flat每阶段2加命中。毒martial_power_flat每阶段8在normal_attack不适用，绝不转普通攻击。已有基础元素贡献保留一次，增量只额外加一次，不把全武器/强化/合成/玉石/四神池翻倍。不另存可由元素/阶段派生的重复差量数值。",
+    "zhen_owner_ref": {
+      "file": "甄凤柏内功联动气功.v1.json",
+      "pointer": "/weapon_boost500"
+    },
+    "zhen": "kind=zhen_weapon_attack保存真实血珠武器允许base+真实强化/明确成长的未增幅攻击区间，两端非负安全整数且min<=max；完整父来源证明须按原weapon_pool逐项复算，不包含其他装备、属性石、首饰/衣饰或整角色攻击。按原规则分别floor(endpoint*15000/10000)-endpoint得到唯一差量，加原普通攻击合成一次；原基础武器贡献不能再全量加第二遍。所有乘加前按integer_arithmetic查安全范围，不能截断/包裹。",
+    "fee": "甄成功额外费用由原接纳父真实资源变化证明并按原Taiji-only公式重算，不能因为有池就跳过付款。normal_admission_proc已保真实等级/成功和原random_flow，本池不新增付款日志或重存随机；读档/后续失误均不再付款。",
+    "lifecycle": "已接纳池仅为原根冻结来源，换组/强化/移除元素/气功失效/死亡不重写；原死亡停止后代沿原owner。后代只继承原允许数值，不复制成新的独立触发。根完成但有在途子项/历史引用仍保原池与父来源。",
+    "boundary": "两种普通武器接纳触发池和成功结果联合结构已采用；完整玩家根其余攻击区间/确定性贡献、接纳父before/after共同认证与逐项发射/投射现场仍待，不能用本池替代完整数值来源。"
+  },
+  "normal_admission_proc": {
+    "field": "normal_admission_proc_or_null",
+    "schema_ref": {
+      "file": "普通攻击接纳触发.schema.json",
+      "pointer": ""
+    },
+    "sources": [
+      {
+        "qigong_id": "qigong_sword_526d7146868a",
+        "class_id": "sword",
+        "owner_ref": {
+          "file": "狂暴与低生命攻击气功.v1.json",
+          "pointer": "/one_attack_enrage_equivalent"
+        }
+      },
+      {
+        "qigong_id": "qigong_tan_hualing_526d7146868a",
+        "class_id": "tan_hualing",
+        "owner_ref": {
+          "file": "狂暴与低生命攻击气功.v1.json",
+          "pointer": "/one_attack_enrage_equivalent"
+        }
+      },
+      {
+        "qigong_id": "qigong_musician_92e2a06cde35",
+        "class_id": "musician",
+        "owner_ref": {
+          "file": "乐师和弦联动气功.v1.json",
+          "pointer": "/one_attack_final20"
+        }
+      },
+      {
+        "qigong_id": "qigong_han_feiguan_9b9acbfddd29",
+        "class_id": "han_feiguan",
+        "owner_ref": {
+          "file": "韩飞官血系气功采用.v1.json",
+          "pointer": "/one_attack25percent"
+        }
+      },
+      {
+        "qigong_id": "qigong_mei_liuzhen_15fbf2a219d2",
+        "class_id": "mei_liuzhen",
+        "owner_ref": {
+          "file": "梅柳真玄武与对抗气功采用.v1.json",
+          "pointer": "/one_action_attack40"
+        }
+      },
+      {
+        "qigong_id": "qigong_lu_fenglang_a5f621132db5",
+        "class_id": "lu_fenglang",
+        "owner_ref": {
+          "file": "卢风郎四枪与属性石气功.v1.json",
+          "pointer": "/weapon_attribute_stone_double"
+        }
+      },
+      {
+        "qigong_id": "qigong_zhen_fengbai_9eca08cd0894",
+        "class_id": "zhen_fengbai",
+        "owner_ref": {
+          "file": "甄凤柏内功联动气功.v1.json",
+          "pointer": "/weapon_boost500"
+        }
+      },
+      {
+        "qigong_id": "qigong_spear_0fd0be5106f8",
+        "class_id": "spear",
+        "owner_ref": {
+          "file": "枪格斗狂风与破甲气功.v1.json",
+          "pointer": "/martial_duel_attack20"
+        }
+      }
+    ],
+    "scope": "仅玩家normal_attack根。原八来源各归不同职业，同一个真实职业的普攻至多一源；十四职业其余无具名接纳抽样者必须null，不为统一字段伪造失败或随机。攻击武功可有其他专用接纳触发，不能借此字段声称已覆盖其完整来源。",
+    "admission": "原合法接纳候选先验职业/真实已装备武器/全部先决和基础支付，按各owner真实条件选唯一可抽源。effective_grade取该次真实生效1..40；实际概率依原owner为min(4000,100*grade)。恰好抽一次且triggered严格等于原抽数小于概率；抽数/调用位置只保存原接纳结果random_flow，字段不重复存roll/概率/随机种子/receipt。所有资格与数值安全预检必须在正式接受前完成，失败不产生根或消费随机。",
+    "null_and_failure": "无对应职业来源、有效等级0或原owner明确无意义抽样时保存null且不得为本源消耗随机；有合法抽样但未触发必须保三键triggered=false，不能用null抹去失败抽数。成功保true，恢复沿原接纳结果认证，无论后来是否命中均不重抽。",
+    "enrage": "剑客/谭花灵怒海只在真实可用攻击区间且原实际怒气因子小于12000时抽；枪客灭世狂舞只在真实具名支持PK适配的敌对NPC武者活动且未有>=20%真实怒气时抽。两源按原同攻击族取强，不与已有怒气累乘；灭世成功原180步源与本次攻击快照/接纳结果同笔，不能凭人形目标或派生拦截升级资格。格斗家没有登记此接纳来源。",
+    "weapon_sources": "梅柳真仅真实兼容玄武弓；卢风郎仅兼容追魂枪且有原明确属性石池；甄凤柏只用实际血珠武器允许的base+真实强化/成长池，基础支付后当前内力>=2000才抽。卢的属性石差量和甄的武器差量各只依自身owner增加，不倍增整面板或真实强化。甄成功额外500基础内力只受太极减耗，原血魔不免额外费用；付款与差量同笔保原父变化，失误/空挥不退费。",
+    "composition": "韩行风/乐师天龙的成功增幅在原各自直接伤害阶段一次应用，不混同普通攻击区间增幅；梅玄武雷电按原普通区间阶段一次。根保本字段成功/失败和完整原攻击数值来源，命中/派生只能继承允许的冻结结果，不能重新调用概率或从当前气功推算旧结果。乾坤低HP、回避次击、快打及其他确定性贡献不冒充本随机源；命中时回调仍留原命中随机。",
+    "recovery": "原接纳结果、真实规则包/角色before及父共同决定共同认证本字段。禁止读取后以当前职业/装备/气功重新生成或把false改true；根与原随机证明按后代及历史引用保留，不新增接纳日志/通用结算/随机流。",
+    "boundary": "八具名普通接纳触发的严格唯一结果字段及原来源白名单已采用；原完整玩家根其余数值/武器池差量与资格来源、接纳父共同提交及逐项发射仍待，不能据此声称完整战斗快照或D1通过。"
+  },
+  "taken_next_attack_bonus": {
+    "field": "taken_next_attack_bonus_or_null",
+    "schema_ref": {
+      "file": "已消费次击加成.schema.json",
+      "pointer": ""
+    },
+    "scope": "原完整玩家normal_attack及明确攻击武功根；刺客连消带打只普通攻击，天地同寿只剑客/谭花灵普通或攻击武功。两职业来源互斥，单字段null或一份三键记录，不用可同时塞两来源的列表或开放对象。完整根必须按真实职业/动作类别与原规则包验证，不靠profile_id自授权。",
+    "admission": "先按原直接攻击owner完成全部先决/支付能力检查；合法接纳时若该源当前有效等级正且原活跃token非null，精确复制当时原token全文与实际有效等级，清原角色活跃token为null，与支付/新根e0/接纳结果同笔。拒绝或有效等级0不取不清；无可取token则字段显式null。洗点/死亡/计时先清的源不能取，不从历史结果重构一份。",
+    "assassin_owner_ref": {
+      "file": "连击与回避追击.v1.json",
+      "pointer": "/persistent_evade_bonus_state"
+    },
+    "sword_owner_ref": {
+      "file": "剑系回避与火凤气功采用.v1.json",
+      "pointer": "/persistent_timed_state"
+    },
+    "source_proof": "taken_token逐字段等于原接纳父before唯一活跃源；触发凭证解析原合格命中失败结果、本人生命/职业及来源等级。effective_grade是本次接纳实际正等级，不是武装时等级或读档当前等级。历史token内remaining_steps只是当时before证据，不作为根的第二计时器递减。原接纳after对应活跃字段必须null，不能保活跃源同时用其快照。",
+    "amount": "连消带打增量直接取taken_token.bonus_damage，不按新面板再封顶。天地增量精确min(2*A,floor(A*stacks*3000*effective_grade/(10000*20)))，A取taken_token.attack_upper；按本合同integer_arithmetic在每次乘加前检查安全整数；超界拒绝整候选，不因最终floor或min可回界而放行，也不截断。0攻击上限/0已封顶加成是合法0，仍消费，不强改最小1。不额外保存可由这三键唯一算出的bonus_amount，禁止把它折回基础攻击再参与同源公式。",
+    "application": "原首主目标合格命中输入仅加一次，按各原owner正常减伤；不对每个hurtbox、多段后续ordinal、其他碰撞目标或派生项重复。primary=null或原主目标丢失也不退款、不把投射首碰其他敌人升为原主目标。是否曾落效由原根逐项结果与原主目标证明，不增加独立已用布尔。",
+    "sword_rearm": "仅原天地owner允许的真实accuracy失败生成下一份活跃token：取旧层+1至3，并用本次原未增幅攻击上限更新A、当前失败结果作新trigger、600步；普通攻击必须确实带本字段天地快照。取消/阻挡/几何失败不是accuracy失败，不能还层；真实命中成功即使实际HP损失0也不能还层。原取快照永久保原值，不清它来表示已归还。后续新增活跃源按原实际结果顺序串行处理，旧结果重放不能再次还层或覆盖新来源。",
+    "retention": "接受后空挥/取消/死亡不退原token，已冻结历史记录随原根/来源保留；读取不复制回当前effects、不重新消费、不按当前等级重算。根停止/正常完成及活跃源再次生成互不改写历史快照，原结果有引用时不回收。原死亡对已发射子项的停止仍沿死亡owner，不因保留历史快照继续落效。",
+    "boundary": "已消费次击源快照结构及消费/落效/天地新层语义已采用；完整玩家根、接纳共同父before/after与逐项结果历史尚待。该组件不构成额外日志、通用结算或完整战斗存档。"
   },
   "accepted_attack_identity": {
     "schema_ref": {
       "file": "已接纳直接攻击身份.schema.json",
       "pointer": ""
     },
-    "scope": "仅本owner直接攻击时序的玩家normal_attack/attack_martial_skill与原432修炼刷点training_ai普通攻击。周期、反射、副箭等派生保真实父根和自身owner，不冒充新接纳；其他NPC/伙伴/环境来源须自身owner显式登记，不能借training_ai分支。",
+    "scope": "仅本owner直接攻击时序的玩家normal_attack/attack_martial_skill、原432修炼刷点training_ai普通攻击、六转两具名私场private_trial_ai攻击及本轮二十种公共普通怪ordinary_ai攻击。周期、反射、副箭等派生保真实父根和自身owner，不冒充新接纳；其他NPC/伙伴/环境来源须自身owner显式登记，不能借training_ai分支。 以上player/普通/修炼三类还可沿forced_admission使用内部强制来源；私场敌及其他NPC不注册此来源。",
     "fields": "原已接纳动作的world_id/authority_profile_id/map_id/instance_id_or_null/source_actor_id/accepted_world_step/admission七字段投影。完整动作严格白名单须先验，不保存第二identity包装；action_id为同原动作字段，不能只验非空字符串授权。",
-    "source": "实际authority在原接纳固定步验证scope、存活且未被活动终局禁止、合法动作占用/目标/规则与费用。source_actor_id必须解析当时真实实体生命轮次；玩家原play_session_identity的world/authority/profile/character须与真实角色实体及会话接纳证明一致，不能以当前selected角色或奖励主人替代。training_ai实际来源须解析修炼刷点原槽、同generation/cycle与原active_actor；禁止伪造玩家会话。",
-    "player_admission": "admission精确kind=player_command/play_session_identity/command_id三键；command_id属于原会话命令空间。先按原会话与command_id查询完整原命令/摘要及决定，同ID异参数拒绝；已有决定只回原结果，不用当前世界步/会话/目标重新派生根。仅首次合法成功接纳冻结accepted_world_step与根；拒绝不产生已接纳动作，不扣费/抽样或推进动作游标。完整接纳命令与决定schema仍待。",
-    "training_admission": "admission仅kind=training_ai。每实际source_actor_id、同world/scope和accepted_world_step最多接纳一个本普通攻击根；该步已接纳不得在同一步结束/取消后再接纳第二根。由原AI实际attack决定及此前完成动作/世界步证明授权，不按渲染帧数、target变化或重载补跑。原攻击接纳不能插入该步已处理命中之前；接纳e0不产生当步直接伤害。接纳相对阶段/候选排序沿direct_attack_admission_phase；完整AI决定和世界固定步持久来源仍须采用后运行。",
-    "action_id": "原action_id=\"combat-action:\"+SHA256(71确定JSON数组的UTF8)。player_command数组=[\"player_direct_attack\",world_id,authority_profile_id,map_id,instance_id_or_null,source_actor_id,accepted_world_step,admission.play_session_identity.session_id,admission.command_id]；training_ai数组=[\"training_direct_attack\",world_id,authority_profile_id,map_id,instance_id_or_null,source_actor_id,accepted_world_step]。不将目标/技能/接收消息ID/当前时钟混入以绕过原命令去重；完整命令和规则来源必须与原决定一致，相同ID异正文拒绝而非吞掉。",
-    "clock": "accepted_world_step为原authority已经接纳的安全整数逻辑步，不能取动作elapsed_steps、客户端帧、墙钟或保存次数。加载只核原步与接纳证明，不重新接纳；training_ai在不同实际新步可接纳新根，前提是原占用/生命/AI决策全部允许。世界步达到安全上限不回绕、不伪造新步。",
+    "source": "实际authority在原接纳固定步验证scope、存活且未被活动终局禁止、合法动作占用/目标/规则与费用。source_actor_id必须解析当时真实实体生命轮次；玩家原play_session_identity的world/authority/profile/character须与真实角色实体及会话接纳证明一致，不能以当前selected角色或奖励主人替代。training_ai实际来源须解析修炼刷点原槽、同generation/cycle与原active_actor；禁止伪造玩家会话。 private_trial_ai只解析六转原两arena的唯一敌actor/原trial_attempt、完整具名构筑与行为，实际来源须等原入场派生的private-trial-enemy身份、同scope且本活动active；不能借其他NPC/伙伴、世界同名模板或玩家会话。 ordinary_ai须解析原ordinary-monster-life身份/生成决定、alive槽、实际actor与本轮二十种原定义，不借修炼槽/玩家会话或私场实例。",
+    "player_admission": "admission精确kind=player_command/play_session_identity/command_id三键；command_id属于原会话命令空间。先按原会话与command_id查询完整原命令/摘要及决定，同ID异参数拒绝；已有决定只回原结果，不用当前世界步/会话/目标重新派生根。仅首次合法成功接纳冻结accepted_world_step与根；拒绝不产生已接纳动作，不扣费/抽样或推进动作游标。完整命令沿persistent_worklist严格八键请求；已提交子结果沿direct_attack_admission_phase.result，完整父共同决定仍待。",
+    "training_admission": "自主admission仅kind=training_ai；内部强制沿forced_admission。每实际source_actor_id、同world/scope和accepted_world_step最多接纳一个本普通攻击根；该步已接纳不得在同一步结束/取消后再接纳第二根。由原AI实际attack决定及此前完成动作/世界步证明授权，不按渲染帧数、target变化或重载补跑。原攻击接纳不能插入该步已处理命中之前；接纳e0不产生当步直接伤害。接纳相对阶段/候选排序沿direct_attack_admission_phase；完整AI决定和世界固定步持久来源仍须采用后运行。",
+    "action_id": "原action_id=\"combat-action:\"+SHA256(71确定JSON数组的UTF8)。player_command数组=[\"player_direct_attack\",world_id,authority_profile_id,map_id,instance_id_or_null,source_actor_id,accepted_world_step,admission.play_session_identity.session_id,admission.command_id]；training_ai数组=[\"training_direct_attack\",world_id,authority_profile_id,map_id,instance_id_or_null,source_actor_id,accepted_world_step]。不将目标/技能/接收消息ID/当前时钟混入以绕过原命令去重；完整命令和规则来源必须与原决定一致，相同ID异正文拒绝而非吞掉。 private_trial_ai数组=[\"private_trial_direct_attack\",world_id,authority_profile_id,map_id,instance_id_or_null,source_actor_id,accepted_world_step]。所选attack_programs.action_id程序名/目标不加入身份，不允许同敌同步因改动作另造根；完整程序与实际AI来源另验。 ordinary_ai数组=[\"ordinary_direct_attack\",world_id,authority_profile_id,map_id,null,source_actor_id,accepted_world_step]；目标/monster/观察消息不入身份，同生命同T换目标不造第二根。 dongling_forced_action数组=[\"dongling_direct_attack\",world_id,authority_profile_id,map_id,instance_id_or_null,source_actor_id,accepted_world_step]。choice/application/能力/目标不入摘要，不允许同实体同T换票换来源制造第二根。",
+    "clock": "accepted_world_step为原authority已经接纳的安全整数逻辑步，不能取动作elapsed_steps、客户端帧、墙钟或保存次数。加载只核原步与接纳证明，不重新接纳；training_ai在不同实际新步可接纳新根，前提是原占用/生命/AI决策全部允许。世界步达到安全上限不回绕、不伪造新步。 private_trial_ai沿原实际私场实体步，挂起/终局不接纳；新私场入场T不模拟，只能后续真实步。 ordinary_ai只在原普通scope真实授予且source出生步之后接纳，不能按world步差补多个攻击。",
     "atomicity": "原成功接纳同一决定保存身份、冻结规则/攻击/时序、真实资源与冷却变化、原接纳随机收据和动作占用；原elapsed_steps=0。预留/失败不安装活跃动作；存疑先查正式决定并阻依赖推进，不重扣费用、重抽触发或另造根。本身份不申请独立通用结算编号或第二日志，接纳原事件协调/完整world记录仍待采用。",
     "lifecycle": "伤害action_or_root_event_id精确指本action_id，发射/取消/在途子项保同根；动作占用结束不删除仍有子项或历史来源引用的根。死亡offensive_stop.root_event_ids使用同action_id并按原死亡owner取完整集合。旧根重放不能重新绑定复活后的source_actor或目标，也不能停止后来新根。",
     "training_actor_owner_ref": {
       "file": "修炼怪物与刷点.v1.json",
       "pointer": "/persistence/actor_identity"
     },
-    "remaining": "两类直接攻击根的身份字段、来源区分及摘要规则采用；玩家实体生命轮次生成、完整接纳命令/事务/攻击快照、NPC实际AI决定、投射与取消证明/world队列仍待。不以投影合法宣称直接战斗可运行或D1通过。",
+    "remaining": "四类接纳来源的直接攻击根身份/来源及摘要、玩家正式请求、冻结候选队列和接纳子结果已采用；玩家完整生命历史/实际实体生产、完整接纳父共同决定与攻击快照、NPC实际AI先决、投射与取消证明/公共战斗现场仍待。不以投影合法宣称直接战斗可运行或D1通过。",
     "player_actor_owner_ref": {
       "file": "死亡与复活保存.v1.json",
       "pointer": "/player_actor_identity"
@@ -327,19 +777,132 @@
     "admission_phase_owner_ref": {
       "file": "战斗命中与减伤.v1.json",
       "pointer": "/direct_attack_admission_phase"
+    },
+    "private_trial_admission": "admission仅kind=private_trial_ai，真实原世界步>=1。每实际敌actor每接纳步至多一个原具名程序候选/成功根，按原父活动唯一目标与已冻结AI选择；无投射或攻击武功冒充普通敌程序。原本步候选已冻结后，接纳拒绝不得临时切换重击/普通击再抽新候选；新合法候选只能后续实际实体步。读档只恢复原决定，不按当前位置重做选择。",
+    "private_trial_actor_owner_ref": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/persistence/enemy_behavior"
+    },
+    "ordinary_admission": "自主admission仅kind=ordinary_ai；内部强制沿forced_admission；本轮十二怪原ordinary_combat明确24字段完整根。每实际source/真实world步至多一项候选和成功根，沿原同队列排序/队首重验/接纳结果。接纳零费用无随机，e0不进攻。已成功本T的根后来完成或停止也不准同T再接纳。缺原AI/活体来源不能只凭schema运行。",
+    "ordinary_actor_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/ordinary_combat"
+    },
+    "forced_admission": {
+      "schema_ref": {
+        "file": "错乱直接攻击接纳结果.schema.json",
+        "pointer": ""
+      },
+      "metadata": "原七键接纳身份与玩家普通/攻击武功、普通怪/修炼怪完整根允许严格两键admission={kind:dongling_forced_action,choice_event_id}，由本身份owner唯一定义，辅助根复用该定义。source只原player/ordinary/training，accepted_world_step>=1；私场/伙伴/其他NPC拒绝。正常完整根其他时序/数值/几何/费用字段不变。",
+      "identity": "十字段成功结果event_id=attack-admission:加SHA256(71确定JSON [\"dongling_direct_attack_admission\",world_id,authority_profile_id,source_actor_id,world_step] UTF8)小写hex。action_id沿本owner dongling_direct_attack数组；根accepted_world_step=result.world_step，world/authority/scope/source/rules逐项精确一致。玩家根admission_event_id等本event_id；NPC根无此冗余字段，由原choice.execution_event_id及根admission.choice_event_id双向认证。",
+      "choice_and_candidate": "完整父持原内部队首候选、原十二键choice及本十键成功结果。choice.execution_event_id=result.event_id，根admission.choice_event_id=choice.event_id；原来源application精确队首，选中null只准普通根，选中具名攻击ID只准相同能力/最高合法阶段攻击武功根。普通/修炼池仅合法null一票，无选择随机。不得拿已存在的用户/自主AI根充当此内部执行。",
+      "normal_execution": "玩家仍走本能力正常职业/学习/武器/等级/活动/控制/资源/冷却/真实敌目标与固定朝向、连段前驱/时窗、全部具名快照和触发；普通攻击按本次真实连段状态选段，不强制重置一段。原目标策略禁止空挥票和转打友方；朝向按正常锁定与真实目标脚点解析，不造用户aim_turn_u16。NPC仍按原定义正常36/1/84及真实目标/几何快照，不调用自主AI再选一次，也不把强制当额外免费攻击。",
+      "random": "本random_flow.receipt_id=result.event_id，只持正常接纳已实际发生的原具名触发调用。受控player仅自己character流；NPC无正常接纳随机，streams=[]。选择随机仅原choice拥有，完整预检→选择→正常付款/已采用触发/快照按原owner顺序认证全流区间，无复制选择draw、预抽命中或借Host流。",
+      "atomicity": "原选择/成功结果/唯一e0根、正常费用与冷却/随机后像、仅本application消费、同T成功事实及恰一队首移除同完整父保存。无用户request/outcome/拒绝/木柴便携取消字段，不伪造输入取消已付动作。执行计算/保存失败保未决，不换票重抽或退回空池；后续死亡/中断沿原生命周期保本成功与费用。",
+      "replay": "成功与原九键未执行决定对同source/T互斥。恢复核原冻结全集/真实完整池/历史规则/来源与唯一根；原event/action同ID异正文拒绝。重放只回原共同决定，不再支付/消费来源/安装根或移除下一项。",
+      "remaining": "内部直接攻击身份/根绑定与十字段成功子结果采用；完整world/角色共同父、历史等级/几何/实体来源、其他主动施放及完整LAN链/角色认证仍待，未授权运行。",
+      "network_owner_ref": {
+        "file": "神女状态技能.v1.json",
+        "pointer": "/persistent_control_state/forced_action_protocol/network_result"
+      }
     }
   },
   "direct_attack_admission_phase": {
-    "scope": "本owner已登记玩家直接普攻/攻击武功与432修炼刷点AI普通攻击的接纳阶段；细化03输入→规则AI→移动→结算，不改变各活动的到期优先/末步终局或首领新放弃/返回/领取在战斗结果后处理。其他即时/治疗/闪避/道具/传送的输入与落效仍须各原owner明示，不能按本直接攻击阶段猜执行位置。",
+    "scope": "本原接纳阶段已登记玩家普攻/攻击武功（含竹采集路由）、闪避/三种辅助位移/明确木柴交互/51普通辅助施放以及432修炼AI、两具名私场敌攻击与本轮二十种公共普通怪，及错乱内部来源入口，共九请求kind；细化03输入→规则AI→移动→结算。阶段名保direct_attack_admission，逐队首按mixed_result_dispatch分派；其余治疗/道具/传送输入须各原owner闭合。",
     "prerequisite": "只有实际Playing且本角色/场景原时钟允许该固定步才处理；原存疑决定/未决依赖先收束。各原owner明确要求先于新攻击的过期、移除、会话/活动资格及场景关闭先完成，例如修炼召唤窗口到期移除；死亡/失联挂起/关闭场景不得借队列残留接纳新根。不能为本阶段统一重排尚未定义的其他计时owner。",
     "cutoff": "authority在原步接纳阶段入口冻结实际收到且完成原命令身份/来源解析的本步候选集合；同原会话command_id重复先查完整原决定/原正文，异正文冲突拒绝，不作为两个候选。阶段关闭后到达的新请求不插入本步任何已处理游标，只能进入后续实际接纳步并重验；不按客户端声称的帧号追补旧步。重放已决定请求只回原结果，不改变本步候选集合或旧根接纳步。",
-    "ai_candidates": "training_ai仅从该步上述先决收束后的真实原槽/活体和已登记AI规则产生至多一个普通攻击候选/实体；选目标按原AI可达距离及稳定ID规则，不从客户端怪物攻击报告补候选。候选形成后仍须逐项重验实际资格，先前合法结果改变资格不得照旧强行接纳。完整AI决定来源须与原步候选一起可恢复。",
-    "order": "本步直接攻击新候选按source_actor_id未经Unicode规范化的UTF8逐字节递增处理；同一玩家实体的多个不同新命令按command_id同样UTF8逐字节递增。原实体类型决定它只能来自匹配玩家或training_ai，不能为同实体混入两种来源。完全相同键的持久重复候选或同键异正文拒绝，传输副本在cutoff去重，不以收包/数组/渲染节点顺序判定。",
-    "admit": "逐候选按原会话/修订/实体生命轮次/scope/目标/技能阶段/资源/冷却/动作占用与冻结规则重验；成功同笔安装一个elapsed_steps=0根并保存原接纳身份及费用/冷却/接纳随机，失败保明确原拒绝且不安装动作。每实际实体同接纳世界步至多一个本直接攻击成功；首个成功后同实体其他新命令因本步已接纳/实际占用拒绝，不缓存自动连发，也不取消首个根让后项抢占。无已成功根时，前项真实拒绝不阻合法后项重验。",
+    "ai_candidates": "training_ai仅从该步上述先决收束后的真实原槽/活体和已登记AI规则产生至多一个普通攻击候选/实体；选目标按原AI可达距离及稳定ID规则，不从客户端怪物攻击报告补候选。候选形成后仍须逐项重验实际资格，先前合法结果改变资格不得照旧强行接纳。完整AI决定来源须与原步候选一起可恢复。 private_trial_ai只从原两具名私场active活动和唯一敌人behavior产生同敌至多一个具名攻击候选；保原AI普通/重击选择及冷却/控制/目标来源，不从修炼槽推私场实体。 ordinary_ai仅从本轮十二怪真实已生成活体及其原AI决定生成一项冻结目标候选，生命/槽/定义同源；出生本T不参与，缺AI决定不是可默认攻击。",
+    "order": "本步九种候选先按source_actor_id未经Unicode规范化UTF8逐字节递增；同实体内部dongling_forced_action先于真实玩家命令，后者按command_id同序。内部候选每实体至多一项且不与同源training_ai/ordinary_ai自主候选并存；其来源/冻结/不执行边界沿forced_owner_ref。其他AI仍限匹配原实体类型，私场不注册强制来源。重复键或同键异正文拒绝，不以收包/数组/渲染节点顺序判定。",
+    "admit": "逐候选按原会话/实际处理before修订/实体生命轮次/scope/目标/技能阶段/资源/冷却/动作占用与冻结规则重验；实时请求不携客户端CAS，父共同决定绑定原实际修订；成功同笔安装一个elapsed_steps=0根并保存原接纳身份及费用/冷却/接纳随机，失败保明确原拒绝且不安装动作。每实际实体同接纳世界步至多一个已采用占用动作成功（跨攻击/闪避/辅助位移/竹木采集/普通辅助施放）；首个成功后同实体其他新命令因本步已接纳/实际占用拒绝，不缓存自动连发，也不取消首个根让后项抢占。无已成功根时，前项真实拒绝不阻合法后项重验。",
     "advance": "只推进进入本阶段前已经合法接纳且原accepted_world_step早于当前步的实际直接攻击根；本步新接纳根一律保持elapsed_steps=0，不参与本步直接发射。不能遍历安装后的统一动作数组把新根也推进一次。既有根完成后摇释放的占用仅在其真实完成决定后生效；本阶段因其仍占用而拒绝的命令不会稍后自动补接纳，玩家须新明确请求。",
     "movement_and_damage": "本阶段之后按原移动/碰撞规则形成真实几何，既有动作实际到期ordinal/周期/投射接触沿step_resolution排序并完成结果。新根本步无直接伤害，但本人本步仍可被先前根合法命中/死亡，原死亡停止本新根并保取消来源；不撤销已提交接纳费用或因来不及出手退款。首领新放弃/返回/领取仍在战斗结果后重验，不能伪装直接攻击候选抢先。",
-    "save_and_resume": "本步候选来源、顺序与每项原决定须由原完整world固定步/动作接纳来源记录共同恢复，不新建第二可写输入表或另分通用计数。接纳写入存疑阻本步依赖的动作推进/移动/伤害，先核正式决定再继续原候选游标；不重新收包或重做AI选择来替换冻结候选。完整记录/游标schema尚未采用前不能仅凭该文字重放现场。",
-    "boundary": "两类直接攻击接纳的相对阶段、候选排序及新旧根推进边界采用；完整世界固定步、全部其他输入/计时族阶段、持久候选/接纳事务与AI/投射/命中队列结构仍待，不将本阶段说明宣称完整世界调度已闭合。"
+    "save_and_resume": "本步候选与剩余处理沿persistent_worklist严格结构及原完整阶段入口/接纳决定恢复；不新建第二可写输入表或另分通用计数。接纳写入存疑先核正式决定，阻后续推进，不重收包/重做AI替换原候选。原接纳子结果已采用，完整world/角色共同提交仍须闭合后运行。",
+    "result": {
+      "schema_ref": {
+        "file": "直接攻击接纳结果.schema.json",
+        "pointer": ""
+      },
+      "placement": "原world固定步逐候选共同决定内唯一不可变十四字段子结果；候选从当前队首消费后由本result.candidate保完整请求/AI选择，最初冻结全集及已完成前缀从原入口/逐项父历史认证。不新建profile接纳日志、通用reserved/counter或第二资源after；完整父决定/公共动作注册仍待。",
+      "identity": "event_id=\"attack-admission:\"+SHA256(71确定JSON数组UTF8)小写hex。player_command数组=[\"player_direct_attack_admission\",world_id,authority_profile_id,candidate.request.play_session_identity.session_id,candidate.request.command_id]；training_ai数组=[\"training_direct_attack_admission\",world_id,authority_profile_id,map_id,instance_id_or_null,candidate.source_actor_id,world_step]；private_trial_ai同后数组但首标签private_trial_direct_attack_admission。玩家摘要不含当前步/地图/actor/outcome，NPC不含program/target/outcome；不能换生命/目标或改程序绕过已决定身份。正文冲突拒绝，不按新T重判。 ordinary_ai沿同NPC数组但首标签ordinary_direct_attack_admission，instance=null；同生命同T拒绝后也只回原结果，换目标不换号。",
+      "context": "world/authority/map/instance/T/rules_hash须逐项等当前真实队首scope及原七字段接纳队列，candidate必须等完整队首；完整请求/规则、生命周期与原调用者先认证；父候选计算绑定房主处理时真实输入修订。坏JSON/整数词元、来源缺失/摘要冲突或世界不一致属于协议/现场错误，保未决现场明确报错，不伪造玩法拒绝并删项。已决定玩家请求在进入新候选前取原结果，不用当前生命/当前scope重验原历史。",
+      "rejection_order": "对已通过来源认证的实际队首依次核：玩家会话仍启用(session_not_active)、来源生命/scope/source资格(source_unavailable)、原活动/地图仍准攻击(activity_not_active)、本实体本T已有原成功(already_admitted_this_step)、实际动作占用(action_occupied)、控制资格(control_forbidden)、已学能力/阶段/职业武器/原连段资格(ability_not_eligible)、真实目标/几何接纳资格(target_not_eligible)、原冷却(cooldown_not_ready)、完整费用可支付(insufficient_resources)。记录第一个真实失败原因；原完整before与各owner核算不能缺。NPC无会话/玩家修订/学习/消耗资格不借这些原因，修炼/私场固定NPC来源只用本schema明确的六类拒绝；ordinary_ai另显式允许already_admitted_this_step，其余仍按真实先后检查。",
+      "rejected": "outcome=rejected时action_id_or_null=null、reason为原明确合法原因、random_flow.streams=[]且receipt_id等本event_id。本人/敌HP、费用、冷却、资源、动作占用、连段及所有玩法随机保持before；只提交原拒绝证明与移除本队首，不给拒绝捏造combat-action。后续同命令只回原决定，客户端不得自动补发新command_id循环抢接纳。",
+      "admitted": "outcome=admitted时reason=null、action引用本候选同scope/source/真实T的原唯一完整攻击根，逐字段投影验证accepted_attack_identity并重算原action_id。NPC还核原24/25字段完整正文、冻结目标/program及原AI决定；玩家须完整自身动作、真实技能/连段/费用和快照owner。原新根elapsed0且未停止/未发射，不在本结果中复制完整动作或虚构命中结果。",
+      "payment_and_snapshot": "全部先决/支付能力及安全整数运算检查通过才在同一候选计算中执行：按原血魔有效挑战等owner确认实际费用，正HP/内力/体力/物品/特殊资源一次支付及原冷却/恢复等待，随后原已采用接纳触发与攻击快照。怒海等只在真实可受益且有正资格时按原调用点抽一次，不先抽再因费用不足拒绝。乾坤读取实际支付后HP；PvE/武器/倍率只按22与各owner合成一次。所有这些落在原唯一角色/actor after，不在本结果再存费用/面板镜像。",
+      "random": "random_flow.receipt_id等本event_id，只拥有本接纳实际发生的原draw；玩家只消费真实请求本人character流，不能借Host当前角色/world流。修炼/两私场/公共普通NPC接纳无随机选择/气功抽样，streams=[]；先前规则/AI确有世界随机选择仍由原AI规则父结果独占，不复制到本结果。确定攻击区间/几何/暴击在未来原命中阶段才判，不能提前抽攻击/命中/暴击。真实随机前后及直属触发来源须由父共同提交闭合。",
+      "revisions": "玩家成功沿父候选计算实际角色before的revision递增恰1，库存仅有原合法实物变化才递增恰1，否则保持；先检查不会溢出。拒绝两个业务修订保持。NPC接纳只改原world敌行为/动作/冷却，不因其新攻击引用某玩家就给该玩家加修订/扣HP；完整世界持久修订仍沿共同提交协议。多子结果不重复加角色修订。",
+      "atomicity": "同一正式父决定提交完整结果、原规则/真实before-after、所有受影响角色与world/RNG/动作占用、原完整新根/冷却和移除恰一个候选；任一合法候选计算或保存未确认均不发布半笔/移动队首。成功之后同T受旧攻击死亡/活动停止，沿原停止与死亡决定保原成功/费用/随机，不把结果改为拒绝/退款。先前已成功证明沿完整历史，即便当前根已停止也不能本T再接纳。",
+      "replay_and_delivery": "按原event_id查正式结果与完整父决定，重发返回原正文/已发网络结果链，不再次扣费/抽样/递增修订或插回队列；同ID异请求/来源为冲突。单机同样保存原决定，不能以无网络省略。角色/世界独立文件或LAN接收仍由05/19原共同协议负责，结果schema不授权独立ACK半笔。",
+      "boundary": "十二字段接纳成功/拒绝子结果、来源分型/稳定身份与资源时序已采用；完整world共同决定与多角色after、玩家完整攻击/占用/推进及所有接纳触发来源仍待。结果与队列形状不代替父context或Godot功能验收。",
+      "ordinary": "ordinary_ai同原直接攻击结果十四字段，候选恰原source/两键请求；本轮24字段根原正文由ordinary_combat认证。null实例/四公共地图、无接纳随机且不取消任何玩家木柴或便携读条。普通怪伤害导致目标读条取消只能在真实后续正敌伤结果处理，不能把接纳敌攻击当已打中。"
+    },
+    "persistent_worklist": {
+      "command_schema_ref": {
+        "file": "直接攻击请求.schema.json",
+        "pointer": ""
+      },
+      "schema_ref": {
+        "file": "直接攻击接纳队列.schema.json",
+        "pointer": ""
+      },
+      "field": "原world当前scope的direct_attack_admission_worklist_or_null，null或严格七字段；原pending_candidates每项仅source_actor_id/request两键。request按kind保完整原玩家请求（普通辅助为七键）或冻结AI目标/程序，玩家不发送外层source_actor_id，由authority按原会话真实生命实体解析。此处是公共战斗现场的接纳队列组件，不是新增profile日志/计数或完整world根。",
+      "command": "玩家正式命令精确kind/play_session_identity/command_id/attack_kind/ability_id_or_null/requested_stage_or_null/primary_target_id_or_null/aim_turn_u16。normal_attack的ability/stage均null，由原真实职业武器和连段状态选段；attack_martial_skill须具名已学有效攻击能力/实际阶段及显式原主目标。恢复/治疗/格挡等原非直接能力拒绝本路由；不能客户端填伤害/连段/actor/规则或接纳步。",
+      "aim": "aim_turn_u16为0..65535原整数词元，原操作输入首次构造命令时将期望yaw映射为floor((yaw mod 2π)*65536/(2π)+0.5) mod 65536。authority接纳时方向为2π*aim_turn_u16/65536弧度，0为模型-Z前向，正向沿Godot正Y旋转；按原合法朝向/锁定规则落入accepted_yaw_radians。重发保存同整数不从当前鼠标/目标重算；非法输入不取模修复。原动作/位置yaw仍是有限实数，不把u16另存为第二方向状态。",
+      "revision_policy": "实时攻击输入不携客户端expected_character_revision/expected_inventory_revision，不以网络时延或本T规则计时推进导致的修订变化拒绝正常输入，也不静默改写旧请求。authority只从已认证仍启用的原会话接收，按候选处理时唯一真实before检查原当前能力/武器/资源/冷却/生命与目标；正式父决定绑定这些实际业务修订、完整before及输出。原单写者计算/提交边界保证该before未被其他决定穿插更改；存疑先核正式结果，不借移除客户端CAS放宽共同提交。购买/交易/服务等经济命令保各自原expected_revision规则，不继承本实时攻击输入。",
+      "request_identity": "同会话command_id原空间唯一；原完整八键请求按71确定JSON求SHA256并绑定原接纳/拒绝决定。所有数值输入字段均原整数词元，禁止以1.0/指数/布尔绕过；字符串沿71 Unicode/代理检查。重放完整正文必须相同，异目标/技能/阶段/方向冲突拒绝，不能取当前T另造根。此命令不分配通用settlement，action_id仍沿accepted_attack_identity。",
+      "gathering_route": "所有原player_command完整请求先进入本唯一队列，不在冻结前分流采集。到队首按采集动作.v1.json#/admission/bamboo_dispatch用实际before判定：六已知竹显式ID或无显式目标/无近锥敌且存在合法最近植物走采集结果；其他走原直接攻击结果。采集优先武器检查，非法显式目标不替换。木柴只用原明确交互请求，不由地面到达/普通攻击自动触发。",
+      "freeze": "原scope进入direct_attack_admission时与完整阶段入口决定同笔安装队列，包括空[]，核本scope/world/authority/T及原rules_hash。截止前实际已解析的新请求按cutoff去重，AI按原完整before规则只选一个目标/程序；玩家正常来源仅原player-actor，修炼仅原training-actor/36图/public，私场仅原private-trial-enemy/两图/原实例及对应程序。原请求或AI选择全文只在本原候选/父历史保留，不通过ID-only列表丢正文。 ordinary_ai来源仅原ordinary-actor、本轮80刷点/四公共地图/null实例，须原生命周期/出生步与实际AI候选证据，不能客户端提交。",
+      "phase_invariant": "scope.phase_or_null=direct_attack_admission当且仅当本组件非null，含队列已空但尚未切阶段。进入阶段/安装初始全集、离开阶段/置null各同笔；本scope当前批不得与此接纳队列同时处于combat执行。其他scope不能另保本T活跃接纳队列。源规则阶段若生成AI先决证据，仍由原规则父结果保留，阶段入口引用完整原before认证，不重跑。",
+      "order_and_uniqueness": "按本阶段order及forced_owner_ref冻结唯一全集；同源内部候选至多一项且禁止并存普通/修炼自主AI，真实玩家命令仍按command_id排序。两键候选uniqueItems只拒绝完全重复，不能代替同键异正文/来源竞争及全集认证。",
+      "consume": "只处理原唯一队首，按真实权威before及冻结规则重验。成功同笔保存对应kind的完整接纳结果、真实费用/冷却/允许随机、e0唯一根和占用，并移除一个队首；拒绝保原具名原因并移除队首，不造动作/扣费/抽样。同实体本T已有成功从原各类已提交结果/根认证，不存第二成功集合；直接攻击用already_admitted_this_step，闪避/辅助位移/采集/普通辅助用action_occupied表达本T不可再接纳。后摇稍后完成不追补已拒绝请求。结果按mixed_result_dispatch分派，完整父决定仍待。",
+      "recovery": "先恢复正式共同决定再核阶段/队列/身份/原规则与最初冻结全集。当前队列必须恰为原有序剩余后缀，已移除项逐项解析原不可变成功/拒绝父决定；缺来源、跳项、重排/追加/换程序拒绝。没有next_index/完成ID集；不从当前网络收包/在线actor/鼠标重建全集。存疑不先移动队首或推进几何，先查原正式决定；原空队列不证明未冻结或可重收本T。",
+      "local_combo_buffer": "22后摇末12步仅本客户端输入意图缓存，不是已发送正式请求/权威已接纳动作，不分配command_id、不扣费或改段。每本地角色最多一条，后续明确普攻输入替换该未发送意图；在确认原后摇完成后的第一个合法输入机会，重新构造一次完整正式请求并冻结新command_id和当时保留的目标/方向输入。无合法发送机会不连续自动请求；已发送命令不得再次缓存重试。暂停/菜单模态/失联/切角/死亡/加载清未发送意图，符合08清缓存规则；不能从存档恢复自动攻击。",
+      "boundary": "九kind冻结入口及原八kind结果分派已采用；内部强制执行/未执行父、其余动作及完整world阶段/接纳/取消父和Godot仍待。"
+    },
+    "boundary": "原九请求kind队列入口、原八kind结果与六类玩家联合占用已采用；内部强制完整执行/未执行结果、world固定步与其他动作/输入及原共同父继续待。",
+    "shared_action_queue": "保留原direct_attack_admission阶段及唯一七键队列，接入player_dodge/player_aux_displacement/player_firewood_gather/player_support_cast，竹保原player_command八键正文到队首再路由。全候选按source_actor_id UTF8、玩家command_id UTF8/原AI固定键排序，跨kind原命令去重，不建采集/闪避/位移第二队列或kind优先级。 dongling_forced_action沿forced_owner_ref加入同一队列，保两键来源请求，无第二队列；同源内部先于用户命令，不与自主AI并存。",
+    "mixed_result_dispatch": "training_ai/private_trial_ai/ordinary_ai生成原直接攻击结果；player_command在队首沿gather_owner_ref先判竹路由，命中该路由生成十四键采集结果（含已知竹失效拒绝），否则生成原直接攻击结果。player_firewood_gather生成十四键采集结果，player_dodge生成十四键闪避结果，player_aux_displacement生成十四键位移结果。每队首仅消费一次、在原父持有恰一种结果；采集不伪造combat-action、random_flow或敌actor。直接攻击结果的candidate严格排除明确六竹normal请求；无目标normal的实际路由必须由原before联合认证。首个合法成功占用后同本人后项拒绝，先拒绝不占用；木柴明确新输入取消沿自身owner，不取消本T成功守卫。 player_support_cast严格生成辅助owner十七键真实用户结果，成功根仅入accepted_support_casts且e0；不使用直接攻击结果；random_flow只持本正常接纳实际万物draw，无抽显式空流。沿同一成功守卫、排序和去重，拒绝不消费随机或施放费用，真实新输入取消按辅助owner。 dongling_forced_action禁止流入上述八kind正式结果；沿forced_owner_ref持实际成功执行/选择或明确未执行共同父，未执行子结果沿forced_not_executed_owner_ref；成功执行/完整父未闭合前不可运行。 内部选择为51普通辅助时沿forced_support_owner_ref保存十二键成功结果及原choice，根仅入accepted_support_casts；不造用户请求、用户拒绝或取消字段。 内部选择为玩家直接攻击或普通/修炼null普攻票时沿forced_attack_owner_ref保存十键成功结果、原choice及正常完整e0根，保原唯一actions表。",
+    "mixed_input_boundary": "原session/command_id跨全部八kind及攻击/采集/普通辅助结果共一命令空间去重；异正文冲突拒绝，重复已决定只回原结果不再路由/取消。真实session解析玩家控制归属，客户端不填source_actor。已明确攻击/技能/闪避/木柴交互先沿原自动路线取消；木柴采集的新输入取消沿gather_owner_ref。其余未采用输入与完整共同父仍待，不据六分支推断全部输入闭合。",
+    "gather_owner_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": "/admission"
+    },
+    "firewood_cancellation_owner_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": "/cancellation_binding"
+    },
+    "public_arrival_eligibility_owner_ref": {
+      "file": "场景迁移.v1.json",
+      "pointer": "/destination_eligibility"
+    },
+    "ordinary_combat_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/ordinary_combat"
+    },
+    "ordinary_ai_decision_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/ordinary_ai/decision_result"
+    },
+    "support_owner_ref": {
+      "file": "辅助武功采用.v1.json",
+      "pointer": "/cast_action_protocol"
+    },
+    "forced_owner_ref": {
+      "file": "神女状态技能.v1.json",
+      "pointer": "/persistent_control_state/forced_action_protocol/queue_entry"
+    },
+    "forced_not_executed_owner_ref": {
+      "file": "神女状态技能.v1.json",
+      "pointer": "/persistent_control_state/forced_action_protocol/not_executed_result"
+    },
+    "forced_support_owner_ref": {
+      "file": "辅助武功采用.v1.json",
+      "pointer": "/cast_action_protocol/forced_admission"
+    },
+    "forced_attack_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/accepted_attack_identity/forced_admission"
+    }
   },
   "damage_random_decision": {
     "flow_owner_ref": {
@@ -356,8 +919,8 @@
     "accuracy": "仅原direct_pipeline到hit_draw且所有先行几何/存活/关系/安全/免疫/具名前置防护允许继续时，从原实际来源求最终500..9900 chance，抽[0,9999]一次并按roll<chance；失败不执行攻击区间、暴击或后续伤害触发。周期/状态爆发不抽accuracy。原具名前置防护自己已抽的合法随机仍保留，不因随后miss回滚；无效几何在这些调用之前，不抽本命中的任何随机。",
     "attack_interval": "直接命中后才从该原动作冻结有效攻击闭区间[min,max]取一次，min=max为明确确定值、业务结果仍记录该值但不生成draw。min>max/坏来源/安全范围错误整笔拒绝，不排序修复区间；未中/前置避开不抽。区间抽样发生在本原critical之前，不能先按所有目标抽攻击再逐目标抽命中。",
     "critical_partition": "在原direct_pipeline指定阶段仅一次互斥选择。普通暴击p=0/10000确定普通/暴击不消费，否则抽[0,9999]按roll<p。有明确刺客/弓手超必杀分区时，使用原owner最终super/ordinary互斥段及上限，一次同域抽样选择super/ordinary/normal，不另抽普通暴击或先抽失败再抽超必杀；总有效暴击段0时确定normal不消费。周期/状态爆发禁止借此加暴击，倍率来源/选中结果保原业务正文。",
-    "interleaving": "原draws是本流真实执行顺序，accuracy→attack_interval→critical之间按direct_pipeline执行的具名前置/触发抽样不得后移或省略。同步回调如有自己原子子结果，随机只在实际拥有该调用的原子结果记一次，不同时复制进父伤害/死亡random_flow；同一流各子结果的before/after沿完整事务真实执行顺序连续，不按最终streams锁序重新排业务调用。完整父决定核全部消费段不重叠/无跳块且最终world/character counter精确末段after。",
-    "death_coordinator": "终态致死由唯一角色死亡或怪物死亡原事务协调，不因外层协调者改变本伤害purpose/receipt_id或再抽本三处；伤害子结果和死亡/奖励回调各保自己的真实消费段，共同提交所有流最终值。保存存疑重取原完整决定，不从本流中段恢复重跑；已决定命中/暴击不在读档后按当前属性重算。",
+    "interleaving": "原draws保本结果真实调用顺序，accuracy→attack_interval→critical之间按direct_pipeline执行具名抽样。同步子结果实际拥有的调用只在其自身draw区间记一次；父恢复后同流下一draw显式从其实际before开始，不把孩子区间并入父抽样或重复登记。完整事务按原随机owner transaction_coverage核各实际调用区间与嵌套来源，依真实执行顺序无重叠/无漏块到最终counter，不能拿streams锁序重排业务调用。",
+    "death_coordinator": "终态致死由唯一角色死亡或怪物死亡原事务协调，不因外层协调者改变本伤害purpose/receipt_id或再抽本三处；伤害子结果和死亡/奖励回调各保自己每次draw的真实消费区间，共同提交所有流最终值。保存存疑重取原完整决定，不从本流中段恢复重跑；已决定命中/暴击不在读档后按当前属性重算。",
     "boundary": "伤害内三个通用调用点、确定分支与原流消费归属采用；完整伤害正文、所有具名触发调用地址和多子结果封套/固定步仍待，不能把random_flow合法当命中或死亡授权。"
   },
   "linked_cloud_break_result_ref": {
@@ -369,15 +932,627 @@
       "file": "致命拦截结果.schema.json",
       "pointer": ""
     },
-    "scope": "仅原致命敌方HP伤害已完成各先行防护后实际合格的火凤lethal_keep10/谭以柔bawang_lethal；原13字段记录实际选择/掷出的一次拦截子结果，不新增计数/日志/通用reserved。环境/费用/脚本不可拦截/血魔失败/云心破罩罚血不进入；未知伤害类别/来源拒绝，不当作不触发。",
-    "qualification": "原目标同scope生命实际active且hp_before>0，valid_max_hp为本处理时真实合法上限且>=10，hp_before<=valid_max_hp；剩余合格敌伤本将耗尽HP。读取本目标真实职业/已投入有效气功及原封印/成功冷却；谭本人ready合格霸王优先，仅霸王不合格或未ready时才选同职业合法火凤。选中后失败不改选/重试，剑/真不能借谭霸王。全部不合格/未ready或maxHP<10不抽、不造本结果，原伤害仍须保该不触发的完整资格来源。",
+    "scope": "原致命敌方HP伤害完成先行防护后，实际合格的火凤lethal_keep10、谭以柔bawang_lethal或甄凤柏blood_devil共用原13字段及唯一拦截身份。环境/费用/脚本不可拦截/血魔失败/云心破罩罚血不进入；未知类别/来源拒绝。",
+    "qualification": "原目标同scope生命active，1<=hp_before<=真实valid_max_hp，剩余合格敌伤本将耗尽HP。火凤/霸王须maxHP>=10，沿原职业/已投入有效等级/封印/成功冷却资格；谭本人ready合格霸王优先，仅其不合格或未ready才选同职业合法火凤。甄凤柏血魔须原blood_devil完整活动资格及ready冷却，maxHP>=1；不能借其他职业拦截。一次选中失败不改选重试；未合格不抽不造结果，父伤害保存完整资格证据。",
     "identity": "event_id=\"lethal-intercept:\"+SHA256(71确定JSON [\"lethal_interception\",world_id,authority_profile_id,map_id,instance_id_or_null,target_actor_id,incoming_damage_event_id] UTF8)。不将selected_profile/概率/会话/重试计数加入身份来允许同一来源第二次选择；incoming_damage_event_id精确原实际根/目标/ordinal伤害，不取root动作ID替代多段身份。同ID异正文拒绝。",
-    "chance": "chance_bp冻结原实际选择来源：火凤min(4000,100*有效等级)，霸王min(4000,100*有效以柔等级+25*有效惊涛等级)，各按原owner资格和安全整数计算；无有效以柔不能凭惊涛单独授权霸王。chance必须1..4000，不能用当前读档等级重算历史。",
-    "random": "random_flow.receipt_id精确本event_id，恰实际受保护目标自己的原character流一次[0,9999]调用，purpose为71确定JSON [\"lethal_interception_draw\",event_id,selected_profile]文本；outcome=success当且仅当roll<chance_bp。原目标身份/角色流须真实可解析，不能借攻击者流/Host当前角色流，未知拒绝。原流允许拒绝块但只一次最终draw，按实际执行位置与其他原子结果消费段连续；来源同13字段之外的完整父决定认证。",
-    "success": "原剩余敌伤结果最终保10HP，不产生死亡/停止进攻/出尘戒或武勋死亡副作用。hp_before>=10时本敌伤actual_hp_loss=hp_before-10；hp_before<10时actual_hp_loss=0，10-hp_before仅为本拦截明确恢复量，不能写负伤害/算受敌伤、独立治疗技能或再次触发医师恢复回调。最终10需真实maxHP>=10，不以min(10,max)修复坏资格。该局部结果后仍可因原同步破罩罚血真正死亡，不能用曾拦截成功宣称本完整决定必存活。",
-    "failure": "原伤害继续终态致死，仅沿原死亡owner唯一协调；本次所选失败无成功冷却/霸王效果/火凤重抽。本子结果原随机仍是同次完整死亡决定一部分，不先提交失败后再申请第二个reserved。失败不凭null效果推断未曾尝试。",
-    "effects": "success同笔启动所选原成功冷却36000，trigger_event_id/冷却来源精确本event_id。霸王同时沿原defense.bawang_lethal创建180步/20%攻防来源，当前伤害不倒算此新增防御，新增攻击只后续合法接纳；火凤不造持续免伤表。随后同完整决定真正死亡会按原死亡清临时霸王但保已成功冷却；失败不创建两者。",
-    "save_replay": "原伤害损失/拦截/所选成功冷却及效果、原随机与最终生命决定共用一份角色after/修订。已提交重放原子结果只回原outcome，不再留10、刷新成功冷却或从失败改选；历史hp_before不是当前HP，旧生命引用不作用新生命。所需伤害/资格/随机完整链未闭合不得运行，存疑不发布半笔。",
-    "boundary": "所选拦截结果结构及优先级/低血实际损失/冷却归属采用；完整原伤害/资格快照、父决定/角色-world根及Godot仍待，D1未完成。"
+    "chance": "chance_bp冻结原实际选择来源：火凤min(4000,100*有效等级)，霸王min(4000,100*有效以柔等级+25*有效惊涛等级)，各按原owner资格和安全整数计算；无有效以柔不能凭惊涛单独授权霸王。chance必须1..4000，不能用当前读档等级重算历史。 血魔chance_bp=500+50*(原已投入正有效等级-1)，沿原等级上限与配置授权核验，不凭schema上限制造等级或截断未知值。",
+    "random": "random_flow.receipt_id精确本event_id，角色目标恰用本人原character流一次[0,9999]调用；仅合法NPC血魔目标使用原活动所属world流，owner_id精确该world_id，不能伪造角色流。同一次调用，purpose为71确定JSON [\"lethal_interception_draw\",event_id,selected_profile]文本；outcome=success当且仅当roll<chance_bp。原目标身份及对应角色/活动world流须真实可解析，不能借攻击者角色流/Host当前角色流，未知拒绝。原流允许拒绝块但只一次最终draw，按实际执行位置与其他原子结果消费段连续；来源同13字段之外的完整父决定认证。",
+    "success": "仅火凤/霸王分支：原剩余敌伤结果最终保10HP，不产生死亡/停止进攻/出尘戒或武勋死亡副作用。hp_before>=10时本敌伤actual_hp_loss=hp_before-10；hp_before<10时actual_hp_loss=0，10-hp_before仅为本拦截明确恢复量，不能写负伤害/算受敌伤、独立治疗技能或再次触发医师恢复回调。最终10需真实maxHP>=10，不以min(10,max)修复坏资格。该局部结果后仍可因原同步破罩罚血真正死亡，不能用曾拦截成功宣称本完整决定必存活。 血魔分支最终留1，actual_hp_loss=hp_before-1，无拦截恢复；成功同笔按blood_devil原owner创建300步挑战/本人怒气源及36000步成功冷却，trigger_event_id均为本event_id，活动尝试与唯一真实对手由原完整快照认证。随后原不可拦截破罩罚血仍可致死，按原already_dead终止清理，不能留下已死挑战。",
+    "failure": "原伤害继续终态致死，仅沿原死亡owner唯一协调；本次所选失败无成功冷却/霸王效果/血魔挑战或怒气/任何拦截重抽。本子结果原随机仍是同次完整死亡决定一部分，不先提交失败后再申请第二个reserved。失败不凭null效果推断未曾尝试。",
+    "effects": "success同笔启动所选原成功冷却36000，trigger_event_id/冷却来源精确本event_id。霸王同时沿原defense.bawang_lethal创建180步/20%攻防来源，当前伤害不倒算此新增防御，新增攻击只后续合法接纳；火凤不造持续免伤表。随后同完整决定真正死亡会按原死亡清临时霸王但保已成功冷却；失败不创建两者。 血魔只沿blood_devil原activation创建本体/同根怒气/成功冷却，不创建霸王防护；所选失败三类均不创建成功效果/冷却。",
+    "save_replay": "原伤害损失/拦截/所选成功冷却及效果、原随机与最终生命决定共用一份角色after/修订。已提交重放原子结果只回原outcome，不再执行所选分支留血、刷新成功冷却或从失败改选；历史hp_before不是当前HP，旧生命引用不作用新生命。所需伤害/资格/随机完整链未闭合不得运行，存疑不发布半笔。",
+    "boundary": "所选拦截结果结构及优先级/低血实际损失/冷却归属采用；完整原伤害/资格快照、父决定/角色-world根及Godot仍待，D1未完成。",
+    "blood_devil_owner_ref": {
+      "file": "怒气出血与血雨恶魔.v1.json",
+      "pointer": "/blood_devil"
+    }
+  },
+  "hp_resolution": {
+    "schema_ref": {
+      "file": "战斗生命损失.schema.json",
+      "pointer": ""
+    },
+    "field": "原完整合格敌方直接/周期/状态爆发伤害结果.hp_resolution六字段，仅本次敌伤HP损失及本次云心破裂罚血的关联；不复制完整角色/actor after，不新建生命损失事件或日志。几何失效/前置回避/未中/目标已终态死亡不进入该HP阶段，其完整结果仍需原明确资格/未中决定，不能填HP0伪装合格损失。",
+    "input": "hp_before=本原排序项所有先行防护已确定、尚未扣本次敌伤的原目标正HP；hostile_damage_after_absorption=D为普通减伤及实际护罩/真盾/梅障等原顺序后合法剩余敌伤，非原攻击抽样/盾吸收/过量伤害。所有字段安全非负整数且原before HP不超过当时合法max；未知配置/防护/状态来源整笔拒绝，不把未证明剩余量填0。D=0为合法完全吸收或明示零伤害，不由此断言未命中。",
+    "without_successful_interception": "无所选拦截或所选失败时actual_hostile_hp_loss=min(hp_before,D)，敌伤后H=hp_before-actual_hostile_hp_loss。不因后续回血/罚血改写该实际敌伤损失，也不让过量部分触发受伤资源/奖励。D<hp_before时interception必须null；D>=hp_before时null仍须原完整来源证明没有合格ready拦截，而不是缺记录默认未触发。",
+    "interception": "非null引用精确本伤害/同scope/目标生命、hp_before与合法max的原所选结果，原概率/流/来源完整认证。只能D>=hp_before且原分类允许时存在。success且火凤/霸王则actual_hostile_hp_loss=max(0,hp_before-10)，敌伤后H=10，低血差额归原拦截恢复；success且blood_devil则actual_hostile_hp_loss=hp_before-1，敌伤后H=1，无恢复；failure仍actual_hostile_hp_loss=hp_before/H0。成功后不得因后来罚血致死回写为失败或把罚血计入敌伤。",
+    "cloud_break": "非null引用精确本伤害的同scope/目标/旧池真实原破裂；其hp_before_penalty必须等本敌伤后H，actual_hp_loss只属于破罩分量。H0时破裂必须引用本伤害原终态死亡且罚血0；H>0时prior death为null，破裂罚血后F=H-cloud.actual_hp_loss。若本伤害真实耗尽池，即使D0也必须有本破裂；未破或安全清理不得造引用。无破裂时F=H，不能凭null把应罚血漏掉。",
+    "terminal_identity": "terminal_lethal_event_id_or_null仅本敌伤HP阶段及其本次破罩联动的实际致死来源：H0时精确原combat-damage event_id；H>0且破裂将F扣至0时精确cloud-break event_id；其他情形null。不是通用死亡结算编号，也不是怪物training-death ID。原玩家death command.lethal_event_id/ pending death或怪物death_result.lethal_damage_event_id必须沿真实适用的致死来源互相精确对应；修炼怪无合法云心来源不能冒造罚血死亡。",
+    "credit": "actual_hostile_hp_loss只授权原规则允许的实际敌伤信用/受伤资源基数；盾吸收、过量、拦截恢复和破罩罚血均排除，不把两分量简单相加当敌伤。直接命中但actual0的后续触发资格仍逐owner，例如允许盾击的反气功不能被统一当miss；出血/攻方怒气等要求正实际损失的规则不放宽。",
+    "callbacks": "H/F仅用于本敌伤及本破罩阶段，不持久新增hp_after字段；后续实际仍活体才运行允许的恢复/其他同步回调。若另一个明确原回调随后改变生命或致死，由其真实原结果认证，不用本阶段null宣称整个父决定最终存活，也不篡改本实际损失或致死身份。整笔角色实际after仍唯一并覆盖各原阶段的真实先后。",
+    "atomicity": "本六字段、所需完整拦截/破罩子结果、原随机/损失信用/同步回调及唯一真实死亡与源队列消费同一完整原决定。引用不单独授HP变更；缺源/存疑不先发布损失或推进动作/队列。已提交重放不拿当前HP/新生命校验历史before，不重复扣敌伤/罚血或再次拦截。",
+    "boundary": "生命损失结构及分量/来源关联采用；完整伤害资格/算式阶段与回调正文、根/队列/多接收者封套及Godot仍待，不据本组件声称完整伤害结果或D1已闭合。",
+    "firewood_cancellation_owner_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": "/cancellation_binding/damage"
+    }
+  },
+  "damage_result": {
+    "schema_ref": {
+      "file": "战斗伤害结果.schema.json",
+      "pointer": ""
+    },
+    "field": "原world固定步完整决定内的combat-damage结果，严格19字段，七身份字段直接平铺复用原event_identity，不allOf严格投影拼额外字段、不再复制damage_key。包含event_id/真实source_actor/冻结rules_hash/原实际resolved_world_step/pipeline/outcome及原随机、HP组件、直接所属拦截/破罩子结果和独立同步回调引用；不新建第二profile damage日志/通用结算编号/角色after。",
+    "source": "action_or_root_event_id与ordinal解析原实际接纳/周期/派生来源，source_actor_id等其真实原source生命，target_id等该原项锁定的目标生命。pipeline_id仅可由原source明确适配direct/periodic/status_burst，不能靠客户端选枚举或将未知反伤/环境/费用默认套某条pipeline。resolved_world_step等原排序项实际执行步，规则与冻结根来源相符；被较早死亡取消的进攻不产生虚构blocked结果推进动作。",
+    "blocked": "已合法到期的原项在明确先行资格/防护阶段不能继续，outcome=blocked、blocked_at_stage精确首个实际阻断阶段，hp/interception/cloud全null。direct只允许原前三阶段，periodic只允许原存活关系安全免疫或显式状态保护阶段；status_burst_eligibility_and_protection表示原20状态爆发在HP计算前的存活/关系/安全/显式保护联合阶段。坏引用/未知实体或规则不是普通blocked，须拒绝原候选；只有可认证原已移除目标才按已知无效处理。",
+    "miss": "仅direct原accuracy抽样实际失败，outcome=miss、blocked_at_stage=null且HP/拦截/破罩均null；原真实前置成功/失败触发及accuracy随机仍保在自身结果/必要来源中，不执行攻击区间/暴击/后续伤害。periodic/status_burst无accuracy，不得用miss掩盖保护或缺来源。",
+    "resolved": "确实进入本HP阶段即outcome=resolved，blocked_at_stage=null且hp_resolution非null；包括明确0伤害/全吸收，不以actual0改成miss/blocked。直接伤害须先通过原accuracy，周期/状态爆发不伪造命中或暴击。每个原公式阶段由冻结动作、实际执行前目标/来源和规则重验；数值结果不能仅凭HP差倒推概率、减伤或效果资格。",
+    "owned_children": "interception_result_or_null与cloud_break_result_or_null是本结果直接拥有的原完整子结果，不另放重复子日志。HP组件对应引用非null当且仅当本子结果非null，ID精确相等且原scope/target/breaking damage或incoming damage均精确本结果；null须证明该实际路径无需子结果，不用null吞缺源。孩子不能被两份不同伤害认领；原完整事务内仍只存一份该子结果正文。",
+    "random": "random_flow.receipt_id等本event_id，原damage_random_decision逐调用点核验。拦截子结果拥有受保护角色自己的draw区间，不复制到父伤害；破罩罚血无新抽样。完整父决定依原真实调用顺序和嵌套来源，联合各结果每次draw区间覆盖原counter至唯一最终counter；父自身draw间可有真实孩子消费但不能漏证。父伤害自身无实际调用时streams=[]，不复制孩子作汇总。",
+    "callbacks": "callback_event_ids只列本项真实同步执行且具有自己合法原身份的独立回调结果，按原执行顺序唯一，不按字符串排序或将未决后代塞入。内联效果/费用等若原owner以本伤害身份作源，则在原唯一接收after及来源中验证，不为凑列表另造ID。实际尸毒后置波/未来tick/投射等仍归原队列，不冒充同步已完成回调；原明确同步反射等必须在下个排序项前真实闭合。空列表须核确无独立同步子结果，不能作为缺失回调的默认值。",
+    "context": "本20字段不是历史输入的替代品：父world决定须保原执行前唯一角色/actor及所有实际读到的效果/装备/关系/位置与几何查询来源、冻结动作/规则包和已提交前项游标；其完整白名单/历史闭包仍待联合采用。恢复核原历史context，而非用当前属性/现存节点重算旧结果；缺context拒绝推进，不能凭结构合法授权伤害。",
+    "atomicity": "本结果、直属孩子、同步回调和必要HP/资源/效果/随机与队列游标同原完整决定提交；终态玩家死亡由原death_events独占一次通用reserved/identity，NPC死亡由其真实owner同笔闭合。外层只有一份实际角色/actor after及一致修订，不按孩子数加修订；未中/blocked也须有正式决定供原到期动作完成游标引用。存疑不ACK半笔、不推进下一依赖项。",
+    "replay": "同七键/ID只回逐字段一致的原结果，不重验当前几何/队伍重抽或再扣HP。旧target已死/换生命仍按原历史来源核验，不将旧结果或子结果应用到当前actor；同键异规则/来源/正文拒绝，不去重吞错。结果所需历史/未来引用未结清前不得回收。",
+    "boundary": "完整伤害结果字段白名单及三分支/直属子结果归属采用；真实历史context、全部阶段贡献/具名触发来源、派生队列/父固定步与多接收者封套仍待，未实现Godot且D1未完成。"
+  },
+  "non_direct_shield_policy": {
+    "owner_ref": {
+      "file": "医师形移与云心护罩气功.v1.json",
+      "pointer": "/distance_mana_shield"
+    },
+    "scope": "原periodic/status_burst敌伤只按已登记实际伤害类型处理；反伤等派生仍须自己的原适配声明，不凭没有accuracy就推定为本两条流水。原资格/安全/免疫或状态保护先阻断时不消耗云心/真盾。",
+    "existing_cloud": "原目标已有同源合法云心正容量且该实际敌方HP伤害允许吸收时，先吸收min(当前云心容量,本项剩余伤害)，只一次；容量归0立即移除并登记原cloud_break结果，恰好完全吸收也是真破裂。无池或不适用时不吸收，不抽云心创建概率/不创建或刷新池/成功冷却。原未知池或类型来源拒绝，不把坏池当无池。",
+    "following_shield": "只有云心处理后的剩余量才进入原甄凤柏充能护盾，且须真实合法shielded状态和该伤害明确可减的敌方状态伤害。甄盾按原职业资源30%向上取整减伤，不是可耗尽容量池：减量=3*(D//10)+(3*(D%10)+9)//10，以安全商余算ceil(3D/10)，不能和云心各自对原输入重复减伤。护盾不因受击消耗时长/容量或回charging，仍按原固定步180时长；真实职业/来源不兼容时不得为演示顺序伪造两盾共存。梅障不用于周期/状态爆发，不重跑普通防御/罡气/直接武功减伤/攻击区间/暴击或直接命中回调。",
+    "break": "两种原非直接流水均在剩余敌伤HP/其明确合法拦截完成后处理已发生的云心破裂罚血。敌伤已死则零罚血保原死亡；敌伤余0亦可因罚血真死。actual_hostile_hp_loss不含罚血；本真实破裂及死亡/原流同笔，不能留给下一tick或读档补扣。",
+    "credit": "周期仍只原actual_received_rage_and_activity_credit_only，状态爆发仅其原owner明示允许的实际损失信用；不能因为补云心步骤附带发直接攻击怒气、出血、命中回调或普通恢复。所有受击资源基数用本实际敌伤，不加盾吸收/破罩罚血。",
+    "source": "云心冻结容量/activation_max_hp及后续甄盾实际状态/减伤量须保在原历史context；本流水补齐已有云心允许周期吸收规则，不赋予新保护或新随机。完整来源/伤害context及Godot仍待。",
+    "following_shield_owner_ref": {
+      "file": "职业特殊资源.v1.json",
+      "pointer": "/zhen_fengbai/charge_shield"
+    }
+  },
+  "scope_step_lifecycle": {
+    "normal_offense_advance_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/normal_offense_advance_worklist"
+    },
+    "schema_ref": {
+      "file": "场景固定步状态.schema.json",
+      "pointer": ""
+    },
+    "field": "原world每真实map/instance模拟scope的固定步状态十字段投影；world/authority及场景身份不新建副本。完整world根采用时直接保存这些原字段，不另建独立step日志或完成步/next_step双计数。该结构不替代完整输入/计时/实体/决定context。",
+    "clock": "world.training_gate_clock_steps沿修炼之门timed_buffs.clock既有world模拟时钟，作为本world唯一权威60Hz步号；不增第二场景计数。完整父world一次真实获准模拟将原S推进到S+1，所有本轮获准scope接纳相同T=S+1。十字段world_step仅为该scope最新实际接纳步的观察/恢复标记，初始0/phase=null；只有本scope前步phase=null、原未决决定已收束且父world已明确授予本T时，同笔写world_step=T及rules_and_timers。冻结scope可保旧标记，后来接纳T允许与旧标记不连续，但每次仅推进一个实际scope步，不能用T-旧标记补扣实体时长/动作/出血。已有源世界观察差计时仍沿各owner，不改成实体时钟。全世界暂停/离线不增S，个人断开是否继续沿原owner；安全整数上限拒绝新世界步，不回绕。",
+    "phase_semantics": "phase_or_null为原本步下一尚未完整完成的阶段。场景world_step只观察父T，不在阶段转换或收尾再次增加。阶段完成后与该阶段所有实际状态/原子子结果及必要原决定同笔切下一阶段；未确认提交不得前移。阶段内逐项决定若需分别提交，必须由其完整原context保真实未决项和已完成来源；十字段投影不独自授权从头重跑。phase=null仅证明本T所有阶段完成，不是重新执行T的入口。",
+    "order": [
+      {
+        "phase": "rules_and_timers",
+        "next": "direct_attack_admission",
+        "work": "先沿各原owner处理本步必须先于接纳的关闭/过期、计时到点与合法末跳捕获、原规则/AI候选；出血clock_result保删除前赢家。各族顺序及资格必须有原来源，不用统一删所有到期效果替代。 衣饰同角色同T到期全集沿apparel_expiry_owner_ref预留/提交，先取消阻塞的失效可取消报价；到期决定与原角色阶段完成记录同笔，未收束不得进入依赖命令。 本人时钟按role_timer_worklist冻结队列逐队首同笔消费；队列空不替代非角色规则完成证明。 血魔旧本体余时1按blood_devil_expiry_capture_owner_ref捕获并移除活跃本体，不写非法0；本T有效性由原捕获认证。"
+      },
+      {
+        "phase": "direct_attack_admission",
+        "next": "movement_and_due_capture",
+        "work": "沿原direct_attack_admission_phase冻结本步输入候选和真实顺序，逐原决定接纳；新根e0，仅原accepted_world_step<T旧根获本步推进机会。不将尚未明确阶段的治疗/道具/传送等命令隐式塞入。"
+      },
+      {
+        "phase": "movement_and_due_capture",
+        "next": "combat",
+        "work": "按原移动/碰撞和旧动作/投射owner完成真实几何与到期来源，结合先前计时捕获冻结唯一ordinary批。批创建与进入combat同笔，空批也保留；不能先逐actor落伤害。投射首步及其他到期owner仍须明确来源才可运行。"
+      },
+      {
+        "phase": "combat",
+        "next": "post_combat",
+        "work": "只消费该scope本T原批，ordinary逐完整结果后切唯一corpse_wave；空ordinary仍须切波，空corpse_wave全部必要决定闭合才完成。原批移除、沿gather_advance_worklist_owner_ref、support_cast_worklist_owner_ref及portable_channel_worklist_owner_ref同时冻结旧采集/旧辅助/旧便携剩余队列和进入post_combat同笔，不另存ordinary/corpse父游标或以批缺失重建候选。"
+      },
+      {
+        "phase": "post_combat",
+        "next": "finalize",
+        "work": "先沿gather_advance_worklist_owner_ref逐队首并沿gather_action_owner_ref在本T已固定死亡/敌伤取消后、下述新活动/服务输入前推进旧采集并同父落效；完整共同父未闭合不据此获运行授权。 采集队列空后，沿support_cast_worklist_owner_ref逐队首推进旧辅助施放，唯一落效/所有接收者变化与原根推进及队首消费同父；无完整来源不执行。旧辅助队列亦空后，沿portable_channel_lifecycle_owner_ref处理旧便携读条的推进/正常失效/完成，先行取消已发生者不得再推进；便携队列沿portable_channel_worklist_owner_ref逐队首，完整冻结与结果父未闭合仍禁止运行。 随后沿bamboo_pickup_owner_ref处理本T明确F选中竹材的正式拾取，在本阶段其他新活动/服务输入前完成；非竹材拾取须其原producer明确，不跳过更近未知掉落。 沿各原活动owner在已完成战斗及其真实终态后处理首领新放弃/返回/领取等，按原末步击杀与超时优先规则完成活动结果；不得为了本阶段统一交换所有活动时限顺序。未明确时点的owner仍阻相应功能。 血魔末步捕获按已固定死亡/击杀事实先判获救再判到期失败，终态与消费捕获同笔，未收束不得进finalize。 公共交通在全部相关先行战后决定后沿场景迁移owner提交，目的本T资格沿public_arrival_eligibility_owner_ref；不在目的地再接纳一次服务输入。"
+      },
+      {
+        "phase": "finalize",
+        "next": null,
+        "work": "完成原本步必要终态清理、表现事件及保存请求边界，保留后续真实在途根/效果来源，确认本T所有子决定闭合后phase=null。表现本身不推进规则/身份/RNG，不能以表现失败重算伤害。 普通三段窗口按basic_combo_window_owner_ref在本步接纳之后消费一次机会；本步新完成创建的60不扣，旧余时1先允许本步接纳再清，不在规则阶段提前丢第60步。"
+      }
+    ],
+    "batch_invariant": "phase=combat当且仅当存在该scope/world_step唯一原combat_resolution_batch，包括空ordinary/空corpse；其他phase不得残留该scope当前批。进入combat与建ordinary批、离开combat与移除空corpse批各同笔。该双向约束须完整world语义校验，不能在十字段schema中假称已验批存在。",
+    "recovery": "先认证完整正式world/角色共同决定、原scope时钟和所有实际阶段context，再按role_timer_worklist核原剩余角色队列及已处理前缀证明，再核该状态与batch双向一致。加载不推进世界时钟或新场景步、不重收本T输入、不重跑AI或计时抽样，不按当前actors重建已经冻结/完成批。发现phase/batch/子决定冲突保现场拒绝，不删批/补阶段/null化修复。暂停于非null阶段保留原T及进度，恢复先收束该T，不能接纳后续权威世界步。",
+    "boundary": "场景十字段投影及规则角色计时/战后采集、普通辅助及便携剩余队列、顺序与批次原子边界采用；全部其他命令/计时族、完整阶段before/after、world根与跨scope调度、多接收者提交和Godot未闭合。该投影不能独立运行，D1未通过。",
+    "world_clock_owner_ref": {
+      "file": "修炼之门.v1.json",
+      "pointer": "/timed_buffs/clock"
+    },
+    "clock_authorization": "场景标记不是全局时钟分配凭证；父world须保存本T真实已获准scope全集与阶段来源，scope.world_step<=正式权威时钟且非null阶段必须属于该父T。同T同scope不能二次接纳，已完成null也不能借当前时钟重开本T。未被本轮授予的scope不接纳，不能按玩家镜头/当前加载节点临时创建一次模拟。跨scope选择与完整父context仍须明确，缺证据拒绝。",
+    "world_round_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/world_step_lifecycle"
+    },
+    "apparel_expiry_owner_ref": {
+      "file": "衣饰到期事件.v1.json",
+      "pointer": ""
+    },
+    "apparel_clock_result_owner_ref": {
+      "file": "衣饰期限.v1.json",
+      "pointer": "/clock/result"
+    },
+    "role_timer_worklist": {
+      "field": "rules_and_timers_pending_role_session_ids_or_null",
+      "initialization": "显式新scope的world_step=0、phase=null且本字段null；已有当前格式缺字段拒绝，不从活体表补队列。只有真实首scope接纳本T时，在同一父决定冻结原合法角色接纳全集，保存对应原world.character_sessions的session_id数组，并切rules_and_timers。不复制完整角色/会话身份，也不分配第二角色步号。",
+      "selection": "由该历史父before的完整实体/会话/私场活动状态和原clock_policy判本人是否获得本scope本T实际角色步；包括死亡但仍实际存在者，排除已移除/挂起者。核实际authority、有效会话及唯一角色归属。同world/authority/profile/character/T若原正式父结果已证明在其他scope处理过，不再入队。缺迁移/接纳/完整父来源即拒绝，不能按当前位置或客户端列表推全集。 公共交通本T新迁入者沿public_arrival_eligibility_owner_ref排除，并核原会话交通决定及源本人本T处理证明。",
+      "order": "角色会话ID先解析原完整身份，按profile_id原UTF8字节序，再character_id原UTF8字节序排列；同角色最多一个会话，不能靠uniqueItems接受两会话同角色。ID数组顺序不按随机session摘要/Peer/节点遍历排序。冻结后不得因在线名单变化重新排序或重建。",
+      "consume": "仅处理原队首本人完整规则计时子决定；本人各已采用owner实际时钟、自然到期、资源/效果及到期捕获须全部闭合后，与该正式角色结果/必要共同世界变化同笔移除恰一个队首。原结果中的衣饰子结果沿衣饰期限.clock.result，零正余时仍可为null，但不代表跳过其他角色计时。不得先移除队首再存角色，或先发布角色变化而队列未减。",
+      "other_roles": "跨角色效果由原共同决定授权，受影响角色不是因此已消费其自身计时步；只有该角色自己的队首规则计时决定才移除其项。共同结果先后依原完整来源认证，不以别人改过HP/效果就从队列删掉本人。",
+      "membership_changes": "规则阶段冻结后，新会话/迁入角色不追加本队列；本T已处理角色不因换scope/session再获一步。已冻结角色移除/挂起须先收束其已接纳本步及共同决定，随后捕获最终状态，沿clock_policy原边界执行；不能丢队列项来模拟冻结。尚未接纳本T的真实移除按原来源证明排除，不以当前挂起倒推撤销已接纳步。",
+      "completion": "队列空只表示本scope本T全部已冻结角色计时完成，不证明敌人/活动/世界计时或其他rules工作已完。所有原非角色计时/捕获context亦完成后，切direct_attack_admission与本字段置null同笔。其他phase/null阶段本字段必须null；rules阶段允许[]，无角色的scope仍执行其原非角色规则。",
+      "recovery": "先核完整正式父授予与最初角色全集，再按原不可变本人规则结果依赖恢复已经移除的有序前缀；当前队列必须精确等尚未处理后缀，不能中间删项/追加/重排。已处理前缀只由原正式父结果证明，不另存完成ID集、next_index或第二日志。恢复只续队首原未决决定，保存存疑先读取正式决定；不重跑计时/AI/抽样、不从现在活体表重建队列。",
+      "boundary": "十字段投影及角色队列协议已采用；完整最初接纳/角色规则子结果producer/非角色计时context、world与角色根及多接收者提交仍待，不据本队列运行时钟或宣称D1通过。"
+    },
+    "blood_devil_expiry_capture_owner_ref": {
+      "file": "怒气出血与血雨恶魔.v1.json",
+      "pointer": "/blood_devil/persistent_state/expiry_capture"
+    },
+    "blood_devil_terminal_owner_ref": {
+      "file": "怒气出血与血雨恶魔.v1.json",
+      "pointer": "/blood_devil/persistent_state/terminal_result"
+    },
+    "basic_combo_window_owner_ref": {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/basic_combo_policy/persistent_window"
+    },
+    "private_trial_entry_migration_owner_ref": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/entry_events/migration"
+    },
+    "gather_action_owner_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": ""
+    },
+    "bamboo_pickup_owner_ref": {
+      "file": "竹材掉落与拾取.v1.json",
+      "pointer": ""
+    },
+    "support_cast_worklist_owner_ref": {
+      "file": "辅助武功采用.v1.json",
+      "pointer": "/cast_action_protocol/post_combat_worklist"
+    },
+    "gather_advance_worklist_owner_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": "/advance/worklist"
+    },
+    "public_arrival_eligibility_owner_ref": {
+      "file": "场景迁移.v1.json",
+      "pointer": "/destination_eligibility"
+    }
+  },
+  "portable_channel_worklist_owner_ref": {
+    "file": "便携传送与修炼限制.v1.json",
+    "pointer": "/channel_worklist"
+  },
+  "portable_channel_lifecycle_owner_ref": {
+    "file": "便携传送与修炼限制.v1.json",
+    "pointer": "/channel_lifecycle"
+  },
+  "world_begin_expiry_role_results_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/expiry_role_results"
+  },
+  "world_begin_clock_projection": {
+    "schema_ref": {
+      "file": "世界步开始计时结果.schema.json",
+      "pointer": ""
+    },
+    "placement": "仅原world begin共同决定内保存，不新增world根字段或独立日志；world_before是原二字段真实前像，world_after是本T初始队列，不是执行若干scope后的剩余队列。",
+    "validation": "after时钟恰before+1；before队列为空。world/authority/rules_hash须等原会话与冻结规则，每条服务结果同该身份且world_step等after时钟。服务结果按profile_id原UTF8字节序严格递增、无重复，集合精确等原实际Playing会话档案全集，包含权威档案与null权益档案。before权益逐项等原档案；null保null，0保原source及0，正余时同source恰减1。after队列按原sort且精确等真实授予scope全集，允许空队列；不能用uniqueItems或结构合法冒充这些语义。",
+    "recovery": "本投影随原begin决定恢复，不从当前世界队列/profile余额重算；后续队列消费不覆盖本T初始after。缺真实父来源或到期副作用时拒绝执行，不另建修复扣时事件。",
+    "boundary": "仅闭合时钟与初始队列及服务结果的严格关联结构。其他世界计时、实际授予资格、1到0副作用、完整根和多档案共同替换协议仍待；投影本身不能授权行囊到期来源。"
+  },
+  "world_step_lifecycle": {
+    "supreme_clock_owner_ref": {
+      "file": "至尊服务.v1.json",
+      "pointer": "/clock_result"
+    },
+    "schema_ref": {
+      "file": "世界固定步状态.schema.json",
+      "pointer": ""
+    },
+    "field": "world.training_gate_clock_steps沿原唯一世界计时；world.step_pending_scopes是本T仍未完整完成的真实scope队列，每项仅map_id/instance_id_or_null，不重复scope正文/角色表/步号。该二字段联合投影不是完整world根，不再保存全部授予列表/完成scope集/next_index/另一个round序号。",
+    "initialization": "只有显式创建新world时training_gate_clock_steps=0且step_pending_scopes=[]。保既有world计时/阶段，现行缺字段拒绝；角色导入不创建世界或补现场。0步不能有pending scope或活动scope阶段。",
+    "begin": "仅世界Playing、原step_pending_scopes为空且原各scope阶段/未决共同决定全部闭合，才可接纳一个真实60Hz世界步。从原S计算安全T=S+1，在同一正式world决定中推进唯一时钟、完成本T原世界级计时决定并冻结授予scope全集为排序后的step_pending_scopes。至尊逐档案计时沿supreme_clock_owner_ref，在本次begin原决定冻结真实会话档案全集与七键结果（包含null→null），每profile_id恰一次、world/authority/T/rules_hash同原父，随后才允许scope接纳；本档任何激活或依赖权益正式未决须先恢复/中止。档案余时、1→0到期副作用、world唯一时钟与scope初始队列同父，跨档案保存协议未完成前不运行服务。世界时钟/世界级计时/初始队列不得分开先写；保存存疑先核原正式决定，不再递增或重新选scope。空授予集是明确允许的世界步，原世界级时钟仍按实际Playing推进；不以没玩家渲染场景推断全世界暂停。",
+    "granted_set": "从原完整权威世界场景生命周期/活动/实体模拟资格决定本T需要模拟的全部已存在scope，不能仅按镜头/客户端节点/当前角色位置选择。已明确持续的修炼共享刷点计时沿原owner，不因无人可见停掉；私场失联挂起等仅按原各owner冻结。公共map只允许instance=null，私场须真实活动实例/归属。各scope授予由完整原父context证明，队列uniqueItems不证明全集。完整world场景登记和逐owner资格仍待闭合。",
+    "sort": "真实全集严格按map_id原UTF8字节序，再按instance_id_or_null比较：null在字符串前、字符串原UTF8字节序。同map/instance最多一项，不排序修坏现场或吞重复。不按玩家/Peer/当前节点数组决定处理顺序。后续真实scope集合变化不向已经冻结本T队列临时插入新项。",
+    "consume": "仅原首scope获执行权：若其阶段null且观察world_step<T，同笔写其world_step=T和rules_and_timers；若其非null且world_step=T，恢复其原阶段；其他组合拒绝。按scope_step_lifecycle完整续本T，首scope处于非null时不提前执行后scope。最终finalize→null与该首项移除同笔，保其world_step=T作为本轮已完成证明；不在入scope/完成/切下一项时推进全局时钟。后项尚未开始，不得预先写其步号T。 首scope接纳与其角色计时队列冻结同笔，按scope_step_lifecycle.role_timer_worklist处理；后续scope不从当前在线列表重建已经处理的角色步。",
+    "membership_changes": "本T已冻结scope即使其原关闭阶段移除全部活体，也须保真实空阶段/决定完成当前项，不能删队列跳过来源；本T后来新建的scope首次模拟等后续实际世界步。跨scope交通/复活/活动退场须由原owner明确在本轮边界迁移与唯一实体计时归属，不能把刚迁入实体当另一scope旧实体再扣一次。本owner不把未定义时点统一挪下一帧；相关原owner时点未闭合则该功能仍不可运行。",
+    "invariants": "队列非空时world计时保持同T，只有队首允许非null阶段且须scope.world_step=T；其余pending scope必须phase=null且观察步<T。已完成scope的T/null与原完成决定对应，不能重新插回pending。 本T服务计时结果profile_id唯一且集合精确等begin真实档案全集，非当前scope角色集合；每条before等真实前权益，after同source且恰减1（null/0沿原分支）。本T新激活只能发生begin之后的原业务阶段，不能把其after补插进本T计时结果；world时钟T已提交但缺原计时证明属于坏父，不通过再扣当前权益修复。冻结scope无本T授予不扣实体步。任何combat批须与唯一队首scope/T及其combat阶段吻合，不能同时保后scope批。完整root语义核验上述双向关系，不以两个独立schema代替。",
+    "recovery": "原world/角色共同决定恢复后先核世界T、队列严格顺序/真实授予剩余集、已完成scope证明和唯一非null阶段，再只续原队首。先核本T原begin的服务计时结果与档案正式替换/到期副作用已同父闭合，只回同结果、不重复扣时；原父存疑先恢复共同决定，禁止重新枚举当前profile或按当前余额重算。不得按当前世界登记重建队列，不把空队列当T从未执行而重做世界级计时。当前同T队列完成只可等待下一个真实60Hz许可再接纳新步；加载/网络重发/渲染积压本身不授予补步。",
+    "boundary": "世界唯一时钟与未完成scope队列结构、串行授予/消费/恢复边界采用。完整世界级计时/授予资格原context、场景及实体根/跨scope迁移时点、多接收者完整提交和Godot尚待，D1未完成。",
+    "scope_transfer_owner_ref": {
+      "file": "场景迁移.v1.json",
+      "pointer": "/same_world_step"
+    }
+  },
+  "blood_devil_effective_challenge_owner_ref": {
+    "file": "怒气出血与血雨恶魔.v1.json",
+    "pointer": "/blood_devil/effective_challenge"
+  },
+  "blood_devil_pipeline_access": {
+    "direct": "geometry_relationship_alive_safezone_iframe阶段读取统一查询执行原敌伤免疫；explicit_hit_time_damage_modifiers_in_stable_source_order阶段仅对原直接攻击源的有效挑战增伤一次。",
+    "periodic": "alive_relationship_safezone_eligible_immunity阶段查询受害者原有效挑战；不把攻击者血魔直接增伤带入周期。",
+    "status_burst": "status_burst_eligibility_and_protection阶段查询受害者有效挑战；环境/脚本/失败等非敌伤不得伪装状态爆发借免疫。",
+    "upkeep": "免疫在受击内功20费用/被动抽样/护罩吸收前成立，不产生虚假命中/实际损失或资源收益。查询坏context拒绝完整候选，不按未免疫继续伤害。"
+  },
+  "direct_martial_selection": {
+    "schema_ref": {
+      "file": "docs/contracts/直接攻击武功选择.schema.json",
+      "pointer": ""
+    },
+    "fields": "原正式请求ability_id_or_null/requested_stage_or_null两字段，不新增角色或动作包装。",
+    "sources": [
+      {
+        "file": "docs/contracts/角色初始模板.v1.json",
+        "pointer": "/active_ability_definitions"
+      },
+      {
+        "file": "docs/contracts/六职业普通武功.v1.json",
+        "pointer": "/abilities"
+      },
+      {
+        "file": "docs/contracts/乐师格斗普通武功.v1.json",
+        "pointer": "/abilities"
+      },
+      {
+        "file": "docs/contracts/英雄普通武功.v1.json",
+        "pointer": "/abilities"
+      },
+      {
+        "file": "docs/contracts/升天武功与秘籍.v1.json",
+        "pointer": "/abilities"
+      },
+      {
+        "file": "docs/contracts/绝命技与终结收益.v1.json",
+        "pointer": "/abilities"
+      },
+      {
+        "file": "docs/contracts/刺客必杀与超必杀气功采用.v1.json",
+        "pointer": "/supporting_active_definitions"
+      }
+    ],
+    "validation": "严格按原来源攻击类别及明确阶段联合白名单；英雄三初始ID沿原22 phase1并合并27后续阶段，不能重复定义或默降phase。恢复/增益/负面/反击来源不得冒充本直接命令。",
+    "authority": "白名单只证明来源采用；实际接纳还须原角色职业/已学阶段/等级/升职/路线、真实武器及目标/范围/上下文、资源/冷却/占用全部有效，逐项绑定接纳父before及历史规则，不由schema合法推断已学。",
+    "remaining": "完整武功根、发射、推进及弹体结构已采用；真实完整接纳/推进父来源、scope/world闭包仍待，D1未完成。"
+  },
+  "martial_attack_geometry": {
+    "schema_ref": {
+      "file": "docs/contracts/攻击武功几何快照.schema.json",
+      "pointer": ""
+    },
+    "fields": "原攻击武功根handler/range_mm/maximum_targets_per_hit/native_target_kind及该形状独有字段；不保第二geometry、当前目标数或派生位置。",
+    "source_resolution": "先以direct_martial_selection的真实ID/阶段选唯一原定义：22教学phase1；24/25 profile+原能力；27原profile+具体phase（external_phase_ref原样沿22，不覆盖教学phase1）；28 profile+具体phase；26原profile+能力；刺客原具名必杀直接定义。原phase的maximum_targets_per_hit优先，28仅把具体phase.maximum_targets映射到该原根字段；其余值须原明示，不以缺字段补0或当前角色等级代替定义等级。",
+    "native_kind": "24/25/26及22沿明确原profile/phase；27沿原能力native_target_kind；28直接攻击按该原能力已采用base_target_cap==1确定single，否则area，是明确项目分型，不按本次实际命中人数、当前阶段上限或名称推测。具体阶段只决定实际最大目标，不改变已采用原生分类。",
+    "shape": "melee_cone和sound_cone仅原arc_degrees/vertical_hit_height_mm；melee_line和melee_combo仅原width_mm/vertical_hit_height_mm，后者逐原offset重验不增加新形状。近战不存无意义零弹速/寿命。刺客三息绝击在原支持定义明确采用melee_line/2000mm高度，其余原费用/单ordinal/宽距不变。",
+    "projectile": "投射保存正speed/radius/maximum_projectile_steps；原生area另保原area_impact_radius_mm，single即使共用profile带area半径也不复制该无效字段或生成溅射。27范围弹道固定2500mm、28固定3000mm，22/24/25/26单体无范围；首敌碰撞选实际冲击中心/原LOS/去重及目标cap沿原owner，原primary不改。",
+    "range": "仅原弓有效射程和梅射程两合法来源，真实兼容武器/有效grade0..40，每级100mm在接纳加入；神女负面施距不能作用直接攻击。冻结reach和原正speed/radius，L=ceil(reach*60/speed)，逐次乘加先验安全整数，不把原零加成base寿命当额外上限。半径/宽度/扇角不随射程扩大；旧根不随当前气功或换装改写。",
+    "proof": "完整原动作先验后取投影；联合校验具体原能力/阶段/历史规则和接纳父before/真实武器/气功资格/原几何精确相等、range/L联合算术、目标生命及实际发射步。合法几何元组不能授权跨技能借用或跨职业射程；无原证明拒绝，不能加载重建覆盖。",
+    "boundary": "本组件及完整武功根/多段发射/推进/弹体组合已采用；真实目标逐项结果、完整父before/after及历史来源闭包仍待，D1未通过。",
+    "source_selection_owner_ref": {
+      "file": "docs/contracts/战斗命中与减伤.v1.json",
+      "pointer": "/direct_martial_selection"
+    },
+    "range_owner_ref": {
+      "file": "docs/contracts/射程气功采用.v1.json",
+      "pointer": "/profiles"
+    },
+    "root_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/player_martial_attack"
+    }
+  },
+  "assassin_finisher_snapshot_owner_ref": {
+    "file": "docs/contracts/刺客必杀与超必杀气功采用.v1.json",
+    "pointer": "/accepted_finisher_snapshot"
+  },
+  "martial_attack_input": {
+    "schema_ref": {
+      "file": "docs/contracts/普通攻击数值输入.schema.json",
+      "pointer": ""
+    },
+    "fields": "原attack_martial_skill根attack_min/attack_max/accuracy/flat_power_per_hit四字段；与普通四数值结构完全相同，直接复用原schema，不新增重复input定义或持久包装。四值非负安全整数且attack_min<=attack_max，0合法；accuracy不是最终命中率。",
+    "source_selection_owner_ref": {
+      "file": "docs/contracts/战斗命中与减伤.v1.json",
+      "pointer": "/direct_martial_selection"
+    },
+    "base_power_sources": [
+      {
+        "file": "docs/contracts/角色初始模板.v1.json",
+        "pointer": "/active_ability_definitions"
+      },
+      {
+        "file": "docs/contracts/六职业普通武功.v1.json",
+        "pointer": "/damage_and_cost"
+      },
+      {
+        "file": "docs/contracts/乐师格斗普通武功.v1.json",
+        "pointer": "/abilities"
+      },
+      {
+        "file": "docs/contracts/英雄普通武功.v1.json",
+        "pointer": "/abilities"
+      },
+      {
+        "file": "docs/contracts/升天武功与秘籍.v1.json",
+        "pointer": "/abilities"
+      },
+      {
+        "file": "docs/contracts/绝命技与终结收益.v1.json",
+        "pointer": "/abilities"
+      },
+      {
+        "file": "docs/contracts/刺客必杀与超必杀气功采用.v1.json",
+        "pointer": "/supporting_active_definitions"
+      }
+    ],
+    "base_power": "flat_power_per_hit冻结原所选能力/阶段的声明基础平威力：22取该原phase显式flat_power；24仅4*定义minimum_level；25乐师39项沿其明确power_formula_ref使用4*定义minimum_level，格斗19项必须取各原能力显式flat_power_per_hit，不能套共享4L或再加4L；27/28取具体原phase.flat_power_per_hit，27 external_phase_ref必须沿22原phase，不用27通式覆盖；26取所选原能力显式flat_power_per_hit；刺客三息绝击取显式0。缺字段/未知公式/非法阶段拒绝，不按当前角色等级或更高已学阶段生成。",
+    "phase_and_hits": "27/28成长公式仅用于认证已有具体原phase值，不在接纳/恢复生成缺失阶段或再乘一次阶段成长。原attack_multiplier_per_hit_bp另在phase系数阶段应用；格斗三截拳每ordinal原平威力37，各自4000bp，不能把37预乘3或再加40。同根多目标/多段共享已冻结声明基数，命中时各按原ordinal系数与目标适用性计算一次。",
+    "attack_accuracy": "原接纳父before的真实职业/装备/效果/上下文及原接纳触发合成attack_min/max和accuracy，实际武器攻击已在区间一次，不另把武器攻击加在平威力或伤害上。PvE攻击贡献仅真实PvE一次。刺客先发制人限定normal_attack，本武功即使总时长<=30也不得获得该命中。命中回调/暴击/次击token/连段普通系数不折入这四值；不消费原仅next-normal token。",
+    "power_composition_owner_ref": {
+      "file": "docs/contracts/武功威力气功采用.v1.json",
+      "pointer": "/skill_power_order"
+    },
+    "composition": "根flat_power_per_hit保存上述声明基数，不预混装备/气功平加或百分比。按原武功威力owner在命中阶段以已冻结历史接纳来源取合法平加，再合成该目标适用的百分比及向下取整，然后加本次原攻击抽值/乘phase系数；装备火/毒等各原贡献只入各自授权阶段一次。刀百战普通固定威力、普通专用modifier及刺客仅next-normal回避token不能借入武功；剑客/谭花灵天地token按原owner允许武功消费，但不折入这四冻结数值，独立取原token并仅首主目标一次落效。剑对怪百分比、神女原生群体资格与格斗非combo/对怪额外严格按原技能分类和该实际目标combat_kind判，不把主目标的怪物资格给全部范围目标。",
+    "immutable_sources": "接纳父完整before与历史rules_hash唯一保存本次各合法气功有效等级、真实武器实例/词条/强化及适用效果来源；根绑定原admission_event_id，整个根及后代仍引用时必须保该不可变完整来源。源不再合格/反气功改变/换装/升级只影响未来接纳；不能命中时读当前等级或重建旧武器。本次每目标适用修正与中间输入沿原damage receipt认证，不新增根上的第二角色快照/装备副本/派生总威力缓存；缺原父来源拒绝。",
+    "sampling": "通过实际几何/关系/生命等前置后才抽命中；失败不抽攻击/暴击。成功时闭区间含端点均匀取值，min=max不消费区间随机；接纳不预抽伤害。多hurtbox合并同实体一次，各原命中ordinal/目标分别沿原稳定次序调用，不重放抽样。",
+    "arithmetic": "各次乘加前检查安全范围；声明公式4L/phase成长、平加求和、百分比/阶段乘法均不得先溢出后floor截回。非法配置或候选整笔拒绝，不夹值补最小1；已付旧根按原不可变规则证明恢复，不换当前算法覆盖。",
+    "boundary": "本组件及完整武功根/多段发射/推进/弹体组合已采用；真实目标逐项结果、完整父before/after及历史来源闭包仍待，D1未通过。",
+    "root_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/player_martial_attack"
+    }
+  },
+  "martial_critical_snapshot": {
+    "schema_ref": {
+      "file": "docs/contracts/武功暴击快照.schema.json",
+      "pointer": ""
+    },
+    "fields": "原attack_martial_skill根critical_allowed及critical_chance_bp/critical_multiplier_bp/supercritical_chance_bp/supercritical_multiplier_bp_or_null五字段，不增加通用critical包装/预抽结果。原技能finishing_martial另沿真实原分类。",
+    "martial_source_ref": {
+      "file": "docs/contracts/武功致命气功采用.v1.json",
+      "pointer": ""
+    },
+    "super_source_ref": {
+      "file": "docs/contracts/刺客必杀与超必杀气功采用.v1.json",
+      "pointer": "/supercritical"
+    },
+    "bow_source_ref": {
+      "file": "docs/contracts/弓手箭矢与距离气功.v1.json",
+      "pointer": "/profiles/ordinary_critical_chance"
+    },
+    "freeze": "按原具体能力phase及原接纳父before/历史规则冻结critical_allowed、原角色普通暴击及合法具名贡献；已采用697直接技能当前源分类须逐一精确匹配，不能只因schema允许false就关闭原允许暴击/改费用。原phase显式false保持false：两个机会0、普通倍率15000、超倍率null，不被被动重新开启；没有明确phase分类拒绝。",
+    "ordinary": "基础沿23真实角色暴击来源，七武功具名源各须原职业/已学/有效正等级及前置；真武/梅每级100bp只加原普通暴击概率，合成其他合法同域概率后按该owner9500上限一次。甄显式finishing_martial排除真武贡献，不能按技能名判断；神女须原90任务实际交付。弓原会心每级50bp仍只加普通段，不单独抽数。没有这类正源时保原明确普通概率边界，不补被动效果或重算当前等级。",
+    "multipliers": "普通倍率基础15000；只有原梅玄武强击正资格时加50*冻结grade0..40，最高17000。其他职业普通倍率必须15000。刺客/弓且原phase允许时超倍率分别20000+100*冻结致手grade和20000；即使超概率0也保其原超倍率非null。其他十二职业超概率0/超倍率null；不能凭结构允许24000就向弓或其他职业借用刺客倍率。",
+    "partition": "仅刺客/弓S=min(4000,100*真实心神grade)，C=min(合格普通机会,9500-S)，须额外验C+S<=9500；C是超段之后的普通段宽度，不是包含超的累计阈值。其余职业S=0，普通机会依自身原owner。概率和/乘法逐项先验安全范围，游戏概率上限只用于合法来源合成，不能修复坏输入。",
+    "roll": "实际命中成功并完成原攻击取值及前置阶段后才处理暴击；可随机分区仅一次原uniform_integer(0,9999)：r<S为超，S<=r<S+C为普通，其余普通未暴击。S=C=0确定未暴击不抽，S=0/C=10000确定普通暴击不抽；禁止为超/普通/真武各抽一次、叠15000与20000倍率或同hurtbox重抽。逐目标/ordinal按原稳定顺序分别保原damage receipt结果。",
+    "lethal_tag": "原实际暴击结果且该已冻结真武绑定/正等级/非排除资格成立时，沿原owner带martial_lethal用于明确格斗保护；不另抽致命概率，不意味处决。梅暴击和超暴击不因命名自动获得真武标签。该资格从原不可变接纳父来源认证，原命中收据保实际标签，不再存第二root lethal布尔。",
+    "history": "冻结等级/技能分类/真实前置和概率倍率须与原接纳父完整before及rules_hash精确匹配；后来反气功/换装/当前任务或已学阶段不改旧根。缺原来源/非法跨职业组合/分区和越界拒绝，不在恢复补0/重新抽数。",
+    "boundary": "本组件及完整武功根/多段发射/推进/弹体组合已采用；真实目标逐项结果、完整父before/after及历史来源闭包仍待，D1未通过。",
+    "root_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/player_martial_attack"
+    }
+  },
+  "martial_admission_procs": {
+    "schema_ref": {
+      "file": "docs/contracts/武功接纳触发.schema.json",
+      "pointer": ""
+    },
+    "field": "原完整玩家攻击武功根martial_admission_procs，实际draw三字段数组，空[]表示全无抽样；不保存各处null占位、额外触发日志或派生增幅。原刺客保点/增伤两触发继续唯一assassin_finisher_snapshot_or_null，不在本数组重复。",
+    "sources": [
+      {
+        "file": "docs/contracts/狂暴与低生命攻击气功.v1.json",
+        "pointer": "/one_attack_enrage_equivalent"
+      },
+      {
+        "file": "docs/contracts/乐师和弦联动气功.v1.json",
+        "pointer": "/one_attack_final20"
+      },
+      {
+        "file": "docs/contracts/韩飞官血系气功采用.v1.json",
+        "pointer": "/action_order"
+      },
+      {
+        "file": "docs/contracts/梅柳真玄武与对抗气功采用.v1.json",
+        "pointer": "/one_action_attack40"
+      },
+      {
+        "file": "docs/contracts/卢风郎四枪与属性石气功.v1.json",
+        "pointer": "/weapon_attribute_stone_double"
+      },
+      {
+        "file": "docs/contracts/甄凤柏内功联动气功.v1.json",
+        "pointer": "/weapon_boost500"
+      },
+      {
+        "file": "docs/contracts/枪格斗狂风与破甲气功.v1.json",
+        "pointer": "/martial_duel_attack20"
+      },
+      {
+        "file": "docs/contracts/剑系回避与火凤气功采用.v1.json",
+        "pointer": "/temporary_martial_power"
+      },
+      {
+        "file": "docs/contracts/医师治疗与攻击联动气功.v1.json",
+        "pointer": "/profiles"
+      },
+      {
+        "file": "docs/contracts/范围目标气功采用.v1.json",
+        "pointer": "/zhen_extra_four"
+      }
+    ],
+    "identity": "十四具名qigong_id须与原binding、本人职业/已学/正有效等级和该完整技能/阶段资格精确一致；只借用原normal触发schema内有效等级/布尔两个标量类型，不继承其仅八源/最多一源策略。不是任意当前buff扫描，未知源或任意跨职业组合拒绝。",
+    "order": "全费用/目标/占用等资格先通过。剑客先具名一次狂暴、后惊天威力；医师先无中，仅其实际成功且万物自身正资格才抽万物；韩飞官先原狂血更新，再根新血层2且狂血/极血正资格时极血，再合格行风。各项因明确无资格/无收益不抽而从该固定序列删去，不能重排。甄先武器增幅后霹雳弹指（各自无资格则删去），霹雳在真正选目标列表前一次抽样；其余具名职业至多本数组一抽；刺客专用两抽沿原owner，不能与本数组混源。",
+    "random": "本数组每项对应原接纳random_flow内唯一purpose=\"martial_admission_proc:\"+该qigong_id，low0/high9999，原本人character流按上述真实顺序uniform_integer。一般p=min(4000,100*有效等级)；韩行风额外概率按本次新血层2及原极血等级加25*极血有效等级再封4000，不能误套普攻基础100grade。每次调用可拒绝多块；不在数组复制result随机值/块区间，triggered须与原真实draw及该合法p精确匹配。",
+    "sword": "狂暴原实际攻击倍率>=12000不抽；惊天正资格每次合法武功独立抽一次，成功同原接纳创建/替换原martial_power等级/180，且本根可使用本成功新来源。失败沿接纳前仍存活且当前资格正的原旧buff取其冻结系数；不以失败清旧buff/重设余时。该原临时威力只作用平武功威力，不把狂暴或自身被动再乘攻击区间。",
+    "physician": "无中失败或不抽则万物不抽；无中成功且万物正资格才记录万物实际true/false。原20%增幅部分在万物成功时变40%，不得乘整个最终伤害2、不补五阶限制；无中结果不重复触发恢复/狂意。新增两源的具体增幅位置沿原医师owner/23，不与乐师天龙20%混为同一职业源。",
+    "han": "狂血仅正资格且原声明冷却正的敌对攻击武功。未过期旧层<2时实际抽一次增层，达2不抽狂血但刷新真实600；无狂血正资格不造层/血增伤。极血仅狂血正且本根实际新层2，正等级时独立抽；行风额外概率同新层2资格，不能将极血结果false误解为没有其概率增量。血层/极血增伤部分先受天魔之力50grade基点一次，和行风2500部分相加沿原23增幅阶段一次；不把这些折入攻击区间/声明flat_power。根后代保原接纳父before及同笔血层after/抽样，不从命中时当前层数推断旧根。",
+    "weapon_pools": "卢成功只取原真实武器火/毒属性石池；甄成功只取原允许武器攻击池及实际额外500费用证明，沿原normal_weapon_proc_pool相同四键结构，不复制整件装备。武功卢毒额外准确2*stage且额外武功平加8*stage，火只额外攻击5*stage；不把毒平加折入声明基数或普攻。卢/甄未成功及其他源均pool null。真正原武器/资格/范围/费用与同笔支付另验。",
+    "other_sources": "梅仅真实兼容玄武弓；枪仅原具名枪源及实际合法NPC武者决斗，格斗没有本源，实际狂暴>=12000不抽。其余资格/组合位置沿各source唯一owner，本数组不授权对派生/治疗/状态爆发抽样。",
+    "tokens": "剑/谭天地token可被本根独立取，复用taken_next_attack_bonus的evaded_attack_stack分支，禁止刺客evade_next_normal_bonus分支。卢原星力按原persistent_star_power_state独立消费；这些是既有凭证消费，不是新接纳抽样，不能加进本数组或借消费产生新buff。",
+    "atomicity": "原接纳父before/完整费用与源变化after、数组、原武器池/特殊快照、原根e0及全部随机同笔；失败整候选不发布任何抽样/费用/buff。实际拒绝不生成数组/root，已接纳后打空/停止不退费、回滚血层或重抽；重放只回原完整结果，保其历史来源及真实触发次序。",
+    "boundary": "本组件及完整武功根/多段发射/推进/弹体组合已采用；真实目标逐项结果、完整父before/after及历史来源闭包仍待，D1未通过。",
+    "zhen_extra_targets": "霹雳弹指仅根武功且有原主目标，实际源有效正等级时接纳抽一次p=min(4000,100grade)；不要求武器增幅成功，不额外扣500。成功只给原单体首真实主目标HP命中的独立4目标溅射资格，或原生area各ordinal原base集合之外的最多4个唯一额外目标资格；这些额外目标沿原owner禁止暴击/进攻递归，不把根maximum_targets_per_hit永久加4或改native_target_kind。原base目标和extra有不同命中标签，完整发射/子结果须分别证明。",
+    "root_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/player_martial_attack"
+    }
+  },
+  "taken_lu_star_power": {
+    "field": "原攻击武功根taken_lu_star_power_or_null",
+    "schema_ref": {
+      "file": "docs/contracts/卢风郎星力状态.schema.json",
+      "pointer": ""
+    },
+    "source_owner_ref": {
+      "file": "docs/contracts/卢风郎四枪与属性石气功.v1.json",
+      "pointer": "/persistent_star_power_state"
+    },
+    "scope": "仅卢风郎已合法接纳的自身根attack_martial_skill；其他职业/普通攻击/治疗/辅助/衍生不取且字段null。复用原活跃星力两字段结构，不新增消费包装、等级/倍率/已消费布尔或重复来源日志。",
+    "admission": "完整费用/武器/目标/已学阶段/冷却与空闲资格先通过；若真实before.effects.lu_star_power非null，逐字段复制trigger_event_id和remaining_steps，同笔将唯一活跃源清null并安装新根。拒绝不取不清，无活跃源必须null。原owner已获得星力的效力不因技冠临时有效0取消；不凭恢复后的当前等级重建一份。",
+    "proof": "原触发须完整证明流星成功/正技冠/未选集中弱点与原源身份，taken源精确等接纳父before两字段，after活跃源null。历史remaining_steps仅原消费时证据，不在根推进时递减。原接纳父与触发历史在根/后代仍引用时保留，不能只看当前buff或同名ID。",
+    "composition_owner_ref": {
+      "file": "docs/contracts/武功威力气功采用.v1.json",
+      "pointer": "/skill_power_order"
+    },
+    "composition": "明确本地次序：先按原目标资格合成声明平威力+合法平加及百分比并向下取整，得到该目标flat skill-power分量F；已取星力时检查F*2安全后翻倍一次，再加原攻击抽值/应用原phase系数。不是仅倍声明基数，不倍攻击区间/整体伤害，也不改变原flat_power_per_hit或为每目标重新消费。0分量可合法仍0。",
+    "same_root": "本根有本快照则同根弱点集中分支不合格且不抽样。后续本根原首主目标真实伤害可按原流星/技冠条件生成一份新的活跃星力，但不能倒灌同根已消费快照；生成/刷新源与历史消费是两次有真实先后结果的转移，重放不重建或二次消费。",
+    "lifetime": "接受后漏打/几何失效/中断/死亡不退还，不恢复至当前effects。原根正常完成但子项/历史仍引用时保快照；原终态死亡按原进攻停止owner，不因历史快照而继续伤害。",
+    "boundary": "本组件及完整武功根/多段发射/推进/弹体组合已采用；真实目标逐项结果、完整父before/after及历史来源闭包仍待，D1未通过。",
+    "root_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/player_martial_attack"
+    }
+  },
+  "martial_attack_dispatch": {
+    "schema_ref": {
+      "file": "武功发射结果.schema.json",
+      "pointer": ""
+    },
+    "root_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/player_martial_attack"
+    },
+    "identity": "按71整数确定JSON UTF8计算event_id=martial-dispatch:加SHA256([\"martial_attack_dispatch\",world_id,authority_profile_id,action_id,hit_ordinal])；弹体ID=martial-projectile:加SHA256([\"martial_attack_projectile\",world_id,authority_profile_id,action_id,hit_ordinal])。不含当前T、目标或抽样结果。同根同ordinal重放只返回原决定，同ID异正文拒绝。",
+    "due": "每个原offset[i]仅在真实动作步k=W+1+offset[i]发射，ordinal=i且0..2；accepted_world_step严格早于当前T。动作只在movement_and_due_capture阶段沿真实时钟推进，在该阶段原实体移动之后取几何。接纳当步不推进；不存在用当前T补发历史ordinal或动画驱动发射。",
+    "shape": "近战/声波kind=shape，严格十一键。按具体原技能冻结形状和本步真实关系、生命、障碍筛选；原主目标合格才优先，其他目标按原距离/ID排序，target_actor_ids不超过该原根maximum_targets_per_hit，空数组仍消费本ordinal。候选不是已命中，逐目标实际落效前重验。",
+    "extra_targets": "extra_target_actor_ids与原生列表互斥且最多四项。仅原生area且接纳霹雳成功时，从本ordinal原形状剩余合法目标选取；这些额外目标禁暴击及进攻触发，不修改原生类型或原cap。原生single此列表必须为空，其真实原主目标首次实际HP损失后才沿范围目标气功原owner生成5000mm额外溅射；无该实际损失不得预发溅射。",
+    "projectile": "kind=projectile严格十键，仅projectile_id，无两形状列表；每ordinal建立独立真实发射原点及锁定朝向的唯一弹体，原主目标只归根。发射当步不移动，后续沿martial_projectile及martial_projectile_advance，单个ID不证明完整弹体已生成。",
+    "atomicity": "原推进父一次共同保存e的真实推进、唯一发射正文、原根dispatch_event_ids顺序前缀追加，以及原批候选或实际新弹体；事件正文只由原父持有。形状候选按原action/target/ordinal键进入本步批，不能向已冻结消费批插入旧键。合法停止后不补发、不伪造空挥、不改e为总时长。",
+    "recovery": "按真实e及停止原决定重算已到期ordinal前缀，逐一核稳定ID、原父、scope、原几何、两目标列表和已消费候选的真实结果。队列为空不证明未发射。原根、接纳、父before与历史规则保到后代及来源引用全部结束。",
+    "boundary": "多ordinal发射及专用推进/弹体结构已采用；完整真实父/碰撞来源及Godot执行仍待。",
+    "advance_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/martial_attack_advance"
+    }
+  },
+  "player_martial_attack": {
+    "schema_ref": {
+      "file": "玩家攻击武功.schema.json",
+      "pointer": ""
+    },
+    "registry_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/direct_combat_registries"
+    },
+    "dispatch_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/martial_attack_dispatch"
+    },
+    "fields": "原玩家attack_martial_skill唯一完整根；四十五公共字段，近战/声波四十七、单体投射四十八、范围投射四十九。引用原组件字段，不重复存geometry/timing/角色面板或派生增幅。",
+    "admission": "admission_event_id必须解析原outcome=admitted且request.attack_kind=attack_martial_skill的结果；ID/请求技能及阶段、会话、命令、源生命、world/scope/T/rules_hash逐项相同。原明确主目标必非null且与原请求一致；yaw由原aim_turn_u16精确转换，原真实武器实例和资格、已学阶段、路线/升职/等级、上下文、资源/冷却/占用须由同一接纳父before认证。初建e0、空dispatch、stop=null；不在接纳当步移动弹体或抽命中。",
+    "source_binding": "先按direct_martial_selection选原697技能/4124阶段，再从原七来源精确核几何、时序、倍率、原生类型、目标cap、combo/finishing/critical_allowed与基础数值。英雄external阶段沿教学原值，升天按原base_target_cap分型；四数值沿martial_attack_input，不重复成长。schema允许的几何不能替换该实际技能原几何，职业前缀条件只收窄有限ID白名单，不授权新ID。",
+    "frozen_sources": "十四接纳触发只保存真实调用的有序序列，刺客必杀两专用触发沿独立快照；成功武器池、剑/谭次击及卢星力消费逐项核同一原before/after与随机用途、费用，不能重复抽取/消费/退款。刺客下次普攻源禁止武功消费。接纳父完整来源及历史规则必须保留；不从当前角色气功/装备重建已付根。",
+    "joint_checks": "完整字段先验后联合验证实际原源、攻击区间顺序、暴击段和<=9500、时序offset严格递增且小于A、W+A+R和e边界、增程/寿命精确算术。melee_combo必须combo=true，其余false；梅教学投射明确[0,6]而非近战连击，不能把combo=false当单发条件。source_binding仍负责逐技能真实offset及倍率。",
+    "target_damage": "原primary身份全程冻结，其他候选不能晋升原主目标。原生区域的次目标比例沿base_secondary_damage_bp；枪5000及灵甲替换沿原来源，在该次普通直接伤害计算后、百分比保护前处理，不重复乘威力。霹雳新增目标沿其专属禁暴击/禁进攻触发规则。目标特定气功与防御在真实目标落效时沿原owner处理，不反写根或反馈当前ordinal已冻结源。",
+    "progress_and_stop": "dispatch_event_ids仅实际已发射ordinal顺序前缀，逐项稳定ID与原决定一致；e经过已到期步必须有发射或此前合法停止证明，不允许跳ordinal、重复ID或提前登记未来发射。停止保最后真实e与唯一原stop_event；不将e设总时长冒充完成，不退费/重开冷却。完成只释放本占用，不按普通攻击完成创建或重置普攻连段窗口。",
+    "retention": "原scope以action_id保存全文一次，原角色占用和后代只引用；e到总长后仍按弹体/候选/派生/历史来源依赖保留。完整原接纳、推进父、规则和角色/world before/after证明不齐时拒绝恢复，不用当前模板修补。",
+    "boundary": "完整武功根、发射、专用推进/弹体结构已采用；真实完整父与scope/world/角色来源闭包及Godot仍待，D1未完成。",
+    "advance_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/martial_attack_advance"
+    }
+  },
+  "martial_projectile": {
+    "schema_ref": {
+      "file": "武功弹体状态.schema.json",
+      "pointer": ""
+    },
+    "terminal_schema_ref": {
+      "file": "武功弹体状态.schema.json",
+      "pointer": "/$defs/terminal"
+    },
+    "advance_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/martial_projectile_advance"
+    },
+    "ownership": "原scope martial_projectiles按稳定projectile_id保存唯一六字段正文；原推进父历史仅保存一次终止正文，弹体只引用terminal_event_id。原根/发射双向认证三ID与ordinal、scope及冻结数值/几何，不另存ordinal/面板/朝向/位置/余寿命。",
+    "trajectory_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/normal_projectile"
+    },
+    "trajectory_reuse": "明确复用normal_projectile的creation发射脚位置+[0,1,0]及Godot方向、first_move实际获步/发射当步不移动、movement分数精确步距与collision首碰实心优先/实体ID排序规则；范围/弹速/半径/寿命改为本真实武功根值，不借普通profile。只引用公共轨迹语义，不借用普通弹体ID或普通终止正文。每ordinal原点独立取真实发射步位置。",
+    "impact": "actor_contact先保存真实首碰目标/接触距离。原生single的target_actor_ids严格只有该首碰生命；extra_target_actor_ids=[]。原生area以精确首碰点为冲击中心，用原area_impact_radius_mm及LOS筛本步合法活体，原主目标合格优先，其余按中心距离/ID取原cap；首碰目标不因此成为原主目标。原生列表可因冲击LOS或实时资格为[]，接触仍终止。成功霹雳额外四目标只从同范围剩余合格项选，列表互斥、禁暴击及进攻触发；不得另扩大半径。单体霹雳在真实原主目标首次HP损失后沿原owner处理，不由接触凭空生成。",
+    "terminal": "终止八公共键，actor_contact另保两个实际冻结候选列表为十键；其余三原因禁止这两字段。各列表创建原action/target/ordinal批候选而非直接改HP。四原因必要身份及互斥沿原普通终止对应约束；耗尽距离精确R且e=L，碰撞距离在当步区间，范围终点同距接触先于耗尽，合法offensive_stop保原e/已走距离且不生成飞行推进结果。",
+    "identity": "event_id=martial-projectile-terminal:加SHA256(71确定JSON UTF8数组 [\"martial_projectile_terminal\",projectile_id])，不含T/目标/列表/原因或距离。每弹体只一正式终止，同ID异正文拒绝。不得用普通终止前缀。",
+    "atomicity": "原父同笔安装e、唯一终止、冻结冲击列表及原批候选，并消费队首；所有引用回指唯一原根及发射。已空队列不证明没碰撞；原终止及后代/历史仍被引用则保留完整来源。有限坐标、真实几何与共同父碰撞证明必须严格认证。",
+    "boundary": "六字段弹体、四终止原因及冲击候选结构已采用；完整真实碰撞来源和scope/world/角色父before/after、Godot实际扫掠尚待。"
+  },
+  "martial_attack_advance": {
+    "schema_ref": {
+      "file": "武功推进结果.schema.json",
+      "pointer": ""
+    },
+    "worklist_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/normal_offense_advance_worklist"
+    },
+    "eligibility": "movement_and_due_capture真实角色移动后，仅原队首获授根且accepted<T、本人原生命/占用合法、stop=null、e<W+A+R推进；同world步至多一次，拒绝缺失原父或按T差补跑。接纳当步不推进，接纳因旧占用被拒绝不在本阶段自动重试。",
+    "identity": "event_id=martial-advance:加SHA256(71确定JSON UTF8数组 [\"martial_attack_advance\",world_id,authority_profile_id,action_id,world_step])；不含前后e或发射/目标。同ID异正文拒绝。",
+    "joint_checks": "十键结果before等于原父before根e，after=before+1且<=原总时长，并等于原父after；scope/T/获步证明逐项同原根。除e及本步实际到期append一个发射ID外不改任何冻结字段。严格递增offset保证每单步最多一个ordinal，真实after=W+1+offset[i]时dispatch非null且指同root/scope/T/ordinal原决定并成为根列表第i项；其他步该字段null，不能重复此前发射。",
+    "completion": "仅原未停止根before=总长-1、after=总长首次正常完成，原占用释放同笔；武功完成不创建普攻连段机会，不额外重置或延长已有窗口。空挥/未中仍可完成，完成不删除在途弹体或历史；停止由原停止结果处理且不伪造本推进。",
+    "atomicity": "真实单步、原发射及形状候选或新弹体、占用完成释放、十键子结果及移除原队首由同一完整父决定提交。原父持唯一子结果，不新增根最新推进ID、完成标志、独立日志。",
+    "boundary": "武功单步推进结构和到期/完成语义已采用；完整共同父/真实来源及Godot运行仍待。"
+  },
+  "martial_projectile_advance": {
+    "schema_ref": {
+      "file": "武功弹体推进结果.schema.json",
+      "pointer": ""
+    },
+    "worklist_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/normal_offense_advance_worklist"
+    },
+    "projectile_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/martial_projectile"
+    },
+    "identity": "event_id=martial-projectile-advance:加SHA256(71确定JSON UTF8数组 [\"martial_projectile_advance\",world_id,authority_profile_id,projectile_id,world_step])。同一真实scope步只一结果，同ID异正文拒绝。",
+    "joint_checks": "只对原冻结队首未终止旧弹体移动一次，原dispatch.world_step<T；before等于原父before飞行e，after=before+1<=本原根L且等于原父after。无终止须after<L；有终止必须解析本步本弹体actor/solid/range原结果且等于弹体after引用。offensive_stop保e不移动，不生成本飞行结果。施法者后摇结束不阻合法飞行，实际死亡/停场沿原owner。",
+    "atomicity": "精确扫掠、推进及必要终止/冲击候选与移除队首同一完整父决定；命中抽数在combat原批，接触时不抽。原冻结全集与历史前缀证明本T不重复或漏移，新弹体不补本T。",
+    "boundary": "弹体十键推进结构采用；原真实碰撞来源、完整共同父与Godot尚待。"
+  },
+  "player_on_foot_motion_owner_ref": {
+    "file": "玩家徒步移动.v1.json",
+    "pointer": ""
+  },
+  "auto_route_motion_owner_ref": {
+    "file": "自动寻路与移动.v1.json",
+    "pointer": "/motion"
+  },
+  "adopted_player_action_occupation": {
+    "ownership": "占用是从原唯一正文/原生命周期推导的查询，不新增player.current_action、占用bool、每角色动作日志或第二完整根。既有NPC AI严格accepted_action_id_or_null保原owner，不能据玩家派生选择删其字段。完整玩家占用联合未完成前，未知动作类型/缺表/缺源是错误，不以六类已采用动作均无占用补Idle。",
+    "predicates": "普通攻击/攻击武功仅本人源生命、stop=null且e<windup+active+recovery为占用；闪避stop=null且e<24；辅助位移stop=null且e<cast+movement+recovery。采集stop=null且e<原duration_steps（竹36、木柴180）。竹e13落效后仍占用至e36，invalidated亦不提前释放；木柴最终失败在e180自然释放，此前取消由原父停止。辅助位移首次阻挡引用非null仍保后续阶段占用。e等于总长或stop非null的历史根不占用；各根阶段/停止及本人生命来源必须已认证，不能对坏根先算false再隐藏错误。 普通辅助stop=null且e<cast_steps+recovery_steps占用；轻功零后摇在第cast步落效/完成同父释放，不加连段窗口。",
+    "uniqueness": "同authority/world内同一实际player source_actor_id，所有真实scope和这五张动作正文表联合最多一个占用根（直接攻击表含普通/武功两型）。同scope两个、跨表两个或跨scope两个占用都拒绝原候选/坏恢复，不挑最新/排序第一个，不自动取消一个。真实迁移沿原父先停止旧scope动作，不能用当前map筛选把旧占用藏掉。",
+    "admission": "本T接纳前看原阶段before，旧根即使本T稍后后摇结束仍占用；同T已成功接纳从原各类完整结果/根accepted_world_step认证，不能停止后再接第二动作。仅原成功决定同父安装e0根并占用，玩法拒绝不改变旧根；无第二成功集合。新根接纳T不位移/推进，不能用e0当未占用。",
+    "completion": "各真实推进自然完成或原合法生命周期停止才同原父释放其占用；完成不删除仍有历史/后代引用的根。停止和自然完成不能混写，恢复必须核原推进/停止来源，冷却0/资源量/动画Idle不证明动作已结束。",
+    "movement": "真实普通徒步/自动移动前联合原所有动作owner查询；任一占用阻止普通平移/转身。闪避/辅助位移只执行其自己专用推进，所有实体移动后才冻结进攻队列；本T完成一个专用动作不再补普通移动。完整移动阶段父与其他动作仍待。 木柴原合法移动意图触发取消须先在原输入/取消父停止并释放本人预留，不能一边保活跃采集根一边普通移动；完整该父与本T接纳顺序仍待，不能隐式放行。",
+    "gather_owner_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": ""
+    },
+    "support_owner_ref": {
+      "file": "辅助武功采用.v1.json",
+      "pointer": "/cast_action_protocol"
+    }
+  },
+  "ordinary_passive_aggro_owner_ref": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/ordinary_ai"
   }
 }

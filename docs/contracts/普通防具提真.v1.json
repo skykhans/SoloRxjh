@@ -1,8 +1,8 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-15",
   "status": "project_design_not_implemented_not_registered",
-  "scope": "已定义1325件中的119件真防具，117条精确普通→真配方及2条阻塞；77基础值未决的真件不在这119件内，不造近似输入。",
+  "scope": "已定义1325件中的119件真防具，118条精确普通→真配方及1条阻塞；含男刀客正派轩舞龙铠140→150的明确项目配方。77基础值未决的真件不在这119件内，不造近似输入。",
   "source_policy": {
     "material_basis_ref": {
       "file": "英雄主武器晋阶与提真.v1.json",
@@ -18,7 +18,7 @@
         "pointer": "/items"
       }
     ],
-    "adoption": "普通/真身份来自50来源目录。既有130级/强化7及材料依据来自英雄武器，防具范围、各1材料、手续费500万、必成/降强化2/同血统替换/合法成长保留为本项目采用，不伪称官网防具全规则。源武器宝器不适配防具，另建防具专用项目材料。"
+    "adoption": "普通/真身份来自50来源目录。既有130级/强化7及材料依据来自英雄武器，防具范围、各1材料、手续费500万、必成/降强化2/同血统替换/合法成长保留为本项目采用，不伪称官网防具全规则。源武器宝器不适配防具，另建防具专用项目材料。 男刀客正派轩舞龙铠采用140普通→150真件的单条项目等级晋升配方，按源/目标各自资格双验；原源等级不改写，不开放其他异等级/异路线映射。"
   },
   "shared_material_refs": [
     {
@@ -3097,24 +3097,36 @@
       "silver_fee": 5000000,
       "success_probability_bp": 10000,
       "random_draw_required": false
-    }
-  ],
-  "blocked_mappings": [
+    },
     {
+      "recipe_id": "ordinary_armor_to_true_armor_regular_blade_f1a052b1e6d8",
+      "source_item_id": "armor_regular_blade_f1a052b1e6d8",
+      "source_item_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/14"
+      },
       "target_item_id": "armor_regular_blade_750fcf50a09a",
       "target_item_ref": {
         "file": "普通防具基础定义.v1.json",
         "pointer": "/items/15"
       },
-      "expected_source_name": "轩舞龙铠(男)",
-      "same_name_candidate_refs": [
+      "consumed_materials": [
         {
-          "file": "普通防具基础定义.v1.json",
-          "pointer": "/items/14"
+          "item_id": "diamond_water_jade",
+          "quantity": 1
+        },
+        {
+          "item_id": "armor_true_conversion_treasure",
+          "quantity": 1
         }
       ],
-      "reason": "same_name_candidates_have_different_adopted_level_or_route_or_body_type_no_exact_input"
-    },
+      "silver_fee": 5000000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "adoption_basis": "明确项目配方：同职业/正邪/体型/部位/武勋身份的140级普通轩舞龙铠(男)提真为150级真-轩舞龙铠(男)。两件原定义及来源等级保持；报价/提交须同时满足源140级九转与目标150级十转全部资格。该单条等级晋升不推广为其他不同等级/路线输入，不宣称官网已载明此配方。"
+    }
+  ],
+  "blocked_mappings": [
     {
       "target_item_id": "armor_regular_fighter_f873fc48a4e2",
       "target_item_ref": {
@@ -3132,7 +3144,16 @@
           "pointer": "/items/1127"
         }
       ],
-      "reason": "same_name_candidates_have_different_adopted_level_or_route_or_body_type_no_exact_input"
+      "reason": "source_name_route_conflict_female_true_tianyuan_is_evil_but_exact_named_normal_inputs_are_righteous",
+      "same_route_different_name_candidate_ref": {
+        "file": "普通防具基础定义.v1.json",
+        "pointer": "/items/1128"
+      },
+      "existing_same_route_conversion_ref": {
+        "file": "普通防具提真.v1.json",
+        "pointer": "/recipes/72"
+      },
+      "conflict_resolution_boundary": "原真-天元圣袍女款来源路线为邪，普通同名天元圣袍男女均为正；已有邪派女普通邪元圣袍精确配至另一独立真-邪元圣袍女款。缺的是本目标同名且同路线输入及该名称/路线冲突的有效说明，不是不存在邪派女普通件。不得把两真件ID合并、将正输入转邪、改来源路线或复用现有配方结果给本目标；须具名来源解释或另行明确的项目映射设计才解除。"
     }
   ],
   "service_policy": {

@@ -1,0 +1,349 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:support-cast-effect:v1",
+  "$comment": "51辅助施放唯一十一键到期落效子结果；逐接纳目标同序一项，不复制效果源/属性面板或独立结算日志。真实恢复量、来源应用与共同父另验。 狂意护体仅原医师HP恢复实际正回复后一次本人流；null无抽、false实际抽失败。原能力/职业/等级/受益名单与效果after须完整父联合认证。 医师轻功/持续增益与三觉醒实际应用时的等级快照按原action能力精确分派，不存派生总时长/属性副本。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "event_id",
+    "action_id",
+    "recipients",
+    "physician_heal_defense_proc_or_null",
+    "random_flow",
+    "activation_modifier_snapshot_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "event_id": {
+      "$ref": "urn:solorxjh:support-cast-effect:v1#/$defs/event_id"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/$defs/action_id"
+    },
+    "recipients": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "$ref": "urn:solorxjh:support-cast-effect:v1#/$defs/recipient"
+      }
+    },
+    "physician_heal_defense_proc_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "effective_grade",
+            "wuzhong_effective_grade",
+            "triggered"
+          ],
+          "properties": {
+            "effective_grade": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40
+            },
+            "wuzhong_effective_grade": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 40
+            },
+            "triggered": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "random_flow": {
+      "$ref": "urn:solorxjh:random-decision-flow:v1"
+    },
+    "activation_modifier_snapshot_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "jiutian_effective_grade"
+          ],
+          "properties": {
+            "jiutian_effective_grade": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 40
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "jiutian_effective_grade",
+            "xixing_effective_grade"
+          ],
+          "properties": {
+            "jiutian_effective_grade": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 40
+            },
+            "xixing_effective_grade": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 40
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "huolong_wending_effective_grade"
+          ],
+          "properties": {
+            "huolong_wending_effective_grade": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 40
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "event_id": {
+      "type": "string",
+      "minLength": 79,
+      "maxLength": 79,
+      "pattern": "^support-effect:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "recipient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_actor_id",
+        "outcome",
+        "skip_reason_or_null",
+        "hp_recovered",
+        "mana_recovered"
+      ],
+      "properties": {
+        "target_actor_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "outcome": {
+          "enum": [
+            "applied",
+            "skipped"
+          ]
+        },
+        "skip_reason_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "enum": [
+                "target_dead",
+                "target_left_scope",
+                "party_changed",
+                "out_of_range",
+                "blocked_line_of_sight",
+                "hp_recovery_blocked",
+                "mana_recovery_blocked",
+                "no_missing_resource",
+                "source_mode_changed",
+                "source_weapon_changed"
+              ]
+            }
+          ]
+        },
+        "hp_recovered": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "mana_recovered": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "applied"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "skip_reason_or_null": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "skip_reason_or_null": {
+                "type": "string"
+              },
+              "hp_recovered": {
+                "const": 0
+              },
+              "mana_recovered": {
+                "const": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "physician_heal_defense_proc_or_null": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "recipients": {
+            "contains": {
+              "properties": {
+                "outcome": {
+                  "const": "applied"
+                },
+                "hp_recovered": {
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "outcome",
+                "hp_recovered"
+              ]
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "owner_kind": {
+                      "const": "character"
+                    },
+                    "draws": {
+                      "minItems": 1,
+                      "maxItems": 1,
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "physician_heal_rage_defense"
+                          },
+                          "low": {
+                            "const": 0
+                          },
+                          "high": {
+                            "const": 9999
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "activation_modifier_snapshot_or_null": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "recipients": {
+            "contains": {
+              "properties": {
+                "outcome": {
+                  "const": "applied"
+                }
+              },
+              "required": [
+                "outcome"
+              ]
+            },
+            "items": {
+              "properties": {
+                "hp_recovered": {
+                  "const": 0
+                },
+                "mana_recovered": {
+                  "const": 0
+                }
+              }
+            }
+          },
+          "physician_heal_defense_proc_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

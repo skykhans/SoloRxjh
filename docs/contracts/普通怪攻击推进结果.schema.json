@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-monster-attack-advance:v1",
+  "$comment": "二十种公共普通怪十键真实攻击推进子结果；通常由movement_and_due_capture父持有，e36→37仅由原combat队首伤害共同父持有。不是玩家发射结果；after=before+1、实际获步/来源/根前后与共同提交另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "action_id",
+    "before_elapsed_steps",
+    "after_elapsed_steps",
+    "hit_result_event_id_or_null"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 81,
+      "maxLength": 81,
+      "pattern": "^ordinary-advance:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "type": "null"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+    },
+    "before_elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 120
+    },
+    "after_elapsed_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 121
+    },
+    "hit_result_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:combat-damage-identity:v1#/$defs/event_id"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "before_elapsed_steps": {
+            "const": 36
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "after_elapsed_steps": {
+            "const": 37
+          },
+          "hit_result_event_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "hit_result_event_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

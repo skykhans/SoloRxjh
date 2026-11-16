@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:normal-projectile-advance:v1",
+  "$comment": "原movement父决定持有的弹体十键实际推进结果；每次只处理一真实飞行步。原根L、前后+1、扫掠终止及同笔候选另验；合法停止未移动不冒充本结果。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "projectile_id",
+    "before_completed_flight_steps",
+    "after_completed_flight_steps",
+    "terminal_event_id_or_null"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 90,
+      "maxLength": 90,
+      "pattern": "^normal-projectile-advance:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "projectile_id": {
+      "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/$defs/projectile_id"
+    },
+    "before_completed_flight_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 82
+    },
+    "after_completed_flight_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 83
+    },
+    "terminal_event_id_or_null": {
+      "$ref": "urn:solorxjh:normal-projectile-state:v1#/properties/terminal_event_id_or_null"
+    }
+  }
+}

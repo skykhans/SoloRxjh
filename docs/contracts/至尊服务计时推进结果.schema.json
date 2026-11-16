@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:supreme-service-clock-result:v1",
+  "$comment": "原世界级Playing计时父内逐档案七键结果，不是scope/逐角色计时或独立日志。原会话/档案来源、before/after同source及恰扣一步、实际授予和共同保存另验；1到0直接构成到期事实，不存第二到期bool。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "world_step",
+    "rules_hash",
+    "profile_id",
+    "service_before",
+    "service_after"
+  ],
+  "properties": {
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "rules_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "service_before": {
+      "$ref": "urn:solorxjh:supreme-service-state:v1"
+    },
+    "service_after": {
+      "$ref": "urn:solorxjh:supreme-service-state:v1"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "service_before": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "service_after": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "service_after": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "service_before": {
+            "type": "object",
+            "required": [
+              "remaining_steps"
+            ],
+            "properties": {
+              "remaining_steps": {
+                "maximum": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "service_after": {
+            "type": "object",
+            "properties": {
+              "remaining_steps": {
+                "const": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "service_before": {
+            "type": "object",
+            "required": [
+              "remaining_steps"
+            ],
+            "properties": {
+              "remaining_steps": {
+                "minimum": 2
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "service_after": {
+            "type": "object",
+            "properties": {
+              "remaining_steps": {
+                "minimum": 1,
+                "maximum": 9007199254740990
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "clock_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "first_world_step",
+        "last_world_step",
+        "service_before",
+        "service_after"
+      ],
+      "properties": {
+        "first_world_step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "last_world_step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "service_before": {
+          "$ref": "urn:solorxjh:supreme-service-state:v1"
+        },
+        "service_after": {
+          "$ref": "urn:solorxjh:supreme-service-state:v1"
+        }
+      },
+      "$comment": "候选连续区间四键投影，world/authority/profile/rules从原父绑定。不得含1到0步，来源与角色/个人链不得跨界；范围顺序、精确算术及来源另验。不是已采用的共享日志替代或裁剪凭证。",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "service_before": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "service_after": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "service_after": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "service_before": {
+                "type": "object",
+                "properties": {
+                  "remaining_steps": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "service_after": {
+                "properties": {
+                  "remaining_steps": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "not": {
+            "properties": {
+              "service_before": {
+                "type": "object",
+                "properties": {
+                  "remaining_steps": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "service_before": {
+                "type": "object",
+                "properties": {
+                  "remaining_steps": {
+                    "minimum": 2
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "service_after": {
+                "properties": {
+                  "remaining_steps": {
+                    "minimum": 1,
+                    "maximum": 9007199254740990
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dodge-command:v1",
+  "$comment": "六键闪避意图，轴/镜头沿徒步输入；不接受客户端位置、体力、时刻、无敌或动作结果。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "play_session_identity",
+    "command_id",
+    "move_x",
+    "move_forward",
+    "camera_yaw_turn_u16"
+  ],
+  "properties": {
+    "kind": {
+      "const": "player_dodge"
+    },
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/play_session_identity"
+    },
+    "command_id": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/command_id"
+    },
+    "move_x": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/move_x"
+    },
+    "move_forward": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/move_forward"
+    },
+    "camera_yaw_turn_u16": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/camera_yaw_turn_u16"
+    }
+  }
+}

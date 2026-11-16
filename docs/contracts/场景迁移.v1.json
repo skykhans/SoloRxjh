@@ -1,0 +1,118 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-16",
+  "status": "公共交通与跨scope单步职责设计采用；完整迁移父结构和Godot未完成",
+  "source_owner_refs": [
+    {
+      "file": "世界图谱.v1.json",
+      "pointer": "/travel_policy"
+    },
+    {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/world_step_lifecycle"
+    },
+    {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/scope_step_lifecycle"
+    }
+  ],
+  "scope": "同一已启用会话/world/authority内真实位置与scope归属转换。当前公共交通适配精确为世界图谱60条kind=public_travel；其余8固定私场交通及37选择器不能按公共门处理。跨世界/新会话由原角色会话准入决定，不是本迁移。",
+  "public_travel": {
+    "command": "原四键kind=player_public_travel/play_session_identity/command_id/connection_id，不接受客户端目的地图/坐标/费用。先做正文认证、同会话跨命令种类去重和真实源连接解析；同命令重发回原结果，不重放迁移覆盖后来位置。完整三阶段父仍待。",
+    "eligibility": "原权威角色须alive、out_of_combat、无active challenge、原唯一动作占用为Idle；真实源map等连接source_map_id，公共instance=null，源连接交互锚距离<=2.5米且满足原交互视线。按原connection全部minimum_level/minimum_rank/required_quest逐项AND，不用反向边资格替代。原60边费用均银0/item=null，不增加路费或消耗回城符。",
+    "active_action": "普通公共交通不作为取消木柴的新攻击/移动输入。仍在采集/闪避/位移/攻击/普通辅助施放时按非Idle拒绝，保原动作与预留；不能先清动作再制造准入资格。强制迁移另由其真实原父停止旧根。",
+    "destination": "唯一destination_anchor_id从原图谱解析；采用其真实map/position_feet_m/yaw_radians。先核配置、公共scope分类、有限数、脚面/导航/真实圆脚印及动态占用；锚不可用则原位失败，不选最近点、不回城、不覆盖原位置。未建普通现场须由完整场景创建owner证明可建且无历史未决，不能借图谱模板重建进行中战斗。",
+    "commit": "源scope原post_combat处理完本T全部先行伤害/死亡、旧采集/旧辅助施放/旧便携队列和相关活动前置后，按原服务输入实际顺序决定；在source finalize之前同一原迁移父保存原命令决定、source/destination真实身份与before/after位置、唯一角色实体归属、必要自动路线终止和输入隔离。纯公共交通不改HP/内功/体力/库存、职业/任务/队伍，也不重置冷却或续活动。成功位置变化的角色修订及库存不变沿revisions，完整封套沿network_result；完整共同父仍待。",
+    "failure": "配置/来源损坏拒绝原父保before；正常距离/资格/落点阻塞拒绝本命令保原场景和资源。不得保存已切图但原世界成员仍在源图的半笔，不得将保存不确定当失败重试新迁移。",
+    "request_schema_ref": {
+      "file": "公共交通请求.schema.json",
+      "pointer": ""
+    },
+    "result_schema_ref": {
+      "file": "公共交通结果.schema.json",
+      "pointer": ""
+    },
+    "result": "十二键结果context为迁移前原scope，request为原完整四键命令。event_id=public-travel:加SHA256(71确定JSON数组 [\"public_travel\",request.play_session_identity.session_id,request.command_id])，无当前T/结论/目的地，不占通用结算号；该身份不替代原请求摘要正文核验。accepted目的location逐字段等原真实目的锚及最终现场计划，reason=null；rejected目的与auto_route_terminal均null、reason为真实首个失败。坏配置/缺来源/存疑不伪造成正常拒绝。",
+    "result_binding": "原结果world/authority、source_actor生命、源map、T与原真实会话/world/源阶段一致，request会话等原本人有效会话。目的地图必须是原connection目的锚地图，不能只通过66公共地图枚举就放行。accepted之前/之后位置与原world唯一实体成员变化同父保存；缺完整before不可运行。",
+    "route_terminal_binding": "accepted且原真实活跃auto_route存在时必带其原五键终止，route_event_id指原当前路径、reason=scope_changed、world_step等本T、final_position等迁移前最后真实源脚位；其event_id沿原自动路线唯一终止算法。无路径必须null，拒绝必须null；终止与清auto_route、位置变更及迁移结果同父。不得把目的地脚位写为旧路径final_position，或覆盖原先已到达/阻挡终止。",
+    "rejection_order": "协议/正文/历史认证先于玩法决定；重复回原。真实新命令依次检查本T已迁移、源会话/生命可用、源地图、2.5米距离、视线、活跃动作占用、战斗、挑战、连接全部门槛、目的落点。第一个正常失败为reason，后续不修改现场；来源损坏随时拒绝完整父，不继续找正常失败掩盖。",
+    "revisions": "成功公共跨图迁移为真实角色location业务变化，character_revision_after=before+1且inventory_revision_after=before；预检角色修订安全整数可递增，不可时拒绝原父保before，不伪造正常落点失败。rejected两修订不变，角色业务正文不变；自动路径终止/输入隔离在world运行现场，不额外递增角色或库存修订。只允许location及业务修订的该次明确变化，HP/内功/体力、任务、装备/物品/成长/守卫及会话身份不得借迁移改动；合法其他阶段变化须已经进入该迁移before。",
+    "network_result": {
+      "schema_ref": {
+        "file": "网络结果链.schema.json",
+        "pointer": "/$defs/result_producer"
+      },
+      "owner": "urn:solorxjh:public-travel-result:v1",
+      "identity": "LAN沿原个人连续结果链，result_id精确event_id，producer.record精确本十二键决定，封套play_session_identity逐字段等request原身份；源world/authority/profile/character及真实actor须共同认证。无独立迁移网络计数，原sequence跨session连续。",
+      "decision": "accepted/rejected均为已认证可靠新命令的最终决定，LAN本人一条正式结果；rejected零业务变化仍以同一结果告知命令终态，不重复分配序号。协议错误/坏来源/提交存疑不是可发布rejected。只有同次完整world/角色正式父持久结果和封套后才能发送；完整父未采用前仍不授权运行。",
+      "persistence": "原决定唯一存于decision_storage；LAN正式封套沿原world.character_result_journals，远端证明沿profile.lan_result_proofs。producer.record为原决定不可变来源证明，不新增业务写者；offline仅原会话决定数组，不创建LAN head/sequence。",
+      "apply": "接收端先验原会话/连续sequence/previous/角色before摘要和两修订，按本owner允许变化及原锚/源完整证明校验after；再与原head/证明同档保存后ACK。旧或重复结果只按原链确认，不再次移动到旧落点。成功移动但尚未ACK保原决定重发，不回滚位置或另发迁移。",
+      "boundary": "严格producer分派、修订/封套绑定及原会话决定存储采用；完整迁移共同父、跨接收者world成员现场和真实文件/LAN测试仍待。"
+    }
+  },
+  "same_world_step": {
+    "source": "普通交通只能在该角色本T源scope真实计时职责及移动/战斗/旧采集已完成之后提交。必须从原不可变本T角色计时/阶段父证明，不从当前map或客户端已渲染状态推断。若未获本T源角色步，不走本公共战后交通入口；暂停不授予行政迁移模拟步。",
+    "destination": "目的地scope已完成T时不重开；仍在原step_pending_scopes中时，目的地规则计时选择必须解析迁移和源角色本T已处理证明，排除此角色；随后全部本T动作/AI/碰撞/受击候选也不得把新迁入角色当本T原活体。迁入实体首个模拟资格为后续实际T，不因目的地map排序较后就多推进一次。迁移不授予到达即攻击或重复F输入。",
+    "new_scope": "本T后来创建的合法目的scope不插入已冻结step_pending_scopes；下一次真实世界授予才进入模拟。源scope即使已无玩家仍须完成原本T剩余阶段并由原世界队首正常消费，保历史根/弹体/结果引用。",
+    "identity": "迁移保持原source_actor生命身份；仅死亡后复活由生命owner换身份。不能靠重建actor绕过本T计时去重或同T成功动作守卫。无需新增has_moved/arrival_T/第二角色计时计数；资格从原迁移父与本T已保存来源联合推导。",
+    "boundary": "本规则明确公共交通时点；强制活动进出/复活/便携读条完成仍须各原owner先声明其阶段和本T资格，不把全部迁移统一套到公共服务阶段。完整角色步证明/迁移父和来源闭包未采用前不授权运行。",
+    "command_guard": "成功迁移后本T不再从原源命令队列或新目的队列接纳此角色第二个交通/服务/动作命令。依本T原迁移决定及原角色授予来源认证，不新增持久bool；同命令只重发，其他未采用请求按原可靠输入时序处理，不能在新scope把旧交互按第二次F执行。"
+  },
+  "cleanup": {
+    "auto_route": "成功转换若存在原活跃自动路线，由原迁移父持有原scope_changed终止，保最后真实路点/位置，不在目的地续跑旧路。失败不清旧路线。到达清旧交互目标与未采用输入；已提交命令历史、同T成功守卫和未确认资源结果保留。",
+    "forced_actions": "强制迁移先沿原进攻/闪避/辅助位移/采集/普通辅助施放owner处理本生命全部旧scope活跃根，停止引用真实迁移父或其原具名子结果，保首因/e/已付费用/冷却。木柴只释放本人同代预留；竹已产生领取权按原掉落owner清理前置处理，不能把未确认拾取变为无主掉落。尚缺完整共同父清单，不能仅凭迁移ID字符串清根。",
+    "history": "原根、弹体与队列留在原scope并沿其合法来源决定收束，不复制到新scope、不因玩家离开删除其他人的未决伤害或旧结果。私场沿原活动attempt、挂起/终局、返回点与锁处理，不按公共锚替代。",
+    "confusion_motion": "成功迁移且保留原混乱来源时，按confusion_motion_owner_ref.scope_change清旧控制意图引用并设下一重选1；失败保持原相位/引用。与位置/scope和旧动作停止同一原迁移父，不重抽/删除负面来源。",
+    "support_cast": {
+      "owner_ref": {
+        "file": "辅助武功采用.v1.json",
+        "pointer": "/cast_action_protocol"
+      },
+      "public_travel": "原公共交通要求真实Idle，辅助仍占用时拒绝且保根/费用/冷却；不先停止再制造准入。若本T已正常完成，沿原阶段完成后的真实before重新检查，不补接此前已拒绝命令。",
+      "forced_success": "只有真实强制迁移成功原完整父才停止本人源生命的未完成辅助根，保原scope唯一根/e，stop_event_id引用真实迁移结果或该父具名停止子结果；已落效效果和来源是否跨图保留沿各原族规则，不撤销已恢复HP/mana。旧scope未消费队列项以同父停止来源认证消费，目的地本T不推进旧根或重装e0。",
+      "failure": "资格/落点/保存前置未通过的真实失败不停止辅助、不改e/目标快照/效果引用/费用或冷却。保存存疑先查原正式父，不当失败换新迁移身份；缺停止来源不能只清动画或移除根。",
+      "boundary": "完整强制迁移父/停止清单结构仍待，各活动/复活/便携原owner须显式认证其真实成功时点，本语义不授权虚构父事件。"
+    }
+  },
+  "persistence": "唯一正式交通决定沿decision_storage嵌入原世界会话；LAN封套/接收证明沿原网络owner保不可变来源。完整输入/迁移共同父仍待，不以结果数组证明已提交所有world/角色变化。",
+  "remaining_work": [
+    "完整迁移三阶段父、角色/world before-after及原输入未决来源",
+    "公共交通完整来源与动态导航/失败写盘证明",
+    "私场活动/复活/便携传送逐owner阶段绑定及强制动作清单",
+    "Godot跨scope顺序、LAN与恢复运行测试"
+  ],
+  "portable_finish_owner_ref": {
+    "file": "便携传送与修炼限制.v1.json",
+    "pointer": "/channel_finish"
+  },
+  "portable_channel_lifecycle_owner_ref": {
+    "file": "便携传送与修炼限制.v1.json",
+    "pointer": "/channel_lifecycle"
+  },
+  "decision_storage": {
+    "schema_ref": {
+      "file": "角色会话.schema.json",
+      "pointer": "/$defs/world_session_record/properties/public_travel_results"
+    },
+    "field": "原world.character_sessions[session_id].public_travel_results为唯一按正式决定顺序追加的十二键公共交通结果数组，原会话记录扩六键；不另建迁移状态表/独立profile日志/专用分配counter。offline/lan_host/lan_client权威决定均保存于原authority的该世界原会话。",
+    "initialization": "创建每条原世界会话记录显式public_travel_results=[]；未启用saved_ack=null严格空。已启用且未end才能追加。当前格式缺字段拒绝，不从当前位置/网络head补交通历史；四已知旧档导入不创建world或虚构会话，既有目标world原结果必须保留。",
+    "binding": "每结果request.play_session_identity逐字段等本记录原admission.identity，world/authority与该原world一致；真实source_actor属于该角色该次生命。event_id按原session/command算法重算；同session/command跨本表及已采用原命令owner至多一个最终决定，同ID异正文/重复命令/重复事件拒绝，不按uniqueItems或最后一条挑结果。数组为原决定顺序，不按ID/地图/T重排。",
+    "commit": "同一次原authority完整world/角色父追加结果并完成位置/成员/路径终止及角色修订。LAN再在同笔冻结原个人下一seq完整封套，producer.record逐字段等本数组原结果；这只是原决定证明，不是第二业务写者。offline只存本原决定，不造网络head/序号/接收proof。未决请求和真实before仍由完整原输入/场景父证明，本数组不代替未决恢复。",
+    "replay": "先用原session/command查完整不可变决定；正文一致返回原结果，正文冲突协议拒绝。已决定不按当前位置/新锚/当前门槛重算，也不把旧目的location重应用到后来角色。存疑先重读原共同父/正式会话数组及LAN封套，缺闭包停下，不能追加新结果猜成功。",
+    "retention": "正式end保完整public_travel_results，不因退出、断连、删除角色或ACK清空；client会话proof若携原world_session_record沿原schema包含该六字段，作为证明而非本地分配日志。尚无合法压缩协议，不截断旧请求决定。",
+    "boundary": "唯一决定存储位置与六字段会话结构采用；完整world/角色父、原输入未决及动态导航/实际文件失败恢复仍待。"
+  },
+  "destination_eligibility": {
+    "proof": "在真实world/authority/scope/T处理前，从原会话public_travel_results及其共同父解析已提交accepted结果：world_step=T、source_actor_id为该真实生命、destination.map_id等当前目的scope且原源scope已完成本人本T职责。本命令身份/原会话/源授予/目的落点及唯一实体归属须通过；只看event字符串或相同map不足以证明迁入。仅需派生本进程查询，不新增持久arrived_T/状态bool或第二计时表。",
+    "simulation": "该本T新迁入生命只保存实际落点并可表现；目的scope本T本人不入角色计时/移动/攻击接纳/旧动作推进/采集/F或其他服务输入。AI选敌、直接/范围/投射接触目标、周期和尸毒新目标集合不得在目的地把它作为本T合法接收者；不消费针对它的新随机或命中序号，不先生成合法伤害再用miss掩盖资格不符。真实历史已冻结来源必须沿原完整父核验，不按当前地图重建或转移源伤害。",
+    "movement": "玩家与怪物互不形成动态堵路墙，沿玩家徒步原碰撞规则；迁入不新增占位碰撞体/推动别人或额外排斥。目的落点仍须原完整迁移before导航/实心阻挡等预检，不因暂不模拟而允许落墙/水。",
+    "rewards": "目的地本T新死亡的组队经验/历练/升天进度、任务共享与按参与者计算的活动人数快照排除此迁入角色；不得仅凭已连接/当前同图/30米内把其纳入。原源scope迁移之前已正式捕获/提交的合法奖励资格和未确认结果不回算、不删除，重连或目的地渲染不重新分配。各任务原专用资格仍须同时满足，本规则不扩大奖励范围。",
+    "resume": "后续首次真实目的scope授予T2>T，按原完整before核真实会话/生命/未end/无挂起等资格，才能正常参与；世界或scope暂停时不按墙钟自动生效，不补T到T2差值。其冷却/效果等该次至多推进一个实际角色步，不能因曾迁入漏跑而补扣。",
+    "recovery": "恢复原T时查询正式原会话结果与源阶段/个人计时证明，重建同一排除集合；不从当前客户端在线名单/模型可见性猜测。相同生命同T多个accepted迁移、原源角色步缺失、目的或world绑定矛盾均拒绝坏完整父，不选择最后记录修复。缺来源不把角色当普通目的活体放行。",
+    "boundary": "跨阶段/目标/奖励资格语义采用；完整各producer候选冻结、源角色步与迁移共同父的可验证结构及Godot仍待。"
+  },
+  "confusion_motion_owner_ref": {
+    "file": "神女状态技能.v1.json",
+    "pointer": "/persistent_control_state/random_walk_protocol"
+  }
+}

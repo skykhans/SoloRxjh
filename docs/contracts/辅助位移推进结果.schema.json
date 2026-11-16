@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:aux-displacement-advance:v1",
+  "$comment": "十二键位移推进子结果，每真实步一结果，before+1/原阶段及原首次阻挡来源另验。hit_obstruction只表示本步首次实际扫掠接触，后续静止不能重复生成阻挡。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "action_id",
+    "before_elapsed_steps",
+    "after_elapsed_steps",
+    "path_positions",
+    "hit_obstruction"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 89,
+      "maxLength": 89,
+      "pattern": "^aux-displacement-advance:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:player-aux-displacement:v1#/properties/action_id"
+    },
+    "before_elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 29
+    },
+    "after_elapsed_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 30
+    },
+    "path_positions": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/path_positions"
+    },
+    "hit_obstruction": {
+      "type": "boolean"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "after_elapsed_steps": {
+            "maximum": 6
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "path_positions": {
+            "maxItems": 1
+          },
+          "hit_obstruction": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "after_elapsed_steps": {
+            "minimum": 19
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "path_positions": {
+            "maxItems": 1
+          },
+          "hit_obstruction": {
+            "const": false
+          }
+        }
+      }
+    }
+  ]
+}

@@ -39,7 +39,8 @@
         "stock": "unlimited explicit project stock",
         "initial_grant": 0,
         "official_quest_reward_binding": "must bind exact reward at each quest definition; shop purchase never completes quest or creates reward receipt"
-      }
+      },
+      "knight_bag_allowed": true
     },
     {
       "item_id": "return_liuzheng",
@@ -76,7 +77,8 @@
         "stock": "unlimited explicit project stock",
         "initial_grant": 0,
         "official_quest_reward_binding": "must bind exact reward at each quest definition; shop purchase never completes quest or creates reward receipt"
-      }
+      },
+      "knight_bag_allowed": true
     },
     {
       "item_id": "return_sanxie",
@@ -113,7 +115,8 @@
         "stock": "unlimited explicit project stock",
         "initial_grant": 0,
         "official_quest_reward_binding": "must bind exact reward at each quest definition; shop purchase never completes quest or creates reward receipt"
-      }
+      },
+      "knight_bag_allowed": true
     },
     {
       "item_id": "return_shenwu",
@@ -150,7 +153,8 @@
         "stock": "unlimited explicit project stock",
         "initial_grant": 0,
         "official_quest_reward_binding": "must bind exact reward at each quest definition; shop purchase never completes quest or creates reward receipt"
-      }
+      },
+      "knight_bag_allowed": true
     },
     {
       "item_id": "return_liushan",
@@ -187,7 +191,8 @@
         "stock": "unlimited explicit project stock",
         "initial_grant": 0,
         "official_quest_reward_binding": "must bind exact reward at each quest definition; shop purchase never completes quest or creates reward receipt"
-      }
+      },
+      "knight_bag_allowed": true
     },
     {
       "item_id": "return_beihai",
@@ -224,7 +229,8 @@
         "stock": "unlimited explicit project stock",
         "initial_grant": 0,
         "official_quest_reward_binding": "must bind exact reward at each quest definition; shop purchase never completes quest or creates reward receipt"
-      }
+      },
+      "knight_bag_allowed": true
     }
   ],
   "reserved_items": [
@@ -260,6 +266,174 @@
     }
   ],
   "reserved_policy": "identity/action binding only, never usable/shop/exported as finished items; full service duration/stored points/marriage/obtain/effects definitions required before activation; do not default unsupported action to portable_return",
+  "admission_event": {
+    "schema_ref": {
+      "file": "便携传送接纳事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.portable_travel_admission_events",
+    "identity": "原通用身份，request_id=71确定JSON [\"portable_travel_admission\",play_session_identity.session_id,command_id]；摘要含完整七键命令。三动作共用该命名空间，同command_id换物品/模式/点或预期修订拒绝异参重用。plan.channel_id精确identity.settlement_id，不另分配动作ID。",
+    "command": "会话/command_id/expected_character_revision/expected_inventory_revision/action_kind/authorization/destination_point_or_null严格七键；不接收客户端脚位置、目标坐标、规则hash、余时或权益余额。",
+    "qualification": "原active会话本人角色/世界真实归属；当前channel=null，alive/out_of_combat/Idle/无challenge/无携重门禁，原完整timers确认共享组就绪。具名源/目标地图、门槛、距离/地面/碰撞与权限沿原owner。实物引用本人inventory真实未预留单位且stack_id/revision/item_id精确前像，来源完整；至尊profile等会话profile且接纳T世界扣时后真实有效，source等原当前合法激活来源。存点引用本人原真实点/修订与同world，不任意客户端位置。",
+    "plan": "九键原channel完整冻结：session等命令，channel_id等本结算，action_kind/authorization/point等命令，remaining_steps=180；accepted_world_step精确实际队首scope/T业务接纳阶段，rules_hash原规则包，source_location原真实脚位置/朝向。不得提前写角色/锁单位，原reserved只是短事务候选。",
+    "commit": "同一原父把plan写character.portable_travel_channel_or_null、建立恰一实物单位或存点原引用预留、角色修订=command.expected_character_revision+1、inventory修订保持expected值，原profile替换及日志转committed。无物品数量/槽/正文变化、无资源费用/冷却/位移/随机，不生成stack_flow或银流。至尊不预留物品，两土灵点预留与读条同父。",
+    "serialization": "先处理原命令边界冻结的更早输入/未决，接纳不能从渲染帧或重复网络请求获得额外模拟步。候选reserved须在世界步/依赖角色或服务变化前恢复或中止，不跨用户长确认持有旧资格；前态改变以state_changed中止，不能重算不可变plan后沿旧身份提交。",
+    "recovery": "reserved恢复原计划或aborted，未正式接纳不释放不存在的活动预留。committed重试回原接纳结果，即使该channel后来完成/取消也不重装180、不重占点/物；后续状态按真实决定链追踪。保存存疑先核原正式档案，不凭当前null断言从未接纳。",
+    "initialization": "新profile日志显式[]；四已知旧源新目标[]，已有目标保原日志/未决；现行缺字段拒绝。原日志投影及character范围索引唯一登记。",
+    "boundary": "接纳事件/身份/日志严格结构采用，真实资格与正式来源、输入路由、推进/取消/迁移共同父及跨profile保存/Godot仍待。"
+  },
+  "channel_cancellation_binding": {
+    "field": "cancelled_portable_channel_id_or_null为原实际取消来源结果的必有nullable原channel_id引用；无本人活跃便携动作显式null。原动作清null而非另建停止根/独立取消事件或日志；同父持原真实前像与预留释放，必须能解析原接纳与已推进链。",
+    "source_schema_refs": [
+      {
+        "file": "直接攻击接纳结果.schema.json",
+        "pointer": "/properties/cancelled_portable_channel_id_or_null"
+      },
+      {
+        "file": "闪避接纳结果.schema.json",
+        "pointer": "/properties/cancelled_portable_channel_id_or_null"
+      },
+      {
+        "file": "辅助位移接纳结果.schema.json",
+        "pointer": "/properties/cancelled_portable_channel_id_or_null"
+      },
+      {
+        "file": "采集接纳结果.schema.json",
+        "pointer": "/properties/cancelled_portable_channel_id_or_null"
+      },
+      {
+        "file": "玩家徒步移动结果.schema.json",
+        "pointer": "/properties/cancelled_portable_channel_id_or_null"
+      },
+      {
+        "file": "自动路径接纳结果.schema.json",
+        "pointer": "/properties/cancelled_portable_channel_id_or_null"
+      },
+      {
+        "file": "战斗伤害结果.schema.json",
+        "pointer": "/properties/cancelled_portable_channel_id_or_null"
+      },
+      {
+        "file": "连接生命周期结果.schema.json",
+        "pointer": "/properties/cancelled_portable_channel_id_or_null"
+      },
+      {
+        "file": "角色死亡事件.schema.json",
+        "pointer": "/oneOf/1/properties/cancelled_portable_channel_id_or_null"
+      },
+      {
+        "file": "角色会话.schema.json",
+        "pointer": "/$defs/end_receipt/properties/cancelled_portable_channel_id_or_null"
+      }
+    ],
+    "input": "真实新玩家攻击/技能/闪避/明确采集交互、手动非零轴或新自动路线输入，先依原来源决定取消当前本人读条再判断新输入玩法资格；accepted/rejected均可引用。去重后的旧输入不再次取消，不把协议错误/纯转镜头/零移动/自动路径逐步推进当新意图。原AI攻击接纳恒null。尚无严格子结果的物品/其他交互/强制迁移生产者须先补其真实父，不能套其他结果ID清动作。",
+    "damage": "仅原outcome=resolved且hp_resolution_or_null.actual_hostile_hp_loss>0的真实本人敌伤，在实际HP结算后、最终死亡前取消；blocked/miss/盾吸收后0或自罚不取消。若敌伤已清读条，则同次最终死亡字段null；非敌伤真死由原死亡committed引用实际当前channel。",
+    "connection_end": "原disconnected转换立即引用并同父清本会话当前读条，释放本人单位/点预留，无消费/冷却；其他重连/移除/释放转换必须null，不重演。正式end仅activated且真实当前channel时非null；never_activated必须null。死亡/end等后来原因不覆盖先前已提交首因，不清新生命动作。",
+    "mutual_exclusion": "同一来源结果的cancelled_firewood_action_id_or_null与本引用不得同时非null：同角色原活跃采集与便携占用互斥。双方都null仍须真实完整前态证明，不能用null隐藏缺根/预留矛盾。",
+    "atomicity": "引用非null则该原父清精确当前本人channel、释放仅其原单位/点预留、保原位置/资源/数量/槽/冷却，并与原输入/伤害/死亡/连接/end实际业务同笔。角色修订按同父实际业务统一恰一次；纯引用清理库存不增修订。未知写盘先恢复原父，重放不清后来新channel或重复释放。",
+    "expiry_boundary": "服务到期仍沿原world begin/expiry_dispatch，不给投影添加一个无角色归属的取消ID。其全档案逐角色副作用完整父尚待；本字段登记不能替代到期/迁移或正常逐步资格失败结果。",
+    "boundary": "十类真实来源的nullable引用与部分结构限制采用；实际完整before/来源、到期与其他生产者停止、迁移多接收者父及Godot仍待，不宣称全部取消路径已闭合。"
+  },
+  "channel_finish": {
+    "schema_ref": {
+      "file": "便携传送完成结果.schema.json",
+      "pointer": ""
+    },
+    "identity": "event_id沿channel_advance.completion_identity，本动作原末步至多一个completed/rejected决定。channel_before精确原r1动作前像，context为真实源scope/T/生命，world/authority等该channel原会话，接受步<T；不接收客户端目标坐标或提交新的模式。",
+    "preflight": "原世界计时/所有更早取消与战斗/旧采集/旧辅助施放已闭合，实际便携队首仍是该channel。先验证真实会话、接纳/逐步/权益及预留来源，再沿channel_lifecycle.normal_failure_order检查正常资格；结构/来源损坏整父拒绝，不记录rejected。余时不是1的正常早停沿真实取消父，不伪造该末步决定。",
+    "completed": "必须同父存在before1/after0且completion_event_id等本event_id的原正常推进结果；完成结果本身持有真实channel_before r1，原角色最终channel=null且只统一加一次角色修订。目的回城沿原item_id唯一定义锚，土灵沿本人原point_id/revision精确pose；必须同world并通过完整门槛/地面/碰撞/距离。",
+    "physical_flow": "普通两动作恰一个原stack_flow receipt_id=本event_id；无mint、一个输入精确原预留堆最新正式前输出、一条input_index0/quantity1/reason use。原数量1则outputs=[]且移除原槽/正文；数量2..99则一个本人held同ID/绑定/quest=null/原inventory槽输出，quantity=旧-1、revision=旧+1、origin_receipt_id=本event，contribution唯一input0/旧-1。不拆分不合堆、不借行囊或别堆消费，inventory_revision=实际before+1；任何安全整数溢出预检拒绝。",
+    "supreme_flow": "至尊stack_flow_or_null=null、inventory修订保持实际before，原item_stacks/槽全部不变；channel_before原profile/source须真实当前有效或有效续期祖先链，不用激活道具当传送耗材。",
+    "cooldown": "completed同父清channel/本人点或单位预留，timers.shared_cooldowns.portable_return建原两键remaining_steps600/trigger_event_id本event_id；同T不再扣新600，其他冷却/资源/负面/任务/队伍不变。结果不复制冷却余额。",
+    "route": "实际旧自动路线不存在则auto_route_terminal=null。若真实未终止路线需收束，跨图reason=scope_changed、同图reason=explicit_cancel，沿原算法且final_position为最后真实源脚位、world_step本T；与清route同父，不能写成目的脚位或覆盖先前终局。来源不合法不靠完成清根。",
+    "rejected": "原正常末步预检失败：reason真实首因，destination/stack_flow/route_terminal均null，不生成正常advance before1/after0。清原读条/本人预留，角色修订=真实before+1、库存保持；保源位置/资源/已有冷却/钱物。失败本身不取消无关路线或自动替换目标/授权模式。",
+    "migration": "同图保持原唯一生命/成员；跨图位置/源移除/目的唯一成员同笔，沿原same_world_step源T唯一计时和目的T输入/伤害/奖励排除语义。现有public_travel_results只持公共交通，不能把本结果塞入其请求schema；便携完整迁移父须直接持有本结果及原成员/个人结果封套。",
+    "storage_recovery": "原scope末步完整决定唯一持有本结果及可选数量流，不新建profile完成日志/第二通用分配身份。已决定只回原结果，不向后来角色重应用位置/冷却或重消费；保存存疑先恢复原共同父。原接纳历史永保，不能因当前channel=null删掉完成/失败证据。",
+    "boundary": "严格末步成功/失败及实物/至尊数量流分支采用；完整世界/角色before-after、正式便携迁移存储父、较早取消来源和LAN封套仍待，非运行完成。"
+  },
+  "channel_advance": {
+    "schema_ref": {
+      "file": "便携传送推进结果.schema.json",
+      "pointer": ""
+    },
+    "identity": "event_id=portable-advance:加SHA256(71确定JSON [\"portable_advance\",channel_id,world_step])小写十六进制。channel_id沿原正式接纳settlement_id；不另用通用counter，不按剩余步/结论/当前角色修订改变身份。",
+    "completion_identity": "completion_event_id=portable-finish:加SHA256(71确定JSON [\"portable_finish\",channel_id])，本动作至多一个正式完成决定，重放不换T生成第二终局。该ID只指原正常读完后完成/正常完成失败，外部先行取消仍须其真实原原因父，不伪装读完。",
+    "before": "本T唯一源scope/post_combat队首，旧采集已完成，channel归实际source_actor本生命及原active会话，accepted_world_step<T，当前remaining_steps=before；context等原会话world/authority/源地图/实例。已停止/真死/迁出或本T未获授者不得生成本正常推进。原正常资格失效先沿生命周期取消，不为取消多扣1。",
+    "single_step": "before1..180，after=before-1精确整数；before>1时completion=null，根只改remaining_steps，原授权/点/规则/接纳身份及位置不变，库存/资源/冷却不变。before=1时after=0且引用唯一原完成决定，该正常末步结果仅随已通过全部完成预检的成功完成父存在；完成预检正常失败由原终局失败决定清读条且不另造本正常推进/扣步。不得仅依此字段认已移动。",
+    "atomicity": "原队首推进结果与读条变更、角色修订及队首消费同父；before>1实际角色业务修订恰+1、库存保持。before=1由同一原完成父统一角色修订+1，不为1到0和终局各加一次。原结果不复制修订/库存/物品流，均核实际父。终局未收束不得独立提交零余时、移除队首或发布移动/冷却。",
+    "recovery": "本T原结果已决定只返回原结果，不对当前根再减；原推进后动作即使后来终止也不改旧after或补推新动作。核原冻结队列与已处理链，不从accepted_T到当前T补扣；缺同父完成决定的before1结果是坏来源，不能凭合法event_id拼接。",
+    "storage": "原scope本T post_combat完整决定持有唯一该子结果；不新增profile推进日志、每步通用结算分配或第二动作根。完整阶段父仍待，只有本schema不得开始保存单独推进记录。",
+    "boundary": "正常单步结构/确定身份/终局引用采用；逐步/取消/完成实际父、完整来源和Godot仍待。本结果结构不解除便携运行门禁。"
+  },
+  "channel_worklist": {
+    "schema_ref": {
+      "file": "场景固定步状态.schema.json",
+      "pointer": "/properties/post_combat_pending_portable_channel_ids_or_null"
+    },
+    "field": "原scope.post_combat_pending_portable_channel_ids_or_null唯一null或channel_id数组；post_combat必须数组，其他阶段null，空数组仅证明本旧便携工作段已消费完。无独立队列日志/游标/完成集合或每项重复角色/规则/T。",
+    "freeze": "原combat空corpse_wave闭合并移除本批、进入post_combat时，与旧采集及旧辅助施放队列同时冻结实际旧便携全集：本人源scope真实会话/生命、接纳步<T、原读条仍合法未停止，按原session_id UTF8字节再channel_id字节序。每角色至多一个活跃动作，须原完整动作互斥证明；不能把接纳T新读条或本T新迁入生命列入。",
+    "ordering": "先消费全部旧采集及旧辅助施放队列，任一非空时便携队列不得执行。随后仅便携队首可检查/减步/完成或合法取消；每项原推进/终局决定与根变化、引用预留/资源变化及移除队首同父。队列虽非空不允许世界或其他scope提前执行，不能按当前角色数组顺序处理。",
+    "removed_action": "队首若已被冻结之后真实先行原因停止，须解析同一原channel接纳身份及已提交停止决定，认证时间/角色/scope与无重复减步后，同原父消费旧队列引用，不再清后来新读条或释放新预留。缺根/缺停止来源不是空动作，拒绝完整父；不能跳过无来源ID。",
+    "completion": "r>1原合法推进一次r-1，r=1沿原终局完成/正常失败父，待恢复中间零沿channel_lifecycle；本项未决不得先移除队首或处理下一项。每个本T原冻结channel恰一闭合处理证明，不以队列少一项冒充已扣时。全部消费后保持[]，再处理本T新F/活动/服务输入，不能向当前队列追加新接纳channel。",
+    "exit": "post_combat进入finalize须两旧动作队列均[]且本阶段其他原必要决定闭合；同父将两队列置null。finalize/null缺队列字段仍是坏格式，不补空；显式新scope初始化两队列null。四旧角色导入不建scope或重建队列。",
+    "recovery": "恢复先验原combat退出父冻结全集/顺序、原已处理前缀与剩余后缀，及每项原动作/决定来源；同T只续原队首，不能重枚举在线角色、补回已完成项或从remaining推已处理。清队列、根或历史来源均不得当修复。",
+    "boundary": "十字段scope与便携剩余队列结构/阶段绑定采用；完整冻结来源、逐步/停止/完成父、实体根和跨档案保存仍待，不独自授权运行。"
+  },
+  "channel_lifecycle": {
+    "status": "portable_phase_order_and_failure_semantics_adopted_result_parents_pending",
+    "phase_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/scope_step_lifecycle"
+    },
+    "service_expiry_owner_ref": {
+      "file": "至尊服务.v1.json",
+      "pointer": "/expiry_dispatch"
+    },
+    "migration_owner_ref": {
+      "file": "场景迁移.v1.json",
+      "pointer": "/same_world_step"
+    },
+    "connection_owner_ref": {
+      "file": "角色会话.v1.json",
+      "pointer": "/connection_lifecycle"
+    },
+    "clock": "世界begin先完成档案扣时/到期取消；scope rules_and_timers只处理原共享冷却，不扣便携remaining_steps。旧读条仅在原post_combat、战斗/死亡/伤害及旧采集决定全部闭合后、新F拾取/新活动或服务输入之前推进。接纳T不推进，后续真实获授本人源scope步每T最多一次，不因掉帧/个人面板/恢复重复扣。",
+    "workset": "该阶段处理原有效会话的旧便携动作，真实accepted_world_step<T且未被本T先行原因停止，按原session_id UTF8顺序再channel_id字节序。集合须来自原阶段before冻结，队首决定与进度同父；重放不从当前在线列表重建。原channel_worklist已在九键scope独立登记剩余便携ID队列，不借用旧采集队列；完整冻结/完成来源父仍待，未闭合不得运行本阶段。",
+    "advance": "读取当前合法动作及原接纳/已推进链，不用accepted_world_step与T差值推剩余。先完成本T取消/资格检查，r>1才改r-1；r=1本次原完成父计算终局。持久r=0只可作为同一已冻结完成父中的待恢复中间状态，须有原父证明，不能单独恢复为新完成请求或再扣至负数。没有该父的零余时根拒绝，不补180或直接移动。",
+    "normal_failure_order": [
+      "source_unavailable",
+      "action_interrupted",
+      "activity_forbidden",
+      "overweight",
+      "in_combat",
+      "authorization_expired",
+      "point_unavailable",
+      "entry_gate_failed",
+      "destination_blocked"
+    ],
+    "normal_failure": "协议/来源认证先完成；按normal_failure_order选择实际第一个玩法失败，在原原因父清null/释放本人原引用预留，保物品/位置/资源/冷却。source_unavailable指本次已认证死亡/end/移除；action_interrupted须原移动/攻击/技能/物品/交互或正实际敌伤等真实结果。授权到期仅至尊，普通实物不随服务0失效。合法外部存点变化须先沿原禁预留修改规则认证，不能把坏引用伪装正常point_unavailable。",
+    "corruption": "缺正式接纳/推进/取消来源、会话/角色归属矛盾、预留堆不存在或原版本被无合法决定改动、别人的点/堆预留、点修订无合法转换、服务祖先链断裂、规则包或导航配置缺失均拒绝完整父保原before。不得当普通落点阻挡清动作，不能跳过坏输入换用另一堆或最近坐标。",
+    "source_priority": "到期取消依真实world begin；敌伤取消依实际HP结算后且最终死亡前的原伤害结果，零实际HP损失不算敌伤中断，真死仍由原死亡父停止；新输入依其原正式输入结果。后来的死亡/end/强制迁移不覆盖先前已清null的首因或重复释放。失联确认沿原连接转换立即取消便携读条，无费用；后续10/120秒移除/释放不再次取消旧动作。",
+    "completion": "r=1且全部资格通过，沿原完整便携完成/迁移父同笔消费实物恰1（至尊无数量流）、引用原点/具名目的精确位置、清null与本人预留、终止旧路径/交互、建立共享600冷却和位置/成员变化。角色修订由同父统一+1；实物消费inventory+1，至尊库存不变。保HP/内功/体力/负面状态/其他冷却/队伍/任务，不治疗或重置地图。",
+    "same_map": "同图土灵或回城仍需原距离>=2.5米、门槛与精确可达目标；成功只移动本人且保原实体身份，不复制生命。跨图按原源T已计时/目的T不得再次模拟或接收新伤害奖励的规则；同图本次移动在本T战斗后，不重开战斗或追加碰撞命中。",
+    "terminal_replay": "完成/正常失败/原原因取消都须有唯一正式终局来源；后续重试只回原终局不重消费/退费/重装读条。完成决定持久存疑先恢复该父，不因当前null或站在目标附近猜成功；终局后新命令须新command_id。",
+    "boundary": "上述固定步/故障分类与修订语义采用；便携工作队列、正常逐步与末步完成严格结果已登记；真实冻结来源、较早停止结果及原多接收者共同父尚待。现有读条与接纳schema通过不解除运行门禁。"
+  },
+  "channel_state": {
+    "field": "character.portable_travel_channel_or_null",
+    "schema_ref": {
+      "file": "便携传送读条.schema.json",
+      "pointer": ""
+    },
+    "initialization": "新角色显式null；四已接受旧源导入新角色显式null，导入已有目标保原合法值。现行缺字段拒绝。",
+    "identity": "play_session_identity精确原active会话；channel_id精确原唯一正式接纳身份，accepted_world_step精确接纳所在真实T，rules_hash精确原规则。接纳/推进/停止来源完整父仍待，不凭非空ID认合法。",
+    "authorization": "portable_return仅六回城符，earth_spirit_travel仅earth_spirit_talisman，均引用本人inventory原堆ID及真实revision且预留恰1单位，不搜索行囊或仓库。supreme仅本人真实profile及接纳激活来源，禁止实物字段或余额；续期保接纳source，经原祖先链验当前合法来源，不改写动作。",
+    "destination": "回城符目标唯一取原具名定义，destination_point_or_null=null；两土灵动作只保原point_id/revision，恰一个本人存点且world等会话world，预留期间禁止修改/删除该点。不复制点位置；目标门槛及导航碰撞在接纳/完成均验。",
+    "progress": "接纳remaining_steps=180，不在同次接纳再扣一步；后续本人原scope具名推进阶段每获实际步最多减1，暂停不减，零只是待原完成决定，不是已移动或读档立即完成。原世界begin到期、战斗伤害等取消优先于同T读条完成；未决先恢复，不能按渲染累计补扣。",
+    "source_pose": "source_location冻结接纳地图/脚位置/朝向；完成核角色仍在原地图和脚位置，允许期间转朝向，不把接纳yaw强加当前视角。移动/转场由原取消决定清读条。其他有限数/地面/角色动作互斥及真实来源须联合验证。",
+    "finish_cancel": "完成与消费恰1（仅实物）、位置变化、清null、原共享portable_return冷却600及修订同一正式父；取消清null/释放原引用预留，保物品/位置/资源/已有冷却，库存无物品变化不加修订。冷却只沿原timers.shared_cooldowns，不在读条复制数字。",
+    "boundary": "严格活动状态与来源分派采用；正式接纳/推进/停止/迁移父、完整角色根、冷却触发来源及Godot仍待，禁止仅凭结构运行。"
+  },
   "portable_return": {
     "command_fields": [
       "character_id",
@@ -280,11 +454,11 @@
     "same_map": "allowed only outside restrictions and at least2.5m from target anchor; too close rejects before channel",
     "no_healing": "preserve HP/mana/stamina,negative states,skill cooldowns,party and tasks; no world/monster reset",
     "request_replay": "one accepted action ID and receipt; replay returns original state/result, cannot start another channel or move twice",
-    "save": "persist accepted channel ID,item reservation reference,source map/feet,remaining0..180 and cooldown; reservation not deducted physical count, prevents sale/discard/use/storage/stack-transfer of reserved unit; cancel releases reservation; no separate cloned item",
+    "save": "persist channel_state strict branch with accepted channel ID,item reservation reference,source pose and remaining0..180; cooldown remains only in original timers.shared_cooldowns.portable_return record. Reservation does not deduct physical count and prevents sale/discard/use/storage/stack-transfer; cancellation releases it",
     "load": "validate reservation against single carried stack,action/state/world/revision; missing/bad new fields reject; restore remaining steps,never instant complete or full new duration",
     "pause_offline": "freeze remaining and cooldown; LAN host progresses connected simulation, disconnect cancels channel without cost then persists authoritative result",
     "reward_relation": "movement never completes task,changes route/rank,grants region rewards or settles pending monster death",
-    "cooldown_validation": "integer0..600, decremented by world simulation steps; both UI and host acceptance enforce0, reject negative/missing new fields; acceptance does not start it, successful completion starts600 once",
+    "cooldown_validation": "沿战斗冷却原两键record保存remaining_steps/trigger_event_id，portable_return有记录时须1..600且来源为本人原成功便携移动决定；完整timers读取通过后缺本组键才表示就绪，不存0或独立整数。本人实际角色计时阶段每获一步只扣一次，减到0删除本组；接纳不建记录，成功移动同父建600，取消不建或重开。缺根/坏来源拒绝。",
     "revision_policy": "accept expected_revision against authoritative current revision; reservation/action acceptance advances revision. Completion uses action_id and original reservation in the current revision chain, not the obsolete client acceptance revision; unrelated legitimate ticks do not cancel a valid channel. Configuration or inventory mutations that invalidate the reservation cancel explicitly."
   },
   "training_policy": {
@@ -428,5 +602,9 @@
   "bamboo_forests_adapter_ref": {
     "file": "四转五段竹林入口与长老.v1.json",
     "pointer": "/portable_actions"
+  },
+  "supreme_service_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": ""
   }
 }

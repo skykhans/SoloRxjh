@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:normal-admission-proc:v1",
+  "$comment": "仅原完整玩家normal_attack根的normal_admission_proc_or_null。十四职业当前具名接纳抽样最多一源；null表示没有合法抽样，false是已抽失败，不得互换。原职业/武器/资格/跳过条件及原接纳random_flow认证另验。不是命中回调或完整数值快照。",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "qigong_id",
+        "effective_grade",
+        "triggered"
+      ],
+      "properties": {
+        "qigong_id": {
+          "enum": [
+            "qigong_sword_526d7146868a",
+            "qigong_tan_hualing_526d7146868a",
+            "qigong_musician_92e2a06cde35",
+            "qigong_han_feiguan_9b9acbfddd29",
+            "qigong_mei_liuzhen_15fbf2a219d2",
+            "qigong_lu_fenglang_a5f621132db5",
+            "qigong_zhen_fengbai_9eca08cd0894",
+            "qigong_spear_0fd0be5106f8"
+          ]
+        },
+        "effective_grade": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 40
+        },
+        "triggered": {
+          "type": "boolean"
+        }
+      }
+    }
+  ]
+}

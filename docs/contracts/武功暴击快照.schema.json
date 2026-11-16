@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:martial-critical-snapshot:v1",
+  "$comment": "原攻击武功根critical_allowed与四暴击数值联合投影，不保存第二critical包装。结构只约束可表示的分区与倍率；职业/实际技能phase/必杀分类/等级与原历史接纳来源另验，不能由合法数值借用其他职业被动。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "critical_allowed",
+    "critical_chance_bp",
+    "critical_multiplier_bp",
+    "supercritical_chance_bp",
+    "supercritical_multiplier_bp_or_null"
+  ],
+  "properties": {
+    "critical_allowed": {
+      "type": "boolean"
+    },
+    "critical_chance_bp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "critical_multiplier_bp": {
+      "type": "integer",
+      "minimum": 15000,
+      "maximum": 17000,
+      "multipleOf": 50
+    },
+    "supercritical_chance_bp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4000,
+      "multipleOf": 100
+    },
+    "supercritical_multiplier_bp_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "minimum": 20000,
+          "maximum": 24000,
+          "multipleOf": 100
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "critical_allowed": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "critical_chance_bp": {
+            "const": 0
+          },
+          "critical_multiplier_bp": {
+            "const": 15000
+          },
+          "supercritical_chance_bp": {
+            "const": 0
+          },
+          "supercritical_multiplier_bp_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "supercritical_multiplier_bp_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "supercritical_chance_bp": {
+            "const": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "critical_allowed": {
+            "const": true
+          },
+          "critical_chance_bp": {
+            "maximum": 9500
+          },
+          "critical_multiplier_bp": {
+            "const": 15000
+          }
+        }
+      }
+    }
+  ]
+}

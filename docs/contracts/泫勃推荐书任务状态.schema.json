@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:hyunbo-recommendation-quest-state:v1",
+  "$comment": "character.quests.ref_QREF-63791-016唯一三键状态；收集10斧/5证明与ready由本人本attempt真实库存派生。完成凭证永久保留且不以推荐书当前是否存在重置，原接受/交付/放弃与XP来源及完整共同父另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "state",
+    "attempt_id_or_null",
+    "completion_receipt_id_or_null"
+  ],
+  "properties": {
+    "state": {
+      "enum": [
+        "not_accepted",
+        "in_progress",
+        "delivered"
+      ]
+    },
+    "attempt_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:item-stack:v1#/$defs/questScope/properties/attempt_id"
+        }
+      ]
+    },
+    "completion_receipt_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1#/properties/settlement_id"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "not_accepted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attempt_id_or_null": {
+            "type": "null"
+          },
+          "completion_receipt_id_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "attempt_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "delivered"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "completion_receipt_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "completion_receipt_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

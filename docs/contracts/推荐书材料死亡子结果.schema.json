@@ -1,0 +1,494 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:hyunbo-recommendation-material-death-result:v1",
+  "$comment": "泫勃推荐书两种 attempt-bound 掉落的一次普通怪死亡个人子结果。原普通死亡父持有，不另分配死亡身份；实际死亡资格、任务尝试匹配、完整库存、来源闭包与角色/world共同提交另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "character_id",
+    "quest_before",
+    "held_quantity_before",
+    "outcome",
+    "merge_input_or_null",
+    "stack_flows",
+    "item_id"
+  ],
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "quest_before": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:hyunbo-recommendation-quest-state:v1"
+        },
+        {
+          "properties": {
+            "state": {
+              "const": "in_progress"
+            },
+            "completion_receipt_id_or_null": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "held_quantity_before": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "outcome": {
+      "enum": [
+        "granted",
+        "cap_reached",
+        "capacity_rejected"
+      ]
+    },
+    "merge_input_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "previous_output",
+            "stack"
+          ],
+          "properties": {
+            "previous_output": {
+              "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+            },
+            "stack": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/material_stack"
+                },
+                {
+                  "properties": {
+                    "quantity": {
+                      "minimum": 1,
+                      "maximum": 9
+                    },
+                    "revision": {
+                      "maximum": 9007199254740990
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "stack_flows": {
+      "type": "array",
+      "maxItems": 2,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/mint_flow"
+        },
+        {
+          "$ref": "#/$defs/merge_flow"
+        }
+      ],
+      "items": false
+    },
+    "item_id": {
+      "enum": [
+        "recommendation_bandit_axe",
+        "recommendation_bandit_proof"
+      ]
+    }
+  },
+  "$defs": {
+    "material_stack": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:item-stack:v1"
+        },
+        {
+          "properties": {
+            "item_id": {
+              "enum": [
+                "recommendation_bandit_axe",
+                "recommendation_bandit_proof"
+              ]
+            },
+            "binding": {
+              "const": "character"
+            },
+            "quest_scope": {
+              "type": "object",
+              "required": [
+                "quest_id",
+                "attempt_id"
+              ],
+              "properties": {
+                "quest_id": {
+                  "const": "ref_QREF-63791-016"
+                },
+                "attempt_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "mint_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/material_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "const": 1
+                          },
+                          "revision": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  },
+                  "contributions": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "loot"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "merge_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/material_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "minimum": 2
+                          },
+                          "revision": {
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "const": "recommendation_bandit_axe"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "maximum": 10
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "recommendation_bandit_axe"
+                  },
+                  "quantity": {
+                    "maximum": 9
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "recommendation_bandit_axe"
+                          },
+                          "quantity": {
+                            "maximum": 10
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "const": "recommendation_bandit_proof"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "maximum": 5
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "recommendation_bandit_proof"
+                  },
+                  "quantity": {
+                    "maximum": 4
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "recommendation_bandit_proof"
+                          },
+                          "quantity": {
+                            "maximum": 5
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "maximum": 9
+          },
+          "stack_flows": {
+            "minItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          },
+          "stack_flows": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "cap_reached"
+          },
+          "item_id": {
+            "const": "recommendation_bandit_axe"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "const": 10
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "cap_reached"
+          },
+          "item_id": {
+            "const": "recommendation_bandit_proof"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "const": 5
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "maxItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "stack_flows": {
+            "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "held_quantity_before": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "held_quantity_before": {
+            "minimum": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
+}

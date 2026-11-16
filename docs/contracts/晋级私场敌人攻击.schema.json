@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:private-trial-enemy-attack:v1",
+  "$comment": "六转具名敌三个直接攻击程序完整25字段动作，平铺身份/冻结攻击/时序，命中正文仅引用原combat-damage结果。固定程序/地图/时序及停止覆盖严格分型，原接纳/规则/攻击贡献与因果另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action_id",
+    "world_id",
+    "authority_profile_id",
+    "source_actor_id",
+    "map_id",
+    "instance_id_or_null",
+    "accepted_world_step",
+    "admission",
+    "program_id",
+    "rules_hash",
+    "target_actor_id",
+    "accepted_yaw_radians",
+    "attack_min",
+    "attack_max",
+    "accuracy",
+    "critical_chance_bp",
+    "critical_multiplier_bp",
+    "windup_steps",
+    "active_steps",
+    "recovery_steps",
+    "elapsed_steps",
+    "hit_offsets_in_active_steps",
+    "stop_event_id_or_null",
+    "hit_result_event_id_or_null",
+    "attack_multiplier_bp"
+  ],
+  "properties": {
+    "action_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+    },
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/enemy_actor_id"
+    },
+    "map_id": {
+      "enum": [
+        "instance_faction_merit",
+        "instance_ascension_shadow"
+      ]
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/instance_id"
+    },
+    "accepted_world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "admission": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/private_trial_ai"
+    },
+    "rules_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "target_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "accepted_yaw_radians": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/yaw"
+    },
+    "attack_min": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "attack_max": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "accuracy": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "critical_chance_bp": {
+      "const": 0
+    },
+    "critical_multiplier_bp": {
+      "const": 15000
+    },
+    "windup_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "active_steps": {
+      "const": 1
+    },
+    "recovery_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "hit_offsets_in_active_steps": {
+      "const": [
+        0
+      ]
+    },
+    "stop_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "hit_result_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:combat-damage-identity:v1#/$defs/event_id"
+        }
+      ]
+    },
+    "program_id": {
+      "enum": [
+        "merit_veteran_sword",
+        "shadow_strike",
+        "shadow_moon_arc"
+      ]
+    },
+    "attack_multiplier_bp": {
+      "enum": [
+        10000,
+        15000
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "program_id": {
+            "const": "merit_veteran_sword"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "const": "instance_faction_merit"
+          },
+          "windup_steps": {
+            "const": 36
+          },
+          "recovery_steps": {
+            "const": 84
+          },
+          "attack_multiplier_bp": {
+            "const": 10000
+          },
+          "elapsed_steps": {
+            "maximum": 121
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "elapsed_steps": {
+                  "maximum": 36
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "hit_result_event_id_or_null": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "hit_result_event_id_or_null": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "stop_event_id_or_null": {
+                  "type": "string"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "elapsed_steps": {
+                  "maximum": 120
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "program_id": {
+            "const": "shadow_strike"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "const": "instance_ascension_shadow"
+          },
+          "windup_steps": {
+            "const": 36
+          },
+          "recovery_steps": {
+            "const": 84
+          },
+          "attack_multiplier_bp": {
+            "const": 10000
+          },
+          "elapsed_steps": {
+            "maximum": 121
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "elapsed_steps": {
+                  "maximum": 36
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "hit_result_event_id_or_null": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "hit_result_event_id_or_null": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "stop_event_id_or_null": {
+                  "type": "string"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "elapsed_steps": {
+                  "maximum": 120
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "program_id": {
+            "const": "shadow_moon_arc"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "const": "instance_ascension_shadow"
+          },
+          "windup_steps": {
+            "const": 90
+          },
+          "recovery_steps": {
+            "const": 90
+          },
+          "attack_multiplier_bp": {
+            "const": 15000
+          },
+          "elapsed_steps": {
+            "maximum": 181
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "elapsed_steps": {
+                  "maximum": 90
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "hit_result_event_id_or_null": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "hit_result_event_id_or_null": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "stop_event_id_or_null": {
+                  "type": "string"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "elapsed_steps": {
+                  "maximum": 180
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

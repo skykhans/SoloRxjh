@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:apparel-eligibility-table:v1",
+  "$comment": "1155条衣饰资格的完整精确ID表。来源ID/指针/采用理由及体型对应关系另须与原目录逐项联验；通过本schema不代表完整物品、实例或正式模型完成。",
+  "type": "object",
+  "minProperties": 1155,
+  "maxProperties": 1155,
+  "propertyNames": {
+    "$ref": "urn:solorxjh:apparel-catalog-id:v1"
+  },
+  "additionalProperties": {
+    "$ref": "#/$defs/entry"
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref",
+        "body_types",
+        "body_adoption"
+      ],
+      "properties": {
+        "source_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "file",
+            "pointer"
+          ],
+          "properties": {
+            "file": {
+              "const": "../reference/披风与装饰目录.json"
+            },
+            "pointer": {
+              "type": "string",
+              "pattern": "^/items/(0|[1-9][0-9]*)$"
+            }
+          }
+        },
+        "body_types": {
+          "enum": [
+            [
+              "male"
+            ],
+            [
+              "female"
+            ],
+            [
+              "male",
+              "female"
+            ]
+          ]
+        },
+        "body_adoption": {
+          "enum": [
+            "source_single_explicit_body",
+            "project_dual_body_for_unspecified_source",
+            "project_female_for_39997_conflicting_source"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "body_adoption": {
+                "const": "source_single_explicit_body"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "body_types": {
+                "enum": [
+                  [
+                    "male"
+                  ],
+                  [
+                    "female"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "body_adoption": {
+                "const": "project_dual_body_for_unspecified_source"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "body_types": {
+                "const": [
+                  "male",
+                  "female"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "body_adoption": {
+                "const": "project_female_for_39997_conflicting_source"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "body_types": {
+                "const": [
+                  "female"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

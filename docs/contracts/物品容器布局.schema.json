@@ -7,11 +7,13 @@
   "required": [
     "inventory_revision",
     "inventory",
+    "knight_bag",
     "equipment_bag",
     "warehouse",
     "loadouts",
     "active_loadout_id",
-    "gems"
+    "gems",
+    "knight_bag_overweight_or_null"
   ],
   "properties": {
     "inventory_revision": {
@@ -1240,23 +1242,65 @@
           ]
         }
       }
+    },
+    "knight_bag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slots"
+      ],
+      "properties": {
+        "slots": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "slot_index",
+              "kind",
+              "target_id"
+            ],
+            "properties": {
+              "slot_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 19
+              },
+              "kind": {
+                "const": "stack"
+              },
+              "target_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      }
+    },
+    "knight_bag_overweight_or_null": {
+      "$ref": "urn:solorxjh:knight-bag-overweight:v1"
     }
   },
   "$defs": {
     "owned_inventory_state": {
-      "$comment": "九个平铺角色库存字段的完整联合校验组件，非新持久包装对象。每条正文都经原完整schema；身份/位置闭合、权限重量和来源另验。",
+      "$comment": "十一个平铺角色库存字段的完整联合校验组件，非新持久包装对象。每条正文都经原完整schema；身份/位置闭合、权限重量和来源另验。",
       "type": "object",
       "additionalProperties": false,
       "required": [
         "inventory_revision",
         "inventory",
+        "knight_bag",
         "equipment_bag",
         "warehouse",
         "loadouts",
         "active_loadout_id",
         "gems",
         "item_stacks",
-        "equipment_instances"
+        "equipment_instances",
+        "knight_bag_overweight_or_null"
       ],
       "properties": {
         "inventory_revision": {
@@ -1301,6 +1345,12 @@
           "additionalProperties": {
             "$ref": "urn:solorxjh:adopted-equipment-instance:v1"
           }
+        },
+        "knight_bag": {
+          "$ref": "#/properties/knight_bag"
+        },
+        "knight_bag_overweight_or_null": {
+          "$ref": "#/properties/knight_bag_overweight_or_null"
         }
       }
     }

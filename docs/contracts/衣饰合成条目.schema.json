@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:apparel-synthesis-entries:v1",
+  "$comment": "仅校验未来衣饰实例的synthesis_entries数组，不是完整成长或实例。严格整数token、连续槽序、原成功收据/血统/所有权历史另由owner联合核验。",
+  "type": "array",
+  "maxItems": 4,
+  "items": {
+    "oneOf": [
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slot_index",
+          "property_id",
+          "value",
+          "origin_receipt_id"
+        ],
+        "properties": {
+          "slot_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "origin_receipt_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "property_id": {
+            "const": "apparel_max_hp"
+          },
+          "value": {
+            "const": 50
+          }
+        }
+      },
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slot_index",
+          "property_id",
+          "value",
+          "origin_receipt_id"
+        ],
+        "properties": {
+          "slot_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "origin_receipt_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "property_id": {
+            "const": "apparel_max_mp"
+          },
+          "value": {
+            "const": 50
+          }
+        }
+      },
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slot_index",
+          "property_id",
+          "value",
+          "origin_receipt_id"
+        ],
+        "properties": {
+          "slot_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "origin_receipt_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "property_id": {
+            "const": "apparel_attack"
+          },
+          "value": {
+            "const": 5
+          }
+        }
+      },
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slot_index",
+          "property_id",
+          "value",
+          "origin_receipt_id"
+        ],
+        "properties": {
+          "slot_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "origin_receipt_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "property_id": {
+            "const": "apparel_defense"
+          },
+          "value": {
+            "const": 5
+          }
+        }
+      },
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slot_index",
+          "property_id",
+          "qigong_id",
+          "value",
+          "origin_receipt_id"
+        ],
+        "properties": {
+          "slot_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "origin_receipt_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "property_id": {
+            "const": "apparel_qigong_level"
+          },
+          "qigong_id": {
+            "$ref": "urn:solorxjh:level-award-history:v1#/$defs/allocations/propertyNames"
+          },
+          "value": {
+            "const": 1
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:direct-attack-command:v1",
+  "$comment": "玩家八键正式攻击意图；普通连段由authority决定，不接受客户端段号/攻击值。原完整请求进入统一队列，在处理队首时先按22路由竹采集，再检查战斗武器；不把植物当敌actor。完整会话/目标/学习及实际分派另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "play_session_identity",
+    "command_id",
+    "attack_kind",
+    "ability_id_or_null",
+    "requested_stage_or_null",
+    "primary_target_id_or_null",
+    "aim_turn_u16"
+  ],
+  "properties": {
+    "kind": {
+      "const": "player_command"
+    },
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+    },
+    "command_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "attack_kind": {
+      "enum": [
+        "normal_attack",
+        "attack_martial_skill"
+      ]
+    },
+    "ability_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "requested_stage_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      ]
+    },
+    "primary_target_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "aim_turn_u16": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65535
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "attack_kind": {
+            "const": "normal_attack"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "ability_id_or_null": {
+            "type": "null"
+          },
+          "requested_stage_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "ability_id_or_null": {
+            "type": "string"
+          },
+          "requested_stage_or_null": {
+            "type": "integer"
+          },
+          "primary_target_id_or_null": {
+            "type": "string"
+          }
+        },
+        "allOf": [
+          {
+            "$ref": "urn:solorxjh:direct-martial-selection:v1#/$defs/selection"
+          }
+        ]
+      }
+    }
+  ]
+}

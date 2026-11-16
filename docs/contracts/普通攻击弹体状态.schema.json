@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:normal-projectile-state:v1",
+  "$comment": "普通根弹体完整六字段，方向/速度/射程/寿命唯一复用原根，scope唯一复用发射。活跃位置从原点与进度派生，终止位置从原终止距离派生，不另存剩余寿命/位置/命中布尔。有限数/根分派/联合步距/父证明另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "projectile_id",
+    "action_id",
+    "dispatch_event_id",
+    "origin_position",
+    "completed_flight_steps",
+    "terminal_event_id_or_null"
+  ],
+  "properties": {
+    "projectile_id": {
+      "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/$defs/projectile_id"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+    },
+    "dispatch_event_id": {
+      "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/$defs/event_id"
+    },
+    "origin_position": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+    },
+    "completed_flight_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 83
+    },
+    "terminal_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/terminal_event_id"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "terminal_event_id": {
+      "type": "string",
+      "pattern": "^normal-projectile-terminal:[0-9a-f]{64}(?![\\s\\S])",
+      "minLength": 91,
+      "maxLength": 91
+    },
+    "terminal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "projectile_id",
+        "world_step",
+        "reason",
+        "target_actor_id_or_null",
+        "solid_collider_id_or_null",
+        "travel_distance_mm",
+        "stop_event_id_or_null"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/terminal_event_id"
+        },
+        "projectile_id": {
+          "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/$defs/projectile_id"
+        },
+        "world_step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "reason": {
+          "enum": [
+            "actor_contact",
+            "solid_contact",
+            "range_exhausted",
+            "offensive_stop"
+          ]
+        },
+        "target_actor_id_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "solid_collider_id_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "travel_distance_mm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 22000
+        },
+        "stop_event_id_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "reason": {
+                "const": "actor_contact"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "target_actor_id_or_null": {
+                "type": "string"
+              },
+              "solid_collider_id_or_null": {
+                "type": "null"
+              },
+              "stop_event_id_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "reason": {
+                "const": "solid_contact"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "target_actor_id_or_null": {
+                "type": "null"
+              },
+              "solid_collider_id_or_null": {
+                "type": "string"
+              },
+              "stop_event_id_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "reason": {
+                "const": "range_exhausted"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "target_actor_id_or_null": {
+                "type": "null"
+              },
+              "solid_collider_id_or_null": {
+                "type": "null"
+              },
+              "stop_event_id_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "reason": {
+                "const": "offensive_stop"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "target_actor_id_or_null": {
+                "type": "null"
+              },
+              "solid_collider_id_or_null": {
+                "type": "null"
+              },
+              "stop_event_id_or_null": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

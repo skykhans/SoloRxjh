@@ -1,0 +1,384 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:apparel-expiry-event:v1",
+  "$comment": "仅系统真实角色步衣饰到期的预留/提交原事件；非玩家请求且无取消态。整件终结与纪念revise同笔，完整实际时钟/输入全集/来源和跨字段等式另验，不授权运行。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "instance_flow"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "instance_flow": {
+          "$ref": "#/$defs/instance_flow"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "map_id",
+        "instance_id_or_null",
+        "due_world_step"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "map_id": {
+          "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+        },
+        "instance_id_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "due_world_step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+        }
+      ]
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "source_inputs"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "source_inputs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/source_input"
+          }
+        }
+      }
+    },
+    "source_input": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:instance-flow:v1#/properties/inputs/items"
+        },
+        {
+          "properties": {
+            "instance": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:apparel-instance:v1"
+                },
+                {
+                  "properties": {
+                    "lifetime_remaining_steps_or_null": {
+                      "const": 1
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "item_id": {
+                        "$ref": "urn:solorxjh:apparel-instance:v1#/allOf/1/else/if/properties/item_id"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "revision": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740990
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "custody": {
+              "const": {
+                "kind": "held"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "bonus_output": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:instance-flow:v1#/properties/outputs/items"
+        },
+        {
+          "properties": {
+            "operation": {
+              "const": "revise"
+            },
+            "instance": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:apparel-instance:v1"
+                },
+                {
+                  "properties": {
+                    "item_id": {
+                      "$ref": "urn:solorxjh:apparel-instance:v1#/allOf/1/else/if/properties/item_id"
+                    },
+                    "revision": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "lifetime_remaining_steps_or_null": {
+                      "const": 0
+                    }
+                  }
+                }
+              ]
+            },
+            "source_input_indices": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "custody": {
+              "const": {
+                "kind": "held"
+              }
+            },
+            "creation_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "instance_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:instance-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/source_input"
+              }
+            },
+            "outputs": {
+              "items": {
+                "$ref": "#/$defs/bonus_output"
+              }
+            },
+            "retirements": {
+              "uniqueItems": true,
+              "items": {
+                "properties": {
+                  "reason": {
+                    "const": "apparel_expiry"
+                  }
+                }
+              }
+            }
+          },
+          "anyOf": [
+            {
+              "properties": {
+                "outputs": {
+                  "minItems": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "retirements": {
+                  "minItems": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:apparel-expiry-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "source_inputs": {
+                "items": {
+                  "properties": {
+                    "instance": {
+                      "properties": {
+                        "item_id": {
+                          "$ref": "urn:solorxjh:apparel-instance:v1#/allOf/1/if/properties/item_id"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "instance_flow": {
+            "properties": {
+              "outputs": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "source_inputs": {
+                "items": {
+                  "properties": {
+                    "instance": {
+                      "properties": {
+                        "item_id": {
+                          "$ref": "urn:solorxjh:apparel-instance:v1#/allOf/1/else/if/properties/item_id"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "instance_flow": {
+            "properties": {
+              "retirements": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,492 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:third-advancement-upper-wrong-death-result:v1",
+  "$comment": "上半段错杀原死亡共同父内九键个人子结果。1..5仅计数，第六清本轮材料并保原书。无独立日志/计数/分配身份；真实死亡资格/原accept/来源/全部集合及历史等式另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "character_id",
+    "branch_id",
+    "quest_before",
+    "recommendation",
+    "cleanup_inputs",
+    "violation_count_after",
+    "quest_after",
+    "cleanup_flow_or_null",
+    "failure_receipt_id_or_null"
+  ],
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "branch_id": {
+      "enum": [
+        "righteous",
+        "evil"
+      ]
+    },
+    "quest_before": {
+      "$ref": "urn:solorxjh:third-advancement-upper-quest-state:v1",
+      "properties": {
+        "state": {
+          "const": "in_progress"
+        }
+      }
+    },
+    "recommendation": {
+      "$ref": "urn:solorxjh:third-advancement-upper-transition-event:v1#/$defs/recommendation_input"
+    },
+    "cleanup_inputs": {
+      "type": "array",
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:third-advancement-upper-transition-event:v1#/$defs/material_input"
+      }
+    },
+    "violation_count_after": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 6
+    },
+    "quest_after": {
+      "$ref": "urn:solorxjh:third-advancement-upper-quest-state:v1"
+    },
+    "cleanup_flow_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:third-advancement-upper-transition-event:v1#/$defs/cleanup_flow"
+        }
+      ]
+    },
+    "failure_receipt_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "violation_count_or_null": {
+                "const": 0
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "violation_count_after": {
+            "const": 1
+          },
+          "cleanup_inputs": {
+            "maxItems": 0
+          },
+          "cleanup_flow_or_null": {
+            "type": "null"
+          },
+          "failure_receipt_id_or_null": {
+            "type": "null"
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "violation_count_or_null": {
+                "const": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "violation_count_or_null": {
+                "const": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "violation_count_after": {
+            "const": 2
+          },
+          "cleanup_inputs": {
+            "maxItems": 0
+          },
+          "cleanup_flow_or_null": {
+            "type": "null"
+          },
+          "failure_receipt_id_or_null": {
+            "type": "null"
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "violation_count_or_null": {
+                "const": 2
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "violation_count_or_null": {
+                "const": 2
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "violation_count_after": {
+            "const": 3
+          },
+          "cleanup_inputs": {
+            "maxItems": 0
+          },
+          "cleanup_flow_or_null": {
+            "type": "null"
+          },
+          "failure_receipt_id_or_null": {
+            "type": "null"
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "violation_count_or_null": {
+                "const": 3
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "violation_count_or_null": {
+                "const": 3
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "violation_count_after": {
+            "const": 4
+          },
+          "cleanup_inputs": {
+            "maxItems": 0
+          },
+          "cleanup_flow_or_null": {
+            "type": "null"
+          },
+          "failure_receipt_id_or_null": {
+            "type": "null"
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "violation_count_or_null": {
+                "const": 4
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "violation_count_or_null": {
+                "const": 4
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "violation_count_after": {
+            "const": 5
+          },
+          "cleanup_inputs": {
+            "maxItems": 0
+          },
+          "cleanup_flow_or_null": {
+            "type": "null"
+          },
+          "failure_receipt_id_or_null": {
+            "type": "null"
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "violation_count_or_null": {
+                "const": 5
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "violation_count_or_null": {
+                "const": 5
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "violation_count_after": {
+            "const": 6
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "not_accepted"
+              }
+            }
+          },
+          "failure_receipt_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cleanup_inputs": {
+            "maxItems": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cleanup_flow_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "violation_count_after": {
+            "const": 6
+          },
+          "cleanup_flow_or_null": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cleanup_inputs": {
+            "maxItems": 0
+          },
+          "quest_after": {
+            "properties": {
+              "stage_index_or_null": {
+                "enum": [
+                  2,
+                  null
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_after": {
+            "properties": {
+              "stage_index_or_null": {
+                "enum": [
+                  1,
+                  null
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "branch_id": {
+            "const": "righteous"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "recommendation": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03_righteous_recommendation"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "quest_id": {
+                        "const": "ref_QREF-63790-018"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "cleanup_inputs": {
+            "items": {
+              "properties": {
+                "stack": {
+                  "properties": {
+                    "item_id": {
+                      "const": "adv03_righteous_upper_good"
+                    },
+                    "quest_scope": {
+                      "properties": {
+                        "branch_id": {
+                          "const": "righteous"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "branch_id": {
+            "const": "evil"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "recommendation": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03_evil_recommendation"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "quest_id": {
+                        "const": "ref_QREF-63789-018"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "cleanup_inputs": {
+            "items": {
+              "properties": {
+                "stack": {
+                  "properties": {
+                    "item_id": {
+                      "const": "adv03_evil_upper_good"
+                    },
+                    "quest_scope": {
+                      "properties": {
+                        "branch_id": {
+                          "const": "evil"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:taken-next-attack-bonus:v1",
+  "$comment": "原完整玩家根taken_next_attack_bonus_or_null唯一字段。null或已消费原token的三键历史快照；不另存派生增量/已消费布尔/当前token副本。来源资格、真实before到after清空、首主目标唯一落效及天地新层结果另验。",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "effective_grade",
+        "taken_token"
+      ],
+      "properties": {
+        "profile_id": {
+          "const": "evade_next_normal_bonus"
+        },
+        "effective_grade": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 40
+        },
+        "taken_token": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:assassin-evade-bonus-state:v1"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "effective_grade",
+        "taken_token"
+      ],
+      "properties": {
+        "profile_id": {
+          "const": "evaded_attack_stack"
+        },
+        "effective_grade": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 40
+        },
+        "taken_token": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:sword-timed-effects:v1#/properties/evaded_attack_token"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

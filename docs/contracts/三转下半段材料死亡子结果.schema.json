@@ -1,0 +1,1793 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:third-advancement-lower-material-death-result:v1",
+  "$comment": "三转下半段原普通怪死亡共同决定内的六键个人材料子结果，不独立分配结算或日志；原18分支收集阶段/物品与职业绑定。真实死亡/归属/attempt/全部持量/流身份/数量与角色-world共同父另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "character_id",
+    "quest_before",
+    "held_quantity_before",
+    "outcome",
+    "merge_input_or_null",
+    "stack_flows"
+  ],
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "quest_before": {
+      "$ref": "urn:solorxjh:third-advancement-lower-quest-state:v1",
+      "properties": {
+        "state": {
+          "const": "in_progress"
+        }
+      }
+    },
+    "held_quantity_before": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "outcome": {
+      "enum": [
+        "granted",
+        "cap_reached",
+        "capacity_rejected"
+      ]
+    },
+    "merge_input_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "previous_output",
+            "stack"
+          ],
+          "properties": {
+            "previous_output": {
+              "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+            },
+            "stack": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/material_stack"
+                },
+                {
+                  "properties": {
+                    "quantity": {
+                      "minimum": 1,
+                      "maximum": 9
+                    },
+                    "revision": {
+                      "maximum": 9007199254740990
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "stack_flows": {
+      "type": "array",
+      "maxItems": 2,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/mint_flow"
+        },
+        {
+          "$ref": "#/$defs/merge_flow"
+        }
+      ],
+      "items": false
+    }
+  },
+  "$defs": {
+    "mint_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/material_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "const": 1
+                          },
+                          "revision": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  },
+                  "contributions": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "loot"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "merge_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/material_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "minimum": 2
+                          },
+                          "revision": {
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "material_stack": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:third-advancement-lower-transition-event:v1#/$defs/plan/properties/inputs/items/properties/stack"
+        },
+        {
+          "properties": {
+            "item_id": {
+              "enum": [
+                "adv03lower_righteous_blade_material",
+                "adv03lower_righteous_sword_material",
+                "adv03lower_righteous_spear_material",
+                "adv03lower_righteous_physician_material",
+                "adv03lower_righteous_archer_material",
+                "adv03lower_righteous_assassin_material",
+                "adv03lower_righteous_musician_material",
+                "adv03lower_righteous_fighter_material",
+                "adv03lower_righteous_orb_material",
+                "adv03lower_evil_blade_material",
+                "adv03lower_evil_sword_material",
+                "adv03lower_evil_spear_material",
+                "adv03lower_evil_physician_material",
+                "adv03lower_evil_archer_material",
+                "adv03lower_evil_assassin_material",
+                "adv03lower_evil_musician_material",
+                "adv03lower_evil_fighter_material",
+                "adv03lower_evil_orb_material"
+              ]
+            },
+            "quantity": {
+              "minimum": 1,
+              "maximum": 10
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "maximum": 9
+          },
+          "stack_flows": {
+            "minItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          },
+          "stack_flows": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "cap_reached"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "const": 10
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "capacity_rejected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "maximum": 9
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "maxItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "stack_flows": {
+            "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "held_quantity_before": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "held_quantity_before": {
+            "minimum": 1,
+            "maximum": 9
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "righteous_blade"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 1
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_righteous_blade_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "righteous_blade"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "blade",
+                          "han_feiguan"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_righteous_blade_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "righteous_blade"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "blade",
+                                  "han_feiguan"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "righteous_sword"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 1
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_righteous_sword_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "righteous_sword"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "sword",
+                          "tan_hualing"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_righteous_sword_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "righteous_sword"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "sword",
+                                  "tan_hualing"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "righteous_spear"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 3
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_righteous_spear_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "righteous_spear"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "spear",
+                          "lu_fenglang"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_righteous_spear_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "righteous_spear"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "spear",
+                                  "lu_fenglang"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "righteous_physician"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 5
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_righteous_physician_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "righteous_physician"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "physician",
+                          "dongling_shennv"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_righteous_physician_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "righteous_physician"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "physician",
+                                  "dongling_shennv"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "righteous_archer"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_righteous_archer_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "righteous_archer"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "archer",
+                          "mei_liuzhen"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_righteous_archer_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "righteous_archer"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "archer",
+                                  "mei_liuzhen"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "righteous_assassin"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_righteous_assassin_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "righteous_assassin"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "assassin"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_righteous_assassin_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "righteous_assassin"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "assassin"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "righteous_musician"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_righteous_musician_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "righteous_musician"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "musician"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_righteous_musician_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "righteous_musician"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "musician"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "righteous_fighter"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_righteous_fighter_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "righteous_fighter"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "fighter"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_righteous_fighter_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "righteous_fighter"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "fighter"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "righteous_orb"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_righteous_orb_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "righteous_orb"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "zhen_fengbai"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_righteous_orb_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "righteous_orb"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "zhen_fengbai"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "evil_blade"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 1
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_evil_blade_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "evil_blade"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "blade",
+                          "han_feiguan"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_evil_blade_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "evil_blade"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "blade",
+                                  "han_feiguan"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "evil_sword"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 1
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_evil_sword_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "evil_sword"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "sword",
+                          "tan_hualing"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_evil_sword_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "evil_sword"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "sword",
+                                  "tan_hualing"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "evil_spear"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 3
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_evil_spear_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "evil_spear"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "spear",
+                          "lu_fenglang"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_evil_spear_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "evil_spear"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "spear",
+                                  "lu_fenglang"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "evil_physician"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 5
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_evil_physician_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "evil_physician"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "physician",
+                          "dongling_shennv"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_evil_physician_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "evil_physician"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "physician",
+                                  "dongling_shennv"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "evil_archer"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_evil_archer_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "evil_archer"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "archer",
+                          "mei_liuzhen"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_evil_archer_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "evil_archer"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "archer",
+                                  "mei_liuzhen"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "evil_assassin"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_evil_assassin_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "evil_assassin"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "assassin"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_evil_assassin_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "evil_assassin"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "assassin"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "evil_musician"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_evil_musician_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "evil_musician"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "musician"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_evil_musician_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "evil_musician"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "musician"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "evil_fighter"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_evil_fighter_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "evil_fighter"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "fighter"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_evil_fighter_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "evil_fighter"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "fighter"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "branch_id_or_null": {
+                "const": "evil_orb"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 2
+              }
+            }
+          },
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv03lower_evil_orb_material"
+                  },
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "evil_orb"
+                      },
+                      "class_id": {
+                        "enum": [
+                          "zhen_fengbai"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv03lower_evil_orb_material"
+                          },
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "evil_orb"
+                              },
+                              "class_id": {
+                                "enum": [
+                                  "zhen_fengbai"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

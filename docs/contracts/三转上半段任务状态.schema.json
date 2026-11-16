@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:third-advancement-upper-quest-state:v1",
+  "$comment": "character.quests.adv_03_upper唯一六键。stage1无阶段收据、stage2一条、delivered两条且保本轮0..5违规；失败清本轮状态但保历次failure_receipts。ready为UI实时派生。原attempt/派别/推荐书/真实收据及历史等式由owner另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "attempt_id_or_null",
+    "stage_index_or_null",
+    "state",
+    "violation_count_or_null",
+    "stage_receipts",
+    "failure_receipts"
+  ],
+  "properties": {
+    "attempt_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/receipt_id"
+        }
+      ]
+    },
+    "stage_index_or_null": {
+      "enum": [
+        null,
+        1,
+        2
+      ]
+    },
+    "state": {
+      "enum": [
+        "not_accepted",
+        "in_progress",
+        "delivered"
+      ]
+    },
+    "violation_count_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        }
+      ]
+    },
+    "stage_receipts": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/receipt_id"
+      }
+    },
+    "failure_receipts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/receipt_id"
+      }
+    }
+  },
+  "$defs": {
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "not_accepted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attempt_id_or_null": {
+            "type": "null"
+          },
+          "stage_index_or_null": {
+            "type": "null"
+          },
+          "violation_count_or_null": {
+            "type": "null"
+          },
+          "stage_receipts": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "in_progress"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attempt_id_or_null": {
+            "type": "string"
+          },
+          "violation_count_or_null": {
+            "type": "integer"
+          },
+          "stage_index_or_null": {
+            "type": "integer"
+          },
+          "stage_receipts": {
+            "maxItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "delivered"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attempt_id_or_null": {
+            "type": "string"
+          },
+          "violation_count_or_null": {
+            "type": "integer"
+          },
+          "stage_index_or_null": {
+            "type": "null"
+          },
+          "stage_receipts": {
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "in_progress"
+          },
+          "stage_index_or_null": {
+            "const": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stage_receipts": {
+            "minItems": 0,
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "in_progress"
+          },
+          "stage_index_or_null": {
+            "const": 2
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stage_receipts": {
+            "minItems": 1,
+            "maxItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

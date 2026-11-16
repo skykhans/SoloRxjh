@@ -1,0 +1,623 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:direct-attack-admission-worklist:v1",
+  "$comment": "原scope接纳阶段唯一七字段剩余候选表，九请求kind保两键完整原候选；竹沿原player_command到队首再路由，不改正文或另造采集队列。排序/全集/每实体唯一接纳与完整父来源另验。 内部dongling_forced_action仅保来源application，不保预抽选择或伪造玩家命令；执行/未执行父决定仍待。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "rules_hash",
+    "pending_candidates"
+  ],
+  "properties": {
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:combat-damage-result:v1#/properties/rules_hash"
+    },
+    "pending_candidates": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/candidate"
+      }
+    }
+  },
+  "$defs": {
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_actor_id",
+        "request"
+      ],
+      "properties": {
+        "source_actor_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "request": {
+          "oneOf": [
+            {
+              "$ref": "urn:solorxjh:direct-attack-command:v1"
+            },
+            {
+              "$ref": "#/$defs/training_request"
+            },
+            {
+              "$ref": "#/$defs/private_trial_request"
+            },
+            {
+              "$ref": "urn:solorxjh:dodge-command:v1"
+            },
+            {
+              "$ref": "urn:solorxjh:aux-displacement-command:v1"
+            },
+            {
+              "$ref": "urn:solorxjh:firewood-gather-command:v1"
+            },
+            {
+              "$ref": "#/$defs/ordinary_request"
+            },
+            {
+              "$ref": "urn:solorxjh:player-support-cast-command:v1"
+            },
+            {
+              "$ref": "#/$defs/forced_request"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "player_command",
+                      "player_dodge",
+                      "player_aux_displacement",
+                      "player_firewood_gather",
+                      "player_support_cast"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "source_actor_id": {
+                "type": "string",
+                "minLength": 77,
+                "maxLength": 77,
+                "pattern": "^player-actor:[0-9a-f]{64}(?![\\s\\S])"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "training_ai"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "source_actor_id": {
+                "type": "string",
+                "minLength": 79,
+                "maxLength": 79,
+                "pattern": "^training-actor:[0-9a-f]{64}(?![\\s\\S])"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "private_trial_ai"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "source_actor_id": {
+                "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/enemy_actor_id"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "ordinary_ai"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "source_actor_id": {
+                "$ref": "urn:solorxjh:ordinary-monster-life-identity:v1#/properties/actor_id"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "dongling_forced_action"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "source_actor_id": {
+                "$ref": "urn:solorxjh:dongling-random-walk-intent:v1#/$defs/source_actor_id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "training_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "target_actor_id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "training_ai"
+        },
+        "target_actor_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "private_trial_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "program_id",
+        "target_actor_id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "private_trial_ai"
+        },
+        "program_id": {
+          "$ref": "urn:solorxjh:private-trial-enemy-attack:v1#/properties/program_id"
+        },
+        "target_actor_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "direct_attack_candidate": {
+      "$ref": "#/$defs/candidate",
+      "properties": {
+        "request": {
+          "properties": {
+            "kind": {
+              "enum": [
+                "player_command",
+                "training_ai",
+                "private_trial_ai",
+                "ordinary_ai"
+              ]
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "player_command"
+                  },
+                  "attack_kind": {
+                    "const": "normal_attack"
+                  }
+                },
+                "required": [
+                  "attack_kind"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "primary_target_id_or_null": {
+                    "not": {
+                      "enum": [
+                        "bamboo_01",
+                        "bamboo_02",
+                        "bamboo_03",
+                        "bamboo_04",
+                        "bamboo_05",
+                        "bamboo_06"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "bamboo_request": {
+      "$ref": "urn:solorxjh:direct-attack-command:v1",
+      "properties": {
+        "attack_kind": {
+          "const": "normal_attack"
+        },
+        "primary_target_id_or_null": {
+          "enum": [
+            null,
+            "bamboo_01",
+            "bamboo_02",
+            "bamboo_03",
+            "bamboo_04",
+            "bamboo_05",
+            "bamboo_06"
+          ]
+        }
+      }
+    },
+    "gather_request": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/bamboo_request"
+        },
+        {
+          "$ref": "urn:solorxjh:firewood-gather-command:v1"
+        }
+      ]
+    },
+    "ordinary_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "target_actor_id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "ordinary_ai"
+        },
+        "target_actor_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "forced_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "application_event_id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "dongling_forced_action"
+        },
+        "application_event_id": {
+          "$ref": "urn:solorxjh:dongling-control-effect-state:v1#/$defs/source/properties/application_event_id"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "pending_candidates": {
+            "contains": {
+              "properties": {
+                "request": {
+                  "properties": {
+                    "kind": {
+                      "const": "training_ai"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pending_candidates": {
+            "contains": {
+              "properties": {
+                "request": {
+                  "properties": {
+                    "kind": {
+                      "const": "private_trial_ai"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "enum": [
+              "instance_faction_merit",
+              "instance_ascension_shadow"
+            ]
+          },
+          "instance_id_or_null": {
+            "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/instance_id"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "map_id": {
+            "const": "instance_faction_merit"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "pending_candidates": {
+            "items": {
+              "if": {
+                "properties": {
+                  "request": {
+                    "properties": {
+                      "kind": {
+                        "const": "private_trial_ai"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "request": {
+                    "properties": {
+                      "program_id": {
+                        "enum": [
+                          "merit_veteran_sword"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "map_id": {
+            "const": "instance_ascension_shadow"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "pending_candidates": {
+            "items": {
+              "if": {
+                "properties": {
+                  "request": {
+                    "properties": {
+                      "kind": {
+                        "const": "private_trial_ai"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "request": {
+                    "properties": {
+                      "program_id": {
+                        "enum": [
+                          "shadow_strike",
+                          "shadow_moon_arc"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pending_candidates": {
+            "contains": {
+              "properties": {
+                "request": {
+                  "properties": {
+                    "kind": {
+                      "const": "ordinary_ai"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pending_candidates": {
+            "contains": {
+              "properties": {
+                "source_actor_id": {
+                  "pattern": "^ordinary-actor:"
+                },
+                "request": {
+                  "properties": {
+                    "kind": {
+                      "const": "dongling_forced_action"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pending_candidates": {
+            "contains": {
+              "properties": {
+                "source_actor_id": {
+                  "pattern": "^training-actor:"
+                },
+                "request": {
+                  "properties": {
+                    "kind": {
+                      "const": "dongling_forced_action"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

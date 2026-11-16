@@ -1,0 +1,467 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:combat-damage-result:v1",
+  "$comment": "原combat-damage完整结果字段白名单，22字段平铺身份，blocked/miss/resolved互斥并直接拥有所需拦截/破罩子结果。完整原执行前状态/冻结源/资格与算式和回调闭包另验；不是角色after或第二通用日志。 原结果显式持有cancelled_firewood_action_id_or_null，仅原本人活跃木柴被该真实新输入/正实际敌伤取消时非null；根以本event_id停止，来源/预留同父联验。 必有cancelled_portable_channel_id_or_null引用同父清除的原便携读条；无真实取消显式null，不新增取消日志/物品流。来源/同生命/预留与首因须联合验证。 必有nullable辅助停止引用；仅真实非致死正敌伤且目标未落效时可非null，致死停止归原死亡父。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "action_or_root_event_id",
+    "target_id",
+    "map_id",
+    "instance_id_or_null",
+    "hit_or_tick_ordinal",
+    "event_id",
+    "source_actor_id",
+    "rules_hash",
+    "resolved_world_step",
+    "pipeline_id",
+    "outcome",
+    "blocked_at_stage_or_null",
+    "random_flow",
+    "hp_resolution_or_null",
+    "interception_result_or_null",
+    "cloud_break_result_or_null",
+    "callback_event_ids",
+    "cancelled_firewood_action_id_or_null",
+    "cancelled_portable_channel_id_or_null",
+    "cancelled_support_action_id_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "action_or_root_event_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "hit_or_tick_ordinal": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "event_id": {
+      "$ref": "urn:solorxjh:combat-damage-identity:v1#/$defs/event_id"
+    },
+    "source_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "rules_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "resolved_world_step": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "pipeline_id": {
+      "enum": [
+        "direct",
+        "periodic",
+        "status_burst"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "blocked",
+        "miss",
+        "resolved"
+      ]
+    },
+    "blocked_at_stage_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "enum": [
+            "geometry_relationship_alive_safezone_iframe",
+            "eligible_named_lu_monster_guard_once_per_root_before_accuracy",
+            "eligible_physician_direct_avoid_window",
+            "alive_relationship_safezone_eligible_immunity",
+            "explicit_status_protection_no_hit_no_crit_no_second_defense",
+            "status_burst_eligibility_and_protection"
+          ]
+        }
+      ]
+    },
+    "random_flow": {
+      "$ref": "urn:solorxjh:random-decision-flow:v1"
+    },
+    "hp_resolution_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:combat-hp-resolution:v1"
+        }
+      ]
+    },
+    "interception_result_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:lethal-interception-result:v1"
+        }
+      ]
+    },
+    "cloud_break_result_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:cloud-shield-break:v1"
+        }
+      ]
+    },
+    "callback_event_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "cancelled_firewood_action_id_or_null": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/$defs/cancelled_firewood_action_id_or_null"
+    },
+    "cancelled_portable_channel_id_or_null": {
+      "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/cancelled_portable_channel_id_or_null"
+    },
+    "cancelled_support_action_id_or_null": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/$defs/cancelled_support_action_id_or_null"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "outcome": {
+          "const": "blocked"
+        },
+        "blocked_at_stage_or_null": {
+          "type": "string"
+        },
+        "hp_resolution_or_null": {
+          "type": "null"
+        },
+        "interception_result_or_null": {
+          "type": "null"
+        },
+        "cloud_break_result_or_null": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "properties": {
+        "outcome": {
+          "const": "miss"
+        },
+        "pipeline_id": {
+          "const": "direct"
+        },
+        "blocked_at_stage_or_null": {
+          "type": "null"
+        },
+        "hp_resolution_or_null": {
+          "type": "null"
+        },
+        "interception_result_or_null": {
+          "type": "null"
+        },
+        "cloud_break_result_or_null": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "properties": {
+        "outcome": {
+          "const": "resolved"
+        },
+        "blocked_at_stage_or_null": {
+          "type": "null"
+        },
+        "hp_resolution_or_null": {
+          "$ref": "urn:solorxjh:combat-hp-resolution:v1"
+        }
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "pipeline_id": {
+            "const": "direct"
+          },
+          "outcome": {
+            "const": "blocked"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "blocked_at_stage_or_null": {
+            "enum": [
+              "geometry_relationship_alive_safezone_iframe",
+              "eligible_named_lu_monster_guard_once_per_root_before_accuracy",
+              "eligible_physician_direct_avoid_window"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pipeline_id": {
+            "const": "periodic"
+          },
+          "outcome": {
+            "const": "blocked"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "blocked_at_stage_or_null": {
+            "enum": [
+              "alive_relationship_safezone_eligible_immunity",
+              "explicit_status_protection_no_hit_no_crit_no_second_defense"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pipeline_id": {
+            "const": "status_burst"
+          },
+          "outcome": {
+            "const": "blocked"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "blocked_at_stage_or_null": {
+            "enum": [
+              "status_burst_eligibility_and_protection"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "hp_resolution_or_null": {
+            "type": "object",
+            "properties": {
+              "interception_event_id_or_null": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "interception_result_or_null": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "interception_result_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "hp_resolution_or_null": {
+            "type": "object",
+            "properties": {
+              "cloud_break_event_id_or_null": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cloud_break_result_or_null": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "cloud_break_result_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "resolved"
+          },
+          "hp_resolution_or_null": {
+            "type": "object",
+            "properties": {
+              "actual_hostile_hp_loss": {
+                "minimum": 1
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "resolved"
+          },
+          "hp_resolution_or_null": {
+            "type": "object",
+            "properties": {
+              "actual_hostile_hp_loss": {
+                "minimum": 1
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "resolved"
+          },
+          "hp_resolution_or_null": {
+            "type": "object",
+            "properties": {
+              "actual_hostile_hp_loss": {
+                "minimum": 1
+              },
+              "terminal_lethal_event_id_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "cancelled_support_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cancelled_support_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "null"
+          },
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

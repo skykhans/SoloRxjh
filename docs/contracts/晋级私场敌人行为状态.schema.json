@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:private-trial-enemy-behavior:v1",
+  "$comment": "六转两具名私场敌人的四字段行为组件，非完整actor/活动节点。唯一目标从父活动本人引用派生，不复制target或动作时间游标；完整原动作/冷却触发与扣时及状态来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "definition_id",
+    "ai_state",
+    "accepted_action_id_or_null",
+    "action_cooldowns"
+  ],
+  "properties": {
+    "definition_id": {
+      "enum": [
+        "project_faction_merit_veteran100",
+        "project_yuegong_shadow115"
+      ]
+    },
+    "ai_state": {
+      "enum": [
+        "idle",
+        "chase",
+        "attack",
+        "stopped"
+      ]
+    },
+    "accepted_action_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+        }
+      ]
+    },
+    "action_cooldowns": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "definition_id": {
+            "const": "project_faction_merit_veteran100"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "action_cooldowns": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "merit_veteran_sword"
+            ],
+            "properties": {
+              "merit_veteran_sword": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "urn:solorxjh:combat-cooldown-record:v1",
+                    "properties": {
+                      "remaining_steps": {
+                        "maximum": 120
+                      },
+                      "trigger_event_id": {
+                        "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "definition_id": {
+            "const": "project_yuegong_shadow115"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "action_cooldowns": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "shadow_strike",
+              "shadow_moon_arc"
+            ],
+            "properties": {
+              "shadow_strike": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "urn:solorxjh:combat-cooldown-record:v1",
+                    "properties": {
+                      "remaining_steps": {
+                        "maximum": 120
+                      },
+                      "trigger_event_id": {
+                        "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+                      }
+                    }
+                  }
+                ]
+              },
+              "shadow_moon_arc": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "urn:solorxjh:combat-cooldown-record:v1",
+                    "properties": {
+                      "remaining_steps": {
+                        "maximum": 600
+                      },
+                      "trigger_event_id": {
+                        "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ai_state": {
+            "const": "attack"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "accepted_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "accepted_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

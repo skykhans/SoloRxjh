@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-gather-action:v1",
+  "$comment": "二十一键采集根，竹/木柴严格分型，接受后冻结节点代次，正常e36/e180完成无重复bool。原接纳/后战斗推进链、原效果/停止父与本人来源另验，不存位置/剩余时长/物品数量或工具实例。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "source_actor_id",
+    "accepted_world_step",
+    "action_id",
+    "admission_event_id",
+    "rules_hash",
+    "gather_kind",
+    "node_id",
+    "node_generation",
+    "elapsed_steps",
+    "effect_event_id_or_null",
+    "stop_event_id_or_null",
+    "duration_steps",
+    "effect_step",
+    "cooldown_steps",
+    "hp_cost",
+    "mana_cost",
+    "stamina_cost"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "accepted_world_step": {
+      "$ref": "urn:solorxjh:player-dodge:v1#/properties/accepted_world_step"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:gather-node-state:v1#/$defs/action_id"
+    },
+    "admission_event_id": {
+      "type": "string",
+      "minLength": 81,
+      "maxLength": 81,
+      "pattern": "^gather-admission:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:player-dodge:v1#/properties/rules_hash"
+    },
+    "gather_kind": {
+      "enum": [
+        "bamboo",
+        "firewood"
+      ]
+    },
+    "node_id": {
+      "enum": [
+        "bamboo_01",
+        "bamboo_02",
+        "bamboo_03",
+        "bamboo_04",
+        "bamboo_05",
+        "bamboo_06",
+        "hyunbo_firewood_01",
+        "hyunbo_firewood_02",
+        "hyunbo_firewood_03",
+        "hyunbo_firewood_04"
+      ]
+    },
+    "node_generation": {
+      "$ref": "urn:solorxjh:gather-node-state:v1#/$defs/bamboo_node/properties/generation"
+    },
+    "elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 180
+    },
+    "effect_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/effect_event_id"
+        }
+      ]
+    },
+    "stop_event_id_or_null": {
+      "$ref": "urn:solorxjh:player-normal-attack:v1#/properties/stop_event_id_or_null"
+    },
+    "duration_steps": {
+      "enum": [
+        36,
+        180
+      ]
+    },
+    "effect_step": {
+      "enum": [
+        13,
+        180
+      ]
+    },
+    "cooldown_steps": {
+      "enum": [
+        0,
+        36
+      ]
+    },
+    "hp_cost": {
+      "const": 0
+    },
+    "mana_cost": {
+      "const": 0
+    },
+    "stamina_cost": {
+      "const": 0
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "gather_kind": {
+          "const": "bamboo"
+        },
+        "node_id": {
+          "enum": [
+            "bamboo_01",
+            "bamboo_02",
+            "bamboo_03",
+            "bamboo_04",
+            "bamboo_05",
+            "bamboo_06"
+          ]
+        },
+        "duration_steps": {
+          "const": 36
+        },
+        "effect_step": {
+          "const": 13
+        },
+        "cooldown_steps": {
+          "const": 36
+        },
+        "elapsed_steps": {
+          "maximum": 36
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stop_event_id_or_null": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "elapsed_steps": {
+                "maximum": 35
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "elapsed_steps": {
+                "minimum": 13
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "effect_event_id_or_null": {
+                "type": "string"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "effect_event_id_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "properties": {
+        "gather_kind": {
+          "const": "firewood"
+        },
+        "node_id": {
+          "enum": [
+            "hyunbo_firewood_01",
+            "hyunbo_firewood_02",
+            "hyunbo_firewood_03",
+            "hyunbo_firewood_04"
+          ]
+        },
+        "duration_steps": {
+          "const": 180
+        },
+        "effect_step": {
+          "const": 180
+        },
+        "cooldown_steps": {
+          "const": 0
+        },
+        "elapsed_steps": {
+          "maximum": 180
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stop_event_id_or_null": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "elapsed_steps": {
+                "maximum": 179
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "elapsed_steps": {
+                "minimum": 180
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "effect_event_id_or_null": {
+                "type": "string"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "effect_event_id_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    }
+  ],
+  "$defs": {
+    "effect_event_id": {
+      "type": "string",
+      "minLength": 78,
+      "maxLength": 78,
+      "pattern": "^gather-effect:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "cancelled_firewood_action_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:gather-node-state:v1#/$defs/action_id"
+        }
+      ]
+    }
+  }
+}

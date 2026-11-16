@@ -1,0 +1,688 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-16",
+  "status": "档案级权益与计时/续期项目设计；17项效果、激活来源和完整父未闭合，不允许物品使用",
+  "source_refs": [
+    {
+      "file": "../reference/官网资料/专题补充正文.json",
+      "pointer": "/records/7"
+    },
+    {
+      "file": "../reference/官网资料/专题补充正文.json",
+      "pointer": "/records/9"
+    }
+  ],
+  "source_boundary": "归档商品页明确账号中角色共享、10/30自然日、17项优惠。下述实际游戏时长属于项目单机改编，不标为官网原时制，也不证明V25全部效果仍有效；17项效果依原辅助装备与服务类道具审计逐项另接，不能凭本权益统一发所有收益。",
+  "ownership": {
+    "field": "profile.supreme_service_or_null，归实际profile_id而非character/world/队伍/连接Peer；仅一个共享权益。无权益显式null，有则原source_receipt_id与remaining_steps两字段，来源为最近一次合法激活/续期完整决定。种类、到期bool、购买角色、总消费步、绝对UTC到期时间不另存；有权益余时可为0，以原到期决定与来源认证已耗尽。",
+    "scope": "档案内所有角色读同一权益；切角色/换世界/删除激活角色不赠余时、不销毁档案权益。远端同队其他profile不共享。新档及四已知旧档转换新目标显式null；导入已有目标保既存权益和来源，不能从旧物品名/当前角色状态补服务。当前格式缺字段拒绝。",
+    "source_identity": "source_receipt_id限定原通用结算身份settlement_id，仅指该profile本人合法已committed激活/续期事件；不能指其他owner结算、reserved/aborted或别档来源。事件使用原authority通用计数/去重规则；严格事件与profile原owner日志已注册，完整来源与共同父未闭合仍不允许以合法settlement字符串启用服务。",
+    "parsing": "remaining_steps须JSON安全整数token，拒绝bool/小数/指数/负值/溢出及未知字段；结构接受0仅表达已耗尽，须原完整激活→计时/到期链可证。不得因0清null，也不得因来源ID可解析就推断余时/权益真实。"
+  },
+  "purchase_protocol": {
+    "schema_ref": {
+      "file": "至尊服务购买事件.schema.json",
+      "pointer": ""
+    },
+    "transaction_pattern_ref": {
+      "file": "成长材料购买事件.v1.json",
+      "pointer": ""
+    },
+    "reuse_boundary": "仅复用原七键购买命令、四键计划、槽序合堆/唯一mint→merge、银流、预留提交恢复及ID分配算法；本owner为独立物品身份/单价/5克/服务/请求命名空间，不冒充成长材料日志或其购买来源。",
+    "identity": "request_id为71确定JSON [\"supreme_service_purchase\",play_session_identity.session_id,command_id]，摘要覆盖原完整七键命令；原通用分配和跨owner请求唯一，不能以购买代替激活请求。",
+    "catalog": "仅activation_items.definitions两精确item_id，10d=10000000两、30d=25000000两，Q=1..99；费用Q*原unit_price且原随身银足额，不扣仓银。最大订单2475000000两；两物品均5克，最终携重增加Q*5，不复用成长材料10克。服务精确本人npc_pingshizhi/recovery_and_respec_shop/hyunbo_town且原服务门禁通过。",
+    "outputs": "两物品均99堆/角色绑定/非任务；沿原计划merge_inputs只列实际接收堆，旧量1..98，按槽升序填至99，余量最多一个新最终堆；实物永久。唯一npc_purchase mint及可选merge同原正式购买结果保完整来源，不新增权益余时、激活事件/奖励/随机。",
+    "source_check": "mint_authorization引用本真实原购买committed身份，并核本人/精确物品/Q/价格/银流；别owner收据、reserved/aborted或只合法ID不能铸造。实际新堆ID/原合并前链、数量/余额算术和修订按本完整父验证。",
+    "checkpoint_source_adapter": {
+      "record_schema_ref": {
+        "file": "至尊服务购买事件.schema.json",
+        "pointer": "/oneOf/1"
+      },
+      "graph_owner_ref": {
+        "file": "来源现态推导.v1.json",
+        "pointer": "/checkpoint_stack_adapter"
+      },
+      "manifest_schema_id": "urn:solorxjh:supreme-service-purchase-event:v1",
+      "source_key_pointer": "/identity/settlement_id",
+      "committed_phase_pointer": "/phase",
+      "committed_phase_value": "committed",
+      "flow_pointers": {
+        "stack": "/stack_flows",
+        "silver": "/silver_flow"
+      },
+      "source_unit": "仅原完整committed八键正文是一个不可变保留节点，body_digest覆盖全文。reserved/aborted不提取流，即使计划合法也不构成铸造或支付。原本地日志或已认证原接收证明按真实authority解析，同身份冲突拒绝；不把远端记录追加成本地分配。",
+      "payment_edge": "逐单核command.item_id/quantity与原历史规则对应单价，silver_flow唯一carried_silver账户属于本人角色，previous_output解析原完整银两来源及祖先；唯一npc_purchase movement从账户0到null，amount=quantity*unit_price，after_balance=before_balance-amount且不负。opening_authorization必须null，不能以购买建立无来源银两根或从warehouse_silver支付。保完整原银流事件及必要后继消费证明，不仅保本单扣款数。",
+      "stack_edges": "无合堆时stack_flows恰单mint且receipt_id等本settlement；有实际merge_inputs时恰mint→merge，receipt分别为本settlement加:stack:mint与:stack:merge。mint唯一输出本人held、角色绑定、quest_scope=null、command精确item/Q、revision0，npc_purchase授权指本原购买。merge按原计划真实旧输入及该mint输出解析，不从后缀猜任意producer；全部旧堆前链/最新held域与数量贡献守恒、临时mint完整消费、最终ID/槽序/修订按原购买owner验证。两流及银流同一原决定，不拆成独立来源正文。",
+      "session_rules_edge": "原七键command的真实会话/启用与业务共同父、原interaction对应平十指服务门禁、plan.rules_hash的原历史规则发行包和完整before/after均须保留并验证。只验item/价格/流量不能证明NPC可用或支付合法。购买不产生权益激活/余时或第二服务来源。",
+      "failure_boundary": "该producer适配明确原正文/身份/流提取与依赖职责；真实银两/会话/父来源适配、完整根与实际图加载仍待。缺任一必要证据拒绝检查点准备并保旧证据，不能因本适配登记而开放商店、裁剪或启用LAN。"
+    },
+    "registration_gate": "严格购买事件/profile.supreme_service_purchase_events唯一日志、原通用索引character范围互斥、新建/四旧导入及具名两流来源授权已登记；新日志按allocation_index原序，reserved追加/终态原位替换，已有目标保原历史，当前缺字段拒绝。shop catalog尚未登记，本事件不能实际分配或提交；完整profile/world/网络共同保存与整服务仍待。"
+  },
+  "activation_items": {
+    "source_policy": "商品页10/30天名称与17项权益保原事实；99堆、5克、角色绑定、实物永久、银价/平十指取得为项目单机方案，不对应网页元宝价或现实购买。价格仍须整体经济校准，当前不开商店/使用。",
+    "definitions": [
+      {
+        "item_id": "supreme_hotblood_talisman_10d",
+        "name": "至尊热血符10天",
+        "kind": "profile_service_activation_consumable",
+        "container_id": "inventory",
+        "stack_limit": 99,
+        "weight_g": 5,
+        "binding": "character",
+        "expiry": "实物永久；未使用不消耗服务余时，不以购买日期计时。",
+        "minimum_level": 1,
+        "minimum_completed_rank": 0,
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "duration_steps": 51840000,
+        "buy_price": 10000000,
+        "sell_price": null,
+        "permissions": {
+          "use": "仅完整整服务启用后按本activation_protocol执行",
+          "warehouse": true,
+          "discard": true,
+          "sell": false,
+          "trade": false,
+          "craft": false,
+          "buyback": false
+        },
+        "initial_grant": 0,
+        "knight_bag_allowed": true
+      },
+      {
+        "item_id": "supreme_hotblood_talisman_30d",
+        "name": "至尊热血符30天",
+        "kind": "profile_service_activation_consumable",
+        "container_id": "inventory",
+        "stack_limit": 99,
+        "weight_g": 5,
+        "binding": "character",
+        "expiry": "实物永久；未使用不消耗服务余时，不以购买日期计时。",
+        "minimum_level": 1,
+        "minimum_completed_rank": 0,
+        "routes": [
+          "unselected",
+          "righteous",
+          "evil"
+        ],
+        "duration_steps": 155520000,
+        "buy_price": 25000000,
+        "sell_price": null,
+        "permissions": {
+          "use": "仅完整整服务启用后按本activation_protocol执行",
+          "warehouse": true,
+          "discard": true,
+          "sell": false,
+          "trade": false,
+          "craft": false,
+          "buyback": false
+        },
+        "initial_grant": 0,
+        "knight_bag_allowed": true
+      }
+    ],
+    "acquisition": {
+      "npc_id": "npc_pingshizhi",
+      "map_id": "hyunbo_town",
+      "service_id": "recovery_and_respec_shop",
+      "stock": "本地明确不限量，无现实日历/充值或免费领取",
+      "order_quantity": "1..99正整数，不自动减量；逐单位明码价乘数量，安全整数及余额/槽/重量预检，整单提交。"
+    },
+    "purchase_protocol": "真实本人活跃会话、alive/out_of_combat/Idle/无challenge、原NPC同图可用且<=2.5m，原钱物/库存与业务修订/来源合法；购买只生成角色绑定实物，不激活profile权益、重开余时或完成任务。正式购买已登记原独立严格三阶段及通用分配/日志，不能套成长材料两物品事件或衣饰购买mint。完整来源根、整服务及共同保存门槛闭合前不加入世界shop.catalog_parts。",
+    "use_source": "激活只用真实本人held未预留堆，99为最终上限；一次1单位，98为最大剩余输出量；仓库须明确取回。10/30混合续期沿本原协议，不接受普通热血符同名替代；批量购买不等于批量激活。 行囊存放不授权激活，必须先显式移回inventory，原命令不可自动另选行囊堆。",
+    "discard": "允许本人明确丢弃真实未预留单位，沿原物品数量流discard终结，不退银、不撤回已激活权益；未定义的批量消费/自动到期销毁禁止。",
+    "remaining": "两实物定义/取得条件及购买严格事件/日志已登记；shop catalog、全物品正式分派与完整来源根尚待，仍保便携owner.reserved_items身份直到启用门槛闭合。"
+  },
+  "duration": {
+    "rate_hz": 60,
+    "day_steps": 5184000,
+    "items": [
+      {
+        "item_id": "supreme_hotblood_talisman_10d",
+        "duration_steps": 51840000
+      },
+      {
+        "item_id": "supreme_hotblood_talisman_30d",
+        "duration_steps": 155520000
+      }
+    ],
+    "policy": "一服务日明确为86400秒实际获准Playing时长，固定60Hz实际步；采用游戏时长以避免单机休息/退出耗尽。无墙钟/文件mtime/世界T差值补扣。此为17项共同权益时钟，不把每个效果、角色或scope分别扣一次。"
+  },
+  "clock": {
+    "offline_host": "同档独占写者控制一名实际在玩的角色。每个实际获准世界Playing步最多扣本档1步，无论该world本轮有多少scope/角色/持续刷点；不在scope角色计时队列再次扣。主菜单/角色选择/整场暂停/加载未决/退出不扣，个人模态未暂停世界仍扣。新世界/读档恢复原步不额外扣。",
+    "lan_client": "原会话accepted须冻结本人档案权益完整基线及激活/续期来源，房主不能凭客户端bool授予权益。该有效会话期间，原房主唯一世界步父消费这份实际profile的权益；client不同时自行递减。临时断连而原会话世界仍Playing时沿同一原世界步计时，不以角色10秒移除或实体暂停另冻结服务。会话正式结束/结果恢复必须结清该档案权益余额及原源证明后才能释放guard并切离线/另一世界。完整跨档案权益封套与共同保存协议未采用前，不允许LAN启用本服务。",
+    "phase": "本T原世界级规则计时先于scope授予/个人倍率与新业务：r>1本T扣到r-1仍有效，r=1本T到0则本T新业务无服务资格；r=0不再递减。先前正式冻结的合法决定按其原服务快照恢复，不用当前余时改历史概率/报价/奖励。新激活/续期在原业务阶段提交，本T不补扣一次；后续实际世界步开始消费。",
+    "uniqueness": "同profile本T只一个真实计时权威；源为原世界级完整步决定和本人原会话基线，不新增profile累计时钟/last_world_step镜像或按scope数量相乘。暂停或保存存疑不先把余额前移，恢复先原决定，不能重复扣。"
+  },
+  "activation_renewal": {
+    "preflight": "仅合法具名10d/30d实物、来源/绑定/权限与本人held未预留单位通过，并且本人活跃会话允许明确道具业务时才可预留；不可从warehouse取、不能信UI权益开关。两实物定义/取得条件与价格沿activation_items；购买严格事件/来源根、整服务与共同父未闭合，现阶段仍禁止使用。",
+    "balance": "无权益或r=0，新余额=对应时长；r>0，新余额=r+对应时长。10/30版本属于同一权益，混用相加，不新建两份倍率或把已有余时截成新时长。加法须安全整数预检；溢出拒绝整笔，保实物和原余额。无隐藏累计上限或静默截断。",
+    "commit": "消费恰1真实实物单位、原堆数量流/库存与角色修订、profile权益新余额/source_receipt_id及正式原激活结果同一原authority共同决定；source_receipt_id等该唯一原决定身份。重复命令回原结果不再消费/加时，不能把expiry=0当可重复使用历史道具。严格事件结构已采用，完整来源与两端跨profile保存仍待。",
+    "restrictions": "不提供付费账号/公网服务器/现实购买通道；本合同也不以本地免费领取代替未定义的物品取得。基础装备组与30存点不因权益0禁用。"
+  },
+  "shared_profile_baseline": {
+    "schema_ref": {
+      "file": "至尊共享权益基线.schema.json",
+      "pointer": ""
+    },
+    "shape": "五键play_session_identity/profile_revision/rules_hash/supreme_service_or_null/role_states；每角色四键identity/character_revision/owned_inventory_state/portable_travel_channel_or_null。库存复用原十一键联合根，含原inventory_revision且不在角色项再复制。角色1..6因实际入房会话必属至少一真实角色。",
+    "snapshot": "持本人原档案租约及完整写锁，先验证完整正式profile/全部子根及来源，再从同一个不可变前态提取，profile_revision等该次实际前态，不取网络发送时更新后的revision。session精确原opening身份，rules_hash等原房主规则；身份所属profile必须原真实文件且有合法会话准入。不是把几个独立合法片段拼成一个前态。",
+    "roles": "role_states精确覆盖本人当时characters全部身份，按identity.character_id UTF8严格升序、无重复，包含未出场者；实际加入角色恰一个。每角色revision/库存联合正文精确原角色；人物身份/class/容器布局/穿戴/全局携重与行囊重量仍核原完整角色派生及来源，不以本投影省略气功/成长/角色总超重证据。",
+    "actions": "仅本session实际入场角色可持归本人原合法会话的活动便携动作，须先按原跨世界/会话边界恢复或中止旧来源；其他未出场角色portable=null。不能把另一world动作带入新authority继续，也不能因基线校验发现坏动作直接清null。当前入场是否允许已有读条由原会话接纳/迁移互斥规则最终判定，本结构不授权恢复。",
+    "service": "权益null或原两键状态精确取本人前态，保真实激活/计时/到期祖先链。仅本快照角色信息不能证明其他profile来源，不能接受客户端自行声明的余时或堆来源字符串；缺原全量闭包拒绝，不填null或空包修复。",
+    "retention": "这是原接纳所需业务范围历史证据，沿同一原接纳父唯一保存并由后续决定引用；不把整份profile连同其旧接纳/网络证明再嵌入新基线，避免重复递归复制历史。依赖原角色/物品/服务完整来源按其原owner保留，不能因本快照不含所有历史而删除祖先。",
+    "publication": "基线原字节现沿角色会话admission_record/world_session_record的supreme_profile_baseline_base64_or_null唯一保存，原收据supreme_profile_digest_or_null绑定，原两键接纳ACK确认该完整记录已保存；整档排他授权沿原会话profile_exclusivity；共享投递/保存事实与终局规则现沿shared_profile_results；完整源父认证及运行仍待，个人结果ACK不代替共享结果ACK。",
+    "boundary": "基线/接纳/派生授权、共享结果/ACK及原会话存储/终局T规则采用；完整profile/角色/world来源与共同父、首步/终局证明、有界压缩和Godot仍待，LAN共享服务禁用。"
+  },
+  "world_begin_commit_boundary": {
+    "status": "world_begin_authority_and_recipient_commit_boundaries_adopted_strict_lan_profile_envelope_pending",
+    "session_owner_ref": {
+      "file": "角色会话.v1.json",
+      "pointer": "/admission_records"
+    },
+    "network_owner_ref": {
+      "file": "网络结果链.v1.json",
+      "pointer": "/apply_atomicity"
+    },
+    "local": "offline仅本人独占profile及其中实际world，一个真实profile_id计时结果；枚举本人全部角色。原world时钟/初始队列/服务余时/逐角色到期/必要动作取消及profile revision同一完整文件原子替换。冻结before须在原租约与写锁内重验，原正式短事务先恢复；不能先写角色再补world或凭时钟已增补造到期。完整根/替换实际实现仍待。",
+    "authority_vs_recipient": "LAN原房主唯一完整world决定持久成功是本T业务决定成立点；不是所有远端文件同时已保存。远端只应用该决定，按原档案整体锁一次保存本人服务/全部角色副作用/来源证明及原接收进度，成功后才ACK。房主不能直接写远端文件或在其未保存时宣称全员完成。",
+    "baseline_gap": "原opening_character_base64及个人结果character_after_base64只覆盖当前角色；共享基线现由接纳记录独立原字节及supreme_profile_digest_or_null绑定，原两键ACK通过唯一收据确认该接纳基线已保存。个人九键ACK仍只认证角色结果，不证明后续服务及全角色副作用。",
+    "required_baseline": "原严格五键至尊共享权益基线及原接纳字节/摘要/保存ACK已采用；实际启用仍须同租约完整profile/全部角色来源和真实角色全集证明，严格投影或摘要不替代完整根。",
+    "profile_exclusivity": "按角色会话profile_exclusivity从完整profile最多一个原玩法guard及接纳证明派生整档业务占用；opening即阻止同档第二角色新会话。原authority只能提交具名当前角色业务与共享服务/到期副作用；其他角色创建/导入/配置/删除不脱离原授权。设置等非业务写入仍从最新完整profile合并；不得另建重复profile guard。实际联合验证与共享结束闭合仍待。",
+    "required_envelope": "严格八键共享封套、有限变化/跨链依赖与原会话日志/本地保存前缀沿shared_profile_results；真实首步/完整共同父及有界压缩仍待。",
+    "required_ack": "原四键ACK与本地首次保存事实/权威确认沿shared_profile_results.storage，分别保存、不预填远端确认；不能由个人九键ACK代替。",
+    "lag_failure": "房主原决定写失败/存疑保原未决，不发布T或重算计时；原决定已持久后远端失败不回滚/退时/重放发物。该profile本地新业务冻结并只恢复原决定，其他合法世界进度沿已认证authority状态继续；已接纳未结束且临时失联的profile仍按clock_result枚举计时，不因客户端磁盘失败暂停其服务。完整原authority后续链与接收序仍须证明。",
+    "end_restore": "原authority先收束已决定结果并持久end及最终共享T，终止后续计时枚举；无需等所有远端ACK才作唯一结束。client补齐共享终局T与个人最终序号、正式保存服务/全角色副作用/end并清guard后才可切另一玩法；源父/终局证明缺失保closing。",
+    "gate": "原基线/接纳、整档授权、共享结果/ACK/存储前缀/终局T规则采用；完整共同父/来源认证、首步与结束源证明、有界日志压缩及Godot验证仍待，LAN完整服务仍禁用。",
+    "profile_exclusivity_owner_ref": {
+      "file": "角色会话.v1.json",
+      "pointer": "/profile_exclusivity"
+    }
+  },
+  "expiry_role_results": {
+    "schema_ref": {
+      "file": "世界步开始计时结果.schema.json",
+      "pointer": "/$defs/expiry_role_result"
+    },
+    "placement": "原世界begin七键投影的supreme_expiry_role_results数组；不新增profile/角色到期日志或counter，也不把本数组单独存成可用存档。每项profile_id/character_id/角色前后修订/单一inventory_revision/行囊来源after/便携取消引用七键，无第二份物品/重量/权益余额。",
+    "enumeration": "先从原supreme_clock_results精确取真实service_before余时1的profile集合，逐档案原完整characters全体各恰一项，含未出场和无实际变化者；本人角色表为空则无项。按profile_id UTF8再character_id UTF8严格升序，组合键唯一，集合必须完全相等；非到期profile不得有项。不从scope当前活体或UI选角枚举。",
+    "before": "每项角色修订及inventory_revision精确原begin前像；原全部物品/槽/绑定/权限与来源先联合核验，实际正权益下本行囊旧超重来源必须null，不能用到期覆盖矛盾旧凭证。完整角色归属及原动作占用也须验证。",
+    "overweight_after": "原合法行囊重量<=50000时after=null；50000<重量<=100000时after三键必须等本投影world_id、world_after.training_gate_clock_steps和本项inventory_revision。单物品/槽/正文不变，inventory修订不变；原重量超过100000或全局携重来源矛盾整笔拒绝，不借到期清理坏档。",
+    "portable_cancel": "真实当前至尊土灵读条到期必引用原channel_id并同父清null/释放原存点预留。普通实物读条只有本到期新超重门禁等真实原规则要求时取消，不因无至尊自动切模式；无取消显式null。引用归本人原会话/接纳及生命周期，不可借其他角色/新动作ID。未出场角色不得持不合法活动读条，拒绝而非自动清。",
+    "revisions": "仅实际建立行囊超重来源或清当前便携动作的角色after=before+1，两项同时改变也只加一次；均无变化则after=before。所有角色物品不变，共用单inventory_revision定位前后同版本。角色/档案安全整数耗尽须先拒绝整个begin，不跳过坏项或先提交其他档案。",
+    "proof": "原世界计时、逐档案1到0、全部角色真实after及副作用、原档案替换与该数组同父。到期作用域相同但未证明原角色before/after/库存版本/取消的数组不是正式来源。恢复只回原冻结行，不用当前角色列表/后来库存重量重做；原历史begin须保以验证行囊凭证。",
+    "boundary": "全档案逐角色到期结果结构与原begin挂接采用；完整profile/character/world根、多档案提交/接收封套及Godot仍待。本投影不证明实际资格或保存完成。"
+  },
+  "expiry_dispatch": {
+    "status": "profile_wide_expiry_dispatch_designed_full_commit_pending",
+    "trigger": "仅原世界begin本人service_before.remaining_steps=1且after=0触发。null及已0不重复派发，正余时普通扣步不创建到期来源。先恢复/中止全部依赖本人权益的原正式短事务，再冻结该begin前像；已committed结果保原冻结值。",
+    "character_set": "从本人原完整profile.characters枚举全部真实角色，以identity.character_id原UTF8字节序严格递增处理，最多六人；不是selected_character_id、当前scope、当前在线角色或客户端提交名单。全表归属/唯一身份/完整库存和未决来源须先验证；其他档案角色不得混入。空角色档案无角色副作用但仍扣本人权益。",
+    "inactive_characters": "未出场角色仍验证并应用行囊到期门禁；不为其授予scope/Playing步，不推进冷却、读条、状态、训练或实体资源，不把到期解释成离线模拟。合法保存的角色副作用属于同一次原profile替换，不能等切角色才补造。",
+    "knight_bag": "逐角色沿knight_bag_owner_ref核完整到期前库存。重量<=50000且原状态合法则保持null；50000<重量<=100000创建本world/T及原库存修订的三键来源。所有原槽/物品/堆正文和inventory_revision保持。超过100000、原来源矛盾或缺权限拒绝整个begin；不跳过坏角色推进其他档案。",
+    "active_action": "仅真实在场且拥有原至尊土灵读条的角色按unlimited_earth_spirit_effect取消并释放点预留，保位置/资源/物品/共享冷却；即使本T原可读完也先取消。普通实物读条保持原来源，若行囊到期产生超重门禁则按原携重限制显式取消，不能自动切成免费或消耗实物模式。未出场角色若残留不合法活动动作须拒绝坏父，不借到期清档。",
+    "unchanged_effects": "原已决定奖励/掉落/加工/成交不追扣或重抽；武勋余额、XP、两套装备组和30存点按各已采用owner保持。未冻结报价/复活选择沿各owner失效，不自动提交新价格或替换选择；吸魂/凝神珠未采用资源不由本派发创建。",
+    "revision": "每个实际持久状态改变的角色由同一begin统一使character_revision恰+1；同角色同时超重和动作取消只加一次，不为仅验证且状态相同角色加修订。纯行囊来源建立/动作取消不改变物品，inventory_revision不增；原已恢复短事务的修订属于其原决定，不混入begin before。profile.revision按原完整替换恰+1，所有安全整数溢出在冻结前拒绝。",
+    "atomicity": "world时钟/初始队列、逐档案服务结果、全部受影响角色来源与动作取消和各原profile修订同一原共同决定。不可先保存当前角色或先广播0余时，再补其余角色；任何接收者未完成沿原决定恢复，不能重枚举当前角色表、重新计算历史重量或重复修订。完整跨档案保存封套未采用前仍禁止运行。",
+    "knight_bag_owner_ref": {
+      "file": "侠客行囊.v1.json",
+      "pointer": "/overweight_source"
+    },
+    "boundary": "明确全档案派发集合/顺序/修改与恢复语义；完整profile/角色/便携动作根、正式跨接收者父与运行验证仍待。此规则不新增角色快照、到期日志、镜像余额或独立计时器。"
+  },
+  "expiry": {
+    "effects": "余时1→0原世界父产生唯一到期业务事实；17项各owner须明确是否取消可取消未决、保原已决定报价/概率、行囊超重、武勋高于新cap及原地复活待决。未定义这些行为前不能激活完整服务，不先把数值减掉后丢溢出物/武勋。",
+    "retention": "r=0保原合法来源和完整历史决定，续期换新来源但保祖先闭包。无权益null与已耗尽0不同，不能由读档自动互换或删除旧来源。"
+  },
+  "remaining_work": [
+    "完整profile根联合登记及权益来源/计时闭包（两键状态与新建/导入入口已登记）",
+    "两道具shop catalog/全物品正式分派及购买→激活实际来源闭包（定义/取得、两类严格事件/日志索引已采用）",
+    "世界级计时/到期共同父与LAN档案权益同步封套",
+    "17项效果逐owner取舍、概率/倍率/到期未决和容量规则",
+    "Godot实际Playing/暂停/多开/LAN/失败写盘测试"
+  ],
+  "state_schema_ref": {
+    "file": "至尊服务状态.schema.json",
+    "pointer": ""
+  },
+  "world_begin_clock_projection_ref": {
+    "file": "战斗命中与减伤.v1.json",
+    "pointer": "/world_begin_clock_projection"
+  },
+  "clock_result": {
+    "schema_ref": {
+      "file": "至尊服务计时推进结果.schema.json",
+      "pointer": ""
+    },
+    "placement": "原world级Playing步计时共同父内按实际profile_id稳定顺序保存唯一七键结果；不置入scope角色rules_and_timers，不建立独立profile计时日志/新counter/结果ID。身份精确原world/authority/T，rules_hash精确原冻结规则包。原世界父完整结构尚待，本schema不新添world根字段冒充闭合。",
+    "enumeration": "原权威在本T开始从本人offline独占会话或LAN已accepted且未正式end的真实权益基线枚举档案，每profile恰一次；多scope不重复、临时断连仍保会话则继续，正式结束后不再列。无权益null也保本父null→null证明，以区分漏处理与明确无权益。完整LAN基线未采用前不得实际启用。",
+    "semantics": "service_before逐字段等同该原profile当前合法两键状态；null→null，r=0→同source/0，r>0→同source/r-1。不得更改source、补时、跳扣或用当前余额覆盖存疑旧结果；结构只约束分支范围，精确相等/减法须原父联合验证。1→0为同父唯一到期事实，不另存expired bool/另发奖励。",
+    "atomicity": "本profile有激活/依赖本权益正式短事务未决时，先恢复或中止，再决定本T；不得跳过后推进scope。原world步授予/本结果/档案权益与必要到期动作取消及行囊限制同原共同决定保存。未完成保存不发布该T新业务；重放已决定原结果不再扣。跨profile/LAN完整共同保存协议未采用前不运行。",
+    "boundary": "计时结果结构与归属采用；世界原共同父、逐档案授予全集、各到期副作用与LAN多档案保存仍待，非完整时钟实现。"
+  },
+  "provenance_validation": {
+    "entry": "先验完整profile原白名单/当前正式修订及本人真实profile_id、原会话/结果保存证明，不能从单独两键状态或局部日志通过推断完整档案可信。以当前原正式替换链定位状态来源，不取文件mtime/数组最后一项/最大通用allocation_index。不同world/authority的分配编号不能直接比较新旧。",
+    "resolve": "nonnull.source_receipt_id只解析本人原committed supreme_service_activation事件：本地原owner或已认证原authority完整接收证明，拒绝把远端决定复制成本地分配记录。精确核identity.settlement_id、command.play_session_identity.profile_id等本人、原会话真实所属与原请求正文/摘要/计数。reserved/aborted、别profile、别owner、重复冲突和只给合法字符串均拒绝。",
+    "ancestry": "从当前最新激活原plan.service_before向前追真实来源：null为原新档无权益根；非null必须指更早真实committed激活及其后到本before的连续服务计时/正式替换证明。用当前递归路径检测同身份环，核每条原profile替换因果先后，不能靠allocation_index排序修好跨authority链。保同一source的计时只减余额，续期才换来源；每条before与原真实前状态精确一致。",
+    "amounts": "逐激活核真实item_id/源堆/consume1与余量、10/30时长、原before余时加duration=plan.planned_remaining_steps、service_after.source_receipt_id=本结算、after余时=计划，所有整数安全。对同source的每个已正式获准Playing步按原世界级计时最多扣1，暂停/缺席/重放不伪造步；链末状态余时必须等当前remaining_steps，不允许仅以0<=当前<=最初时长代替计时证据。",
+    "null_zero": "当前null只允许原明确新建/已知旧导入新目标无权益根且此后无已提交激活。曾committed后耗尽保source与0，不能退回null；有更晚已提交续期却仍指祖先来源拒绝，不能以当前祖先余额更小猜合法。未提交reserved只按原before恢复，不覆盖已有后继结果。",
+    "continuity": "本profile同时最多一个原服务权威/未决；一旦LAN会话冻结基线，须沿原房主服务计时/激活与最终权益结果连续保存后才能切离线或其他world。原权威来源尚缺/结果未ACK不是无服务，不另起本地链；缺失保持原未决并报错，不补余额或从当前时间推导。",
+    "boundary": "这是完整来源验证顺序与拒绝规则，不是已实现验证器；原profile/world替换链、服务计时共同父及LAN权益封套未闭合，当前不能据此启用服务。",
+    "checkpoint_adapter": {
+      "record_schema_ref": {
+        "file": "至尊服务激活事件.schema.json",
+        "pointer": "/oneOf/1"
+      },
+      "manifest_schema_id": "urn:solorxjh:supreme-service-activation-event:v1",
+      "identity": "仅原phase=committed完整八键正文可作为激活节点；manifest.source_key精确record.identity.settlement_id，body_digest覆盖该整个不可变正文。按真实本地日志或已认证远端原证明读取，不把远端identity追加成本地通用分配。reserved/aborted不产生权益来源节点，不能因同schema存在就接收。",
+      "entry_roots": "从cut实际supreme_service_or_null、全部未决/后缀角色权益授权、保留个人结果与其他仍可达消费者引用的每一个原source_receipt_id起遍历，不只取当前最新激活。已耗尽0仍是根；当前null须原明确新建/旧导入根证明，不由缺日志推null。过去已结束但仍被倍率/复活/读条引用的激活也不能裁剪。",
+      "service_edge": "record.plan.service_before非null时必保其source_receipt_id所指原更早committed激活，及从其service_after到本plan.service_before的实际同源连续world计时/已采用区间与跨session最终结果证明；余额0也保该边。null边只能落原明确无权益初始根，不能以null省略已发生激活。按原正式替换因果校验，不按不同authority编号大小排序。",
+      "item_edge": "record.plan.stack_input的receipt_id/output_index必须等唯一record.stack_flows[0].inputs[0]，解析该原生产者完整流/精确输出和全部祖先；核该输出真实本人held/角色绑定/原stack_id/revision/item_id/数量，再沿原物品来源owner认证取得与后续消费唯一性。仅保消费1的本流或只保余量头不足以证明输入合法；不得因购买已ACK删除mint/合堆/保管迁移必要祖先。",
+      "session_rules_edge": "保原command.play_session_identity的begin/接纳/启用与相应原业务共同父，核identity authority、真实profile与角色；plan.rules_hash绑定的原已验证历史规则发行包也必须仍可读取并通过原规则manifest字节验证。规则资源不是任意网络路径，不因只保hash字符串当存在。原会话未启用、错误原世界阶段/来源/施用资格拒绝，不能只验两修订+1。",
+      "stack_source_adapter_ref": {
+        "file": "来源现态推导.v1.json",
+        "pointer": "/checkpoint_stack_adapter"
+      },
+      "embedded_flow": "本激活stack_flows[0]正文仅由原事件唯一持有，不在保留集再复制第二份流。其他源按原stack-flow定位该原事件内部具名流/输出，manifest激活节点覆盖整个原正文；解析器仍按原flow owner验receipt与实物/版本守恒。带mutable ACK的外层world/proof包装不进入该正文摘要。",
+      "walk_and_retain": "以(schema_id,source_key)作访问身份，灰色递归路径命中即环拒绝；已经完整验证的同身份正文摘要一致可复用，不同正文拒绝。遍历的外层正式profile/源索引必须先合法、指向同源；未完成节点不当成已验证黑色节点。先得完整合法闭包与cut依赖后才能比较清单精确集合，不按清单自行声明的节点集跳过边。",
+      "failure_boundary": "任一生产者无已登记来源适配/规则包缺失/实际首尾计时或原共同父不完整，保全部旧证据并拒绝检查点准备；不删源、补余额/空包、重建消耗或重发商品。此为D1原激活adapter合同；完整图加载器、物品/会话/世界其他适配、全根与Godot实际验证仍待，不能宣称全来源闭包已通过。"
+    }
+  },
+  "activation_protocol": {
+    "identity": "沿原结算身份通用五键身份与profile原owner日志去重。请求键固定为 [\"supreme_service_activate\",play_session_identity.session_id,command_id] 的71确定编码；摘要覆盖原完整白名单命令，保reserve到终态。不同session/命令独立，相同键不同正文拒绝；不为权益/物品流再分配身份。日志owner已注册，完整来源/共同父及效果未闭合仍禁止执行。",
+    "command": "原五键play_session_identity/command_id/expected_character_revision/expected_inventory_revision/stack_id，类型/边界沿气功洗点事件原command。客户端仅指定本人held堆，不上传item_id/时长/余时/价格/新权益。原stack最新业务版本与item_id决定10或30，两个精确物品身份由duration.items登记。",
+    "preflight_order": "先认证原真实会话/档案、可靠命令正文与全owner去重；再核实际业务/库存修订、alive/out_of_combat/Idle/无active challenge、堆属于本人held且为合法两物品之一、真实来源/绑定/数量/未预留、完整权益及同档无另一个权益未决。最后预检余时相加、堆版本/角色/库存/profile修订与结算计数可递增。坏来源/未知格式不是普通无权益或无物品，不造可成功计划。",
+    "plan": "reserved保存原rules_hash、实际stack_input完整前输出/最新held域、service_before原null或两键余额、由真实item_id解析的duration_steps及唯一计划after余额；均来自同一真实before，不按客户端当前剩余时长构造。计划后来源固定本identity.settlement_id。计划/原命令/身份与通用counter预留同次原档案保存，尚未消费物品、不加时、不改角色/库存业务修订。plan严格结构已采用，source闭包仍待。",
+    "isolation": "同档权益预留到终态期间不允许服务计时父、另一个激活、角色切换或跨world接纳插写该权益。原实际世界步在触及该profile服务计时前必须先恢复/中止本原未决；不能让世界时钟跨过未处理服务项，再以新余额修改旧plan。明确短事务不等待用户长确认，UI确认应在预留前；LAN客户端/房主跨档案协议尚未闭合时禁止预留。其他profile只有其原世界共同决定无依赖时才可继续，不以全档锁冻结别人的独立世界。",
+    "commit": "核原计划/权益/物品版本和原仍有效会话。只消费计划stack_input中的1单位；数量1则无held余量输出，数量>1则沿原stack-flow消费1并保原stack_id/revision+1的其余量与原槽。不生成新实物、银/XP或转仓库。stack_flow.receipt_id精确identity.settlement_id、无mint_authorization，消费reason精确复用原use，quantity=1、input_index=0；服务用途授权来自本原严格激活事件与真实两物品身份，不新增专用reason，不冒充洗点/卖出。完整来源/共同父未采用前不能执行。权益after.source_receipt_id为本结算、余时为原plan.after；角色/inventory各+1，profile沿同次完整替换+1，日志从reserved转committed与这些业务同笔。",
+    "abort": "明确取消只允许reserved未正式提交；保两业务修订、全部物品与权益before，原日志同身份转aborted并保原计划/取消原因，释放堆/权益预留，counter不退。命令已committed只能回原成功，不以超时/掉线把成功改abort。未知保存结果不允许走abort补偿。",
+    "uncertain_replay": "先重读原正式档案身份/阶段/计划、物品来源头、权益/修订及必要LAN原父。已committed只返回同原决定，绝不再消费或将计划after覆到后来已计时的余额；仍reserved只沿原plan恢复或合法中止，不按当前物品/余额重新选号重算。阶段/物品/权益无法组成原一致正式状态时保未决报错，不凭mtime/当前余时或物品不见猜成功。",
+    "boundaries": "严格事件/日志/索引结构采用；两物品正式购买事件/日志已登记；目录与完整来源、profile与world完整共同父、LAN权益封套及17项效果仍待，禁止实际激活。两物品正式stack_limit=99，激活消费1后余量输出上限98；通用item-stack已按两精确item_id限制99/character/null任务域，解析plan.stack_input引用的原完整输出后同样必须过该schema及真实来源/最新版本/本人held检查；不能以引用本身合法跳过输入正文。输入数量n须1..99，正式单消费后无输出当且仅当n=1，n>1则唯一原ID余量n-1/revision+1；不只检查输出范围。",
+    "command_schema_shape_ref": {
+      "file": "气功洗点事件.schema.json",
+      "pointer": "/$defs/command"
+    },
+    "identity_owner_ref": {
+      "file": "结算身份.v1.json",
+      "pointer": ""
+    },
+    "stack_flow_owner_ref": {
+      "file": "物品堆来源流.schema.json",
+      "pointer": "/properties/consumptions"
+    },
+    "schema_ref": {
+      "file": "至尊服务激活事件.schema.json",
+      "pointer": ""
+    },
+    "storage": "profile.supreme_service_activation_events为唯一原事件数组，新空档及四已知旧来源新目标显式[]，已有目标保原日志与权益闭包。reserved四键；committed八键（含原service_after与单stack_flow）；aborted五键，三态沿同一原身份/记录，不追加第二阶段副本。严格日志投影及原通用索引已登记，pending_scope=profile。",
+    "semantic_checks": "原plan.item_id逐字等stack_input原前输出真实item_id；duration由对应两具名定义取，planned_remaining_steps=原有效before余时（null作0）+duration，安全整数预检。committed.service_after余时等计划、source_receipt_id等本identity.settlement_id，角色/库存after各等原command预期+1；stack_flow输入恰原plan.stack_input、receipt同本结算，原持有余量及版本守恒。结构不能证明这些相等/加法，须完整来源和原共同父联合认证。"
+  },
+  "reward_effects": {
+    "source_policy": "官网归档至尊经验+50%、历练+40%、金钱+40%保原值；与修炼/任务/衣饰取max、允许分量/时点及封顶顺序为项目方案，不声称官方叠加公式。四项收益倍率与三项基础规则已明确，不能据此启用其余效果/完整事务未完成的整服务。",
+    "qualification": "由原死亡共同父在本T世界级服务计时已完成后，读取收件人实际profile的合法权益source_receipt_id与positive remaining_steps、原会话及世界计时证明。无权益/null或余时0不生成候选；来源缺失/错误归属不是无权益，拒绝坏父。个人经验/历练还须原19共享资格与目的场景迁入资格；普通公共/私场/修炼怪均须原owner显式允许该分量。修炼场禁止使用激活/传送命令不等于抹掉入场前合法档案被动权益。",
+    "source_key": "稳定候选key=(supreme_service,profile_id,source_receipt_id)，同一权益10/30版本不并列生成两候选。原死亡保实际profile/原激活事件与余额/计时来源快照及key；同最大倍率用各原倍率owner稳定key比较选一个，全部候选保留，不按收包/商品版本选源。",
+    "experience": {
+      "basis_points": 15000,
+      "owner_ref": {
+        "file": "八十三级正邪洞窟愤怒任务.v1.json",
+        "pointer": "/bonus_application"
+      },
+      "rule": "沿原同个人经验族max(10000,愤怒12000,修炼金15000,纪念衣饰12000,至尊15000)，26先修正基数、19分配base_share、每人只floor(base_share*effective_bp/10000)一次、14封顶/升级发点。只作用本人普通怪物experience，不传伙伴、不放大队池，不作用任务/活动奖/升天进度。"
+    },
+    "practice": {
+      "basis_points": 14000,
+      "owner_ref": {
+        "file": "七十九级正邪吟诗大会.v1.json",
+        "pointer": "/bonus_application"
+      },
+      "rule": "沿原同个人历练族max(10000,吟诗15000,寿15000,至尊14000)，普通历练独立分池后个人一次floor，再原上限；不作用升天进度/任务奖/洗点退款，不从XP反推。"
+    },
+    "silver": {
+      "basis_points": 14000,
+      "owner_ref": {
+        "file": "修炼之门.v1.json",
+        "pointer": "/timed_buffs/reward_application"
+      },
+      "rule": "只取原唯一kill_owner合法至尊14000与修炼猪15000同普通银两包族max(10000,有效猪15000,有效至尊14000)。26先修正原允许普通银两包基数，再对这一包floor(amount*effective_bp/10000)一次；不复制为每收件人银，不在拾取时再放大，不作用商店贩卖/任务奖/交易/仓银/退款/配置。银两实际取得、来源收入与余额上限沿原包拾取owner，倍率不直接入个人余额。"
+    },
+    "conservation": "经验和历练分别sum(base_share)=team_pool，sum(actual+cap_loss)=team_pool+sum(personal_bonus)，各人personal_bonus=scaled-base_share。未选最高来源仍按原时钟消费不延寿；银包按唯一物创建值，不能与个人奖励池相加或复用为NPC售价倍率。",
+    "recovery": "原死亡已正式冻结倍率/原包后，服务到期/续期/切角色不重评旧结果。待领包与未确认结果沿原快照重放，不能因为拾取时权益有效补倍率，或失效扣回已决定奖励。",
+    "boundary": "经验/历练/银两/掉率四项倍率及来源顺序设计采用；完整计时/死亡共同父、严格候选结构及Godot仍待。",
+    "random_drop": {
+      "basis_points": 12000,
+      "rule": "原唯一kill_owner合法至尊12000与修炼福15000同普通随机掉率族，effective_bp=max(10000,有效福15000,有效至尊12000)。每条原明确允许random_drop普通概率，先按26终结档计算并floor/clamp，再min(10000,floor(该概率*effective_bp/10000))。0仍0；不加2000百分点、不复制抽样、不改数量/品质/池内权重，固定/唯一/受保护/任务证物/活动完成奖排除。",
+      "snapshot": "沿reward_effects.qualification/source_key记录本人档案权益和原死亡概率前后值；最多一次原随机调用，原计数不为新增服务候选多消费。晚拾取、续期/到期不重抽。",
+      "owner_ref": {
+        "file": "修炼之门.v1.json",
+        "pointer": "/timed_buffs/reward_application"
+      }
+    }
+  },
+  "knight_bag_effect": {
+    "owner_ref": {
+      "file": "侠客行囊.v1.json",
+      "pointer": ""
+    },
+    "adoption": "独立knight_bag分区20槽、基础50000克，有效至尊100000克；仍计入角色原总携重并受其上限，不翻倍格数/普通背包/角色上限。基础数字为项目选择。",
+    "expiry": "到期保物，合法来源证明超行囊50000时仅行走并允许具名减负，禁止增加重量；合法续期只解除符合新容量的本分区超重，不清角色总携重问题。",
+    "boundary": "第15项设计、严格布局/三键超重来源与新建/四旧导入空分区及null来源已登记；到期完整共同父、物品逐定义权限、完整角色根与全部生产者尚待，不能实际使用新分区。"
+  },
+  "processing_effect": {
+    "bonus_bp": 500,
+    "eligible_owner_refs": [
+      {
+        "file": "普通主武器强化.v1.json",
+        "pointer": ""
+      },
+      {
+        "file": "普通防具强化.v1.json",
+        "pointer": ""
+      },
+      {
+        "file": "英雄主武器强化.v1.json",
+        "pointer": ""
+      },
+      {
+        "file": "普通主武器合成.v1.json",
+        "pointer": ""
+      },
+      {
+        "file": "普通防具合成.v1.json",
+        "pointer": ""
+      },
+      {
+        "file": "英雄武器合成与神物之石.v1.json",
+        "pointer": ""
+      }
+    ],
+    "adoption": "旧页+5%未说明倍率或百分点；本地明确增加500bp即5个百分点。仅六具名owner的原槽位合成/逐级强化成功概率，不改基础表，不作用神物之石属性变更、石制作、转移、进化/觉醒/四神/宝珠、首饰加工或衣饰工艺。未知服务不得按名称继承。",
+    "formula": "原合法基础p，强化原合法已选幸运符加成c（未选0），有效至尊s=500否则0；effective_bp=min(10000,p+c+s)。合成c=0，原无幸运符输入规则保持；不乘1.05，不对属性条件分布/数量/失败保护再加。强化原基础10000选幸运符仍拒绝；基础未满且至尊补满时允许合法显式选符，显示无额外成功率收益且依原成功/失败消费规则消费，不能偷偷取消所选输入。",
+    "random": "有效10000必成且不抽随机，0仍须按原合法配方资格判断（不以加成授权原禁止配方）；有效1..9999仅原成功purpose一次uniform_integer(0,9999)，draw<effective_bp。不新增至尊随机、重复尝试或改变后续独立条件随机；原失败产物/消费与成本不变。",
+    "quote_expiry": "报价显示原p、符c、服务s与最终概率，绑定本人真实权益来源/资格与原物品/规则/数量。接纳/提交读取本T世界服务计时后有效来源；未正式冻结报价遇到期/激活/续期来源变更失效，显式重新报价，不隐改概率。正式reserved短事务与依赖计时/激活排他恢复，已冻结成功/失败及随机不重抽；committed重放只回原决定。",
+    "proof": "原加工收据须冻结本人profile/服务真实来源与有效计时、p/c/s/effective及原随机流，全部输入/钱物/实例修订同原加工决定，不另建服务奖励。完整加工事件结构尚未承载本来源分量前不得实际使用本加成。",
+    "boundary": "第14项效果取舍及六owner接入引用采用；各严格加工父/随机联验的至尊分量与完整计时共同父、Godot仍待。"
+  },
+  "merit_gain_effect": {
+    "basis_points": 15000,
+    "owner_ref": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/martial_merit"
+    },
+    "scope": "仅本人原faction_merit_trial真实胜利的trial_reward=250基数；有效至尊floor(250*15000/10000)=375，无权益/到期250。影子胜利无武勋，其他未明确producer不自动授权；配置/退款/称号认证或到期消费不加成。普通热血符未采用，不新增同名叠加候选。",
+    "timing": "原终局T世界级服务计时/本人称号到期先完成，再读取本人真实权益及计时来源；positive生成单一15000候选，否则10000。服务来源坏/矛盾拒绝坏父，不当无权益。入场有效而终局到期给250，入场无权益而终局有效给375；不在入场冻结倍率，亦不按杀怪/领取时另算两次。",
+    "overflow": "入场统一预留最大375点安全余量：current<=9007199254740616，不依当前服务资格少留空间。活动内禁止配置与其他主动武勋写入，强制称号费用只减余额；终局对实际当前余额checked_add实际250或375，不回写入场值、不截断。服务激活物品命令的无挑战限制保持，合法既存权益仍可被动生效。",
+    "snapshot_replay": "原唯一胜利完整决定保基数250、实际倍率、本人profile/权益来源及有效计时证据、实际250或375和前后余额；与终局/业务修订同笔，不另造奖励事件。reserved须沿原共同父排他恢复，不跨服务变更重算；committed后到期/续期/重放不改旧奖励、不再次入账。",
+    "boundary": "第13项倍率与入场安全余量设计采用，完整终局奖励结构/来源及共同父、Godot真实结算仍待。"
+  },
+  "merit_cap_effect": {
+    "owner_ref": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/martial_merit/range"
+    },
+    "adoption": "现有character.martial_merit为0..9007199254740991安全整数，项目没有另设玩法余额cap。原商品页武勋上限+1000按基础开放范围覆盖，不新造临时cap、不把安全整数存储边界加1000、不赠1000余额。此为项目取舍，不解释为官网同一上限含义。",
+    "expiry": "无权益/有效/到期/续期均保原合法余额与同一存储范围；无到期截断、溢出冻结余额或待返还武勋。称号资格按原真实余额和原凭证，不从服务状态增减阶段/免月费。",
+    "transactions": "实际取得仍先沿原奖励owner计算并checked_add；安全范围溢出整笔拒绝，不以至尊截款、截余额或构造补偿。配置/称号付费及其他消费各沿原owner，本项不创造新来源/字段/收据。1.5倍取得另项采用，不由本cap规则推断。",
+    "boundary": "第12项效果取舍明确；原武勋来源与完整终局父/Godot仍待，未改奖励数量或实际余额。"
+  },
+  "in_place_respawn_effect": {
+    "owner_ref": {
+      "file": "死亡与复活保存.v1.json",
+      "pointer": "/respawn_events"
+    },
+    "public_map_set_ref": {
+      "file": "公共交通结果.schema.json",
+      "pointer": "/properties/map_id/enum"
+    },
+    "adoption": "具名新choice_id=supreme_revive_in_place；仅本人普通公共场景死亡，地图必须属于public_map_set_ref精确66地图集合扣除便携owner.training_policy.map_ids的36修炼场后30地图，且无training_gate_choice、无任何当前/未收束活动引用。普通return_to_workcamp保留，显式选择而非自动复活。36修炼场沿原专用两选项，不借服务增设第三项；私人首领/升职/其他活动场景仍沿原owner离场，不绕过失败结算。",
+    "entitlement": "选择接纳及提交均在本T世界级服务计时后验证本人真实profile有效positive与完整激活来源；允许死亡后合法已有权益用于选择，不以死亡时有效状态永久赠复活权。死亡页不允许活体道具激活；无实物消耗、无服务余时额外扣费/次数计数，余时仍只由原世界步时钟消费。",
+    "pose": "唯一落点为该death_event_id原committed死亡plan.death_location的map_id/position/yaw；原world/authority由其真实会话证明，instance仍须原致死scope/活动共同父认证。须核当前awaiting_respawn位置未被非法改写且完整原死亡来源可证，不信客户端坐标或当前UI位置。原普通六键pending_death不复制一份位置；death_location仅原不可变死亡plan的历史快照，不是第二可写位置。原schema已登记姿态结构，完整死亡/world父未认证其等真实before时仍拒绝启用，不能从尸体节点或当前地图猜。",
+    "completion": "沿原复活同身份/原日志/同死亡最多一次成功，资源按原14复活规则与当前合法上限恢复，清pending_death、生成原新生命身份；无无敌期、免伤、清技能冷却、撤销掉落/装备消耗或重开活动。精确死亡姿态导航/碰撞/当前场景及合法资格再次检查，阻挡则拒绝/中止，保死亡不另选附近点或自动回城。",
+    "expiry_renewal": "提交前到期使该选择失效；reserved只沿原计划中止state_changed，保原死亡/位置/资源，不换普通选项。原短事务须在依赖服务计时/激活前恢复或中止，不跨到期持有旧授权；合法续期改变预留来源也中止后由用户新请求，避免修改原计划。committed后到期不撤销复活、不重扣资源，重试只回原成功。",
+    "protocol": "沿原六键复活命令，仅扩具名choice值，不上传权益bool/目的地；该分支plan必须额外冻结唯一supreme_source_receipt_id，指本人真实激活/续期原结算，并由原完整父证明有效计时与死亡姿态，普通/修炼分支不得携带至尊授权。严格选择/来源分支schema已登记；完整父尚待，不能由return_to_workcamp冒名执行。",
+    "boundary": "第11项效果场景/选择/资源/到期设计采用；复活严格选择/来源结构已登记，原死亡姿态证据与完整共同父/LAN权益协议、Godot仍待，当前运行禁止。"
+  },
+  "death_experience_effect": {
+    "owner_ref": {
+      "file": "死亡与复活保存.v1.json",
+      "pointer": "/on_death"
+    },
+    "source_fact": "旧10/30天商品页写死亡固定损失1%，未说明累计/本级经验基数、取整、下限或复活选择关系；不把任一本地算法宣称官方公式。",
+    "adoption": "本项目14成长与原死亡owner已经采用全部普通死亡不扣累计经验、不掉级。至尊有效/到期/无权益均保持原真实XP和等级，不新增1%扣款、不构造负数损失或补偿经验；本项按已有基础保护覆盖，无独立数值效果。",
+    "contexts": "真实各cause_kind及已注册活动死亡沿原owner保经验；活动失败费用/已消费物、出尘戒消耗和武勋首饰耐久仍各按具名owner，不以经验保护撤回。成功致命拦截没有死亡结算，不能触发任何本项奖励。",
+    "recovery": "死亡/复活及服务激活/到期/续期均不因本项改变XP；重放不扣/退经验，不生成经验损失字段、服务专用收据或独立RNG。已合法死亡历史不因后续权益变动改写。",
+    "boundary": "第10项效果的本地取舍明确；不授权原地复活或改变原死亡/复活严格结构，完整父及Godot仍待。"
+  },
+  "portable_channel_state_owner_ref": {
+    "file": "便携传送与修炼限制.v1.json",
+    "pointer": "/channel_state"
+  },
+  "unlimited_earth_spirit_effect": {
+    "owner_ref": {
+      "file": "土灵符存点与移动.v1.json",
+      "pointer": "/travel"
+    },
+    "adoption": "至尊无限土灵指令采用为权益有效时无需持有/消耗土灵符的具名supreme_talisman_travel；不是消耗激活符，不新增永久道具或复制存点。仍用本人原30点/原世界，无额外存点容量。官网未给本地读条/冷却/失效协议，以下为项目取舍。",
+    "record": "有效权益可在原earth_spirit_record中代替持有1枚土灵符的资格；命令须显式声明普通实物或至尊权益来源，拒绝不匹配，不自动换来源。两种均不消费物品/不启动冷却；其他地点/状态/姿态/容量/修订条件完全沿原owner。",
+    "travel": "普通earth_spirit_travel仍预留并消费1真实土灵符；supreme_talisman_travel只预留原point_id/revision与本人真实服务来源，不预留/消费实物。两种均180实际步读条、600步共享portable_return冷却、同取消顺序与位置/入场门槛。模式在接纳时固定，不因服务变化自动扣背包符或另起读条。",
+    "qualification": "接纳和完成均在该T原世界级服务计时之后验证本人合法权益positive及原profile/会话/来源闭包；缺失/错误来源是坏父，不能伪装无权益。源/目标全部原地图限制、修炼36场与升职私场禁令保持；有效服务不授权跨世界/任意坐标或绕门槛。",
+    "expiry_renewal": "权益1→0在本T新业务前使未完成至尊读条取消，释放点预留、保原位置/资源、不消耗任何符且不启动冷却；若与第180步完成同T，到期优先，不能完成。有效期间合法续期不取消或重启读条，完成引用接纳原来源和当前真实续期祖先链；不接受任意更换来源。普通实物读条不因激活/到期切模式或免消耗。",
+    "save_replay": "原accepted动作须严格按实物/权益来源分支保存：实物仅原单一堆预留引用，权益仅真实profile与接纳服务来源引用；共享原点ID/修订、动作/剩余步/源位置，不存第二份点正文/权益余额。重放已提交移动只回原结果；未完成恢复先原权益计时/续期链再判资格，不按当前UI状态猜测。禁止权益分支伪造空stack或免费mint。",
+    "boundary": "无限指令效果设计采用；便携读条严格分支及新建/导入入口已登记，正式接纳/推进/取消/迁移共同父、LAN权益封套及Godot尚待，现有reserved身份仍不可实际使用。"
+  },
+  "npc_sale_effect": {
+    "basis_points": 12000,
+    "owner_ref": {
+      "file": "NPC复购.v1.json",
+      "pointer": "/record"
+    },
+    "eligibility": "仅本人实际允许NPC出售且该精确物品/加工状态已定义非负整数sell_price的订单；不解除绑定/任务保护量/禁止出售/复购限制。普通热血符尚未采用，不由同名原文生成第二候选。",
+    "price": "原物品定义sell_price是未加成逐单位基价。有效至尊取12000bp，否则10000bp；unit_price=floor(sell_price*effective_bp/10000)，再quantity*unit_price。每源堆/实例独立取整，批量求和；不先合总价取整，不把已加成单价再乘。实例quantity=1，0基价仍0。用精确整数运算预检单价/各行/合计/余额安全范围及原银两上限，任何失败整单拒绝，不截款。",
+    "quote": "报价读取本T原世界级服务计时后的真实档案权益及合法原来源；保存原rules_hash、物品版本/数量/基价、本人profile与服务来源/有效资格和逐单位成交价。无权益/null或0走原价，坏来源拒绝。提交重查原会话/NPC/业务修订与全部原报价依赖；权益由有效变无效或反向、续期改变source_receipt_id、物品/规则/数量改变均使未提交报价失效，拒绝后显式重新报价，不在提交时静默改价。有效余时正常递减且仍positive不是单独失效条件；读同一原权威步骤证明，不凭UI余额。",
+    "reservation": "面板报价不锁世界服务计时。若正式reserved经济父已经冻结完整计划，则须在下一次触及该profile服务计时/激活前恢复或合法中止原短事务，不能跨到期继续拿可变报价成交；不等待用户长确认。完整经济三阶段父尚未闭合，本规则不授权实际预留。",
+    "commit_recovery": "售款、物品/域迁移、FIFO、复购原记录及业务修订同笔。原成交收据冻结原服务来源与基价/倍率/单价/数量/总额；已committed后到期/续期不重评，重试仅回原结果，不重复入账。未知保存结果先恢复原决定，不能重算新价或退款猜测。",
+    "buyback": "复购record.unit_price精确等原实际加成后售出单价，任意部分复购只扣quantity*该值；当前至尊有效/失效/续期均不改原价，不再乘12000或10000。复购不重算卖价，不提供额外折扣；NPC购入价、任务奖励、银两包/交易/退款均不受本项影响。",
+    "boundary": "仅出售倍率、报价与到期/续期关系采用；完整经济收据/来源根、计时共同父及Godot实际事务仍待，不宣称经济闭合。"
+  },
+  "baseline_effects": {
+    "auxiliary_equipment": {
+      "owner_ref": {
+        "file": "装备组与宝珠.v1.json",
+        "pointer": ""
+      },
+      "rule": "基础两组装备/辅助栏资格与原切换均不以至尊权益为门槛。至尊激活不新建第三组、不复制已装备实例、不刷新切换冷却；到期不强制切组/卸装或删除宝珠。此为基础功能已开放的项目取舍，不重复赠送商业原文权益。"
+    },
+    "stored_points": {
+      "owner_ref": {
+        "file": "土灵符存点与移动.v1.json",
+        "pointer": ""
+      },
+      "rule": "30点是原角色总基础容量，服务有效/无权益/到期均保持原30点与记录管理规则。激活不赠点/扩至60，到期不删点；无限土灵移动另沿unlimited_earth_spirit_effect具名授权，不能从本容量规则推导免实物资格；完整动作父仍待。"
+    },
+    "gather_success": {
+      "owner_ref": {
+        "file": "采集动作.v1.json",
+        "pointer": ""
+      },
+      "rule": "已采用竹有效落效与木柴有效完成均为确定成功，条件通过后的成功率等价10000bp，2倍仍封顶10000，无需新增RNG。原视线/范围/任务/预留/背包失败仍失败；不翻倍10XP/木柴或竹材数量、不加快动作/共享刷新、不新增每击抽样。未来具名概率采集须其原producer逐项采用，不能由本规则授权未知采集。"
+    }
+  },
+  "concentration_bead_source_boundary": {
+    "source_refs": [
+      {
+        "file": "../reference/官网资料/凝神宝盒补充正文.json",
+        "pointer": "/records/0"
+      },
+      {
+        "file": "../reference/官网资料/凝神宝盒补充正文.json",
+        "pointer": "/records/1"
+      },
+      {
+        "file": "../reference/官网资料/凝神宝盒补充正文.json",
+        "pointer": "/records/2"
+      },
+      {
+        "file": "../reference/官网资料/凝神宝盒补充正文.json",
+        "pointer": "/records/3"
+      },
+      {
+        "file": "../reference/官网资料/凝神宝盒补充正文.json",
+        "pointer": "/records/4"
+      }
+    ],
+    "confirmed": "历史官网魔1亿宝盒正文明确右键获得凝神珠-魔，集满前无法丢弃/交易/移动/综合仓库保管；地500万宝盒明确开出地珠，四种禁止未注明仅集满前。天1亿宝盒同样开出天珠，四种禁止也未注明仅集满前；魔5000万正文再次明确集满前四禁。魔10亿套餐为两宝盒且套餐本身可玩家交易、不可丢弃/NPC卖出，不把外盒权限套给内部珠，也不由魔珠限定语推断地/天集满后可交易。",
+    "limits": "商品标题500万/1亿/10亿保原标称，不直接充当已认证容量字段；这些页未说明储存资源生成基数/是否占用原XP、提取与消耗、满额变体、同时携带/装备限制及至尊20..40区间选择，不能仅凭升级利器推成额外XP复制。",
+    "adoption_boundary": "此为来源补证，未采用珠子运行资源或配置；须逐版本定义容器/权限/取得/储存/领取和到期规则后接第13项。保持原文与项目值分列，不拿集魂石或浮仙剑能量代替。"
+  },
+  "soul_absorption_source_boundary": {
+    "status": "resource_container_and_production_owner_pending",
+    "archived_awakening_source_ref": {
+      "file": "../reference/官网资料/目录正文.json",
+      "pointer": "/records/21"
+    },
+    "existing_material_ref": {
+      "file": "英雄武器觉醒与四神.v1.json",
+      "pointer": "/items/0"
+    },
+    "distinction": "原四神说明只证集魂石可提升装备灵魂觉醒；原服务页仅给吸魂1.5倍，二者没有已证相连的资源/容器/生成路径。现有soul_collection_stone是直接购买/配方消耗的具名材料，不是已定义吸魂进度或容器。",
+    "adoption_boundary": "不能将服务15000bp乘集魂石购买量、配方产物或材料堆数量，不能提高觉醒成功率/免费补材料或改加工费用。原集魂石唯一定义/取得和觉醒配方保持沿原owner。也不能拿浮仙剑能量/装备宝珠/怪物经验替代未知吸魂资源。",
+    "required_evidence": "继续取得吸魂容器、可存资源、来源资格/基数、容量/满额、领取/转化与到期处理的明确来源或独立标明的项目方案；这些采用前不启用第8项，不能因同有魂字将材料接为收益。"
+  },
+  "shared_profile_results": {
+    "schema_ref": {
+      "file": "至尊共享权益结果.schema.json",
+      "pointer": ""
+    },
+    "ack_schema_ref": {
+      "file": "至尊共享权益结果.schema.json",
+      "pointer": "/$defs/saved_ack"
+    },
+    "business_state_schema_ref": {
+      "file": "至尊共享权益结果.schema.json",
+      "pointer": "/$defs/business_state"
+    },
+    "shape": "严格八键play_session_identity/admission_receipt_id/previous_world_step_or_null/required_character_sequence/profile_before_digest/profile_after_digest/clock_result/expiry_role_results；world/authority/profile/T/rules从原七键clock_result取，不重复分配ID或服务步counter。真实原world begin共同父必须含逐字相等的本人clock_result及本人全部到期行，本封套不取代完整父或把其他profile行发成本人权限。",
+    "enrollment": "原身份/receipt/规则/基线逐字段绑定accepted。接纳只在原世界步队列空的完整边界生效，原收据decision_world_step=n；第一条previous=null且clock_result.world_step必须n+1，其后previous=上一条T且当前T=previous+1。不能由无本地水位猜首条。每实际begin含null/0权益恰一条；暂停不生T，ACK晚到不改变枚举。end.ended_world_step=m冻结原结束边界，完整日志恰覆盖n+1..m，空当且仅当m=n，最终共享T按原结束owner精确匹配。world clock已MAX不得溢出加1；没有可执行新步时只恢复/结束。源边界仍须完整原world父证明，严格投影/整数差不证明真实决定。",
+    "business_digests": "从同一真实完整profile提取严格两键supreme_service_or_null/role_states，角色集合/次序/四键角色规则完全沿原基线。用快照摘要原solorxjh-snapshot-sha256-f64-v1计算before/after，保合法小数，不把profile revision/个人network_receipts/本地设置当业务状态。发送端不得从这些摘要猜正文或伪造来源；接收端须先验完整本档及原来源再取同投影。",
+    "patch": "只从本地最新且before摘要完全一致的完整profile副本应用：服务after精确clock_result；真实1→0时逐角色只允许原角色revision、knight_bag_overweight_or_null及取消本人原便携动作变更。expiry行精确全部角色且角色前/后修订和inventory_revision相符；仅有实际取消时清原channel、释放原引用预留。物品/布局/银两/成长/位置及未列字段逐字保持，库存修订不变。非到期必须行空且所有角色业务保持。完整候选重验原根/允许变化与after摘要后同档提交，不接收任意whole-profile覆盖或把结构合法行当授权。",
+    "cross_chain": "required_character_sequence精确原world begin冻结前该session当前角色在本world个人链已决定尾序号，沿原既有seq而不新增计数；接收方须已连续保存至恰此尾且before投影一致。未保存先请求个人缺口，超尾不得倒盖旧共享步。个人封套required_profile_world_step_or_null精确其决定读取的本人最近共享T；接收方须已保存到恰此T才能应用，否则先补共享缺口，已越过所需T却缺该个人结果属于源顺序冲突。T+1共享结果依赖T内全部已决定个人结果，形成共享T→个人T→共享T+1顺序，无个人结果时个人尾不增。",
+    "pre_first_step": "个人资源业务在本人首个真实共享begin之前不允许提交，不能把房间当前T当本人已处理T。required_profile_world_step_or_null=null仅允许原会话结束producer，且完整源历史证明本session尚无共享begin；立即结束可以activated或never_activated，仍遵守原ACK/修订规则。已有任何共享begin的正式end必须依赖该session最后共享T并先补齐全部共享/个人结果。",
+    "ack": "严格四键play_session_identity/world_step/result_digest/saved_profile_revision。result_digest按原快照算法覆盖完整八键封套（含before/after摘要、原clock与全部角色行），因此确认精确决定及全部after来源，不另复制after摘要。只有正式完整profile同次保存服务/全部角色副作用/原证明/接收进度后派生；保存修订是首次成功替换正修订，重复不换当前修订。authority核原成员/身份/T/完整决定摘要，持久原确认后才声明已保存；不可由心跳或个人ACK补造。",
+    "replay_failure": "同session同T原封套必须完全一致；已存同结果仅回原首次保存ACK，不应用第二次；未来T/个人seq缺口只补缺，旧结果不覆盖当前。源决定已持久而远端保存失败保占用只恢复，不能回滚世界/退时间/重发物；authority仍枚举已accepted未结束profile。先前ACK不证明后续T已保存，不从源receipt或余时0猜水位。",
+    "boundary": "接纳/结束原世界步锚点、严格共享封套/ACK/存储前缀与精确首尾覆盖规则采用；完整world/档案来源及共同父认证、有界日志压缩与Godot实际保存/联机故障仍待，LAN共享服务继续禁用。",
+    "storage": {
+      "authority_field": "world.character_sessions[session_id].shared_profile_results",
+      "journal_schema_ref": {
+        "file": "至尊共享权益结果.schema.json",
+        "pointer": "/$defs/journal"
+      },
+      "client_saved_ack_field": "profile.lan_session_proofs[session_id].shared_profile_saved_acks",
+      "client_saved_acks_schema_ref": {
+        "file": "至尊共享权益结果.schema.json",
+        "pointer": "/$defs/local_saved_acks"
+      },
+      "initialization": "创建原world会话记录显式shared_profile_results=[]；无接纳/拒绝/offline严格空，仅LAN accepted允许共享行（原个人接纳ACK尚未到也允许）。新client会话证明显式shared_profile_saved_acks=[]；四已知旧导入新profile原世界/会话证明为空，不伪造行，已有目标完整保原会话记录。当前格式缺字段拒绝。",
+      "authority": "严格journal每行仅result/saved_ack两键。每实际world begin共同提交只向当时真实已accepted未结束session追加唯一投递；result永不改写，saved_ack初始null且只由null到本人真实四键确认，不增加第二current-head表。相同T重复/缺号/倒序/非首条previous=null或身份/规则变动拒绝；严格schema不代替语义联合验证。end后不追加result，但已有行saved_ack可在收到晚到真实确认后持久。",
+      "recipient": "client只在原authority_record保留收到的同一原共享日志，不新增全局共享正文镜像。可以已收到更多未应用原结果，应用进度只由本地shared_profile_saved_acks连续前缀导出；不得拿authority_record日志尾当本人已保存尾。收到authority确认不意味着新业务变更，保本地首次保存ACK不变。原authority_record只能保原顺序连续结果前缀及已认证确认，缺口只请求重放。",
+      "prefix": "本地保存ACK数组空表示本session尚未应用共享结果；非空第i项必须精确引用journal第i行identity/T/完整结果摘要，不能跳行或复制同T。共享T每次成功应用与原四键ACK追加同一次完整替换，saved_profile_revision指该次实际新修订；只读当前正式文件派生重发。应用缺原接纳/基线/首步或个人依赖拒绝，不按数组长度猜合法原世界资格。",
+      "host_local": "lan_host本人世界决定/角色副作用/journal行/saved_ack及profile revision在同次完整替换保存，ACK的保存修订指该次新revision；不在lan_session_proofs再镜像本人会话。远端ACK绝不预填；offline按原本地事务不造共享网络日志。",
+      "retention": "当前未采用压缩，原日志与本地保存ACK及必要来源不因end/席位释放/删除角色裁剪；容量或安全整数上限预检失败停止新决定并报错，保原未决。60Hz长期日志空间/写放大尚须有界压缩设计与实测门槛，不能据现有结构宣称发行可用。 当前逐步数组只作为未压缩语义参考，scalability_gate已量化其不能成为正式运行存储；在替代协议采用前仍不得实际裁剪或启用LAN服务。"
+    },
+    "termination": "end_receipt.final_profile_world_step_or_null明确本session最终共享T，客户端保存到该尾且个人final_result_sequence完整后，才能同档清guard。authority可先提交end终止后续枚举并持续重放全部未确认共享结果，不以ACK迟到继续扣已结束会话；随后补确认不改变end终局T或原结果。已有日志但终局null、缺尾/多尾/跨session尾均拒绝恢复。 原接纳decision_world_step与end.ended_world_step共同限定精确覆盖区间，不能仅用日志自称尾闭合；全部范围核验先比已存长度=m-n再逐项T=n+i+1，不按恶意巨大差值分配新数组。",
+    "scalability_gate": {
+      "status": "per_step_journal_is_semantic_reference_not_approved_production_storage",
+      "model_basis": "真实严格journal_entry最简null服务/空到期行，固定合法ID宽度，UTF8紧凑JSON，每行含1字节数组分隔符；世界60Hz。只计算共享日志，不含完整profile/world、缩进、ACK更新另次替换、备份/fsync或客户端本地ACK。实际T/保存修订位数增长使正文更长；不是Godot或磁盘性能实测。",
+      "unacked_row_bytes": 1126,
+      "acked_row_bytes": 1637,
+      "local_ack_bytes": 516,
+      "one_hour": {
+        "steps": 216000,
+        "unacked_journal_bytes": 243216000,
+        "acked_journal_bytes": 353592000,
+        "unacked_rewrite_model_bytes": 26267449608000,
+        "acked_rewrite_model_bytes": 38188112796000
+      },
+      "one_day": {
+        "steps": 5184000,
+        "unacked_journal_bytes": 5837184000,
+        "acked_journal_bytes": 8486208000,
+        "unacked_rewrite_model_bytes": 15129983846592000,
+        "acked_rewrite_model_bytes": 21996255379104000
+      },
+      "formula": "N=60*3600*hours；journal=N*row_bytes；从空日志每步完整替换的累计共享正文写入模型=row_bytes*N*(N+1)/2。该计算不是实际磁盘吞吐/寿命结论。",
+      "required_replacement": "保原60Hz确定业务语义，但正式表示不能每步永久保完整封套/首次保存ACK并每步复制递增长日志。须定义连续区间/检查点及其原源证明，存储增长随真实业务/到期/来源边界而非空转步数增长；world真实提交/崩溃恢复与发出结果的持久成立点也必须明确，不得只延迟写盘却声称每步已持久。",
+      "range_boundaries": "未来可合并候选仅同session/authority/world/rules、同服务来源且角色业务范围与个人链尾不变的连续原world步；激活/续期、1→0、角色业务/动作变更、个人结果依赖、接纳/结束均切断区间，不能吞掉到期/取消或改个人before。null/0服务空转也不能永久写逐步副本。此为设计约束，未采用range schema或放行裁剪。",
+      "ack_obligation": "当前每步ACK冻结独立首次保存revision，通用压缩不能免除其线性事实。正式裁剪须严格定义双方已持久接受的累计检查点如何替代旧逐步证明、旧T重试返回何种已提交证明及源依赖如何保留；不能删旧ACK后用当前revision冒充原首次修订，也不能把单侧head当共同确认。未确认结果必须仍可精确恢复，不按时间/数量丢弃。",
+      "acceptance": "D1须先完成压缩/提交协议及所有来源闭合。P/T按同空转业务1小时/24小时、服务到期/续期、断连未确认、乱序/重复与跨个人依赖场景，记录真实文件大小、替换次数/写入字节、内存和步耗时，并证明与原逐步参考一致及故障后不重复扣时/发物；不得用当前结构测试通过代替这些运行证据。"
+    },
+    "clock_span": {
+      "schema_ref": {
+        "file": "至尊服务计时推进结果.schema.json",
+        "pointer": "/$defs/clock_span"
+      },
+      "shape": "first_world_step/last_world_step/service_before/service_after严格四键；world/authority/profile/rules及唯一session仍由原父绑定，不另复制。仅压缩区间算术组件，未注册为journal.result的新分支。",
+      "arithmetic": "先验1<=first<=last<=MAX，L=last-first+1安全整数。before=null则after=null；before.r=0则after精确同来源0；before.r>=2须L<=r-1，after精确同source且remaining=r-L>=1。before.r=1不准进入span，原单步1→0与全部角色到期必须显式保留。不能用max(0,r-L)吞到期或把0改null。",
+      "barriers": "整个区间必须同原session/authority/world/rules，服务source不变、角色业务投影/个人结果链尾不变，无激活/续期/取消/到期/接纳或结束插入。跨个人结果依赖的T先切段，不能只凭首尾状态相等合并中间发生再撤销的业务。完整父须证明区间内无边界，不能仅两摘要相等当证明。",
+      "reconstruction": "按原逐步算法可重建每个T服务前后与原摘要，故不得循环分配L条中间记录才校验；来源闭包和到期原结果仍保。只验证首尾算术不证明实际Playing世界步资格、角色不变或持久成功。",
+      "boundary": "四键区间结构/精确算术及边界采用；共享封套区间替代、累计检查点/旧ACK替代及实际提交压缩协议仍待，现有逐步日志不因此允许裁剪，LAN服务仍禁用。"
+    },
+    "checkpoint_protocol": {
+      "proposal_schema_ref": {
+        "file": "至尊共享权益结果.schema.json",
+        "pointer": "/$defs/checkpoint_proposal"
+      },
+      "candidate": "候选严格六键：原session、through_world_step、through_character_sequence、business_state_digest、retained_source_digest、previous_checkpoint_digest_or_null。候选身份摘要用原快照算法覆盖完整六键，不另分配counter/经济结算ID。首个previous=null，其后精确前已共同提交候选摘要；同session仅一个未决候选，不按最大T任意替换。",
+      "cut": "只有原完整已决定world边界的共享T与对应个人连续尾Q共同形成cut。原两链及共享来源完整，client已真实保存两前缀且authority已收到这些保存ACK，候选才可开始。cut不得落在未决父/交易/激活/到期或未完成scope中；不得把head最大值当缺口已补齐。business摘要覆盖该cut真实两键共享业务状态，不从当前新状态倒造旧cut。",
+      "retained_sources": "裁剪范围仅同session已被替代的传输正文/逐步ACK副本，不授权删原激活/物品流/个人业务/到期取消/原接纳字节等仍被任何当前状态、后续结果或其他接收者引用的来源。先枚举全部仍可达原来源，保其完整已验证正文及必要祖先；retained_source_digest只是该冻结闭包的摘要，不能代替闭包或授权凭空根。未具名的owner无压缩规则则保留其原证据，不能用检查点绕过。",
+      "prepare": "authority先保留全部旧日志并冻结候选；client核完整原cut/来源、自己的原首次保存ACK与前检查点相符，把同候选及自身准备保存修订正式持久后才发prepared。准备只承诺已存cut和来源，不改变角色/服务、不删旧日志，不把准备保存修订写成旧逐步ACK首次修订。准备期间新后缀仍沿原协议保留，候选不随其变化；无法从正式证据重建cut则拒绝准备。",
+      "commit": "authority验证真实成员的prepared、同候选与首次准备保存事实，正式保存唯一committed决定后才发送接受证明；该原决定是检查点成立点。此时才能同次替换把已覆盖传输前缀换成检查点证明，保所有cut后后缀及必要来源。client仅收到并核原committed、将其与本地prepared/来源同档正式保存后才能裁剪自己已覆盖副本；发送prepared或看到authority在线不等于收到接受证明。",
+      "abort_replay": "authority在committed前可持久唯一aborted并回同候选；aborted只解除检查点待决，不回滚已提交业务、不删前缀。committed不可改aborted，重复同候选仅回原决定。client准备保存成功而原房主不可达时保prepared与全部旧前缀，查询原唯一决定；不猜成功或用新候选覆盖。主机提交后回包丢失，client重试同候选取得原committed再裁剪；旧源缺失/冲突保未决报错。",
+      "old_ack_replacement": "检查点共同提交后，对T<=cut的迟到重放只返回该原committed检查点及覆盖范围/来源证明，不伪造旧逐步ACK或把检查点保存revision冒充旧首次revision；接收者核真实同session覆盖与自己已保存业务，不再应用旧after。T>cut继续原连续结果/首次保存ACK。新检查点覆盖旧检查点须保其已接受链与仍可达来源，不能仅保最后摘要丢掉证明。",
+      "non_atomic_files": "两机分别持久，主机可已有committed而client仍prepared；这是合法恢复状态，不宣称两文件原子。主机保存失败保旧前缀，客户端保存失败保旧前缀/准备事实；不能以重发/退款/重扣服务补偿协议失败。",
+      "boundary": "候选/准备/唯一决定、保留来源清单与域绑定摘要规则采用；各owner精确闭包适配、原会话压缩存储替代、跨检查点有界保留及真实故障仍待，当前不得裁剪或启用LAN。",
+      "prepared_schema_ref": {
+        "file": "至尊共享权益结果.schema.json",
+        "pointer": "/$defs/checkpoint_prepared"
+      },
+      "decision_schema_ref": {
+        "file": "至尊共享权益结果.schema.json",
+        "pointer": "/$defs/checkpoint_decision"
+      },
+      "prepared_receipt": "严格checkpoint_prepared两键proposal/saved_profile_revision。proposal逐字段等原冻结候选，revision为本client第一次正式保存该候选与来源准备事实的本档案新revision，正安全整数且不随重发改变。引用原已保存两前缀及来源，不以任意正数自证真实保存；authority仍核原session真实成员和完整cut。不同候选或同候选不同首次revision为冲突，不覆盖原准备事实。",
+      "decision_receipt": "严格checkpoint_decision四键proposal/client_prepared_profile_revision_or_null/decision/authority_saved_profile_revision。decision仅committed/aborted，committed准备修订必非null且精确原prepared.saved_profile_revision；aborted可在准备前null或准备后保原真实修订。authority保存修订为该唯一决定首次成功正式替换的正修订；远端修订与其不是同一文件，不比较大小或要求相等。候选全文与原冻结值相等，不能借终态重新挑cut/来源摘要/前检查点。",
+      "receipt_replay": "相同候选重复准备/决定返回原全文和首次保存事实，不能用当前较大revision更新；client只接受其原真实authority的终态。已committed不接收aborted，已aborted不接收committed；重复冲突停该检查点恢复，不能借元数据变动重新扣时/发物。client重读原正式文件确认prepared后才重发，未知写入结果不凭内存补确认。",
+      "local_authority": "lan_host本人同一档案可在一次原完整替换持久准备事实和唯一提交决定，两个保存修订可等同次新revision；仍需原全部前缀/来源与cut校验。不为本地同档分支伪造远端ACK或声明不同机器同时保存。",
+      "retained_manifest": {
+        "schema_ref": {
+          "file": "至尊共享权益结果.schema.json",
+          "pointer": "/$defs/retained_source_manifest"
+        },
+        "entries": "每项严格source_schema_id/source_key/body_digest三键。schema_id精确原已登记来源owner或其已登记不可变组件URN，key沿该owner原稳定来源身份；没有专用单ID的世界步父用71确定JSON [authority_profile_id,world_id,world_step]作key字符串。源适配器须核正文实际身份等key及原会话归属，不能因URN存在或正则合法接受未知owner。禁止从来包key读取任意文件/路径。",
+        "body": "body_digest采用原快照摘要算法，覆盖全量已合法解析且不可变的原来源正文，不使用个人业务剔除network_receipts投影。只收原已决定业务正文/不可变接纳收据/冻结原字节等具名组件；可变world根、带会变化saved_ack的日志包装和当前pending对象不能作为不可变来源正文。原owner有原字节摘要绑定时仍额外按原算法核原字节，不以本摘要替代。",
+        "closure": "从cut实际业务/两链及所有外部仍可达消费者枚举必要源与祖先，精确匹配清单及完整保留正文；同(source_schema_id,source_key)只能一项，重复同值也拒绝，冲突停止。按schema_id UTF8、再key UTF8严格升序，排序在验证之前不悄悄修正来包。多/少/不可解源、循环或引用新未提交候选本身均拒绝；缺owner压缩闭包规则继续保原证据，不从摘要凭空根化。",
+        "digest": "retained_source_digest=原solorxjh-snapshot-sha256-f64-v1([\"supreme_retained_sources_v1\",完整play_session_identity,through_world_step,through_character_sequence,原严格排序清单])。身份/T/Q精确候选，域标签固定，故同清单不能跨session/cut使用。当前候选/自身准备/自身决定不进其清单，避免自引用；前已提交检查点及其必要证明按原依赖保留。",
+        "codec_vector": {
+          "input": [
+            "supreme_retained_sources_v1",
+            {
+              "session_id": "session:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "profile_id": "p",
+              "character_id": "c",
+              "allocation_index": 0,
+              "world_id": "w",
+              "authority_profile_id": "h",
+              "mode": "lan_client"
+            },
+            1,
+            0,
+            []
+          ],
+          "sha256": "d3194598dd7689b4fc45fb239ddc79036b031f4959a0f9444e2fa9407d4777d3",
+          "scope": "空清单仅为摘要编码向量，不是合法业务检查点/空来源授权；真实会话仍须完整原接纳及所有可达来源。"
+        },
+        "boundary": "清单结构/排序/域绑定摘要采用；各source owner的精确图遍历与压缩闭包适配、原会话存储替代/跨检查点有界保留及Godot故障验证仍待。摘要不能代替完整来源正文，不因此允许裁剪。"
+      }
+    }
+  }
+}

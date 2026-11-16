@@ -1,0 +1,401 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:cooking-material-death-result:v1",
+  "$comment": "蛤蟆原唯一死亡事务中的本人当前活跃料理任务子结果，不是独立结算/日志或完整死亡父。归属/真实持量、来源/容量/ID/修订/原普通收益及多接收者原子性另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "character_id",
+    "quest_before",
+    "held_quantity_before",
+    "outcome",
+    "merge_input_or_null",
+    "stack_flows"
+  ],
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "quest_before": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:cooking-material-quest-state:v1"
+        },
+        {
+          "properties": {
+            "phase": {
+              "const": "in_progress"
+            }
+          }
+        }
+      ]
+    },
+    "held_quantity_before": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "outcome": {
+      "enum": [
+        "granted",
+        "cap_reached",
+        "capacity_rejected"
+      ]
+    },
+    "merge_input_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "previous_output",
+            "stack"
+          ],
+          "properties": {
+            "previous_output": {
+              "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+            },
+            "stack": {
+              "allOf": [
+                {
+                  "$ref": "urn:solorxjh:item-stack:v1"
+                },
+                {
+                  "properties": {
+                    "item_id": {
+                      "const": "quest_frog_hindleg"
+                    },
+                    "binding": {
+                      "const": "character"
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9
+                    },
+                    "quest_scope": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "quest_id",
+                        "attempt_id"
+                      ],
+                      "properties": {
+                        "quest_id": {
+                          "const": "ref_QREF-63791-001"
+                        },
+                        "attempt_id": {
+                          "$ref": "urn:solorxjh:item-stack:v1#/$defs/questScope/properties/attempt_id"
+                        }
+                      }
+                    },
+                    "revision": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740990
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "stack_flows": {
+      "type": "array",
+      "maxItems": 2,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/mint_flow"
+        },
+        {
+          "$ref": "#/$defs/merge_flow"
+        }
+      ],
+      "items": false
+    }
+  },
+  "$defs": {
+    "frog_stack": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:item-stack:v1"
+        },
+        {
+          "properties": {
+            "item_id": {
+              "const": "quest_frog_hindleg"
+            },
+            "binding": {
+              "const": "character"
+            },
+            "quantity": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            },
+            "quest_scope": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "quest_id",
+                "attempt_id"
+              ],
+              "properties": {
+                "quest_id": {
+                  "const": "ref_QREF-63791-001"
+                },
+                "attempt_id": {
+                  "$ref": "urn:solorxjh:item-stack:v1#/$defs/questScope/properties/attempt_id"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "mint_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/frog_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "const": 1
+                          },
+                          "revision": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  },
+                  "contributions": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "loot"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "merge_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/frog_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "minimum": 2
+                          },
+                          "revision": {
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "maximum": 9
+          },
+          "stack_flows": {
+            "minItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          },
+          "stack_flows": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "cap_reached"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "const": 10
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "capacity_rejected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "maximum": 9
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "maxItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "stack_flows": {
+            "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "held_quantity_before": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "held_quantity_before": {
+            "minimum": 1,
+            "maximum": 9
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
+}

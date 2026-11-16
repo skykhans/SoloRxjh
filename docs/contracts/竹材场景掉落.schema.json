@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:bamboo-scene-drop:v1",
+  "$comment": "六键未领取竹材场景掉落；只由原bamboo_felled生成，不是held物品堆。作用域/本人session由原effect/action历史认证；无重复claimed布尔、物品堆ID或计时。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "drop_id",
+    "source_effect_event_id",
+    "owner_actor_id",
+    "position",
+    "item_id",
+    "quantity"
+  ],
+  "properties": {
+    "drop_id": {
+      "$ref": "urn:solorxjh:gather-effect:v1#/properties/scene_drop_id_or_null",
+      "type": "string"
+    },
+    "source_effect_event_id": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/$defs/effect_event_id"
+    },
+    "owner_actor_id": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/properties/source_actor_id"
+    },
+    "position": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+    },
+    "item_id": {
+      "const": "linglong_bamboo"
+    },
+    "quantity": {
+      "const": 1
+    }
+  },
+  "$defs": {
+    "drops": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/properties/drop_id"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:bamboo-scene-drop:v1"
+      }
+    }
+  }
+}

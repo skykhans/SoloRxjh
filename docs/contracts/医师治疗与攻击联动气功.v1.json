@@ -64,7 +64,7 @@
       "duration_gain_bp_per_effective_grade": 100,
       "maximum_gain_bp": 4000,
       "eligible": "own physician accepted auxiliary positive timed buff, excludes lightness/instantheal/negative status, cooldown or passive-proc buff",
-      "phase": "once at activation, effective_total=floor(base_total*(10000+100grade)/10000); save base/sourcegrade/effective total/remaining, no extend each tick"
+      "phase": "once at activation, effective_total=floor(base_total*(10000+100grade)/10000); save sourcegrade in original activation result and remaining in unique active source; base from historical rules and effective total derived, no extend each tick"
     },
     "heal_rage_defense": {
       "trigger": "own accepted HP recovery martial action restores positiveHP to at least1legal recipient, once per action not per tick/target",
@@ -137,5 +137,17 @@
     "identity": "同施放者最多一源，按source_actor_id排序；新真实成功原动作替换本人来源凭证/冻结防御/10800不叠加，重放不刷新/不给怒气。不同施放者独立计时，平防只选最大defense_add一次，同量按trigger_event_id/source_actor_id稳定选唯一来源。",
     "lifecycle": "这是被动触发正面，吸星/九天明确不延时或增幅；生成步不扣10800，后续世界步入口扣既有源，0先移再属性读取。暂停离线冻结，接收者死亡清；施放者离线/死亡/无中当前等级改变不改已付快照。上限0合法不造最低1防；原buff存在不重复回调治疗或返还资源。",
     "validation": "完整effects白名单先验，原接收者/正回复/唯一根及原随机/等级/排序唯一/余时为语义门槛，待复活空表；完整原多接收者治疗事务仍待。"
+  },
+  "support_admission_proc_owner_ref": {
+    "file": "辅助武功采用.v1.json",
+    "pointer": "/cast_action_protocol/physician_admission_proc"
+  },
+  "support_effect_proc_owner_ref": {
+    "file": "辅助武功采用.v1.json",
+    "pointer": "/cast_action_protocol/physician_effect_proc"
+  },
+  "support_activation_modifier_owner_ref": {
+    "file": "辅助武功采用.v1.json",
+    "pointer": "/cast_action_protocol/activation_modifier_snapshot"
   }
 }

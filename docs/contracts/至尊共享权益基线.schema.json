@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:supreme-profile-baseline:v1",
+  "$comment": "LAN共享服务原接纳前态的严格五键业务投影，不是完整profile/当前可用库存或独立存档。完整角色全集/原同次profile前态、服务来源/库存来源/重量资格及授权另验；不复制整档递归历史。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "play_session_identity",
+    "profile_revision",
+    "rules_hash",
+    "supreme_service_or_null",
+    "role_states"
+  ],
+  "properties": {
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/identity",
+      "properties": {
+        "mode": {
+          "enum": [
+            "lan_host",
+            "lan_client"
+          ]
+        }
+      }
+    },
+    "profile_revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:supreme-service-clock-result:v1#/properties/rules_hash"
+    },
+    "supreme_service_or_null": {
+      "$ref": "urn:solorxjh:supreme-service-state:v1"
+    },
+    "role_states": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/role_state"
+      }
+    }
+  },
+  "$defs": {
+    "role_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "character_revision",
+        "owned_inventory_state",
+        "portable_travel_channel_or_null"
+      ],
+      "properties": {
+        "identity": {
+          "$ref": "urn:solorxjh:character-identity:v1"
+        },
+        "character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "owned_inventory_state": {
+          "$ref": "urn:solorxjh:item-locations:v1#/$defs/owned_inventory_state"
+        },
+        "portable_travel_channel_or_null": {
+          "$ref": "urn:solorxjh:portable-travel-channel:v1"
+        }
+      }
+    }
+  }
+}

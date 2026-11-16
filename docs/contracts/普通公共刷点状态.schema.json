@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-public-spawn-slot:v1",
+  "$comment": "原公共普通刷点当前现场的五键生命周期片段，不是持久普通HP/AI或完整actor。generation为本现场对应已发代次，须联合原world持久表/创建源认证，普通现场重建不清持久代次。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "generation",
+    "alive_or_waiting",
+    "active_actor_id_or_null",
+    "remaining_respawn_steps",
+    "last_observed_world_step"
+  ],
+  "properties": {
+    "generation": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "alive_or_waiting": {
+      "enum": [
+        "alive",
+        "waiting"
+      ]
+    },
+    "active_actor_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:ordinary-monster-life-identity:v1#/properties/actor_id"
+        }
+      ]
+    },
+    "remaining_respawn_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7200
+    },
+    "last_observed_world_step": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "alive_or_waiting": {
+            "const": "alive"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "active_actor_id_or_null": {
+            "type": "string"
+          },
+          "remaining_respawn_steps": {
+            "const": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "active_actor_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slots": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:ordinary-public-spawn-slot:v1"
+      }
+    }
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:private-trial-return-event:v1",
+  "$comment": "六转两私场原活人终局返回三阶段；死亡者沿原respawn，不另分返回身份。严格命令六键/计划两键，实际返回/清引用及明确主放弃差异另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "committed_world_step",
+        "migration_result"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "committed_world_step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "migration_result": {
+          "$ref": "#/$defs/migration_result"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "session_invalid",
+            "destination_unavailable",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "trial_attempt_id",
+        "interaction_id"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "trial_attempt_id": {
+          "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/trial_attempt_id"
+        },
+        "interaction_id": {
+          "const": "private_trial_return_panel"
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "terminal_event_id"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "terminal_event_id": {
+          "$ref": "urn:solorxjh:private-trial-terminal-result:v1#/properties/event_id"
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:private-trial-return-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    "migration_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "location_before",
+        "location_after"
+      ],
+      "properties": {
+        "location_before": {
+          "$ref": "urn:solorxjh:character-location:v1",
+          "properties": {
+            "map_id": {
+              "enum": [
+                "instance_faction_merit",
+                "instance_ascension_shadow"
+              ]
+            }
+          }
+        },
+        "location_after": {
+          "$ref": "urn:solorxjh:character-location:v1",
+          "properties": {
+            "map_id": {
+              "const": "nanlin_forest"
+            },
+            "position": {
+              "const": [
+                1,
+                0,
+                -8
+              ]
+            },
+            "yaw": {
+              "const": 0
+            }
+          }
+        }
+      },
+      "$comment": "活人实际原私场姿态到原南林精确返回锚；所属world/authority/角色沿原command，原instance沿trial_attempt认证。非复活或资源恢复。"
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "D1手动/自动移动、闪避与辅助位移动作结构已分派，完整占用联合及父来源继续待办",
+  "source_policy": "移动数值/碰撞及旧程序只作为现有项目设计来源，不声明为官网参数；本合同明确采用同一目标Godot移动职责，不修改Rust旧程序。",
+  "request_schema_ref": {
+    "file": "玩家移动请求.schema.json",
+    "pointer": ""
+  },
+  "result_schema_ref": {
+    "file": "玩家徒步移动结果.schema.json",
+    "pointer": ""
+  },
+  "source_refs": [
+    {
+      "file": "docs/02-玩法与功能.md",
+      "section": "5. 移动、镜头与输入"
+    },
+    {
+      "file": "世界图谱.v1.json",
+      "pointer": "/coordinate_policy"
+    },
+    {
+      "file": "世界图谱.v1.json",
+      "pointer": "/character_location"
+    },
+    {
+      "file": "辅助武功采用.v1.json",
+      "pointer": "/persistent_lightness_state"
+    },
+    {
+      "file": "辅助武功采用.v1.json",
+      "pointer": "/persistent_auxiliary_timed_state"
+    },
+    {
+      "file": "弓手箭矢与距离气功.v1.json",
+      "pointer": "/carry_overload_policy"
+    }
+  ],
+  "input": {
+    "axes": "move_x由D-A、move_forward由W-S得到-1/0/1；同轴相反键同时按下为0。run由任一Shift实际按住得到。camera_yaw_turn_u16与直接攻击方向相同为0..65535整圈，不能上传位置/浮点方向/速度或把非法轴裁剪成合法。一次请求只表达当前采样，不授权持久重复位移。",
+    "world_direction": "θ=2π*camera_yaw_turn_u16/65536；镜头水平前向f=[-sinθ,0,-cosθ]、右向r=[cosθ,0,-sinθ]，u=move_x*r+move_forward*f。u非零则先归一化，斜向不加速；两轴零不取atan2。俯仰不改变脚面方向，不把向前键转换成飞行/跳跃。",
+    "freeze": "沿19可靠命令原会话/序号/请求ID先去重并认证当前真实角色；同会话在本T输入封口前按可靠序号选最新已接纳移动采样，父context冻结唯一请求或明确无采样。后来的包不能插回已冻结本T；旧包不得倒写新的采样，重发只回原接收决定。完整网络命令封套/选择来源仍须同一原父认证，不从command_id字典序推用户最后按键。 同原session/command_id已被某真实T消费时，后续T重发只返回原接收/移动决定，不得再选入新T；相同请求ID异正文拒绝。命令消费映射由原完整输入父历史认证，不在角色新增第二移动去重表。",
+    "no_sample": "本T无接纳新采样且无合法自动移动原命令时，明确不执行手动位移，request_or_null=null、outcome=idle。手动按住须逐实际获步形成新采样；不把上步请求当永久按住状态，也不因缺网络包持续走。焦点/输入法/模态/退出/死亡/切角/失联清本地采样，19原重连规则保留。暂停不积压可在恢复时补跑的移动命令。",
+    "automatic_boundary": "WASD非零输入、攻击/技能/闪避输入按02取消原自动路线；地面点击及自动逐步推进沿auto_route_owner_ref，采集仍沿22原显式目标/近距工具动作，不以到达自动触发。手动结果与自动结果同本人同T互斥，不新增重复自动路径游标。"
+  },
+  "step_order": {
+    "phase": "仅本scope实际获授T的movement_and_due_capture，在规则/计时与直接攻击接纳之后，玩家/其他实体各自真实移动完成后才冻结原普通/武功根及旧弹体进攻队列。先按真实source_actor_id的UTF8字节序处理本T玩家集合；选择集合及每项before由原阶段父冻结，不在恢复时从当前在线列表重扫。",
+    "occupation": "原玩家普通/攻击武功及其他明确占用动作进行期间禁止普通徒步位移与移动转身，沿旧PlayerAction.allows_movement仅Idle可普通移动的项目规则。接纳当步新根已占用，旧根本步后摇稍后完成也不能提前挪一步。死亡/冻结/迁移中的本人没有普通可移动资格。闪避/刺客位移/骑乘/变身沿专用动作，不伪造普通步行，也不让两owner同T各写位置。",
+    "zero_intent": "无采样或两轴零保存idle/0速度/单点原位置且原yaw；真实非零输入被占用阻止时action_locked/0/单点原位置且原yaw，不存伪造发生位移。禁止用一个结果替代未获授的scope步或重新移动已处理角色。"
+  },
+  "speed": {
+    "base_walk_mm_per_second": 4000,
+    "base_run_mm_per_second": 6500,
+    "formula": "正常徒步按本请求walk/run取明确基础速度，原身轻如燕同族只取最强合法实际落效冻结系数M，普通速度=floor(base*M/10000)一次；无该族来源明确M=10000。原轻功从仍合法正余时来源选择实际冻结速度最大者L，没有来源时仅无L分支；最终取max(普通速度,L)，不把身轻再乘轻功。所有原九天/等级/吸星时长沿原落效证明，不读当前装备覆盖旧来源。",
+    "overload": "沿17原合法超重凭证，超重仅普通行走：忽略run并禁止取轻功高速，使用walk基础及合法身轻普通增幅。其原容量凭证/减重限制与装备改变来源必须成立，坏超重现场拒绝，不补容量或丢物。",
+    "configuration": "U33明确最终移动速度覆盖须从原配置事件和配置根认证，覆盖正常派生速度一次；合法超重的限行走及死亡/动作锁优先，覆盖不授予穿墙/位移/活动资格。严格配置字段及事务采用前，不用任意额外字段开启覆盖。",
+    "distance": "60Hz每真实步目标水平长度=speed_mm_per_second/60000米，保分数，不逐步向下取整为毫米。实际轨迹总水平长度不得超过本步预算，不把墙滑后剩余长度重新补成第二整步；速度/中间乘加均按23安全整数规则预检，坐标/归一化与转换Godot浮点必须有限。"
+  },
+  "collision": {
+    "shape": "普通玩家脚印水平圆半径0.35米，沿已有图谱actor_radius_m采用；脚面Y取该地图真实可行走地面。建筑/竹干/围栏/关闭入口/边界及外部水面阻挡；桥/地面矩形先并集再按圆脚印收缩，不把南明湖内部拼接缝当墙。服务NPC的原明确实体阻挡足迹属于场景实心，真实玩家/战斗怪物彼此不形成动态堵路墙，此为项目选择；仍各自参与命中/安全区判定。",
+    "sweep": "从真实before脚位向完整目标向量做连续扫掠，取最早实心接触，碰到面后仅保剩余向量在允许切向上的分量继续扫掠；接触同时约束合并，进入墙角的残量为0。不分X/Z轴顺序走、不只测终点、禁止穿薄墙/角点。相同接触距离按地图稳定collider_id UTF8排序记录来源，碰撞核由实际场景完整父认证。",
+    "trace": "path_positions首项等于父before位置，最后一项等于父after位置；仅保存实际起点、各滑动折点及最终点，连续相同点不重复。静止/完全受阻只有一项；确有位移为2..17项，最多16次实际扫掠接触为显式求解预算。预算耗尽且残量仍有合法未解方向时报movement_solver_limit，拒绝本原父决定并保before，不静默截短当成功；没有默认穿透或传送纠错。",
+    "yaw": "合法非零可移动意图将yaw改为atan2(-u.x,-u.z)，被墙完全挡住仍可朝意图转身；动作锁或idle不改yaw。朝向由意图而非墙滑轨迹反推，已接纳攻击根的accepted_yaw独立冻结，不随角色本位置/朝向改写。",
+    "invalid_start": "before位于不可落地/实心穿插/错误scope或非有限坐标为无合法来源，明确拒绝恢复/推进；不寻最近点搬移。已死角色的原死亡位置另沿死亡owner保留，不要求创建活体或用普通移动推出。地形坡面/高度/实际Godot碰撞误差在P阶段按相同定义验证，不能用静态网格通过冒充实际可走。"
+  },
+  "result": {
+    "fields": "十三键事件，path首尾已含位置before/after，原before_yaw由完整父取得，不存第二位置/最终属性/时钟或每角色motion计数。outcome只分idle/action_locked/moved/blocked，speed仅此步合法派生值；完整结果由原阶段父持有一次，不在角色新增移动日志。",
+    "identity": "event_id=player-motion:加SHA256(71确定JSON UTF8数组 [\"player_on_foot_motion\",world_id,authority_profile_id,source_actor_id,world_step])。不含输入/路径/碰撞/速度/结果；同本人生命本T至多一结果，同ID异正文拒绝，重放返回原决定而不再次更新位置。",
+    "semantic_checks": "原session与source_actor_id真实当前生命/角色/world、scope/T/获步及完整输入冻结逐项相同；请求非零才可action_locked/moved/blocked，双零只能idle。moved的首尾必须确有位移，blocked须正速度且有真实最早阻挡，不能把有可走切向的失败路径当blocked。路径有限、地面/半径/连续每段合规、总长度预算/速度和yaw须联合严格检查；schema允许的数字不证明来源。",
+    "atomicity": "输入选择、位置/yaw更新、必要自动路径/交互取消与原父结果同一决定，不提前修改Node3D再保存角色；原父证明本T冻结集合的已处理前缀/剩余后缀。所有本scope移动完成及新进攻队列冻结同笔阶段推进，未查明正式决定前不进入发射/扫掠。没有额外world步号或完成集合。",
+    "boundary": "手动徒步请求/结果与自动路径分派已采用；特殊动作/其他实体移动、完整输入选择/阶段父及实际地图碰撞来源仍须闭合，Godot尚未开始。"
+  },
+  "auto_route_owner_ref": {
+    "file": "自动寻路与移动.v1.json",
+    "pointer": ""
+  },
+  "dodge_owner_ref": {
+    "file": "战斗命中与减伤.v1.json",
+    "pointer": "/dodge"
+  },
+  "aux_displacement_owner_ref": {
+    "file": "辅助武功采用.v1.json",
+    "pointer": "/assassin_displacement_policy"
+  },
+  "firewood_cancellation_owner_ref": {
+    "file": "采集动作.v1.json",
+    "pointer": "/cancellation_binding/new_input"
+  },
+  "public_arrival_eligibility_owner_ref": {
+    "file": "场景迁移.v1.json",
+    "pointer": "/destination_eligibility"
+  },
+  "confusion_motion_owner_ref": {
+    "file": "神女状态技能.v1.json",
+    "pointer": "/persistent_control_state/random_walk_protocol"
+  }
+}

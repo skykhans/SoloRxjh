@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:private-trial-terminal-result:v1",
+  "$comment": "原六转私场唯一终局13字段子结果，不新增通用结算身份/日志。原死因/胜利归属、角色存活、期限与奖励同笔来源另验；非返回事件或完整活动节点。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "instance_id",
+    "trial_attempt_id",
+    "arena_id",
+    "owner_character_id",
+    "world_step",
+    "elapsed_steps",
+    "rules_hash",
+    "outcome",
+    "reason",
+    "evidence_event_id_or_null"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 87,
+      "maxLength": 87,
+      "pattern": "^private-trial-terminal:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "instance_id": {
+      "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/instance_id"
+    },
+    "trial_attempt_id": {
+      "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/trial_attempt_id"
+    },
+    "arena_id": {
+      "enum": [
+        "faction_merit_trial",
+        "ascension_shadow_trial"
+      ]
+    },
+    "owner_character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18000
+    },
+    "rules_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "outcome": {
+      "enum": [
+        "victory",
+        "failed"
+      ]
+    },
+    "reason": {
+      "enum": [
+        "enemy_defeated",
+        "participant_death",
+        "alive_timeout",
+        "explicit_abandon_or_leave"
+      ]
+    },
+    "evidence_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "outcome": {
+              "const": "victory"
+            },
+            "reason": {
+              "const": "enemy_defeated"
+            },
+            "evidence_event_id_or_null": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        },
+        {
+          "properties": {
+            "outcome": {
+              "const": "failed"
+            },
+            "reason": {
+              "enum": [
+                "participant_death",
+                "explicit_abandon_or_leave"
+              ]
+            },
+            "evidence_event_id_or_null": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        },
+        {
+          "properties": {
+            "outcome": {
+              "const": "failed"
+            },
+            "reason": {
+              "const": "alive_timeout"
+            },
+            "evidence_event_id_or_null": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "arena_id": {
+            "const": "faction_merit_trial"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "elapsed_steps": {
+            "maximum": 10800
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "reason": {
+                  "const": "alive_timeout"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "elapsed_steps": {
+                  "const": 10800
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "arena_id": {
+            "const": "ascension_shadow_trial"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "elapsed_steps": {
+            "maximum": 18000
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "reason": {
+                  "const": "alive_timeout"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "elapsed_steps": {
+                  "const": 18000
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reason": {
+            "enum": [
+              "enemy_defeated",
+              "participant_death"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "elapsed_steps": {
+            "minimum": 1
+          }
+        }
+      }
+    }
+  ]
+}

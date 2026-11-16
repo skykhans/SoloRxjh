@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:monster-silver-scene-drop:v1",
+  "$comment": "原死亡产生的唯一公共银包，五键待领权利；不是held物品/银余额或银流。scope/领取者与金额完整来源须原死亡父认证，无claimed镜像或0金额包。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "drop_id",
+    "source_death_event_id",
+    "owner_character_id",
+    "position",
+    "amount"
+  ],
+  "properties": {
+    "drop_id": {
+      "type": "string",
+      "minLength": 76,
+      "maxLength": 76,
+      "pattern": "^silver-drop:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "source_death_event_id": {
+      "oneOf": [
+        {
+          "$ref": "urn:solorxjh:ordinary-monster-death-identity:v1#/properties/event_id"
+        },
+        {
+          "$ref": "urn:solorxjh:training-monster-death:v1#/properties/event_id"
+        }
+      ]
+    },
+    "owner_character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "position": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+    },
+    "amount": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    }
+  },
+  "$defs": {
+    "drops": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/properties/drop_id"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:monster-silver-scene-drop:v1"
+      }
+    }
+  }
+}

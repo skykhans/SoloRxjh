@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:gather-advance:v1",
+  "$comment": "十二键原post_combat父持有的单步决定。正常after=before+1；木柴逐步资格取消时after=before且无effect，取消引用必须等本action，根stop绑定本event。接纳T不处理；完整before、资格及同父来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "action_id",
+    "before_elapsed_steps",
+    "after_elapsed_steps",
+    "effect_event_id_or_null",
+    "cancelled_firewood_action_id_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 79,
+      "maxLength": 79,
+      "pattern": "^gather-advance:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/properties/action_id"
+    },
+    "before_elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 179
+    },
+    "after_elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 180
+    },
+    "effect_event_id_or_null": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/properties/effect_event_id_or_null"
+    },
+    "cancelled_firewood_action_id_or_null": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/$defs/cancelled_firewood_action_id_or_null"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "after_elapsed_steps": {
+            "not": {
+              "enum": [
+                13,
+                180
+              ]
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effect_event_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "after_elapsed_steps": {
+            "const": 180
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effect_event_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "after_elapsed_steps": {
+            "maximum": 179
+          },
+          "effect_event_id_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "after_elapsed_steps": {
+            "minimum": 1
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:normal-critical-snapshot:v1",
+  "$comment": "原普通根五字段投影，basic_profile_id复用原几何字段，不重复存class。普通/超必杀为互斥抽数段；两概率之和及真实来源另验，不是完整伤害结果。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "basic_profile_id",
+    "critical_chance_bp",
+    "critical_multiplier_bp",
+    "supercritical_chance_bp",
+    "supercritical_multiplier_bp_or_null"
+  ],
+  "properties": {
+    "basic_profile_id": {
+      "enum": [
+        "basic_blade",
+        "basic_sword",
+        "basic_spear",
+        "basic_physician",
+        "basic_archer",
+        "basic_assassin",
+        "basic_musician",
+        "basic_fighter",
+        "basic_han_feiguan",
+        "basic_tan_hualing",
+        "basic_mei_liuzhen",
+        "basic_lu_fenglang",
+        "basic_dongling_shennv",
+        "basic_zhen_fengbai"
+      ]
+    },
+    "critical_chance_bp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "critical_multiplier_bp": {
+      "const": 15000
+    },
+    "supercritical_chance_bp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4000
+    },
+    "supercritical_multiplier_bp_or_null": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "enum": [
+              "basic_assassin"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "critical_chance_bp": {
+            "maximum": 9500
+          },
+          "supercritical_multiplier_bp_or_null": {
+            "type": "integer",
+            "minimum": 20000,
+            "maximum": 24000,
+            "multipleOf": 100
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "enum": [
+              "basic_archer"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "critical_chance_bp": {
+            "maximum": 9500
+          },
+          "supercritical_multiplier_bp_or_null": {
+            "const": 20000
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "not": {
+              "enum": [
+                "basic_assassin",
+                "basic_archer"
+              ]
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "supercritical_chance_bp": {
+            "const": 0
+          },
+          "supercritical_multiplier_bp_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

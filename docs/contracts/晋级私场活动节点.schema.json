@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:private-trial-activity-state:v1",
+  "$comment": "world.private_advancement_trials[instance_id]唯一十二键业务节点；完整world/角色及公共战斗现场仍须共同认证。终局引用null表示尚未提交终局，非null表示等待实际返回；不另存state/pendingreturn布尔或复制玩家/随机/战斗队列。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "instance_id",
+    "trial_attempt_id",
+    "arena_id",
+    "owner_character_id",
+    "main_attempt_id_or_null",
+    "entry_settlement_id",
+    "rules_hash",
+    "elapsed_steps",
+    "enemy",
+    "terminal_event_id_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/oneOf/1/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/oneOf/1/properties/authority_profile_id"
+    },
+    "instance_id": {
+      "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/instance_id"
+    },
+    "trial_attempt_id": {
+      "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/trial_attempt_id"
+    },
+    "arena_id": {
+      "$ref": "urn:solorxjh:private-trial-terminal-result:v1#/properties/arena_id"
+    },
+    "owner_character_id": {
+      "$ref": "urn:solorxjh:character-identity:v1#/properties/character_id"
+    },
+    "main_attempt_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "entry_settlement_id": {
+      "$ref": "urn:solorxjh:allocated-settlement-identity:v1#/properties/settlement_id"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:private-trial-enemy-attack:v1#/properties/rules_hash"
+    },
+    "elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18000
+    },
+    "enemy": {
+      "$ref": "urn:solorxjh:private-trial-enemy-state:v1"
+    },
+    "terminal_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:private-trial-terminal-result:v1#/properties/event_id"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "collection": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/instance_id"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:private-trial-activity-state:v1"
+      },
+      "$comment": "原world.private_advancement_trials集合；键与正文instance_id相等及跨节点角色唯一须联合验证，不以propertyNames或对象键唯一代替。"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "arena_id": {
+            "const": "faction_merit_trial"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "main_attempt_id_or_null": {
+            "type": "null"
+          },
+          "elapsed_steps": {
+            "maximum": 10800
+          },
+          "enemy": {
+            "properties": {
+              "behavior": {
+                "properties": {
+                  "definition_id": {
+                    "const": "project_faction_merit_veteran100"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "main_attempt_id_or_null": {
+            "type": "string"
+          },
+          "enemy": {
+            "properties": {
+              "behavior": {
+                "properties": {
+                  "definition_id": {
+                    "const": "project_yuegong_shadow115"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "terminal_event_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "enemy": {
+            "properties": {
+              "behavior": {
+                "properties": {
+                  "ai_state": {
+                    "const": "stopped"
+                  },
+                  "accepted_action_id_or_null": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dongling-forced-action-choice:v1",
+  "$comment": "受控player/六公共怪/144修炼定义成功接纳原父持有的十二键错乱选择子结果。仅复用中性源身份/地图类型；候选为原823学习ID中本次真正合法项及末尾null普攻，一能力一票。选中项从唯一draw或单票推导，不存重复选中ID/索引/费用/阶段。完整池、排序、原执行结果及共同提交另验；原队列已登记内部来源入口；完整执行/未执行父尚待，本选择结果不能独立消费队首。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "event_id",
+    "rules_hash",
+    "source_actor_id",
+    "application_event_id",
+    "candidate_ability_ids",
+    "execution_event_id",
+    "random_flow"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "event_id": {
+      "$ref": "urn:solorxjh:dongling-forced-action-choice:v1#/$defs/event_id"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/rules_hash"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:dongling-random-walk-intent:v1#/$defs/source_actor_id"
+    },
+    "application_event_id": {
+      "$ref": "urn:solorxjh:dongling-control-effect-state:v1#/$defs/source/properties/application_event_id"
+    },
+    "candidate_ability_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 824,
+      "uniqueItems": true,
+      "items": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "$ref": "urn:solorxjh:ordinary-active-learning-state:v1#/propertyNames"
+          },
+          {
+            "$ref": "urn:solorxjh:ascended-martial-learning-state:v1#/propertyNames"
+          },
+          {
+            "$ref": "urn:solorxjh:legacy-sword-training-event:v1#/$defs/command/properties/ability_id"
+          }
+        ]
+      }
+    },
+    "execution_event_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "random_flow": {
+      "$ref": "urn:solorxjh:random-decision-flow:v1"
+    }
+  },
+  "$defs": {
+    "event_id": {
+      "type": "string",
+      "minLength": 80,
+      "maxLength": 80,
+      "pattern": "^dongling-forced:[0-9a-f]{64}(?![\\s\\S])"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^ordinary-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          },
+          "candidate_ability_ids": {
+            "const": [
+              null
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^training-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          },
+          "candidate_ability_ids": {
+            "const": [
+              null
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate_ability_ids": {
+            "maxItems": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "minItems": 1,
+                      "maxItems": 1,
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "dongling_forced_action.choice"
+                          },
+                          "low": {
+                            "const": 0
+                          },
+                          "high": {
+                            "minimum": 1,
+                            "maximum": 823
+                          },
+                          "result": {
+                            "minimum": 0,
+                            "maximum": 823
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^player-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "items": {
+                  "properties": {
+                    "owner_kind": {
+                      "const": "character"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "items": {
+                  "properties": {
+                    "owner_kind": {
+                      "const": "world"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

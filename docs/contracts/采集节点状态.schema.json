@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:gather-node-state:v1",
+  "$comment": "采集节点状态：竹/木柴单节点三键严格分派，两种映射分别属于原现场/原world，非持久新包装。竹三击已倒且计时0表示等待全员5米排斥解除；木柴仅冷却0可有唯一采集动作引用。节点位置/库存/角色副本不在此保存。",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/bamboo_node"
+    },
+    {
+      "$ref": "#/$defs/firewood_pile"
+    }
+  ],
+  "$defs": {
+    "action_id": {
+      "type": "string",
+      "minLength": 78,
+      "maxLength": 78,
+      "pattern": "^gather-action:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "bamboo_node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generation",
+        "hits",
+        "respawn_remaining_steps"
+      ],
+      "properties": {
+        "generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "hits": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "respawn_remaining_steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1800
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "hits": {
+                "maximum": 2
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "respawn_remaining_steps": {
+                "const": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "firewood_pile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generation",
+        "recharge_remaining_steps",
+        "collector_action_id_or_null"
+      ],
+      "properties": {
+        "generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "recharge_remaining_steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1800
+        },
+        "collector_action_id_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/action_id"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "recharge_remaining_steps": {
+                "minimum": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "collector_action_id_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "bamboo_nodes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bamboo_01",
+        "bamboo_02",
+        "bamboo_03",
+        "bamboo_04",
+        "bamboo_05",
+        "bamboo_06"
+      ],
+      "properties": {
+        "bamboo_01": {
+          "$ref": "#/$defs/bamboo_node"
+        },
+        "bamboo_02": {
+          "$ref": "#/$defs/bamboo_node"
+        },
+        "bamboo_03": {
+          "$ref": "#/$defs/bamboo_node"
+        },
+        "bamboo_04": {
+          "$ref": "#/$defs/bamboo_node"
+        },
+        "bamboo_05": {
+          "$ref": "#/$defs/bamboo_node"
+        },
+        "bamboo_06": {
+          "$ref": "#/$defs/bamboo_node"
+        }
+      }
+    },
+    "firewood_piles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hyunbo_firewood_01",
+        "hyunbo_firewood_02",
+        "hyunbo_firewood_03",
+        "hyunbo_firewood_04"
+      ],
+      "properties": {
+        "hyunbo_firewood_01": {
+          "$ref": "#/$defs/firewood_pile"
+        },
+        "hyunbo_firewood_02": {
+          "$ref": "#/$defs/firewood_pile"
+        },
+        "hyunbo_firewood_03": {
+          "$ref": "#/$defs/firewood_pile"
+        },
+        "hyunbo_firewood_04": {
+          "$ref": "#/$defs/firewood_pile"
+        }
+      }
+    }
+  }
+}

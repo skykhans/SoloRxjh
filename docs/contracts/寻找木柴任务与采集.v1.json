@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-15",
   "status": "one_source_gather_quest_designed_not_implemented_not_balanced",
   "source_policy": "QREF-63791-006 provides17level/WeiDabao/15firewood/30000silver/once; IREF-39807-019-4provides material name only. Gathering objects,position,timing,ownership and permissions below are local design,not published monster/drop claims.",
   "quest": {
@@ -26,7 +26,7 @@
       "ready_to_turn_in",
       "delivered"
     ],
-    "readiness": "derived from carried bound firewood>=15; not independently saved count,warehouse never counted",
+    "readiness": "由本人本任务inventory实际木柴I>=15派生可交付；总携带量C=I+K用于采集上限，不能把行囊量当远程交付；不另存计数。",
     "acceptance": "alive,out of combat,idle,no challenge,valid level and class/route,NPC2.5m; never already delivered",
     "required_item": {
       "item_id": "quest_firewood",
@@ -42,8 +42,8 @@
       "ascension_progress": 0
     },
     "repeat": "once per character across worlds; completion is character quest identity,not world/day reset",
-    "abandon": "confirmation removes only this quest bound firewood from all carried ownership,keeps unrelated materials; resets active progress,no fee/refund; delivered cannot abandon/reaccept",
-    "delivery": "same qualification and NPC; atomically consume15 bound carried firewood,credit30000silver,mark delivered and unique receipt; silver ceiling failure leaves entire input and state unchanged",
+    "abandon": "确认后原放弃共同父清理本人本任务inventory与knight_bag全部木柴，沿原quest_cleanup终结真实完整堆及数量来源；保其他物/绑定任务。两个分区正文/槽/超重来源/修订与任务重置同笔，未决移动先恢复；不按UI当前页或只扫inventory留下任务物。delivered不能放弃或重接。",
+    "delivery": "同原资格/NPC与唯一任务结算，明确inventory消耗15本人本任务木柴、30000两及完成状态同笔；行囊须先取回，不远程消费。安全银上界失败保原输入/状态。",
     "modifiers": "task silver excluded from shop-price,team,finisher,training modifiers; no automatic supreme multiplier",
     "replay": "character/quest/final-settlement unique; request_id and expected_revision; stale/retry returns original or rejects,never regrants",
     "save": "05/19host settlement with character-only completion; no unrecorded gather progress or reset on room load"
@@ -69,7 +69,8 @@
     "sell_price": null,
     "maximum_owned_for_quest": 15,
     "initial_grant": 0,
-    "identity_policy": "not LinglongBamboo or general timber,never converts old bamboo/materials by name"
+    "identity_policy": "not LinglongBamboo or general timber,never converts old bamboo/materials by name",
+    "knight_bag_allowed": true
   },
   "gather": {
     "action_id": "gather_quest_firewood",
@@ -78,10 +79,10 @@
     "interaction_range_mm": 2000,
     "duration_steps": 180,
     "hp_mana_stamina_cost": 0,
-    "qualification": "alive,out of combat,idle,no challenge,own quest accepted and not delivered,own carried amount<15; within2m and unobstructed LOS",
+    "qualification": "alive,out of combat,idle,no challenge,own quest accepted and not delivered,own actual inventory+knight_bag quest amount C<15; within2m and unobstructed LOS",
     "tool": "intrinsic hand-gather animation for14classes,not weapon attack or consumed axe",
     "cancellation": "movement/dodge/attack/skill/new interaction/hostile damage/invalid pile or range cancels without materials or recharge; damage adjudicated before completion same step",
-    "output": "1physical quest_firewood,100%,no bonus quantities/randomness/XP; no virtual count; recheck final backpack slot/weight and max15 at completion",
+    "output": "1physical quest_firewood,100%,no bonus quantities/randomness/XP; no virtual count; recheck original inventory slot/weight and total inventory+knight_bag max15 at completion",
     "capacity_failure": "reject whole gather,no material/no pile cooldown; no warehouse/ground overflow",
     "ownership": "shared pile,cannot have two active collectors; host reserves by actual accepted action,conflict rejects; after successful gather one1800step cooldown shared per pile",
     "regrowth_steps": 1800,
@@ -95,9 +96,30 @@
       "accepted_action_id"
     ],
     "completion": "same host transaction creates physical item,advances pile generation,starts recharge and issues receipt; client retry no duplicate output",
-    "save": "world.firewood_piles stores4known IDs,last generation,remaining recharge0..1800,and accepted collector/action reservation or null;05fixed-step snapshot saves action remaining/target; no duplicate inventory quantity cache",
+    "save": "world.firewood_piles四已知ID，每项恰generation/recharge_remaining_steps/collector_action_id_or_null；采集者由唯一原动作根解析，不重复character或位置。完整原动作/节点/库存同父保存，不复制动作remaining或数量缓存。此木柴现场持久化，不沿普通竹场重建清零。",
     "offline_pause": "freeze remaining recharge/action with whole world;LAN host continues,disconnect cancels reservation/no output",
-    "load": "missing/bad new fields reject; restore same cooldown/action,never fresh pile or free gathered unit"
+    "load": "missing/bad new fields reject; restore same cooldown/action,never fresh pile or free gathered unit",
+    "node_state_schema_ref": {
+      "file": "采集节点状态.schema.json",
+      "pointer": "/$defs/firewood_piles"
+    },
+    "node_state_policy": {
+      "initialization": "仅原明确新世界/获准内容初始化时四项各generation0/recharge0/collector_action=null；已有世界缺任一字段拒绝，不从地图访问/重连/载入补新堆。位置/物品/任务仍沿原各owner。",
+      "reservation": "recharge0且collector_action=null才可原子接纳一个180步采集动作并写其gather-action引用；不再保存第二采集者/character/generation副本。节点引用与唯一完整动作node_id/accepted generation、本人生命/作用域必须双向匹配，已完成/已停止动作不可占堆，同一动作不能占两堆。其他收集者明确拒绝，不排隐藏队列或改选最近堆。",
+      "completion": "原180步到期仍先完成本T敌伤/生命结果，再重验任务、2米/视线、原代次/唯一预留、最大携带15与最终背包格重。成功同父铸造1本人绑定木柴入包、generation+1、recharge1800、collector=null及原物品来源结果，不产场景地面掉落/10经验；本T新冷却不扣。按action_contract_ref原单mint或mint→merge检最终容量，已有兼容木柴堆可接收时不额外要求空槽。真实无空槽且不可合堆/超重/数量上限等失败整笔无物/无代次/无冷却，仅原动作失败终止与释放本人预留，不自动送仓库/丢地。",
+      "clock": "仅原scope实际获授世界步rules_and_timers把正recharge减1到0，0不再扣、不增代次也不重置预留。冷却归原world节点，LAN其他玩家与个人面板不冻结；离线整场暂停冻结，返回地图不刷新。计时已到0后接纳阶段可检查原空预留，不伪造先前已拒绝请求为新成功。",
+      "cancellation": "原owner明确移动/闪避/攻击/技能/新交互/敌伤/失联或目标无效取消，原同父只在collector仍等本动作时清null，保generation/recharge及无材料结果；不能用旧取消清后来新采集者。正式死亡/迁移/会话结束沿原对应父收束；保存存疑保原动作/预留，不能仅因进程不见就释放。临时失联取消依本木柴明确规则，与竹场/其他动作的冻结规则区分。",
+      "bounds": "generation原安全非负整数，成功+1前预检；超域拒绝整父保before，不夹上限/清0/先发物。正recharge必须collector=null，反向引用和真实未决动作全集联合验证，不能以结构合法推断预留可恢复。",
+      "boundary": "四堆状态及采集请求/接纳/根/推进/生效沿action_contract_ref已采用；取消实际父、物品铸造及任务/库存/节点共同父仍待，不能据结构运行或宣称D1通过。"
+    },
+    "action_contract_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": ""
+    },
+    "hostile_damage_cancellation_owner_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": "/cancellation_binding/damage"
+    }
   },
   "piles": [
     {
@@ -168,7 +190,57 @@
     "existing_world_content_change": "explicit marked content initialization needed,never infer missing fields on load"
   },
   "pending": [
+    "完整任务/输入/角色/profile/world共同父与来源闭包；接取/交付/放弃严格结构已采用",
     "Godot gather/quest UI/atomic delivery/save/LAN tests",
     "deadwood asset/animation and gather-time/economy calibration"
-  ]
+  ],
+  "partition_policy": {
+    "identity": "仅quest_firewood、character绑定，quest_scope精确单键quest_id=ref_QREF-63791-006；归实际本人活跃任务。不能清null、加attempt或将别任务堆合入；原实物stack_limit仍99，但本任务全部实际拥有总量最多15。",
+    "queries": "I=inventory本任务真实量，K=knight_bag本任务真实量，C=I+K，均从完整正文/位置/来源派生。仓库禁止存入，不是远程输入；其他域出现本木柴是坏来源，不跳过后补可用量。",
+    "gather": "接纳及e180原完成before均核C<15，成功只向inventory新增1，最终C<=15，原inventory槽/格重不够仍失败，不自动投行囊。移分区不增加采集计数/代次/冷却，C不变，不能挪走15份再采15份。",
+    "move": "允许本人活跃且未交付任务的正式inventory↔knight_bag移动；同任务merge_key、C<=15、原角色/库存/源版本和分区格重先验证。移动不改任务身份/状态或正文任务域；任务放弃/交付与未决移动由同角色互斥恢复，不接受先前活跃任务旧命令在清理后重建物品。",
+    "delivery_and_cleanup": "交付仅I>=15，放弃清两分区全部真实本任务堆；沿原任务共同父，不把移动日志当quest_delivery或quest_cleanup授权。清理/取回导致行囊回合法重量时同父清原行囊超重来源，角色总超重独立核验。",
+    "gate": "分区/移动/任务三种操作严格结构与日志已登记；真实来源和完整共同父仍待，不得执行半笔清理或部分交付。"
+  },
+  "persistent_state": {
+    "field": "character.quests.firewood_task",
+    "schema_ref": {
+      "file": "木柴任务状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "phase": "not_accepted",
+      "completion_receipt_id": null
+    },
+    "policy": "仅not_accepted/active/delivered持久，ready_to_turn_in由active且inventory真实15派生，不另存。接取原任务父not_accepted→active、确认放弃active→not_accepted；交付active→delivered且来源等本committed结算。接取/放弃严格事件已登记、完整来源共同父仍待，不能凭active结构造授权。"
+  },
+  "delivery_protocol": {
+    "schema_ref": {
+      "file": "木柴交付事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.firewood_delivery_events",
+    "identity": "原通用分配；request_id为71确定JSON [\"firewood_delivery\",play_session_identity.session_id,command_id]，摘要覆盖五键完整命令，character范围唯一未决；旧请求原结果不重发。",
+    "preflight": "原任务active、本人真实会话/alive/out_of_combat/Idle/无challenge、17级及原NPC魏大宝泫勃派服务同图<=2500mm。inventory本任务全部真量恰15、行囊0、其他域无木柴，源合法/未预留；随身银<=MAX-30000。不能从行囊/仓库补扣或接受额外任务物。",
+    "plan": "rules_hash/quest_before/inventory_before/inputs四键；inputs恰全部inventory木柴完整堆按槽升序，1..15个、数量总和15、同本人/精确任务域/原来源。两业务修订匹配命令，规则/源与计划保原不重算。",
+    "commit": "单stack_flow receipt_id=本结算，无mint/outputs；inputs逐项等计划previous_output，每输入一条全量quest_delivery消费且input_index原序，合计15。单银流receipt_id=本结算，本人carried_silver原前输出，无opening，唯一外部→账户0的30000 quest_reward，授权本结算，after=before+30000。完成来源等本identity.settlement_id，移除全部已消费木柴正文/槽并保原来源终结，角色及inventory修订各+1、日志终态与任务delivered同完整替换，无XP/历练/随机或服务倍率。",
+    "recovery": "reserved只保身份/计划，不改钱物/任务/业务修订；取消/状态或交互失效aborted保before。未知写盘重读正式原日志与完整来源头，已committed只回原结果，不按缺木柴/当前余额猜成功；未决移动先恢复，不能半笔先消物后派奖。",
+    "gate": "严格状态/交付与接取放弃日志/索引已登记；完整输入/角色profile/world共同父及来源与运行仍待，禁止实际提交。"
+  },
+  "transition_protocol": {
+    "schema_ref": {
+      "file": "木柴任务转换事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.firewood_task_transition_events",
+    "command": "六键原会话/command_id/expected_character_revision/expected_inventory_revision/interaction_id/operation。accept需魏大宝同图<=2500mm原交互，17级/原路线职业、alive/out_of_combat/Idle/无challenge、任务not_accepted且无残留木柴；abandon只须本人active、明确确认、alive/out_of_combat/Idle/无challenge，不要求NPC，interaction_id=null。delivered不可转换。",
+    "identity": "原通用分配；request_id为71确定JSON [\"firewood_task_transition\",play_session_identity.session_id,command_id]，摘要含完整六键operation；跨两操作同session/command_id异参拒绝，不生成第二身份。character范围未决互斥。",
+    "plan": "rules_hash/quest_before/inventory_before/knight_bag_before/inputs五键。accept inputs=[]；abandon inputs是两分区全部真实本任务木柴完整前输出及堆，inventory按槽升序在先、knight_bag按槽升序在后；0..15堆、总量0..15，任何其他域残留/错任务/来源/重复位置先拒绝，不跳过坏物。",
+    "accept": "committed任务not_accepted→active/null完成来源，stack_flow=null。无礼包/木柴/银/XP/随机，角色修订恰+1、inventory修订保持原expected值；原物品/槽不变。预留counter/日志不冒充业务变化。",
+    "abandon": "committed任务active→not_accepted/null完成来源。inputs非空则单stack_flow receipt_id=本结算，原inputs顺序且每输入完整量一条quest_cleanup/input_index原序，无mint/outputs；删除对应正文/两分区槽。inputs空则stack_flow=null且inventory修订不变；非空inventory恰+1。两种角色修订均恰+1，无银流/补偿/奖励，其他任务物不改。合法行囊减负至上限内同父清本超重来源，总超重独立核验。",
+    "serialization": "在原权威命令边界处理，先恢复该角色移动/交付/其他未决，原已冻结采集输入后缀必须先处理完，不能跨本转换后再借新active解释旧队列；无活跃木柴根/本人collector预留才可预留转换。新网络未处理意图只按实际处理before判断，不能声称能判断未观察到的客户端生成时刻。已决定请求只回原采集/拒绝结果，不新建根或重复落物。完整输入父尚待，不靠新增任务epoch计数补缺口。",
+    "history": "新角色原初值→真实已提交转换/交付沿原profile完整替换及角色业务修订链重放，不能按日志数组末项/最大allocation跨authority猜当前状态。active须真实accept且未被随后abandon/delivery终结；同任务可放弃再接，delivered永久锁定。completion来源仅实际交付，接取不写伪完成ID。",
+    "recovery": "reserved保原计划/身份，不改任务/物品/业务修订；取消/资格变更合法aborted保before。未知保存重读原正式记录及任务/库存/来源，committed只回原决定，abandoned后再accept也不能重放旧放弃删新物。任务/正文无法组成正式同父状态时保未决报错。",
+    "gate": "状态/交付/接取放弃严格结构与日志/索引已登记；完整任务与输入/角色/profile/world共同父及真实来源/故障保存和Godot仍待，禁止执行。"
+  }
 }

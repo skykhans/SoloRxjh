@@ -1,0 +1,594 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:second-advancement-material-death-result:v1",
+  "$comment": "二转第2阶段三类皮毛七键个人死亡子结果，分支取原quest_before不复制；固定1件/每类cap10。原普通死亡父持有，无新增结算/日志；真实死因/资格/来源/持量/数量及共同父另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "character_id",
+    "quest_before",
+    "held_quantity_before",
+    "outcome",
+    "merge_input_or_null",
+    "stack_flows",
+    "item_id"
+  ],
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "quest_before": {
+      "$ref": "urn:solorxjh:second-advancement-quest-state:v1",
+      "properties": {
+        "state": {
+          "const": "in_progress"
+        },
+        "stage_index_or_null": {
+          "const": 2
+        }
+      }
+    },
+    "held_quantity_before": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "outcome": {
+      "enum": [
+        "granted",
+        "cap_reached",
+        "capacity_rejected"
+      ]
+    },
+    "merge_input_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "previous_output",
+            "stack"
+          ],
+          "properties": {
+            "previous_output": {
+              "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+            },
+            "stack": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/material_stack"
+                },
+                {
+                  "properties": {
+                    "quantity": {
+                      "minimum": 1,
+                      "maximum": 9
+                    },
+                    "revision": {
+                      "maximum": 9007199254740990
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "stack_flows": {
+      "type": "array",
+      "maxItems": 2,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/mint_flow"
+        },
+        {
+          "$ref": "#/$defs/merge_flow"
+        }
+      ],
+      "items": false
+    },
+    "item_id": {
+      "enum": [
+        "adv02_red_bear_skin",
+        "adv02_yellow_tiger_skin",
+        "adv02_white_tiger_skin"
+      ]
+    }
+  },
+  "$defs": {
+    "mint_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/material_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "const": 1
+                          },
+                          "revision": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  },
+                  "contributions": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "loot"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "merge_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/material_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "minimum": 2
+                          },
+                          "revision": {
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "material_stack": {
+      "$ref": "urn:solorxjh:second-advancement-transition-event:v1#/$defs/material_input/properties/stack",
+      "properties": {
+        "item_id": {
+          "enum": [
+            "adv02_red_bear_skin",
+            "adv02_yellow_tiger_skin",
+            "adv02_white_tiger_skin"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "maximum": 9
+          },
+          "stack_flows": {
+            "minItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          },
+          "stack_flows": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "cap_reached"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "const": 10
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "capacity_rejected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "held_quantity_before": {
+            "maximum": 9
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "maxItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "stack_flows": {
+            "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "held_quantity_before": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "held_quantity_before": {
+            "minimum": 1,
+            "maximum": 9
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "const": "adv02_red_bear_skin"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv02_red_bear_skin"
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv02_red_bear_skin"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "const": "adv02_yellow_tiger_skin"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv02_yellow_tiger_skin"
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv02_yellow_tiger_skin"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item_id": {
+            "const": "adv02_white_tiger_skin"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv02_white_tiger_skin"
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "adv02_white_tiger_skin"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "selected_branch_or_null": {
+                "const": "righteous"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "righteous"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "righteous"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "selected_branch_or_null": {
+                "const": "evil"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "quest_scope": {
+                    "properties": {
+                      "branch_id": {
+                        "const": "evil"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "quest_scope": {
+                            "properties": {
+                              "branch_id": {
+                                "const": "evil"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

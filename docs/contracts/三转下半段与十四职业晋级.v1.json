@@ -16,7 +16,6 @@
     "states": [
       "not_accepted",
       "in_progress",
-      "ready_to_turn_in",
       "delivered"
     ],
     "state_fields": [
@@ -29,7 +28,7 @@
     ],
     "branch_selection": "exactclass_bindings14exhaustivemembers;bothfactionslisted;no wildcard/default/fallback/userselectinganotherclassbranch;classandrouteimmutableforattempt",
     "repeat": "oncepercharacteracrossworlds;confirmedabandonmayrestartnewattemptbutneverresetuppercompletion/XP",
-    "readiness": "realcarriedowncharacter/quest/attempt/branch/classbounditems,currentNPCandconditions;noindependentcollectioncounter"
+    "readiness": "realcarriedowncharacter/quest/attempt/branch/classbounditems,currentNPCandconditions;noindependentcollectioncounter;ready_to_turn_inisUIprojectiononly,notasecondpersistedstate"
   },
   "source_policy": "eight63790/63789lowerrecordsmergeoneadv_03;fourordinaryclassflowsfollow63799withinventory ambiguities explicitly resolved;other10classes use enumerated local bindings;not evidence ofofficialhero/ranged/music/fighterquests;finalrank3only,no additional source-reward guesses",
   "source_adjudications": [
@@ -3669,7 +3668,30 @@
       "item_id"
     ],
     "modifiers": "fixed100%,no26finisher/trainingmodifier",
-    "commit": "same05/19hostdeathsettlementwithper-recipientresults"
+    "commit": "same05/19hostdeathsettlementwithper-recipientresults",
+    "result_schema_ref": {
+      "file": "三转下半段材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "source_protocol": {
+      "parent": "仅原普通怪唯一死亡共同决定内六键个人任务材料结果，死亡身份沿原十一键普通死亡identity，实际spawn/monster/map须精确匹配本collection.producers与原spawns。不得改用修炼/私场/脚本移除或伪同名怪。完整死亡共同父尚待；本子结果无独立profile日志、分配计数、请求或新死亡事件。",
+      "qualification": "死亡共同before核本人真实完整quest_before为in_progress、本14职业/真实route唯一branch且正处该branch.required_stage_index，原attempt接受与全部前序阶段来源有效。本人活体/连接/同世界scope且满足原solo归属或19完整队伍成员资格（30m/入队>=600步/本T迁入排除）；队伍快照与资源收益池同一before，不凭XP分配额是否正数决定任务资格。不合格/非本任务/非收集阶段不造个人活跃子结果。原死亡有效本任务接收者按character_id UTF8序各恰一项，包括上限/容量失败者，不漏无物结果或给主人复制NPC份额。",
+      "plan": "冻结原六字段quest_before及本人inventory内精确adv_03/attempt/branch/class材料真实总量C，禁止第二收集计数。未知/旧轮/外国职业分支/错误域物、超本item.maximum_carried或来源不完整先报错并保原未决，不当容量失败/材料0。C=10记cap_reached；C<10按原背包槽序选择首个可接1的本轮材料旧堆，否则新堆。C>0而无合法旧堆为坏源，不新建分散堆规避。",
+      "capacity": "C=10仅cap_reached；C=0..9预检最终布局与重量，有旧堆合并只需旧槽不要求临时空槽。真无容量为capacity_rejected，空流/旧输入null且不预留新堆ID，不回滚本死亡普通收益。坏修订/溢出/未知源是候选共同决定错误，不伪装正常容量失败。",
+      "flow_identity": "granted为唯一loot mint1；C=1..9时再接唯一merge。每个实际流receipt_id精确为adv03-material-flow:加SHA256(71确定JSON编码[\"adv03_lower_material_flow\",death_identity.event_id,character_id,\"adv_03\",quest_before.attempt_id_or_null,quest_before.branch_id_or_null,item_id,role]的UTF8)，role仅mint/merge；本元组逐项取原已认证值，不用拼接截取或另分配通用结算。loot.authority_receipt_id等原death_identity.event_id。新堆ID仍沿物品原owner的[原death_identity.event_id,character_id,本死亡该角色全局新堆ordinal]，不能每子任务重置ordinal；各输出origin_receipt_id等该实际流receipt_id。",
+      "flows": "C=0 granted恰单mint，唯一held输出本任务材料1/revision0/空贡献、完整四键scope。C=1..9 granted恰mint→merge，merge_input为原槽首个旧堆完整正文及最新前输出；旧量Q在1..C且revision<=MAX-1。merge输入恰旧前输出再本mint输出0，无mint/consumptions，唯一held输出保原旧stack_id/槽，quantity=Q+1/revision旧+1/origin_receipt_id改本merge收据，贡献恰旧Q与mint1；临时堆被全量消费不再物化。不得把其他阶段凭证作为材料合并。",
+      "commit": "同原死亡生命周期/普通XP历练/银包及全接收者真实after一次共同提交。仅granted实物增加1且库存修订在原死亡统一恰推进一次；角色总修订由原死亡各业务统一一次推进，不每任务/每流各加一次。cap_reached/capacity_rejected不改变任务物/库存，不为本子结果独立推进修订；其他真实收益照原owner。六字段quest不因收齐改变阶段/state/收据，不写ready或完成计数；固定100%无任务RNG，不套终结者/修炼倍率。",
+      "replay": "原receipt_key含真实死亡/本人/本attempt/branch/item，成功或无物结果持久后同死亡只返回原决定。腾包、重连、切世界、物已交或放弃重接均不得重算资格、补发或让旧轮材料进入新轮；原死亡未决先收束再接取/放弃/阶段提交。来源闭包保原死亡、接受attempt、前序阶段、mint/merge全部祖先与后续终结，不凭当前任务状态猜造历史。",
+      "remaining": "个人材料结构、具名来源/无物决定及两材料怪完整普通活体/攻击/AI/移动入口已采用；完整普通死亡共同父、成员/来源/完整角色与world根、LAN个人结果交付和Godot运行仍待。",
+      "death_identity_owner_ref": {
+        "file": "普通怪死亡身份.schema.json",
+        "pointer": ""
+      },
+      "death_outcome_owner_ref": {
+        "file": "制药材料任务与泫勃熊.v1.json",
+        "pointer": "/respawn/death_outcome"
+      }
+    }
   },
   "stage_transaction": "revalidateexactattempt/class/route/stage/NPC/map/2500mm/alive/outofcombat/idle/nochallenge,retainedinputs/receipts;preflightconsume-then-grantfinalinventorylayoutandweight;consume/grant/advance/receiptatomically;failurepreservesallitems/currentstage",
   "deduplication": "character/adv03/attempt/stageuniquereceiptplusrequest/currentrevision;finalonesharedreceiptforall8sourcesand28class/routeassignments;oldattemptcannotadvancefreshattempt",
@@ -3740,5 +3762,62 @@
       }
     ],
     "runtime_proven": false
+  },
+  "persistent_state": {
+    "field": "character.quests.adv_03",
+    "schema_ref": {
+      "file": "三转下半段任务状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "attempt_id_or_null": null,
+      "branch_id_or_null": null,
+      "stage_index_or_null": null,
+      "state": "not_accepted",
+      "stage_receipts": [],
+      "final_receipt_or_null": null
+    },
+    "ownership": "唯一六字段沿原quest.state_fields，不保存收集计数/ready/职业/派别/总阶段数/奖励余额镜像。branch精确原18项，14职业与route通过class_bindings唯一匹配；等级>=60、rank2、adv_03_upper已交且原任务来源均须完整角色认证。",
+    "receipt_layout": "接取成功持原唯一attempt与真实branch，stage1/空stage_receipts/final null。进行中stage_index为下一待完成阶段，stage_receipts按原阶段顺序恰含1..stage_index-1各非最终成功收据。非最终第i阶段同父提交实物/收据后stage=i+1；最终不再推进越界编号，改delivered/stage null，stage_receipts恰原前n-1条，final_receipt保存唯一第n阶段结果，避免同一最终收据存两遍。",
+    "source_validation": "每收据解析原本人/本任务/同attempt/branch/class/route及对应stage的真实committed结果，逐序认证真实NPC/地图/门禁/输入输出与前后修订。receipt列表内部唯一，final不得等任何非最终收据，原accept/abandon与阶段历史不得凭任意非空字符串冒充。接取/阶段/放弃事件已有严格结构及原日志登记，尚缺完整角色与world共同父，结构本身不授权执行或造历史。",
+    "readiness": "in_progress只指已接取未完成。是否可完成当前阶段按原branch/stage requires/consume、本人真实本attempt合法实物与资格/NPC即时派生，显示ready不写state、不跨步缓存。物品移出/消耗后只改变派生可交付，不倒退/前进持久阶段或补材料。",
+    "completion": "最终完成原rank2→3、消费原最终实物、delivered/final收据与角色/world/库存变化同一原共同父；不重复发上半段XP/派别/礼包/气功点/英雄武器升级。以后rank升高不要求仍rank3，历史收据保原rank2→3事实。",
+    "abandon": "仅真实本人in_progress明确放弃同父清本attempt精确材料并记录原放弃收据，持久状态恢复原initial；旧来源/收据历史保原日志，不能靠清数组回收旧物或重发阶段奖励。已delivered不放弃；下一接取新attempt且不继承旧阶段收据。",
+    "initialization": "新建及四已知旧来源新角色按原initial显式初始化；当前格式缺字段拒绝，不能以等级/上半段/装备猜补已完成，也不清其他任务。导入已有profile其他角色保留。",
+    "boundary": "六字段严格状态及原18分支阶段/收据布局采用；完整quests/实物来源/角色-world共同保存仍待，未实现Godot。"
+  },
+  "transition_protocol": {
+    "schema_ref": {
+      "file": "三转下半段任务转换事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.adv03_lower_transition_events",
+    "command": "六键command复用原木柴转换命令的身份/修订/操作结构，但仅本adv_03；accept必须真实本人职业与route唯一branch接取NPC/地图/2500毫米/LOS及60级/rank2/上半段已交、活体离战Idle无其他挑战/交易/未决。abandon须本人in_progress明确确认，interaction_id=null。不得客户端提交branch/class/attempt或奖励。",
+    "identity": "原通用结算与character范围未决互斥，request_id为71编码[\"adv03_lower_transition\",session_id,command_id]，request_digest覆盖完整六键command。accept原settlement_id即新attempt，不再分配attempt计数；同命令异参数冲突，重放先查原结果，不因换world/当前阶段重接。",
+    "plan": "五键rules_hash/quest_before/inventory_before/inputs/branch_id。branch由真实本人class/route沿原class_bindings取得，abandon等原before.branch。accept必须严格not_accepted，inputs=[]且本人不存在本任务残物；有残物报来源错误不悄悄清理。abandon输入按inventory槽序恰覆盖本人当前adv_03/attempt/branch/class所有实物的完整堆及前输出，禁止其他域/旧轮残物/错误职业被静默略过。最多200输入沿原共享背包物理槽上界，单堆数量仍依原各item.maximum_carried/stack_limit。",
+    "commit": "accept不动钱物/库存布局，quest_after=in_progress/本settlement attempt/冻结branch/stage1/空stage收据/final null，stack_flow=null且库存修订保持。abandon非空输入唯一无mint/无outputs的quest_cleanup流，receipt等本settlement，逐输入全量终结一次；空输入stack_flow=null。放弃quest_after等原initial，非空输入库存修订恰+1，否则保持；两操作角色修订恰+1。无银/XP/历练/晋级/点数/奖励/RNG，不重发上半段或阶段物品。",
+    "phase_and_recovery": "reserved只持原身份/命令/五键计划及counter预留，不改任务/物品/修订。committed/aborted原位唯一决定；user_cancelled/interaction_invalid/state_changed只可在尚未提交时合法中止且业务不变。存疑先核正式原决定，不能换ID/重分attempt/清未决；旧放弃重放不清新轮实物，已交任务不转回未接。",
+    "registration": "原profile日志与通用分配索引登记本owner，最多一本人reserved；新空profile/四旧来源新profile显式[]，已有目标保原日志与counter。完整角色/规则/实物来源及原共同父仍需认证，日志结构不授权真实业务。",
+    "remaining": "接取/放弃及92阶段提交三阶段结构和唯一日志采用；真实来源、完整quests/profile/world共同父及LAN结果交付仍待。"
+  },
+  "stage_protocol": {
+    "schema_ref": {
+      "file": "三转下半段阶段提交事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.adv03_lower_stage_events",
+    "command": "五键命令复用原交付command，只含真实play_session_identity/command_id/expected_character_revision/expected_inventory_revision/interaction_id。分支/职业/route/attempt/当前stage与NPC从完整角色、原任务及原branch唯一推导，客户端不可指定阶段或奖励。",
+    "identity": "原通用结算character范围未决互斥，request_id为71编码[\"adv03_lower_stage\",session_id,command_id]，request_digest覆盖完整五键command；原本人adv_03/attempt/stage最多一条committed，先重放原决定再核当前阶段。换world/重连/旧命令不能重复交换或推进下一阶段。",
+    "plan": "严格四键rules_hash/quest_before/inventory_before/inputs。inputs按原背包槽顺序完整冻结本人本adv_03/attempt/branch/class所有实物完整堆及前输出，包括只验看不消费和将合堆的保留物。按原allowed_inventory_by_stage与requires/consume核全集/数量；旧轮、外国职业/分支或多余物报来源错误，不过滤掉。无本任务实物时明确[]。真实before必须in_progress/本28职业派别绑定、60级/rank2/上半段已交、原全部收据有效。",
+    "preflight": "按原stage_transaction及对应真实NPC/地图/2500毫米/LOS，活体离战Idle无挑战/交易/未决。原本阶段全部requires/consume恰满足，预演consume后grant及按原布局合堆的最终格数/重量；容量不足在reserved前拒绝且不消耗结算，不推进或先发部分物品。reserve后门禁/物品/修订改变只可原位aborted；不能冻结另一阶段。",
+    "flows": "stack_flows按consume、mint、merge顺序，仅存在实际需要的项。无consume无grant时严格[]；有consume恰一无mint的quest_delivery流，精确消费原recipe数量，部分堆剩余以原贡献输出并真实修订；未触及堆保原来源不再输出。grant恰一quest_exchange授权mint，authority_receipt_id等本settlement，outputs按原grant顺序逐项确切数量/revision0/held/空贡献，原stack与origin ID按唯一来源规则生成。若最终布局需合堆则恰一无mint无consumption流，仅接原本次mint及参与合堆的原完整输入/消费剩余输出，同item/binding/完整scope且守恒，按原背包规范保留ID/修订；无合堆不能附无效流。仅一流时receipt_id等本settlement；多流时实际consume/mint/merge各用本settlement+:stack:consume/:stack:mint/:stack:merge作为该流receipt_id，不新增ID字段/分配器；origin_receipt_id等实际所属流receipt_id，各前引用output_index为精确该流outputs内索引，禁止重复消费或自环。",
+    "commit": "每阶段角色修订恰+1；有consume或grant库存修订恰+1，否则保持。非最终quest_after保原attempt/branch，追加本settlement到stage_receipts并stage=i+1，completed_rank_after=2。最终恰原第n阶段，completed_rank_after=3，quest_after=delivered/stage null/保原前n-1收据/final等本settlement，本任务实物恰空。rank2→3、原实物来源/最终布局、派生资格重算和任务同一完整父持久；不补当前资源/冷却/礼包/气功点/英雄武器或上半段奖励。无银/XP/历练/RNG，任务银袋不入钱包。",
+    "recovery": "reserved仅原身份/四键计划与counter预留，业务不变；committed/aborted原位唯一决定。三中止原因沿原转换事件。保存存疑核原正式决定与完整父后才回复，不能分配新ID/重做mint/忽略旧reserved。旧attempt或已完成阶段重放只返原结果，不消费新轮物品；aborted不产阶段收据。",
+    "registration": "原profile日志/分配索引登记，严格最多一本人reserved，仍受原全档案写锁及character未决互斥。新空档与四已知旧来源新profile显式[]，已有目标保原日志/计数/未决。结构不认证原来源、真实门禁或共同提交。",
+    "remaining": "92阶段结构及原日志登记；完整quests/profile/character/world共同父、任务采集死亡来源及LAN结果交付和Godot运行仍待。"
+  },
+  "ordinary_runtime_owner_ref": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/ordinary_actor"
   }
 }

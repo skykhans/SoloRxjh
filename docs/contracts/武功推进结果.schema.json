@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:martial-attack-advance:v1",
+  "$comment": "原movement_and_due_capture完整父持有的十键真实单步结果；实际获步、原前后+1、精确到期ordinal/终止及原子副作用另验，不另加时钟或日志。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "action_id",
+    "before_elapsed_steps",
+    "after_elapsed_steps",
+    "dispatch_event_id_or_null"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 80,
+      "maxLength": 80,
+      "pattern": "^martial-advance:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "$ref": "urn:solorxjh:normal-attack-advance:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:normal-attack-advance:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:normal-attack-advance:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:normal-attack-advance:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:normal-attack-advance:v1#/properties/world_step"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:normal-attack-advance:v1#/properties/action_id"
+    },
+    "before_elapsed_steps": {
+      "$ref": "urn:solorxjh:normal-attack-advance:v1#/properties/before_elapsed_steps"
+    },
+    "after_elapsed_steps": {
+      "$ref": "urn:solorxjh:normal-attack-advance:v1#/properties/after_elapsed_steps"
+    },
+    "dispatch_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:martial-attack-dispatch:v1#/$defs/event_id"
+        }
+      ]
+    }
+  }
+}

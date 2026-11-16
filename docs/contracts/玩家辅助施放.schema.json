@@ -1,0 +1,604 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-support-cast:v1",
+  "$comment": "51项已配置轻功/医师/其他辅助能力的19键完整施放根；仅受控或真实命令player。原规则/正常费用/学习/目标集合及共同父另验，非直接攻击/神女18状态/升天/初始治疗/旧剑技通用根，不擅自补入尚未采用能力。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "source_actor_id",
+    "action_id",
+    "accepted_world_step",
+    "admission",
+    "admission_event_id",
+    "rules_hash",
+    "ability_id",
+    "stage",
+    "cast_steps",
+    "recovery_steps",
+    "elapsed_steps",
+    "stop_event_id_or_null",
+    "effect_event_id_or_null",
+    "recipient_actor_ids",
+    "chosen_chord_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/$defs/action_id"
+    },
+    "accepted_world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "admission": {
+      "oneOf": [
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/player_command"
+        },
+        {
+          "$ref": "urn:solorxjh:player-support-cast:v1#/$defs/forced_admission"
+        }
+      ]
+    },
+    "admission_event_id": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/$defs/admission_event_id"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/rules_hash"
+    },
+    "ability_id": {
+      "enum": [
+        "aux_blade_2aade2bf8086",
+        "aux_blade_3e9228433e80",
+        "aux_sword_2aade2bf8086",
+        "aux_sword_3e9228433e80",
+        "aux_assassin_2aade2bf8086",
+        "aux_assassin_3e9228433e80",
+        "aux_spear_2aade2bf8086",
+        "aux_spear_3e9228433e80",
+        "aux_archer_2aade2bf8086",
+        "aux_archer_3e9228433e80",
+        "aux_physician_2aade2bf8086",
+        "aux_physician_3e9228433e80",
+        "aux_han_feiguan_918e9dcbe4c3",
+        "aux_han_feiguan_7408263c1d83",
+        "aux_han_feiguan_8fbb564b7c00",
+        "aux_han_feiguan_ffba27e6ae4b",
+        "aux_tan_hualing_2aade2bf8086",
+        "aux_tan_hualing_3e9228433e80",
+        "aux_tan_hualing_fe3ba1631152",
+        "aux_fighter_2aade2bf8086",
+        "aux_fighter_3e9228433e80",
+        "aux_fighter_fe3ba1631152",
+        "aux_lu_fenglang_2aade2bf8086",
+        "aux_lu_fenglang_3e9228433e80",
+        "aux_lu_fenglang_fe3ba1631152",
+        "aux_dongling_shennv_2aade2bf8086",
+        "aux_dongling_shennv_3e9228433e80",
+        "aux_dongling_shennv_fe3ba1631152",
+        "aux_zhen_fengbai_2aade2bf8086",
+        "aux_zhen_fengbai_3e9228433e80",
+        "aux_zhen_fengbai_fe3ba1631152",
+        "aux_physician_b60204cb457b",
+        "aux_physician_e43a618d588b",
+        "aux_physician_f983e0d07b46",
+        "aux_physician_98607cb99e3b",
+        "aux_physician_175aca784fbb",
+        "aux_sword_27d016fcbf14",
+        "aux_spear_8849f4f38977",
+        "aux_archer_dba7715dcf71",
+        "aux_archer_42f1983a96df",
+        "aux_archer_2ce82d80d13f",
+        "aux_archer_f4f4da0e039f",
+        "aux_archer_0999c343d46e",
+        "aux_archer_f76652a63f4d",
+        "aux_musician_ae559c1d598b",
+        "aux_han_feiguan_76330dcbfe6f",
+        "aux_han_feiguan_10cae21297f1",
+        "aux_han_feiguan_7f79cd55c046",
+        "aux_han_feiguan_336024b72ca1",
+        "aux_tan_hualing_881d5aee0113",
+        "aux_dongling_shennv_8cb6de9f3821"
+      ]
+    },
+    "stage": {
+      "const": 1
+    },
+    "cast_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 60
+    },
+    "recovery_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18
+    },
+    "elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 78
+    },
+    "stop_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "effect_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:support-cast-effect:v1#/$defs/event_id"
+        }
+      ]
+    },
+    "recipient_actor_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "chosen_chord_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "enum": [
+            "triad",
+            "seventh",
+            "ninth"
+          ]
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "action_id": {
+      "type": "string",
+      "minLength": 79,
+      "maxLength": 79,
+      "pattern": "^support-action:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "admission_event_id": {
+      "type": "string",
+      "minLength": 82,
+      "maxLength": 82,
+      "pattern": "^support-admission:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "forced_admission": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/dongling_forced_action"
+    },
+    "cancelled_support_action_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:player-support-cast:v1#/properties/action_id"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "ability_id": {
+              "enum": [
+                "aux_blade_2aade2bf8086",
+                "aux_blade_3e9228433e80",
+                "aux_sword_2aade2bf8086",
+                "aux_sword_3e9228433e80",
+                "aux_assassin_2aade2bf8086",
+                "aux_assassin_3e9228433e80",
+                "aux_spear_2aade2bf8086",
+                "aux_spear_3e9228433e80",
+                "aux_archer_2aade2bf8086",
+                "aux_archer_3e9228433e80",
+                "aux_physician_2aade2bf8086",
+                "aux_physician_3e9228433e80",
+                "aux_han_feiguan_918e9dcbe4c3",
+                "aux_han_feiguan_7408263c1d83",
+                "aux_han_feiguan_8fbb564b7c00",
+                "aux_han_feiguan_ffba27e6ae4b",
+                "aux_tan_hualing_2aade2bf8086",
+                "aux_tan_hualing_3e9228433e80",
+                "aux_tan_hualing_fe3ba1631152",
+                "aux_fighter_2aade2bf8086",
+                "aux_fighter_3e9228433e80",
+                "aux_fighter_fe3ba1631152",
+                "aux_lu_fenglang_2aade2bf8086",
+                "aux_lu_fenglang_3e9228433e80",
+                "aux_lu_fenglang_fe3ba1631152",
+                "aux_dongling_shennv_2aade2bf8086",
+                "aux_dongling_shennv_3e9228433e80",
+                "aux_dongling_shennv_fe3ba1631152",
+                "aux_zhen_fengbai_2aade2bf8086",
+                "aux_zhen_fengbai_3e9228433e80",
+                "aux_zhen_fengbai_fe3ba1631152"
+              ]
+            },
+            "cast_steps": {
+              "const": 18
+            },
+            "recovery_steps": {
+              "const": 0
+            },
+            "elapsed_steps": {
+              "maximum": 18
+            },
+            "recipient_actor_ids": {
+              "maxItems": 1
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "elapsed_steps": {
+                    "maximum": 17
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "effect_event_id_or_null": {
+                    "type": "null"
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "effect_event_id_or_null": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "stop_event_id_or_null": {
+                    "type": "string"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "elapsed_steps": {
+                    "maximum": 17
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "properties": {
+            "ability_id": {
+              "enum": [
+                "aux_physician_b60204cb457b",
+                "aux_physician_f983e0d07b46",
+                "aux_physician_98607cb99e3b",
+                "aux_sword_27d016fcbf14",
+                "aux_spear_8849f4f38977",
+                "aux_archer_dba7715dcf71",
+                "aux_archer_42f1983a96df",
+                "aux_archer_2ce82d80d13f",
+                "aux_archer_f4f4da0e039f",
+                "aux_archer_0999c343d46e",
+                "aux_archer_f76652a63f4d",
+                "aux_musician_ae559c1d598b",
+                "aux_han_feiguan_76330dcbfe6f",
+                "aux_han_feiguan_10cae21297f1",
+                "aux_han_feiguan_7f79cd55c046",
+                "aux_han_feiguan_336024b72ca1",
+                "aux_tan_hualing_881d5aee0113"
+              ]
+            },
+            "cast_steps": {
+              "const": 30
+            },
+            "recovery_steps": {
+              "const": 18
+            },
+            "elapsed_steps": {
+              "maximum": 48
+            },
+            "recipient_actor_ids": {
+              "maxItems": 1
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "elapsed_steps": {
+                    "maximum": 29
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "effect_event_id_or_null": {
+                    "type": "null"
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "effect_event_id_or_null": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "stop_event_id_or_null": {
+                    "type": "string"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "elapsed_steps": {
+                    "maximum": 47
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "properties": {
+            "ability_id": {
+              "enum": [
+                "aux_physician_e43a618d588b"
+              ]
+            },
+            "cast_steps": {
+              "const": 42
+            },
+            "recovery_steps": {
+              "const": 18
+            },
+            "elapsed_steps": {
+              "maximum": 60
+            },
+            "recipient_actor_ids": {
+              "maxItems": 6
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "elapsed_steps": {
+                    "maximum": 41
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "effect_event_id_or_null": {
+                    "type": "null"
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "effect_event_id_or_null": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "stop_event_id_or_null": {
+                    "type": "string"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "elapsed_steps": {
+                    "maximum": 59
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "properties": {
+            "ability_id": {
+              "enum": [
+                "aux_physician_175aca784fbb"
+              ]
+            },
+            "cast_steps": {
+              "const": 60
+            },
+            "recovery_steps": {
+              "const": 18
+            },
+            "elapsed_steps": {
+              "maximum": 78
+            },
+            "recipient_actor_ids": {
+              "maxItems": 1
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "elapsed_steps": {
+                    "maximum": 59
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "effect_event_id_or_null": {
+                    "type": "null"
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "effect_event_id_or_null": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "stop_event_id_or_null": {
+                    "type": "string"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "elapsed_steps": {
+                    "maximum": 77
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "properties": {
+            "ability_id": {
+              "enum": [
+                "aux_dongling_shennv_8cb6de9f3821"
+              ]
+            },
+            "cast_steps": {
+              "const": 30
+            },
+            "recovery_steps": {
+              "const": 18
+            },
+            "elapsed_steps": {
+              "maximum": 48
+            },
+            "recipient_actor_ids": {
+              "maxItems": 6
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "elapsed_steps": {
+                    "maximum": 29
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "effect_event_id_or_null": {
+                    "type": "null"
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "effect_event_id_or_null": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "stop_event_id_or_null": {
+                    "type": "string"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "elapsed_steps": {
+                    "maximum": 47
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "ability_id": {
+            "const": "aux_musician_ae559c1d598b"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "chosen_chord_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "chosen_chord_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

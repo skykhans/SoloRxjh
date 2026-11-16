@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:death-personal-resource-credit:v1",
+  "$comment": "原死亡共同决定中每个资源接收者的实际入账子结果；分池allocated/倍率来源、算式、升级/发点/基础属性与原角色before/after须联合验，不作为第二资源余额或独立日志。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "character_id",
+    "experience",
+    "practice",
+    "ascension"
+  ],
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "experience": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/capped_credit"
+            },
+            {
+              "properties": {
+                "before": {
+                  "$ref": "urn:solorxjh:character-progress:v1#/properties/total_xp"
+                },
+                "after": {
+                  "$ref": "urn:solorxjh:character-progress:v1#/properties/total_xp"
+                },
+                "multiplier_bp": {
+                  "enum": [
+                    10000,
+                    12000,
+                    15000
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "practice": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/capped_credit"
+            },
+            {
+              "properties": {
+                "multiplier_bp": {
+                  "enum": [
+                    10000,
+                    14000,
+                    15000
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "ascension": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/ascension_credit"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "capped_credit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "before",
+        "allocated",
+        "multiplier_bp",
+        "applied",
+        "overflow",
+        "after"
+      ],
+      "properties": {
+        "before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "allocated": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "multiplier_bp": {
+          "enum": [
+            10000,
+            12000,
+            14000,
+            15000
+          ]
+        },
+        "applied": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "overflow": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "ascension_credit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "progress_before",
+        "pending_before",
+        "allocated",
+        "stones_applied",
+        "stones_overflow",
+        "progress_after",
+        "pending_after"
+      ],
+      "properties": {
+        "progress_before": {
+          "$ref": "urn:solorxjh:cultivation-state:v1#/properties/ascension_progress"
+        },
+        "pending_before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "allocated": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "stones_applied": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "stones_overflow": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "progress_after": {
+          "$ref": "urn:solorxjh:cultivation-state:v1#/properties/ascension_progress"
+        },
+        "pending_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  },
+  "anyOf": [
+    {
+      "properties": {
+        "experience": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "properties": {
+        "practice": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "properties": {
+        "ascension": {
+          "type": "object"
+        }
+      }
+    }
+  ]
+}

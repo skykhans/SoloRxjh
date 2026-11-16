@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:auto-route-admission:v1",
+  "$comment": "原输入接纳父持有的十三键地面自动路径决定，原请求/来源与A*合法完整路径另验。空路径是已到目的地且同笔终止，不安装非法空活跃状态。拒绝不生成路径；命令重放不再次设旧目的地。 原结果显式持有cancelled_firewood_action_id_or_null，仅原本人活跃木柴被该真实新输入/正实际敌伤取消时非null；根以本event_id停止，来源/预留同父联验。 必有cancelled_portable_channel_id_or_null引用同父清除的原便携读条；无真实取消显式null，不新增取消日志/物品流。来源/同生命/预留与首因须联合验证。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "request",
+    "outcome",
+    "waypoints_or_null",
+    "reason_or_null",
+    "cancelled_firewood_action_id_or_null",
+    "cancelled_portable_channel_id_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "$ref": "#/$defs/route_event_id"
+    },
+    "request": {
+      "$ref": "urn:solorxjh:auto-move-command:v1"
+    },
+    "outcome": {
+      "enum": [
+        "accepted",
+        "rejected"
+      ]
+    },
+    "waypoints_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "maxItems": 4096,
+          "items": {
+            "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+          }
+        }
+      ]
+    },
+    "reason_or_null": {
+      "enum": [
+        null,
+        "source_unavailable",
+        "action_occupied",
+        "target_not_walkable",
+        "unreachable",
+        "search_limit"
+      ]
+    },
+    "cancelled_firewood_action_id_or_null": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/$defs/cancelled_firewood_action_id_or_null"
+    },
+    "cancelled_portable_channel_id_or_null": {
+      "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/cancelled_portable_channel_id_or_null"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "accepted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "waypoints_or_null": {
+            "type": "array"
+          },
+          "reason_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "waypoints_or_null": {
+            "type": "null"
+          },
+          "reason_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "route_event_id": {
+      "type": "string",
+      "minLength": 75,
+      "maxLength": 75,
+      "pattern": "^auto-route:[0-9a-f]{64}(?![\\s\\S])"
+    }
+  }
+}

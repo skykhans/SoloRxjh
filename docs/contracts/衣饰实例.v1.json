@@ -1,0 +1,77 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "full_apparel_instance_shape_adopted_provenance_and_dispatch_pending_not_implemented",
+  "scope": "仅衣饰基础定义1155精确ID，完整11字段单实例；47功能记录不支持，不是完整equipment_instances、角色或档案根。",
+  "definition_owner_ref": {
+    "file": "衣饰基础定义.v1.json",
+    "pointer": ""
+  },
+  "schema_ref": {
+    "file": "衣饰实例.schema.json",
+    "pointer": ""
+  },
+  "growth_schema_ref": {
+    "file": "衣饰成长.schema.json",
+    "pointer": ""
+  },
+  "lifetime_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": ""
+  },
+  "permission_owner_ref": {
+    "file": "衣饰重量与权限.v1.json",
+    "pointer": ""
+  },
+  "source_protocol_ref": {
+    "file": "唯一实例来源流.v1.json",
+    "pointer": ""
+  },
+  "identity_allocation_ref": {
+    "file": "唯一实例来源流.v1.json",
+    "pointer": "/identity_allocation"
+  },
+  "fields": [
+    "instance_id",
+    "item_id",
+    "lineage_id",
+    "owner_character_id",
+    "binding",
+    "revision",
+    "creation_receipt_id",
+    "state_origin_receipt_id",
+    "enhancement",
+    "synthesis_entries",
+    "lifetime_remaining_steps_or_null"
+  ],
+  "layout": "身份/修订/创建与状态来源、真实强化、合成数组及唯一余时均平铺在equipment_instances[instance_id]；不复制name/class/body/款式/属性总和/重量/价格/期限profile/到期标志/elapsed/时间戳/每件世界步或独立growth容器。位置与held域由原布局/custody证明唯一，不在正文复制slot/container。",
+  "creation": "仅正式已授权来源可新生；目前定义采用的购买取得须其严格三阶段事件/来源适配完成后启用。instance_id/lineage_id全新、revision0、绑定依精确定义、两receipt均本事件、enhancement0/synthesis_entries[]，余时按原profile null或5184000；新建不读旧衣饰余时，不借legacy_import或配置默认。",
+  "revision_and_origin": "state_origin_receipt_id唯一入口指当前最后正式业务版本结果；正式合成/强化成功与概率失败均revision+1、入口指本结果。嵌套合成origin继续指原成功，不用最近失败覆盖历史分量。合法所有权转让和纪念属性到期各依其原owner推进，整件终结无后继；取消/拒绝/满级/纯位置变化不新造业务版本，重放不回装历史实例。",
+  "clock": "正余时自然递减不加实例业务修订，不改状态入口；只允许原真实角色实际接纳步的连续计时证明。整件profile活体余时必须>0；纪念profile可0且保完整成长；永久必须null。输入比原输出少余时须合法时钟适配，不能数值相减自证，不按world总步追扣。",
+  "binding": "三源禁交易款character，其余1152 unbound，绑定只由定义映射；不允许装备绑定/加工绑定/跨角色解绑等未采用状态。owner_character_id随真实转让变化，creation_receipt_id/lineage/合成原成功来源不重写。",
+  "provenance": "沿完整创建锚→连续唯一业务后继/纯位置与所有权→当前头，逐事件核精确旧/新正文、材料/银两/随机/资格、scope/T与时钟真实来源。revision0须真实创建，非0须合法前驱、当前状态入口及全部成长来源；仅数值/schema通过不能授权物品。已终结ID/血统不可重新挂活体，未知来源拒绝。",
+  "numeric": "所有整数字段严格十进制整数token、安全整数范围，bool/浮点/指数/字符串拒绝；增强0..15、条目连续0..3与固定值、剩余范围按profile，禁止缺字段补默认/取整/裁剪。",
+  "configuration": "18当前未登记衣饰增删/强化/合成/寿命编辑的严格授权，保持不可用；不借通用配置事件、普通防具字段或直接改实例绕本来源。换职业/体型只沿既有显式迁位与穿戴重核，不转换item_id/款式/对性别同名衣饰。",
+  "validation_order": [
+    "严格无重复键JSON解码及字段token/完整根白名单",
+    "精确item_id定位唯一完整定义、来源及绑定/期限映射",
+    "成长/固定值/合成连续槽、合法活体余时",
+    "创建/状态/原成功及付费失败连续前链与真实余时证明",
+    "注册表键/实例ID/owner/血统唯一和唯一合法位置/最新域",
+    "穿戴位置上的职业体型资格、实际贡献与当前资源上限",
+    "原完整角色/档案/结果封套及跨角色保存协议"
+  ],
+  "implementation_gate": "衣饰11键根已接入3159装备与instance_flow类型，严格购买和合成/强化加工事件/原日志/索引已采用；专用分解及自然到期严格事件已采用；71转让/配置、连续实际时钟及完整来源适配仍待。完整profile/角色/NPC/网络/文件及Godot未完成，不因单实例通过先运行服务。",
+  "apparel_processing_owner_ref": {
+    "file": "衣饰加工事件.v1.json",
+    "pointer": ""
+  },
+  "apparel_dismantling_owner_ref": {
+    "file": "衣饰分解事件.v1.json",
+    "pointer": ""
+  },
+  "apparel_expiry_owner_ref": {
+    "file": "衣饰到期事件.v1.json",
+    "pointer": ""
+  }
+}

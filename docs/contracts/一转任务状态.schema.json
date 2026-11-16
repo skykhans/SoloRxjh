@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:first-advancement-quest-state:v1",
+  "$comment": "一转原四键任务状态，不保存ready/收集计数/物品副本/铁匠托管表。真实原accept/阶段顺序及last收据、实物来源、rank与完整角色共同父另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "attempt_id_or_null",
+    "stage_index_or_null",
+    "state",
+    "last_settlement_id_or_null"
+  ],
+  "properties": {
+    "attempt_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "stage_index_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        }
+      ]
+    },
+    "state": {
+      "enum": [
+        "not_accepted",
+        "in_progress",
+        "delivered"
+      ]
+    },
+    "last_settlement_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "not_accepted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attempt_id_or_null": {
+            "type": "null"
+          },
+          "stage_index_or_null": {
+            "type": "null"
+          },
+          "last_settlement_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "in_progress"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attempt_id_or_null": {
+            "type": "string"
+          },
+          "stage_index_or_null": {
+            "type": "integer"
+          },
+          "last_settlement_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "delivered"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attempt_id_or_null": {
+            "type": "string"
+          },
+          "stage_index_or_null": {
+            "type": "null"
+          },
+          "last_settlement_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

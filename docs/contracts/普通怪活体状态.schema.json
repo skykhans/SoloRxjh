@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-monster-actor:v1",
+  "$comment": "本轮二十种公共普通怪完整十三键活体状态形状；不是生成结果/死亡体/world根。生命/定义/效果/动作实际来源与位置HP上限逐项另验。完整动作只引用原scope唯一表；无原生技能冷却/RNG/派生队列镜像。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "life_identity",
+    "rules_hash",
+    "monster_id",
+    "hp",
+    "mana",
+    "feet_position_m",
+    "yaw_radians",
+    "ai_state",
+    "target_actor_id_or_null",
+    "patrol_destination_or_null",
+    "remaining_ai_wait_steps",
+    "accepted_action_id_or_null",
+    "effects"
+  ],
+  "properties": {
+    "life_identity": {
+      "$ref": "urn:solorxjh:ordinary-monster-life-identity:v1"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/rules_hash"
+    },
+    "monster_id": {
+      "$ref": "urn:solorxjh:ordinary-monster-spawn-result:v1#/$defs/initial_state/properties/monster_id"
+    },
+    "hp": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "mana": {
+      "const": 0
+    },
+    "feet_position_m": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+    },
+    "yaw_radians": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/yaw"
+    },
+    "ai_state": {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/$defs/actor_ai_projection/properties/ai_state"
+    },
+    "target_actor_id_or_null": {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/$defs/actor_ai_projection/properties/target_actor_id_or_null"
+    },
+    "patrol_destination_or_null": {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/$defs/actor_ai_projection/properties/patrol_destination_or_null"
+    },
+    "remaining_ai_wait_steps": {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/$defs/actor_ai_projection/properties/remaining_ai_wait_steps"
+    },
+    "accepted_action_id_or_null": {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/$defs/actor_ai_projection/properties/accepted_action_id_or_null"
+    },
+    "effects": {
+      "$ref": "urn:solorxjh:ordinary-monster-effects:v1"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "ai_state": {
+            "enum": [
+              "idle",
+              "patrol"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "accepted_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ai_state": {
+            "enum": [
+              "idle"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "patrol_destination_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ai_state": {
+            "enum": [
+              "patrol"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "patrol_destination_or_null": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ai_state": {
+            "enum": [
+              "chase",
+              "attack"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_actor_id_or_null": {
+            "type": "string"
+          },
+          "patrol_destination_or_null": {
+            "type": "null"
+          },
+          "remaining_ai_wait_steps": {
+            "const": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ai_state": {
+            "enum": [
+              "chase"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "accepted_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ai_state": {
+            "enum": [
+              "attack"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "accepted_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ai_state": {
+            "enum": [
+              "return"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_actor_id_or_null": {
+            "type": "null"
+          },
+          "patrol_destination_or_null": {
+            "type": "null"
+          },
+          "accepted_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "monster_id": {
+              "enum": [
+                "boar",
+                "mountain_wolf",
+                "valley_boar",
+                "frost_wolf"
+              ]
+            },
+            "life_identity": {
+              "properties": {
+                "map_id": {
+                  "const": "story_valley_world"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "monster_id": {
+              "enum": [
+                "hyunbo_bear15",
+                "hyunbo_frog5",
+                "hyunbo_boar12",
+                "hyunbo_graywolf12"
+              ]
+            },
+            "life_identity": {
+              "properties": {
+                "map_id": {
+                  "const": "hyunbo_outskirts"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "monster_id": {
+              "enum": [
+                "shenwu_bloodwolf61",
+                "shenwu_gate_red_tiger60",
+                "shenwu_gate_sabre_tiger60"
+              ]
+            },
+            "life_identity": {
+              "properties": {
+                "map_id": {
+                  "const": "shenwu_gate"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "monster_id": {
+              "enum": [
+                "liushan_green_snake61",
+                "liushan_house_gold_bell_snake60",
+                "liushan_house_coral_snake60"
+              ]
+            },
+            "life_identity": {
+              "properties": {
+                "map_id": {
+                  "const": "liushan_house"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "monster_id": {
+              "enum": [
+                "liuzheng_pass_red_bear35",
+                "liuzheng_pass_yellow_tiger36",
+                "liuzheng_pass_white_tiger37"
+              ]
+            },
+            "life_identity": {
+              "properties": {
+                "map_id": {
+                  "const": "liuzheng_pass"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "monster_id": {
+              "enum": [
+                "sanxie_pass_red_bear35",
+                "sanxie_pass_yellow_tiger36",
+                "sanxie_pass_white_tiger37"
+              ]
+            },
+            "life_identity": {
+              "properties": {
+                "map_id": {
+                  "const": "sanxie_pass"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "$defs": {
+    "actors": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "urn:solorxjh:ordinary-monster-life-identity:v1#/properties/actor_id"
+      },
+      "additionalProperties": {
+        "$ref": "#"
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:solorxjh:training-monster-spawn:v1",
-  "$comment": "原world生成结果严格11字段与原15字段新生actor；不是运行中actor的schema，不得以新生初值覆盖旧快照。三种生成来源/完整原槽/碰撞/真实身份及轮次等关系另验；不复制after slot或新增日志。",
+  "$comment": "原world生成结果严格11字段与原13字段新生actor；不是运行中actor的schema，不得以新生初值覆盖旧快照。三种生成来源/完整原槽/碰撞/真实身份及轮次等关系另验；不复制after slot或新增日志。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -35,45 +35,7 @@
       "pattern": "\\S"
     },
     "map_id": {
-      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id",
-      "enum": [
-        "training_beihai_01",
-        "training_beihai_02",
-        "training_beihai_03",
-        "training_beihai_04",
-        "training_beihai_05",
-        "training_beihai_06",
-        "training_beihai_07",
-        "training_beihai_08",
-        "training_beihai_09",
-        "training_dongling_01",
-        "training_dongling_02",
-        "training_dongling_03",
-        "training_dongling_04",
-        "training_dongling_05",
-        "training_dongling_06",
-        "training_dongling_07",
-        "training_dongling_08",
-        "training_dongling_09",
-        "training_huxia_01",
-        "training_huxia_02",
-        "training_huxia_03",
-        "training_huxia_04",
-        "training_huxia_05",
-        "training_huxia_06",
-        "training_huxia_07",
-        "training_huxia_08",
-        "training_huxia_09",
-        "training_nanlin_01",
-        "training_nanlin_02",
-        "training_nanlin_03",
-        "training_nanlin_04",
-        "training_nanlin_05",
-        "training_nanlin_06",
-        "training_nanlin_07",
-        "training_nanlin_08",
-        "training_nanlin_09"
-      ]
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
     },
     "instance_id_or_null": {
       "type": "null"
@@ -608,10 +570,8 @@
         "target_actor_id_or_null",
         "patrol_destination_or_null",
         "remaining_ai_wait_steps",
-        "accepted_action_or_null",
-        "cooldowns",
-        "effect_sources",
-        "pending_derived_events"
+        "accepted_action_id_or_null",
+        "effects"
       ],
       "properties": {
         "stable_actor_id": {
@@ -1232,20 +1192,11 @@
         "remaining_ai_wait_steps": {
           "const": 60
         },
-        "accepted_action_or_null": {
+        "accepted_action_id_or_null": {
           "type": "null"
         },
-        "cooldowns": {
-          "type": "object",
-          "maxProperties": 0
-        },
-        "effect_sources": {
-          "type": "object",
-          "maxProperties": 0
-        },
-        "pending_derived_events": {
-          "type": "array",
-          "maxItems": 0
+        "effects": {
+          "$ref": "urn:solorxjh:ordinary-monster-effects:v1#/$defs/cleared"
         }
       }
     }

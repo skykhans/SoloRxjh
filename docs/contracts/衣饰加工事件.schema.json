@@ -1,0 +1,2702 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:apparel-processing-event:v1",
+  "$comment": "衣饰合成/强化三阶段原事件，四种来源流同笔；真实身份/前链/修订算术/计时/材料守恒/随机重算另验，非完整profile或网络封套。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "outcome",
+        "instance_flow",
+        "stack_flows",
+        "silver_flow",
+        "random_state_after",
+        "random_flow"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "outcome": {
+          "enum": [
+            "success",
+            "failure"
+          ]
+        },
+        "instance_flow": {
+          "$ref": "#/$defs/processing_instance_flow"
+        },
+        "stack_flows": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/$defs/consuming_stack_flow"
+          }
+        },
+        "silver_flow": {
+          "$ref": "#/$defs/processing_silver_flow"
+        },
+        "random_state_after": {
+          "$ref": "urn:solorxjh:random-state:v1"
+        },
+        "random_flow": {
+          "$ref": "#/$defs/processing_random_flow"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "interaction_invalid",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "interaction_id",
+        "source_instance_id",
+        "expected_source_revision",
+        "operation",
+        "property_selection_or_null",
+        "material_selections"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "interaction_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "source_instance_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_source_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "operation": {
+          "enum": [
+            "synthesize",
+            "enhance"
+          ]
+        },
+        "property_selection_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "property_id",
+                "qigong_id_or_null"
+              ],
+              "properties": {
+                "property_id": {
+                  "enum": [
+                    "apparel_max_hp",
+                    "apparel_max_mp",
+                    "apparel_attack",
+                    "apparel_defense",
+                    "apparel_qigong_level"
+                  ]
+                },
+                "qigong_id_or_null": {
+                  "oneOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "$ref": "urn:solorxjh:level-award-history:v1#/$defs/allocations/propertyNames"
+                    }
+                  ]
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "property_id": {
+                        "const": "apparel_qigong_level"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "qigong_id_or_null": {
+                        "$ref": "urn:solorxjh:level-award-history:v1#/$defs/allocations/propertyNames"
+                      }
+                    }
+                  },
+                  "else": {
+                    "properties": {
+                      "qigong_id_or_null": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "material_selections": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 15,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stack_id",
+              "expected_revision",
+              "quantity"
+            ],
+            "properties": {
+              "stack_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "expected_revision": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740990
+              },
+              "quantity": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 15
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "synthesize"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "property_selection_or_null": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "property_id",
+                  "qigong_id_or_null"
+                ],
+                "properties": {
+                  "property_id": {
+                    "enum": [
+                      "apparel_max_hp",
+                      "apparel_max_mp",
+                      "apparel_attack",
+                      "apparel_defense",
+                      "apparel_qigong_level"
+                    ]
+                  },
+                  "qigong_id_or_null": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "$ref": "urn:solorxjh:level-award-history:v1#/$defs/allocations/propertyNames"
+                      }
+                    ]
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "property_id": {
+                          "const": "apparel_qigong_level"
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "qigong_id_or_null": {
+                          "$ref": "urn:solorxjh:level-award-history:v1#/$defs/allocations/propertyNames"
+                        }
+                      }
+                    },
+                    "else": {
+                      "properties": {
+                        "qigong_id_or_null": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "property_selection_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "recipe_id",
+        "source_input",
+        "material_inputs",
+        "random_state_before"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "recipe_id": {
+          "enum": [
+            "apparel_synthesize_slot_0",
+            "apparel_synthesize_slot_1",
+            "apparel_synthesize_slot_2",
+            "apparel_synthesize_slot_3",
+            "apparel_enhance_01",
+            "apparel_enhance_02",
+            "apparel_enhance_03",
+            "apparel_enhance_04",
+            "apparel_enhance_05",
+            "apparel_enhance_06",
+            "apparel_enhance_07",
+            "apparel_enhance_08",
+            "apparel_enhance_09",
+            "apparel_enhance_10",
+            "apparel_enhance_11",
+            "apparel_enhance_12",
+            "apparel_enhance_13",
+            "apparel_enhance_14",
+            "apparel_enhance_15"
+          ]
+        },
+        "source_input": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:instance-flow:v1#/properties/inputs/items"
+            },
+            {
+              "properties": {
+                "instance": {
+                  "allOf": [
+                    {
+                      "$ref": "urn:solorxjh:apparel-instance:v1"
+                    },
+                    {
+                      "properties": {
+                        "revision": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740990
+                        }
+                      }
+                    }
+                  ]
+                },
+                "custody": {
+                  "const": {
+                    "kind": "held"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "material_inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 15,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "previous_output",
+              "stack"
+            ],
+            "properties": {
+              "previous_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "receipt_id",
+                  "output_index"
+                ],
+                "properties": {
+                  "receipt_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "output_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                }
+              },
+              "stack": {
+                "allOf": [
+                  {
+                    "$ref": "urn:solorxjh:item-stack:v1"
+                  },
+                  {
+                    "properties": {
+                      "binding": {
+                        "const": "character"
+                      },
+                      "quest_scope": {
+                        "type": "null"
+                      },
+                      "quantity": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 99
+                      },
+                      "revision": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740990
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "random_state_before": {
+          "$ref": "urn:solorxjh:random-state:v1"
+        }
+      }
+    },
+    "processing_instance_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:instance-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "urn:solorxjh:instance-flow:v1#/properties/inputs/items"
+                  },
+                  {
+                    "properties": {
+                      "instance": {
+                        "allOf": [
+                          {
+                            "$ref": "urn:solorxjh:apparel-instance:v1"
+                          },
+                          {
+                            "properties": {
+                              "revision": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740990
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "custody": {
+                        "const": {
+                          "kind": "held"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "operation": {
+                    "const": "revise"
+                  },
+                  "instance": {
+                    "$ref": "urn:solorxjh:apparel-instance:v1"
+                  },
+                  "source_input_indices": {
+                    "const": [
+                      0
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  },
+                  "creation_authorization": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            "retirements": {
+              "maxItems": 0
+            }
+          }
+        }
+      ]
+    },
+    "consuming_stack_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "maxItems": 15
+            },
+            "outputs": {
+              "maxItems": 15,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "urn:solorxjh:item-stack:v1"
+                      },
+                      {
+                        "properties": {
+                          "binding": {
+                            "const": "character"
+                          },
+                          "quest_scope": {
+                            "type": "null"
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 99
+                          },
+                          "revision": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  }
+                }
+              }
+            },
+            "consumptions": {
+              "minItems": 1,
+              "maxItems": 15,
+              "items": {
+                "properties": {
+                  "reason": {
+                    "const": "craft"
+                  },
+                  "quantity": {
+                    "maximum": 15
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "processing_silver_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:silver-flow:v1"
+        },
+        {
+          "properties": {
+            "accounts": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "account": {
+                    "const": "carried_silver"
+                  },
+                  "previous_output": {
+                    "type": "object"
+                  },
+                  "opening_authorization": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            "movements": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "from_account_index": {
+                    "const": 0
+                  },
+                  "to_account_index": {
+                    "type": "null"
+                  },
+                  "authorization": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "const": "service_fee"
+                      }
+                    }
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000000
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "processing_random_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:random-decision-flow:v1"
+        },
+        {
+          "properties": {
+            "streams": {
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "owner_kind": {
+                    "const": "character"
+                  },
+                  "draws": {
+                    "maxItems": 1,
+                    "items": {
+                      "properties": {
+                        "purpose": {
+                          "enum": [
+                            "apparel_synthesis_success",
+                            "apparel_enhancement_success"
+                          ]
+                        },
+                        "low": {
+                          "const": 0
+                        },
+                        "high": {
+                          "const": 9999
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:apparel-processing-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_synthesize_slot_0"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "synthesize"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "synthesis_entries": {
+                        "minItems": 0,
+                        "maxItems": 0
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "heat_blood_synthesis_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 5000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "heat_blood_synthesis_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "outcome": {
+            "const": "success"
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_synthesize_slot_1"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "synthesize"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "synthesis_entries": {
+                        "minItems": 1,
+                        "maxItems": 1
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "heat_blood_synthesis_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 5000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "heat_blood_synthesis_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_synthesis_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_synthesize_slot_2"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "synthesize"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "synthesis_entries": {
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "heat_blood_synthesis_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 5000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "heat_blood_synthesis_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_synthesis_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_synthesize_slot_3"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "synthesize"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "synthesis_entries": {
+                        "minItems": 3,
+                        "maxItems": 3
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "heat_blood_synthesis_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 5000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "heat_blood_synthesis_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_synthesis_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_01"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 0
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 100
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "outcome": {
+            "const": "success"
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_02"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 1
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 300
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "outcome": {
+            "const": "success"
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_03"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 2
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 1000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "outcome": {
+            "const": "success"
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_04"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 3
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 3000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_05"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 4
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 10000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_06"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 5
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 30000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_07"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 6
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 100000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_08"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 7
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 300000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_09"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 8
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 600000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_10"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 9
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 1000000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_11"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 10
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 2000000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_12"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 11
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 3000000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_13"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 12
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 5000000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_14"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 13
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 8000000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recipe_id": {
+                "const": "apparel_enhance_15"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "enhance"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "instance": {
+                    "properties": {
+                      "enhancement": {
+                        "const": 14
+                      }
+                    }
+                  }
+                }
+              },
+              "material_inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "enhancement_stone"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "silver_flow": {
+            "properties": {
+              "movements": {
+                "items": {
+                  "properties": {
+                    "amount": {
+                      "const": 10000000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "stack_flows": {
+            "items": {
+              "properties": {
+                "outputs": {
+                  "items": {
+                    "properties": {
+                      "stack": {
+                        "properties": {
+                          "item_id": {
+                            "const": "enhancement_stone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "draws": {
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "apparel_enhancement_success"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

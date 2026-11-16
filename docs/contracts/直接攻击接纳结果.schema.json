@@ -1,0 +1,477 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:direct-attack-admission-result:v1",
+  "$comment": "原世界接纳阶段已提交十四字段子结果；完整两键候选移动到原不可变结果保留。成功仅引用原唯一完整动作，拒绝不造动作/费用/抽样。完整父before/after、接纳资格/身份/资源与队首消费另验，不新增独立预留或日志。 原结果显式持有cancelled_firewood_action_id_or_null，仅原本人活跃木柴被该真实新输入/正实际敌伤取消时非null；根以本event_id停止，来源/预留同父联验。 必有cancelled_portable_channel_id_or_null引用同父清除的原便携读条；无真实取消显式null，不新增取消日志/物品流。来源/同生命/预留与首因须联合验证。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "rules_hash",
+    "candidate",
+    "outcome",
+    "rejection_reason_or_null",
+    "action_id_or_null",
+    "random_flow",
+    "cancelled_firewood_action_id_or_null",
+    "cancelled_portable_channel_id_or_null"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 81,
+      "maxLength": 81,
+      "pattern": "^attack-admission:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/world_step"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/rules_hash"
+    },
+    "candidate": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/$defs/direct_attack_candidate"
+    },
+    "outcome": {
+      "enum": [
+        "admitted",
+        "rejected"
+      ]
+    },
+    "rejection_reason_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "enum": [
+            "session_not_active",
+            "source_unavailable",
+            "activity_not_active",
+            "already_admitted_this_step",
+            "action_occupied",
+            "control_forbidden",
+            "ability_not_eligible",
+            "target_not_eligible",
+            "cooldown_not_ready",
+            "insufficient_resources"
+          ]
+        }
+      ]
+    },
+    "action_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+        }
+      ]
+    },
+    "random_flow": {
+      "$ref": "urn:solorxjh:random-decision-flow:v1"
+    },
+    "cancelled_firewood_action_id_or_null": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/$defs/cancelled_firewood_action_id_or_null"
+    },
+    "cancelled_portable_channel_id_or_null": {
+      "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/cancelled_portable_channel_id_or_null"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "admitted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "rejection_reason_or_null": {
+            "type": "null"
+          },
+          "action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "rejection_reason_or_null": {
+            "type": "string"
+          },
+          "action_id_or_null": {
+            "type": "null"
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "training_ai"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          },
+          "rejection_reason_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "enum": [
+                  "source_unavailable",
+                  "activity_not_active",
+                  "action_occupied",
+                  "control_forbidden",
+                  "target_not_eligible",
+                  "cooldown_not_ready"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "private_trial_ai"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "enum": [
+              "instance_faction_merit",
+              "instance_ascension_shadow"
+            ]
+          },
+          "instance_id_or_null": {
+            "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/instance_id"
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          },
+          "rejection_reason_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "enum": [
+                  "source_unavailable",
+                  "activity_not_active",
+                  "action_occupied",
+                  "control_forbidden",
+                  "target_not_eligible",
+                  "cooldown_not_ready"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "player_command"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "items": {
+                  "properties": {
+                    "owner_kind": {
+                      "const": "character"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "map_id": {
+            "const": "instance_faction_merit"
+          },
+          "candidate": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "private_trial_ai"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "program_id": {
+                    "enum": [
+                      "merit_veteran_sword"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "map_id": {
+            "const": "instance_ascension_shadow"
+          },
+          "candidate": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "private_trial_ai"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "program_id": {
+                    "enum": [
+                      "shadow_strike",
+                      "shadow_moon_arc"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "training_ai",
+                      "private_trial_ai",
+                      "ordinary_ai"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "training_ai",
+                      "private_trial_ai",
+                      "ordinary_ai"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "kind": {
+                    "const": "ordinary_ai"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          },
+          "rejection_reason_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "enum": [
+                  "source_unavailable",
+                  "activity_not_active",
+                  "action_occupied",
+                  "control_forbidden",
+                  "target_not_eligible",
+                  "cooldown_not_ready",
+                  "already_admitted_this_step"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

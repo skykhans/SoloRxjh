@@ -1,0 +1,1718 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:second-advancement-stage-event:v1",
+  "$comment": "二转九阶段三阶段交付事件，五键计划/原五键命令；inputs含完整保留证据与消费候选，不代表全部被消费。推荐书每阶段保留至最终消费，验皮阶段无数量流；真实全集/阶段来源/数量/修订与完整共同父另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "quest_after",
+        "stack_flows",
+        "progress_after"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "quest_after": {
+          "$ref": "urn:solorxjh:second-advancement-quest-state:v1"
+        },
+        "stack_flows": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {
+            "$ref": "urn:solorxjh:stack-flow:v1"
+          }
+        },
+        "progress_after": {
+          "$ref": "urn:solorxjh:character-progress:v1",
+          "properties": {
+            "hp": {
+              "minimum": 1
+            },
+            "completed_rank": {
+              "enum": [
+                1,
+                2
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "interaction_invalid",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "quest_before",
+        "inventory_before",
+        "inputs",
+        "progress_before"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "quest_before": {
+          "$ref": "urn:solorxjh:second-advancement-quest-state:v1",
+          "properties": {
+            "state": {
+              "const": "in_progress"
+            }
+          }
+        },
+        "inventory_before": {
+          "$ref": "urn:solorxjh:item-locations:v1#/properties/inventory"
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 31,
+          "uniqueItems": true,
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "urn:solorxjh:second-advancement-transition-event:v1#/$defs/material_input"
+              },
+              {
+                "$ref": "urn:solorxjh:second-advancement-transition-event:v1#/$defs/recommendation_input"
+              }
+            ]
+          }
+        },
+        "progress_before": {
+          "$ref": "urn:solorxjh:character-progress:v1",
+          "properties": {
+            "completed_rank": {
+              "const": 1
+            },
+            "route": {
+              "const": "unselected"
+            },
+            "hp": {
+              "minimum": 1
+            },
+            "total_xp": {
+              "minimum": 6341000
+            }
+          }
+        }
+      }
+    },
+    "consume_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "maxItems": 30
+            },
+            "outputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "minItems": 1,
+              "maxItems": 30,
+              "items": {
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10
+                  },
+                  "reason": {
+                    "const": "quest_delivery"
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "mint_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "urn:solorxjh:second-advancement-transition-event:v1#/$defs/material_input/properties/stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "const": 1
+                          },
+                          "revision": {
+                            "const": 0
+                          },
+                          "item_id": {
+                            "enum": [
+                              "adv02_clothes_box",
+                              "adv02_delivery_box"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  },
+                  "contributions": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "properties": {
+                "kind": {
+                  "const": "quest_exchange"
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:second-advancement-stage-event:v1"
+      },
+      "contains": {
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    "final_mint_flow": {
+      "$ref": "urn:solorxjh:second-advancement-transition-event:v1#/$defs/guide_mint_flow"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_recommendation"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_recommendation"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  }
+                ]
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "stage_index_or_null": {
+                "const": 2
+              },
+              "stage_receipts": {
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          },
+          "stack_flows": {
+            "minItems": 0,
+            "maxItems": 0
+          },
+          "progress_after": {
+            "properties": {
+              "completed_rank": {
+                "const": 1
+              },
+              "route": {
+                "const": "unselected"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 4,
+                "maxItems": 31,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_recommendation",
+                            "adv02_red_bear_skin",
+                            "adv02_yellow_tiger_skin",
+                            "adv02_white_tiger_skin"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_recommendation"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_red_bear_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_yellow_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_white_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  }
+                ]
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "stage_index_or_null": {
+                "const": 3
+              },
+              "stage_receipts": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          },
+          "stack_flows": {
+            "minItems": 0,
+            "maxItems": 0
+          },
+          "progress_after": {
+            "properties": {
+              "completed_rank": {
+                "const": 1
+              },
+              "route": {
+                "const": "unselected"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 4,
+                "maxItems": 31,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_recommendation",
+                            "adv02_red_bear_skin",
+                            "adv02_yellow_tiger_skin",
+                            "adv02_white_tiger_skin"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_recommendation"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_red_bear_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_yellow_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_white_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  }
+                ]
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "stage_index_or_null": {
+                "const": 4
+              },
+              "stage_receipts": {
+                "minItems": 3,
+                "maxItems": 3
+              }
+            }
+          },
+          "stack_flows": {
+            "minItems": 0,
+            "maxItems": 0
+          },
+          "progress_after": {
+            "properties": {
+              "completed_rank": {
+                "const": 1
+              },
+              "route": {
+                "const": "unselected"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 4
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 4,
+                "maxItems": 31,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_recommendation",
+                            "adv02_red_bear_skin",
+                            "adv02_yellow_tiger_skin",
+                            "adv02_white_tiger_skin"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_recommendation"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_red_bear_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_yellow_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_white_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  }
+                ]
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "stage_index_or_null": {
+                "const": 5
+              },
+              "stage_receipts": {
+                "minItems": 4,
+                "maxItems": 4
+              }
+            }
+          },
+          "stack_flows": {
+            "minItems": 0,
+            "maxItems": 0
+          },
+          "progress_after": {
+            "properties": {
+              "completed_rank": {
+                "const": 1
+              },
+              "route": {
+                "const": "unselected"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 4,
+                "maxItems": 31,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_recommendation",
+                            "adv02_red_bear_skin",
+                            "adv02_yellow_tiger_skin",
+                            "adv02_white_tiger_skin"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_recommendation"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_red_bear_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_yellow_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_white_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  }
+                ]
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "stage_index_or_null": {
+                "const": 6
+              },
+              "stage_receipts": {
+                "minItems": 5,
+                "maxItems": 5
+              }
+            }
+          },
+          "stack_flows": {
+            "minItems": 0,
+            "maxItems": 0
+          },
+          "progress_after": {
+            "properties": {
+              "completed_rank": {
+                "const": 1
+              },
+              "route": {
+                "const": "unselected"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 6
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 4,
+                "maxItems": 31,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_recommendation",
+                            "adv02_red_bear_skin",
+                            "adv02_yellow_tiger_skin",
+                            "adv02_white_tiger_skin"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_recommendation"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_red_bear_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_yellow_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_white_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  }
+                ]
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "stage_index_or_null": {
+                "const": 7
+              },
+              "stage_receipts": {
+                "minItems": 6,
+                "maxItems": 6
+              }
+            }
+          },
+          "stack_flows": {
+            "minItems": 2,
+            "maxItems": 2,
+            "prefixItems": [
+              {
+                "$ref": "#/$defs/consume_flow",
+                "properties": {
+                  "inputs": {
+                    "minItems": 3,
+                    "maxItems": 30
+                  },
+                  "consumptions": {
+                    "minItems": 3,
+                    "maxItems": 30
+                  }
+                }
+              },
+              {
+                "$ref": "#/$defs/mint_flow",
+                "properties": {
+                  "outputs": {
+                    "items": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_clothes_box"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "items": false
+          },
+          "progress_after": {
+            "properties": {
+              "completed_rank": {
+                "const": 1
+              },
+              "route": {
+                "const": "unselected"
+              }
+            }
+          },
+          "command": {
+            "properties": {
+              "expected_inventory_revision": {
+                "maximum": 9007199254740990
+              }
+            }
+          },
+          "inventory_revision_after": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 7
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_recommendation",
+                            "adv02_clothes_box"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_recommendation"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_clothes_box"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  }
+                ]
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "stage_index_or_null": {
+                "const": 8
+              },
+              "stage_receipts": {
+                "minItems": 7,
+                "maxItems": 7
+              }
+            }
+          },
+          "stack_flows": {
+            "minItems": 1,
+            "maxItems": 1,
+            "prefixItems": [
+              {
+                "$ref": "#/$defs/mint_flow",
+                "properties": {
+                  "outputs": {
+                    "items": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_delivery_box"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "items": false
+          },
+          "progress_after": {
+            "properties": {
+              "completed_rank": {
+                "const": 1
+              },
+              "route": {
+                "const": "unselected"
+              }
+            }
+          },
+          "command": {
+            "properties": {
+              "expected_inventory_revision": {
+                "maximum": 9007199254740990
+              }
+            }
+          },
+          "inventory_revision_after": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 8
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 3,
+                "maxItems": 3,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_recommendation",
+                            "adv02_clothes_box",
+                            "adv02_delivery_box"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_recommendation"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_clothes_box"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_delivery_box"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  }
+                ]
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "stage_index_or_null": {
+                "const": 9
+              },
+              "stage_receipts": {
+                "minItems": 8,
+                "maxItems": 8
+              }
+            }
+          },
+          "stack_flows": {
+            "minItems": 1,
+            "maxItems": 1,
+            "prefixItems": [
+              {
+                "$ref": "#/$defs/consume_flow",
+                "properties": {
+                  "inputs": {
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "consumptions": {
+                    "minItems": 2,
+                    "maxItems": 2
+                  }
+                }
+              }
+            ],
+            "items": false
+          },
+          "progress_after": {
+            "properties": {
+              "completed_rank": {
+                "const": 1
+              },
+              "route": {
+                "const": "unselected"
+              }
+            }
+          },
+          "command": {
+            "properties": {
+              "expected_inventory_revision": {
+                "maximum": 9007199254740990
+              }
+            }
+          },
+          "inventory_revision_after": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 9
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_recommendation"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_recommendation"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  }
+                ]
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "delivered"
+              },
+              "stage_index_or_null": {
+                "const": null
+              },
+              "stage_receipts": {
+                "minItems": 9,
+                "maxItems": 9
+              }
+            }
+          },
+          "stack_flows": {
+            "minItems": 2,
+            "maxItems": 2,
+            "prefixItems": [
+              {
+                "$ref": "#/$defs/consume_flow",
+                "properties": {
+                  "inputs": {
+                    "minItems": 1,
+                    "maxItems": 1
+                  },
+                  "consumptions": {
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                }
+              },
+              {
+                "$ref": "#/$defs/final_mint_flow"
+              }
+            ],
+            "items": false
+          },
+          "progress_after": {
+            "properties": {
+              "completed_rank": {
+                "const": 2
+              }
+            }
+          },
+          "command": {
+            "properties": {
+              "expected_inventory_revision": {
+                "maximum": 9007199254740990
+              }
+            }
+          },
+          "inventory_revision_after": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "selected_branch_or_null": {
+                    "const": "righteous"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_after": {
+            "properties": {
+              "selected_branch_or_null": {
+                "const": "righteous"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "quest_scope": {
+                          "properties": {
+                            "branch_id": {
+                              "const": "righteous"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "selected_branch_or_null": {
+                    "const": "righteous"
+                  },
+                  "stage_index_or_null": {
+                    "const": 9
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "progress_after": {
+            "properties": {
+              "route": {
+                "const": "righteous"
+              }
+            }
+          },
+          "stack_flows": {
+            "prefixItems": [
+              {},
+              {
+                "properties": {
+                  "outputs": {
+                    "items": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "return_liuzheng"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "selected_branch_or_null": {
+                    "const": "evil"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_after": {
+            "properties": {
+              "selected_branch_or_null": {
+                "const": "evil"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "quest_scope": {
+                          "properties": {
+                            "branch_id": {
+                              "const": "evil"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "selected_branch_or_null": {
+                    "const": "evil"
+                  },
+                  "stage_index_or_null": {
+                    "const": 9
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "progress_after": {
+            "properties": {
+              "route": {
+                "const": "evil"
+              }
+            }
+          },
+          "stack_flows": {
+            "prefixItems": [
+              {},
+              {
+                "properties": {
+                  "outputs": {
+                    "items": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "return_sanxie"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

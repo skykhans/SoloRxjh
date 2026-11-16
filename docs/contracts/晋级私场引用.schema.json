@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:private-advancement-trial-reference:v1",
+  "$comment": "仅六转影子/武勋试练原角色活动引用，null或严格四键；不是完整活动快照或来源授权。实例与attempt各自身份，完整world/角色/入场结果联合核验。",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "world_id",
+        "authority_profile_id",
+        "instance_id",
+        "trial_attempt_id"
+      ],
+      "properties": {
+        "world_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "authority_profile_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "instance_id": {
+          "$ref": "#/$defs/instance_id"
+        },
+        "trial_attempt_id": {
+          "$ref": "#/$defs/trial_attempt_id"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "instance_id": {
+      "type": "string",
+      "minLength": 87,
+      "maxLength": 87,
+      "pattern": "^private-trial-instance:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "trial_attempt_id": {
+      "type": "string",
+      "minLength": 86,
+      "maxLength": 86,
+      "pattern": "^private-trial-attempt:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "enemy_actor_id": {
+      "type": "string",
+      "minLength": 84,
+      "maxLength": 84,
+      "pattern": "^private-trial-enemy:[0-9a-f]{64}(?![\\s\\S])"
+    }
+  }
+}

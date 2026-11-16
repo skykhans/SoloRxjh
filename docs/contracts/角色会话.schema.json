@@ -118,7 +118,9 @@
         "character_revision",
         "inventory_revision",
         "character_digest",
-        "rules_hash"
+        "rules_hash",
+        "supreme_profile_digest_or_null",
+        "decision_world_step"
       ],
       "properties": {
         "receipt_id": {
@@ -166,6 +168,24 @@
             "invalid_character",
             "explicit_cancel"
           ]
+        },
+        "supreme_profile_digest_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+              "minLength": 64,
+              "maxLength": 64
+            }
+          ]
+        },
+        "decision_world_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
         }
       },
       "allOf": [
@@ -187,6 +207,36 @@
               "required": [
                 "reason"
               ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "identity": {
+                "properties": {
+                  "mode": {
+                    "const": "offline"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "supreme_profile_digest_or_null": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "supreme_profile_digest_or_null": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+                "minLength": 64,
+                "maxLength": 64
+              }
             }
           }
         }
@@ -217,7 +267,8 @@
       "required": [
         "admission",
         "opening_character_base64",
-        "saved_ack"
+        "saved_ack",
+        "supreme_profile_baseline_base64_or_null"
       ],
       "properties": {
         "admission": {
@@ -235,6 +286,16 @@
         },
         "opening_character_base64": {
           "$ref": "#/$defs/opening_character_base64"
+        },
+        "supreme_profile_baseline_base64_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/opening_character_base64"
+            }
+          ]
         }
       },
       "allOf": [
@@ -257,6 +318,41 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "admission": {
+                "type": "object",
+                "properties": {
+                  "identity": {
+                    "properties": {
+                      "mode": {
+                        "enum": [
+                          "lan_host",
+                          "lan_client"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "supreme_profile_baseline_base64_or_null": {
+                "$ref": "#/$defs/opening_character_base64"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "supreme_profile_baseline_base64_or_null": {
+                "type": "null"
+              }
+            }
+          }
         }
       ]
     },
@@ -271,7 +367,12 @@
         "character_revision_after",
         "final_result_sequence",
         "stack_flows",
-        "instance_flow"
+        "instance_flow",
+        "dodge_stop_or_null",
+        "cancelled_portable_channel_id_or_null",
+        "final_profile_world_step_or_null",
+        "ended_world_step",
+        "cancelled_support_action_id_or_null"
       ],
       "properties": {
         "receipt_id": {
@@ -376,6 +477,44 @@
               }
             }
           ]
+        },
+        "dodge_stop_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "urn:solorxjh:dodge-stop:v1",
+              "properties": {
+                "reason": {
+                  "const": "session_end"
+                }
+              }
+            }
+          ]
+        },
+        "cancelled_portable_channel_id_or_null": {
+          "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/cancelled_portable_channel_id_or_null"
+        },
+        "final_profile_world_step_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          ]
+        },
+        "ended_world_step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "cancelled_support_action_id_or_null": {
+          "$ref": "urn:solorxjh:player-support-cast:v1#/$defs/cancelled_support_action_id_or_null"
         }
       },
       "allOf": [
@@ -393,6 +532,15 @@
                 "maxItems": 0
               },
               "instance_flow": {
+                "type": "null"
+              },
+              "dodge_stop_or_null": {
+                "type": "null"
+              },
+              "cancelled_portable_channel_id_or_null": {
+                "type": "null"
+              },
+              "cancelled_support_action_id_or_null": {
                 "type": "null"
               }
             }
@@ -414,6 +562,9 @@
             "properties": {
               "final_result_sequence": {
                 "type": "null"
+              },
+              "final_profile_world_step_or_null": {
+                "type": "null"
               }
             }
           },
@@ -423,6 +574,25 @@
                 "type": "integer",
                 "minimum": 0,
                 "maximum": 9007199254740991
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "cancelled_support_action_id_or_null": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "dodge_stop_or_null": {
+                "type": "null"
+              },
+              "cancelled_portable_channel_id_or_null": {
+                "type": "null"
               }
             }
           }
@@ -436,7 +606,11 @@
         "admission",
         "opening_character_base64",
         "saved_ack",
-        "end"
+        "end",
+        "connection_events",
+        "public_travel_results",
+        "supreme_profile_baseline_base64_or_null",
+        "shared_profile_results"
       ],
       "properties": {
         "admission": {
@@ -478,6 +652,25 @@
               "$ref": "#/$defs/opening_character_base64"
             }
           ]
+        },
+        "connection_events": {
+          "$ref": "urn:solorxjh:connection-lifecycle-result:v1#/$defs/journal"
+        },
+        "public_travel_results": {
+          "$ref": "urn:solorxjh:public-travel-result:v1#/$defs/journal"
+        },
+        "supreme_profile_baseline_base64_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/opening_character_base64"
+            }
+          ]
+        },
+        "shared_profile_results": {
+          "$ref": "urn:solorxjh:supreme-profile-result:v1#/$defs/journal"
         }
       },
       "allOf": [
@@ -602,6 +795,126 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "saved_ack": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "connection_events": {
+                "maxItems": 0
+              },
+              "public_travel_results": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "admission": {
+                "type": "object",
+                "properties": {
+                  "identity": {
+                    "properties": {
+                      "mode": {
+                        "enum": [
+                          "lan_host",
+                          "lan_client"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "supreme_profile_baseline_base64_or_null": {
+                "$ref": "#/$defs/opening_character_base64"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "supreme_profile_baseline_base64_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "not": {
+              "properties": {
+                "admission": {
+                  "type": "object",
+                  "properties": {
+                    "decision": {
+                      "const": "accepted"
+                    },
+                    "identity": {
+                      "properties": {
+                        "mode": {
+                          "enum": [
+                            "lan_host",
+                            "lan_client"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "shared_profile_results": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "shared_profile_results": {
+                "maxItems": 0
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "end": {
+                "properties": {
+                  "final_profile_world_step_or_null": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "end": {
+                "properties": {
+                  "final_profile_world_step_or_null": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 9007199254740991
+                  }
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -619,7 +932,8 @@
       "additionalProperties": false,
       "required": [
         "authority_record",
-        "activation_saved_profile_revision"
+        "activation_saved_profile_revision",
+        "shared_profile_saved_acks"
       ],
       "properties": {
         "authority_record": {
@@ -676,6 +990,9 @@
               "maximum": 9007199254740991
             }
           ]
+        },
+        "shared_profile_saved_acks": {
+          "$ref": "urn:solorxjh:supreme-profile-result:v1#/$defs/local_saved_acks"
         }
       },
       "allOf": [
@@ -720,6 +1037,53 @@
             "properties": {
               "activation_saved_profile_revision": {
                 "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "not": {
+              "properties": {
+                "authority_record": {
+                  "properties": {
+                    "admission": {
+                      "type": "object",
+                      "properties": {
+                        "decision": {
+                          "const": "accepted"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "shared_profile_saved_acks": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "shared_profile_saved_acks": {
+                "minItems": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "authority_record": {
+                "properties": {
+                  "shared_profile_results": {
+                    "minItems": 1
+                  }
+                }
               }
             }
           }

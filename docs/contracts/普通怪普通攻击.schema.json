@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-normal-attack:v1",
+  "$comment": "本轮二十种公共普通怪24字段完整攻击根；原生命身份、冻结定义/目标与接纳来源另验。单段36/1/84，第37步有唯一明确命中或无效决定，第121步正常完成；停止保真实游标，不造第二动作表。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action_id",
+    "world_id",
+    "authority_profile_id",
+    "source_actor_id",
+    "map_id",
+    "instance_id_or_null",
+    "accepted_world_step",
+    "admission",
+    "monster_id",
+    "rules_hash",
+    "target_actor_id",
+    "accepted_yaw_radians",
+    "attack_min",
+    "attack_max",
+    "accuracy",
+    "critical_chance_bp",
+    "critical_multiplier_bp",
+    "windup_steps",
+    "active_steps",
+    "recovery_steps",
+    "elapsed_steps",
+    "hit_offsets_in_active_steps",
+    "stop_event_id_or_null",
+    "hit_result_event_id_or_null"
+  ],
+  "properties": {
+    "action_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+    },
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:ordinary-monster-life-identity:v1#/properties/actor_id"
+    },
+    "map_id": {
+      "enum": [
+        "story_valley_world",
+        "hyunbo_outskirts",
+        "shenwu_gate",
+        "liushan_house",
+        "liuzheng_pass",
+        "sanxie_pass"
+      ]
+    },
+    "instance_id_or_null": {
+      "type": "null"
+    },
+    "accepted_world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "admission": {
+      "oneOf": [
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/ordinary_ai"
+        },
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/dongling_forced_action"
+        }
+      ]
+    },
+    "monster_id": {
+      "$ref": "urn:solorxjh:ordinary-monster-spawn-result:v1#/$defs/initial_state/properties/monster_id"
+    },
+    "rules_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "target_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "accepted_yaw_radians": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/yaw"
+    },
+    "attack_min": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "attack_max": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "accuracy": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "critical_chance_bp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "critical_multiplier_bp": {
+      "type": "integer",
+      "minimum": 10000,
+      "maximum": 9007199254740991
+    },
+    "windup_steps": {
+      "const": 36
+    },
+    "active_steps": {
+      "const": 1
+    },
+    "recovery_steps": {
+      "const": 84
+    },
+    "elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 121
+    },
+    "hit_offsets_in_active_steps": {
+      "const": [
+        0
+      ]
+    },
+    "stop_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "hit_result_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:combat-damage-identity:v1#/$defs/event_id"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "map_id": {
+              "const": "story_valley_world"
+            },
+            "monster_id": {
+              "enum": [
+                "boar",
+                "mountain_wolf",
+                "valley_boar",
+                "frost_wolf"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "hyunbo_outskirts"
+            },
+            "monster_id": {
+              "enum": [
+                "hyunbo_bear15",
+                "hyunbo_frog5",
+                "hyunbo_boar12",
+                "hyunbo_graywolf12"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "shenwu_gate"
+            },
+            "monster_id": {
+              "enum": [
+                "shenwu_bloodwolf61",
+                "shenwu_gate_red_tiger60",
+                "shenwu_gate_sabre_tiger60"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "liushan_house"
+            },
+            "monster_id": {
+              "enum": [
+                "liushan_green_snake61",
+                "liushan_house_gold_bell_snake60",
+                "liushan_house_coral_snake60"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "monster_id": {
+              "enum": [
+                "liuzheng_pass_red_bear35",
+                "liuzheng_pass_yellow_tiger36",
+                "liuzheng_pass_white_tiger37"
+              ]
+            },
+            "map_id": {
+              "const": "liuzheng_pass"
+            }
+          }
+        },
+        {
+          "properties": {
+            "monster_id": {
+              "enum": [
+                "sanxie_pass_red_bear35",
+                "sanxie_pass_yellow_tiger36",
+                "sanxie_pass_white_tiger37"
+              ]
+            },
+            "map_id": {
+              "const": "sanxie_pass"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "elapsed_steps": {
+            "maximum": 36
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "hit_result_event_id_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "hit_result_event_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "stop_event_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "elapsed_steps": {
+            "maximum": 120
+          }
+        }
+      }
+    }
+  ]
+}

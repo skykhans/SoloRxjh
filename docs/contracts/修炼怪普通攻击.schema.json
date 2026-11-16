@@ -50,7 +50,7 @@
       "pattern": "\\S"
     },
     "map_id": {
-      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
     },
     "instance_id_or_null": {
       "type": "null"
@@ -61,155 +61,17 @@
       "maximum": 9007199254740991
     },
     "admission": {
-      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/training_ai"
+      "oneOf": [
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/training_ai"
+        },
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/dongling_forced_action"
+        }
+      ]
     },
     "monster_id": {
-      "enum": [
-        "training_beihai_01_monster_01",
-        "training_beihai_01_monster_02",
-        "training_beihai_01_monster_03",
-        "training_beihai_01_monster_04",
-        "training_beihai_02_monster_01",
-        "training_beihai_02_monster_02",
-        "training_beihai_02_monster_03",
-        "training_beihai_02_monster_04",
-        "training_beihai_03_monster_01",
-        "training_beihai_03_monster_02",
-        "training_beihai_03_monster_03",
-        "training_beihai_03_monster_04",
-        "training_beihai_04_monster_01",
-        "training_beihai_04_monster_02",
-        "training_beihai_04_monster_03",
-        "training_beihai_04_monster_04",
-        "training_beihai_05_monster_01",
-        "training_beihai_05_monster_02",
-        "training_beihai_05_monster_03",
-        "training_beihai_05_monster_04",
-        "training_beihai_06_monster_01",
-        "training_beihai_06_monster_02",
-        "training_beihai_06_monster_03",
-        "training_beihai_06_monster_04",
-        "training_beihai_07_monster_01",
-        "training_beihai_07_monster_02",
-        "training_beihai_07_monster_03",
-        "training_beihai_07_monster_04",
-        "training_beihai_08_monster_01",
-        "training_beihai_08_monster_02",
-        "training_beihai_08_monster_03",
-        "training_beihai_08_monster_04",
-        "training_beihai_09_monster_01",
-        "training_beihai_09_monster_02",
-        "training_beihai_09_monster_03",
-        "training_beihai_09_monster_04",
-        "training_nanlin_01_monster_01",
-        "training_nanlin_01_monster_02",
-        "training_nanlin_01_monster_03",
-        "training_nanlin_01_monster_04",
-        "training_nanlin_02_monster_01",
-        "training_nanlin_02_monster_02",
-        "training_nanlin_02_monster_03",
-        "training_nanlin_02_monster_04",
-        "training_nanlin_03_monster_01",
-        "training_nanlin_03_monster_02",
-        "training_nanlin_03_monster_03",
-        "training_nanlin_03_monster_04",
-        "training_nanlin_04_monster_01",
-        "training_nanlin_04_monster_02",
-        "training_nanlin_04_monster_03",
-        "training_nanlin_04_monster_04",
-        "training_nanlin_05_monster_01",
-        "training_nanlin_05_monster_02",
-        "training_nanlin_05_monster_03",
-        "training_nanlin_05_monster_04",
-        "training_nanlin_06_monster_01",
-        "training_nanlin_06_monster_02",
-        "training_nanlin_06_monster_03",
-        "training_nanlin_06_monster_04",
-        "training_nanlin_07_monster_01",
-        "training_nanlin_07_monster_02",
-        "training_nanlin_07_monster_03",
-        "training_nanlin_07_monster_04",
-        "training_nanlin_08_monster_01",
-        "training_nanlin_08_monster_02",
-        "training_nanlin_08_monster_03",
-        "training_nanlin_08_monster_04",
-        "training_nanlin_09_monster_01",
-        "training_nanlin_09_monster_02",
-        "training_nanlin_09_monster_03",
-        "training_nanlin_09_monster_04",
-        "training_dongling_01_monster_01",
-        "training_dongling_01_monster_02",
-        "training_dongling_01_monster_03",
-        "training_dongling_01_monster_04",
-        "training_dongling_02_monster_01",
-        "training_dongling_02_monster_02",
-        "training_dongling_02_monster_03",
-        "training_dongling_02_monster_04",
-        "training_dongling_03_monster_01",
-        "training_dongling_03_monster_02",
-        "training_dongling_03_monster_03",
-        "training_dongling_03_monster_04",
-        "training_dongling_04_monster_01",
-        "training_dongling_04_monster_02",
-        "training_dongling_04_monster_03",
-        "training_dongling_04_monster_04",
-        "training_dongling_05_monster_01",
-        "training_dongling_05_monster_02",
-        "training_dongling_05_monster_03",
-        "training_dongling_05_monster_04",
-        "training_dongling_06_monster_01",
-        "training_dongling_06_monster_02",
-        "training_dongling_06_monster_03",
-        "training_dongling_06_monster_04",
-        "training_dongling_07_monster_01",
-        "training_dongling_07_monster_02",
-        "training_dongling_07_monster_03",
-        "training_dongling_07_monster_04",
-        "training_dongling_08_monster_01",
-        "training_dongling_08_monster_02",
-        "training_dongling_08_monster_03",
-        "training_dongling_08_monster_04",
-        "training_dongling_09_monster_01",
-        "training_dongling_09_monster_02",
-        "training_dongling_09_monster_03",
-        "training_dongling_09_monster_04",
-        "training_huxia_01_monster_01",
-        "training_huxia_01_monster_02",
-        "training_huxia_01_monster_03",
-        "training_huxia_01_monster_04",
-        "training_huxia_02_monster_01",
-        "training_huxia_02_monster_02",
-        "training_huxia_02_monster_03",
-        "training_huxia_02_monster_04",
-        "training_huxia_03_monster_01",
-        "training_huxia_03_monster_02",
-        "training_huxia_03_monster_03",
-        "training_huxia_03_monster_04",
-        "training_huxia_04_monster_01",
-        "training_huxia_04_monster_02",
-        "training_huxia_04_monster_03",
-        "training_huxia_04_monster_04",
-        "training_huxia_05_monster_01",
-        "training_huxia_05_monster_02",
-        "training_huxia_05_monster_03",
-        "training_huxia_05_monster_04",
-        "training_huxia_06_monster_01",
-        "training_huxia_06_monster_02",
-        "training_huxia_06_monster_03",
-        "training_huxia_06_monster_04",
-        "training_huxia_07_monster_01",
-        "training_huxia_07_monster_02",
-        "training_huxia_07_monster_03",
-        "training_huxia_07_monster_04",
-        "training_huxia_08_monster_01",
-        "training_huxia_08_monster_02",
-        "training_huxia_08_monster_03",
-        "training_huxia_08_monster_04",
-        "training_huxia_09_monster_01",
-        "training_huxia_09_monster_02",
-        "training_huxia_09_monster_03",
-        "training_huxia_09_monster_04"
-      ]
+      "type": "string"
     },
     "rules_hash": {
       "type": "string",
@@ -302,5 +164,571 @@
         }
       ]
     }
-  }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_beihai_01"
+            },
+            "monster_id": {
+              "enum": [
+                "training_beihai_01_monster_01",
+                "training_beihai_01_monster_02",
+                "training_beihai_01_monster_03",
+                "training_beihai_01_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_beihai_02"
+            },
+            "monster_id": {
+              "enum": [
+                "training_beihai_02_monster_01",
+                "training_beihai_02_monster_02",
+                "training_beihai_02_monster_03",
+                "training_beihai_02_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_beihai_03"
+            },
+            "monster_id": {
+              "enum": [
+                "training_beihai_03_monster_01",
+                "training_beihai_03_monster_02",
+                "training_beihai_03_monster_03",
+                "training_beihai_03_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_beihai_04"
+            },
+            "monster_id": {
+              "enum": [
+                "training_beihai_04_monster_01",
+                "training_beihai_04_monster_02",
+                "training_beihai_04_monster_03",
+                "training_beihai_04_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_beihai_05"
+            },
+            "monster_id": {
+              "enum": [
+                "training_beihai_05_monster_01",
+                "training_beihai_05_monster_02",
+                "training_beihai_05_monster_03",
+                "training_beihai_05_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_beihai_06"
+            },
+            "monster_id": {
+              "enum": [
+                "training_beihai_06_monster_01",
+                "training_beihai_06_monster_02",
+                "training_beihai_06_monster_03",
+                "training_beihai_06_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_beihai_07"
+            },
+            "monster_id": {
+              "enum": [
+                "training_beihai_07_monster_01",
+                "training_beihai_07_monster_02",
+                "training_beihai_07_monster_03",
+                "training_beihai_07_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_beihai_08"
+            },
+            "monster_id": {
+              "enum": [
+                "training_beihai_08_monster_01",
+                "training_beihai_08_monster_02",
+                "training_beihai_08_monster_03",
+                "training_beihai_08_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_beihai_09"
+            },
+            "monster_id": {
+              "enum": [
+                "training_beihai_09_monster_01",
+                "training_beihai_09_monster_02",
+                "training_beihai_09_monster_03",
+                "training_beihai_09_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_dongling_01"
+            },
+            "monster_id": {
+              "enum": [
+                "training_dongling_01_monster_01",
+                "training_dongling_01_monster_02",
+                "training_dongling_01_monster_03",
+                "training_dongling_01_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_dongling_02"
+            },
+            "monster_id": {
+              "enum": [
+                "training_dongling_02_monster_01",
+                "training_dongling_02_monster_02",
+                "training_dongling_02_monster_03",
+                "training_dongling_02_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_dongling_03"
+            },
+            "monster_id": {
+              "enum": [
+                "training_dongling_03_monster_01",
+                "training_dongling_03_monster_02",
+                "training_dongling_03_monster_03",
+                "training_dongling_03_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_dongling_04"
+            },
+            "monster_id": {
+              "enum": [
+                "training_dongling_04_monster_01",
+                "training_dongling_04_monster_02",
+                "training_dongling_04_monster_03",
+                "training_dongling_04_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_dongling_05"
+            },
+            "monster_id": {
+              "enum": [
+                "training_dongling_05_monster_01",
+                "training_dongling_05_monster_02",
+                "training_dongling_05_monster_03",
+                "training_dongling_05_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_dongling_06"
+            },
+            "monster_id": {
+              "enum": [
+                "training_dongling_06_monster_01",
+                "training_dongling_06_monster_02",
+                "training_dongling_06_monster_03",
+                "training_dongling_06_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_dongling_07"
+            },
+            "monster_id": {
+              "enum": [
+                "training_dongling_07_monster_01",
+                "training_dongling_07_monster_02",
+                "training_dongling_07_monster_03",
+                "training_dongling_07_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_dongling_08"
+            },
+            "monster_id": {
+              "enum": [
+                "training_dongling_08_monster_01",
+                "training_dongling_08_monster_02",
+                "training_dongling_08_monster_03",
+                "training_dongling_08_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_dongling_09"
+            },
+            "monster_id": {
+              "enum": [
+                "training_dongling_09_monster_01",
+                "training_dongling_09_monster_02",
+                "training_dongling_09_monster_03",
+                "training_dongling_09_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_huxia_01"
+            },
+            "monster_id": {
+              "enum": [
+                "training_huxia_01_monster_01",
+                "training_huxia_01_monster_02",
+                "training_huxia_01_monster_03",
+                "training_huxia_01_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_huxia_02"
+            },
+            "monster_id": {
+              "enum": [
+                "training_huxia_02_monster_01",
+                "training_huxia_02_monster_02",
+                "training_huxia_02_monster_03",
+                "training_huxia_02_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_huxia_03"
+            },
+            "monster_id": {
+              "enum": [
+                "training_huxia_03_monster_01",
+                "training_huxia_03_monster_02",
+                "training_huxia_03_monster_03",
+                "training_huxia_03_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_huxia_04"
+            },
+            "monster_id": {
+              "enum": [
+                "training_huxia_04_monster_01",
+                "training_huxia_04_monster_02",
+                "training_huxia_04_monster_03",
+                "training_huxia_04_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_huxia_05"
+            },
+            "monster_id": {
+              "enum": [
+                "training_huxia_05_monster_01",
+                "training_huxia_05_monster_02",
+                "training_huxia_05_monster_03",
+                "training_huxia_05_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_huxia_06"
+            },
+            "monster_id": {
+              "enum": [
+                "training_huxia_06_monster_01",
+                "training_huxia_06_monster_02",
+                "training_huxia_06_monster_03",
+                "training_huxia_06_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_huxia_07"
+            },
+            "monster_id": {
+              "enum": [
+                "training_huxia_07_monster_01",
+                "training_huxia_07_monster_02",
+                "training_huxia_07_monster_03",
+                "training_huxia_07_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_huxia_08"
+            },
+            "monster_id": {
+              "enum": [
+                "training_huxia_08_monster_01",
+                "training_huxia_08_monster_02",
+                "training_huxia_08_monster_03",
+                "training_huxia_08_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_huxia_09"
+            },
+            "monster_id": {
+              "enum": [
+                "training_huxia_09_monster_01",
+                "training_huxia_09_monster_02",
+                "training_huxia_09_monster_03",
+                "training_huxia_09_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_nanlin_01"
+            },
+            "monster_id": {
+              "enum": [
+                "training_nanlin_01_monster_01",
+                "training_nanlin_01_monster_02",
+                "training_nanlin_01_monster_03",
+                "training_nanlin_01_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_nanlin_02"
+            },
+            "monster_id": {
+              "enum": [
+                "training_nanlin_02_monster_01",
+                "training_nanlin_02_monster_02",
+                "training_nanlin_02_monster_03",
+                "training_nanlin_02_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_nanlin_03"
+            },
+            "monster_id": {
+              "enum": [
+                "training_nanlin_03_monster_01",
+                "training_nanlin_03_monster_02",
+                "training_nanlin_03_monster_03",
+                "training_nanlin_03_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_nanlin_04"
+            },
+            "monster_id": {
+              "enum": [
+                "training_nanlin_04_monster_01",
+                "training_nanlin_04_monster_02",
+                "training_nanlin_04_monster_03",
+                "training_nanlin_04_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_nanlin_05"
+            },
+            "monster_id": {
+              "enum": [
+                "training_nanlin_05_monster_01",
+                "training_nanlin_05_monster_02",
+                "training_nanlin_05_monster_03",
+                "training_nanlin_05_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_nanlin_06"
+            },
+            "monster_id": {
+              "enum": [
+                "training_nanlin_06_monster_01",
+                "training_nanlin_06_monster_02",
+                "training_nanlin_06_monster_03",
+                "training_nanlin_06_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_nanlin_07"
+            },
+            "monster_id": {
+              "enum": [
+                "training_nanlin_07_monster_01",
+                "training_nanlin_07_monster_02",
+                "training_nanlin_07_monster_03",
+                "training_nanlin_07_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_nanlin_08"
+            },
+            "monster_id": {
+              "enum": [
+                "training_nanlin_08_monster_01",
+                "training_nanlin_08_monster_02",
+                "training_nanlin_08_monster_03",
+                "training_nanlin_08_monster_04"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "map_id": {
+              "const": "training_nanlin_09"
+            },
+            "monster_id": {
+              "enum": [
+                "training_nanlin_09_monster_01",
+                "training_nanlin_09_monster_02",
+                "training_nanlin_09_monster_03",
+                "training_nanlin_09_monster_04"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "admission": {
+            "properties": {
+              "kind": {
+                "const": "dongling_forced_action"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "accepted_world_step": {
+            "minimum": 1
+          }
+        }
+      }
+    }
+  ]
 }

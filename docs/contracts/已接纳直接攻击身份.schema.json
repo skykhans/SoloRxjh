@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:solorxjh:accepted-direct-attack-identity:v1",
-  "$comment": "原已接纳直接攻击七字段联合投影，不新增持久身份包装或计数。完整原动作先验；仅玩家直接攻击与原432修炼刷点普通攻击，原会话/实体生命轮次/世界步/摘要和完整接纳来源另验。",
+  "$comment": "原已接纳直接攻击七字段联合投影，不新增持久身份包装或计数。完整原动作先验；仅玩家直接攻击、原432修炼刷点普通攻击、六转两具名私场敌攻击及本轮八种公共普通怪攻击，原会话/实体生命轮次/世界步/摘要和完整接纳来源另验。 内部dongling_forced_action仅原player/普通/修炼受控者，绑定唯一choice，不造用户命令或自主AI。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -56,6 +56,15 @@
         },
         {
           "$ref": "#/$defs/training_ai"
+        },
+        {
+          "$ref": "#/$defs/private_trial_ai"
+        },
+        {
+          "$ref": "#/$defs/ordinary_ai"
+        },
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/dongling_forced_action"
         }
       ]
     }
@@ -100,6 +109,195 @@
       "minLength": 78,
       "maxLength": 78,
       "pattern": "^combat-action:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "private_trial_ai": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "const": "private_trial_ai"
+        }
+      }
+    },
+    "ordinary_ai": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "const": "ordinary_ai"
+        }
+      }
+    },
+    "dongling_forced_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "choice_event_id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "dongling_forced_action"
+        },
+        "choice_event_id": {
+          "$ref": "urn:solorxjh:dongling-forced-action-choice:v1#/$defs/event_id"
+        }
+      }
     }
-  }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "admission": {
+            "properties": {
+              "kind": {
+                "const": "training_ai"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "admission": {
+            "properties": {
+              "kind": {
+                "const": "private_trial_ai"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "enum": [
+              "instance_faction_merit",
+              "instance_ascension_shadow"
+            ]
+          },
+          "source_actor_id": {
+            "$ref": "urn:solorxjh:private-advancement-trial-reference:v1#/$defs/enemy_actor_id"
+          },
+          "accepted_world_step": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "admission": {
+            "properties": {
+              "kind": {
+                "const": "ordinary_ai"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          },
+          "source_actor_id": {
+            "$ref": "urn:solorxjh:ordinary-monster-life-identity:v1#/properties/actor_id"
+          },
+          "accepted_world_step": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "admission": {
+            "properties": {
+              "kind": {
+                "const": "dongling_forced_action"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "source_actor_id": {
+            "$ref": "urn:solorxjh:dongling-random-walk-intent:v1#/$defs/source_actor_id"
+          },
+          "accepted_world_step": {
+            "minimum": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "source_actor_id": {
+                  "pattern": "^ordinary-actor:"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "map_id": {
+                  "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+                },
+                "instance_id_or_null": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "source_actor_id": {
+                  "pattern": "^training-actor:"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "map_id": {
+                  "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+                },
+                "instance_id_or_null": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
 }

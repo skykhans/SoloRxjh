@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:normal-weapon-proc-pool:v1",
+  "$comment": "原完整普通根weapon_proc_pool_or_null：仅成功卢属性石/甄武器增幅保四键冻结池。元素来源/原武器本体/成长证明留原接纳父before，不复制完整装备。区间有序、来源真实性及安全算术另验。",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "weapon_instance_id",
+        "element_id",
+        "element_stage"
+      ],
+      "properties": {
+        "kind": {
+          "const": "lu_attribute_stone"
+        },
+        "weapon_instance_id": {
+          "$ref": "urn:solorxjh:hero-weapon-instance:v1#/properties/instance_id"
+        },
+        "element_id": {
+          "enum": [
+            "fire",
+            "poison"
+          ]
+        },
+        "element_stage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "weapon_instance_id",
+        "weapon_attack_min",
+        "weapon_attack_max"
+      ],
+      "properties": {
+        "kind": {
+          "const": "zhen_weapon_attack"
+        },
+        "weapon_instance_id": {
+          "$ref": "urn:solorxjh:hero-weapon-instance:v1#/properties/instance_id"
+        },
+        "weapon_attack_min": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "weapon_attack_max": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "proc_pool_projection": {
+      "$comment": "仅联合验证原根两个字段，不保存第二包装；成功卢/甄必须匹配池，其余含失败/未抽一律null。",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "normal_admission_proc_or_null",
+        "weapon_proc_pool_or_null"
+      ],
+      "properties": {
+        "normal_admission_proc_or_null": {
+          "$ref": "urn:solorxjh:normal-admission-proc:v1"
+        },
+        "weapon_proc_pool_or_null": {
+          "$ref": "urn:solorxjh:normal-weapon-proc-pool:v1"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "normal_admission_proc_or_null": {
+                "type": "object",
+                "properties": {
+                  "qigong_id": {
+                    "const": "qigong_lu_fenglang_a5f621132db5"
+                  },
+                  "triggered": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "weapon_proc_pool_or_null": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "lu_attribute_stone"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "normal_admission_proc_or_null": {
+                "type": "object",
+                "properties": {
+                  "qigong_id": {
+                    "const": "qigong_zhen_fengbai_9eca08cd0894"
+                  },
+                  "triggered": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "weapon_proc_pool_or_null": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "zhen_weapon_attack"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "normal_admission_proc_or_null": {
+                "not": {
+                  "type": "object",
+                  "properties": {
+                    "qigong_id": {
+                      "enum": [
+                        "qigong_lu_fenglang_a5f621132db5",
+                        "qigong_zhen_fengbai_9eca08cd0894"
+                      ]
+                    },
+                    "triggered": {
+                      "const": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "weapon_proc_pool_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

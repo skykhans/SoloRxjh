@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-item-scene-drop:v1",
+  "$comment": "十二种普通怪中旧四怪固定物与熊两种随机材料的六键地面待领权利；无held堆或来源流。真实死亡/kill-owner/原掉落行、数量及领取终结须完整原父认证。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "drop_id",
+    "source_death_event_id",
+    "owner_character_id",
+    "position",
+    "item_id",
+    "quantity"
+  ],
+  "properties": {
+    "drop_id": {
+      "type": "string",
+      "minLength": 78,
+      "maxLength": 78,
+      "pattern": "^ordinary-drop:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "source_death_event_id": {
+      "$ref": "urn:solorxjh:ordinary-monster-death-identity:v1#/properties/event_id"
+    },
+    "owner_character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "position": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+    },
+    "item_id": {
+      "enum": [
+        "beast_hide",
+        "wolf_fang",
+        "spirit_ore",
+        "bear_paw",
+        "bear_gall"
+      ]
+    },
+    "quantity": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1
+    }
+  },
+  "$defs": {
+    "drops": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/properties/drop_id"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:ordinary-item-scene-drop:v1"
+      }
+    }
+  }
+}

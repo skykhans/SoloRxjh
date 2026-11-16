@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dodge-stop:v1",
+  "$comment": "十一键已接纳闪避中断子结果，由原死亡/迁移/正式会话结束父持有；不另起日志/通用结算预留。保最后实际e0..23，不推进/补位移，不重复位置。自然e24不造本结果，原原因/生命/scope及同笔提交另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "source_actor_id",
+    "world_step",
+    "event_id",
+    "action_id",
+    "elapsed_steps",
+    "reason",
+    "cause_event_id"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 75,
+      "maxLength": 75,
+      "pattern": "^dodge-stop:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:player-dodge:v1#/properties/action_id"
+    },
+    "elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 23
+    },
+    "reason": {
+      "enum": [
+        "death",
+        "scope_changed",
+        "session_end"
+      ]
+    },
+    "cause_event_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    }
+  ]
+}

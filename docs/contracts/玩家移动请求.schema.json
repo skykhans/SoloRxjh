@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-movement-command:v1",
+  "$comment": "原WASD/Shift徒步手动移动七键正式意图；镜头方向整数整圈，轴只接受三值。请求不携客户端位置/速度/时间/碰撞结果。网络会话/序号与本T冻结选择、自动寻路及特殊位移动作另沿原owner。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "play_session_identity",
+    "command_id",
+    "move_x",
+    "move_forward",
+    "camera_yaw_turn_u16",
+    "run"
+  ],
+  "properties": {
+    "kind": {
+      "const": "player_movement"
+    },
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+    },
+    "command_id": {
+      "$ref": "urn:solorxjh:direct-attack-command:v1#/properties/command_id"
+    },
+    "move_x": {
+      "enum": [
+        -1,
+        0,
+        1
+      ]
+    },
+    "move_forward": {
+      "enum": [
+        -1,
+        0,
+        1
+      ]
+    },
+    "camera_yaw_turn_u16": {
+      "$ref": "urn:solorxjh:direct-attack-command:v1#/properties/aim_turn_u16"
+    },
+    "run": {
+      "type": "boolean"
+    }
+  }
+}

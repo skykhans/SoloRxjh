@@ -1,0 +1,353 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-support-cast-admission:v1",
+  "$comment": "十七键真实用户辅助施放接纳子结果；内部强制执行不得伪造request。原会话归属/请求去重、51能力资格/费用/冷却/目标冻结、取消来源与同父提交须另验。accepted唯一安装原辅助e0根，rejected无根/无施放付款或新冷却；真实新输入取消旧自动路线/木柴/便携读条仍按各原owner，不因拒绝恢复。 万物回春仅三项HP恢复能力的成功接纳可抽，null无抽、false为实际抽失败；费用/资格先过、原本人流一次、整笔来源另验。 三项HP治疗成功接纳显式冻结九天/妙手有效等级0..40，原规则与学习证明另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "request",
+    "rules_hash",
+    "outcome",
+    "action_id_or_null",
+    "reason_or_null",
+    "cancelled_firewood_action_id_or_null",
+    "cancelled_portable_channel_id_or_null",
+    "physician_double_heal_proc_or_null",
+    "random_flow",
+    "physician_heal_potency_snapshot_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/properties/admission_event_id"
+    },
+    "request": {
+      "$ref": "urn:solorxjh:player-support-cast-command:v1"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/properties/rules_hash"
+    },
+    "outcome": {
+      "enum": [
+        "accepted",
+        "rejected"
+      ]
+    },
+    "action_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:player-support-cast:v1#/properties/action_id"
+        }
+      ]
+    },
+    "reason_or_null": {
+      "enum": [
+        null,
+        "source_unavailable",
+        "action_occupied",
+        "hard_controlled",
+        "ability_not_eligible",
+        "cooldown_active",
+        "insufficient_mana",
+        "insufficient_hp",
+        "insufficient_stamina",
+        "activity_forbidden",
+        "invalid_target",
+        "out_of_range",
+        "blocked_line_of_sight",
+        "no_effective_recipient",
+        "weapon_incompatible",
+        "mode_incompatible"
+      ]
+    },
+    "cancelled_firewood_action_id_or_null": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/$defs/cancelled_firewood_action_id_or_null"
+    },
+    "cancelled_portable_channel_id_or_null": {
+      "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/cancelled_portable_channel_id_or_null"
+    },
+    "physician_double_heal_proc_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "effective_grade",
+            "triggered"
+          ],
+          "properties": {
+            "effective_grade": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40
+            },
+            "triggered": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "random_flow": {
+      "$ref": "urn:solorxjh:random-decision-flow:v1"
+    },
+    "physician_heal_potency_snapshot_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "jiutian_effective_grade",
+            "miaoshou_effective_grade"
+          ],
+          "properties": {
+            "jiutian_effective_grade": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 40
+            },
+            "miaoshou_effective_grade": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 40
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "accepted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "action_id_or_null": {
+            "$ref": "urn:solorxjh:player-support-cast:v1#/properties/action_id"
+          },
+          "reason_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "action_id_or_null": {
+            "type": "null"
+          },
+          "reason_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "rejected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "physician_double_heal_proc_or_null": {
+            "type": "null"
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "ability_id": {
+                "not": {
+                  "enum": [
+                    "aux_physician_b60204cb457b",
+                    "aux_physician_e43a618d588b",
+                    "aux_physician_175aca784fbb"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "physician_double_heal_proc_or_null": {
+            "type": "null"
+          },
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "$ref": "#/$defs/physician_proc_random_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "accepted"
+          },
+          "request": {
+            "properties": {
+              "ability_id": {
+                "enum": [
+                  "aux_physician_b60204cb457b",
+                  "aux_physician_e43a618d588b",
+                  "aux_physician_175aca784fbb"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "physician_heal_potency_snapshot_or_null": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "physician_heal_potency_snapshot_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "physician_proc_random_binding": {
+      "if": {
+        "properties": {
+          "physician_double_heal_proc_or_null": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "owner_kind": {
+                      "const": "character"
+                    },
+                    "draws": {
+                      "minItems": 1,
+                      "maxItems": 1,
+                      "items": {
+                        "properties": {
+                          "purpose": {
+                            "const": "physician_double_heal"
+                          },
+                          "low": {
+                            "const": 0
+                          },
+                          "high": {
+                            "const": 9999
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

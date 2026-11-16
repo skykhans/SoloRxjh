@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:character-activities:v1",
+  "$comment": "character.activities唯一完整根，当前只登记story_boss引用；无活跃首领时显式null，不用空对象/数组或缺键。六转影子/武勋引用仍在原任务owner，不复制到本根。完整角色生命/位置/其他挑战互斥及world双向来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "story_boss"
+  ],
+  "properties": {
+    "story_boss": {
+      "$ref": "urn:solorxjh:story-boss-entry-event:v1#/$defs/active_reference"
+    }
+  }
+}

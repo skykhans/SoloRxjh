@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:normal-attack-input:v1",
+  "$comment": "原完整玩家普通根四个冻结数值字段联合投影；攻击武功复用此相同四字段结构约束，语义分别沿normal_attack_input/martial_attack_input原owner，不复制schema或input包装。区间有序、真实合成来源与逐次安全运算另验；不含阶段系数、一次性次击加成、暴击或命中时回调，不是完整动作。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "attack_min",
+    "attack_max",
+    "accuracy",
+    "flat_power_per_hit"
+  ],
+  "properties": {
+    "attack_min": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "attack_max": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "accuracy": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "flat_power_per_hit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  }
+}

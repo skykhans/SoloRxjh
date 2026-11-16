@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dongling-direct-attack-admission:v1",
+  "$comment": "内部强制普通攻击/攻击武功成功接纳十字段子结果，action引用唯一正常完整根，不复制候选/选择/用户命令/成功标志。选票随机仅归原choice；本流只记正常接纳实际触发，NPC空流。原完整父与费用/目标/来源及同T成功另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "event_id",
+    "rules_hash",
+    "source_actor_id",
+    "action_id",
+    "random_flow"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:direct-attack-admission-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:direct-attack-admission-result:v1#/properties/world_step"
+    },
+    "event_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-result:v1#/properties/event_id"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:direct-attack-admission-result:v1#/properties/rules_hash"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:dongling-random-walk-intent:v1#/$defs/source_actor_id"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+    },
+    "random_flow": {
+      "$ref": "urn:solorxjh:random-decision-flow:v1"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^player-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "items": {
+                  "properties": {
+                    "owner_kind": {
+                      "const": "character"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^ordinary-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^training-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

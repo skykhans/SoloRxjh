@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-15",
+  "updated_on": "2026-11-16",
   "status": "full_local_quest_design_not_implemented_not_balanced",
   "source_policy": {
     "source_ref": {
@@ -121,7 +121,28 @@
       "item_id"
     ],
     "capacity_failure": "个人后腿新堆/来源合堆及重量统一预检；原死亡无物结果持久化，腾包/重连/新轮不补发。",
-    "commit": "本owner蛤蟆唯一原死亡事务，普通经验历练银一次及个人任务物05/19同笔，任务物不受终结者/修炼倍率。"
+    "commit": "本owner蛤蟆唯一原死亡事务，普通经验历练银一次及个人任务物05/19同笔，任务物不受终结者/修炼倍率。",
+    "result_schema_ref": {
+      "file": "料理材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "source_protocol": {
+      "parent": "仅原蛤蟆唯一死亡决定内部当前活跃本任务的个人子结果；death_id/world/spawn/generation/致死与归属快照从完整原父认证，不另分配通用结算或profile任务掉落日志。未接/已完成/不合格者不造活跃任务子结果。完整普通死亡父严格结构尚待。",
+      "plan": "冻结原本人quest_before与当前attempt真实inventory后腿总量C。C=10记cap_reached/空流；C<10按inventory槽序选首个可接1的同本人/任务/attempt旧堆，否则新堆。原坏源报错不能当容量失败。容量不足记capacity_rejected/空流，死亡持久不补；无随机消费。",
+      "flows": "granted恰loot mint1或mint1→merge两流；loot授权原完整死亡决定，不是子结果自建收据。各流ID由原death_id、本人character_id、quest_id、attempt_id、item_id及流角色的71结构化编码派生，沿原身份owner确定，禁止冒号拼接猜角色。新堆沿原死亡结算全局ordinal，不能每人每任务归零导致冲突。merge输入恰旧头再临时mint，唯一输出保旧ID/origin/槽/quantity旧+1/revision旧+1；两输入贡献全量覆盖。临时mint退休不物化。",
+      "commit": "原死亡普通收益与各成员个人结果同一共同决定；仅granted实际插入1及库存修订推进，cap/capacity不写任务物数量或本子结果专属修订，角色总修订由原死亡全奖励统一一次推进。子结果不可另写quest进度计数，quest_before不因收齐改持久phase。",
+      "replay": "按原死亡及本人本轮唯一键持久成功或无物结果；原任务已放弃/新轮或物已交/丢后只回原结果，不补发/激活旧轮。未决原死亡先收束再接取放弃交付；来源闭包保原mint/merge及后续终结。",
+      "equalities": "granted时C=0必无旧输入，C=1..9必合首个真实同轮旧堆；该旧量Q在1..C，revision<=MAX-1，输入正文/旧输出/角色与quest_before.attempt_id必须逐项等真实源。新建结果量1/revision0；合并结果原ID/origin与quantity=Q+1/revision旧+1，贡献旧Q+mint1。任何分支不写ready_to_turn_in；持量10只作派生就绪。cap/capacity无流且不预留堆ID，普通收益不因个人任务容量失败消失。",
+      "death_identity_owner_ref": {
+        "file": "制药材料任务与泫勃熊.v1.json",
+        "pointer": "/respawn/death_identity"
+      },
+      "death_id_binding": "receipt_key.death_id必须等认证原普通怪死亡event_id；四原蛤蟆spawn/monster/map精确对应，不将料理子结果、任务attempt或新请求ID当death_id。",
+      "death_outcome_owner_ref": {
+        "file": "制药材料任务与泫勃熊.v1.json",
+        "pointer": "/respawn/death_outcome"
+      }
+    }
   },
   "monster": {
     "monster_id": "hyunbo_frog5",
@@ -222,11 +243,33 @@
       "skills": [],
       "aggression": "明确本地被动，仅被攻击才仇恨，不借来源空值称官方被动；脱战沿原规则。",
       "safe_zone": "地图全部安全区禁止敌对进入/出生，沿路返home恢复，不瞬移。"
+    },
+    "state_machine_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/ordinary_ai"
     }
   },
   "respawn_owner": {
     "file": "制药材料任务与泫勃熊.v1.json",
     "pointer": "/respawn"
+  },
+  "persistent_state": {
+    "field": "character.quests.ref_QREF-63791-001",
+    "schema_ref": {
+      "file": "料理材料任务状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "phase": "not_accepted",
+      "attempt_id": null,
+      "completion_receipt_id": null
+    },
+    "phase_projection": "原quest.states的not_accepted/in_progress/delivered持久；ready_to_turn_in仅in_progress且本人该attempt的合法inventory材料满足精确10的查询，不写第二状态或数量。其他域出现禁止持有材料是坏来源，不能忽略后报可交付。",
+    "attempt": "本人唯一实际原接取决定产生attempt_id，精确绑定character/本quest及真实接取来源；命令重试保同attempt，放弃后新接取必须新身份。不是由数组长度/当前世界/客户端随意字符串生成。结构沿原任务实物attempt_id定义，新attempt精确取transition_protocol原accept的settlement_id，完整共同父/来源仍须闭合后才能运行。",
+    "transitions": "正式接取not_accepted→in_progress/真实新attempt/null完成；放弃同笔清该attempt全部原材料与in_progress→not_accepted/null/null，保原终结及身份历史，不清别轮/别任务。交付仅in_progress→delivered，保本attempt且completion_receipt_id等唯一原committed交付结算；材料10的消费、5盒授予、原角色/库存修订和状态同父。delivered不能放弃/重新接取，不因换世界/死亡/导入/重放清完成。",
+    "source_validation": "in_progress必须真实接取未放弃/交付且无后继冲突；delivered必须原本人本attempt交付全文/消耗与奖励来源，后续已开盒不要求仍有5盒。not_accepted可以有已放弃历史，但不能存在已交付后被清空状态或孤立本任务活体材料；原来源图及完整决定索引双向核验，不能仅凭三字段推合法。",
+    "initialization": "原新角色及四已知旧源转换到新角色时显式initial，无本任务材料；现行格式缺字段拒绝。导入已有目标保持原已有角色状态与来源，不再次初始化；等级不自动接取或完成。",
+    "boundary": "本任务持久字段/派生ready与状态转移采用，完整quests根及接取/放弃/交付严格父与来源加载仍待，不授权实际发物。"
   },
   "initialization": "new character and known1..4legacy imports explicitly not_accepted/null attempt/no tokens;unknown newer-format missing data rejects;level never auto-completes",
   "pending": [
@@ -278,5 +321,35 @@
     ],
     "opening_weight": "每开1净增30克，30克可行/29克拒绝；原盒数量1或>1均不得以释放材料槽代药品槽。",
     "five_box_total": "5盒100克全部开启→小药25/250克，累计净增150克，无RNG/即时治疗。"
+  },
+  "transition_protocol": {
+    "schema_ref": {
+      "file": "料理材料任务转换事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.cooking_material_task_transition_events",
+    "command": "六键command复用木柴原命令结构，实际业务仅本任务；accept需原金香玉交互/5级/本人合法会话及原资格，abandon需本人in_progress明确确认且interaction_id=null。两操作均沿原alive/out_of_combat/Idle/无challenge门禁。",
+    "identity": "原通用结算分配，request_id为71编码[\"cooking_material_task_transition\",session_id,command_id]，摘要覆盖完整六键command。accept以本原settlement_id作为attempt_id，不再分配attempt计数；reserved仅冻结计划/身份，不提前改状态。不同操作同命令ID异参拒绝。",
+    "plan": "严格rules_hash/quest_before/inventory_before/inputs四键。accept须not_accepted且不存在本任务残物，inputs=[]。abandon只取本人当前attempt全部合法inventory后腿，槽升序，原前输出与完整堆/任务/attempt精确绑定，0..10堆且总量0..10；其他域/旧attempt残物或来源缺失拒绝，不静默略过。",
+    "commit": "accept保原库存与inventory修订，quest_after=in_progress/本settlement_id/null，stack_flow=null。abandon清当前attempt所有inputs对应完整堆/槽，quest_after=not_accepted/null/null；非空输入恰单无mint/无outputs的quest_cleanup流，receipt_id=本settlement，每输入全量一次且顺序一致，inventory修订恰+1；空输入stack_flow=null且inventory修订不变。两操作character修订恰+1，无银/XP/奖励/随机。",
+    "serialization": "原角色命令边界先恢复旧已决定收集/交付/其他事务并核完整before。任务已完成不得转换；旧attempt死亡结果或旧abandon重放不能清新attempt或重新授予材料。未观察的网络请求以真实处理before校验，不猜客户端生成时间。",
+    "abort_recovery": "保原身份/计划从reserved到唯一committed或具名aborted；合法取消/交互失效/状态变化不动业务。保存存疑先重读正式原决定，不能清未决/换ID/重分attempt。原committed回原全文，不重做清理；aborted也保去重。",
+    "registration": "原profile日志/通用character范围未决互斥/新空档案与四旧导入新目标显式[]已登记，已有目标保原历史。schema不证明真实父授权，完整quests根、实际来源加载/输入共同父及Godot仍待，不开放执行。"
+  },
+  "delivery_protocol": {
+    "schema_ref": {
+      "file": "料理材料交付事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.cooking_material_delivery_events",
+    "command": "五键命令结构复用木柴交付command，原本人活跃会话/角色库存修订与真实金香玉交互、本人5级及原交付门禁均通过；不接客户端奖励/数量/attempt覆盖。",
+    "identity": "request_id为71编码[\"cooking_material_delivery\",session_id,command_id]，原通用分配/完整命令摘要及character范围互斥；完成跨世界唯一，不因新command绕过delivered。",
+    "plan": "五键rules_hash/quest_before/inventory_before/inputs/reward_merge_inputs。before须真实本人本轮in_progress，inputs按inventory槽序恰覆盖本人本attempt后腿10、每堆完整旧输出/正文且总量恰10；禁止其他域或旧轮残物。reward_merge_inputs仅实际接收增量的本人inventory同盒/绑定/非任务旧堆，槽序、量1..98且原版本可+1、未占用、源合法，最多5堆。",
+    "allocation": "从真实before先消费后腿释放inventory槽，再将5盒按计划槽序填旧盒至99；R>0仅一新最终堆落最低空槽，0..5接收旧堆。逐物品权限/来源及最终重量原值+100克与槽位同时预检；不自动入仓/行囊、丢弃或部分交付，失败保全部材料。",
+    "flows": "无合堆恰consume→mint两流；有合堆恰consume→mint→merge三流，ID固定本settlement+:stack:consume/:stack:mint/:stack:merge，三流同一原决定。consume只全量终结本人输入且reason=quest_delivery。mint唯一本人held绑定非任务5盒/revision0/无贡献，quest_reward授权原settlement。merge输入先全部旧盒前输出，再临时mint唯一输出；无mint/consumptions，完整贡献守恒，旧ID/槽/修订+1，新R沿唯一新ID。",
+    "new_ids": "沿原stack_identity_v1以全结算新堆ordinal分配，mint ordinal0；无merge时该堆直接成为最终新堆，有merge时临时ordinal0全量消费退役，若R>0最终新堆ordinal1，不复用临时ID。不另分配三次结算或消费随机。",
+    "commit": "真实原源/规则/门禁/前像重核后，同次完整替换消费10/发5盒/布局/来源及quest_after=delivered，保原attempt且completion_receipt_id=本settlement，character/inventory各恰+1。无银流/XP/历练/随机或即时开盒效果，不因完成写第二奖励余额。",
+    "recovery": "reserved只冻结原计划与预留；合法user_cancelled/interaction_invalid/state_changed可唯一aborted不动业务。存疑读正式原决定，committed只回原结果；盒已开启/移动后不得重装，delivered不退回未接。完整父或来源缺失保未决报错，不再分配ID/补盒。",
+    "boundary": "原schema/日志/通用分配及新建导入初始化采用；完整quests/共同父与真实发物、收集掉落来源和Godot仍待，不开放执行。"
   }
 }

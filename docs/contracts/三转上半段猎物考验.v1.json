@@ -16,7 +16,6 @@
     "states": [
       "not_accepted",
       "in_progress",
-      "ready_to_turn_in",
       "delivered"
     ],
     "state_fields": [
@@ -29,7 +28,7 @@
     ],
     "new_role": "not_accepted/nullattempt/stage/violation,emptyreceipts,notokens",
     "accept": "newuniqueattempt/stage1/violation0;lockoriginalrecommendationcarriedunitwithoutcopy;no grant/consume/XP",
-    "readiness": "stage1real10ownattemptgoodtokens;stage2requiresstage1receipt andoriginalrecommendation;violation authoritativecounter,not duplicated inventory",
+    "readiness": "stage1real10ownattemptgoodtokens;stage2requiresstage1receipt andoriginalrecommendation;violation authoritativecounter,not duplicated inventory;ready_to_turn_in is live UI projection only, never persisted; held token/letter changes re-evaluate readiness without stage mutation",
     "stage_indices": [
       1,
       2
@@ -594,6 +593,7 @@
   },
   "initialization": "explicitnewrole/fourknownlegacyimportsnot_accepted/nullattempt/stage/count/emptyreceipts/notokens;importlevelnotprogress;newformatmissingfieldsrejects",
   "pending": [
+    "完整combat/角色quests/world与共同提交及来源加载；两阶段事件跨对象语义与真实保存/重放验证",
     "Godotuppertrial/inventory/violation/save/LANruntime tests",
     "sourcecreature/NPCartandlevel60growthcalibration"
   ],
@@ -620,5 +620,118 @@
     "spawn_method": "0.45mcapsuleplus2mpatrolmarginoutofsolids/safecircles,centralLpathsat0.35mactor",
     "outcome_boundaries": "all0..6eachmapsoneoutcome:0=350000,1..5=175000,6=failure;onlytwoactualinputitemsandonecounter,no wronginventoryduplicate",
     "runtime_proven": false
+  },
+  "persistent_state": {
+    "field": "character.quests.adv_03_upper",
+    "schema_ref": {
+      "file": "三转上半段任务状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "attempt_id_or_null": null,
+      "stage_index_or_null": null,
+      "state": "not_accepted",
+      "violation_count_or_null": null,
+      "stage_receipts": [],
+      "failure_receipts": []
+    },
+    "scope": "原state_fields六键唯一根，不加branch/ready/正确物数量/经验结果副本；本人派别由原角色route与本attempt原接取来源双向认证。",
+    "stage_layout": "接取为新attempt/stage1/count0/空stage_receipts；第一交付消费10原凭证，stage2且stage_receipts恰一条原stage1提交。最终成功state=delivered/stage=null，保原attempt与实际0..5违规，stage_receipts按顺序恰第一交付、最终报告两条；最终不另存第二final字段。",
+    "readiness": "旧设计枚举ready_to_turn_in归UI派生采用，持久只not_accepted/in_progress/delivered。stage1是否可交查本人本轮实际10物/原推荐书/资格，stage2查原第一提交与推荐书及违规资格；物品移仓/消耗不存ready或伪造回退阶段。",
+    "failure": "真实第六次合格错杀在原死亡共同决定记唯一count6失败收据，加入failure_receipts后本轮attempt/stage/count清null、stage_receipts清[]、state=not_accepted。count6只在原失败事件中，不保为活跃计数；原阶段提交历史和清理来源仍保原完整日志，不因清当前数组删除。",
+    "abandon": "确认放弃沿原完整转换决定清本轮状态并保历次failure_receipts不变，原放弃证明保其具名事件日志，不冒充count6失败。原推荐书释放锁但不返还/复制；重接新attempt，计数0。",
+    "history": "failure_receipts是本角色历次第六错杀失败决定有序完整列表，重接/新成功/放弃不清；同决定重放不追加第二次。每条解析原本人adv_03_upper/当时attempt及真实第六死亡，列表内唯一，不能与当前attempt/阶段收据混作同一个身份。新旧attempt原贡献不得串用。阶段收据必须精确原顺序/类型，阶段1与最终报告唯一。",
+    "rewards": "最终count0精确350000XP、count1..5精确175000XP，原经验封顶预览/确认沿原规则；不再存outcome或XP镜像。delivered后错杀不更改计数/已发经验，下半段只读真实delivered来源，不自动升rank3。",
+    "initialization": "新建及四已知旧来源新导入角色完整取本initial；不是把通用attempt_id/branch_id/receipts等模板键合并进本根。已有当前角色缺字段或旧错误violation_count拒绝，不运行时改名/补null。导入已有目标其他角色保持。",
+    "boundary": "六键状态、初始化与接取/放弃严格事件及日志采用；两阶段交付、第六错杀失败/材料死亡严格producer、完整角色quests/world与来源共同决定仍待，结构不证明真实任务交易或D1通过。"
+  },
+  "transition_protocol": {
+    "schema_ref": {
+      "file": "三转上半段任务转换事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.adv03_upper_transition_events",
+    "command": "复用木柴原六键身份/修订/operation/interaction_id。accept为真实本人60级/rank2、adv_02和对应59前置已交、route正邪匹配及原leader/map/2500毫米/LOS、活体离战Idle无冲突活动/交易/未决。abandon仅本人in_progress确认，interaction_id=null；不允许客户端给branch/attempt/材料或推荐书ID。",
+    "identity": "原通用结算，request_id为71确定JSON [\"adv03_upper_transition\",session_id,command_id]，request_digest覆盖完整六键command。同会话先查全部命令正文去重，再沿原owner终态/未决处理。accept的新attempt等identity.settlement_id，不另计数；旧abandon重放不作用于新轮。",
+    "plan": "精确六键rules_hash/quest_before/inventory_before/inputs/branch_id/recommendation。branch由真实route及原branch表认证；abandon沿原accept的同attempt派别。recommendation恰原完成书完整stack及previous_output，是保留/锁定证据而非本次flow输入。本人character绑定/quantity1，quest_scope恰前置quest_id与其真实completion_receipt_id，不改成本上半段attempt。完整原前置最终提交、原held源/域/库存位置均须认证。",
+    "lock": "接取提交后从当前非空上半段attempt及原唯一committed accept.plan.recommendation派生对该原单位的保护，不新增锁布尔/可写推荐书表。原stack版本/数量/来源保持不变，仍本人inventory原实物；背包内整堆排序可保原版本换槽，不复制旧位置为第二事实。到本轮最终消费或真实放弃/第六失败前，移出inventory、合并/拆分/修改该版本或其他消费必须拒绝。放弃前重验与原接取同一原书及源和当前真实位置，不因找不到而补书或换同名书。",
+    "materials": "accept inputs=[]且本人无本任务残物，发现残物拒绝坏来源不清理。abandon inputs按原inventory槽号/stack_id UTF8覆盖当前本人本attempt/branch全部正确凭证完整堆/previous_output；每堆1..10，总量0..10且最多10堆，非法其他域/旧attempt不静默略过。stage2原10件已经消费，inputs必须[]；原推荐书不在inputs，不被quest_cleanup消费。",
+    "commit": "accept不改钱物/布局/堆来源，stack_flow=null，库存修订保持，quest_after为本settlement新attempt/stage1/count0/空阶段收据，保原failure_receipts。abandon非空材料恰单无mint/outputs的quest_cleanup流，receipt_id=本settlement，inputs等计划原顺序，每输入完整量恰一次消费；空材料flow=null。清本轮为原未接初值但保原failure_receipts，释放原书派生保护，不返书/重铸/改书来源。两操作character_revision_after=expected+1；库存仅非空清理+1，否则保持，预检所有溢出。无XP/银/历练/随机/奖励/晋级或补材料。",
+    "phases": "reserved只冻结身份/计划并按原counter持久预留，不改任务/保护/材料/修订。committed唯一同父提交；aborted只原合法user_cancelled/interaction_invalid/state_changed，业务与保护不变。保存/来源存疑不伪造普通取消，保原未决；按原共同保存查询正式决定，不换ID/重抽推荐书或重接。",
+    "source_retention": "保原完整accept/abandon、前置最终授书和每个材料原生产/消费、历史失败。failure_receipts不得因本转换清除/追加；阶段收据清当前态不删原已提交历史。当前无推荐书但也无合法终结是坏来源，不能从任务未接推断从未授予或再次发书。",
+    "joint_commit_owner_ref": {
+      "file": "档案共同提交.v1.json",
+      "pointer": ""
+    },
+    "remaining": "接取/放弃、两阶段交付及正确材料/错杀死亡子结果结构与职责采用；完整quests/角色/world及combat共同父、来源实际加载和LAN交付仍待。"
+  },
+  "stage_protocol": {
+    "schema_ref": {
+      "file": "三转上半段阶段提交事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.adv03_upper_stage_events",
+    "command": "严格六键：原交付五键加confirmed_experience_cap_loss。只受理真实本人当前attempt与stage1真实examiner、stage2真实leader及对应map/距离2500毫米/LOS，60级以上rank2、原route及前置完成、活体离战Idle且无冲突交易/活动/未决。阶段和分支由权威状态推导，不接受客户端选择。",
+    "identity": "原通用结算；request_id为71确定JSON [\"adv03_upper_stage\",session_id,command_id]，request_digest覆盖完整六键command。先跨owner查原请求全文去重，再预留原counter；重放返回原决定，不再消费或发经验。",
+    "plan": "预览冻结严格九键rules_hash/quest_before/inventory_before/inputs/branch_id/recommendation/progress_before/qigong_before/experience_or_null。核原accept同attempt、原推荐书完整stack/previous_output与当前真实inventory位置；整堆排序可变槽但不改原版本/数量/来源。输入按库存槽及stack_id UTF8排序，覆盖全部应交当前实物。禁止临提交换书、补书或换预览。",
+    "stage_one": "只stage1，inputs覆盖本人本attempt/branch全部正确凭证，1..10完整堆且总量恰10，推荐书仍原锁定单位且不入消费流。唯一stack_flow无mint/outputs，每输入完整数量恰一次quest_delivery，receipt_id=本settlement。quest_after同attempt/count/failure_receipts，stage2、stage_receipts恰[本settlement]；progress_after及qigong_after逐字段等原值，experience_or_null=null且确认false。",
+    "stage_two": "只stage2，原stage1收据须真实已提交；inputs恰原accept同一完整推荐书单位且previous_output一致，不收替代书。唯一flow恰一个输入和quantity1的quest_delivery，无mint/outputs，receipt_id=本settlement。quest_after同attempt/count/failure_receipts、delivered/stage=null，stage_receipts恰[原stage1,本settlement]，释放已消费原书的派生保护。",
+    "experience": "只最终阶段：count0 base_award350000，count1..5为175000；credited=min(base_award,371126840985-progress_before.total_xp)，discarded=base_award-credited，after.total_xp=before+credited。无倍率、补满、历练、银两、道具或rank3；rank保持2、route保持，hp/mana/stamina保持原值。不可套用战斗死亡资源奖励封装。",
+    "point_awards": "other_rewards.point_grant=false仅禁止任务直接发点；经验正常跨级必须执行升级发点.v1.json原规则，仅超过原covered_level的新覆盖区间追加普通升级气功点。rank2不发升天气功点。qigong_after保原allocations/learned_manuals/anti_allocations/anti_cooldowns/ascension_unallocated及旧spans；仅依法追加跨度、推进covered_level、增加qigong_unallocated，不自动学技能或重领已覆盖点。",
+    "cap_confirmation": "discarded>0必须已向用户展示与本冻结计划完全一致的base/credited/discarded及原成长修订预览，并取得本次明确确认，command=true；discarded=0严格false。stage1严格false。确认不能沿用到不同修订或新预览；状态变化原请求中止state_changed，新请求重新预览确认。",
+    "revisions": "两阶段character_revision_after与inventory_revision_after分别等各expected+1，预检溢出。原任务/原来源/库存/成长/气功均须与冻结计划及实际同父状态匹配；任一不符不得部分消费、推进或发经验。",
+    "ordering": "同固定步先处理死亡结算/错杀违规及第六次失败，再核NPC最终交付；存在待处理第六错杀不得先交书规避。第六失败不借用本交付事件。",
+    "phases": "reserved只持久原身份/counter和完整冻结计划，业务不变；committed同完整角色/档案共同提交任务、流、成长、气功和修订；aborted仅原三原因且业务不变。保存不确定保原候选/身份并沿共同提交正式文件恢复，不伪造取消、重抽或再次发放。",
+    "joint_commit_owner_ref": {
+      "file": "档案共同提交.v1.json",
+      "pointer": ""
+    },
+    "level_awards_owner_ref": {
+      "file": "升级发点.v1.json",
+      "pointer": ""
+    },
+    "remaining": "结构与语义职责采用；完整quests/角色/world父、来源实际加载、LAN交付及Godot仍待。"
+  },
+  "material_death_protocol": {
+    "schema_ref": {
+      "file": "三转上半段材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "parent": "原正确怪唯一权威死亡完整共同决定中的adv03_upper_material_results数组，按character_id UTF8有序且唯一、最多6人；非独立日志/结算身份/计数，四种上半段怪接入原公共普通怪actor/生命周期及十二键死亡业务结果，完整combat/角色/world共同父仍待。",
+    "qualification": "仅本人原活跃stage1，同原accept attempt/route/branch/map及仍被保护的原推荐书；对应collection.producers原正确怪。独杀原death owner或19原权威队伍死亡成员快照中活体/在线/同场景且原规则距离合格者，逐人恰一结果，不能客户端漏选/复用另一死亡资格。阶段2或未接/已交不产生材料子结果。",
+    "held_quantity": "重算本人本attempt/branch全部当前合法held正确凭证，严格0..10；非法域/旧轮残物/坏源拒绝完整候选，不静默忽略。合堆采用现有原策略，已有量1..9选择原库存顺序第一个合法同merge-key整堆，保原previous_output；总量不等于单堆数量时不得混淆。",
+    "decision": "满10仅cap_reached无流；0..9经原容量/重量/布局检查，可入则granted一件固定100%，无任务随机抽样或倍率。容量不足capacity_rejected无流，原死亡决定保失败，不在腾位/重连/重放时补发。",
+    "flows": "granted先单loot mint数量1/revision0/本人character绑定/current attempt/branch的good单位；若原held>0紧接单merge，输入恰原计划merge_input.previous_output与本mint唯一输出，输出总量原选堆+1，完整贡献守恒。各流receipt_id及原死亡内有序flow_index沿物品来源owner生成，禁止新增通用结算身份。无消费/场景掉落/共享争抢。",
+    "after": "任务六键与原推荐书版本/来源保持；仅成功改变本人库存/实物，character与inventory修订按完整死亡父既有一次提交规则递增，不能每个子业务各加一次。普通XP/历练/银及其他死亡收益原处理一次，与本子结果和所有受影响角色/world同父原子保存。",
+    "source": "保原完整死亡/致死/成员快照、原accept/推荐书及mint/merge完整闭包，按原死亡+character+attempt+kind唯一认证。reserved或未确认父不产生held，重放不再mint；capacity/cap结果不授权来源节点。",
+    "joint_commit_owner_ref": {
+      "file": "档案共同提交.v1.json",
+      "pointer": ""
+    },
+    "remaining": "七键子结果与职责采用；完整combat/角色/world共同父、实际来源加载与Godot仍待。"
+  },
+  "wrong_death_protocol": {
+    "schema_ref": {
+      "file": "三转上半段错杀死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "parent": "原错怪唯一权威死亡完整共同决定的adv03_upper_wrong_results数组，character_id UTF8有序唯一且最多6；不新建profile日志/counter/结算身份。子结果只有父committed才生效，四种60级怪复用原公共普通怪actor/生命周期及十二键死亡业务结果，完整共同父仍待。",
+    "qualification": "按wrong_kill及19原死亡归属/队伍成员快照，匹配本轮原accept branch/map及错怪、本人活跃stage1或2/活体在线同场景距离资格；逐人恰一结果，背包满/超重也必须计数。原推荐书恰原accept完整单位和previous_output仍合法held/inventory，保护直到真实第六失败提交后释放。",
+    "counts": "before count0..5，violation_count_after恰before+1。1..5时quest_after除计数外逐字段等before，cleanup_inputs=[]、flow=null、failure_receipt=null，原推荐书/凭证不变。不得产生虚拟错物或第二可写计数。",
+    "sixth": "before count5时after6只存在本原死亡子结果，不写入任务根；failure_receipt_id_or_null恰原父唯一death_id，不分配新失败ID。quest_after为原not_accepted六键初值，但failure_receipts恰原列表末尾追加本death_id一次；清本轮stage_receipts/attempt/stage/count，保所有原阶段事件与本轮原accept和失败历史。",
+    "cleanup": "仅第六且stage1，cleanup_inputs覆盖本人本attempt/branch所有当前正确凭证完整堆和previous_output，按库存槽/stack_id UTF8，0..10堆、总量0..10。stage2已交10件必须[]。非法旧轮/域/坏源拒绝共同候选，不漏清或静默修复。原推荐书仅证据，不作为输入/重铸/返还；提交后派生保护释放，保持其原版本与来源。",
+    "flow": "inputs空严格null；非空恰单原quest_cleanup流，receipt_id沿原父death_id及其原flow_index，逐项引用计划输入，完整数量各一次，无mint/outputs。第六失败本身不发经验/银/历练/点/物/补偿，不自动重接。",
+    "ordinary_rewards": "普通怪XP/历练/银与其他原死亡收益照常一次处理，与错杀计数/失败/材料清理/全部受影响角色/world同一个完整共同父提交；任务失败不回滚普通收益，不第二次调用死亡奖励。修订按原完整死亡事务一次推进，不按每个子结果叠加。",
+    "ordering": "同固定步先完整死亡及所有个人错杀结果，再受理NPC阶段交付；第六错杀未决冻结依赖本轮交付，不能先交书或先放弃避开应计失败。",
+    "replay": "原death_id+character+原attempt+wrong种类绑定唯一原子决定，全文重放只认原结果；失败后新attempt不被旧死亡再扣。保原父死亡/成员快照/accept/书及材料完整生产消费闭包，不能以当前未接或现物缺失推断失败已处理。",
+    "joint_commit_owner_ref": {
+      "file": "档案共同提交.v1.json",
+      "pointer": ""
+    },
+    "remaining": "九键错杀子结果及职责采用；完整combat/角色/world共同父、来源认证/加载、LAN与Godot仍待。"
+  },
+  "ordinary_lifecycle_owner_ref": {
+    "file": "制药材料任务与泫勃熊.v1.json",
+    "pointer": "/respawn"
   }
 }

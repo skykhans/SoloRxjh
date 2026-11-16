@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-15",
+  "updated_on": "2026-11-16",
   "status": "schema5_life_cycle_design_not_implemented",
   "source_policy": "新档项目生命周期规则，替换早期死亡等回城才保存的草案；旧schema1～4仍严格拒0HP，不把新规则倒用到坏旧档。",
   "states": [
@@ -32,6 +32,14 @@
     "shield_break_penalty"
   ],
   "on_death": "first complete configured interception; if not intercepted atomically HP0+awaiting_respawn+death receipt+activity failure/resource effects. Cancel root input/accepted future attack emissions according to death rules, clear death-cleared chord/rage/shield/charge. Preserve actual inventory/XP/currency/quest/claim rights/cooldowns except the exact registered equipment_death_effects: worn chuchen-ring consumption and eligible merit-jewelry hostile-death durability loss. Do not extend these exceptions to other items. Do not grant22pack or rewind paid items.",
+  "supreme_in_place_respawn_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/in_place_respawn_effect"
+  },
+  "supreme_experience_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/death_experience_effect"
+  },
   "posthumous_effects": "Only already committed standalone world status effects explicitly allowed by their owner remain under original persisted source identities. Death stops all other not-yet-resolved offensive descendants of this actual actor, including in-flight projectiles, and cancels future emissions once under offensive_stop. Completed damage is never undone; no actor revival, action resumption or cooldown refund. Source identity does not require a live node.",
   "death_page": "no gameplay move/attack/skill/loot/shop; settings/chat/save allowed; explicit respawn choice. LAN other actors/world continue; offline death page pauses as modal. Save and return to selector do not silently respawn.",
   "ordinary_save": "persist death fixed-step result and current final revision immediately when possible; prior ordinary save-waits-action requirement does not wait forever for a cancelled dead action. On failure retain old file and committed dead memory/unsaved indication, retry same receipt.",
@@ -112,16 +120,20 @@
     "request": "六键command仅原会话/命令ID/两预期修订/原death_event_id/显式choice_id。request_id=71确定JSON [\"respawn\",play_session_identity.session_id,command_id]，digest完整六键command的71编码SHA256；同请求先查原决定，异正文拒绝，不因本人后来已活或死亡ID不同而再补满。",
     "journal": "原authority数组依allocation_index递增，预留追加/决定原位替换，至多一reserved且同角色跨owner互斥。新profile/四已知旧导入新目标[]，已有profile保日志，当前缺字段拒绝。",
     "preflight": "原会话真实active且world/authority/角色匹配、本人awaiting_respawn/HP0、完整pending_death及原已提交死亡来源通过，command.death_event_id精确当前原值，两修订等实际且角色可+1；死亡页明确选项，不依活体NPC上下文。当前完整角色/活动/装备效果/预算与实际资源上限合法，不从坏根生成满血候选。",
-    "choice": "无training_gate_choice只允许return_to_workcamp→story_workcamp_start；有原注册修炼房扩展仅允许原revive_in_same_room/leave_to_hyunbo。前者用原room_map_id/实际死亡姿态，后者精确training_gate_hyunbo_return锚。原来源/地图/活动须一致；客户端不能发目的地、最大资源、HP、无敌期或清活动字段。",
-    "plan": "冻结原rules_hash及严格pending_death_before全部原键，逐字段等同快照正式死亡记录，command死亡ID同源；不复制第二份完整角色、位置或最大资源。预检原选项目标场景/姿态/导航/碰撞以及完整候选，失败不预留不清死亡。",
+    "choice": "无training_gate_choice通常仅return_to_workcamp→story_workcamp_start；另登记supreme_revive_in_place专用分支，严格沿supreme_in_place_respawn_owner_ref的30非修炼图/无活动/真实权益/原死亡姿态限制，完整父未闭合仍禁执行；有原注册修炼房扩展仅允许原revive_in_same_room/leave_to_hyunbo。前者用原room_map_id/实际死亡姿态，后者精确training_gate_hyunbo_return锚。原来源/地图/活动须一致；客户端不能发目的地、最大资源、HP、无敌期或清活动字段。",
+    "plan": "冻结原rules_hash及严格pending_death_before全部原键，逐字段等同快照正式死亡记录，command死亡ID同源；至尊原地分支额外必需supreme_source_receipt_id并指本人当时真实服务激活来源；普通/修炼分支禁止该字段。提交来源须仍等原预留，续期改变则state_changed中止；不复制第二份完整角色、位置或最大资源。预检原选项目标场景/姿态/导航/碰撞以及完整候选，失败不预留不清死亡。",
     "reserve": "通用counter+1与reserved同authority保存，死亡/角色两修订/位置/活动与world保持。目标占用/世界与其他角色可变化；提交必须重验，不把预留当无敌或成功复活。写盘存疑先重读原决定。",
     "commit": "同authority锁下重核原会话/两修订/完整死亡原值/规则/目的地与合法当前构筑。写原精确姿态、life_state=active、pending_death=null，HP/mana/stamina各填当前验证上限；正常14规则：梅障力满/愤怒0、乐和弦none但设置保留、甄护盾消失/充能0，刺客点/韩血窗口等死亡后状态不复原。满体力清恢复余数，原恢复等待及技能/药品/反气功冷却保持。character_revision=expected+1，inventory_revision=expected，committed_world_step为实际authority复活决定步；不重跑创建模板或引发独立正常攻击/药品/BUFF。",
-    "activities": "有实际首领引用沿story_boss_respawn_exit同笔清引用/填原attempt.respawn_settlement_id=本identity.settlement_id，保胜利/失败/待领奖励。其他活动必须由各原owner明确登记合法死亡离场差异及完整来源后才允许此复活提交；未登记/未收束活动拒绝，不用通用清所有活动或部分复活。修炼房扩展不得与私人失败活动混用。",
-    "allowed_diff": "仅原生命/当前资源与14职业复活字段、满体力余数、精确位置/业务修订、明确登记同源活动离场、原日志及必要协议元数据。钱物/XP/任务/技能学习/装备/配置/冷却/权利/别角色/world状态保持；无收费/退款/新手包/无敌/新活动轮次。完整候选联验后一次替换。",
+    "activities": "有实际首领引用沿story_boss_respawn_exit同笔清引用/填原attempt.respawn_settlement_id=本identity.settlement_id，保胜利/失败/待领奖励。其他活动必须由各原owner明确登记合法死亡离场差异及完整来源后才允许此复活提交；未登记/未收束活动拒绝，不用通用清所有活动或部分复活。修炼房扩展不得与私人失败活动混用。 六转两具名私场沿private_trial_exit_owner_ref登记，原主放弃意图清理为该注册owner的精确任务差异例外，不再申请独立返回身份。",
+    "allowed_diff": "仅原生命/当前资源与14职业复活字段、满体力余数、精确位置/业务修订、明确登记同源活动离场、原日志及必要协议元数据。钱物/XP/任务/技能学习/装备/配置/冷却/权利/别角色/world状态保持；无收费/退款/新手包/无敌/新活动轮次。完整候选联验后一次替换。 六转已注册同源主放弃，仅按private_trial_exit_owner_ref在成功复活返回同笔清adv06当前字段，历史不删；不扩大为任意任务清理。",
     "abort": "仅user_cancelled/session_invalid/destination_unavailable/state_changed；保持原死亡/位置/两修订/原活动与实际等待状态，计数及原请求历史保留。选择目标受占不自动选另一个选项；须新明确请求。同请求已committed只回原结果，不再恢复资源。",
     "history": "仅原committed授权由该pending_death_before死亡到活体及相应姿态/资源，精确核同角色/原死亡/选项/上限/修订/活动离场；同一真实death_event_id最多一次成功复活，跨命令ID重复提交亦拒绝。原死亡来源及复活历史保留，不能用现在已在工棚/满血猜证明。",
     "lan": "authority先保存唯一完整决定与原连续结果，client保存本合法after/head/证明后ACK。未ACK/存疑保原会话守卫及活动所需恢复现场，不在client本地先复活或发另一离线副本。原死亡角色接纳计时沿dead_presence_clock；复活不按缺席墙钟追扣。",
-    "remaining": "严格复活结构及原差异设计采用；原致死源/共同原子提交与完整角色-world根、实际接纳时钟、其他活动离场注册与多接收保存仍待，不据schema启用运行。"
+    "remaining": "严格复活结构及原差异设计采用；原致死源/共同原子提交与完整角色-world根、实际接纳时钟、其他活动离场注册与多接收保存仍待，不据schema启用运行。",
+    "private_trial_exit_owner_ref": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/respawn_exit"
+    }
   },
   "equipment_death_effects": {
     "consumption_owner_ref": {
@@ -148,29 +160,41 @@
       "file": "角色死亡事件.schema.json",
       "pointer": ""
     },
-    "authority": "仅原authority从已验证致死原动作/周期/环境/脚本/配置结果构造五键command；客户端不能直接提交本请求、原因、死亡页或设备损耗。lethal_event_id为原实际致死结果身份，due_world_step为原逻辑处理步，不按墙钟或客户端0HP触发。",
+    "authority": "仅原authority从已验证致死原动作/周期/环境/脚本/配置结果构造五键command；客户端不能直接提交本请求、原因、死亡页或设备损耗。lethal_event_id为原实际致死结果身份，due_world_step为原逻辑处理步，不按墙钟或客户端0HP触发。 血魔失败仅接blood_devil_terminal_owner_ref的failed严格终止子结果，lethal_event_id等其event_id，pending_death.cause_kind=blood_devil_failure；already_dead终止清理不能再建一笔死亡。",
     "identity": "request_id=71确定JSON [\"character_death\",play_session_identity.session_id,lethal_event_id]，digest完整五键command的71编码SHA256。先查同致死原决定，原同角色/会话/致死结果仅一死亡；分配通用identity时pending_death_after.death_settlement_id=本settlement_id，death_event_id=command.lethal_event_id，不另造可变死亡计数。",
     "journal": "profile原数组allocation_index递增，预留追加/决定原位替换，至多一reserved，同角色跨owner互斥；新profile/四已知旧导入新目标[]，已有profile保持，当前缺字段拒绝。",
     "admission": "实际原会话/authority/world/角色与两预期修订匹配，正式before仍active且HP>0；完整原致死结果候选完成合法拦截/护罩破裂联动及实际终态生命裁定。拦截成功/非致死/尸体/旧死亡重放不新分配。原死亡候选/完整装备位置来源/活动终局与所有所需修订合法后才预留。",
-    "source_atomicity": "真实致死分支由本death_events原authority事务独占协调：只有本死亡记录分配一次通用结算identity、持一次同角色业务reserved；原致死战斗结果是同次决定内的原来源子结果，不另分配通用结算编号/请求/跨owner业务reserved。其原action/root/target/ordinal身份与顺序照常保存，不伪造另一个伤害决定。原伤害不能先提交active HP0再补本事件，预留保上次完整正式before与可恢复原致死候选来源。原伤害结构尚须明确采用该子结果模式，未采用前禁止运行，不放宽通用跨owner互斥。",
-    "plan": "rules_hash原冻结包；pending_death_after复用原严格六键/修炼条件扩展，death_event_id/结算/原因/原致死实体/实际失败活动与原结果精确一致。equipment_before为死亡前生效组五槽完整实例/null，原位置/唯一所有权/来源逐项等正式before；不是死亡后清槽状态或备用组，不重复存HP/整个角色。",
+    "source_atomicity": "真实致死分支由本death_events原authority事务独占协调：只有本死亡记录分配一次通用结算identity、持一次同角色业务reserved；原致死战斗结果是同次决定内的原来源子结果，不另分配通用结算编号/请求/跨owner业务reserved。其原action/root/target/ordinal身份与顺序照常保存，不伪造另一个伤害决定。原伤害不能先提交active HP0再补本事件，预留保上次完整正式before与可恢复原致死候选来源。原伤害已采用同事务子结果形状，但执行前context/父决定和来源尚未闭合，闭合前禁止运行，不放宽通用跨owner互斥。 血魔failed终止亦为本次死亡父事务的原致死来源子结果，不另预留跨owner结算，不反向复制本死亡ID，不调用致命拦截。",
+    "plan": "rules_hash原冻结包；death_location必需且逐字段等原致死决定落定时正式character.location（map_id/position脚位置/yaw），保原精确姿态，不取UI/尸体节点或附近可走点。有training_gate_choice仅允许36修炼图且death_location.map_id/position/yaw逐字段等原room_map_id/death_position_feet_m/death_yaw_radians；无扩展禁止36修炼图。schema只约束地图族，具体房间与姿态相等必须原来源联验。原world/authority沿command真实会话，私场实例沿原致死scope与活动完整来源认证，不能只凭同map_id混实例。pending_death_after复用原严格六键/修炼条件扩展，death_event_id/结算/原因/原致死实体/实际失败活动与原结果精确一致。equipment_before为死亡前生效组五槽完整实例/null，原位置/唯一所有权/来源逐项等正式before；不是死亡后清槽状态或备用组，不重复存HP/整个角色。",
     "commit": "重核完整原before/两修订/会话与致死结果；committed_world_step精确due_world_step。同一次替换写HP0/awaiting_respawn/冻结原pending_death_after，按on_death清原职业/效果/攻击发射与恢复状态、保原冷却/称号；原活动依已登记终局规则同步失败或保先前胜利，equipment_death_effects全部一次应用。character_revision=expected+1；inventory_revision仅实际死亡装备变化时expected+1，否则expected，所需溢出拒绝原完整致死候选。配置revision/latest保持。 原致死主结果与本死亡共享该次角色/库存修订推进，不再以两个子事件各加一次；共同结果必须只有一份实际角色after与一致来源。 同笔写offensive_stop完整清单并应用原offensive_stop停止规则；无待停止项也须真实source_actor_id与显式空root_event_ids，不省略字段。",
     "instance_flow": "无实际出尘戒消耗或武勋耐久变化时明确null；否则恰一原instance_flow，receipt_id=identity.settlement_id。inputs精确死亡前需变化的真实held实例，出尘戒每输入恰一death_consumption退役无输出，变化武勋首饰每输入恰一revise输出、耐久及来源/实例revision精确原算式，既有owner/血统/创建/加工链保持。流与冻结五槽/实际候选双向覆盖，原输入顺序按五槽固定顺序，存续输出/退役按各输入顺序，不夹其他装备、创建/转让/退款或空业务流。",
-    "activities": "仅已登记且完整终局候选可验证的活动允许组合。首领combat本人死沿其state_machine到failed且本失败活动ID；原胜利后死保胜利/权利不伪造失败字段。修炼房原扩展按真实地图/姿态且无冲突私场。其他未闭合活动原死亡失败/费用/参与奖/队列规则先登记再采用，不通用清锁/发参与奖。",
+    "activities": "仅已登记且完整终局候选可验证的活动允许组合。首领combat本人死沿其state_machine到failed且本失败活动ID；原胜利后死保胜利/权利不伪造失败字段。修炼房原扩展按真实地图/姿态且无冲突私场。其他未闭合活动原死亡失败/费用/参与奖/队列规则先登记再采用，不通用清锁/发参与奖。 六转两私场沿private_trial_activity_owner_ref：活动未终局本人死亡则同笔participant_death终局且pending失败活动为原trial_attempt；已提交活人终局后等待返回才死亡则保原终局/奖励、pending失败活动null，沿后继致死与原引用认证，不新增第二终局。",
     "abort": "仅session_invalid/state_changed，非玩家取消。沿composition.abort同次收束未提交致死子结果；原已提交致死不能有本abort，保持既有正式历史。写入存疑先核本唯一原决定，不自动abort/重抽/恢复已扣装备。",
     "history": "原committed授权本死亡与其精确副作用，复活仍只沿respawn_events；同源结果副本逐字段一致不再分配/消耗。原致死/拦截/五槽/实例流/活动与规则证明保持，单个非空ID/HP0/槽已空不足以证明。",
     "lan": "完整死亡/原致死/活动/装备共同结果在authority持久后发本人连续结果；接收端联验并保存原死亡页/来源/head后ACK。未ACK/存疑不在客户端复活、清锁或另开角色世界；其他接收者沿原多接收整笔协议，不能以房主落盘替代全部确认。",
     "remaining": "严格死亡结构与来源/副作用组合设计采用；完整致死动作/周期/环境等原记录、共同原子组合/队列停止、完整角色-world根及多接收实际保存仍待，不能据本schema运行或宣称D1通过。",
     "composition": {
       "admission_boundary": "先在原authority锁内完成原动作/几何/随机/伤害/致命拦截候选计算，非终态死亡走原伤害owner普通分支，不分配死亡。确定本候选真实终态死亡后，本死亡owner预检完整死亡/装备/活动候选及所有上限，再一次分配本identity；不存在先预留伤害日志再等待预留死亡的流程。",
-      "original_source": "lethal_event_id仍是原动作/root/target/hit或tick ordinal所确定的真实唯一事件身份；不是本结算编号，也不因为变为死亡分支改变/重抽。子结果完整保存其原输入/随机位置/实际损失/拦截/因果，结算归属同本identity.settlement_id；该归属引用不作为第二条allocated-settlement identity计入counter覆盖。原具体战斗子结果schema仍待采用。 云心剩余敌伤后仍存活、随后破罩罚血实际致死时，lethal_event_id改取原真实cloud-break子结果身份，原因shield_break_penalty且源实体null；敌伤仅作因果链，不冒充该终态致死。敌伤已经致死则保原伤害身份与原因，破罩结果只引用该既有死亡并记录零罚血。",
+      "original_source": "lethal_event_id仍是原动作/root/target/hit或tick ordinal所确定的真实唯一事件身份；不是本结算编号，也不因为变为死亡分支改变/重抽。子结果完整保存其原输入/随机位置/实际损失/拦截/因果，结算归属同本identity.settlement_id；该归属引用不作为第二条allocated-settlement identity计入counter覆盖。原具体战斗19字段结果形状已采用，完整执行前context及父决定仍待。 云心剩余敌伤后仍存活、随后破罩罚血实际致死时，lethal_event_id改取原真实cloud-break子结果身份，原因shield_break_penalty且源实体null；敌伤仅作因果链，不冒充该终态致死。敌伤已经致死则保原伤害身份与原因，破罩结果只引用该既有死亡并记录零罚血。",
       "reserve": "本profile.death_events唯一reserved与原未发布致死现场候选在同一次完整authority替换中保存；角色保持正式active/原HP及原装备/活动，世界原队列标明该原事件等待决定，不同时应用伤害或继续后续依赖事件。候选不是第二份正式角色after，实际原输入/随机/队列所有权与恢复结构须原战斗owner定义。",
       "commit": "一次完整替换决定原致死子结果、原队列消费/停止、死亡/装备/活动/角色after与本committed；通用counter仅本identity一项，角色业务修订整体+1、库存按equipment_death_effects至多+1。原子结果只有一份实际角色after，不按来源子结果数重复扣HP/随机/装备或加修订。",
       "abort": "本reserved取消仅按原允许session_invalid/state_changed，来源子结果也未提交；保原正式before与原已经提交的其他历史，不撤销旧伤害。源事件是否仍需原位重验由真实原队列/会话收束决定，不能把abort当已完成/移除致死来源或玩家免死。没有该完整队列语义时保未决报错，不制造成功取消。",
       "result": "同一接收角色只发本death_events决定的一条个人连续结果，result_id=本settlement_id，完整来源依赖必须包含同决定的致死子结果/装备/活动证明。不再另发一条将角色推到active HP0的原伤害封套，不先ACK半笔；多接收与world共同证明仍待原协议闭合。",
       "exclusion": "同角色其他owner已有reserved时，先原位收束它再接纳新的依赖战斗步；不能先让致死发生后用第二reserved绕过互斥。不同角色/世界推进仍沿原事务规则，不因本协调者取得整房任意写权限。",
-      "remaining": "本约束固定单协调者/单通用编号与一份角色after，解决双预留互锁的设计歧义；完整致死子结果/队列/恢复与多接收共同记录尚未采用，D1未通过。"
+      "remaining": "本约束固定单协调者/单通用编号与一份角色after，解决双预留互锁的设计歧义；完整致死子结果/队列/恢复与多接收共同记录尚未采用，D1未通过。",
+      "private_trial_exit_owner_ref": {
+        "file": "第六次升职与单机武勋试练.v1.json",
+        "pointer": "/exit_authorization/coordination"
+      }
+    },
+    "private_trial_activity_owner_ref": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/respawn_exit"
     }
+  },
+  "basic_combo_window_owner_ref": {
+    "file": "角色初始模板.v1.json",
+    "pointer": "/basic_combo_policy/persistent_window/death_and_respawn"
   },
   "offensive_stop": {
     "scope": "本角色真实终态死亡同笔停止本人实际source_actor_id生命轮次的直接普攻/攻击武功及未落效进攻后代。不是按reward_owner/profile/队伍清理；伙伴或其他实体不因归属同玩家而自动取消。其他NPC死亡及活动终局停止须各原owner显式接入，不能拿本字段代替完整世界终局。",
@@ -220,5 +244,52 @@
   "cloud_break_result_ref": {
     "file": "医师形移与云心护罩气功.v1.json",
     "pointer": "/persistent_defense_state/cloud_break_result"
+  },
+  "blood_devil_terminal_owner_ref": {
+    "file": "怒气出血与血雨恶魔.v1.json",
+    "pointer": "/blood_devil/persistent_state/terminal_result"
+  },
+  "dodge_stop": {
+    "owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/dodge/stop_binding"
+    },
+    "schema_ref": {
+      "file": "角色死亡事件.schema.json",
+      "pointer": "/oneOf/1/properties/dodge_stop_or_null"
+    },
+    "selection": "原committed死亡决定必有dodge_stop_or_null。只有原before同生命/旧scope尚活跃的闪避才非null，reason=death，cause_event_id等原command.lethal_event_id，world_step等本死亡实际步，source_actor等原offensive_stop.source_actor_id；无活跃闪避必须null。保原已推进e0..23，不加入offensive_stop.root_event_ids直接进攻根清单。",
+    "atomicity": "原死亡父同笔持有唯一中断正文及根stop引用/占用释放，不另起死亡/结算事务；reserved/aborted不含此正式副作用。已完成e24、已停止或此前从未接纳闪避均不生成stop；成功致命拦截不提交死亡或中断。原动作完整占用与world闭包仍待。"
+  },
+  "aux_displacement_stop": {
+    "owner_ref": {
+      "file": "辅助武功采用.v1.json",
+      "pointer": "/assassin_displacement_policy/displacement_advance_binding"
+    },
+    "rule": "原最终死亡父before若同本人生命/旧scope尚有活跃辅助位移，同笔以本committed.identity.settlement_id写其stop_event_id_or_null并释放占用，保最后实际e/位置/首次阻挡引用，不退费或清冷却。无该动作不造停止结果，不把非攻击根加入offensive_stop.root_event_ids。不同于闪避专用中断子结果，此处直接复用原死亡正式身份，无第二日志。完整world动作根及死亡父联验仍待。"
+  },
+  "portable_channel_cancellation_owner_ref": {
+    "file": "便携传送与修炼限制.v1.json",
+    "pointer": "/channel_cancellation_binding"
+  },
+  "gather_stop": {
+    "owner_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": "/root/stop"
+    },
+    "selection": "原committed死亡before同生命/旧scope活跃采集根按accepted_gathers唯一正文解析；同父将stop_event_id_or_null写本committed.identity.settlement_id，保最后真实e及已有effect引用。竹已e13落效的经验/掉落不回滚，未落效不补发；木柴只清仍等本action的collector，保代次/共享冷却且无材料。已自然完成/已停止不覆盖首因。",
+    "atomicity": "沿原死亡决定更新world采集根/本人预留及占用，无独立gather-stop日志/死亡子结果或新结算字段，不加入offensive_stop.root_event_ids直接进攻列表。reserved/aborted无正式副作用，成功致命拦截不当真实死亡；木柴若因该真实敌伤已先取消，保原敌伤取消首因。节点指向别的动作是来源矛盾，拒绝坏父而不清别人。完整死亡world共同父仍待。"
+  },
+  "bamboo_drop_lifetime_owner_ref": {
+    "file": "竹材掉落与拾取.v1.json",
+    "pointer": "/scene/lifetime"
+  },
+  "support_cast_stop_owner_ref": {
+    "file": "辅助武功采用.v1.json",
+    "pointer": "/cast_action_protocol/stop_binding"
+  },
+  "joint_commit_owner_ref": {
+    "file": "档案共同提交.v1.json",
+    "pointer": ""
   }
 }

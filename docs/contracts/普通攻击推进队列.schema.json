@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:normal-offense-advance-worklist:v1",
+  "$comment": "原scope movement_and_due_capture复用七字段剩余队列，接入玩家普通/武功根、本轮六公共普通怪根及两类旧弹体；只保存原ID，不复制kind/正文/完成集。完整实际获步/移动来源、冻结全集/UTF8排序/已处理前缀与剩余后缀另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "rules_hash",
+    "pending_ids"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/world_step"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/properties/rules_hash"
+    },
+    "pending_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+          },
+          {
+            "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/$defs/projectile_id"
+          },
+          {
+            "$ref": "urn:solorxjh:martial-attack-dispatch:v1#/$defs/projectile_id"
+          }
+        ]
+      }
+    }
+  }
+}

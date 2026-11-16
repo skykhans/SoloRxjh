@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-15",
+  "updated_on": "2026-11-16",
   "status": "network_heads_ack_result_envelope_and_proof_storage_design_not_implemented_full_character_and_producers_pending",
   "scope": "原个人连续结果链的水位/ACK、完整封套及原权威/接收证明归属；完整角色/世界及全部producer源尚未闭合，不等于LAN实现。",
   "schema_ref": {
@@ -15,17 +15,21 @@
     "file": "角色会话.v1.json",
     "pointer": "/admission_records"
   },
+  "shared_profile_service_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/world_begin_commit_boundary"
+  },
   "initialization": {
     "new_character": {},
     "known_legacy_import": {},
     "first_lan_admission": "新world的首次accepted在本地active成功保存时加入head：authority_profile_id等原identity，last_applied_sequence=0，四个last_result/保存字段null。离线不创建虚构网络结果。相同world已有head原样保留，不因切角色、离线、换会话、Peer变化或新接纳归零；单独收到rejected或尚未接纳不创建head；无head的正式无资源结束沿first_unactivated_end。",
     "legacy_boundary": "四已知旧来源转换的新角色显式空映射；导入已有档不改其他角色head/world。新格式缺字段拒绝，不补空；空映射不证明无原房主历史。",
-    "first_unactivated_end": "角色在本world尚无head，原authority完整历史也证明此profile/character从未分配个人结果时，合法never_activated结束可作为序号1的首条结果。原authority成员/原begin、本人当前未启用会话的opening/closing守卫、原结束ID/身份及无已启用/无待补结果均须验证。接收端从完整本地正式角色保留业务正文/两修订，按end核before=after=本地角色revision且库存不变，只将原结束证明、guard=null及本world正序号1的head同档保存；不必先写0序号head。saved_profile_revision为该次首次成功保存修订，成功后才累计ACK。无接纳的原world会话字段仍admission/opening_character_base64/saved_ack全null，不能为建立水位伪造accepted。",
+    "first_unactivated_end": "角色在本world尚无head，原authority完整历史也证明此profile/character从未分配个人结果时，合法never_activated结束可作为序号1的首条结果。原authority成员/原begin、本人当前未启用会话的opening/closing守卫、原结束ID/身份及无已启用/无待补结果均须验证。接收端从完整本地正式角色保留业务正文/两修订，按end核before=after=本地角色revision且库存不变，只将原结束证明、guard=null及本world正序号1的head同档保存；不必先写0序号head。saved_profile_revision为该次首次成功保存修订，成功后才累计ACK。无接纳的原world会话字段仍admission/opening_character_base64/saved_ack全null，不能为建立水位伪造accepted。 若已有accepted且ACK晚到期间发生原共享计时/到期，须先按共享接收协议结清本人服务及全角色副作用，并以结清后的真实角色为本结束before；不能从原opening重置角色，也不能因个人链无head断言无共享结果。该共享协议尚待，结构合法的never_activated不解除本门禁。",
     "unactivated_existing_history": "若已有本world head，未启用结束沿原链下一条，不归零；序号及两修订须与本地正式水位/当前守卫和原authority历史相符。client无head而原authority已有该角色个人结果或历史不能完整验证，一律保持未决报错，不用never_activated重置历史。原head/其他world条目不因拒绝或取消删除。"
   },
   "identity": "链键为原authority_profile_id/world_id/profile_id/character_id；profile/character由所在正式角色及原begin绑定，world由映射键绑定，authority保在head且不可变。相同world换authority拒绝，不迁主或合并。原房主另有该角色历史而client无head，必须按分支/来源恢复规则处理，不能视作首次加入。",
   "sequence": "第一条正式LAN结果序号1，0仅代表无已应用结果；之后逐条+1，按该角色在同world全生命周期连续，不按session或通用settlement计数重置。不同角色可各有1，公共世界事件序号不是个人结果序号。一个业务对同接收角色最多一个结果，含该笔全部变更；无业务变化但确需通知的交易abort/会话结束亦按其owner一条正式结果。offline不分配网络序号，end.final_result_sequence仍null。最大安全整数不能再发下一条，预检失败不得先提交无序号业务。",
-  "first_result_baseline": "每次合法新accepted的character_revision/inventory_revision绑定此次冻结opening正文，作为本会话第一条结果的前修订；其结果序号仍等旧head.last_applied_sequence+1。上一次网络结果修订可小于已完成原结束之后合法离线/其他世界成长的当前修订，旧head保原结果事实，不能改写成当前修订。只有原会话已闭合且原世界全部结果/来源一致后才允许新接纳使用新基线；不把分支回滚伪装为合法离线成长。active接纳本身不占正式结果序号、不改业务/库存修订。 从未accepted的无资源结束没有接纳基线，专走initialization.first_unactivated_end：原authority与接收者对当前未启用会话角色两修订及原链尾达成一致；该证明只允许无业务变更清guard，不建立可用于资源玩法的接纳。",
+  "first_result_baseline": "每次合法新accepted的character_revision/inventory_revision绑定此次冻结opening正文，作为本会话第一条结果的前修订；其结果序号仍等旧head.last_applied_sequence+1。上一次网络结果修订可小于已完成原结束之后合法离线/其他世界成长的当前修订，旧head保原结果事实，不能改写成当前修订。只有原会话已闭合且原世界全部结果/来源一致后才允许新接纳使用新基线；不把分支回滚伪装为合法离线成长。active接纳本身不占正式结果序号、不改业务/库存修订。 从未accepted的无资源结束没有接纳基线，专走initialization.first_unactivated_end：原authority与接收者对当前未启用会话角色两修订及原链尾达成一致；该证明只允许无业务变更清guard，不建立可用于资源玩法的接纳。 若个人首结果前已有原共享到期变更，先按shared_profile_results保存该真实变更，再以其after为个人before；接纳修订是初始基线而非强制每个首个人结果仍等opening。",
   "within_session": "本会话后续结果前修订等房主该角色最新已提交状态，客户端只有前修订等自己当前已提交业务/库存修订且序号恰下一条才能应用。任何合法计时/战斗/配置变化须纳入原权威有序状态协议；不能在接收侧独立改资源后用全量结果覆盖。纯协议守卫更新不虚增业务修订；前后业务/库存是否+1沿各owner，不要求每条两修订都+1。",
   "head_fields": "每world值精确authority_profile_id/last_applied_sequence/last_result_id/last_result_character_revision/last_result_inventory_revision/saved_profile_revision六键。序号0时后四键null；正序号时四键全非null，最后ID为原业务结果的结算ID（会话结束沿buyback-close，交易沿trade），两修订为该结果after值，保存修订为首次把该结果及水位成功保存的本profile新revision。后续离线/自动保存不改这些历史值。",
   "apply_atomicity": "核真实authority/原world/本人身份、rules/协议、原业务唯一决定/完整结果和来源，按连续序号及前修订验证，再在同次本地完整档案替换保存角色结果、head及应清守卫；saved_profile_revision置本次档案revision+1。候选/内存修改不代表已保存。保存失败禁止该角色新的资源业务，重试只保存同一原结果；存疑重读原正式档案及水位/结果关系，不能先ACK或重复执行。房主自己作为接收者亦同规则，同档可一次完整替换保存世界结果和本人head。 无head仅允许已验证首次接纳初始化或initialization.first_unactivated_end的唯一无资源结束分支；一般资源结果不得以缺head为由自动初始化。",
@@ -57,6 +61,32 @@
     "snapshot_owner_ref": {
       "file": "快照摘要.v1.json",
       "pointer": ""
+    },
+    "public_travel": {
+      "owner_ref": {
+        "file": "场景迁移.v1.json",
+        "pointer": "/public_travel/network_result"
+      },
+      "rule": "producer.owner=urn:solorxjh:public-travel-result:v1且record为完整十二键已决定结果。result_id等record.event_id，request会话等封套原会话，world/authority/角色归属与源T联合认证。accepted角色修订+1/库存不变；rejected两修订和业务正文不变。该来源无reserved/committed phase，不能套通用结算身份或以Schema通过替代完整迁移共同父。"
+    },
+    "shared_dependency_owner_ref": {
+      "file": "至尊服务.v1.json",
+      "pointer": "/shared_profile_results"
+    },
+    "shared_dependency": "正式封套新增required_profile_world_step_or_null。非null精确决定读取的本人最近共享begin T；必须先保存该T再应用个人结果，个人链本身仍连续。null仅原会话结束producer且源证明本session从无共享begin，不能用于资源结果或绕过共享缺口。before业务摘要/两修订取包括已结清共享到期在内的真实当前角色；先验跨链依赖再验个人before，不以旧opening覆盖到期。",
+    "ordinary_support": {
+      "owner_ref": {
+        "file": "辅助武功采用.v1.json",
+        "pointer": "/cast_action_protocol/network_result"
+      },
+      "rule": "普通辅助真实用户接纳及落效为两个严格producer，result_id均等原record.event_id。接纳只向真实请求本人；落效施放者和实际改变业务的玩家接收者各一封套，队友保自身session，不修改共同record。多接收者同原父持久，业务修订/去重/ACK和重发沿原连续链，不新增辅助序号或通用结算号。完整角色及原多接收者共同父未闭合前不可运行。"
+    },
+    "forced_action": {
+      "owner_ref": {
+        "file": "神女状态技能.v1.json",
+        "pointer": "/persistent_control_state/forced_action_protocol/network_result"
+      },
+      "rule": "内部强制普通辅助/直接攻击成功仅受控player进入个人结果链，result_id等本执行record.event_id；choice与九键未执行不另发封套，普通/修炼NPC执行只归world。接收会话由原真实source生命与完整权威会话解析，不伪造用户request。消费角色控制来源也是业务变化，角色修订同父恰+1，不因零费用/无draw忽略；全部原共同父/个人链依赖保存后发布。"
     }
   },
   "result_storage": {
@@ -83,5 +113,13 @@
     "retention": "尚无安全压缩协议，原world完整日志及client原证明不裁剪/改写，角色删除仍保profile来源闭包。空间不足在新原业务提交前拒绝，不能先发无可恢复结果。每项producer记录是随结果冻结的不可变来源证明，不作为接收profile本地分配日志，不计其settlement_next_id；依赖的祖先源仍按原owner保留，单封套不是完整来源图替代。",
     "initialization": "显式新profile.lan_result_proofs={}；四已知旧导入新目标{}、已有目标保全表且新导入角色不造结果。显式新world.character_result_journals={}及character_result_saved_acks={}，已有world保原链/ACK；当前格式缺字段拒绝，不从head倒造证明。",
     "ack": "房主原authority_ack规则核真实成员、原world日志连续前缀与具体seq完整封套后才在原world同档持久最高saved_ack；同seq事实不可改，旧ACK不降水位，不用ACK推断原业务/源存在。仅自己成功保存的host同档可生成本地ACK，不能预填远端修订。"
+  },
+  "shared_profile_exclusivity_owner_ref": {
+    "file": "角色会话.v1.json",
+    "pointer": "/profile_exclusivity"
+  },
+  "authority_commit_owner_ref": {
+    "file": "档案共同提交.v1.json",
+    "pointer": ""
   }
 }

@@ -1,0 +1,278 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:public-travel-result:v1",
+  "$comment": "十二键公共交通原父结果。context为源scope；accepted给真实目的location，可带原scope_changed自动路径终止；rejected目的/终止null。真实源before、原世界成员变化与完整共同父另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "request",
+    "outcome",
+    "destination_or_null",
+    "reason_or_null",
+    "auto_route_terminal_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "enum": [
+        "story_valley_world",
+        "hyunbo_town",
+        "hyunbo_outskirts",
+        "liuzheng_pass",
+        "sanxie_pass",
+        "shenwu_gate",
+        "liushan_house",
+        "diling_cave_1",
+        "diling_cave_2",
+        "diling_cave_3",
+        "xuemo_cave_1",
+        "xuemo_cave_2",
+        "xuemo_cave_3",
+        "beihai_ice",
+        "nanlin_forest",
+        "huxia_valley",
+        "huating_plain",
+        "yanfei_city",
+        "jianhuang_sanctuary",
+        "anmi_village",
+        "training_beihai_01",
+        "training_beihai_02",
+        "training_beihai_03",
+        "training_beihai_04",
+        "training_beihai_05",
+        "training_beihai_06",
+        "training_beihai_07",
+        "training_beihai_08",
+        "training_beihai_09",
+        "training_nanlin_01",
+        "training_nanlin_02",
+        "training_nanlin_03",
+        "training_nanlin_04",
+        "training_nanlin_05",
+        "training_nanlin_06",
+        "training_nanlin_07",
+        "training_nanlin_08",
+        "training_nanlin_09",
+        "training_dongling_01",
+        "training_dongling_02",
+        "training_dongling_03",
+        "training_dongling_04",
+        "training_dongling_05",
+        "training_dongling_06",
+        "training_dongling_07",
+        "training_dongling_08",
+        "training_dongling_09",
+        "training_huxia_01",
+        "training_huxia_02",
+        "training_huxia_03",
+        "training_huxia_04",
+        "training_huxia_05",
+        "training_huxia_06",
+        "training_huxia_07",
+        "training_huxia_08",
+        "training_huxia_09",
+        "nanming_lake",
+        "nanming_cave",
+        "wanshou_floor1",
+        "wanshou_floor2",
+        "wutian_floor1",
+        "wutian_floor2",
+        "wanshou_floor3",
+        "wutian_floor3",
+        "yuanzhu_forest",
+        "huozhu_forest"
+      ]
+    },
+    "instance_id_or_null": {
+      "type": "null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 78,
+      "maxLength": 78,
+      "pattern": "^public-travel:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "request": {
+      "$ref": "urn:solorxjh:public-travel-command:v1"
+    },
+    "outcome": {
+      "enum": [
+        "accepted",
+        "rejected"
+      ]
+    },
+    "destination_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:character-location:v1",
+          "properties": {
+            "map_id": {
+              "enum": [
+                "story_valley_world",
+                "hyunbo_town",
+                "hyunbo_outskirts",
+                "liuzheng_pass",
+                "sanxie_pass",
+                "shenwu_gate",
+                "liushan_house",
+                "diling_cave_1",
+                "diling_cave_2",
+                "diling_cave_3",
+                "xuemo_cave_1",
+                "xuemo_cave_2",
+                "xuemo_cave_3",
+                "beihai_ice",
+                "nanlin_forest",
+                "huxia_valley",
+                "huating_plain",
+                "yanfei_city",
+                "jianhuang_sanctuary",
+                "anmi_village",
+                "training_beihai_01",
+                "training_beihai_02",
+                "training_beihai_03",
+                "training_beihai_04",
+                "training_beihai_05",
+                "training_beihai_06",
+                "training_beihai_07",
+                "training_beihai_08",
+                "training_beihai_09",
+                "training_nanlin_01",
+                "training_nanlin_02",
+                "training_nanlin_03",
+                "training_nanlin_04",
+                "training_nanlin_05",
+                "training_nanlin_06",
+                "training_nanlin_07",
+                "training_nanlin_08",
+                "training_nanlin_09",
+                "training_dongling_01",
+                "training_dongling_02",
+                "training_dongling_03",
+                "training_dongling_04",
+                "training_dongling_05",
+                "training_dongling_06",
+                "training_dongling_07",
+                "training_dongling_08",
+                "training_dongling_09",
+                "training_huxia_01",
+                "training_huxia_02",
+                "training_huxia_03",
+                "training_huxia_04",
+                "training_huxia_05",
+                "training_huxia_06",
+                "training_huxia_07",
+                "training_huxia_08",
+                "training_huxia_09",
+                "nanming_lake",
+                "nanming_cave",
+                "wanshou_floor1",
+                "wanshou_floor2",
+                "wutian_floor1",
+                "wutian_floor2",
+                "wanshou_floor3",
+                "wutian_floor3",
+                "yuanzhu_forest",
+                "huozhu_forest"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "reason_or_null": {
+      "enum": [
+        null,
+        "source_unavailable",
+        "wrong_source_map",
+        "out_of_range",
+        "line_of_sight_blocked",
+        "action_occupied",
+        "in_combat",
+        "challenge_active",
+        "entry_requirement_not_met",
+        "destination_blocked",
+        "already_migrated_this_step"
+      ]
+    },
+    "auto_route_terminal_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:auto-route-state:v1#/$defs/terminal",
+          "properties": {
+            "reason": {
+              "const": "scope_changed"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "accepted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "destination_or_null": {
+            "type": "object"
+          },
+          "reason_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "destination_or_null": {
+            "type": "null"
+          },
+          "reason_or_null": {
+            "type": "string"
+          },
+          "auto_route_terminal_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:public-travel-result:v1"
+      }
+    }
+  }
+}

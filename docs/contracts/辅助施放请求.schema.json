@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-support-cast-command:v1",
+  "$comment": "七键真实用户辅助施放意图；目标为真实生命actor身份。五医师允许明确目标，其他自体/自动群体策略必须null。实际学习/队伍/资格、目标快照与付款由原接纳父认证；不携资源/位置/时刻/剩余时间。内部强制选择不伪造此用户命令。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "play_session_identity",
+    "command_id",
+    "ability_id",
+    "stage",
+    "target_actor_id_or_null",
+    "chosen_chord_or_null"
+  ],
+  "properties": {
+    "kind": {
+      "const": "player_support_cast"
+    },
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/play_session_identity"
+    },
+    "command_id": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/command_id"
+    },
+    "ability_id": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/properties/ability_id"
+    },
+    "stage": {
+      "const": 1
+    },
+    "target_actor_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:player-support-cast:v1#/properties/recipient_actor_ids/items"
+        }
+      ]
+    },
+    "chosen_chord_or_null": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/properties/chosen_chord_or_null"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "ability_id": {
+            "enum": [
+              "aux_physician_b60204cb457b",
+              "aux_physician_e43a618d588b",
+              "aux_physician_f983e0d07b46",
+              "aux_physician_98607cb99e3b",
+              "aux_physician_175aca784fbb"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "target_actor_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ability_id": {
+            "const": "aux_musician_ae559c1d598b"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "chosen_chord_or_null": {
+            "enum": [
+              "triad",
+              "seventh",
+              "ninth"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "chosen_chord_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

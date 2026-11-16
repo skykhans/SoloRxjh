@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:auto-move-command:v1",
+  "$comment": "地面点击五键命令；角色/当前scope从真实会话解析，目标为米制真实脚面坐标，不携路径/速度/跨图许可。客户端射线/UI命中及目标有限/可落地另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "play_session_identity",
+    "command_id",
+    "destination_position",
+    "run"
+  ],
+  "properties": {
+    "kind": {
+      "const": "player_auto_move"
+    },
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+    },
+    "command_id": {
+      "$ref": "urn:solorxjh:direct-attack-command:v1#/properties/command_id"
+    },
+    "destination_position": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+    },
+    "run": {
+      "type": "boolean"
+    }
+  }
+}

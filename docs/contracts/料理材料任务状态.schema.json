@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:cooking-material-quest-state:v1",
+  "$comment": "仅character.quests.ref_QREF-63791-001三键持久状态；ready由本人本attempt真实后腿派生，不持久收集数量或可交付bool。attempt/完成收据真实原父与唯一消费另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "phase",
+    "attempt_id",
+    "completion_receipt_id"
+  ],
+  "properties": {
+    "phase": {
+      "enum": [
+        "not_accepted",
+        "in_progress",
+        "delivered"
+      ]
+    },
+    "attempt_id": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:item-stack:v1#/$defs/questScope/properties/attempt_id"
+        }
+      ]
+    },
+    "completion_receipt_id": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1#/properties/settlement_id"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "not_accepted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attempt_id": {
+            "type": "null"
+          },
+          "completion_receipt_id": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "attempt_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "delivered"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "completion_receipt_id": {
+            "type": "string"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "completion_receipt_id": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

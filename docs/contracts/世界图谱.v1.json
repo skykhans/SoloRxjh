@@ -20430,7 +20430,15 @@
     "legacy": "四已知旧来源沿legacy_single_map_import固定story_valley_world，原两坐标映射目标X/Z，Y由同原旧地形脚面定义转换，保持有效原yaw；必须原几何/阶段/半径验证。不传工棚、不取当前玩家位置，不丢掉合法旧位置。其他未知旧来源拒绝。",
     "death_and_respawn": "待复活保原死亡位置，不因为当前动态占用而自动移位；不生成活体。真正复活前原目的地/脚位/导航/碰撞全检，成功同原生命/资源/收据原子更新location，失败保原待复活。修炼同房选择用原death_choice姿态，不能从被修改的当前location替代。",
     "mutation": "普通移动/传送/场景门/活动进出/复活/明确配置各自原合法事件更新位置，客户端报姿态不授权穿墙。已提交重放只回原决定，不再次移动到旧落点覆盖后来位置；保存不确定仍沿原完整结果。",
-    "boundary": "位置结构/归属采用，真实坐标/导航/世界接纳落点、完整角色/世界/事务来源与Godot验证仍待，D1未通过。"
+    "boundary": "位置结构/归属采用，真实坐标/导航/世界接纳落点、完整角色/世界/事务来源与Godot验证仍待，D1未通过。",
+    "on_foot_motion_owner_ref": {
+      "file": "玩家徒步移动.v1.json",
+      "pointer": ""
+    },
+    "auto_route_owner_ref": {
+      "file": "自动寻路与移动.v1.json",
+      "pointer": ""
+    }
   },
   "story_boss_world_initialization": {
     "field": "profile.worlds[world_id].story_boss_attempts",
@@ -20449,5 +20457,25 @@
       "pointer": "/result_storage"
     },
     "policy": "仅显式新world初始化，已有world保原链/真实ACK，新格式缺字段拒绝。"
+  },
+  "scope_simulation_policy": {
+    "owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/world_step_lifecycle"
+    },
+    "identity_schema_ref": {
+      "file": "世界固定步状态.schema.json",
+      "pointer": "/$defs/scope"
+    },
+    "classification": "79张已登记地图中，13张有activity_owner的地图为私场模板，其余66张为公共地图；其中36张修炼共享房按原world/map唯一，不因选择设备/队伍/玩家而分实例。私场实际scope由原活动创建记录的真实instance_id决定，不把模板登记等同于已存在实例。未知地图拒绝；公共携非null实例/私场无实例均拒绝。",
+    "private_authority": "13个模板逐个只沿本地图activity_owner原入场/主子attempt和权威world记录取得实例；同地图可有多个不同角色/轮次的真实实例，不合并为一个map级战斗现场。回程/终局或悬挂引用不自动证明可模拟，须原活动状态/挂起及角色会话共同核验；不能按私场名字前缀猜所有者。",
+    "training_shared": "36个修炼房真实432槽在显式新世界按原owner初始化；普通等待倒计时在无人观看时仍推进，召唤窗口按原世界时钟对账。完整world持续Playing时，不因无人渲染/全部玩家在别图从scope授予中漏掉这些原需模拟场景；不造36份私有房或为每玩家重建满血怪。整世界暂停离线按原规则冻结。",
+    "public_other": "其余30个公共地图沿原场景/实体/刷新/任务owner决定实际存在与模拟资格。地图目录本身只注册定义，不足以证明其普通战斗现场已创建或可从当前模板重建保存中的待决伤害。原普通现场重建边界与进行中world阶段恢复需共同闭合，不能以本分类宣称已解决；完整来源缺失的场景不得借空批放行。",
+    "private_clocks": "运行中私场仅沿原活动模拟许可接纳本T；原失联挂起/终局待返回不因world其他场景继续而推进私场elapsed、敌人或本人实体冷却。源世界观察步BUFF另沿原owner继续扣差。不得用全世界一暂停标记冻结其他玩家，或以私场暂停延长外部世界增益。",
+    "boundary": "79地图公共/私场身份分派与修炼持续资格采用；完整场景登记、30公共地图真实现场与所有私场根/挂起决定、迁移时点和Godot仍待，D1未完成。"
+  },
+  "scope_transfer_owner_ref": {
+    "file": "场景迁移.v1.json",
+    "pointer": ""
   }
 }

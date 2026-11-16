@@ -1,0 +1,1648 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:second-advancement-transition-event:v1",
+  "$comment": "二转接取/确认放弃三阶段，原六键命令/六键计划；推荐书为保留锁证据，向导分支首领符仅首次接取单mint，放弃仅当前阶段本attempt五类实物单cleanup。真实来源/数量全集/修订/凭证保留及共同父另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "urn:solorxjh:firewood-task-transition-event:v1#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "quest_after",
+        "stack_flow"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "urn:solorxjh:firewood-task-transition-event:v1#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "quest_after": {
+          "$ref": "urn:solorxjh:second-advancement-quest-state:v1"
+        },
+        "stack_flow": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/cleanup_flow"
+            },
+            {
+              "$ref": "#/$defs/guide_mint_flow"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "urn:solorxjh:firewood-task-transition-event:v1#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "interaction_invalid",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "quest_before",
+        "inventory_before",
+        "inputs",
+        "branch_id",
+        "recommendation"
+      ],
+      "properties": {
+        "rules_hash": {
+          "$ref": "urn:solorxjh:third-advancement-lower-transition-event:v1#/$defs/plan/properties/rules_hash"
+        },
+        "quest_before": {
+          "$ref": "urn:solorxjh:second-advancement-quest-state:v1"
+        },
+        "inventory_before": {
+          "$ref": "urn:solorxjh:item-locations:v1#/properties/inventory"
+        },
+        "inputs": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/material_input"
+          }
+        },
+        "branch_id": {
+          "enum": [
+            "righteous",
+            "evil"
+          ]
+        },
+        "recommendation": {
+          "$ref": "#/$defs/recommendation_input"
+        }
+      }
+    },
+    "material_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previous_output",
+        "stack"
+      ],
+      "properties": {
+        "previous_output": {
+          "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+        },
+        "stack": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:item-stack:v1"
+            },
+            {
+              "properties": {
+                "item_id": {
+                  "enum": [
+                    "adv02_red_bear_skin",
+                    "adv02_yellow_tiger_skin",
+                    "adv02_white_tiger_skin",
+                    "adv02_clothes_box",
+                    "adv02_delivery_box"
+                  ]
+                },
+                "binding": {
+                  "const": "character"
+                },
+                "quest_scope": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "quest_id",
+                    "attempt_id",
+                    "branch_id"
+                  ],
+                  "properties": {
+                    "quest_id": {
+                      "const": "adv_02"
+                    },
+                    "attempt_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "branch_id": {
+                      "enum": [
+                        "righteous",
+                        "evil"
+                      ]
+                    }
+                  }
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv02_clothes_box"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "quantity": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "item_id": {
+                    "const": "adv02_delivery_box"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "quantity": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "recommendation_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previous_output",
+        "stack"
+      ],
+      "properties": {
+        "previous_output": {
+          "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+        },
+        "stack": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:item-stack:v1"
+            },
+            {
+              "properties": {
+                "item_id": {
+                  "const": "adv02_recommendation"
+                },
+                "binding": {
+                  "const": "character"
+                },
+                "quest_scope": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "quest_id",
+                    "completion_receipt_id"
+                  ],
+                  "properties": {
+                    "quest_id": {
+                      "const": "ref_QREF-63791-016"
+                    },
+                    "completion_receipt_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    }
+                  }
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "cleanup_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "maxItems": 30
+            },
+            "outputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "minItems": 1,
+              "maxItems": 30,
+              "items": {
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10
+                  },
+                  "reason": {
+                    "const": "quest_cleanup"
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:second-advancement-transition-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    "guide_mint_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "urn:solorxjh:item-stack:v1"
+                      },
+                      {
+                        "properties": {
+                          "item_id": {
+                            "enum": [
+                              "return_liuzheng",
+                              "return_sanxie"
+                            ]
+                          },
+                          "binding": {
+                            "const": "character"
+                          },
+                          "quest_scope": {
+                            "type": "null"
+                          },
+                          "quantity": {
+                            "const": 1
+                          },
+                          "revision": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  },
+                  "contributions": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "properties": {
+                "kind": {
+                  "const": "quest_reward"
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "accept"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "state": {
+                    "const": "not_accepted"
+                  }
+                }
+              },
+              "inputs": {
+                "maxItems": 0
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "stage_index_or_null": {
+                "const": 1
+              },
+              "stage_receipts": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "state": {
+                    "const": "in_progress"
+                  }
+                }
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "not_accepted"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "righteous"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "quest_scope": {
+                          "properties": {
+                            "branch_id": {
+                              "const": "righteous"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "accept"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "righteous"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_after": {
+            "properties": {
+              "selected_branch_or_null": {
+                "const": "righteous"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "righteous"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "selected_branch_or_null": {
+                    "const": "righteous"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "properties": {
+              "command": {
+                "properties": {
+                  "operation": {
+                    "const": "accept"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "plan": {
+                "properties": {
+                  "branch_id": {
+                    "const": "righteous"
+                  },
+                  "quest_before": {
+                    "properties": {
+                      "guide_grant_receipts": {
+                        "not": {
+                          "required": [
+                            "righteous"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "stack_flow": {
+            "$ref": "#/$defs/guide_mint_flow",
+            "properties": {
+              "outputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "return_liuzheng"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "command": {
+            "properties": {
+              "expected_inventory_revision": {
+                "maximum": 9007199254740990
+              }
+            }
+          },
+          "inventory_revision_after": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "accept"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "righteous"
+              },
+              "quest_before": {
+                "properties": {
+                  "guide_grant_receipts": {
+                    "required": [
+                      "righteous"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flow": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "evil"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "quest_scope": {
+                          "properties": {
+                            "branch_id": {
+                              "const": "evil"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "accept"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "evil"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quest_after": {
+            "properties": {
+              "selected_branch_or_null": {
+                "const": "evil"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "evil"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "selected_branch_or_null": {
+                    "const": "evil"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "properties": {
+              "command": {
+                "properties": {
+                  "operation": {
+                    "const": "accept"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "plan": {
+                "properties": {
+                  "branch_id": {
+                    "const": "evil"
+                  },
+                  "quest_before": {
+                    "properties": {
+                      "guide_grant_receipts": {
+                        "not": {
+                          "required": [
+                            "evil"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "stack_flow": {
+            "$ref": "#/$defs/guide_mint_flow",
+            "properties": {
+              "outputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "return_sanxie"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "command": {
+            "properties": {
+              "expected_inventory_revision": {
+                "maximum": 9007199254740990
+              }
+            }
+          },
+          "inventory_revision_after": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "accept"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "evil"
+              },
+              "quest_before": {
+                "properties": {
+                  "guide_grant_receipts": {
+                    "required": [
+                      "evil"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flow": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "inputs": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flow": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flow": {
+            "$ref": "#/$defs/cleanup_flow"
+          },
+          "command": {
+            "properties": {
+              "expected_inventory_revision": {
+                "maximum": 9007199254740990
+              }
+            }
+          },
+          "inventory_revision_after": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 0,
+                "maxItems": 30,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_red_bear_skin",
+                            "adv02_yellow_tiger_skin",
+                            "adv02_white_tiger_skin"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 3,
+                "maxItems": 30,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_red_bear_skin",
+                            "adv02_yellow_tiger_skin",
+                            "adv02_white_tiger_skin"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_red_bear_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_yellow_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_white_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 4
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 3,
+                "maxItems": 30,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_red_bear_skin",
+                            "adv02_yellow_tiger_skin",
+                            "adv02_white_tiger_skin"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_red_bear_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_yellow_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_white_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 3,
+                "maxItems": 30,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_red_bear_skin",
+                            "adv02_yellow_tiger_skin",
+                            "adv02_white_tiger_skin"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_red_bear_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_yellow_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_white_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 6
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 3,
+                "maxItems": 30,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_red_bear_skin",
+                            "adv02_yellow_tiger_skin",
+                            "adv02_white_tiger_skin"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_red_bear_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_yellow_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_white_tiger_skin"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 10
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 7
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_clothes_box"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 8
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "enum": [
+                            "adv02_clothes_box",
+                            "adv02_delivery_box"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_clothes_box"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "stack": {
+                          "properties": {
+                            "item_id": {
+                              "const": "adv02_delivery_box"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "properties": {
+              "operation": {
+                "const": "abandon"
+              }
+            }
+          },
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 9
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

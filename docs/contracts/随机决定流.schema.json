@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:solorxjh:random-decision-flow:v1",
-  "$comment": "原已提交事件内随机决定流，不是新独立抽奖事件/重复日志；授权用途/排序/seed历史/连续计数和拒绝抽样重算另验。确定结果不伪造抽数记录。",
+  "$comment": "原已提交事件内随机决定流；流只保身份/算法/seed/有序draws，每次draw独占[next_block_before,next_block_after)含拒绝块的消费区间。父/子结果可同流穿插而不重复记账；整笔真实调用顺序/完整区间覆盖与来源另验，确定结果不造draw。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -30,8 +30,6 @@
         "owner_id",
         "algorithm",
         "seed_hex",
-        "next_block_before",
-        "next_block_after",
         "draws"
       ],
       "properties": {
@@ -52,16 +50,6 @@
         "seed_hex": {
           "$ref": "urn:solorxjh:random-state:v1#/properties/seed_hex"
         },
-        "next_block_before": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 9007199254740990
-        },
-        "next_block_after": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 9007199254740991
-        },
         "draws": {
           "type": "array",
           "minItems": 1,
@@ -79,6 +67,7 @@
         "low",
         "high",
         "result",
+        "next_block_before",
         "next_block_after"
       ],
       "properties": {
@@ -106,6 +95,11 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 9007199254740991
+        },
+        "next_block_before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
         }
       }
     }

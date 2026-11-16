@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:firewood-gather-command:v1",
+  "$comment": "四键明确木柴交互意图，不携代次/CAS/位置/费用或客户端时刻。实际节点代次由处理before认证；无最近节点替换。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "play_session_identity",
+    "command_id",
+    "node_id"
+  ],
+  "properties": {
+    "kind": {
+      "const": "player_firewood_gather"
+    },
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/play_session_identity"
+    },
+    "command_id": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/command_id"
+    },
+    "node_id": {
+      "enum": [
+        "hyunbo_firewood_01",
+        "hyunbo_firewood_02",
+        "hyunbo_firewood_03",
+        "hyunbo_firewood_04"
+      ]
+    }
+  }
+}

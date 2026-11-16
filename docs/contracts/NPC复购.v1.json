@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-16",
   "status": "buyback_session_quantity_and_recovery_design_not_implemented_item_eligibility_pending",
   "scope": "17既有每角色最近20笔会话复购的精确保管/数量/退出恢复；未新增任何可复购物定义，不把全物品复购资格视为已闭合。",
   "owners": {
@@ -10,6 +10,10 @@
     "record_schema": "NPC复购记录.schema.json",
     "custody": "物品域迁移.v1.json",
     "character_session": "角色会话.v1.json"
+  },
+  "supreme_sale_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/npc_sale_effect"
   },
   "eligibility": "必须逐正式item_id明确NPC出售=true、复购=true、精确卖价与加工状态适配。未知/尚未声明条目不能进入正式服务定义，不能以统一allow/deny补权限。现有明确复购=false保持禁止。",
   "session": "角色会话ID唯一且在进入角色时分配，独立于商店面板会话；同一角色关闭/换商店/换图不换角色会话、不清记录。正常退出角色/切角色/退出应用结束会话，最多20笔复购记录按售出结算顺序维护。 会话ID持久预留、guard与权威接纳/结束按角色会话.v1.json。",

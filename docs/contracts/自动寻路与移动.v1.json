@@ -1,0 +1,72 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "D1地面自动路径与真实逐步运动采用；完整输入/移动父和实际Godot导航继续待办",
+  "source_policy": "沿02原地面A*及输入取消、旧ClickMove/Navigation职责和现有地图采用明确Godot项目设计，不宣称为官网导航或官方参数。采集、服务和跨图仍归各原owner，不借到达自动触发。",
+  "request_schema_ref": {
+    "file": "自动移动请求.schema.json",
+    "pointer": ""
+  },
+  "admission_schema_ref": {
+    "file": "自动路径接纳结果.schema.json",
+    "pointer": ""
+  },
+  "state_schema_ref": {
+    "file": "自动路径状态.schema.json",
+    "pointer": ""
+  },
+  "motion_schema_ref": {
+    "file": "自动移动推进结果.schema.json",
+    "pointer": ""
+  },
+  "terminal_schema_ref": {
+    "file": "自动路径状态.schema.json",
+    "pointer": "/$defs/terminal"
+  },
+  "locomotion_owner_ref": {
+    "file": "玩家徒步移动.v1.json",
+    "pointer": ""
+  },
+  "ownership": "每真实world玩家生命现场auto_route_or_null只null或两键原凭证/剩余路点，不挂在character永久成长数据，不复制目的地、run、索引、完整路点副本或已完成集合。目的地是原接纳请求目标，run从原请求及本步有效Shift采样认证。显式新现场/新生命初始null；原固定步未决恢复须有原字段与父来源，不能丢路径后从目标重算掩盖未决。正常结束会话/返回菜单同原决定清路径，不把旧路线带入新角色。",
+  "admission": {
+    "phase": "本T输入封口中沿19可靠序号选择/去重真实地面点击；先处理已明确取消/会话资格，原自动路径接纳在direct_attack_admission阶段的新直接攻击占用确定之后、movement之前。其他本T已明确攻击/技能/闪避/明确木柴交互输入优先取消/阻止地面自动移动，不按渲染回调顺序走一步再攻击。所有原完整输入顺序仍由父context认证。",
+    "validation": "先查同会话/command_id原决定，异正文冲突拒绝。真实本人生命/world/scope/会话许可不足为source_unavailable，动作仍占用为action_occupied，目标有限、在同原map/instance合法脚面/圆脚印内且Y与地面一致才可搜索；客户端不能用虚构Y跨水墙。地图射线只表达目标，UI命中不得发地面请求。",
+    "rejection": "十二键结果拒绝保实际第一个合法原因，waypoints=null；无位移/转向/新路径/资源/随机变化。用户新点击先明确替换意图，取消旧路线并保存replaced终止；即便新目标不可达也不继续旧路线。取消与新拒绝由同一输入父共同决定，不伪造新路径成功。未知/坏来源或输入摘要冲突是协议错误保现场，不装玩法拒绝。",
+    "acceptance": "合法完整路径保存接纳结果一次，非空路点安装原两键活跃状态。目的地已是当前脚位时accepted空数组并同笔reached终止，现场保持null，无假移动/免费额外帧。初次接纳可在本T后续movement推进一次，这是移动意图而非攻击根e0规则；同本人本T不再执行手动徒步第二次。"
+  },
+  "astar": {
+    "geometry": "只用本真实scene定义及当步已生效关闭入口/实心阻挡，以玩家0.35米圆脚印和原可行走地面并集构图。玩家/战斗怪物非动态墙沿徒步owner；服务NPC明确静态足迹保留。水域外部不可走、桥内部拼接缝可走，安全区不阻玩家行走但仍阻原敌对行为。",
+    "lattice": "世界XZ全局0.5米格点[i/2,j/2]，有边界内合法脚面才建节点。八邻接，水平/竖直边代价1000、对角1414；对角必须两个相邻正交节点与完整圆脚印线段都可通行，禁止角切。每条边含端点均须连续扫掠合法，不用节点可走推断边能穿墙。",
+    "endpoints": "先核真实起点/终点可落地。直接完整圆脚印线段可达时存目标一个路点。否则起终点各连接到其X/Z floor/ceil网格组合至多四个合法且完整线段可见节点，连接代价ceil(2000*水平米距)。无合法连接则unreachable，不搬到最近可走点，不把点击墙背面替换墙前落点。",
+    "search": "多起点A*初始g为各真实起点连接代价，目标候选节点连虚拟终点且加真实终点连接代价。h为到所有目标候选的最小octile=1000*max(|di|,|dj|)+414*min(|di|,|dj|)，忽略非负终点连接代价以保持可采纳；虚拟终点h=0。按(f,h,node_kind,i,j)稳定升序出队；普通节点node_kind=0，唯一虚拟终点node_kind=1且i=j=0，邻居按(i,j)升序；同g父候选保(i,j)较小者，不以散列表/线程/渲染顺序选路线。虚拟终点首次出队才接受，不在首次发现目标节点提前结束。",
+    "limits": "本次最多展开1048576唯一网格节点，超过则search_limit并保无新路径；搜索耗尽为unreachable。回溯完整合法路线后按最远连续可见路点贪心平滑，但每次必须原圆脚印扫掠成功，保真实最终目标。最终超过4096路点同search_limit拒绝，不截短为成功或增大格距绕过失败。上述代价只用于选路，实际步距按真实米距预算，不以1414近似挪动角色。"
+  },
+  "motion": {
+    "selection": "本T手动非零输入先取消路线并只执行原手动移动；无该输入且原auto_route非null时只执行自动移动结果，不再生成同T手动idle/第二位移。新直接攻击/技能/闪避/明确木柴交互输入按02先取消，不因玩法拒绝而继续旧自动路线。普通Shift采样双轴零可仅给本T自动速度选择run，不作为非零手动取消。无新Shift采样沿本原路接纳run；输入隔离/失联按取消owner明确结束路线，不能继续沿历史run自主行走。",
+    "speed": "完全复用徒步speed的基础walk/run、身轻同族一次倍率与轻功比较、合法超重、已登记配置及安全整数预检。run从本T真实采样或原请求认证，不在活跃状态复制。普通动作/控制禁止移动时速度0、单点原位置且无终止，保原路线；明确取消优先于此暂停分支。 原混乱实际移动时本自动结果不产生，路线保留及控制结束后的首段连接沿confusion_motion_owner_ref，不能同T再执行自动零速/第二位移。",
+    "budget": "每获授步仅一个speed/60000米预算，沿剩余队首路点逐段消费，达到路点先扣真实段长再移除该队首，残预算才可走下一段；恰好到达直接按原路点赋位并移除，不用0.001之类宽容提前吞路点。零长队首只在原合法同位置证明下移除，重复连续路点不得成为合法状态。实际轨迹与有限脚面/总长度沿徒步owner检查，不分路点重给整步预算。 若同一步实际轨迹折点超过原徒步17点上限或碰撞求解预算耗尽，明确movement_solver_limit并拒绝整笔原父，保before/原剩余队列；不截短成功、不多给下一步预算。",
+    "obstruction": "每段实际运动仍做连续扫掠。新关闭障碍或场景变化使原线段不可通行时，走到真实最早合法接触点，保存本步真实部分轨迹并以obstructed终止、清原路径；自动路径不擅自墙滑偏离既定路段，不移到障碍另一侧，不静默重算路线循环冲墙。需用户新点击重新搜路；场景已明确更版时先scene_changed取消原路径，不拿新图重写原接纳证明。",
+    "arrival": "剩余全部消费则reached终止并置null，最后脚位置严格为原目标，沿最后非零段方向转yaw。目的地不触发采集、NPC服务、传送门、任务交付或自动攻击。采集仍需原显式采集/近2米/朝向/LOS及工具动作；远程点击植物不发战斗投射。",
+    "identity": "自动移动event_id=auto-motion:加SHA256(71确定JSON UTF8数组 [\"auto_route_motion\",world_id,authority_profile_id,source_actor_id,world_step])。每本人本T至多一普通徒步结果，手动与本自动互斥；原路接受身份不进本摘要，不允许同T换路径再走第二步。同ID异正文拒绝。"
+  },
+  "termination": {
+    "reasons": "reached/obstructed由原自动推进或原接纳已在目标决定生成；manual_input/hostile_input/dodge_input/explicit_cancel/death/session_end/scope_changed/scene_changed/input_isolated/replaced各由原真实输入、生命、会话/迁移或场景父认证。开本地暂停/联网模态、焦点隔离或失联清路径时保input_isolated，不用联网个人面板冻结整个世界；整房暂停冻结规则，无恢复补跑。",
+    "identity": "原接纳event_id=auto-route:加SHA256(71确定JSON UTF8数组 [\"auto_route_admission\",world_id,authority_profile_id,request.play_session_identity.session_id,request.command_id])，不含T/目标/结论。终止event_id=auto-route-terminal:加SHA256(71确定JSON UTF8数组 [\"auto_route_terminal\",route_event_id])，每已接受原路线恰一最终终止，重放不覆盖后来的位置/路线。拒绝结果不生成终止。",
+    "fields": "终止五键仅原身份/路线/T/原因/最终真实位置；原取消输入或死亡等来源由同一完整父持有认证，不另造开放cause对象。原接纳空路径终止位置等before；有真实部分移动则等该实际推进末点；纯取消与其他同T手动位移并存时final_position取取消那一原子子决定时真实位置，不拿同T后来位移回写。",
+    "recovery": "原活跃remaining_waypoints必须等接纳完整路点在已证实际到达前缀后的精确后缀；当前脚位在其前一实际路段上，或是原合法临时控制暂停位置。严格核唯一原scope/生命及完整原父顺序，不把当前剩余数组当曾走路径证明。正式终止只在原父历史保存一次，现场清null，不同时另存terminalID或已完成集合。"
+  },
+  "atomicity": "路线接纳/替换终止/本T路径消费与实际位置yaw、原自动推进或取消终止、原队首/阶段变化共同父决定。任何未确认保存先读正式决定，不能重搜或重走。父保本T移动角色全集的已处理前缀/剩余后缀，全体实体真实移动完成后才冻结战斗推进。角色permanent存档不复制world路线现场；正常会话退出显式取消，未决固定步恢复仍须原完整现场和来源。",
+  "boundary": "地面A*接纳、两键活跃路径/五键终止和十二键自动逐步结果设计已采用；特殊位移/其他实体移动、完整输入/阶段共同父及Godot实际场景导航仍待，D1未完成。",
+  "gather_input_owner_ref": {
+    "file": "采集动作.v1.json",
+    "pointer": "/admission/cancellation"
+  },
+  "firewood_cancellation_owner_ref": {
+    "file": "采集动作.v1.json",
+    "pointer": "/cancellation_binding/new_input"
+  },
+  "confusion_motion_owner_ref": {
+    "file": "神女状态技能.v1.json",
+    "pointer": "/persistent_control_state/random_walk_protocol"
+  }
+}

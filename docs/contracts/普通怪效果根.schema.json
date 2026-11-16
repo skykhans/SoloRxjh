@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-monster-effects:v1",
+  "$comment": "明确采用的无护甲/气功/怒气、零内力怪物九字段受体效果根；本轮六公共怪与144修炼怪定义。复用原各族来源结构，不凭这个白名单放宽施加目标/有意义触发/来源规则；不是全部NPC或角色效果根。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bleeding",
+    "dongling_attributes",
+    "dongling_control",
+    "dongling_delayed_burst",
+    "dongling_periodic",
+    "half_ordinary_defense",
+    "hp_recovery_block",
+    "music_timed",
+    "spear_fighter_timed"
+  ],
+  "properties": {
+    "bleeding": {
+      "$ref": "urn:solorxjh:bleeding-effect-state:v1"
+    },
+    "dongling_attributes": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:dongling-attribute-effect-state:v1"
+        },
+        {
+          "properties": {
+            "proc_seal": {
+              "maxItems": 0
+            },
+            "immunity": {
+              "maxItems": 0
+            }
+          }
+        }
+      ]
+    },
+    "dongling_control": {
+      "$ref": "urn:solorxjh:dongling-control-effect-state:v1"
+    },
+    "dongling_delayed_burst": {
+      "$ref": "urn:solorxjh:dongling-delayed-burst-state:v1"
+    },
+    "dongling_periodic": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:dongling-periodic-effect-state:v1"
+        },
+        {
+          "properties": {
+            "healing": {
+              "const": {
+                "sources": [],
+                "next_tick_remaining_steps": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "half_ordinary_defense": {
+      "$ref": "urn:solorxjh:half-defense-state:v1"
+    },
+    "hp_recovery_block": {
+      "$ref": "urn:solorxjh:hp-recovery-block-state:v1"
+    },
+    "music_timed": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:music-timed-effects:v1"
+        },
+        {
+          "properties": {
+            "luanfeng": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "spear_fighter_timed": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:spear-fighter-timed-state:v1"
+        },
+        {
+          "properties": {
+            "martial_duel_attack20": {
+              "type": "null"
+            },
+            "nearby_stun": {
+              "maxItems": 0
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "cleared": {
+      "const": {
+        "bleeding": {
+          "sources": [],
+          "next_tick_remaining_steps": 0
+        },
+        "dongling_attributes": {
+          "weakening": [],
+          "revenge": [],
+          "proc_seal": [],
+          "immunity": []
+        },
+        "dongling_control": {
+          "forced_action_once": [],
+          "random_walk": {
+            "sources": [],
+            "next_direction_remaining_steps": 0,
+            "intent_event_id": null
+          }
+        },
+        "dongling_delayed_burst": [],
+        "dongling_periodic": {
+          "healing": {
+            "sources": [],
+            "next_tick_remaining_steps": 0
+          },
+          "burn": {
+            "sources": [],
+            "next_tick_remaining_steps": 0,
+            "walked_distance_m": 0
+          }
+        },
+        "half_ordinary_defense": [],
+        "hp_recovery_block": [],
+        "music_timed": {
+          "luanfeng": null,
+          "despair": []
+        },
+        "spear_fighter_timed": {
+          "martial_duel_attack20": null,
+          "nearby_stun": [],
+          "move_root": []
+        }
+      }
+    }
+  }
+}

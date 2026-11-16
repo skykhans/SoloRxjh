@@ -22,7 +22,7 @@
     "revision",
     "origin_receipt_id"
   ],
-  "location": "character.item_stacks唯一持有当前堆正文；inventory/warehouse占用槽以kind=stack及target_id引用。equipment_instances存唯一实例正文，各装备槽或容器仅引用ID。完整布局以容器与仓储.v1.json/persistent_layout为权威，位置schema独立；正文注册表每项恰被一处正式位置引用。历史flow输出character_id记录当时所有权，不作为另一份当前容器。",
+  "location": "character.item_stacks唯一持有当前堆正文；inventory/knight_bag/warehouse占用槽以kind=stack及target_id引用。equipment_instances存唯一实例正文，各装备槽或容器仅引用ID。完整布局以容器与仓储.v1.json/persistent_layout为权威，位置schema独立；正文注册表每项恰被一处正式位置引用。历史flow输出character_id记录当时所有权，不作为另一份当前容器。",
   "binding": {
     "plain": "普通角色绑定物quest_scope=null；不绑定物binding=unbound且quest_scope=null。character绑定的角色就是外层持有角色，不允许通过搬入另一角色重解释。",
     "task": "任务物binding=character，quest_scope只出现该定义精确声明的维度；quest_id必有。attempt_id/branch_id/class_id/world_id/accepted_day_index/completion_receipt_id按对应owner语义提供，未声明字段不写，不能以schema允许为由自行增加维度。",
@@ -38,11 +38,11 @@
   "merge": "按语义结构比较精确键值，不依赖JSON键顺序；不同来源可合堆但保数量前链。未知字段、未知定义、错误绑定/任务维度、超定义max_stack或保护量先拒绝。UI名称不作键。",
   "revision": "新堆revision=0；数量/绑定作用域/来源变更的存续堆在一事务仅+1，溢出拒绝。纯排序/整堆移仓保堆内容及修订，仅改变外层库存修订；原有预留/保护/权限校验仍须通过。部分移仓或合并改变数量必须有flow。数量0堆移除，不保活体墓碑。 每个存续原ID仅可对应一输出，必须由本输入相同ID/owner的前版本贡献且revision恰+1；不得把别人的ID移用为接收堆。未延续的输入ID退役，新ID必须从未使用且revision=0。完整堆跨角色交易也必须新ID；同角色整堆换位置无数量变化不产出新版本。",
   "identity": "全局堆ID不可复用。已有ID保留，普通新堆由已持久唯一结算ID、角色ID及本事件新堆输出序号确定；采用71确定JSON编码的[settlement_id,character_id,ordinal] UTF8做SHA256并加stack:前缀。必须检查与已有堆/实例ID不冲突，冲突拒绝而不重抽或覆盖。交易新堆也采用此精确算法；准备前固定并随计划持久。结算ID唯一分配仍由对应事件owner负责，不借玩法随机。",
-  "flow_storage": "唯一正式结算收据内stack_flows数组为唯一权威数量投影，依次消费流、铸造流；无堆变动为空数组，单种流仅一个元素，普通消费+铸造事件恰两个元素，receipt_id按单流结算ID或双流结算ID后缀规则取值；角色provenance闭包持有原收据及依赖，其他日志引用，不另建可独立修改的第二份数量账。每个输出stack.origin_receipt_id等于本receipt_id，该自指不是历史依赖边；inputs指向先前收据输出才构成有向边。 升天初始化唯一允许由其reset_events定义的第三个:stack:merge流，同结算按consume/mint/merge拓扑顺序消费，其他owner不得据此扩展流数。",
+  "flow_storage": "料理材料交付仅cooking_material_delivery_owner_ref采用consume→mint及可选第三merge，原10后腿/5香木盒精确范围与三流ID沿该owner，不能推广为任意任务三流；中间mint只作依赖，不重复物化。唯一正式结算收据内stack_flows数组为唯一权威数量投影，依次消费流、铸造流；无堆变动为空数组，单种流仅一个元素，普通消费+铸造事件恰两个元素，receipt_id按单流结算ID或双流结算ID后缀规则取值；角色provenance闭包持有原收据及依赖，其他日志引用，不另建可独立修改的第二份数量账。每个输出stack.origin_receipt_id等于本receipt_id，该自指不是历史依赖边；inputs指向先前收据输出才构成有向边。 升天初始化唯一允许由其reset_events定义的第三个:stack:merge流，同结算按consume/mint/merge拓扑顺序消费，其他owner不得据此扩展流数。 衣饰分解由apparel_dismantling_owner_ref独立采用单mint或mint→merge两流：无旧堆合并时单流ID=settlement；有合并时恰:stack:mint/:stack:merge，按依赖顺序处理，最终仅存最新活体源头。不得据此给其他owner增加任意流或复用升天三流例外。 成长材料购买由growth_material_purchase_owner_ref仅对其两种明确物品/每次1..99采用单mint或mint→merge两流，首为npc_purchase，原槽优先合堆及临时ID消费规则沿该owner；不授权其他购买或任意多流。 至尊两实物购买仅supreme_service_purchase_owner_ref按其精确10/30版本/Q1..99采用单npc_purchase mint或mint→merge两流，独立原购买事件授权；不能冒充成长材料owner、激活事件或无来源赠送。 竹材F拾取由bamboo_pickup_owner_ref仅对原竹采倒一单位领取权采用单gather mint或mint→merge两流；只接一个旧竹堆、临时mint完整消费，不占临时库存格。此例外不授权木柴或其他拾取producer随意合流。 木柴采集成功仅由firewood_gather_owner_ref采用单gather mint或mint→merge两流，源为原唯一gather-effect ID；合并只接一个本人同任务held旧堆，旧堆→临时mint两输入顺序、末流保旧ID/槽、临时堆完整退役，不占临时库存格。不授权任意采集或其他producer扩流。 行囊具名移动仅原knight_bag_move_events.committed.stack_flow：intact为null，否则唯一无mint/无consumptions数量流，held域不变，原owner联合验证。 便携末步由便携传送与修炼限制.v1.json#/channel_finish采用stack_flow_or_null单流投影：普通成功恰单use消费1、至尊成功/正常失败均null；receipt_id等原portable-finish身份，不另分配结算或复制数量账。 香木宝盒开启仅aromatic_wood_box_open_owner_ref对精确盒1/小药5采用consume→mint→可选merge；consume可保余盒输出，mint为本原开盒loot授权，其他开盒不据此扩流。 三转下半段仅adv03_lower_transition_owner_ref允许原确认放弃单quest_cleanup流（receipt_id等settlement），无物为null；仅adv03_lower_stage_owner_ref按原92阶段允许无流、单consume、单quest_exchange mint、consume→mint及需要合堆时追加merge。单流ID等settlement，多流按实际类型采用:stack:consume/:stack:mint/:stack:merge后缀，各output_index仅指该流outputs；仅本adv_03原attempt/branch/class的具名任务实物，不授权其他任务或任意多流。 三转下半段原普通死亡材料仅adv03_lower_material_owner_ref按18具名收集步骤采用loot mint1或mint1→merge，原死亡与本人/attempt/branch/item/role的71摘要精确确定flow receipt；不借阶段交换结算后缀。仅本轮同材料原槽首堆合并，临时mint不物化，满10或容量失败无流；其他任务/怪物不据此扩流。 普通物品F拾取仅ordinary_item_pickup_owner_ref对五种原地面权利允许单loot mint1或mint→merge；仅一个同物品旧堆，结算后缀/旧ID原槽及临时堆退役沿该owner，不授权其他掉落或任意扩流。 二转九阶段仅adv02_stage_owner_ref授权：1..5无流，6三皮消费→衣服箱quest_exchange mint，7单传达箱quest_exchange mint，8单两箱消费，9原书消费→本派回城符quest_reward mint。计划含保留证据不表示全消费；单流等settlement，双流采用:stack:consume/:stack:mint，无merge，不授权其他任务。 二转普通死亡材料仅adv02_material_owner_ref按六怪/两派/三皮原第2阶段资格采用单loot mint1或mint→merge，每皮cap10；全局held与所选旧堆量分开认证。receipt按原death/本人/attempt/branch/item摘要，原槽首堆合并且临时堆不物化；满额/容量失败无流，不授权其他producer。 推荐书前置最终交付仅hyunbo_recommendation_delivery_owner_ref采用settlement:stack:consume消费本attempt全量斧10/证物5，再settlement:stack:mint单独quest_reward授唯一推荐书1；不合堆、不发地面。",
   "flow_inputs": "每个输入引用先前receipt_id/output_index的完整输出版本；不能引用部分数量，不可重复输入或在同/其他已提交事件二次消费。同一旧版本若部分留存，必须整份输入再输出原ID的新修订余量，不能让旧输出部分活着又部分消费。 输入实际使用前还须查最新已提交域，不能只凭原flow输出域绕过后续整物保管迁移。",
   "flow_outputs": "每个输出为历史完整堆快照及当时character_id、contributions；每项精确input_index/quantity，同输出不得重复input_index。无mint时每输出quantity等于contributions和，每输入原quantity等于它在全部输出及consumptions的数量和。每个输出来源输入的item_id/binding/quest_scope必须与输出相同，角色绑定物也必须同character；仅71允许unbound跨角色转移。普通配置不能借流量修改定义/解绑，须显式移除原物并以配置授权铸造新物。 每输出还须custody声明held或精确buyback/session_id/sale_receipt_id，规则见物品域迁移.v1.json；它是历史产出域，不在当前堆根复制位置。",
   "mint": "mint_authorization非null时inputs和consumptions为空、outputs非空且每输出contributions为空。authority_receipt_id指实际正式发物收据，可与本事件ID相同；严格核验事件类型、领取去重、逐物品及精确授予量/绑定，不因存在一段字符串就合法。任务状态交换授权kind=quest_exchange，由任务owner证明准确前后定义/数量。制作消费与产物在同结算，使用两个flow投影：一个正常消费流、一个craft_output授权铸造流，receipt_id须分别为结算ID加:stack:consume和:stack:mint；若只一种流则receipt_id=结算ID。各投影ID由原结算保留且全局唯一，不是两次经济提交。 kind=ascension_skill_reset只由升天武功与秘籍reset_events原已提交初始化授权，精确退款前实际投入S颗heavenly_stone/本人绑定/非任务/held，不授权其他物品；不能用配置/制作/任务来源替代退款。 kind=cultivation_claim仅原stone_claim_events已提交领取授权实际扣减待领的同数heavenly_stone；不以任务/技能退款/配置来源冒充领取。",
-  "terminal": "consumptions仅记录实际离开玩家实物域的数量和原因。NPC出售不启用复购的物品记npc_sale；支持复购的堆按NPC复购.v1.json全量移域保版本、部分出售先拆分保完整贡献与原角色所有权，不在售出时先销毁再凭空铸造。复购FIFO淘汰/角色会话结束清理须以buyback_cleanup明确终结剩余数量，关闭商店窗口不清理；该生命周期完整收据适配仍待，不能以npc_sale消费流声明已覆盖可复购库存。任务签名/状态物替换按原物消费+新定义授权产物，同笔，不能直接改堆item_id。 character_deletion仅由角色删除.v1.json原committed授权，精确覆盖删除目标全部当前held资源，禁止其他业务借该原因终结；来源头/所有权及完整集合双向覆盖另验。",
+  "terminal": "料理材料确认放弃仅由cooking_material_transition_owner_ref的committed abandon授权，以原唯一stack_flow完整消费本人本attempt全部后腿，reason=quest_cleanup，无mint/outputs；accept及零材料放弃无流，reserved/aborted不终结实物。consumptions仅记录实际离开玩家实物域的数量和原因。NPC出售不启用复购的物品记npc_sale；支持复购的堆按NPC复购.v1.json全量移域保版本、部分出售先拆分保完整贡献与原角色所有权，不在售出时先销毁再凭空铸造。复购FIFO淘汰/角色会话结束清理须以buyback_cleanup明确终结剩余数量，关闭商店窗口不清理；该生命周期完整收据适配仍待，不能以npc_sale消费流声明已覆盖可复购库存。任务签名/状态物替换按原物消费+新定义授权产物，同笔，不能直接改堆item_id。 character_deletion仅由角色删除.v1.json原committed授权，精确覆盖删除目标全部当前held资源，禁止其他业务借该原因终结；来源头/所有权及完整集合双向覆盖另验。 上半段确认放弃仅adv03_upper_transition_owner_ref允许单quest_cleanup完整终结本attempt/branch正确凭证，总量<=10；原前置完成书是锁证据，绝不作为本清理输入。空输入或accept严格null流，不授权第六错杀失败或其他producer借本身份。 上半段阶段交付仅adv03_upper_stage_owner_ref的原committed授权：stage1完整消费本attempt/branch正确凭证10件，stage2仅原接取锁定前置书1件；各单quest_delivery流，无mint/outputs，reserved/aborted不终结。 上半段第六错杀仅adv03_upper_wrong_owner_ref原committed死亡父授权quest_cleanup完整终结本attempt/branch正确凭证；1..5无流，第六stage2无材料，原推荐书始终不被失败消费。 一转确认放弃仅adv01_transition_owner_ref的committed abandon按原阶段完整终结本人本attempt实际held任务物，单quest_cleanup无mint/outputs；铁匠托管不另建实物或返还，accept/空物/未决无消费。 二转确认放弃仅adv02_transition_owner_ref原committed abandon按阶段完整终结本人本attempt/branch五类皮箱，单quest_cleanup无mint/outputs；保留推荐书/回城符不清理。首次分支接受仅该owner允许单quest_reward新堆一符，无隐式merge；旧凭证接受/空物放弃无流。 推荐书前置确认放弃仅hyunbo_recommendation_transition_owner_ref原committed abandon完整清理本人本attempt斧0..10/证明0..5，单quest_cleanup，无mint/outputs；accept/空物/未决不终结，不消费成品推荐书或其他任务物。",
   "ordering": "输入按角色ID、源容器稳定槽位、stack_id排序；输出先保所有存续原ID的余量，再按目标既有槽位/stack_id合并，最后新堆最低空槽。每输入贡献先满足自身余量，再按输出顺序分配，剩余显式终结；同类多个输入按输入顺序分配。交易先两侧移出全部输入再布局，最终不能超槽/负重/保护量。",
   "retention": "当前堆是未被后继消费且按NPC复购.v1.json最新已提交域迁移/数量结算属于持有域的输出的唯一物化视图；复购保管域另行闭合，逐件核对ID/修订/数量/作用域/owner。保完整依赖闭包并验证DAG、输出索引及单次消费；输入旧版本不是额外物品。跨角色交易把合并目标原来源及双方输入依赖都纳入计划，双方各存各当前堆必需闭包；历史闭包里其他角色输出不是本角色现持库存，不能实例化。压缩前必须保可验证数量/所有权证据，不以哈希替代来源。离线无法仅靠一侧档案证明另一角色未双花，采用71房主唯一决定及守卫，不声称防篡改。",
   "atomicity": "候选flow随经济/库存/角色修订及事件收据同笔提交，保存/重放复用原ID/数量/贡献，不再次分配。非实际变动纯预览无flow。mint与consume双投影仍同一结算原子发布，不允许只提交其中一个。交易完整flow含双侧输出并绑定同71计划摘要和守卫，commit后不可重算。",
@@ -74,5 +74,117 @@
   "cultivation_claim_owner_ref": {
     "file": "历练与洗点.v1.json",
     "pointer": "/stone_claim_events"
+  },
+  "apparel_processing_owner_ref": {
+    "file": "衣饰加工事件.v1.json",
+    "pointer": ""
+  },
+  "apparel_dismantling_owner_ref": {
+    "file": "衣饰分解事件.v1.json",
+    "pointer": ""
+  },
+  "supreme_service_purchase_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/purchase_protocol"
+  },
+  "growth_material_purchase_owner_ref": {
+    "file": "成长材料购买事件.v1.json",
+    "pointer": ""
+  },
+  "bamboo_pickup_owner_ref": {
+    "file": "竹材掉落与拾取.v1.json",
+    "pointer": ""
+  },
+  "firewood_gather_owner_ref": {
+    "file": "采集动作.v1.json",
+    "pointer": "/firewood/allocation"
+  },
+  "knight_bag_move_owner_ref": {
+    "file": "侠客行囊.v1.json",
+    "pointer": "/move_protocol"
+  },
+  "firewood_delivery_owner_ref": {
+    "file": "寻找木柴任务与采集.v1.json",
+    "pointer": "/delivery_protocol"
+  },
+  "firewood_transition_owner_ref": {
+    "file": "寻找木柴任务与采集.v1.json",
+    "pointer": "/transition_protocol"
+  },
+  "cooking_material_transition_owner_ref": {
+    "file": "五级寻找料理材料.v1.json",
+    "pointer": "/transition_protocol"
+  },
+  "cooking_material_delivery_owner_ref": {
+    "file": "五级寻找料理材料.v1.json",
+    "pointer": "/delivery_protocol"
+  },
+  "aromatic_wood_box_open_owner_ref": {
+    "file": "香木宝盒固定开启.v1.json",
+    "pointer": "/opening_protocol"
+  },
+  "adv03_lower_transition_owner_ref": {
+    "file": "三转下半段与十四职业晋级.v1.json",
+    "pointer": "/transition_protocol"
+  },
+  "adv03_lower_stage_owner_ref": {
+    "file": "三转下半段与十四职业晋级.v1.json",
+    "pointer": "/stage_protocol"
+  },
+  "adv03_lower_material_owner_ref": {
+    "file": "三转下半段与十四职业晋级.v1.json",
+    "pointer": "/collection/source_protocol"
+  },
+  "ordinary_item_pickup_owner_ref": {
+    "file": "旧三地区怪物.v1.json",
+    "pointer": "/loot_ownership/ordinary_item_drop/pickup_protocol"
+  },
+  "adv03_upper_transition_owner_ref": {
+    "file": "三转上半段猎物考验.v1.json",
+    "pointer": "/transition_protocol"
+  },
+  "adv03_upper_stage_owner_ref": {
+    "file": "三转上半段猎物考验.v1.json",
+    "pointer": "/stage_protocol"
+  },
+  "adv03_upper_material_owner_ref": {
+    "file": "三转上半段猎物考验.v1.json",
+    "pointer": "/material_death_protocol"
+  },
+  "adv03_upper_wrong_owner_ref": {
+    "file": "三转上半段猎物考验.v1.json",
+    "pointer": "/wrong_death_protocol"
+  },
+  "adv01_transition_owner_ref": {
+    "file": "第一次升职十阶段.v1.json",
+    "pointer": "/transition_protocol"
+  },
+  "adv01_stage_owner_ref": {
+    "file": "第一次升职十阶段.v1.json",
+    "pointer": "/stage_protocol"
+  },
+  "adv01_material_owner_ref": {
+    "file": "第一次升职十阶段.v1.json",
+    "pointer": "/material_death_protocol"
+  },
+  "adv02_transition_owner_ref": {
+    "file": "第二次升职九阶段.v1.json",
+    "pointer": "/transition_protocol"
+  },
+  "adv02_stage_owner_ref": {
+    "file": "第二次升职九阶段.v1.json",
+    "pointer": "/stage_protocol"
+  },
+  "adv02_material_owner_ref": {
+    "file": "第二次升职九阶段.v1.json",
+    "pointer": "/material_death_protocol"
+  },
+  "hyunbo_recommendation_transition_owner_ref": {
+    "file": "泫勃派推荐书任务.v1.json",
+    "pointer": "/transition_protocol"
+  },
+  "hyunbo_recommendation_delivery_owner_ref": {
+    "file": "泫勃派推荐书任务.v1.json",
+    "pointer": "/delivery_protocol"
   }
 }

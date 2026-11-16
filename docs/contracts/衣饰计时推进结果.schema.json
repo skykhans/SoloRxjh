@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:apparel-clock-result:v1",
+  "$comment": "原scope rules_and_timers逐角色结果中的六键衣饰计时投影，无独立日志/提交权。完整父阶段的实际授予、角色存在期、前后原快照、到期来源和唯一处理仍须验证；形状不授权模拟一步。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "play_session_identity",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "rules_hash",
+    "expiry_settlement_id_or_null"
+  ],
+  "properties": {
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:scope-step-state:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "rules_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "expiry_settlement_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1#/properties/settlement_id"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    }
+  ]
+}

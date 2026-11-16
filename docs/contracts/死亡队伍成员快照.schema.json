@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:death-party-member-snapshot:v1",
+  "$comment": "死亡原共同before中队伍各成员资格投影；完整实际队伍/会话/生命与迁入来源由原父认证。存原HP/位置/入队步而非可冲突的eligible/距离/等待计数缓存；非独立角色状态。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "character_id",
+    "actor_id",
+    "member_kind",
+    "level",
+    "hp",
+    "map_id",
+    "instance_id_or_null",
+    "position",
+    "joined_world_step",
+    "connected_or_null",
+    "destination_arrival_event_id_or_null"
+  ],
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "member_kind": {
+      "enum": [
+        "player",
+        "npc_companion"
+      ]
+    },
+    "level": {
+      "$ref": "urn:solorxjh:death-reward-pool:v1#/properties/allocations/items/properties/level"
+    },
+    "hp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "position": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+    },
+    "joined_world_step": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "connected_or_null": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "destination_arrival_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "member_kind": {
+            "const": "player"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "connected_or_null": {
+            "type": "boolean"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "connected_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

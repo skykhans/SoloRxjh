@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:adopted-direct-combat-registries:v1",
+  "$comment": "原scope七表联合投影：五类直接根、闪避/辅助位移/采集/普通辅助施放根及两类弹体，不新增包装/动作日志。每个根只存一次，键正文/原scope/跨类唯一占用及完整历史来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "accepted_direct_attacks",
+    "normal_projectiles",
+    "martial_projectiles",
+    "accepted_dodges",
+    "accepted_aux_displacements",
+    "accepted_gathers",
+    "accepted_support_casts"
+  ],
+  "properties": {
+    "accepted_direct_attacks": {
+      "$ref": "#/$defs/actions"
+    },
+    "normal_projectiles": {
+      "$ref": "#/$defs/projectiles"
+    },
+    "martial_projectiles": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "urn:solorxjh:martial-attack-dispatch:v1#/$defs/projectile_id"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:martial-projectile-state:v1"
+      }
+    },
+    "accepted_dodges": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "urn:solorxjh:player-dodge:v1#/properties/action_id"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:player-dodge:v1"
+      }
+    },
+    "accepted_aux_displacements": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "urn:solorxjh:player-aux-displacement:v1#/properties/action_id"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:player-aux-displacement:v1"
+      }
+    },
+    "accepted_gathers": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "urn:solorxjh:player-gather-action:v1#/properties/action_id"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:player-gather-action:v1"
+      }
+    },
+    "accepted_support_casts": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "urn:solorxjh:player-support-cast:v1#/properties/action_id"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:player-support-cast:v1"
+      }
+    }
+  },
+  "$defs": {
+    "actions": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+      },
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "$ref": "urn:solorxjh:player-normal-attack:v1"
+          },
+          {
+            "$ref": "urn:solorxjh:player-martial-attack:v1"
+          },
+          {
+            "$ref": "urn:solorxjh:training-normal-attack:v1"
+          },
+          {
+            "$ref": "urn:solorxjh:private-trial-enemy-attack:v1"
+          },
+          {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1"
+          }
+        ]
+      }
+    },
+    "projectiles": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/$defs/projectile_id"
+      },
+      "additionalProperties": {
+        "$ref": "urn:solorxjh:normal-projectile-state:v1"
+      }
+    }
+  }
+}

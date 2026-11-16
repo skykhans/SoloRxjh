@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:solorxjh:lu-star-power-state:v1",
-  "$comment": "唯一character.effects.lu_star_power；null为无下一次攻击武功威力翻倍。队列/投射物及已接纳动作快照由原动作结果持有，不在本组件复制。",
+  "$comment": "活跃本体唯一character.effects.lu_star_power；null为无下一次攻击武功威力翻倍。原武功根taken_lu_star_power_or_null复用本两字段形状作为已消费历史，余时不再递减；真实取前后及来源另验，不新增第二活跃效果。队列/投射物及动作沿原owner。",
   "oneOf": [
     {
       "type": "null"

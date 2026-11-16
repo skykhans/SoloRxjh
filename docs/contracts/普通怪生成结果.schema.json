@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-monster-spawn-result:v1",
+  "$comment": "公共普通二十怪成功生成的原身份与十一键初态；身份仅保存在identity_result.life_created，不复制actor/spawn/generation。初态仅适用于刚创建，不作为活体运行或保存根。真实定义、同world共同提交和初值等式另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "identity_result",
+    "initial_state"
+  ],
+  "properties": {
+    "identity_result": {
+      "$ref": "urn:solorxjh:ordinary-spawn-identity-result:v1"
+    },
+    "initial_state": {
+      "$ref": "#/$defs/initial_state"
+    }
+  },
+  "$defs": {
+    "initial_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "monster_id",
+        "hp",
+        "mana",
+        "feet_position_m",
+        "yaw_radians",
+        "ai_state",
+        "target_actor_id_or_null",
+        "patrol_destination_or_null",
+        "remaining_ai_wait_steps",
+        "accepted_action_id_or_null",
+        "effects"
+      ],
+      "properties": {
+        "monster_id": {
+          "enum": [
+            "boar",
+            "mountain_wolf",
+            "valley_boar",
+            "frost_wolf",
+            "hyunbo_bear15",
+            "hyunbo_frog5",
+            "shenwu_bloodwolf61",
+            "liushan_green_snake61",
+            "shenwu_gate_red_tiger60",
+            "shenwu_gate_sabre_tiger60",
+            "liushan_house_gold_bell_snake60",
+            "liushan_house_coral_snake60",
+            "hyunbo_boar12",
+            "hyunbo_graywolf12",
+            "liuzheng_pass_red_bear35",
+            "liuzheng_pass_yellow_tiger36",
+            "liuzheng_pass_white_tiger37",
+            "sanxie_pass_red_bear35",
+            "sanxie_pass_yellow_tiger36",
+            "sanxie_pass_white_tiger37"
+          ]
+        },
+        "hp": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "mana": {
+          "const": 0
+        },
+        "feet_position_m": {
+          "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+        },
+        "yaw_radians": {
+          "$ref": "urn:solorxjh:character-location:v1#/properties/yaw"
+        },
+        "ai_state": {
+          "const": "idle"
+        },
+        "target_actor_id_or_null": {
+          "type": "null"
+        },
+        "patrol_destination_or_null": {
+          "type": "null"
+        },
+        "remaining_ai_wait_steps": {
+          "const": 0
+        },
+        "accepted_action_id_or_null": {
+          "type": "null"
+        },
+        "effects": {
+          "$ref": "urn:solorxjh:ordinary-monster-effects:v1#/$defs/cleared"
+        }
+      }
+    }
+  }
+}

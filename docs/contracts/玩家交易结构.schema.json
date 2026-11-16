@@ -338,7 +338,24 @@
               "items": {
                 "properties": {
                   "instance": {
-                    "$ref": "urn:solorxjh:merit-jewelry-instance:v1"
+                    "oneOf": [
+                      {
+                        "$ref": "urn:solorxjh:merit-jewelry-instance:v1"
+                      },
+                      {
+                        "$ref": "#/$defs/trade_apparel_instance"
+                      }
+                    ],
+                    "properties": {
+                      "binding": {
+                        "const": "unbound"
+                      },
+                      "revision": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740990
+                      }
+                    }
                   },
                   "custody": {
                     "properties": {
@@ -359,16 +376,23 @@
                     "const": "ownership_transfer"
                   },
                   "instance": {
-                    "allOf": [
+                    "oneOf": [
                       {
-                        "$ref": "urn:solorxjh:merit-jewelry-instance:v1"
+                        "allOf": [
+                          {
+                            "$ref": "urn:solorxjh:merit-jewelry-instance:v1"
+                          },
+                          {
+                            "properties": {
+                              "durability": {
+                                "const": 0
+                              }
+                            }
+                          }
+                        ]
                       },
                       {
-                        "properties": {
-                          "durability": {
-                            "const": 0
-                          }
-                        }
+                        "$ref": "#/$defs/trade_apparel_instance"
                       }
                     ]
                   },
@@ -635,7 +659,8 @@
         "plan",
         "prepared_character_ids",
         "decision",
-        "result_sequence_refs"
+        "result_sequence_refs",
+        "clock_reconciliation_or_null"
       ],
       "properties": {
         "trade_id": {
@@ -723,9 +748,19 @@
           "items": {
             "$ref": "#/$defs/result_sequence_ref"
           }
+        },
+        "clock_reconciliation_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/apparel_clock_reconciliation"
+            }
+          ]
         }
       },
-      "$comment": "原world.player_trade_journal唯一准备计划及决定，null时流仅候选；commit唯一授权转让，abort不执行计划流。完整来源/摘要/身份/两方映射/算术/布局另验。",
+      "$comment": "原world.player_trade_journal唯一准备计划及决定，null时流仅候选；commit以原冻结计划及可空时钟对账唯一派生实际转让流，abort不执行计划流。完整来源/摘要/身份/两方映射/算术/布局另验。",
       "allOf": [
         {
           "if": {
@@ -767,6 +802,73 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "decision": {
+                    "const": "commit"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "plan": {
+                    "properties": {
+                      "transfer_provenance": {
+                        "properties": {
+                          "instance_flow": {
+                            "type": "object",
+                            "properties": {
+                              "inputs": {
+                                "contains": {
+                                  "properties": {
+                                    "instance": {
+                                      "allOf": [
+                                        {
+                                          "$ref": "#/$defs/trade_apparel_instance"
+                                        },
+                                        {
+                                          "properties": {
+                                            "lifetime_remaining_steps_or_null": {
+                                              "type": "integer",
+                                              "minimum": 1,
+                                              "maximum": 5184000
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "minContains": 1
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "clock_reconciliation_or_null": {
+                "type": "object"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "clock_reconciliation_or_null": {
+                "type": "null"
+              }
+            }
+          }
         }
       ]
     },
@@ -796,6 +898,76 @@
       },
       "additionalProperties": {
         "$ref": "#/$defs/host_record"
+      }
+    },
+    "trade_apparel_id": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:apparel-catalog-id:v1"
+        },
+        {
+          "not": {
+            "$ref": "urn:solorxjh:apparel-instance:v1#/allOf/0/if/properties/item_id"
+          }
+        }
+      ]
+    },
+    "trade_apparel_instance": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:apparel-instance:v1"
+        },
+        {
+          "properties": {
+            "item_id": {
+              "$ref": "#/$defs/trade_apparel_id"
+            },
+            "binding": {
+              "const": "unbound"
+            }
+          }
+        }
+      ]
+    },
+    "apparel_clock_reconciliation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "committed_world_step",
+        "inputs"
+      ],
+      "properties": {
+        "committed_world_step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "input_index",
+              "remaining_steps"
+            ],
+            "properties": {
+              "input_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 15
+              },
+              "remaining_steps": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5184000
+              }
+            }
+          }
+        }
       }
     }
   }

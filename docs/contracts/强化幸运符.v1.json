@@ -20,7 +20,11 @@
     ],
     "scope": "only real enhancement recipes explicitly in eligible owners;not synthesis/awakening/four-divine/gem/evolution/transfer/true conversion/legacy enhancement;cannot substitute gem_luck_charm or four_divine_luck_charm",
     "input": "optional null or exactly one unit from explicit real own carried enhancement_luck_charm_5, enhancement_luck_charm_10 or enhancement_luck_charm_15 stack;exact stack_id and expected revision/quantity1 in command;one selector only,not multiple charm types or multiple units;no auto choice from warehouse or alternate item",
-    "formula": "selected:effective_bp=min(10000,base_success_probability_bp+selected_definition.enhancement_bonus_bp);without charm use base exactly. Resolve exact adopted item from authoritative selected stack:5%=>500bp,10%=>1000bp,15%=>1500bp,never trust command-supplied bonus or derive it from a name;additive percentage points,not base*1.05/1.10/1.15",
+    "supreme_processing_owner_ref": {
+      "file": "至尊服务.v1.json",
+      "pointer": "/processing_effect"
+    },
+    "formula": "effective_bp=min(10000,base_success_probability_bp+selected_charm_bonus_or_zero+valid_supreme_bonus_or_zero);supreme bonus is500bp only under processing.supreme_processing_owner_ref with real source/timer proof;without charm and without active supreme use base exactly. Resolve exact adopted item from authoritative selected stack:5%=>500bp,10%=>1000bp,15%=>1500bp,never trust command-supplied bonus or derive it from a name;additive percentage points,not base*1.05/1.10/1.15",
     "base_guaranteed": "base10000 with charm rejects before any cost/RNG/revision;omit charm to perform original guaranteed recipe",
     "tiers_interpretation": "existing tiers success_probability_bp/random_draw_required describe base no-charm recipe;selected charm uses effective_bp and effective draw rule here;no change to base costs/tiers or eligibility",
     "draw": "effective_bp10000 no RNG advance/draw;otherwise one uniform original host draw0..9999,success iff draw<effective_bp;no independent charm roll",
@@ -41,7 +45,7 @@
       },
       "scope": "eligible_owners三类强化全部尝试（含optional_charm_selector=null）同一随机绑定，不只选符才采用；非完整强化事件schema，不单独开放服务。",
       "identity": "random_flow.receipt_id=原强化提交事件ID，原成功/失败收据内只一份random_flow；不另生成抽奖事件或消费另一settlement编号。",
-      "probability": "authority从原recipe与真实已选符定义算base/effective bp，冻结原报价；base10000选符非法，effective10000（含由符补满）实际roll=null/success=true/random_flow.streams=[]，角色及world计数均不变。其他合法有效概率1..9999仅一次uniform_integer(0,9999)。",
+      "probability": "authority从原recipe、真实已选符及supreme_processing_owner_ref的本人有效权益算base/effective bp，冻结完整服务来源/原报价；base10000选符非法，effective10000（含由符补满）实际roll=null/success=true/random_flow.streams=[]，角色及world计数均不变。其他合法有效概率1..9999仅一次uniform_integer(0,9999)。",
       "draw": "非必成仅一条character流，owner_id=原命令实际character_id，algorithm/seed/before精确原角色random_state；draws恰一项，purpose=ordinary_armor_enhance.roll、ordinary_weapon_enhance.roll或hero_weapon_enhance.roll按原service类型精确选择。low=0/high=9999/result=原收据draw，success=(result<effective_bp)。拒绝块数量可>1，但只一业务样本，after精确重算。world流及其他角色流禁止。",
       "cost_and_result": "原费用/材料与可选符成功失败均按原owner消费，失败仍是已提交抽样而非aborted。原实例保同ID，成功+1/失败保持，无多次试到成功；完整石/符堆流、银两流、实例成长和业务修订/角色RNG after同笔。",
       "precommit_failure": "原资格/修订/库存/支付/最终负重失败在候选中放弃，不提交counter或费用；抽样耗尽亦整笔拒绝，不用默认成功或替代种子。正式提交后保存不确定按原事件核决定，不再次抽/扣费。",

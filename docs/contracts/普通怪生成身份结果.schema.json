@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-spawn-identity-result:v1",
+  "$comment": "实际公共普通生成共同决定的七键生命周期/身份子结果，不是完整新生actor快照；初值/导航/创建源/代次对应与原world提交另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "life_created",
+    "rules_hash",
+    "observed_world_step",
+    "cause",
+    "previous_generation_or_null",
+    "slot_before_or_null"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 79,
+      "maxLength": 79,
+      "pattern": "^ordinary-spawn:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "life_created": {
+      "$ref": "urn:solorxjh:ordinary-monster-life-identity:v1"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:ordinary-monster-death-identity:v1#/properties/rules_hash"
+    },
+    "observed_world_step": {
+      "$ref": "urn:solorxjh:ordinary-monster-death-identity:v1#/properties/observed_world_step"
+    },
+    "cause": {
+      "enum": [
+        "first_spawn",
+        "respawn",
+        "scene_rebuild"
+      ]
+    },
+    "previous_generation_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        }
+      ]
+    },
+    "slot_before_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:ordinary-public-spawn-slot:v1"
+            },
+            {
+              "properties": {
+                "alive_or_waiting": {
+                  "const": "waiting"
+                },
+                "remaining_respawn_steps": {
+                  "const": 0
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "cause": {
+            "const": "first_spawn"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "previous_generation_or_null": {
+            "type": "null"
+          },
+          "slot_before_or_null": {
+            "type": "null"
+          },
+          "life_created": {
+            "properties": {
+              "generation": {
+                "const": 0
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "previous_generation_or_null": {
+            "type": "integer"
+          },
+          "life_created": {
+            "properties": {
+              "generation": {
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cause": {
+            "const": "respawn"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "slot_before_or_null": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "slot_before_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -22,7 +22,6 @@
     "states": [
       "not_accepted",
       "in_progress",
-      "ready_to_turn_in",
       "delivered"
     ],
     "readiness": "derive from exact real carried own-attempt10axes/5proofs; no separate collection counter",
@@ -54,7 +53,7 @@
       "pointer": "/items/0"
     },
     "repeat": "once per character across worlds; not repeatable after recommendation consumed byadv_02",
-    "delivery": "revalidate all conditions/current attempt/input binding,preflight final layout/weight and XP-cap loss confirmation;consume15tokens/grantone letter/credit11000XP/markdelivered/receipt in one05/19durable transaction",
+    "delivery": "满足rank1/route unselected、35级及实际alive/out of combat/Idle/服务距离与视线；输入为同attempt全量10斧+5证明，经验封顶损失>0前必须用户显式确认。单次原profile提交消费15材料、发一封character绑定recommendation、加11000XP（cap=371126840985，超额记discarded），更新跨等级原发点/qigong历史，state=delivered并存completion_receipt_id。同事务通过完整角色/world来源验证；容量/修订/来源失败不部分消费/发书/加经验，原reserved不重算。",
     "capacity_failure": "preserve inputs and pending state,no dropped/warehouse reward or partial grant",
     "deduplication": "character/quest/attempt/final plus request/revision; repeated completion returns original result; no regrant letter after adv_02consumes it",
     "abandon": "explicit confirmation clears only own attempt axes/proofs,cancel attempt;new accept allocates new attempt;no refund/reward,old requests cannot operate new attempt",
@@ -334,6 +333,7 @@
   },
   "initialization": "explicit new role unstarted/null attempt/no tokens;known legacy1..4import maps missing adopted quest to unstarted without level-derived completion;unknown newer-format missing data rejects",
   "pending": [
+    "严格材料死亡producer、两怪公共接入及完整角色/world/source共同父和真实语义重放",
     "Godot inventory/quest/save/LAN implementation and runtime tests",
     "source bandit art and level35growth/economy calibration"
   ],
@@ -342,5 +342,50 @@
     "spawns_checked": 8,
     "method": "0.45m monster capsule plus2m patrol margin outside solids/safe circles; central x then z paths checked for0.35m actor",
     "runtime_proven": false
+  },
+  "persistent_state": {
+    "field": "character.quests.ref_QREF-63791-016",
+    "schema_ref": {
+      "file": "泫勃推荐书任务状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "state": "not_accepted",
+      "attempt_id_or_null": null,
+      "completion_receipt_id_or_null": null
+    },
+    "accept": "仅未接取且资格完整时创建新attempt，采用原接取settlement_id，state=in_progress/完成收据null；不授任何任务物。ready只由本attempt10斧/5证明真实held与服务资格实时派生。",
+    "delivery": "同一次原交付消费10斧/5证明、单推荐书与11000XP实际入账后state=delivered，保原attempt并completion_receipt_id_or_null=原交付settlement_id。完成永久且跨world，不因二转消费书或当前背包无书改回未接取/补发，不另存领取布尔。",
+    "abandon": "只有in_progress可确认清理本attempt全部两类真实任务物并回完整initial，旧接取/死亡/放弃事件及来源永久保留；delivered不可放弃或重接。重放旧轮决定不清新轮。",
+    "construction": "新建与四已知旧源导入精确复制本三键initial，不按等级/已有旧剧情或推荐书物品猜已完成；当前格式缺/多字段拒绝，不套通用晋级模板。",
+    "joint_validation": "in_progress本轮实际接受来源与rank1/route unselected及前置一转完成一致；delivered认证同原attempt最终交付及XP/单书来源，后续路线/rank与书已消费依各真实二转/后继事件，不把rank1/unselected冻结为终生条件。角色真实配置例外仍按18原owner，不伪造任务事件。",
+    "remaining": "状态/构造及接取放弃/最终交付结构已采用；材料死亡事件、两原怪公共接入、完整角色/world/source实例验证、实际重放与Godot仍待。"
+  },
+  "transition_protocol": {
+    "field": "profile.hyunbo_recommendation_transition_events",
+    "schema_ref": {
+      "file": "泫勃推荐书转换事件.schema.json",
+      "pointer": ""
+    },
+    "identity": "原通用结算/character未决互斥；request_id按71确定JSON [\"hyunbo_recommendation_transition\",session_id,command_id]，request_digest覆盖原完整六键command。accept原settlement即新attempt，不分配另一个计数；跨owner先认原请求，同参数重放原结果。",
+    "accept": "原35级/rank1/route unselected、adv_01真实完成、本人alive/out of combat/Idle/无挑战、原泫勃掌门服务地图/2500mm/视线和会话认证后仅not_accepted可接受；inputs=[]/flow null，after state=in_progress/attempt=本settlement/完成收据null，不发材料或书。",
+    "abandon": "仅in_progress且本人明确确认本轮10斧/5证明实际损失；按背包顺序冻结本人held本quest/attempt全部两类完整堆与previous_output，斧总0..10/证明总0..5且最多15堆。非空恰单quest_cleanup完整量消费、无mint/outputs，receipt=本settlement/flow_index0；零物null。after精确原三键initial，旧接受/死亡/放弃来源保留，完成不可放弃。",
+    "revisions": "成功character.revision=expected+1；只有非空cleanup inventory.revision=expected+1并预检上限，accept/空物放弃精确不变。任务、库存布局/来源和全部变化同一原完整角色/world/profile共同候选。reserved/aborted不清材料或取消已接受任务，不发物/XP/完成凭证。",
+    "replay": "旧轮请求只回原决定，不清新attempt或重新接受；坏来源/超cap/漏材料不作空放弃或自动修复。保原日志与完整祖先；不改一转/二转或其他任务状态。",
+    "remaining": "严格转换及来源职责采用；最终交付实例/算术、两材料死亡/两怪公共接入、完整角色/world/source与真实重放/Godot仍待。"
+  },
+  "delivery_protocol": {
+    "field": "profile.hyunbo_recommendation_delivery_events",
+    "schema_ref": {
+      "file": "泫勃推荐书交付事件.schema.json",
+      "pointer": ""
+    },
+    "identity": "通用结算/character未决互斥，request_id按71确定JSON [\"hyunbo_recommendation_delivery\",session_id,command_id]，digest覆盖完整六键command；同请求重放返回原结果。",
+    "eligibility": "仅state=in_progress且本人attempt/实际10斧5证明全部可验、rank1/route unselected/至少35级、掌门原服务NPC合法交互；推荐书未曾交付。",
+    "inputs": "plan.inputs是背包顺序全量输入证据：恰覆盖本人本attempt两种材料所有held堆，斧合计10、证明合计5，previous_output/源堆及绑定范围逐项有效。推荐书不是输入，发放用独立new stack不merge。",
+    "stack_flows": "固定flow[0]完整消费15材料，receipt_id=settlement:stack:consume；flow[1]单quest_reward mint adv02_recommendation数量1、character绑定、scope null、revision0，receipt_id=settlement:stack:mint，authority=本settlement。不得因背包满改发地面/仓库。inventory_revision仅一次+1。",
+    "experience": "base_award=11000，credited=min(11000,371126840985-before.total_xp)，discarded=11000-credited；如果discarded>0，确认命令必须true，等于0必须false。progress仅total_xp加credited，其余字段保持原值。每个跨过的等级按原等级表和升级owner连续追加发点跨度/qigong，不读快照猜测、不自动分配气功。",
+    "after": "character.revision恰+1；任务保attempt并state=delivered/completion_receipt=本settlement；rank/route不变。角色XP、qigong发点、任务、库存与双堆流在唯一完整profile/world共同提交；任一来源/容量/经验历史验证失败整笔不提交。",
+    "remaining": "交付三阶段schema元结构及全量文档引用已通过；事件有效/无效实例、15件聚合、XP封顶算术、等级发点来源及全角色共同父/真实重放/Godot仍待."
   }
 }

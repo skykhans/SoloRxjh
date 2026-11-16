@@ -341,7 +341,6 @@
     "world_field": "profile.worlds[world_id].story_boss_attempts[attempt_id]",
     "world_initial_value": {},
     "character_field": "character.activities.story_boss",
-    "character_initial_value": null,
     "character_ref_schema": {
       "file": "主线首领入场事件.schema.json",
       "pointer": "/$defs/active_reference"
@@ -352,7 +351,21 @@
     "shared_roots": "本人资源/状态/姿态仅在原character正文，world现场保原本人ID与修订引用，不克隆本人面板；敌人/AI/动作/投射物及原排队事件只在world原现场。随机用原角色与world各自原流，不为每attempt生第二个seed或计数。",
     "initialization": "只有显式新世界初始化story_boss_attempts={}，新角色及四已知旧导入activities.story_boss=null。导入角色不创建world、不把旧任务完成变新attempt/权利；已有world/其他角色引用完全保留。当前格式缺字段/孤立引用拒绝，不补空或移回公共地图。",
     "retention": "完整原胜利/失败/入场/死亡/领取/返回来源历史不因清活跃引用删除；可释放战斗现场须原终态、返回及接收结果确认完整闭合，不能删除pending权利。外部原authority不可达保引用和角色守卫，不能本地重开同角色副本。",
-    "boundary": "原存放路径/三键引用、入场及终局活人返回事件已采用；完整attempt/world严格根、战斗放弃原事件已采用，死亡复活退出及完整队列停止结果仍待，无完整现场不启用真实入场/返回。"
+    "boundary": "原存放路径/三键引用、入场及终局活人返回事件已采用；完整attempt/world严格根、战斗放弃原事件已采用，死亡复活退出及完整队列停止结果仍待，无完整现场不启用真实入场/返回。",
+    "character_root": {
+      "field": "character.activities",
+      "schema_ref": {
+        "file": "角色活动根.schema.json",
+        "pointer": ""
+      },
+      "initialization": "显式新建及四已知旧来源导入角色的activities精确{story_boss:null}，唯一初值取本character_root.initial，不将成员null误当完整根；不是{}、[]或省略字段。已有当前格式必须严格验证原完整根，不按当前无战斗补null或删未知键。",
+      "ownership": "当前活动根仅story_boss；六转影子/武勋的active_challenge_ref_or_null仍在adv06/faction_merit_trial原任务字段。挑战互斥由完整角色联合读取这三处唯一引用，不能在activities再存第二份私场引用/has_activity/当前敌人/余时。后续其他活动须明确其原持有路径及严格owner后登记，不接任意活动映射。",
+      "joint_validation": "story_boss非null精确绑定原world/authority本人入场committed attempt及当前位置/会话实例；combat与终局等待返回均持引用，已完成实际返回/放弃离场/显式复活退出的同父才清null。本人不得同时持六转任一私场引用；同world所有角色与原attempt本人归属双向认证，不拿新空根修孤儿现场。",
+      "scope": "此根只闭合原活动引用容器；完整主线首领attempt/敌人/队列及角色quests/world/共同保存仍待，非完整角色或可运行活动。",
+      "initial": {
+        "story_boss": null
+      }
+    }
   },
   "entry_events": {
     "field": "profile.story_boss_entry_events",

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:supreme-service-state:v1",
+  "$comment": "profile.supreme_service_or_null：null或原激活/续期来源与剩余实际Playing步两键。0保已耗尽来源；来源必须原通用结算严格激活事件，不凭合法ID授予服务。JSON整数token、原档归属/完整来源及计时共同父另验。",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_receipt_id",
+        "remaining_steps"
+      ],
+      "properties": {
+        "source_receipt_id": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1#/properties/settlement_id"
+        },
+        "remaining_steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    }
+  ]
+}

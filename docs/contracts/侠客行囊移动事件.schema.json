@@ -1,0 +1,433 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:knight-bag-move-event:v1",
+  "$comment": "本人inventory与knight_bag之间具名17物品移动三阶段，held域不变；整堆不合并时stack_flow=null，否则唯一无mint/无消费数量流。原来源/版本/分区/数量分配/修订与超重证明须联合验证，结构不授权执行。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "stack_flow"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "stack_flow": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/move_flow"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "state_changed",
+            "session_invalid"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "from_container",
+        "to_container",
+        "stack_id",
+        "quantity"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "expected_character_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "from_container": {
+          "enum": [
+            "inventory",
+            "knight_bag"
+          ]
+        },
+        "to_container": {
+          "enum": [
+            "inventory",
+            "knight_bag"
+          ]
+        },
+        "stack_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "from_container": {
+              "const": "inventory"
+            },
+            "to_container": {
+              "const": "knight_bag"
+            }
+          }
+        },
+        {
+          "properties": {
+            "from_container": {
+              "const": "knight_bag"
+            },
+            "to_container": {
+              "const": "inventory"
+            }
+          }
+        }
+      ]
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "inventory_before",
+        "knight_bag_before",
+        "source_input",
+        "merge_inputs"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "inventory_before": {
+          "$ref": "urn:solorxjh:item-locations:v1#/properties/inventory"
+        },
+        "knight_bag_before": {
+          "$ref": "urn:solorxjh:item-locations:v1#/properties/knight_bag"
+        },
+        "source_input": {
+          "$ref": "#/$defs/source_input"
+        },
+        "merge_inputs": {
+          "type": "array",
+          "maxItems": 99,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/merge_input"
+          }
+        }
+      }
+    },
+    "stack": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:item-stack:v1"
+        },
+        {
+          "properties": {
+            "item_id": {
+              "enum": [
+                "consumable_hp_small",
+                "consumable_mana_ginseng",
+                "consumable_hp_medium",
+                "consumable_hp_large",
+                "consumable_mana_wild_ginseng",
+                "consumable_mana_snow_ginseng",
+                "return_talisman",
+                "return_liuzheng",
+                "return_sanxie",
+                "return_shenwu",
+                "return_liushan",
+                "return_beihai",
+                "supreme_hotblood_talisman_10d",
+                "supreme_hotblood_talisman_30d",
+                "spirit_ore",
+                "linglong_bamboo",
+                "quest_firewood"
+              ]
+            },
+            "binding": {
+              "const": "character"
+            },
+            "quantity": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 99
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "item_id": {
+                "const": "quest_firewood"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "quantity": {
+                "maximum": 15
+              },
+              "quest_scope": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "quest_id"
+                ],
+                "properties": {
+                  "quest_id": {
+                    "const": "ref_QREF-63791-006"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "quest_scope": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "source_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previous_output",
+        "stack"
+      ],
+      "properties": {
+        "previous_output": {
+          "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+        },
+        "stack": {
+          "$ref": "#/$defs/stack"
+        }
+      }
+    },
+    "merge_input": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/source_input"
+        },
+        {
+          "properties": {
+            "stack": {
+              "properties": {
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 98
+                },
+                "revision": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740990
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "move_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "maxItems": 100
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 100,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "$ref": "#/$defs/stack"
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  }
+                }
+              }
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:knight-bag-move-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "source_input": {
+                "properties": {
+                  "stack": {
+                    "properties": {
+                      "item_id": {
+                        "const": "quest_firewood"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "properties": {
+              "quantity": {
+                "maximum": 15
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

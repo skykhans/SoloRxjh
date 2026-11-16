@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:martial-projectile-state:v1",
+  "$comment": "原武功每ordinal唯一弹体六字段，方向/几何沿原根，ordinal沿原发射。八公共键终止，actor_contact另存两冻结候选列表；单体最多原接触一项，原生范围及霹雳额外列表另验。原实际步/扫掠/完整父来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "projectile_id",
+    "action_id",
+    "dispatch_event_id",
+    "origin_position",
+    "completed_flight_steps",
+    "terminal_event_id_or_null"
+  ],
+  "properties": {
+    "projectile_id": {
+      "$ref": "urn:solorxjh:martial-attack-dispatch:v1#/$defs/projectile_id"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:normal-projectile-state:v1#/properties/action_id"
+    },
+    "dispatch_event_id": {
+      "$ref": "urn:solorxjh:martial-attack-dispatch:v1#/$defs/event_id"
+    },
+    "origin_position": {
+      "$ref": "urn:solorxjh:normal-projectile-state:v1#/properties/origin_position"
+    },
+    "completed_flight_steps": {
+      "$ref": "urn:solorxjh:normal-projectile-state:v1#/properties/completed_flight_steps"
+    },
+    "terminal_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/terminal_event_id"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "terminal_event_id": {
+      "type": "string",
+      "minLength": 92,
+      "maxLength": 92,
+      "pattern": "^martial-projectile-terminal:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "terminal": {
+      "type": "object",
+      "required": [
+        "event_id",
+        "projectile_id",
+        "world_step",
+        "reason",
+        "target_actor_id_or_null",
+        "solid_collider_id_or_null",
+        "travel_distance_mm",
+        "stop_event_id_or_null"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/terminal_event_id"
+        },
+        "projectile_id": {
+          "$ref": "urn:solorxjh:martial-attack-dispatch:v1#/$defs/projectile_id"
+        },
+        "world_step": {
+          "$ref": "urn:solorxjh:normal-projectile-state:v1#/$defs/terminal/properties/world_step"
+        },
+        "reason": {
+          "$ref": "urn:solorxjh:normal-projectile-state:v1#/$defs/terminal/properties/reason"
+        },
+        "target_actor_id_or_null": {
+          "$ref": "urn:solorxjh:normal-projectile-state:v1#/$defs/terminal/properties/target_actor_id_or_null"
+        },
+        "solid_collider_id_or_null": {
+          "$ref": "urn:solorxjh:normal-projectile-state:v1#/$defs/terminal/properties/solid_collider_id_or_null"
+        },
+        "travel_distance_mm": {
+          "$ref": "urn:solorxjh:normal-projectile-state:v1#/$defs/terminal/properties/travel_distance_mm"
+        },
+        "stop_event_id_or_null": {
+          "$ref": "urn:solorxjh:normal-projectile-state:v1#/$defs/terminal/properties/stop_event_id_or_null"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:normal-projectile-state:v1#/$defs/terminal/allOf/0"
+        },
+        {
+          "$ref": "urn:solorxjh:normal-projectile-state:v1#/$defs/terminal/allOf/1"
+        },
+        {
+          "$ref": "urn:solorxjh:normal-projectile-state:v1#/$defs/terminal/allOf/2"
+        },
+        {
+          "$ref": "urn:solorxjh:normal-projectile-state:v1#/$defs/terminal/allOf/3"
+        }
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "reason": {
+              "const": "actor_contact"
+            },
+            "target_actor_ids": {
+              "$ref": "urn:solorxjh:martial-attack-dispatch:v1#/oneOf/0/properties/target_actor_ids"
+            },
+            "extra_target_actor_ids": {
+              "$ref": "urn:solorxjh:martial-attack-dispatch:v1#/oneOf/0/properties/extra_target_actor_ids"
+            }
+          },
+          "required": [
+            "target_actor_ids",
+            "extra_target_actor_ids"
+          ]
+        },
+        {
+          "properties": {
+            "reason": {
+              "enum": [
+                "solid_contact",
+                "range_exhausted",
+                "offensive_stop"
+              ]
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

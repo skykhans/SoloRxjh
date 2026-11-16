@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-15",
   "status": "story_items_and_gathering_design_not_implemented",
   "source_policy": "浮仙剑0基础攻击/每强化4/上限3、竹3击/每击10经验/30秒恢复/5米排斥来自旧实现；新物品权限/重量/堆叠/跨职业及多人归属为项目设计，不是官网事实。",
   "source_hashes": {
@@ -48,7 +48,7 @@
       "item_id": "linglong_bamboo",
       "name": "玲珑竹材",
       "kind": "material",
-      "container": "consumable_bag",
+      "container": "inventory",
       "max_stack": 99,
       "weight_g": 100,
       "binding": "character",
@@ -60,14 +60,15 @@
       "player_trade": false,
       "buy_from_npc": false,
       "equipment_processing_input": "only named recipe/sect donation definitions; no implicit material for all upgrades",
-      "mainline_reservation": "Q002 active reserves min(3,actual carried quantity) from sale/discard/crafting/donation; warehouse deposit allowed, delivery requires real bag",
-      "quest_input_owner": "旧主线迁移.v1.json#Q002"
+      "mainline_reservation": "沿本owner.bamboo_partition_policy：Q002活跃保护本人inventory+knight_bag实际竹量中的min(3,C)，材料消费仍只显式inventory；移分区不能解除保护，仓储按原允许规则。",
+      "quest_input_owner": "旧主线迁移.v1.json#Q002",
+      "knight_bag_allowed": true
     },
     {
       "item_id": "spirit_ore",
       "name": "灵矿",
       "kind": "material",
-      "container": "consumable_bag",
+      "container": "inventory",
       "max_stack": 99,
       "weight_g": 200,
       "binding": "character",
@@ -105,7 +106,8 @@
       "aliases": [
         "灵铁矿"
       ],
-      "legacy_name_as_published_in_project": "灵铁矿"
+      "legacy_name_as_published_in_project": "灵铁矿",
+      "knight_bag_allowed": true
     }
   ],
   "story_interactions": [
@@ -188,7 +190,11 @@
       "quantity": 1,
       "spawn_position": "node base at ground surface",
       "ownership": "character landing final valid gathering hit only; never copied to every hitter/party member",
-      "full_bag": "drop remains unclaimed in scene; no quest count before actual pickup"
+      "full_bag": "drop remains unclaimed in scene; no quest count before actual pickup",
+      "scene_state_owner_ref": {
+        "file": "竹材掉落与拾取.v1.json",
+        "pointer": "/scene"
+      }
     },
     "hit_counter_scope": "world node generation shared by room; each accepted gathering action contributes once; respawn creates new generation",
     "xp_recipient": "actual accepted hit actor; no team XP bonus/shared kill resource pipeline",
@@ -203,7 +209,29 @@
       "node_id",
       "generation",
       "gather_action_id"
-    ]
+    ],
+    "node_state_schema_ref": {
+      "file": "采集节点状态.schema.json",
+      "pointer": "/$defs/bamboo_nodes"
+    },
+    "node_state_policy": {
+      "fields": "原普通场景六株真竹的bamboo_nodes映射，每节点generation/hits/respawn_remaining_steps恰三键；位置/半径仍取原几何与图谱，不复制位置/collector/是否可采bool。hits0..2时余时必须0，hits3时余时0..1800，含0表示已倒且等排斥解除，不是可采。",
+      "initialization": "仅原显式新建或真正重建普通场景时六节点各置generation0/hits0/remaining0，原scene_rebuild不持久此普通现场规则保持。普通地图进入/重连/面板/玩家重生不是重建授权；有未决源/作用中动作须先依原场景退出父收束，不能用清空节点逃过未确认结果。历史采集/XP/掉落来源与已携带物不因新建节点删除或重放。",
+      "hit": "仅原合法动作实际生效一次才沿同代hits加1且本人10经验。一次已接纳动作只能指原node_id/generation，不在落效时换最近竹；多人可同时接纳同代，无单collector预留。到期结果按原gather action_id未经规范化UTF8排序，同节点先到第三次有效采击者独占唯一1竹材场景掉落，后续同代因已倒不加hits/经验/掉落。采击结果沿action_contract_ref，完整成长/掉落共同父继续待。",
+      "felling": "第三次有效采击同原父将hits置3、remaining置1800，generation保原代；新倒计时本T不再扣。实物掉落保在原节点脚位，只授最后有效采击者领取权；满包留地，不给所有采击者或队伍复制，不提前算任务携带量。",
+      "clock": "仅原真实scope获授步的rules_and_timers一次扣正余时到0；随后movement_and_due_capture在全部实体实际移动完成后、进攻推进队列冻结前检查hits3且remaining0。无排斥才同父generation+1/hits0/remaining0；该T接纳阶段已过去，最早下一真实步可接新一代采击，不能回头重试本T拒绝。",
+      "exclusion": "按原真实场景全部connected living玩家脚位距节点脚位严格小于5米排斥，恰5米允许，死人/不在场实体不算；不是只检查host或最后采击者。存在任一排斥时保持hits3/remaining0，下一获步再检查；禁止重置1步/1800、提前生成代次、搬玩家或发第二掉落。实际连接/生命和几何全集由原完整父认证。",
+      "bounds": "generation原非负安全整数；实际generation+1前预检，溢出拒绝原转换保before，不回0/夹上限。未知节点、缺节点/字段、错误hits/余时组合和缺源拒绝，不把倒竹计时0当默认新竹。",
+      "boundary": "六节点状态、采集请求路由/根/接纳/推进/生效沿action_contract_ref已采用；原场景生命周期和真实成长/掉落/保存共同父仍待，不据Schema或参考算例宣称采集运行通过。"
+    },
+    "action_contract_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": ""
+    },
+    "pickup_owner_ref": {
+      "file": "竹材掉落与拾取.v1.json",
+      "pointer": ""
+    }
   },
   "state_authority": "story stage alone derives owned/bound/gate/boss facts; item instance is actual ownership, not another quest-progress boolean. Stage bind_sword or later requires real known story sword; no missing sword auto grant. Configuration exceptions explicit preview/source.",
   "world_contract_file": "世界图谱.v1.json",
@@ -259,7 +287,7 @@
     "consume_item_instance": false,
     "preserve_instance_id": true,
     "output_slot": "same input slot",
-    "mainline_reservation": "when Q002 active, bag bamboo minus reserved3 must cover recipe; warehouse stock cannot pay remotely",
+    "mainline_reservation": "沿本bamboo_partition_policy同一R及I/C检查；配方材料仅明确inventory，仓库/行囊不能远程支付。",
     "permission_source": "special story sword recipe, never apply novice-equipment no-growth or normal high-enhancement probability rules",
     "quote_fields": [
       "recipe_id",
@@ -294,5 +322,15 @@
     "identity": "request_id为71确定编码[\"story_sword_binding\",play_session_identity.session_id,command_id]字符串，request_digest为71完整command白名单正文SHA256。命令严格仅play_session_identity/command_id/expected_character_revision/expected_inventory_revision/interaction_id；不接收客户端阶段/职业/授予模式/技能快照。先沿通用request_index查原请求，同键同摘要返回原身份与阶段/决定，不取新counter；同键改参数拒绝。",
     "journal": "唯一原数组预留追加，终态原位替换；identity/command/plan不可变，终态不改删。按allocation_index递增，与同authority其他通用owner共同覆盖settlement_next_id，禁止一事件同时登记其他授予日志。删除角色仍保请求及原认主/来源依赖，无明确压缩协议不得裁剪。",
     "abort": "state_changed/rules_changed/session_invalid/explicit_cancel四原原因原位终止，无阶段/技能/业务修订变化。已提交仅重放不撤销起点；存疑保存先核正式原日志，不覆盖可能committed。重启不恢复旧active会话，旧reserved按session_invalid同档终止，保已预留counter与身份。"
+  },
+  "bamboo_partition_policy": {
+    "scope": "仅本人真实held、character绑定、quest_scope=null的linglong_bamboo；inventory与knight_bag均从原唯一item_stacks解析，先过位置/正文/来源/分区权限，不能按显示名计量。",
+    "queries": "I为inventory实际竹量，K为knight_bag实际竹量，C=I+K；仓库/复购保管/地面/他人/未决产物均不计。均即时派生，不存重复任务携带计数。未知位置或缺正文是错误，不按0处理。",
+    "protection": "Q002活跃时R=min(3,C)，其他阶段R=0。出售/丢弃/加工/捐献等不可恢复消费D须有对应权限、显式原inventory输入且I>=D、C-D>=R；不分别从两包各扣3保护，也不按I减少R。允许原合法移仓但仓内不能远程支付；存仓后重新从真实C派生R。",
+    "move": "正式分区移动仅改变I/K，C及R不变，不算新拾取/采集/交付或捐献，不更新竹采集计数；取回仍须目标格/重量/来源通过。",
+    "delivery": "Q002交付须本人inventory真实I>=3，消耗明确3单位并完成原主线/奖励/来源同笔；K不作远程交付。仅C>=3但I<3时显示持有量及需取回提示，不能宣称可直接交付。",
+    "other_inputs": "旧装备强化/浮仙剑配方/门派捐献只消费其明确inventory竹堆，按同一R检查；K可保持保护数量但不能当配方或捐献付款。原实际费用、配方输入/输出/修订与共同父不变。",
+    "acquisition": "竹拾取仍只进inventory并只在inventory合堆，空间不足保原场景领取权；knight_bag同类堆/空格不作自动目标。实际拾取增加C；分区移动不产生gather来源。",
+    "gate": "分区规则及权限已设计，完整Q002交付/加工/捐献父、库存/来源和运行仍待，禁止用本查询描述绕过原未实现门禁。"
   }
 }

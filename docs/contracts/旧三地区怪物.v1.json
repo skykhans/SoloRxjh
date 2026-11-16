@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-16",
   "status": "legacy_story_creature_design_not_implemented_not_full_world",
   "source_archive": "../reference/旧三地区怪物基线.json",
   "source_policy": "等级/生命/伤害/速度/经验/固定掉落/刷点/AI旧值保留。防御=等级2、命中=等级5、回避=等级2、普通历练=旧经验整除10为项目补值；明确独立奖励档不再叠14等级档。",
@@ -23,7 +23,12 @@
     "attack_cost_hp_mana_stamina": 0,
     "patrol_radius_mm": 2000,
     "return_healing": "once actually at valid home, restore full health without rewards; no teleport on leash",
-    "multiplayer_target": "eligible living hostile outside safe zone, shortest reachable distance then stable ID; revalidate each decision; never target by client arrival order"
+    "multiplayer_target": "eligible living hostile outside safe zone, shortest reachable distance then stable ID; revalidate each decision; never target by client arrival order",
+    "ordinary_state_machine_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/ordinary_ai"
+    },
+    "ordinary_state_machine_scope": "只适用本四种boss=false普通怪；boss仍各自遭遇规则。"
   },
   "respawn": {
     "ordinary_wait_steps": 7200,
@@ -31,13 +36,61 @@
     "exclusion_actors": "any connected living player strictly inside5m of home",
     "blocked": "wait at zero without rewards/teleport",
     "boss_policy": "no ordinary respawn; personal quest-stage projection and death-event receipt prevent repeated rewards",
-    "source_difference": "old ordinary30s deliberately changed to16合同120s; bamboo30s remains its own gather rule"
+    "source_difference": "old ordinary30s deliberately changed to16合同120s; bamboo30s remains its own gather rule",
+    "ordinary_lifecycle_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/respawn"
+    },
+    "ordinary_lifecycle_scope": "仅monsters中boss=false四种公共刷点；身份/代次/生成初态/死亡与7200等待采用共同owner，不把boss个人遭遇投影转换为普通生命。",
+    "ordinary_spawn_adapter": "旧四普通怪原spawns采用id→spawn_id、kind→monster_id、position_feet_m→出生脚底与返乡home；map_id保持原值。项目明确出生yaw=0弧度（原旧刷点无朝向字段），之后沿AI朝向规则变化；不将缺少任意正式字段视为可补0。仅显式本四怪适配，不修改原spawns身份。"
   },
   "loot_ownership": {
     "ordinary": "19 kill-owner single real drop, no all-party copies",
     "quest_boss": "one private personal quest encounter per eligible character/attempt; cannot use room-global absence to satisfy another role",
     "claim": "real backpack pickup, full bag stays in scene; committed reward event never emits same drop IDs twice",
-    "save": "ordinary scene drops not persisted; warned before normal exit; already picked items preserved"
+    "save": "ordinary scene drops not persisted; warned before normal exit; already picked items preserved",
+    "silver_owner_ref": {
+      "file": "怪物银两掉落与拾取.v1.json",
+      "pointer": ""
+    },
+    "ordinary_item_drop": {
+      "schema_ref": {
+        "file": "普通物品场景掉落.schema.json",
+        "pointer": ""
+      },
+      "field": "scope.ordinary_item_drops",
+      "scope": "仅旧四怪fixed_loot三种物与熊random_loot两种材料共五物品；蛤蟆/三转两怪普通物品表为空。共用六键地面待领权利与场景映射，不含boss个人奖励、角色held实物或个人任务凭证。",
+      "production": "固定物按原四怪fixed_loot行序逐行恰一份，数量精确原表。熊random_loot按熊owner的两行原试次只产实际命中行；结果同样记录权利，不能因非固定而直接mint入包。owner均等原真实kill_owner，position等致死脚位，不按全队复制；无合法归属不发也不抽。其他七种普通物品随机表明确空；未知配置先扩正式采用，不运行时跳过。",
+      "identity": "drop_id=ordinary-drop:加SHA256(71确定JSON编码[\"ordinary_item_drop\",原death_identity.event_id,table_kind,原表零起行索引] UTF8)小写hex，table_kind仅fixed/random。精确原规则行索引，不按成功列表重新编号；不得因某行未中令后行改号。键冲突/异文或已终结权利重现拒绝，不另分配通用结算。",
+      "registry": "真正新scope显式{}，键等正文drop_id。原死亡同笔插入全部原权利；原正式领取或明确普通现场重建才删除/终结。加载缺字段拒绝，不从死亡历史重新生成旧包。LAN个人离开不清房主包。普通离线明确退出/重建已警示后收束未决并保被清全集/来源终结，同银包重建职责，不以清映射代替证明。",
+      "pickup": "沿原F最近单份权利选择与银包/竹材共同距离、UTF8 drop_id顺序；本人有权且<=2000毫米/LOS与原生命会话合法。整份格重与原来源预检通过才真实拾取；满包原包留场，不部分领/转仓/补发。仅正式拾取以本结算loot授权产held堆及实际必要合堆、推进角色/库存修订并同父删除权利；本死亡不mint held物、不入钱物账。严格事件与多流职责见pickup_protocol；实际共同父/加载及运行仍待。",
+      "retention": "保原完整死亡业务结果、fixed_loot规则与kill-owner源，领取或重建终结及实际堆来源闭包。旧死亡重放只回原结果，不重装已领或已清地面物；后续成长/任务消费不回滚原领取。",
+      "remaining": "六键权利、死亡生产、拾取事件/来源适配和整体重建掉落清理子结果采用；完整重建父、角色/world共同保存及Godot仍待。",
+      "pickup_protocol": {
+        "schema_ref": {
+          "file": "普通物品拾取事件.schema.json",
+          "pointer": ""
+        },
+        "field": "profile.ordinary_item_pickup_events",
+        "phases": "reserved精确4键、committed精确7键、aborted精确5键。command复用竹材原四键；plan精确rules_hash/world_step/drop_before/inventory_before/merge_input_or_null。保同一identity/command/plan完成或中止，不另占号重演。",
+        "qualification": "真实F最近单份选择沿pickup；会话本人等drop_before.owner_character_id。权威scope原权利完整一致且未被领取/重建终结。保完整死亡结果，按原固定/随机行及真实kill_owner认证来源；reserved不发物。",
+        "preflight": "仅五种具名定义，binding=character/quest_scope=null/max_stack99。锁定inventory_before及角色/库存修订；按实际槽序选首个同物品可合堆held旧堆（quantity1..98），保完整previous_output/stack；有可合堆堆不得另占新格，否则原合法首空槽。按原重量/容量预检完整1单位；失败原包留场，不部分领/转仓。不占临时mint库存格。",
+        "flows": "无合堆恰单loot mint，receipt_id等identity.settlement_id；有合堆恰mint→merge，两receipt_id分别settlement_id加:stack:mint及:stack:merge。mint无inputs/consumptions，恰本人held同物品1、revision0、空contributions，authority_receipt_id等本拾取settlement。死亡只授权地面权利不直接授权held mint。每输出origin_receipt_id等实际流receipt_id。新stack_id沿原[settlement_id,character_id,ordinal]摘要，本事件唯一新堆ordinal0。",
+        "merge": "无mint/consumptions，inputs精确旧previous_output在前、临时mint实际receipt_id/output_index0在后；恰输出旧stack_id/原槽、旧revision+1、旧quantity+1，contributions依次input_index0旧完整量及input_index1一单位。临时mint完整消费/退役不物化；最后仅旧堆新版本入原槽。所有输入须当前held及来源未消费。",
+        "commit": "两个after各等对应expected_revision+1，同事件各仅一次，溢出拒绝。同一角色/world权威提交同时保存最终库存/完整来源、移除该drop_id及登记唯一领取终结；不能先发物再删包或反之。原请求全文一致只回原决定，同权利全局最多一领取，换command/跨角色也不重领。aborted不产流/推进修订/删权利。",
+        "recovery": "中断沿原共同提交决定恢复；任一边落盘存疑保原未决并停止该作用域发布，不从缺包/现物猜成功或补发。保完整原事件/死亡与领取或重建终结，旧死亡/领取重放不恢复权利。",
+        "boundary": "D1结构与语义职责采用；完整共同保存父、场景清理证明、LAN结果producer和Godot实现仍待，不以局部schema校验宣称事务已运行。",
+        "identity": "request_id为71确定JSON [\"ordinary_item_pickup\",play_session_identity.session_id,command_id]，request_digest为原完整四键command的71编码SHA256。先沿原同会话全部输入正文去重，真实F选到普通物品权利且预检通过才用原通用结算分配；同请求只能继续原reserved或回原终态，不能按当前T重选/改plan。",
+        "joint_commit_owner_ref": {
+          "file": "档案共同提交.v1.json",
+          "pointer": ""
+        }
+      },
+      "ordinary_rebuild_owner_ref": {
+        "file": "怪物银两掉落与拾取.v1.json",
+        "pointer": "/scene_registry/ordinary_rebuild_protocol"
+      }
+    }
   },
   "additional_items": [
     {

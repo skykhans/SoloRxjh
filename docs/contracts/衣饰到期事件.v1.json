@@ -1,0 +1,42 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "strict_apparel_expiry_event_adopted_continuous_clock_proofs_pending_not_runtime",
+  "schema_ref": {
+    "file": "衣饰到期事件.schema.json",
+    "pointer": ""
+  },
+  "rules_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": ""
+  },
+  "scope_owner_ref": {
+    "file": "战斗命中与减伤.v1.json",
+    "pointer": "/scope_step_lifecycle"
+  },
+  "instance_owner_ref": {
+    "file": "唯一实例来源流.v1.json",
+    "pointer": ""
+  },
+  "field": "profile.apparel_expiry_events",
+  "initial_value": [],
+  "producer": "仅真实world authority在原scope本T的rules_and_timers，从已接纳角色及其全部held衣饰构造。客户端不发送到期命令，日期/房间经过步/客户端余时均不授权。无到期实例不分配结算、不造空流；永久null、纪念0及正余时>1不在此事件输入。",
+  "command": "恰六键play_session_identity/expected_character_revision/expected_inventory_revision/map_id/instance_id_or_null/due_world_step；完整会话world/authority/角色与当前被授予scope/T一致，公私地图绑定沿原图谱。T是本角色实际从r=1消费最后一步的权威步，不能用r减差值自证。",
+  "identity": "request_id为71确定JSON [\"apparel_expiry\",play_session_identity.session_id,map_id,instance_id_or_null,due_world_step]；request_digest对严格完整六键command编码SHA256。一个真实角色/会话/scope/T最多一个衣饰到期事件，输入全集不得拆为数笔。先查原请求；committed只回原决定，不恢复旧衣饰/余时、不重新扣除贡献。异摘要拒绝。",
+  "plan": "恰rules_hash/source_inputs两键。source_inputs为本角色全部held域中本实际步前余时精确1的衣饰，按instance_id原UTF8字节升序，无重复ID且与原源头/最新域/唯一位置双向覆盖；两组cape、装备背包和私人仓库一视同仁，不用生效套筛选。每项保真实完整根/前业务输出/最新custody，历史正余时递减仍须真实原角色步来源认证。",
+  "preemption": "同角色未决购买/加工/分解/换装等可取消报价若阻止本角色到期步，先按其原owner持久取消已失效候选，保持钱物/RNG/角色修订；再从真实现态构造本到期完整全集并预留。不得同时保冲突reserved、等待到期与报价互相解锁或提交旧报价。不可取消的已决定业务先按原共同事务恢复收束，不用到期抹除正式结果。",
+  "reserve": "原counter+1与reserved同档保存，角色/库存/实物余时及来源头保持原输入，原角色/会话/源及scope本T依赖操作冻结至提交。不是冻结计时赠免费步：本角色尚未完成该逻辑步，不能先推进下一步或发布后续命令结果。完整原scope context须持久标记此未决原事件，缺该context不得运行；不在六字段scope投影另塞游标。",
+  "commit": "仅reserved→committed，无aborted/user_cancelled。输入仍等plan且同原会话/scope/T/规则；同一正式决定将输入全集、唯一instance_flow、实物注册表/位置/业务头、贡献/资源/效果及character/inventory修订各+1并入原角色规则阶段完成记录。所有流input逐项精确等plan.source_inputs。实际磁盘完成时间不改变逻辑T。规则变更/会话结束/角色删除等待该决定收束。缺源/读失败/存疑写保现场停止依赖阶段，不能当无到期或删reserved跳过。",
+  "whole_item": "34整件限时款按原精确profile授权：对应输入恰一retirement/input_index/reason=apparel_expiry，无同ID输出，原唯一位置和活体正文移除，不发银/材料/替代款或恢复旧出生。终结允许输入revision=MAX；装备包或随身两套移除按原重量更新，仓库移除不减随身重量。",
+  "bonus_item": "39992/39991对应输入恰一个revise输出，source_input_indices=[原输入索引]，输出按原输入索引升序。保instance/item/lineage/owner/binding/创建锚/全部成长及原位置；revision=input+1、state_origin_receipt_id=本settlement、余时0，creation_authorization=null，held。不得retire、清成长/绑定/换ID或重新初始化期限；输入revision=MAX不能预留，必须在新角色步前报错停止，不改作终结。",
+  "flow": "receipt_id=identity.settlement_id。每输入恰一种存续或终结；retirements按输入索引升序，覆盖所有且仅whole_item。outputs覆盖所有且仅bonus_item；无create/replace/ownership_transfer/空流。普通正余时扣1不产生每帧业务flow。一次事件不得同时对同实例revise再终结。",
+  "composition": "同角色同T到期全集合并一笔，角色/inventory各+1一次；同实例整件终结优先，不为其他自然贡献再输出幽灵版本。纪念revise须与同实例同T其他合法自然变化合并唯一版本，当前衣饰无其他已采用自然成长字段，不授权额外修改。跨角色持续效果沿原共同决定封套，完整封套未闭合时保持不可运行。",
+  "resources": "按期限原owner重算当前生效构筑/外观；HP/内力/体力仅下裁，反气功不足沿原预算丧失规则同笔清全部原键且不返资源；非生效/隐藏/备用/仓库到期仍计时但不能误撤当前其他装备贡献。既有已付攻击快照保留，后续奖励/动作读取到期后真实构筑。无stack/silver/random流、无新增材料/费用/抽样。",
+  "recovery": "预留同scope/T/原plan原位完成，不重收候选、不按当前实物缺项推测已完成。提交存疑先重读正式共同决定；已committed重放只回原结果，不重修订/撤属性/恢复旧快照。原scope阶段及所有角色子决定闭合后才向下一阶段前移，无到期事件不证明角色时钟已认证。",
+  "journal": "原profile.apparel_expiry_events按allocation_index递增，至多一reserved，与通用原owner占用合并；新profile和四已知旧导入新目标显式[]，当前格式缺字段拒绝，不伪造历史到期。远端角色本地来源仍沿真实authority完整网络证明，不把副本计本地counter。",
+  "implementation_gate": "严格衣饰到期事件/专用终结原因及原日志/索引采用。完整实际接纳角色时钟及scope内部context、来源/角色/profile/world/多接收网络封套和Godot/文件LAN仍待，不能仅凭本schema注册或执行到期。",
+  "apparel_clock_result_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": "/clock/result"
+  }
+}

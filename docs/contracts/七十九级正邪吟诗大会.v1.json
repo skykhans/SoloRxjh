@@ -236,12 +236,16 @@
     "eligible_scope": "唯一怪物原死亡结算后的本人普通历练，所有已采用公共/私场/修炼房地图；不改队友/伙伴/召唤物来源，不对任务/活动完成、配置/交易/洗点/退款、升天进度或经验银物品加成。",
     "component_gate": "普通怪精确finisher_reward_components含practice；注册修炼房怪精确training_reward_components含practice；按实际地图owner选唯一明确字段，缺配置拒绝导出，不以名字推断资格。",
     "snapshot": "唯一原死亡对每收件人先按源世界当前步扣时，再取存活/连接/地图及同世界有效poetry源；修炼寿依其原主题/房间/周期条件独立取源。事后拾取/交任务/重连/复活不重评。",
-    "family": "poetry与training_longevity_practice同个人历练倍率族，effective_bp=max(10000,有效poetry15000,有效寿15000)，同1.5倍不连乘成2.25；无源1倍。并列有效可都记候选，选中来源按稳定sourcekey字典序一个，不能重复加奖励。",
+    "family": "poetry与training_longevity_practice同个人历练倍率族，effective_bp=max(10000,有效poetry15000,有效寿15000,有效至尊服务14000)，同1.5倍不连乘成2.25；无源1倍。并列有效可都记候选，选中来源按稳定sourcekey字典序一个，不能重复加奖励。",
     "order": "26最后击杀先调普通历练基数，19建独立历练池并分配base_share，各收件人后只计算一次floor(base_share*effective_bp/10000)，再按个人历练上限计算实际/损失；不从加成XP反推历练，不将bonus回灌团队池，不覆盖原个人上限/溢出处理。",
     "receipt": "保存原死亡base_share、全部候选稳定key/来源分支/余时快照、effective_bp、personal_bonus=scaled-base_share、scaled/actual/cap_loss。任务来源追溯原完成授予，配置来源追溯准确本字段原配置决定且保配置证据标记；sum(actual+loss)=team_pool+sum(personal_bonus)，sum(base_share)=team_pool。",
     "atomicity": "05/19同一原死亡权威事务扣时快照/正常收益及任务物候选/个人资源/收据，RNG仍仅原业务；同请求返回原决定，不重算新源/加倍率/重发任务物。",
     "integer_safety": "倍率乘法及团队守恒使用任意精度整数中间值，不经float；base_share/最终scaled/实际/损失均须是各owner声明合法范围内整数，溢出整笔结算错误，不回绕/截断或以损失补非法原数。",
-    "source_key": "任务poetry key=(poetry,world_id,source_quest_id,grant_receipt_id)；配置poetry key=(poetry_configuration,world_id,configuration_receipt_id)，取当前唯一合法槽分支；寿key=(training,world_id,theme_id,cycle_index)。按规范字段序列字典序选一个同最大倍率源，收据列全部有效候选；配置分支不填造任务ID。"
+    "source_key": "任务poetry key=(poetry,world_id,source_quest_id,grant_receipt_id)；配置poetry key=(poetry_configuration,world_id,configuration_receipt_id)，取当前唯一合法槽分支；寿key=(training,world_id,theme_id,cycle_index)。按规范字段序列字典序选一个同最大倍率源，收据列全部有效候选；配置分支不填造任务ID。 至尊候选key及真实档案/先计时快照沿supreme_candidate_owner_ref；不伪造poetry任务或修炼寿周期。",
+    "supreme_candidate_owner_ref": {
+      "file": "至尊服务.v1.json",
+      "pointer": "/reward_effects"
+    }
   },
   "lifecycle": {
     "states": [

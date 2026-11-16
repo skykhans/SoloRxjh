@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:connection-lifecycle-result:v1",
+  "$comment": "原LAN已启用远端会话十一键权威连接转换，不是Codex断连诊断或第二会话。单调失联时长仅为真实观察证据，非世界计时补扣。实际传输源/序列/10与120秒优先/本人及共同提交另验。 必有cancelled_portable_channel_id_or_null引用同父清除的原便携读条；无真实取消显式null，不新增取消日志/物品流。来源/同生命/预留与首因须联合验证。 必有辅助停止引用，仅普通实体真实entity_removed转换可非null；失联观察/重连/席位释放不重复停止。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "play_session_identity",
+    "observation_index",
+    "source_actor_id",
+    "world_step",
+    "transition",
+    "disconnection_event_id",
+    "disconnected_elapsed_ms",
+    "cancelled_firewood_action_id_or_null",
+    "cancelled_portable_channel_id_or_null",
+    "cancelled_support_action_id_or_null"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 81,
+      "maxLength": 81,
+      "pattern": "^connection-event:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/identity",
+      "properties": {
+        "mode": {
+          "const": "lan_client"
+        }
+      }
+    },
+    "observation_index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740990
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/properties/source_actor_id"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:scope-step-state:v1#/properties/world_step"
+    },
+    "transition": {
+      "enum": [
+        "disconnected",
+        "entity_removed",
+        "reconnected",
+        "seat_released"
+      ]
+    },
+    "disconnection_event_id": {
+      "$ref": "#/$defs/event_id"
+    },
+    "disconnected_elapsed_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "cancelled_firewood_action_id_or_null": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/$defs/cancelled_firewood_action_id_or_null"
+    },
+    "cancelled_portable_channel_id_or_null": {
+      "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/cancelled_portable_channel_id_or_null"
+    },
+    "cancelled_support_action_id_or_null": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/$defs/cancelled_support_action_id_or_null"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "transition": {
+            "const": "disconnected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "disconnected_elapsed_ms": {
+            "const": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "transition": {
+            "const": "entity_removed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "disconnected_elapsed_ms": {
+            "minimum": 10000
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "transition": {
+            "const": "seat_released"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "disconnected_elapsed_ms": {
+            "minimum": 120000
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "transition": {
+            "const": "reconnected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "disconnected_elapsed_ms": {
+            "maximum": 119999
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "transition": {
+            "const": "disconnected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "disconnected_elapsed_ms": {
+            "const": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "transition": {
+            "const": "entity_removed"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "cancelled_support_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "event_id": {
+      "type": "string",
+      "minLength": 81,
+      "maxLength": 81,
+      "pattern": "^connection-event:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:connection-lifecycle-result:v1"
+      }
+    }
+  }
+}

@@ -14,7 +14,9 @@
     "expected_level_for_validation_only": 1,
     "completed_rank": 0,
     "route": "unselected",
+    "basic_combo_window_or_null": null,
     "warehouse_silver": 0,
+    "portable_travel_channel_or_null": null,
     "earth_spirit_points": [],
     "training_gate_buffs": {
       "by_world": {}
@@ -58,12 +60,8 @@
       "receipts": [],
       "guide_grant_receipts": [],
       "items_granted": [],
-      "application": "initialize each applicable quest entry explicitly;branch/stage fields only for owners declaring them,not extra inventory copies",
+      "application": "initialize each applicable quest entry explicitly;branch/stage fields only for owners declaring them,not extra inventory copies adv_01、adv_02、adv_03_upper与adv_03完整根各仅取owner_specific_initial_refs各原严格初值，不继承通用模板键或把引用元数据写角色。 ref_QREF-63791-016仅取原owner三键完整初值，不继承通用stage/branch/receipts或复制推荐书物品。",
       "owner_specific_initial_values": {
-        "adv_03_upper": {
-          "violation_count": null,
-          "failure_receipts": []
-        },
         "adv_05": {
           "book_stages": {},
           "book_2_path_or_null": null,
@@ -128,7 +126,29 @@
           "final_receipt_or_null": null
         }
       },
-      "branch_id": null
+      "branch_id": null,
+      "owner_specific_initial_refs": {
+        "adv_03_upper": {
+          "file": "三转上半段猎物考验.v1.json",
+          "pointer": "/persistent_state/initial"
+        },
+        "adv_03": {
+          "file": "三转下半段与十四职业晋级.v1.json",
+          "pointer": "/persistent_state/initial"
+        },
+        "adv_01": {
+          "file": "第一次升职十阶段.v1.json",
+          "pointer": "/persistent_state/initial"
+        },
+        "adv_02": {
+          "file": "第二次升职九阶段.v1.json",
+          "pointer": "/persistent_state/initial"
+        },
+        "ref_QREF-63791-016": {
+          "file": "泫勃派推荐书任务.v1.json",
+          "pointer": "/persistent_state/initial"
+        }
+      }
     },
     "martial_merit": 0,
     "martial_merit_title_state": null,
@@ -232,6 +252,10 @@
     "skills_initialization_ref": {
       "file": "普通主动技能状态.v1.json",
       "pointer": "/skill_learning_root/creation_construction"
+    },
+    "activities_initial_state_ref": {
+      "file": "主线首领遭遇.v1.json",
+      "pointer": "/persistent_ownership/character_root/initial"
     }
   },
   "equipment_layout_profile": {
@@ -332,7 +356,7 @@
       "restore_over_missing_capacity": "apply missing amount only; never repair already-invalid HP/mana",
       "item_cost_waived_by_blood_devil": false,
       "hp_recovery_block": "when already blocked, reject HP potion without consume/cooldown; mana potion unaffected by HP-only recovery block",
-      "use_location": "real_consumable_bag_only_not_warehouse",
+      "use_location": "real_inventory_only_not_warehouse",
       "hotbar_stack_selection": "binding chooses definition; select eligible real stack by stable ID before use. An explicit stale stack request never switches to another stack."
     }
   },
@@ -349,12 +373,67 @@
   "damage_input_policy": "snapshot unified final attack min/max at accepted action (already includes weapon, growth/equipment/passive/rage/weakening and explicit training-gate attack multiplier before final override); per valid hit ordinal draw in that interval, add flat power, multiply/floor phase coefficient; later hit-time damage bonuses/crit/defense/shield still follow full combat contract. Never roll/add weapon or training multiplier again, or average its range.",
   "basic_combo_policy": {
     "stage_count": 3,
+    "persistent_window": {
+      "completion_owner_ref": {
+        "file": "战斗命中与减伤.v1.json",
+        "pointer": "/normal_attack_advance"
+      },
+      "completed_action_schema_ref": {
+        "file": "玩家普通攻击.schema.json",
+        "pointer": ""
+      },
+      "schema_ref": {
+        "file": "普通攻击连段窗口.schema.json",
+        "pointer": ""
+      },
+      "life_projection_schema_ref": {
+        "file": "普通攻击连段窗口.schema.json",
+        "pointer": "/$defs/life_projection"
+      },
+      "field": "character.basic_combo_window_or_null唯一null或两键completed_action_id/remaining_opportunity_steps，不在timers/effects再存连段号/profile/最后完成步/第二世界时钟。下一段从原完整已完成普通动作stage+1派生；本地末12步未发送意图不属于本持久窗口。完整角色根必须显式含本字段。",
+      "initialization": "22新角色显式null，四已知旧来源仅新导入角色显式null，不伪造曾打第一段；已有其他角色/window/world保持。现行格式缺字段拒绝，不能按初值补齐。创建在原完整候选及摘要前安装，经registered_initial_components原binding认证，不新增创建后补写/配置事件。",
+      "source": "非null须解析同角色实际player-actor生命、同world/authority/map/instance的原完整normal_attack根及唯一正常完成父决定，原stage只可1或2、elapsed等冻结W+A+R、stop为空。原完整规则、实际职业/兼容武器实例及basic_profile须与当前可续资格一致；阶段3完成不建窗口。缺原根/完成证明不能从剩余或动作动画猜下一段。完整玩家根/推进父决定仍待。",
+      "selection": "原正式normal_attack命令不带客户端连段号。无窗口取本职业原basic_profile.stage1；合法窗口取原已完成stage+1，同一完整接纳决定消费窗口并生成该stage唯一e0根。每段仍要新的明确命令，传输重放仅回原接纳结果，不消费另一窗口。命令拒绝不提前清或延长窗口，本T未使用的旧窗口仍按finalize正常扣机会。",
+      "completion": "仅原普通根第一次真正完成全部后摇且未停止时产生下一段机会：stage1/2写本原completed_action_id/remaining60，stage3保持null。空挥/合法未中/blocked仍可正常完成并续段，不要求虚构HP命中；发射投射或触发派生不提前算恢复完成。动作中断/死亡不建窗口；完成后在途投射/派生继续原根owner，不因窗口或下一段接纳删来源。",
+      "phase_and_clock": "本窗口扣机会只在原scope.finalize，所有本T接纳/动作推进/战斗/活动结果确定后；不是rules_and_timers正计时字段。原本T真实获授本人角色步及完成规则工作来源必须认证。若本T接纳消费/生命或scope切换/死亡/活动关闭已清则不再扣。若本T才由原正常完成父决定创建remaining60，本T不扣；不得以world观察步差补算或从当前值猜创建时间。",
+      "expiry": "原创建完成步C写60；其后的第1..60个真正角色机会步，接纳阶段分别可见60..1。仅该步接纳与后继结果处理完的finalize：旧余时>1减1，旧余时1置null，绝不保存0。第60机会步可续，第61已无窗口取stage1。world T可不连续，机会数不取T-C；无本人角色步/按原clock_policy暂停或挂起不扣，正常游走且有本人步仍扣。",
+      "other_actions": "实际成功接纳非普通攻击且占用本人的武功、闪避、采集或其他动作时清旧窗口；仅点击或拒绝不清。普通药品等明确不取消动作的非占用使用、命中/受击/派生箭不自行改窗口。成功换装备组/更换或失去实际武器、真实跨scope迁移/结束玩法会话及活动终局同原正式决定清窗口，不拿当前职业可用的另一profile接续旧链。普通移动/换目标不重置或延长原窗口。",
+      "death_and_respawn": "真实终态死亡同原death_events清null；成功拦截仍存活不提前清。已完成窗口源不因清窗口强行塞进offensive_stop.root_event_ids或把正常完成根改停止；若其仍有实际未落效进攻后代，原死亡选择协议照常列根。复活保null，不从死亡前窗口续段或另送阶段。",
+      "save_and_retention": "保存/暂停/读取保当前真实窗口与原根/完成来源及world角色共同状态，不扣墙钟或重建满60。加载清未发送本地意图但不清合法权威窗口，不自动发下一段。非null所引用原完整根及必要完成父决定不得回收；消费/到期清null也不删除尚有投射/派生/历史来源依赖的根。",
+      "atomicity": "窗口创建/消费/递减/清除与所属原推进/接纳/收尾/死亡/迁移/会话/活动父决定及必要真实角色after同笔；只沿父结果加一次业务修订，不新增通用结算/随机或窗口日志。存疑先核正式决定，不先扣机会/改段或重复发根。窗口形状不证明完整角色/world/动作历史，实际共同提交仍待。",
+      "boundary": "十四职业共用三段机会状态及精确第60步边界已采用；完整玩家动作/推进结果/占用及全部跨owner父提交仍待，未进行Godot连段/投射/输入实测。"
+    },
     "one_request_one_stage": true,
     "same_request_replay_advances_stage": false,
     "recovery_input_buffer_steps": 12,
+    "input_buffer_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/direct_attack_admission_phase/persistent_worklist/local_combo_buffer"
+    },
     "next_stage_deadline_after_recovery_steps": 60,
     "missing_next_input": "reset_to_stage_one",
     "no_automatic_three_hits_from_one_request": true
+  },
+  "basic_attack_geometry": {
+    "schema_ref": {
+      "file": "普通攻击几何快照.schema.json",
+      "pointer": ""
+    },
+    "fields": "仅原完整normal_attack根的basic_profile_id/handler/range_mm/maximum_targets_per_hit及对应近战两字段或投射三字段联合验证；不保存geometry副本，不给攻击武功套用普攻profile。十四职业真实职业/装备武器与原规则包来源必须共同认证，profile字符串不能授权。",
+    "source_ref": {
+      "file": "角色初始模板.v1.json",
+      "pointer": "/basic_attack_profiles"
+    },
+    "range_owner_ref": {
+      "file": "射程气功采用.v1.json",
+      "pointer": ""
+    },
+    "freeze": "合法接纳时从真实原profile冻结形状、范围、弹速/半径/寿命及最大目标1。仅普通弓猎鹰之眼与梅柳真玄武的指点，按自身真实正生效等级0..40增加100mm/级，且只取原owner同族最强贡献；不能同时叠两职业来源或借黑花漫开扩普通攻击。其他十二职业保持各自原range。真实接纳后换装/气功变化/反气功/加载不改旧根。",
+    "joint_validation": "投射maximum_projectile_steps必须精确等于ceil(range_mm*60/projectile_speed_mm_per_second)，用精确整数运算并核最终安全整数。schema对两可增程职业给出范围/寿命边界，不能仅凭分别在界内接受不匹配配对；等级授权及射程差值必须同时核真实来源。弓手基础18000/16000为68步，最高22000为83；梅柳真18000/18000为60，最高22000为74。不把基础68向下改67，不把所有职业弹速统一。",
+    "melee": "melee_single只保arc_degrees=90及vertical_hit_height_mm=2000；不保无用的零弹速或投射寿命。真实命中步重验原扇形/高度/距离/障碍及目标生命，原显式主目标失效不提升其他碰撞体为主目标。空挥仍消费本次ordinal并保真实无命中决定，不能伪造伤害ID。",
+    "projectile": "projectile只保对应正弹速/半径100/实际最大寿命，不保无关扇形/高度。发射沿原锁定朝向，扫掠首个敌对或实心障碍沿原执行owner；实际首碰敌人可以不是原主目标，但不改原主目标或赋予首主加成。动作寿命和飞行剩余寿命分开，根完成不删除在途子项。投射实际发射位置/方向/飞行进度/停止与碰撞结果须由原投射结构另行闭合，不从本几何投影猜测。",
+    "retention": "根及其真实来源由原公共战斗动作注册表唯一保存，接纳结果、连段窗口及在途子项只引用；本组件不新增队列/日志/缓存/随机。旧规则根按原rules_hash历史认证，不能仅用当前模板接受旧存档。",
+    "boundary": "普通攻击几何字段分派与增程联合规则已采用；完整玩家根的数值/接纳触发/被消费加成、原推进与发射结果、实际投射状态及共同父决定仍待，不能据此宣称D1或Godot完成。"
   },
   "attack_execution_policy": "model -Z forward; primary hostile selected before payment, facing locked for windup; extra targets by declared shape; hit ledger keyed action/target/hit ordinal; derived proc limits still per action/target as 20 contract. Projectiles fly straight and hit first hostile or solid obstacle, allies do not take damage; interception never changes original primary target. Cast failure never retargets/refunds. Target count is per hit ordinal. Within a valid melee/sound shape, keep original primary first if actually eligible, then distance/id extras; other real collisions never rewrite primary ID.",
   "gathering": {
@@ -377,7 +456,11 @@
     "stamina_cost": 0,
     "dispatch_before_combat_weapon_check": true,
     "auto_target_policy": "valid explicit gather target first; without explicit target and no hostile in near attack cone, choose nearest eligible plant within 2m by distance/id before action. Never use this for stale/unknown explicit IDs.",
-    "generates_combat_resource_procs": false
+    "generates_combat_resource_procs": false,
+    "action_contract_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": ""
+    }
   },
   "teaching_progression_policy": {
     "scope_ability_ids": [
@@ -862,7 +945,8 @@
       "weight_g": 10,
       "buy_price": 20,
       "sell_price": 5,
-      "buyback_allowed": false
+      "buyback_allowed": false,
+      "knight_bag_allowed": true
     },
     {
       "item_id": "consumable_mana_ginseng",
@@ -877,7 +961,8 @@
       "weight_g": 10,
       "buy_price": 20,
       "sell_price": 5,
-      "buyback_allowed": false
+      "buyback_allowed": false,
+      "knight_bag_allowed": true
     }
   ],
   "basic_attack_profiles": [
@@ -3297,5 +3382,22 @@
   "accepted_attack_timing_ref": {
     "file": "战斗命中与减伤.v1.json",
     "pointer": "/accepted_attack_timing"
+  },
+  "knight_bag_initialization": {
+    "owner_ref": {
+      "file": "侠客行囊.v1.json",
+      "pointer": "/persistence"
+    },
+    "target_field": "character.knight_bag",
+    "initial": {
+      "slots": []
+    },
+    "policy": "所有职业新角色显式空分区，沿原创建共同提交；不改礼包授予位置/数量或增加库存修订。",
+    "overweight_field": "character.knight_bag_overweight_or_null",
+    "overweight_initial": null
+  },
+  "firewood_state_initialization_ref": {
+    "file": "寻找木柴任务与采集.v1.json",
+    "pointer": "/persistent_state"
   }
 }

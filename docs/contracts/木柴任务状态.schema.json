@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:firewood-quest-state:v1",
+  "$comment": "character.quests.firewood_task唯一任务状态；ready派生不保存，完成来源须解析真实committed交付。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "completion_receipt_id"
+      ],
+      "properties": {
+        "phase": {
+          "enum": [
+            "not_accepted",
+            "active"
+          ]
+        },
+        "completion_receipt_id": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "completion_receipt_id"
+      ],
+      "properties": {
+        "phase": {
+          "const": "delivered"
+        },
+        "completion_receipt_id": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1#/properties/settlement_id"
+        }
+      }
+    }
+  ]
+}

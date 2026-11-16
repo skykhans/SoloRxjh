@@ -18,10 +18,10 @@
   "character_initialization": {
     "pending_play_session": null
   },
-  "allocation": "单写者持有档案写锁，profile.character_session_next_id严格非负安全整数。新玩法会话取当前n，检查n+1合法后，同一完整档案替换持久counter=n+1、不可变begin身份收据及本角色opening守卫，成功后才对外发送入房请求或启用离线玩法。存疑替换停止发送，核同正式文件与原begin，不重复分配。计数预留后取消/崩溃可让成功启用的会话序列留缺口，但每个已持久编号的begin必须保留，绝不回收，不借角色修订/世界步/保存时间/玩法随机。n为最大安全整数时拒绝。",
+  "allocation": "单写者持有档案写锁，profile.character_session_next_id严格非负安全整数。先核完整档案全部角色guard均null、原结束/共享结果无未决且原短事务已解决，新玩法会话取当前n，检查n+1合法后，同一完整档案替换持久counter=n+1、不可变begin身份收据及本角色opening守卫，成功后才对外发送入房请求或启用离线玩法。存疑替换停止发送，核同正式文件与原begin，不重复分配。计数预留后取消/崩溃可让成功启用的会话序列留缺口，但每个已持久编号的begin必须保留，绝不回收，不借角色修订/世界步/保存时间/玩法随机。n为最大安全整数时拒绝。",
   "identity": "session_id=session:加71确定JSON编码[profile_id,character_id,n]的SHA256小写摘要，n为严格整数。身份精确session_id/profile_id/character_id/allocation_index/world_id/authority_profile_id/mode；会话不可改世界/角色/权威。offline与lan_host的authority_profile_id必须本profile_id；lan_client必须握手确认的原房主profile_id，不能以远端IP/进程PID当权威身份。",
   "begin": "正式begin收据ID=session_id+:begin，记录完整identity。身份分配不是资源奖励，不改角色业务或库存修订；写档仍复制最新完整档案并保其他角色/world。打开商店/菜单/换图/临时断开不分配新角色会话。切角色/世界/网络模式需先完成原会话结束再预留新ID。",
-  "guard": "character.pending_play_session显式null或identity/phase精确两字段对象，phase为opening/active/closing。phase属于协议元数据，不代替角色/库存修订。guard与begin及计数必须相符；opening/closing或远端权威不可达时禁止新资源玩法、离线分支、换世界/配置/删除该角色，允许查看/恢复与选其他角色。active只有当前identity世界权威可提交该角色玩法。",
+  "guard": "character.pending_play_session显式null或identity/phase精确两字段对象，phase为opening/active/closing。phase属于协议元数据，不代替角色/库存修订。完整profile内最多一个非null玩法guard；同原begin/完整接纳基线及来源联合推导整档业务占用，详见profile_exclusivity。opening/closing或远端权威不可达时允许查看/恢复与切换其他独立档案，不能开启同档另一角色玩法或绕过共享未决。active只有当前identity世界权威可提交获准业务。",
   "admission": "LAN客户端先持久opening再发原ID入房，房主先按角色身份/修订与独占会话检查持久接纳，再回原ID接纳结果；客户端将active与接纳证明保存成功并ACK后，房主才启用其资源玩法。房主自己的角色同样持久本地opening/active，不略过。重复请求返回原接纳/拒绝/结束，不能重置角色。未收到接纳不能假定拒绝后清guard。只有原房主明确持久拒绝且证明从未启用，才按同ID无资源结束清guard。",
   "offline": "离线本档案是原世界权威，opening/active与begin在同次本地合法提交中完成；重开见自己旧guard先核正式日志并清理旧会话剩余保管、持久唯一结束结果再清guard，之后才分配新会话。不可按文件时间或旧进程不存在就跳过日志。",
   "remote_recovery": "相同仍活进程的连接重连恢复原session_id，遵守19的10/120秒实体与席位规则。进程重开后不恢复旧复购权；若guard是lan_client，只向原房主请求结束旧会话，先补齐其全部已提交结果及最终状态，再应用房主唯一结束/保管清理结果并保存清guard，不能自己创建第二个结束决定。原房主不可达或日志缺失保guard并报错，不补退/静默离线。",
@@ -59,6 +59,10 @@
     "authority_boundary": "begin证明本地已预留身份，不证明房主已经接纳、客户端已保存ACK或允许资源结算。active仍须原admission及世界会话记录/结果证明。原authority offline/lan_host必须等于identity.profile_id；lan_client须原握手房主，其他跨字段归属和规则按原会话合同验证。",
     "retention": "当前没有begin压缩协议，角色删除/切世界/退出不裁剪；空间不足停止新预留并报错。新档/四已知旧来源导入新档显式空数组且counter0；导入已有档保原数组及counter，未知新格式缺数组拒绝。"
   },
+  "shared_profile_service_boundary_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/world_begin_commit_boundary"
+  },
   "admission_records": {
     "schema_ref": {
       "file": "角色会话.schema.json",
@@ -72,11 +76,11 @@
       "file": "角色会话.schema.json",
       "pointer": "/$defs/admission_saved_ack"
     },
-    "receipt": "接纳决定精确receipt_id/identity/decision/character_revision/inventory_revision/character_digest/rules_hash，rejected另必需reason，accepted禁止reason。receipt_id=session_id+:admission。identity必须逐字段等于原begin；由identity.authority_profile_id对应原世界权威持久唯一决定，不把本地begin当房主接纳。规则hash须与原房间及客户端已验证发行规则相符，rules_mismatch拒绝记录仍保请求原hash不冒用当前值。",
+    "receipt": "接纳决定精确receipt_id/identity/decision/character_revision/inventory_revision/character_digest/rules_hash/supreme_profile_digest_or_null/decision_world_step，rejected另必需reason，accepted禁止reason。receipt_id=session_id+:admission。identity必须逐字段等于原begin；由identity.authority_profile_id对应原世界权威持久唯一决定，不把本地begin当房主接纳。规则hash须与原房间及客户端已验证发行规则相符，rules_mismatch拒绝记录仍保请求原hash不冒用当前值。",
     "character_binding": "接纳请求在首次发送前冻结完整待进入角色快照（含原opening守卫）的原UTF8 JSON字节；character_digest为这些精确字节的SHA256小写摘要，不使用71仅整数确定编码。位置/朝向可含合法小数，不将其截断、缩放或字符串化。character_revision/inventory_revision均等于冻结正文。房主先严格解析原字节与绑定身份，再核完整角色schema/来源/分支与实际归属；accepted必须全部通过，invalid_character可记录已绑定但业务/来源非法的原候选。digest始终指原opening字节，不对后来active或当前角色重新求相等。完整角色/世界根仍待，不以摘要替代正文与依赖。",
     "decision": "原authority查完整session_id，已有决定只返回原不可变receipt；同session_id不同identity/角色摘要/规则或修订拒绝协议冲突，不覆盖原accepted或rejected。新请求按原世界开放/容量/身份独占/分支/规则/角色及未决守卫校验，只有完整且可解释的请求能写rejected；无法验证JSON或身份的来包直接协议拒绝，不制造可信会话记录。rejected不能再变accepted，重试新入房需先完成原会话无资源结束并分配新begin。",
     "reasons": "七值按实际失败选择：room_closed/room_full/identity_conflict/revision_conflict/rules_mismatch/invalid_character/explicit_cancel。invalid_character只限已解析并绑定请求后发现角色业务/来源不合法；未验证消息无权让他人会话结束。正常accepted后退出走原结束而非把决定改rejected。",
-    "record": "严格admission_record精确admission/opening_character_base64/saved_ack三键，saved_ack初始null。它是世界会话记录的接纳组件，不另建第二个档案日志；世界会话四键组合沿end_records，完整world角色/结果仍待。原authority先将完整接纳记录、世界席位及原角色修订基线同笔持久再回结果；accepted且saved_ack=null仍禁止资源玩法。",
+    "record": "严格admission_record精确admission/opening_character_base64/saved_ack/supreme_profile_baseline_base64_or_null四键，saved_ack初始null。它是世界会话记录的接纳组件，不另建第二个档案日志；世界会话八键组合沿end_records，完整world角色/结果仍待。原authority先将完整接纳记录、世界席位及原角色修订基线同笔持久再回结果；accepted且saved_ack=null仍禁止资源玩法。",
     "ack": "客户端仅接纳身份/世界/authority/原字节摘要/基线与自己原opening一致的accepted，原档同笔持久active守卫、接纳证明及按网络结果链初始化/保留的network_receipts，成功后发精确admission_receipt_id/profile_revision两键ACK。revision是该次成功正式替换的正安全整数，不是角色revision或当前最大档案revision。接纳ACK不占个人结果序号；房主核ACK来自该session真实成员且引用原accepted，再持久saved_ack及启用状态后才接受资源命令；saved_ack不单独证明连接仍live或会话未结束。",
     "ack_replay": "ACK重复时返回原已保存确认；profile_revision为首次启用该接纳的成功保存修订，晚到重复ACK不得用更大本地修订覆盖它。客户端重开只能原会话结束恢复，不能发新active ACK重启旧资源玩法。房主收到同ID不同revision先请求原保存证明/同步，不擅改水位或重新启用。rejected的saved_ack只能null。",
     "local": "offline/lan_host自己的角色接纳与active保存可在同一档案替换完成，saved_ack.profile_revision指该次完整档案新revision；同档世界和本地角色一起写，不能用远端ACK捷径跳过本地保存。远端LAN角色依原跨档两阶段执行，不宣称全体文件原子。",
@@ -94,7 +98,18 @@
       "persistence": "原authority将admission与opening_character_base64、席位/原角色基线同笔持久后才发送决定；accepted/rejected均保原候选字节，与原admission一起不可变。world记录无admission时本字段必须null；不从结束时当前角色倒造。client收到决定时核原字节与自己冻结请求完全相同后，在既有authority_record内同值保留，不新增第二个镜像表。",
       "local_and_recovery": "offline/lan_host可从同笔begin+active候选中先构造opening正文并冻结，再保存active角色与原会话记录；冻结正文始终opening。进程重开只走原结束恢复，不重发新接纳/从当前正文猜原字节。已存决定的重放使用原字节，缺失/摘要错误停止恢复报错，不补序列化。角色删除/世界结束仍保该原证明及必要依赖。",
       "boundary": "字节完整性只证明原候选一致，不证明成员认证、完整角色合法性、producer来源或防篡改。Base64只传输编码，不能因此放宽原消息/档案容量及解析限制。"
-    }
+    },
+    "shared_profile_baseline": {
+      "schema_ref": {
+        "file": "至尊共享权益基线.schema.json",
+        "pointer": ""
+      },
+      "encoding": "LAN的supreme_profile_baseline_base64_or_null必为非空标准Base64，严格解码/UTF8/JSON约束与opening_source相同；解码正文严格遵守至尊共享权益基线schema。首次发送前冻结原UTF8字节，摘要直接SHA256原字节，不解析重排、不使用71整数编码。即使权益null也必须发送完整基线；offline及无admission记录该字段与收据摘要均null。",
+      "binding": "supreme_profile_digest_or_null精确等解码字节SHA256小写值；基线session逐字段等收据identity，rules_hash等收据规则，入场角色修订/库存/身份/动作与原opening同一锁内前态一致。基线profile_revision是原前态；ACK.profile_revision是实际启用保存后的修订，两者不混用。角色集合/来源及全部语义先验证后accepted，无法解码/绑定身份的候选只协议拒绝；已绑定但业务非法候选可按原invalid_character拒绝并保留原字节。",
+      "persistence": "原authority同笔保存角色opening、基线原字节、两摘要和接纳决定；accepted/rejected均不可改。client在原authority_record保留同值，核与本人冻结请求逐字一致，再同笔保存接纳证明与active守卫才发原两键ACK。ACK引用唯一receipt因此同时确认已存基线；重复同session不同基线字节/摘要为协议冲突，不覆盖旧决定。",
+      "boundary": "原接纳存储、原ACK认证范围及profile_exclusivity整档授权规则采用；后续共享结果封套/保存ACK、完整联合根和结束闭合仍待，不能据此启用LAN共享计时。"
+    },
+    "world_boundary": "原authority只在完整world.step_pending_scopes=[]且此前原已决定父全部恢复完成的世界步边界持久新接纳决定；decision_world_step精确该次原world.training_gate_clock_steps前态。来包可随时排队，不能在已冻结的本T scope/服务枚举中途插accepted。accepted自下一真实begin T=decision_world_step+1进入共享枚举；个人资源命令还须原启用ACK及本人首个共享begin通过。接纳重放保原decision_world_step，不取当前世界时钟重写。拒绝也冻结其真实决定边界，不从客户端时刻填。T已MAX时不计算越界下一步；只能原结束/恢复，不能以接纳成功绕过世界时钟上限。"
   },
   "end_records": {
     "schema_ref": {
@@ -109,17 +124,38 @@
       "file": "角色会话.schema.json",
       "pointer": "/$defs/world_session_record"
     },
-    "identity": "end_receipt精确receipt_id/identity/activation/character_revision_before/character_revision_after/final_result_sequence/stack_flows/instance_flow八键。receipt_id沿原buyback-close算法SHA256([character_id,session_id])，identity逐字段等于原begin及接纳决定。专用ID不消耗settlement_next_id；无剩余保管仍有结束收据。",
+    "identity": "end_receipt精确receipt_id/identity/activation/character_revision_before/character_revision_after/final_result_sequence/stack_flows/instance_flow/dodge_stop_or_null/cancelled_portable_channel_id_or_null/final_profile_world_step_or_null/ended_world_step十二键。receipt_id沿原buyback-close算法SHA256([character_id,session_id])，identity逐字段等于原begin及接纳决定。专用ID不消耗settlement_next_id；无剩余保管仍有结束收据。",
     "ordering": "先禁新资源命令，解决原pending_player_trade、仓银等原未决及活动退出结果，按原业务逐笔提交并连续发布；最后才提交本end。不得把未定义任务/活动清理塞入buyback_cleanup或凭结束抹去原待确认结果。结束原角色修订基线等于所有先行结果之后权威角色修订；完整活动退出及其他事件根未闭合前不能运行相关结束流程。",
     "cleanup": "按原已验证售出/复购/域迁移/FIFO图推导该session剩余buyback，不重开复购权。无堆剩余stack_flows=[]，有则恰一个纯消费流receipt_id等于endID，inputs逐剩余堆当前业务输出且每份全量消费，outputs=[]、mint_authorization=null、reason全buyback_cleanup。同一输入一次，完整所有权/数量及最新域必须为本角色本session原sale的buyback；按原sale结算顺序及同sale内target_id确定输入序。",
     "instances": "无实例剩余instance_flow=null，有则单一完整instance_flow的receipt_id=endID，输入完整当前实例正文/前业务输出/最新域链，custody必须buyback并绑定本session原sale；outputs=[]且每输入恰一buyback_cleanup退役，不消费held/其他角色或会话物。全部余量与两流精确双向一致，不能漏件或夹带。终结不产生held实物/银两/经验，也不退原售款。",
     "revisions": "清理任一剩余保管物则character_revision_after=before+1，无剩余则after=before；溢出在决定前拒绝并保未决。两种情况均不改变held布局/实物，inventory_revision保持原值。end与清理来源/权威最终状态/会话结束标记同一次原authority完整档案替换；网络与客户端确认另按19，不以元数据清guard伪增库存修订。",
-    "activation": "never_activated只允许从未正式启用资源玩法的原接纳未ACK/明确拒绝/未到接纳阶段会话，堆流必须空、实例流null且修订不变。activated要求原accepted和有效saved_ack，可能有或无保管清理。已启用后退出不能改为never_activated，即使余额/实物没变化。",
+    "activation": "never_activated只允许从未正式启用资源玩法的原接纳未ACK/明确拒绝/未到接纳阶段会话，堆流必须空、实例流null且修订不变。activated要求原accepted和有效saved_ack，可能有或无保管清理。已启用后退出不能改为never_activated，即使余额/实物没变化。 never_activated只描述个人资源玩法未启用，不否认accepted未ACK期间原world已提交的共享计时/到期。end的before/after修订不变是相对结清共享结果后的角色前态，不能回到原opening覆盖到期；共享结果及其接收顺序证明未闭合前不能走此分支清guard。",
     "sequence": "offline的final_result_sequence=null；LAN两种模式为该角色在原world连续结果链中本结束结果的序号，从1开始且跨玩法会话延续，不能按新session清0或跳过缺口。客户端先按网络结果链保存全部原结果、end及guard=null，再从已保存head派生累计ACK；无资源结束亦为正式协议结果。序号关系、原业务决定及结果完整封套仍须外层核验，单整数不证明连续。",
-    "world_storage": "world.character_sessions为session_id键的严格映射，每值精确admission/opening_character_base64/saved_ack/end四键；接纳决定和ACK沿原组件，end初始null。有admission须有原opening字节，二者绑定沿admission_records；无admission时原字节必须null。无admission只能是原authority证明从未接纳且已结束的never_activated记录，saved_ack必须null；拒绝也不允许ACK或activated结束。键须等于所有非null正文identity.session_id、各identity完全一致且world_id/authority等于所在原世界/档案；空记录拒绝。客户端自己的begin仍在自己档案，远端证明不新增本地分配编号。",
+    "world_storage": "world.character_sessions为session_id键的严格映射，每值精确admission/opening_character_base64/saved_ack/end/connection_events/public_travel_results/supreme_profile_baseline_base64_or_null/shared_profile_results八键；接纳决定和ACK沿原组件，end初始null。有admission须有原opening字节，二者绑定沿admission_records；无admission时原字节必须null。无admission只能是原authority证明从未接纳且已结束的never_activated记录，saved_ack必须null；拒绝也不允许ACK或activated结束。键须等于所有非null正文identity.session_id、各identity完全一致且world_id/authority等于所在原世界/档案；空记录拒绝。客户端自己的begin仍在自己档案，远端证明不新增本地分配编号。",
     "retention_replay": "结束只能由原authority一次决定，原end不可变；重复只回同结束及缺失结果，不重复消费/加修订。world记录在结束后仍保原接纳/ACK/end，不覆盖成空记录，不因120秒释放席位删除。角色删除不恢复历史角色，必要来源闭包与请求去重保留；无压缩协议不裁剪这些唯一原记录。",
     "never_received": "客户端begin已持久但未有房主决定，不能自行清guard。原authority核世界无接纳/资源结果并验证原begin及请求身份后，才可持久无admission/无ACK的never_activated结束；无真实原authority或不完整世界历史则报错保未决。离线authority可同理结束自己未启用会话。 LAN无head的首次无资源结束及原角色修订绑定按网络结果链initialization.first_unactivated_end执行；有原历史却缺本地head不能视作新链。此路径不创建accepted、active或资源授权。",
-    "boundary": "此组件闭合会话结束及原世界会话映射的局部白名单，不代替完整world角色快照/结果封套及来源闭包。完整来源/活动退出和文件故障、跨机恢复仍须P/T验证。"
+    "boundary": "此组件闭合会话结束及原世界会话映射的局部白名单，不代替完整world角色快照/结果封套及来源闭包。完整来源/活动退出和文件故障、跨机恢复仍须P/T验证。",
+    "dodge_stop_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/dodge/stop_binding"
+    },
+    "dodge_stop": "正式结束收据必有dodge_stop_or_null。never_activated严格null；activated仅在原所有先行退出结果后仍有本session当前生命/旧scope活跃闪避时非null，reason=session_end、cause_event_id=本receipt_id，同笔保存唯一中断正文和根stop引用/占用释放。此前死亡/迁移已停止或自然完成则null，不覆盖首因；本副作用只改变world动作现场，不凭此增加character/inventory修订，保原复购清理修订规则。暂停/临时断开不是本正式end，未确认结束继续守卫而不新建闪避或退款。",
+    "aux_displacement_stop": "正式activated结束前若原所有先行结果后仍有本session当前生命/旧scope活跃辅助位移，同父将其stop_event_id_or_null写本end.receipt_id并释放占用，保e/位置/首次阻挡历史；此前已停止/自然完成不再改写。无独立中断收据或新增end字段，不增加character/inventory业务修订；never_activated无原动作可停止。临时断开/暂停不等于正式结束。完整world动作与end父联验仍待。",
+    "gather_stop_owner_ref": {
+      "file": "采集动作.v1.json",
+      "pointer": "/root/stop"
+    },
+    "gather_stop": "activated正式end在全部先行退出/迁移结果后若同session当前生命旧scope仍活跃采集，同父写根stop_event_id_or_null=本end.receipt_id；木柴只释放本action预留且不改代次/冷却/无输出，竹保已有经验/掉落与本人冷却。无活跃根或此前已停止/自然完成不重写；never_activated无原动作可停止。无第二停止日志或新增end字段，不凭此增加character/inventory修订，保原复购清理规则。临时失联按木柴明确取消owner处理，不伪造正式end；完整world/停止父联验仍待。",
+    "bamboo_drop_lifetime_owner_ref": {
+      "file": "竹材掉落与拾取.v1.json",
+      "pointer": "/scene/lifetime"
+    },
+    "connection_lifecycle_owner_ref": {
+      "file": "角色会话.v1.json",
+      "pointer": "/connection_lifecycle"
+    },
+    "shared_terminal": "结束收据必有final_profile_world_step_or_null；offline严格null，LAN精确原本session最后已决定共享结果T，从无共享结果则null。authority冻结终局时先完成此前共同父，随end原提交停止以后world begin枚举该session；不等待远端已保存才决定end。client先补齐至该T的全部共享结果与个人最终序号，核两终局相符后才同档保存end/清guard/个人head，再发ACK。原个人end封套required_profile_world_step_or_null必须等本字段。已决定但尚未被ACK的共享步不能丢弃，个人end ACK只确认其自身保存；完整源父仍须证明终局尾未隐瞒。 ended_world_step冻结实际结束边界，不能仅凭自报较小final共享T隐去结束前原world已推进的尾段；按world_boundary精确核覆盖。",
+    "world_boundary": "原唯一end在完成旧已决定scope/结算/共享父后的world.step_pending_scopes=[]边界提交，ended_world_step精确该提交原world.training_gate_clock_steps；不在原未处理队列中清会话漏掉已冻结业务。若同session有接纳，ended_world_step>=admission.decision_world_step。LAN accepted从n=decision_world_step到m=ended_world_step：m=n则共享日志恰空、final_profile_world_step_or_null=null；m>n则日志精确覆盖n+1..m全部T且最终共享步=m，接纳ACK是否已到不改覆盖。offline/拒绝/从无接纳的原无资源结束共享日志空且最终共享步null。边界时钟值仍须完整原world决定/来源认证，不凭两个自报整数证明真实历史。"
   },
   "client_proofs": {
     "field": "profile.lan_session_proofs",
@@ -127,17 +163,77 @@
       "file": "角色会话.schema.json",
       "pointer": "/$defs/client_session_proofs"
     },
-    "layout": "仅本档案分配的lan_client会话，session_id键，每值精确authority_record/activation_saved_profile_revision两键。authority_record沿原世界会话四键组件（含原opening字节），存实际收到且验证的原authority记录，不是本client的决定。offline/lan_host从自己world.character_sessions读取，不在本字段重复存一份。",
+    "layout": "仅本档案分配的lan_client会话，session_id键，每值精确authority_record/activation_saved_profile_revision/shared_profile_saved_acks三键。authority_record沿原世界会话八键组件（含原opening字节），存实际收到且验证的原authority记录，不是本client的决定。offline/lan_host从自己world.character_sessions读取，不在本字段重复存一份。",
     "local_ack": "activation_saved_profile_revision初始null，client将原accepted证明、active guard与该字段设为本次完整档案新revision同笔持久成功后，才从admission.receipt_id与此修订派生ACK。这项本地保存事实不表示房主收到ACK。原authority_record.saved_ack只在收到房主已持久确认的原证明后更新，不能在本地发送ACK时自行补上。",
     "ack_race": "client已保存active/发ACK但原authority尚未持久收到时，原authority仍可能合法never_activated结束；本地activation_saved_profile_revision非null而authority_record.saved_ack=null允许，须补齐该原结束再清guard，不能把本地发ACK当房主已启用。原authority已存saved_ack则结束只能activated，schema现拒绝反向标记。",
     "closure": "键必须命中本profile.character_session_begins的同session，所有非nullidentity逐字段相等且profile_id等于本档案，mode只lan_client，authority/world为原握手目标；不得借远端别人的会话增本地proof。saved_ack非null时其profile_revision必须等于本地activation_saved_profile_revision，admission_receipt_id也须相等。完整原房主结果证明/来源不足拒绝，不以本地字典存在当认证。",
     "updates": "收到原接纳持久加入，首次本地保存active设置一次activation_saved_profile_revision，后续不随自动保存修订改写；原admission不可变、authority saved_ack及end只由null到真实原值，不删除或替换已知决定。重复证明完全相同则幂等，改identity/摘要/修订/终态拒绝。end与最后角色结果/连续接收水位及guard清空同档保存；不能仅更新proof跳过角色结果。",
     "recovery": "重开按原client会话结束协议，保原本地保存修订与原authority记录用于重放，不凭它恢复active或重发新启用ACK。首次ACK存疑先重读原正式档案，不能拿重试保存的新revision冒充首次修订。原房主不可达/来源缺失保guard及proof报错。",
     "retention": "新档显式空映射；四已知旧来源导入新档同样空，导入已有档保原proof及其他角色/world。角色删除/世界切换后保历史，源begin和必要来源不裁剪；无proof的opening guard可合法等待原首次接纳，但active/closing client guard须有对应原accepted及本地保存事实。新格式缺字段拒绝。",
-    "boundary": "本字段只是会话证明存储根，不是完整角色/网络结果provenance根。完整world角色及接纳正文语义、网络结果封套和源闭包仍待；本轮不证明真实跨机恢复。"
+    "boundary": "本字段只是会话证明存储根，不是完整角色/网络结果provenance根。完整world角色及接纳正文语义、网络结果封套和源闭包仍待；本轮不证明真实跨机恢复。",
+    "shared_saves": "shared_profile_saved_acks新证明显式[]，仅追加本人已正式保存的原四键ACK，按同session真实共享T连续覆盖原authority_record.shared_profile_results前缀；每项原identity/T/结果摘要相等、首次saved_profile_revision<=当前profile revision。与对应业务after/完整证明/其他角色副作用同档持久后才发送；发出不自行填authority_record各行saved_ack，只有原房主确认才填。原房主已有saved_ack须命中本地相同保存事实；本地可已有更多未获房主确认的ACK，保存修订不随普通自动保存改写。"
   },
   "network_result_owner_ref": {
     "file": "网络结果链.v1.json",
     "pointer": ""
+  },
+  "portable_channel_cancellation_owner_ref": {
+    "file": "便携传送与修炼限制.v1.json",
+    "pointer": "/channel_cancellation_binding"
+  },
+  "connection_lifecycle": {
+    "schema_ref": {
+      "file": "连接生命周期结果.schema.json",
+      "pointer": ""
+    },
+    "field": "原world.character_sessions[session_id].connection_events为唯一按真实转换追加的十键结果数组，原world_session_record现八键，其中连接转换仍仅归connection_events；不新建connection状态表/当前阶段bool/第二session或通用结算日志。原完整world根仍待。",
+    "scope": "仅原accepted且saved_ack已保存、尚未正式end的真实LAN远端lan_client会话，实际source_actor生命须解析该会话原接纳/世界现场；offline与本机房主不造远端失联事件。未启用/接纳拒绝saved_ack=null只允许connection_events=[]。房主退出沿原结束全房，不用此结果隐式迁主。",
+    "initialization": "创建原世界会话记录时显式connection_events=[]，未启用的无接纳结束亦[]；已有当前格式缺字段拒绝，不按在线状态补失联历史。正式end保完整已存在数组，未确认结果不因席位释放/数组空/旧进程消失删除。",
+    "identity": "每session observation_index精确等原connection_events当前长度（0起），append前核安全整数及真实唯一房主写者；event_id=connection-event:加SHA256(71确定JSON [\"connection_transition\",play_session_identity.session_id,observation_index])。不加持久next_connection_index或使用玩法随机/通用settlement counter；持久存疑先核原最后结果与长度，不盲增索引。",
+    "clock": "失联从原房主确认真实传输中断起，以同一仍活房主进程单调时钟观察；断开结果elapsed=0。后续disconnected_elapsed_ms为该原episode真实累计毫秒观察证据，不是角色/世界tick或系统日历绝对值，不每毫秒写档、不从world步差/客户端时间倒算。暂停仍观察10/120秒边界；连接行政清理可停止旧木柴/禁输入，但不推进模拟/动作/冷却或发物。",
+    "episode": "disconnected.disconnection_event_id精确等自己event_id，后续三种转换指原同session最近尚未闭合的disconnected ID，不能换episode或指别会话。重复传输中断/重发同确认只回原已存在结果，不再次开episode或重置10/120秒。真实reconnected后再次失联才追加新disconnected；其索引沿原全数组继续。",
+    "transitions": {
+      "disconnected": "仅从实际connected转换；同父关闭本session新操作入口/丢本地未发送输入，并沿cancel_binding处理本人活跃木柴。原普通实体前10秒仍在原位置可受伤/死亡/承受效果；不回放旧移动或攻击意图、不新授组队经验资格。已接纳动作是否继续依各原owner，不能把所有动作当木柴清除。",
+      "entity_removed": "只对原普通公共scope，在elapsed>=10000第一次到期时移除原离线实体/停止机制人数，先收束在途伤害/死亡与原活动退出失败来源，再同父保存最终状态。该episode至多一次。私场按原private_instance_suspension获完整固定步边界挂起，不能借本普通移除分支清私场/活动锁。完整进攻/闪避等移除父仍待，不凭此十键事件抹掉未收束根。",
+      "reconnected": "仅同一仍活客户端进程及原身份在elapsed<120000、未正式end/席位未释放时认证成功。若elapsed<10000普通场景恢复原实体；>=10000必须先已有到期entity_removed，再按最终真实状态恢复普通场景，绝不重入同次已退出讨伐或重连回血。私场依原挂起owner恢复原现场，不造新场。重连只补结果/恢复输入资格，原木柴已取消不得自动续采/预留。",
+      "seat_released": "elapsed>=120000先确保普通scope必要10秒移除及原活动退出来源已经完成，再一次释放普通房间/队伍席位；不等于正式end，不清角色guard/未确认日志/活动锁。之后再入房走原新连接准入/重新邀请等协议，不能把旧episode改reconnected。"
+    },
+    "threshold_order": "先认证原真实失联episode和当前单调观察；同次观察若已跨10秒，先普通实体移除；跨120秒再席位释放。重连恰10000毫秒按已移除路径，恰120000毫秒先释放而不接旧席位。若调度延迟，entity_removed/seat_released可记录大于各阈值的同一真实观察值，按既定顺序提交，不夹时长回阈值、不补模拟tick。",
+    "cancel_binding": {
+      "owner_ref": {
+        "file": "采集动作.v1.json",
+        "pointer": "/cancellation_binding"
+      },
+      "rule": "仅disconnected结果可cancelled_firewood_action_id_or_null非null，须解析该session当前生命/旧scope活跃firewood根及唯一同代本人节点预留；同父将根stop_event_id_or_null=本connection event_id并清本人collector，保e/代次/冷却且无物/经验。其他转换字段严格null，重连/移除/释放不重演旧取消，不清后来新采集者。缺原根/坏预留不是无动作，拒绝坏现场而不填null。"
+    },
+    "recovery": "已提交连接结果不可变且原索引等数组位置，各episode顺序/阈值/真实session与原source生命周期联合认证；只由最后合法转换派生在线/离线/移除/席位状态，不另持久镜像。连接重发回原转换不再取消木柴。房主进程重开已失去原单调时钟基准，禁止由墙钟/文件mtime或保存elapsed推剩余10/120秒并继续旧倒计时；沿原房间结束/未确认结果恢复协议处理，完整重开父仍待。",
+    "atomicity": "原房主同一正式world/角色共同决定持有连接结果、必要输入隔离/木柴停止/预留释放或实体/席位/活动变化，先持久再发布。纯连接记录不虚增character/inventory修订，不为它重发原物品结果；真实伤害/活动结果仍沿各原修订/个人结果链。尚缺完整共同父及传输观察认证，不能只凭十一键结构运行超时或清数据。",
+    "remaining_work": [
+      "严格传输观察producer与同进程重连认证",
+      "普通10秒移除的完整进攻/闪避/辅助位移/活动共同父",
+      "房主重开结束/恢复协议、完整world根和跨接收者保存",
+      "Godot三开/真实LAN/暂停跨阈值与写盘失败测试"
+    ]
+  },
+  "public_travel_storage_owner_ref": {
+    "file": "场景迁移.v1.json",
+    "pointer": "/decision_storage"
+  },
+  "profile_exclusivity": {
+    "derivation": "持档案原租约与写锁，从已全量验证的characters读取pending_play_session；0个非null表示无当前玩法占用，恰1个取原identity/phase，2个及以上拒绝档案，不按角色选择或最大编号挑一个。每guard仍须原begin、角色归属及真实本档案身份闭包，角色guard全null但原未结束/未保存结果要求占用时亦是坏根，不当作空闲。未结束历史只能通过原结束证明收束，不新增profile guard、owner副本或计数器。",
+    "acquire": "所有模式首次opening在原完整档案同笔预留begin时取得整档业务占用；接纳尚未决定或权益null也不得在另一角色预留第二session。LAN请求明确授权原identity唯一authority/world按原规则推进profile共享权益及全部角色到期副作用；完整基线冻结全部角色集合与其库存/动作来源，房主接纳绑定其原字节。原两键ACK同时确认该授权/基线已保存；ACK前禁止角色资源命令，已accepted未结束档案的世界级服务计时枚举仍沿原owner，不以ACK晚到漏扣。",
+    "permissions": "active授权限原会话当前角色的合法玩法及具名共享权益变更/全角色到期副作用，不授权房主任意更改其他角色货币、物品或成长。所有同档创建/删除角色、导入/覆盖、参数配置、库存操作及服务激活等业务，须走同一原权威具名producer或待原会话结束后执行；未出场角色不开始模拟/动作，不借整档授权产生未知producer。只读查看可用；选中其他角色仅可预览，不能开始玩法。",
+    "local_writes": "窗口/音频等非业务设置可持原锁从最新完整档案合并保存，不能拿旧快照覆盖服务、任一角色或接收证明。房主同档保存其他真实profile的原世界决定仍按原世界权威协议，不因本人角色处closing冻结全房；这不授权改本人已冻结的角色业务。profile revision仅表示实际文件替换，不充当业务时钟/第二占用状态。",
+    "failure": "断连、10秒实体移除、120秒席位释放、取消入房请求、接纳被拒绝、文件锁已释放或旧进程不存在均不解除持久占用。opening收据未到也保guard；重开先原恢复，不能新开同档角色。多开使用不同profile或原明确独立根，不能复制未决档案绕过授权。",
+    "release": "原authority先停止接纳本session新命令、收束原交易/短事务/活动/全部个人与共享已决定结果，持久唯一end并使其后不再枚举该profile服务。client须按原序保存这些结果、最终服务与全角色副作用及end，然后同次正式替换清唯一guard；个人end ACK或席位释放不能单独证明共享已保存。核end.final_profile_world_step_or_null与原共享日志/本地连续保存前缀尾完全一致；缺共享终局证明时保closing，不能自行清空。原never_activated也须证明未启用角色资源命令且实际已发生共享计时结果全部结清，不能因名称推断服务从未扣时。",
+    "boundary": "整档占用由原角色guard与原接纳证明派生、授权和释放规则采用；完整profile联合验证/共享结果封套/结束闭合及Godot门禁仍待，不以本规则声称LAN服务可运行。"
+  },
+  "support_cast_stop_owner_ref": {
+    "file": "辅助武功采用.v1.json",
+    "pointer": "/cast_action_protocol/stop_binding"
+  },
+  "support_cast_entity_removal_owner_ref": {
+    "file": "辅助武功采用.v1.json",
+    "pointer": "/cast_action_protocol/stop_binding"
   }
 }

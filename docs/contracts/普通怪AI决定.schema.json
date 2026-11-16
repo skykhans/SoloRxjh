@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-ai-decision:v1",
+  "$comment": "本轮二十种公共普通怪十二键原AI子结果；仅显式复用既有中性六字段AI投影、23合法五态转换谓词及停止清单门禁，不继承training身份/地图/固定8米安全区或出生等待。主动/被动仇恨、真实before/父来源及改动授权由本ordinary_ai owner联验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "source_actor_id",
+    "world_step",
+    "rules_hash",
+    "event",
+    "before",
+    "after",
+    "stopped_root_event_ids"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 76,
+      "maxLength": 76,
+      "pattern": "^ordinary-ai:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "type": "null"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/source_actor_id"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/rules_hash"
+    },
+    "event": {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/properties/event"
+    },
+    "before": {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/$defs/actor_ai_projection"
+    },
+    "after": {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/$defs/actor_ai_projection"
+    },
+    "stopped_root_event_ids": {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/properties/stopped_root_event_ids"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/allOf/0"
+    },
+    {
+      "$ref": "urn:solorxjh:training-ai-decision:v1#/allOf/1"
+    }
+  ]
+}

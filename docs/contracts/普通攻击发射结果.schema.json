@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:normal-attack-dispatch:v1",
+  "$comment": "原玩家normal_attack唯一ordinal0发射决定，严格十键。近战空集合是已发射空挥，投射只引用新弹体；不冒充命中伤害。原根到期/停止、真实几何选择、实际父阶段与同笔推进另验。",
+  "type": "object",
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "action_id",
+    "hit_ordinal",
+    "kind"
+  ],
+  "properties": {
+    "event_id": {
+      "$ref": "#/$defs/event_id"
+    },
+    "world_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:combat-resolution-batch:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+    },
+    "hit_ordinal": {
+      "const": 0
+    },
+    "kind": {
+      "enum": [
+        "melee",
+        "projectile"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "target_actor_ids"
+      ],
+      "properties": {
+        "kind": {
+          "const": "melee"
+        },
+        "target_actor_ids": {
+          "type": "array",
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    {
+      "required": [
+        "projectile_id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "projectile"
+        },
+        "projectile_id": {
+          "$ref": "#/$defs/projectile_id"
+        }
+      }
+    }
+  ],
+  "unevaluatedProperties": false,
+  "$defs": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^normal-dispatch:[0-9a-f]{64}(?![\\s\\S])",
+      "minLength": 80,
+      "maxLength": 80
+    },
+    "projectile_id": {
+      "type": "string",
+      "pattern": "^normal-projectile:[0-9a-f]{64}(?![\\s\\S])",
+      "minLength": 82,
+      "maxLength": 82
+    }
+  }
+}

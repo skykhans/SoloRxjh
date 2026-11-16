@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:gather-admission:v1",
+  "$comment": "十四键原队首采集接纳结果：竹保原普攻请求、木柴保明确交互请求；只引用六表唯一根。无攻击随机/武器检查/虚拟物品，完整路由、before资格、预留与共同父另验。 原结果显式持有cancelled_firewood_action_id_or_null，仅原本人活跃木柴被该真实新输入/正实际敌伤取消时非null；根以本event_id停止，来源/预留同父联验。 必有cancelled_portable_channel_id_or_null引用同父清除的原便携读条；无真实取消显式null，不新增取消日志/物品流。来源/同生命/预留与首因须联合验证。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "request",
+    "rules_hash",
+    "outcome",
+    "action_id_or_null",
+    "reason_or_null",
+    "cancelled_firewood_action_id_or_null",
+    "cancelled_portable_channel_id_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/properties/admission_event_id"
+    },
+    "request": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/$defs/gather_request"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/properties/rules_hash"
+    },
+    "outcome": {
+      "enum": [
+        "accepted",
+        "rejected"
+      ]
+    },
+    "action_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:player-gather-action:v1#/properties/action_id"
+        }
+      ]
+    },
+    "reason_or_null": {
+      "enum": [
+        null,
+        "session_not_active",
+        "source_unavailable",
+        "action_occupied",
+        "hard_controlled",
+        "activity_forbidden",
+        "target_not_eligible",
+        "out_of_range",
+        "line_of_sight_blocked",
+        "facing_required",
+        "cooldown_active",
+        "node_reserved",
+        "in_combat",
+        "quest_not_active",
+        "owned_limit_reached"
+      ]
+    },
+    "cancelled_firewood_action_id_or_null": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/$defs/cancelled_firewood_action_id_or_null"
+    },
+    "cancelled_portable_channel_id_or_null": {
+      "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/cancelled_portable_channel_id_or_null"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "accepted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "action_id_or_null": {
+            "$ref": "urn:solorxjh:player-gather-action:v1#/properties/action_id"
+          },
+          "reason_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "action_id_or_null": {
+            "type": "null"
+          },
+          "reason_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cancelled_firewood_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cancelled_portable_channel_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

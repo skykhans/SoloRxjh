@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-monster-death-lifecycle:v1",
+  "$comment": "公共普通怪真实致死的原生命周期子结果，复用完整十一键死亡身份及停止根全集；不是完整死亡收益/world父，也不单独提交。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "identity",
+    "stopped_root_event_ids"
+  ],
+  "properties": {
+    "identity": {
+      "$ref": "urn:solorxjh:ordinary-monster-death-identity:v1"
+    },
+    "stopped_root_event_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+      }
+    }
+  }
+}

@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-aux-displacement:v1",
+  "$comment": "三种辅助位移完整根，三分支逐项绑定原职业/费用/时序/距离；阻挡只回指首次真实推进事件，不复制bool/距离/位置。stop指原合法生命周期父，不另建停止日志。有限单位方向、原接纳及完整历史规则/同笔来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "source_actor_id",
+    "accepted_world_step",
+    "action_id",
+    "admission_event_id",
+    "rules_hash",
+    "ability_id",
+    "class_id",
+    "stage",
+    "accepted_direction_xz",
+    "elapsed_steps",
+    "movement_blocked_event_id_or_null",
+    "stop_event_id_or_null",
+    "mana_cost",
+    "stamina_cost",
+    "hp_cost",
+    "cast_steps",
+    "recovery_steps",
+    "cooldown_steps",
+    "distance_mm",
+    "movement_steps"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "accepted_world_step": {
+      "$ref": "urn:solorxjh:player-dodge:v1#/properties/accepted_world_step"
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 88,
+      "maxLength": 88,
+      "pattern": "^aux-displacement-action:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "admission_event_id": {
+      "type": "string",
+      "minLength": 91,
+      "maxLength": 91,
+      "pattern": "^aux-displacement-admission:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:player-dodge:v1#/properties/rules_hash"
+    },
+    "ability_id": {
+      "enum": [
+        "aux_assassin_cacb59d3e2be",
+        "aux_archer_a49687a8ee4b",
+        "aux_fighter_22a544440957"
+      ]
+    },
+    "class_id": {
+      "enum": [
+        "assassin",
+        "archer",
+        "fighter"
+      ]
+    },
+    "stage": {
+      "const": 1
+    },
+    "accepted_direction_xz": {
+      "$ref": "urn:solorxjh:player-dodge:v1#/properties/accepted_direction_xz"
+    },
+    "elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 30
+    },
+    "movement_blocked_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 89,
+          "maxLength": 89,
+          "pattern": "^aux-displacement-advance:[0-9a-f]{64}(?![\\s\\S])"
+        }
+      ]
+    },
+    "stop_event_id_or_null": {
+      "$ref": "urn:solorxjh:player-normal-attack:v1#/properties/stop_event_id_or_null"
+    },
+    "mana_cost": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "stamina_cost": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "hp_cost": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "cast_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "recovery_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "cooldown_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "distance_mm": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "movement_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "ability_id": {
+          "const": "aux_assassin_cacb59d3e2be"
+        },
+        "class_id": {
+          "const": "assassin"
+        },
+        "mana_cost": {
+          "const": 35
+        },
+        "stamina_cost": {
+          "const": 0
+        },
+        "hp_cost": {
+          "const": 0
+        },
+        "cast_steps": {
+          "const": 6
+        },
+        "recovery_steps": {
+          "const": 12
+        },
+        "cooldown_steps": {
+          "const": 1800
+        },
+        "distance_mm": {
+          "const": 6000
+        },
+        "movement_steps": {
+          "const": 6
+        },
+        "elapsed_steps": {
+          "maximum": 24
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stop_event_id_or_null": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "elapsed_steps": {
+                "maximum": 23
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "properties": {
+        "ability_id": {
+          "const": "aux_archer_a49687a8ee4b"
+        },
+        "class_id": {
+          "const": "archer"
+        },
+        "mana_cost": {
+          "const": 15
+        },
+        "stamina_cost": {
+          "const": 0
+        },
+        "hp_cost": {
+          "const": 0
+        },
+        "cast_steps": {
+          "const": 6
+        },
+        "recovery_steps": {
+          "const": 12
+        },
+        "cooldown_steps": {
+          "const": 900
+        },
+        "distance_mm": {
+          "const": 4000
+        },
+        "movement_steps": {
+          "const": 12
+        },
+        "elapsed_steps": {
+          "maximum": 30
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stop_event_id_or_null": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "elapsed_steps": {
+                "maximum": 29
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "properties": {
+        "ability_id": {
+          "const": "aux_fighter_22a544440957"
+        },
+        "class_id": {
+          "const": "fighter"
+        },
+        "mana_cost": {
+          "const": 10
+        },
+        "stamina_cost": {
+          "const": 0
+        },
+        "hp_cost": {
+          "const": 0
+        },
+        "cast_steps": {
+          "const": 6
+        },
+        "recovery_steps": {
+          "const": 12
+        },
+        "cooldown_steps": {
+          "const": 600
+        },
+        "distance_mm": {
+          "const": 3000
+        },
+        "movement_steps": {
+          "const": 6
+        },
+        "elapsed_steps": {
+          "maximum": 24
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stop_event_id_or_null": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "elapsed_steps": {
+                "maximum": 23
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "movement_blocked_event_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "elapsed_steps": {
+            "minimum": 7
+          }
+        }
+      }
+    }
+  ]
+}

@@ -24,7 +24,6 @@
     "states": [
       "not_accepted",
       "in_progress",
-      "ready_to_turn_in",
       "delivered"
     ],
     "state_fields": [
@@ -612,7 +611,10 @@
     "town_review": {
       "grid_spacing_m": 1,
       "actor_radius_m": 0.35,
-      "origin_xz_m": [0, 25],
+      "origin_xz_m": [
+        0,
+        25
+      ],
       "reachable_grid_cells": 12999,
       "checked_anchor_count": 11,
       "collision_scope": "four expanded buildings and six actual town NPC circles; all town service/travel anchors reachable; fractional return anchor checked through adjacent reachable grid and midpoint",
@@ -621,7 +623,87 @@
     "scope_note": "separate supplementary review for rank1 additions; does not extend the older public_route_static_review or prove dynamic navigation"
   },
   "pending": [
+    "完整角色/world及共同来源父；阶段与死亡结果真实语义/重放验证",
     "Godot ten-stage UI and save/abandon/LAN runtime tests",
     "source creature/NPC art and full early-growth calibration"
-  ]
+  ],
+  "persistent_state": {
+    "field": "character.quests.adv_01",
+    "schema_ref": {
+      "file": "一转任务状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "attempt_id_or_null": null,
+      "stage_index_or_null": null,
+      "state": "not_accepted",
+      "last_settlement_id_or_null": null
+    },
+    "ownership": "严格沿原四键，不复制route/class/rank/收集数量/ready/任务实物或可写铁匠托管；ready仅从当前阶段门禁和真实本attempt实物即时派生。",
+    "accept": "本人原有效接取committed创建新attempt/stage1/in_progress；attempt等该原接取settlement_id，last_settlement_id_or_null同时为该接取settlement_id。接取不等于已完成stage1对话。",
+    "advance": "第i阶段提交仅i=当前stage，真实NPC/资格/输入输出与共同父通过后，i<10将stage=i+1、last置本原阶段settlement；其他状态字段保持。阶段输入/授予/托管事实沿原完整阶段历史认证，不因根无数组而丢失历史。",
+    "history": "last只定位最新原任务决定，不替代完整历史。stage1的last为同attempt接取；stage2..10的last恰同attempt第stage-1阶段；从原accept依序认证全部已提交阶段一次且无跳步/重放，stage5消费甲到stage8原合法取回仅沿原第5/8阶段证明。完整严格转换/阶段日志仍待，不能任意非空串冒充。",
+    "completion": "stage10最终同父rank0->1、银10000、delivered/stage=null，保原attempt且last为原第10阶段收据；不另写最终收据副本。route保持unselected，不补资源/点/礼包；银上限失败保持原stage10与全部原实物/历史。后来合法升职不要求当前仍rank1。",
+    "abandon": "仅真实本人in_progress确认，原同父清六种本人本attempt实物后恢复本initial；原接取/全部阶段/放弃及来源历史保留，last清null不删原证明。放弃不返铁匠甲或补书、补物、返银。下一接取新attempt，旧请求不改新轮。",
+    "initialization": "新建与四已知旧源新角色精确取本initial；当前格式缺字段拒绝，已有角色保原状态/历史，不能由等级/装备猜完成或清空。",
+    "boundary": "原四键状态/初值和历史职责采用；严格接取/放弃/阶段事件、实物producer、完整quests/角色/world及来源共同父仍待，无Godot实现。"
+  },
+  "transition_protocol": {
+    "schema_ref": {
+      "file": "一转任务转换事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.adv01_transition_events",
+    "command": "原木柴六键命令，accept真实本人/原会话、等级>=10/rank0/route unselected/14职业、真实掌门及hyunbo_town/2500毫米/LOS/活体离战Idle无冲突活动/交易/未决；abandon只本人活跃任务明确确认，interaction_id=null。",
+    "identity": "原通用结算；request_id为71确定JSON [\"adv01_transition\",session_id,command_id]，request_digest覆盖完整六键命令。跨owner先查原请求全文；同请求重放只原决定，新attempt等accept原settlement_id，不另发身份。",
+    "plan": "严格rules_hash/quest_before/inventory_before/inputs。accept原未接且无残留任务物、inputs[]；abandon inputs按库存槽及stack_id UTF8覆盖本人当前attempt所有六种任务物完整stack/previous_output，实际集合及逐物数量必须符合allowed_inventory_by_stage。禁止旧轮/错阶段/非法域物被默默略过；来源缺失拒绝。",
+    "cleanup": "放弃stage3最多后腿1、stage7最多骨3（最多3完整堆）；stage4/5/8保原必有的烧烤/甲/药各1；stage9原剑甲各1须双向覆盖。其余阶段无实物。stage5已交甲后stage6/7/8的铁匠托管不是held物，无可回收第二库存；只清本人实际所持，不返铁匠甲或补偿。",
+    "commit": "accept flow=null，quest_after同本settlement新attempt/stage1/in_progress/last=本settlement，库存修订保持。abandon非空恰单quest_cleanup完整消费各原输入、receipt_id=本settlement、无mint/outputs；空输入flow=null。任务恢复原四键initial，保原完整accept/阶段/abandon与来源历史。两操作角色修订expected+1，库存仅实际非空清理+1，预检溢出；无银/经验/点/装备/阶段奖励/资源补满/随机。",
+    "phases": "reserved只持久原counter/身份和完整冻结计划，业务不变；committed按原完整共同父；aborted仅三原原因且业务不变。保存存疑沿原完整正式文件决定恢复，不伪造普通取消或清日志重发。",
+    "replay": "旧轮abandon重放不作用新attempt；清当前last或阶段不删除其原证明。相同身份异文拒绝；没有实物不等于已合法清理，原生产/终结闭包必须完整。",
+    "joint_commit_owner_ref": {
+      "file": "档案共同提交.v1.json",
+      "pointer": ""
+    },
+    "remaining": "转换、阶段交付与材料死亡结构及职责已采用；完整角色/world与来源加载、真实语义/重放及Godot仍待。"
+  },
+  "stage_protocol": {
+    "schema_ref": {
+      "file": "一转阶段提交事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.adv01_stage_events",
+    "command": "原交付五键命令，不接受阶段/物种/奖励参数；本人当前活跃attempt、原会话、level>=10/rank0/route unselected、真实当前stages NPC及地图/2500毫米/LOS/活体离战Idle无冲突活动/交易/未决。",
+    "identity": "原通用结算；request_id为71确定JSON [\"adv01_stage\",session_id,command_id]，摘要覆盖完整五键command，跨owner先查原全文。阶段从真实quest_before推导，每attempt/stage唯一原committed，不能换command重复授予。",
+    "plan": "严格六键rules_hash/quest_before/inventory_before/inputs/progress_before/silver_before_or_null。原accept/阶段历史、last及实物来源完整认证；inputs按库存槽/stack_id UTF8覆盖该阶段全部应消费完整堆。非最终银证据null；最终冻结本人真实carried_silver余额与唯一previous_output，无新开户，余额<=MAX-10000。",
+    "flows": "按原stages精确消费和授物：若consume非空先单quest_delivery完整终结输入；若grant非空随后单quest_exchange mint，输出按原grant行序各quantity1/revision0/本人character绑定/quest_scope恰adv_01+同attempt，无预存同名残物、无合堆。flow receipt_id沿本settlement及原有序flow_index；mint授权authority_receipt_id为本settlement。各输入总量逐物等原consume，产物身份/源按物品堆owner生成，不以schema的范围替代数量等式。",
+    "custody": "stage5真实消费原甲，stage6/7/8托管只由原stage5已提交历史及当前阶段推导；stage8消费原药后按原行序新授剑和甲各1。该甲是原任务交换授权的新来源单位，不复活stage5旧stack/旧held头，不新增NPC可写库存/返还计数。原甲与药和新剑甲完整祖先保留。",
+    "final": "stage10 inputs[]/stack_flows[]，唯一silver_flow恰本人carried_silver账户、previous_output等计划，before等计划balance、after=before+10000，唯一from=null/to0/amount10000/quest_reward授权本settlement；无warehouse/扣款/第二账户或开户。银上限失败不得预留不可提交计划，不推进任务/rank或部分发银。",
+    "after": "stage1..9任务同attempt，stage=i+1/last=本settlement，最终delivered/stage=null/同attempt/last=本settlement。progress_after除最终rank0->1外逐字段等before，XP/route/HP/内力/体力保持，不补最大值变化，不发气功点或礼包；其他技能/效果/冷却/气功全保持。",
+    "revisions": "角色expected+1；有consume/grant阶段库存expected+1，无实物阶段1/2/6/10保持库存修订，最终银不单独累加库存修订。预检所有溢出、布局/容量与阶段必有物全集；任何失败不部分消费或授物。",
+    "phases": "reserved仅同档预留身份/counter与完整冻结计划，业务不变；committed同完整角色/档案共同保存任务/流/银/rank/修订；aborted仅三原原因且业务不变。保存存疑保同一候选、身份和决定，沿原正式文件恢复，不重发/重算/伪造取消。",
+    "joint_commit_owner_ref": {
+      "file": "档案共同提交.v1.json",
+      "pointer": ""
+    },
+    "remaining": "十阶段事件结构与职责采用；完整角色/world及来源加载和Godot仍待。"
+  },
+  "material_death_protocol": {
+    "schema_ref": {
+      "file": "一转材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "parent": "原hyunbo_boar12/graywolf12唯一权威死亡共同决定中的adv01_material_results数组，按character_id UTF8有序且唯一、最多6；不分配独立结算/日志/counter。两怪已接公共普通怪十四种56刷点白名单及原死亡结果十三键组合；完整共同父未闭合前不得孤立运行授物。",
+    "qualification": "collection.producers原精确怪/阶段/物种：后腿stage3/cap1，骨stage7/cap3。本人原accept/attempt、活体在线同场景，独杀归属或19原完整合格队伍快照逐人恰一；NPC伙伴不收。原last与前序阶段及真实库存源均须认证。",
+    "held": "重算本人本attempt全部合法held对应材料，后腿0..1/骨0..3。错阶段/旧轮/非法域残物和坏源拒绝完整候选，不略过。已有量>0选择原库存顺序首个可合并完整同key堆，保previous_output；不能把总持量误当该选堆数量。",
+    "decision": "满额cap_reached无流；未满真实容量/重量/布局可入则固定100%授1，无随机/倍率。容量不足capacity_rejected无流，原死亡持久保该决定；腾位、重连和旧死亡重放不改为授予。",
+    "flows": "成功先单loot mint本人character绑定/current attempt正确材料1/revision0，已有量>0再紧接单merge，输入恰选堆原输出与本mint唯一输出，完整贡献守恒，输出=选堆量+1。流receipt_id和flow_index沿原死亡完整有序集合，不另立通用身份。后腿上限1故不能合法合堆，骨最多3。",
+    "joint": "任务四键不推进，普通XP/历练/银及全部个人材料结果、实际角色/库存/气功/world与原生命周期同完整共同父一次保存，修订不因每子业务叠加。重放只回原死亡决定，不再授物。",
+    "source": "保完整原死亡/成员资格/accept/阶段及mint/merge祖先，按原death+character+attempt+item唯一认证；cap/capacity无来源节点，未提交父无held授权。",
+    "joint_commit_owner_ref": {
+      "file": "档案共同提交.v1.json",
+      "pointer": ""
+    },
+    "remaining": "六键子结果与职责采用；完整共同父/来源加载及Godot仍待。"
+  }
 }

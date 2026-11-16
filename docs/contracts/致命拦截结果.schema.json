@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:solorxjh:lethal-interception-result:v1",
-  "$comment": "仅已选择合法ready火凤/霸王且实际掷出一次概率的原伤害子结果，严格13字段。缺资格/不可拦截不造此结果。真实来源/优先级/概率/HP与随机流/成功冷却及生命终态另验，不是独立预留或死亡日志。",
+  "$comment": "原伤害内实际选择并掷出一次概率的致命拦截子结果，严格13字段；火凤/霸王留10，血魔留1。完整资格/活动/HP/随机流及同笔效果另验，不是独立日志。",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -62,7 +62,8 @@
     "selected_profile": {
       "enum": [
         "bawang_lethal",
-        "lethal_keep10"
+        "lethal_keep10",
+        "blood_devil"
       ]
     },
     "chance_bp": {
@@ -77,7 +78,7 @@
     },
     "valid_max_hp": {
       "type": "integer",
-      "minimum": 10,
+      "minimum": 1,
       "maximum": 9007199254740991
     },
     "outcome": {
@@ -94,9 +95,6 @@
           "maxItems": 1,
           "items": {
             "properties": {
-              "owner_kind": {
-                "const": "character"
-              },
               "draws": {
                 "minItems": 1,
                 "maxItems": 1,
@@ -116,5 +114,58 @@
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "selected_profile": {
+            "enum": [
+              "bawang_lethal",
+              "lethal_keep10"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "valid_max_hp": {
+            "minimum": 10
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "selected_profile": {
+            "enum": [
+              "bawang_lethal",
+              "lethal_keep10"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "items": {
+                  "properties": {
+                    "owner_kind": {
+                      "const": "character"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

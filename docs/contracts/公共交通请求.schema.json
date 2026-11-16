@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:public-travel-command:v1",
+  "$comment": "四键公共交通意图，精确60公共边；源会话/源地图/交互距离/门槛在原处理before认证。无客户端目的坐标、费用、时刻或迁移结果。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "play_session_identity",
+    "command_id",
+    "connection_id"
+  ],
+  "properties": {
+    "kind": {
+      "const": "player_public_travel"
+    },
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/identity"
+    },
+    "command_id": {
+      "$ref": "urn:solorxjh:direct-attack-command:v1#/properties/command_id"
+    },
+    "connection_id": {
+      "enum": [
+        "travel_story_to_hyunbo",
+        "travel_hyunbo_to_story",
+        "travel_hyunbo_town_to_hyunbo_outskirts",
+        "travel_hyunbo_outskirts_to_hyunbo_town",
+        "travel_hyunbo_outskirts_to_liuzheng_pass",
+        "travel_liuzheng_pass_to_hyunbo_outskirts",
+        "travel_hyunbo_outskirts_to_sanxie_pass",
+        "travel_sanxie_pass_to_hyunbo_outskirts",
+        "travel_liuzheng_pass_to_shenwu_gate",
+        "travel_shenwu_gate_to_liuzheng_pass",
+        "travel_sanxie_pass_to_liushan_house",
+        "travel_liushan_house_to_sanxie_pass",
+        "travel_shenwu_gate_to_diling_cave_1",
+        "travel_diling_cave_1_to_shenwu_gate",
+        "travel_diling_cave_1_to_diling_cave_2",
+        "travel_diling_cave_2_to_diling_cave_1",
+        "travel_diling_cave_2_to_diling_cave_3",
+        "travel_diling_cave_3_to_diling_cave_2",
+        "travel_liushan_house_to_xuemo_cave_1",
+        "travel_xuemo_cave_1_to_liushan_house",
+        "travel_xuemo_cave_1_to_xuemo_cave_2",
+        "travel_xuemo_cave_2_to_xuemo_cave_1",
+        "travel_xuemo_cave_2_to_xuemo_cave_3",
+        "travel_xuemo_cave_3_to_xuemo_cave_2",
+        "travel_hyunbo_outskirts_to_beihai_ice",
+        "travel_beihai_ice_to_hyunbo_outskirts",
+        "travel_hyunbo_outskirts_to_nanlin_forest",
+        "travel_nanlin_forest_to_hyunbo_outskirts",
+        "travel_hyunbo_outskirts_to_huxia_valley",
+        "travel_huxia_valley_to_hyunbo_outskirts",
+        "travel_hyunbo_outskirts_to_huating_plain",
+        "travel_huating_plain_to_hyunbo_outskirts",
+        "travel_huating_plain_to_yanfei_city",
+        "travel_yanfei_city_to_huating_plain",
+        "travel_yanfei_city_to_jianhuang_sanctuary",
+        "travel_jianhuang_sanctuary_to_yanfei_city",
+        "travel_jianhuang_sanctuary_to_anmi_village",
+        "travel_anmi_village_to_jianhuang_sanctuary",
+        "travel_hyunbo_to_nanming_west",
+        "travel_nanming_to_hyunbo_west",
+        "travel_hyunbo_to_nanming_east",
+        "travel_nanming_to_hyunbo_east",
+        "travel_nanming_lake_to_nanming_cave",
+        "travel_nanming_cave_to_nanming_lake",
+        "travel_liuzheng_pass_to_wanshou_floor1",
+        "travel_wanshou_floor1_to_liuzheng_pass",
+        "travel_wanshou_floor1_to_wanshou_floor2",
+        "travel_wanshou_floor2_to_wanshou_floor1",
+        "travel_sanxie_pass_to_wutian_floor1",
+        "travel_wutian_floor1_to_sanxie_pass",
+        "travel_wutian_floor1_to_wutian_floor2",
+        "travel_wutian_floor2_to_wutian_floor1",
+        "travel_wanshou_floor2_to_wanshou_floor3",
+        "travel_wanshou_floor3_to_wanshou_floor2",
+        "travel_wutian_floor2_to_wutian_floor3",
+        "travel_wutian_floor3_to_wutian_floor2",
+        "travel_liuzheng_pass_to_yuanzhu_forest",
+        "travel_yuanzhu_forest_to_liuzheng_pass",
+        "travel_sanxie_pass_to_huozhu_forest",
+        "travel_huozhu_forest_to_sanxie_pass"
+      ]
+    }
+  }
+}

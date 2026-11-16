@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:monster-on-foot-motion:v1",
+  "$comment": "八公共普通怪及144修炼定义的十一键导航徒步单步子结果；只复用中性坐标/轨迹字段，不采用玩家速度/0.35米脚印/会话命令。真实AI、控制、足迹/导航、安全区、轨迹及父来源另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "world_step",
+    "speed_mm_per_second",
+    "path_positions",
+    "after_yaw_radians",
+    "event_id",
+    "map_id",
+    "instance_id_or_null",
+    "source_actor_id",
+    "outcome"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "speed_mm_per_second": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/speed_mm_per_second"
+    },
+    "path_positions": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/path_positions"
+    },
+    "after_yaw_radians": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/after_yaw_radians"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 79,
+      "maxLength": 79,
+      "pattern": "^monster-motion:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "map_id": {
+      "type": "string"
+    },
+    "instance_id_or_null": {
+      "type": "null"
+    },
+    "source_actor_id": {
+      "oneOf": [
+        {
+          "$ref": "urn:solorxjh:ordinary-monster-life-identity:v1#/properties/actor_id"
+        },
+        {
+          "$ref": "urn:solorxjh:training-monster-spawn:v1#/$defs/initial_actor/properties/stable_actor_id"
+        }
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "idle",
+        "action_locked",
+        "control_locked",
+        "retry_wait",
+        "arrived",
+        "moved",
+        "blocked"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^ordinary-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "idle",
+              "action_locked",
+              "control_locked",
+              "retry_wait"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "speed_mm_per_second": {
+            "const": 0
+          },
+          "path_positions": {
+            "maxItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "moved"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "speed_mm_per_second": {
+            "minimum": 1
+          },
+          "path_positions": {
+            "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "blocked"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "speed_mm_per_second": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "speed_mm_per_second": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "path_positions": {
+            "maxItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "arrived"
+          }
+        }
+      },
+      "then": {
+        "if": {
+          "properties": {
+            "path_positions": {
+              "maxItems": 1
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "speed_mm_per_second": {
+              "const": 0
+            }
+          }
+        },
+        "else": {
+          "properties": {
+            "speed_mm_per_second": {
+              "minimum": 1
+            }
+          }
+        }
+      }
+    }
+  ]
+}

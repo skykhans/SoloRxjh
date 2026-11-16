@@ -1,0 +1,350 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:supreme-profile-result:v1",
+  "$comment": "原world begin对一个已accepted未结束profile的严格八键投递投影，world/authority/profile/T/rules沿clock_result不重复。前后摘要覆盖原两键共享业务范围，不授权任意全档替换；真实父/全部来源/跨链依赖及保存须owner联合验证。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "play_session_identity",
+    "admission_receipt_id",
+    "previous_world_step_or_null",
+    "required_character_sequence",
+    "profile_before_digest",
+    "profile_after_digest",
+    "clock_result",
+    "expiry_role_results"
+  ],
+  "properties": {
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/identity",
+      "properties": {
+        "mode": {
+          "enum": [
+            "lan_host",
+            "lan_client"
+          ]
+        }
+      }
+    },
+    "admission_receipt_id": {
+      "$ref": "urn:solorxjh:character-session:v1#/$defs/admission_receipt/properties/receipt_id"
+    },
+    "previous_world_step_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740990
+        }
+      ]
+    },
+    "required_character_sequence": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "profile_before_digest": {
+      "$ref": "urn:solorxjh:supreme-service-clock-result:v1#/properties/rules_hash"
+    },
+    "profile_after_digest": {
+      "$ref": "urn:solorxjh:supreme-service-clock-result:v1#/properties/rules_hash"
+    },
+    "clock_result": {
+      "$ref": "urn:solorxjh:supreme-service-clock-result:v1"
+    },
+    "expiry_role_results": {
+      "type": "array",
+      "maxItems": 6,
+      "items": {
+        "$ref": "urn:solorxjh:world-step-begin-clock-result:v1#/$defs/expiry_role_result"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "clock_result": {
+            "not": {
+              "properties": {
+                "service_before": {
+                  "type": "object",
+                  "required": [
+                    "remaining_steps"
+                  ],
+                  "properties": {
+                    "remaining_steps": {
+                      "const": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "expiry_role_results": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "business_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supreme_service_or_null",
+        "role_states"
+      ],
+      "properties": {
+        "supreme_service_or_null": {
+          "$ref": "urn:solorxjh:supreme-service-state:v1"
+        },
+        "role_states": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "items": {
+            "$ref": "urn:solorxjh:supreme-profile-baseline:v1#/$defs/role_state"
+          }
+        }
+      }
+    },
+    "saved_ack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "world_step",
+        "result_digest",
+        "saved_profile_revision"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity",
+          "properties": {
+            "mode": {
+              "enum": [
+                "lan_host",
+                "lan_client"
+              ]
+            }
+          }
+        },
+        "world_step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "result_digest": {
+          "$ref": "urn:solorxjh:supreme-service-clock-result:v1#/properties/rules_hash"
+        },
+        "saved_profile_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "journal_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result",
+        "saved_ack"
+      ],
+      "properties": {
+        "result": {
+          "$ref": "urn:solorxjh:supreme-profile-result:v1"
+        },
+        "saved_ack": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/saved_ack"
+            }
+          ]
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/journal_entry"
+      }
+    },
+    "local_saved_acks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/saved_ack"
+      }
+    },
+    "checkpoint_proposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "through_world_step",
+        "through_character_sequence",
+        "business_state_digest",
+        "retained_source_digest",
+        "previous_checkpoint_digest_or_null"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:character-session:v1#/$defs/identity",
+          "properties": {
+            "mode": {
+              "enum": [
+                "lan_host",
+                "lan_client"
+              ]
+            }
+          }
+        },
+        "through_world_step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "through_character_sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "business_state_digest": {
+          "$ref": "urn:solorxjh:supreme-service-clock-result:v1#/properties/rules_hash"
+        },
+        "retained_source_digest": {
+          "$ref": "urn:solorxjh:supreme-service-clock-result:v1#/properties/rules_hash"
+        },
+        "previous_checkpoint_digest_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "urn:solorxjh:supreme-service-clock-result:v1#/properties/rules_hash"
+            }
+          ]
+        }
+      },
+      "$comment": "累计检查点不可变六键候选，不是已接受证明或可裁剪授权。candidate摘要采用原快照算法；原前缀连续保存、双方持久决定及来源保留闭包须owner联合认证。"
+    },
+    "checkpoint_prepared": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal",
+        "saved_profile_revision"
+      ],
+      "properties": {
+        "proposal": {
+          "$ref": "#/$defs/checkpoint_proposal"
+        },
+        "saved_profile_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "$comment": "本人已持久候选和来源准备事实；仅准备，不证明authority已提交，不授权裁剪。"
+    },
+    "checkpoint_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal",
+        "client_prepared_profile_revision_or_null",
+        "decision",
+        "authority_saved_profile_revision"
+      ],
+      "properties": {
+        "proposal": {
+          "$ref": "#/$defs/checkpoint_proposal"
+        },
+        "client_prepared_profile_revision_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          ]
+        },
+        "decision": {
+          "enum": [
+            "committed",
+            "aborted"
+          ]
+        },
+        "authority_saved_profile_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "decision": {
+                "const": "committed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "client_prepared_profile_revision_or_null": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              }
+            }
+          }
+        }
+      ],
+      "$comment": "原authority唯一已持久终态；committed必需原client准备保存修订，aborted允许准备前或准备后。候选相等、真实成员/首次保存和来源闭包另验。"
+    },
+    "retained_source_manifest": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_schema_id",
+          "source_key",
+          "body_digest"
+        ],
+        "properties": {
+          "source_schema_id": {
+            "type": "string",
+            "pattern": "^urn:solorxjh:\\S+(?![\\s\\S])"
+          },
+          "source_key": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "body_digest": {
+            "$ref": "urn:solorxjh:supreme-service-clock-result:v1#/properties/rules_hash"
+          }
+        }
+      },
+      "$comment": "保留来源闭包的排序三键清单。合法URN不是授权：只收实际已登记原owner的不可变来源正文，须真实归属/全祖先/精确集合认证；不含路径，不凭摘要裁剪。"
+    }
+  }
+}

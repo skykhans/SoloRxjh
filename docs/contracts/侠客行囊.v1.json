@@ -1,0 +1,158 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-16",
+  "status": "strict_layout_initialization_and_overweight_source_registered_full_parent_permissions_and_runtime_pending",
+  "source_policy": "旧服务页只给侠客行囊负重2倍，未给基础容量/权限。以下20槽、50000克、基础开放和与角色总携重双约束均为项目设计；不是官网数值。",
+  "service_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/knight_bag_effect"
+  },
+  "layout_owner_ref": {
+    "file": "容器与仓储.v1.json",
+    "pointer": "/carried_weight"
+  },
+  "definition": {
+    "container_id": "knight_bag",
+    "ownership": "character_id",
+    "slots": 20,
+    "base_limit_grams": 50000,
+    "supreme_limit_grams": 100000,
+    "expansion": "无格数/重量扩容或购买实例；角色基础分区，不需携带一个可复制行囊道具。"
+  },
+  "admission": "只容纳原正式定义分配inventory且允许本人持有的堆叠实物；装备/仓库专用/其他玩家物不允许。每堆一槽，原堆ID/正文/绑定/任务关系/来源不因移分区改变。正式物品逐条仍须登记本分区权限，缺定义不能按材料名称默许。",
+  "weight": "行囊实际重量=sum(quantity*具名weight_g)，精确整数；须同时满足本人行囊当前上限和角色原总携重上限。knight_bag全部物计入原carried_weight，不与原inventory重复计数；至尊只使行囊50000变100000，不改变100000角色基数或弓手具名增量，不翻倍20槽/堆叠/仓库/装备。",
+  "expiry": "本T世界服务计时1→0时独立行囊上限回50000，保全部物和原槽。合法50000..100000范围内旧重量>50000则由同原到期共同父记录唯一来源/前后容量与实际物品版本证明；不能把任何超重档当合法到期。余时耗尽不删物、不自动转仓/转材料背包、不拆堆或补容量。",
+  "overweight": "有真实到期来源才允许恢复超重行囊；角色仅行走，禁止攻击/技能/闪避/便携传送及新增携重。允许原合法售出/存仓/确认丢弃及把行囊物显式移到材料背包来减轻行囊，但须各权限/服务/目标格/原总携重与全局超重凭证合法，不因移分区减少角色总重量。只允许不增加总携重且不增加行囊重量的减负业务；降到50000内清本行囊超重证明，弓手总携重证明独立验证。",
+  "renewal": "合法新激活/续期使当前行囊上限100000，若真实重量满足新上限则同父解除该行囊超重限制；不增加物或移槽，不清独立角色总携重超重。服务来源矛盾/缺到期链拒绝，不借新服务修复坏物品来源。",
+  "transactions": "移动/拾取/购买/复购/配方输入必须显式原分区/真实堆/槽与修订，不能后台自动搜索新分区或转仓；跨分区移动沿原域/布局事务，完整钱物/来源/槽/重量/角色与库存修订同笔。堆同ID不能两分区并存；重放回原结果，不再移物。",
+  "persistence": "原物品容器布局根与owned_inventory_state已登记character.knight_bag单键slots，原item_stacks唯一持正文。新建与四旧来源的新导入角色显式{slots:[]}，已有目标角色保持原合法分区；当前格式缺字段拒绝。槽号严格升序且唯一、target_id跨全部位置唯一、具名物品权限/重量与来源须联合验证。超重三键来源结构已登记；expiry完整共同父和物品权限未闭合前不允许行囊操作。",
+  "remaining_work": [
+    "完整角色根联合登记与其余物品逐定义分区权限（17种常用实物已明确存放权限）",
+    "服务到期/减负/续期完整共同父及超重来源历史闭包",
+    "全部携重生产者与正式移动完整父/来源运行接入（移动三阶段及日志已登记）",
+    "Godot界面/存取/到期/LAN及失败写盘实测"
+  ],
+  "layout_schema_ref": {
+    "file": "物品容器布局.schema.json",
+    "pointer": "/properties/knight_bag"
+  },
+  "expiry_role_result_owner_ref": {"file": "至尊服务.v1.json", "pointer": "/expiry_role_results"},
+  "profile_expiry_dispatch_ref": {"file": "至尊服务.v1.json", "pointer": "/expiry_dispatch"},
+  "overweight_source": {
+    "field": "character.knight_bag_overweight_or_null",
+    "schema_ref": {
+      "file": "侠客行囊超重来源.schema.json",
+      "pointer": ""
+    },
+    "source": "null表示无合法超重来源；非null三键world_id/world_step/inventory_revision_at_expiry定位原真实世界begin共同父及本人到期前库存版本。profile_id从实际角色归属核对原逐档案计时结果，不能借同世界其他档案到期授权。world_id不是当前所在世界，迁移不重写历史来源。",
+    "creation": "仅原真实本人服务1→0且同父before完整库存算得50000<行囊重量<=100000时创建；相同父保全部物品/槽/正文不变，原库存修订只作历史引用不因凭证创建自增，角色业务修订由完整父统一登记。重量<=50000保持null；原已超100000、缺逐物品权限或来源不合法整笔拒绝。不得在读档时按当前超重补造来源。",
+    "validation": "解析原完整不可变begin父，核真实Playing/world_step、本人原服务来源及1→0、原规则认证和完整库存版本；逐物品定义算原重量和双上限。当前库存必须由该正式after沿原真实提交链可达，期间行囊重量与总携重都不增加；布局/正文/修订仍全量闭合。只匹配一个revision或合法world字符串不足以证明。",
+    "retention": "后续合法减负而仍>50000时保原三键，不把最新库存修订覆写到历史字段；正常保存/迁移/切角色/结束会话也保原来源。其历史world共同父仍须可解析，不因世界不再活跃丢掉源。",
+    "clear": "减负到<=50000，或合法激活/续期且来源链和实际重量<=100000，同原完整业务父清null；不补物/改槽/清角色总携重凭证。服务仍耗尽且>50000时不得清除。",
+    "atomicity": "到期计时、行囊来源及动作门禁由原world/profile/角色共同决定提交，失败保原before，未知写盘先恢复原父；不新增独立到期日志/布尔/物品快照。完整共同父尚待，结构登记不允许执行。"
+  },
+  "item_permissions": {
+    "field": "原具名物品定义knight_bag_allowed严格bool；true允许本人显式移入，false禁止；缺字段或不合法token为配置错误，不按类别/名称/warehouse权限推断。",
+    "definition_refs": [
+      {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/items/15"
+      },
+      {
+        "file": "角色初始模板.v1.json",
+        "pointer": "/items/16"
+      },
+      {
+        "file": "常规消耗品.v1.json",
+        "pointer": "/items/0"
+      },
+      {
+        "file": "常规消耗品.v1.json",
+        "pointer": "/items/1"
+      },
+      {
+        "file": "常规消耗品.v1.json",
+        "pointer": "/items/2"
+      },
+      {
+        "file": "常规消耗品.v1.json",
+        "pointer": "/items/3"
+      },
+      {
+        "file": "便携传送与修炼限制.v1.json",
+        "pointer": "/items/0"
+      },
+      {
+        "file": "便携传送与修炼限制.v1.json",
+        "pointer": "/items/1"
+      },
+      {
+        "file": "便携传送与修炼限制.v1.json",
+        "pointer": "/items/2"
+      },
+      {
+        "file": "便携传送与修炼限制.v1.json",
+        "pointer": "/items/3"
+      },
+      {
+        "file": "便携传送与修炼限制.v1.json",
+        "pointer": "/items/4"
+      },
+      {
+        "file": "便携传送与修炼限制.v1.json",
+        "pointer": "/items/5"
+      },
+      {
+        "file": "至尊服务.v1.json",
+        "pointer": "/activation_items/definitions/0"
+      },
+      {
+        "file": "至尊服务.v1.json",
+        "pointer": "/activation_items/definitions/1"
+      },
+      {
+        "file": "剧情剑与玲珑竹.v1.json",
+        "pointer": "/items/2"
+      },
+      {
+        "file": "剧情剑与玲珑竹.v1.json",
+        "pointer": "/items/1"
+      },
+      {
+        "file": "寻找木柴任务与采集.v1.json",
+        "pointer": "/item"
+      }
+    ],
+    "scope": "已登记六恢复药、六回城符、两至尊符、灵矿、玲珑竹材及任务木柴共17种true。普通16种为永久99堆/角色绑定非任务；木柴只允许原活跃任务单键quest_scope及两分区总量<=15，不能按普通材料去绑定。其余定义仍待，不能补true或false。",
+    "access": "knight_bag_allowed只授权显式存放，不授权用药/回城/激活/配方或远程任务交付；这些输入仍只取inventory，须先正式取回，快捷栏不扫描行囊。原木柴放弃清理是独立已确认任务终结，按其owner处理两个分区，不受主动使用仅inventory约束。",
+    "producers": "购买/拾取/礼包/任务奖励仍保持各原明确inventory目的地与原堆顺序，只在该目的地合堆；inventory满格时不能自动改投行囊，行囊有同类物不算inventory合堆目标。",
+    "preservation": "显式移入/取回前逐字核item_id/绑定/任务域/最新正文与来源，两个分区不能共享同一ID。整堆无合并保原正文；拆分/合堆严格沿move_protocol数量流。移动不改定义、重量单价、冷却/使用门槛或服务余时。完整分区移动父未闭合前，本权限仍不可实际操作。"
+  },
+  "move_protocol": {
+    "schema_ref": {
+      "file": "侠客行囊移动事件.schema.json",
+      "pointer": ""
+    },
+    "field": "profile.knight_bag_move_events",
+    "scope": "仅17种已登记true的本人绑定实物；普通16种非任务/99堆，quest_firewood按原任务精确quest_scope且全部实际量<=15。同本人inventory与knight_bag互移，不涉及仓库/跨角色/装备/held与buyback域迁移。未来新定义须同步严格分派。",
+    "command": "八键真实play_session_identity/command_id/expected_character_revision/expected_inventory_revision/from_container/to_container/stack_id/quantity。普通数量1..99、木柴1..15且<=原源堆量，两分区必须相反；明确实际未预留源堆，不自动换堆/减量/整理。本人alive/out_of_combat/Idle且无有效challenge；合法行囊超重时只允许knight_bag到inventory减负且总携重不增，角色总超重门禁另核。",
+    "identity": "原通用分配；request_id为71确定JSON [\"knight_bag_move\",play_session_identity.session_id,command_id]，摘要覆盖完整八键命令。原请求去重/日志终态保留，重放回原结果不再次搬物。",
+    "plan": "五键rules_hash/inventory_before/knight_bag_before/source_input/merge_inputs。冻结原两分区布局、真实源完整堆和previous_output；merge_inputs仅目标分区实际接收正数量的兼容旧堆，按原slot_index升序且保原堆ID/槽，不能把另一分区堆列为目标。规则/正文/来源/两业务修订先完整验证。",
+    "allocation": "先扣源明确Q，按目标槽升序填兼容旧堆至99；剩余R>0占目标最低空槽，R=0不需空槽。源余量>0仍在原源槽/源ID；源全取且目标有剩余新位置时源ID移入该位置，源不剩且全合入旧堆则源ID退役。源部分取且目标剩余新位置时仅该余量新建一个ID，按72本结算ordinal0。不以源空出的槽替代另一分区目标空槽。",
+    "intact": "Q等源全量且merge_inputs空时，唯一同ID完整正文/修订/origin_receipt_id原样移位，stack_flow=null，无custody_transfer（两端均held）。本完整事件证明位置变更，不能伪造held→held域迁移或新数量流来改版不变物。",
+    "flow": "其他情况恰一个stack_flow，receipt_id精确本settlement，inputs先源previous_output再原merge_inputs顺序；无mint_authorization/consumptions。输出顺序为存在的源槽余量、各目标旧堆、存在的目标剩余堆。贡献对源input_index=0分别分配源余量/各搬入量；每目标旧堆贡献含其完整旧量和源分配量。逐输入贡献和等原量，总量守恒。",
+    "body_revisions": "数量流输出的存续旧ID正文revision+1/origin_receipt_id本结算；新ID revision0/origin_receipt_id本结算。全取源且R>0保源ID到目标的新位置，其正文数量若经合并减少则同样+1；其原ID不能再留源槽。每种旧正文需加1时预检溢出，intact不预检无须增加的正文修订。",
+    "weights": "本人物品总量/总携重不变，按源定义Q*weight_g增减两个分区重量；向行囊需最终<=当前50000/100000合法上限且原总携重合规；从合法超重行囊取回只减负不清独立总超重凭证。原行囊<=50000则同父清其超重来源，否则保原来源三键。目标满且不能全合堆、重量/权限/来源/修订失败均整笔拒绝，无收费/奖励/随机。",
+    "commit": "预留只分配身份及保存原计划，不改正文/槽/服务余时/两业务修订；committed在同完整父提交原正式计划数量流或intact移位、两分区/正文/超重来源、角色与inventory各+1、原日志终态，profile按完整替换加1。reserved短事务先于依赖的服务计时/激活恢复，不跨容量变化改原计划。",
+    "recovery": "aborted保业务before及修订，保原identity/plan/reason；committed重放只回原结果，即使堆已后续消费也不搬回。未知保存先重读正式完整档案与原日志/来源头，reserved只恢复原计划或合法中止，不从当前位置猜成功或重算合堆。",
+    "gate": "严格事件/原日志索引及初始化登记；完整profile/角色/world共同保存和来源闭包、实际分区移动与Godot仍待，禁止执行。"
+  },
+  "bamboo_partition_policy_ref": {
+    "file": "剧情剑与玲珑竹.v1.json",
+    "pointer": "/bamboo_partition_policy"
+  },
+  "firewood_partition_policy_ref": {
+    "file": "寻找木柴任务与采集.v1.json",
+    "pointer": "/partition_policy"
+  }
+}

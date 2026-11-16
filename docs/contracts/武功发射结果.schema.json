@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:martial-attack-dispatch:v1",
+  "$comment": "原武功每个真实到期ordinal唯一发射决定；形状分原生/霹雳额外目标两列表，空列表是已消费空挥；投射仅新弹体引用，非命中伤害。原具体技能offset/geometry/cap/成功霹雳与列表交集、来源/同笔推进另验。",
+  "type": "object",
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "action_id",
+    "hit_ordinal",
+    "kind"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/properties/world_step"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/properties/action_id"
+    },
+    "event_id": {
+      "$ref": "#/$defs/event_id"
+    },
+    "hit_ordinal": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "kind": {
+      "enum": [
+        "shape",
+        "projectile"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "target_actor_ids",
+        "extra_target_actor_ids"
+      ],
+      "properties": {
+        "kind": {
+          "const": "shape"
+        },
+        "target_actor_ids": {
+          "type": "array",
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/oneOf/0/properties/target_actor_ids/items"
+          }
+        },
+        "extra_target_actor_ids": {
+          "type": "array",
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/oneOf/0/properties/target_actor_ids/items"
+          }
+        }
+      }
+    },
+    {
+      "required": [
+        "projectile_id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "projectile"
+        },
+        "projectile_id": {
+          "$ref": "#/$defs/projectile_id"
+        }
+      }
+    }
+  ],
+  "unevaluatedProperties": false,
+  "$defs": {
+    "event_id": {
+      "type": "string",
+      "minLength": 81,
+      "maxLength": 81,
+      "pattern": "^martial-dispatch:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "projectile_id": {
+      "type": "string",
+      "minLength": 83,
+      "maxLength": 83,
+      "pattern": "^martial-projectile:[0-9a-f]{64}(?![\\s\\S])"
+    }
+  }
+}

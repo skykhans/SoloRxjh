@@ -529,7 +529,7 @@
   "duration_policy": "negative timed family base duration -> named outgoing/incoming normal-status modifiers once; save effective total and remaining bounded by effective total. Spread carries remaining without modifying again. Positive heal/immunity and instant effects use their own fixed timing.",
   "persistent_periodic_state": {
     "field": "character.effects.dongling_periodic",
-    "world_entity_field": "完整世界/活动战斗实体同effects.dongling_periodic，目标隐含为持有实体；施加者不再存受害者镜像。",
+    "world_entity_field": "本明确采用的世界怪物actor.effects.dongling_periodic，受体限制/根与生命周期沿普通怪效果根.v1.json；同族原来源结构只存目标实体一次。",
     "schema_ref": {
       "file": "神女周期效果状态.schema.json",
       "pointer": ""
@@ -558,7 +558,7 @@
   },
   "persistent_delayed_burst_state": {
     "field": "character.effects.dongling_delayed_burst",
-    "world_entity_field": "原完整世界/活动实体effects同字段，目标隐含为持有实体，不在施加者再存一份受害者标记。",
+    "world_entity_field": "本明确采用的世界怪物actor.effects.dongling_delayed_burst，受体限制/根与生命周期沿普通怪效果根.v1.json；同族原来源结构只存目标实体一次。",
     "schema_ref": {
       "file": "阎王爆效果状态.schema.json",
       "pointer": ""
@@ -579,7 +579,7 @@
   },
   "persistent_attribute_state": {
     "field": "character.effects.dongling_attributes",
-    "world_entity_field": "原完整世界/活动战斗实体effects同字段；目标隐含为本实体，不在施加者另存目标效果镜像。",
+    "world_entity_field": "本明确采用的世界怪物actor.effects.dongling_attributes，受体限制/根与生命周期沿普通怪效果根.v1.json；同族原来源结构只存目标实体一次。",
     "schema_ref": {
       "file": "神女属性效果状态.schema.json",
       "pointer": ""
@@ -605,7 +605,7 @@
   },
   "persistent_control_state": {
     "field": "character.effects.dongling_control",
-    "world_entity_field": "原完整世界/活动实体effects同字段，受控者即持有实体，不复制到施加者。",
+    "world_entity_field": "本明确采用的世界怪物actor.effects.dongling_control，受体限制/根与生命周期沿普通怪效果根.v1.json；同族原来源结构只存目标实体一次。",
     "schema_ref": {
       "file": "神女控制效果状态.schema.json",
       "pointer": ""
@@ -624,15 +624,114 @@
     },
     "sources": "两族每来源source_actor_id/root_event_id/application_event_id/stage/timing五键；技能由族唯一原ID确定，不另存常量。root证明原施法，application证明本目标直接或合法传播落效。每族同施加者至多一条，按施加者稳定排序；新直接施法根替换原来源，不加时间，原落效重放不刷新。多个来源独立到期，同一决策/移动入口不能每源各发一动作。",
     "duration": "错乱base_steps=300，混乱base_steps=180+12*(stage-1)；负面时长按原具名修正冻结一次并复用negative_duration五键，须核剩余<=有效总时长与原来源。30步重选间隔/2米移动意图不被负面时长气功延长。传播只允许混乱，保原阶段/时长修正/剩余和root，application指新接收者结果；重复同源仅取较晚到期，相同保既有相位和意图，不续满。错乱是一次决策，禁止传染。",
-    "forced_pool": "原施放前仅忽略受控者当前忙碌锁预查是否存在最终合法选项；已有已付动作照常完成。实际空闲决策时重新按原职业/武器/学习/资格/资源/冷却与真实目标策略预检每项：各合法战斗主动能力ID一票，另有一个合法普攻选项，技能按稳定ID排序且普攻排最后。技能多阶段不多给票，不因快捷栏四槽限制；学习/交互/任务/配置命令不入池。没有合法候选不抽/不支付/不消耗来源，保原等待至到期；不能免费施法或替换非法目标。",
-    "forced_accept": "同次空闲只处理root_event_id/source_actor_id/application_event_id最小的一条待决来源。候选数N=1确定选定且不消费块，N>1均匀抽0..N-1一次；选中能力的具体目标/正常费用/冷却及已接受动作按原冻结预检同笔提交，原选择结果与RNG保在这个真实原动作结果。成功接受同笔只消费本来源，其余来源等待以后空闲；动作未完成不再选择。提交资格/修订冲突则整笔不提交、不推进候选流/删除来源，不换选项重抽。后续已付动作中断仍沿正常规则不退费，不能复活已消费错乱。",
-    "random_walk": "空族首次落效设置next_direction_remaining_steps=1/intent_event_id=null，不当场抢已接受动作或凭控制来源重复抽方向；下一实际世界步首次合法移动决策选择8方向之一，再将下一重选设30。方向索引按世界XZ固定0北(0,-1)、1东北、2东、3东南、4南、5西南、6西、7西北，对角归一，生成正常2米移动意图；实际速度/导航/碰撞照原规则，不承诺0.5秒走满2米。意图结果保原起脚位/方向/目标脚位/实际原移动快照，控制组件仅引用该intent_event_id。路径走完/被挡可停留，重选前不补距离或为绕墙换方向。",
+    "forced_pool": "按forced_action_protocol.complete_pool/target_policy建立完整合法主动能力一票一ID及末尾普攻票，不缩为四快捷栏或已有攻击根。完整策略/生产者缺失时报错，不从池静默删除；单阶段/多阶段统一按原最高合法阶段预演。",
+    "forced_accept": "按forced_action_protocol.schema_ref保存原成功执行父内十二键选择子结果：单票不抽、多票一次受控者原流选择，正常支付/执行与仅本application消费同笔。原唯一队列已登记内部两键来源请求；完整执行/未执行父结果尚待，不伪造玩家命令或独立发布选择结果。",
+    "random_walk": "空族首次落效设置next_direction_remaining_steps=1/intent_event_id=null，不当场抢已接受动作；下一实际世界步首次合法决策均匀选8方向。意图仅保存原起脚位和唯一随机draw方向，正常2米终点按方向归一推导，不重复存目标/余距。重选周期30步，实际移动/停止/保存沿random_walk_protocol。",
     "walk_arbitration": "混乱多来源合用一个30步周期；每次重选按root_event_id/source_actor_id/application_event_id最小的有效来源授权一次受控者原移动决策，不把8方向选择叠加。非空族新加入/刷新/来源接替保原周期和已提交意图；余时到点前仍不得重复选择。空族清共享相位/引用并停止本控制意图未来移动，不取消其他已付战斗动作或清实际闪避冷却。实际硬控制/死亡/当前不可移动则不抽、不发非法意图，原30步余时到点后每30实际步重查一次；从未提交过首意图且仍为null时保持下一步重查1，不写0等待字段。",
     "random_ownership": "错乱技能选择和混乱移动选择均是受控者自己的新原已接受动作/移动决策根，负面来源只是强制该决策的授权前因，须记录所用application_event_id。角色用该受控者character.random_state，NPC/怪物/伙伴自主行为用所属world.random_state；不是原施加者施法的命中或参数后代，不借Host当前选角或重新分配已有动作流。原技能接纳后命中等后代继续它实际原拥有者流。选择purpose固定为dongling_forced_action.choice或dongling_random_walk.direction，并由原决策根/受控actor/来源application定位；同一原决策每用途至多一次，只有已接受决策才消费，原random_flow与业务同结果保存。",
     "save_and_expiry": "intent_event_id须定位本受控者原已提交合法移动意图及其方向/目标/来源与random_flow，不能读档重新选择方向、重走已消费路程或重设30。错乱的已选择技能只在原动作中保存，活跃待决表不得残留已成功接受的本来源。每实际步先执行本步仍有效控制决策/正常动作，再到期删除原来源；最后一步可完成已合格决策，0仅步内临时，捕获前须消费或删掉。新增来源当步不扣首步；暂停/离线冻结，原会话最终实体状态保持。",
     "cleanup": "目标死亡、神女合法解除/免疫及普通场景安全清理移除本控制来源；混乱最后源消失停止该控制意图，重放清理不新抽。源施加者死亡/离场不默认删目标已付控制。意图未决/保存存疑只恢复原已提交或未提交事实，不用新方向兜底；完整原动作/移动/结果缺失拒绝恢复。",
     "initialization": "14新角色及四已知旧来源sword新导入角色显式本组件空值，已有其他角色保持，现行缺键拒绝。",
-    "boundary": "控制活跃结构及明确决策/移动归属采用；完整原动作/移动schema、候选与目标选择器、导航/碰撞、原授权结果与Godot仍待，D1未通过。"
+    "boundary": "控制活跃结构、混乱移动与错乱完整池/选择/消费设计采用；强制动作内部接纳路由、全部正常主动施放生产者、完整阶段父/其他实体与Godot仍待，D1未通过。",
+    "random_walk_protocol": {
+      "intent_schema_ref": {
+        "file": "混乱移动意图.schema.json",
+        "pointer": ""
+      },
+      "motion_schema_ref": {
+        "file": "混乱移动推进结果.schema.json",
+        "pointer": ""
+      },
+      "scope": "原已采用player生命及本轮六公共/144修炼定义；其他伙伴/NPC武者/私场敌人的正常移动根未采用前不能借本结构宣称已运行。效果本体目标资格仍按原技能/关系/命中源。",
+      "ownership": "混乱活跃族唯一intent_event_id引用已提交十一键意图；方向只取该意图唯一random_flow.streams[0].draws[0].result，2米目标由start_position_m按方向推导，不存第二方向字段/目标位置/剩余距离/路线或完成布尔。每实际actor步在原movement职责内至多一个十二键控制移动结果，与手动/自动/怪物正常导航互斥。规则阶段必须保本T仍有效控制来源到本次控制移动后，不能先清余时1源丢最后一步。",
+      "intent_identity": "event_id=dongling-walk-intent:加SHA256(71确定JSON [\"dongling_random_walk_intent\",world_id,authority_profile_id,source_actor_id,world_step] UTF8)小写hex。每本人本T至多一重选，不含来源application/方向；同ID异正文拒绝。rules_hash、起点/生命/scope从真实父before认证。",
+      "motion_identity": "event_id=dongling-walk-motion:加SHA256(71确定JSON [\"dongling_random_walk_motion\",world_id,authority_profile_id,source_actor_id,world_step] UTF8)小写hex。同T同生命仅一移动职责，不含当前意图或结果；意图与首步移动可在同一T同父提交，但应用来源本T新建则不得当T选择。",
+      "selection": "本T可参与活体、真实允许普通移动、无已付占用/硬禁移且重选计时到点，才从当时有效且非本T新应用的来源按(root_event_id,source_actor_id,application_event_id)原UTF8元组取唯一首项，将application_event_id写入意图。不消耗/删除该混乱来源；来源接替/刷新保既有周期与意图。没有合法来源不选择也不抽；本T新应用来源不授权本T选择，有其他旧有效来源仍按其原资格重选。缺来源/原流拒绝整笔，不当无控制。",
+      "random": "真实受控player取其character.random_state，NPC怪物取world.random_state；owner_id须真实character_id或world_id，不取施加者或Host当前角色。random_flow.receipt_id=本意图event_id，恰一真实流/一purpose=dongling_random_walk.direction的draw，low0/high7/result0..7。按既有sha256_counter_53_v1原seed及before重算；8整除2^53，因此此draw恰消费一块、after=before+1，不允许跳块/假拒绝。抽样与意图、所需首步移动、原流after及控制相位同父提交，父不复制该子流。原正式意图重放不重抽。",
+      "directions": "按world XZ固定0北(0,-1)、1东北(1,-1)、2东(1,0)、3东南(1,1)、4南(0,1)、5西南(-1,1)、6西(-1,0)、7西北(-1,-1)，非零向量归一。目标XZ=start+2*单位方向，几何目标Y只取起点Y作意图参考，实际脚Y必须各段取原可走地面；不凭目标Y穿坡/水/墙。终点不需可站立才可抽这个方向，抽后不能因朝墙/安全区再抽或改方向；正常可移动资格已在抽前核。",
+      "cycle": "空族新应用当T不扣，下一实际步before=1才首次选，成功选择after=30并不再扣选择步。之后各实际actor步30→29…2→1；before=1则本步重选并设30，故两成功重选间距30个实际步。硬控/占用阻止选择时不抽；已有意图且before=1重设30待下周期，从未有意图则保持1逐实际步重查。不可模拟/暂停不扣，不能由worldT差补跑。合法同源刷新/传播接替不把30重置；原来源时长另按原计时归属扣。",
+      "arbitration": "已付闪避/辅助位移等自带移动职责优先，其原结果独占本T位移，本控制移动结果不产生；控制相位及来源扣时仍由同一完整父认证，不用第二个action_locked结果重复处理。已付攻击/采集等只锁普通移动而无自身位移职责时，本控制结果可为action_locked/零速单点原位；真实硬禁移为control_locked，同样不移动。上述阻止选择/控制移动时不再执行普通移动。正常非占用状态混乱移动压过WASD/自动路及怪物巡逻/追击/返乡，不清其目标/路径/AI状态；普通输入取消自动路等明确副作用仍原输入父处理。怪物普通受阻重试等待在控制期间暂停，不能用控制移动结果直接授权AI到家回血。",
+      "movement": "移动速度：player沿玩家徒步speed取强制walk，合法身轻/轻功/超重及已采用配置仍按该原owner；不借Shift变run。怪物沿怪物徒步speed取原定义。每实际步唯一speed/60000米预算；沿本意图固定直线方向走向推导2米终点，实际胶囊/脚印与地面/地图/safety沿其原owner。连续扫掠到最早真实阻挡点停止，不墙滑偏离意图、不绕墙重新寻路或为多个路段重给预算。剩余可走距离由原起点、唯一方向及已经证明的实际轨迹推导；到终点精确赋目标XZ并取真实合法脚Y，不用epsilon多走。",
+      "terminal_wait": "某意图真实arrived/blocked后，在下一重选前只保存wait_reselect/速度0/单点原位且原yaw，不反复重走或每步尝试墙。是否已到达/受阻必须从该同意图原逐步完整父链认证，不能只看当前坐标/存在引用就猜；实际被合法占用暂停不视为终止。可在重选当T沿新意图首次实际移动，新意图从当前真实起点产生，旧意图历史仍按依赖保留。",
+      "motion_checks": "intent引用等本步真实control组件原引用或同父新选择；原意图/source生命/world/scope须相同，application须解析原有效授权。moved/arrived/blocked正速度且引用非null，arrived/moved有实际位移；blocked可单点或真实部分轨迹但必须有合法阻挡证明。无实际位移保持yaw，有位移按最后非零段方向转身，原accepted_yaw不受影响。path首尾等父before/after，连续段真实可走、1..17点无重复、全程水平路程不超过本步预算且累计不超过2米；原父完整位置/RNG/控制相位/队首共同变化认证，不能仅靠schema。",
+      "resume_normal": "最后混乱源真实结束后，当前意图停止后续移动，组件清sources/相位/引用，保历史。怪物下一普通AI从真实现位重验牵引/目标/到家，不传送回旧路；player保留的原自动路可从当前实际控制终点连续扫掠到原剩余首路点，不能搬回旧路径或重新规划，连接受阻按原obstructed终止。原手动需要新实际采样，不重放控制前旧输入。",
+      "scope_change": "真实同世界迁移/scene更版若保留本效果，原迁移父使控制intent=null且非空族next_direction_remaining_steps=1，停止原意图未来移动并保历史，不重抽或清有效负面来源。目的地本T不模拟，下个真实步从新scope起点选择。死亡/合法解除/普通scene清理沿原cleanup安全移除，不造取消日志。已付闪避/辅助位移第一次真正改变位置的原推进父同样清旧intent/设1，后续null保持1，不重复重置其他来源余时或中断已付动作；无实际位移不因动画清引用。如此动作完成后的新选择从真实现位开始，不沿旧方向从异位穿回。",
+      "recovery": "意图及每步实际结果只在原完整阶段父持有一次，组件仅引用；原流、控制应用/计时/位置/动作占用及本T冻结移动全集、已处理前缀/剩余后缀联合认证。存疑先查原正式决定，不重抽方向或补走已消费预算。缺历史终止/轨迹/原application不得重新当首次选择修复。",
+      "boundary": "本采用群混乱意图与实际逐步结构、来源/RNG/周期/恢复职责已采用；完整阶段context、其他NPC/伙伴移动与真实Godot导航/存档/网络仍待。"
+    },
+    "forced_action_protocol": {
+      "schema_ref": {
+        "file": "错乱强制动作选择.schema.json",
+        "pointer": ""
+      },
+      "scope": "原player及本轮六公共普通怪/144修炼定义。schema复用混乱意图中的中性三类源身份，不继承其移动周期/方向或RNG用途；其他NPC/伙伴须其完整能力/正常接纳先采用。",
+      "ownership": "十二键选择子结果只能由已成功接受选中能力的原完整动作/施放接纳父持有，不能独立发布/建profile日志、预先推进随机或删除来源。原执行event_id解析同父真实admitted结果；选择、正常费用/冷却/原动作或瞬时效果、控制来源消费及全部随机变化同一提交。完整父未接入此子结果前该分支仍不可运行。",
+      "identity": "event_id=dongling-forced:加SHA256(71确定JSON [\"dongling_forced_action_choice\",world_id,authority_profile_id,source_actor_id,world_step] UTF8)小写hex。每本人每实际scope步最多一次，不含application/池/选择结果；同ID异正文拒绝。原规则/源生命/获步/控制来源与本父before认证。",
+      "source_selection": "仅真实存活、可参与、当前无已付占用且尚无本T成功接纳的受控者进入；不抢已付动作。按(root_event_id,source_actor_id,application_event_id)原UTF8元组取当时有效且非本T刚应用的首条forced_action_once来源。本T其他源刷新/来源重放不得变成第二次决策；空池保该首来源，不跳过它消费后一来源。",
+      "complete_pool": "从原skills学习根及真实职业/武器/构筑取得全部已学主动ID，不只四快捷栏，也不只697直接伤害能力；823ID只是注册身份上界，不授未学/跨职业能力。逐ID按原owner核当前活动、实际作用形态、等级/阶段/资源/冷却、硬控与目标规则，凡有合法战斗主动用法的一ID一票；同ID多阶段/多目标/可达敌人数不多票。每ID采用当前所有正常可施放阶段中的最高合法阶段；资格由真实学得阶段/原费用/目标逐阶段共同判定，不用来源目录最大阶段冒充已学。普通普攻若本次有合法敌方目标，另以null一票放末尾。学习/交互/任务/配置/药品/采集/闪避按键不是本主动能力票，轻功/治疗/增益/位移等是否可用逐其原施放owner核，不按无直接伤害一律删除。",
+      "missing_producer": "若任何本应评估的已学主动能力缺真实定义/正常目标策略/接纳或施放生产者，整本次决策报设计/来源不完整，不能把它伪装成玩法不合法后从池删除，也不能只在已有严格攻击根中随机。当前这些生产者仍有D1缺口；本选择结构不授权现有程序启用强制施放。",
+      "target_policy": "本完整父对每候选以同一真实before预演正常施放，冻结其具体阶段、目标/方向、基本支付和原具名触发前提来源，执行不得再换一套目标。进攻优先本受控者当前原已锁定且本能力仍合格的真实敌目标，否则在原关系/当前scope/安全区/射程/高差/LOS/目标类型都合格的敌生命中按脚中心水平距离平方、原actor_id UTF8选首；近战需要原导航可达，远程不凭近战路径替代真实直线可达。敌目标原技能允许的目标集合/数量照原owner，不能转打友方/施加者或用服务NPC填池。普攻在本控制选择要求真实合格敌目标，不用空挥票消耗一次性控制；这不改变玩家手动空挥规则。",
+      "friendly_and_self": "自体技能只用本人；友方/队伍/团能力先按原owner取得全部真实可作用成员，不创造队友或重写范围。单目标恢复在原允许的合法成员中按当前hp/max_hp比例最小、再actor_id UTF8取首，比例用安全交叉乘或宽整数比较；原owner允许满血用于其他效果时不新增缺血门槛。其他友方能力按其原明确目标策略，尚缺策略属于missing_producer而非默取本人。地面/方向/位移能力从所选真实锚目标或原before朝向按其原owner派生，不伪造玩家aim命令；无合法锚/方向则该原玩法资格不成立，缺规则则报错。 51普通辅助的内部目标/chord沿support_execution_owner_ref.target_policy，不套未定义其他友方能力的默认策略。",
+      "ordering": "candidate_ability_ids仅保存通过本次完整预演的ID列表，非null按原未经规范化UTF8严格递增，普攻null若存在只在末尾且至多一项。最高824票。阶段/目标/费用的原前像和执行来源在同一完整父，不在选择子结果复制整角色或动作快照。列表必须精确覆盖本次完整预演，不只证明选中能力合法；空池不产生成功选择子结果、不抽、不支付或消费来源。",
+      "random": "N=1固定选唯一项，random_flow.streams=[]且原counter不变；N>1用受控player原character流、NPC原world流恰一次uniform_integer(0,N-1)，purpose=dongling_forced_action.choice，receipt_id=本event_id。流owner_id须真实character_id/world_id，算法/seed/起止块沿原完整before认证，按拒绝抽样重算第一合法块，不把施加者/Host流借来。high必须N-1、result落池索引；schema上界不是实际N资格。单票固定索引0，多票从唯一draw.result派生被选ID，不保存重复selected字段。",
+      "execution": "选中的具体能力必须在同一原父走其正常接纳/费用/冷却/触发/动作注册或瞬时施放结果，execution_event_id解析该唯一真实执行结果。正常费用及技能自身随机仍由原执行结果持其实际用途；本选择流只保选择调用，父/执行子结果不得复制该区间。真实调用顺序为完整池与基本费用预检→选择随机（若多票）→所选能力正常具名接纳触发/支付。需要按原已支付状态取值的原触发按其owner顺序，不把其他未选能力预演变成实际支付/抽样。失败在正式提交前丢整候选，不保选择/扣费/消费来源，也不换另一票重抽。",
+      "consumption": "仅所选能力完整成功接受同笔移除本application对应的一条forced_action_once，其余待决源保持。后续动作中断不恢复这条来源或退款/重抽；提交存疑先核原完整结果再决定，不凭组件已少一条重做选择。源自然到期或合法解除另沿原owner，不将无候选等待写成已消费。",
+      "admission_boundary": "原统一七键接纳队列已登记dongling_forced_action两键内部请求，来源/排序/同源竞争沿queue_entry；不造command_id/会话或冒充普通AI。正常执行结果/动作admission须绑定本选择event_id；完整执行与明确未执行父、全部正常施放生产者尚待，入口结构不授权运行。",
+      "recovery": "验证真实application、完整池预演及原调用图、执行结果同源与选中ID/阶段/目标一致；同world/source生命/scope/T/规则/实际源before及唯一后像共同认证。缺来源、漏票、异序、重复票/重复执行或未知填洞随机拒绝恢复。原选择、原执行与所有后代/待确认结果的历史按依赖保留，不随删除一次性来源而丢失。",
+      "boundary": "错乱选择/内部入口/未执行与直接攻击及51普通辅助成功子结果、受控player个人producer采用；其他能力执行、完整阶段/world共同父与历史来源认证仍待，未运行Godot。",
+      "queue_entry": {
+        "schema_ref": {
+          "file": "直接攻击接纳队列.schema.json",
+          "pointer": "/$defs/forced_request"
+        },
+        "capture": "原接纳阶段入口按source_selection取得真实存活/无已付占用/未有本T成功的受控者及首条旧来源，每实体至多一个内部候选，request仅kind=dongling_forced_action及application_event_id。阶段入口证明原来源实际在before中、未到期且非本T新应用；客户端不得提交此kind。冻结时不预演选中能力、不抽、不消费来源。",
+        "competition": "同实体存在该内部候选时，不同时生成training_ai/ordinary_ai自主候选；玩家真实命令仍保原身份与正文。按source_actor_id UTF8排序，同源内部候选先于玩家command_id序。该优先只授一次正常强制决策，不抢已付动作；若内部无合法票，保来源后继续真实玩家命令资格检查，不把它们冒充强制执行。",
+        "head": "到原队首以实际before重验同一application及source_selection优先次序、生命/scope/原时钟/到期/占用和同T成功；不得换另一个来源。仅此时建立完整池并按原random/execution执行。缺生产者或来源证明属于错误，保未决队首，不以无合法票掩盖。",
+        "no_execution": "来源真实到期/已合法解除/实体失效/已占用或本T已成功，以及完整规则预演确无合法票，沿not_executed_result保存九键子结果；不造成功选择、不抽样/支付/消费本application。完整父同笔持真实before-after及恰一个队首移除；未闭合完整父前仍不可运行。等待来源后续实际步可重新成为新候选，不回填已闭合步。",
+        "recovery": "原冻结全集包含内部来源候选；逐父认证已移除前缀及唯一剩余后缀。原选择结果仅成功执行父持有，不能用其缺席推断候选已合法跳过；不因重新扫描现存控制状态重建队列。"
+      },
+      "not_executed_result": {
+        "schema_ref": {
+          "file": "错乱强制动作未执行结果.schema.json",
+          "pointer": ""
+        },
+        "identity": "event_id=dongling-no-action:加SHA256(71确定JSON [\"dongling_forced_action_not_executed\",world_id,authority_profile_id,candidate.source_actor_id,world_step] UTF8)小写hex。不含application/原因/池/地图；同实体同实际步至多一个正式决定，不能换来源或原因另造号。成功选择与未执行互斥，共同父须拒绝同实体同T两种决定并存。",
+        "context": "九字段world/authority/map/instance/T/rules_hash精确原队列；candidate等原完整队首，内部request只保原application。冻结全集/来源身份须先认证，非内部候选、错世界/规则、身份冲突或缺原父证明属于错误，不发布玩法未执行结果。",
+        "rejection_order": "完成协议/来源认证后依次核：真实源生命/scope/获步资格失败source_unavailable；原application当前已正常到期或合法解除control_source_inactive；仍存在但已非source_selection首来源control_source_replaced；本实体本T已有正式成功already_admitted_this_step；已付动作仍占用action_occupied；完整正常规则预演无合法主动票no_legal_option。只记第一个真实失败；硬控/资源/目标等由完整池预演决定，不把缺能力定义/生产者当空池。",
+        "no_business_mutation": "此子决定本身不改HP/内力/体力/物品/冷却/连段/自动路线/控制来源或RNG，不模拟新玩家输入取消。实际到期/解除/死亡已由先前原父完成，不借此再清理；角色和库存业务修订保持，world仅移除当前队首并保原正式决定。无random_flow字段，原随机计数与状态必须不变，不能以空流字段掩盖其他未记录调用。",
+        "atomicity": "原不可变子结果、完整真实before-after和移除恰一个队首由同一原world阶段父共同保存。重放只返回原决定，不移除当前下一项，不再检查当前池/来源，不新建选择结果或个人LAN封套。阶段父存疑先核正式决定；缺证明保队首，禁止先pop后补结果。",
+        "remaining": "九字段未执行子结果采用；完整world阶段父、正式成功执行结果/全部施放生产者及同T互斥证明仍待。"
+      },
+      "support_execution_owner_ref": {
+        "file": "辅助武功采用.v1.json",
+        "pointer": "/cast_action_protocol/forced_admission"
+      },
+      "attack_execution_owner_ref": {
+        "file": "战斗命中与减伤.v1.json",
+        "pointer": "/accepted_attack_identity/forced_admission"
+      },
+      "network_result": {
+        "schema_ref": {
+          "file": "网络结果链.schema.json",
+          "pointer": "/$defs/result_producer"
+        },
+        "producers": [
+          "urn:solorxjh:dongling-support-cast-admission:v1",
+          "urn:solorxjh:dongling-direct-attack-admission:v1"
+        ],
+        "identity": "原内部成功执行结果作为producer.record，result_id精确record.event_id，所有正文保持原不可变记录，不复制原choice为第二次个人结果。选择/application消费证明由原完整父依赖图认证；不得在封套外再放selected能力/候选/控制来源镜像。原十二键choice与九键未执行均不独立注册个人producer。",
+        "recipient": "仅本受控者为真实player-actor的成功执行向其本人发一封套；source解析原角色/档案/真实仍启用会话及实体生命，play_session_identity取该原会话，不取施加者、Host当前选角或当前任意连接。无用户request不等于无会话证明。普通/修炼受控NPC成功只入world原共同决定，不给所攻击玩家预发个人结果；后续真实伤害/效果沿自己的原producer。",
+        "revisions": "成功同笔至少实际移除本角色effects.dongling_control.forced_action_once中的精确application，因此character_revision恰+1，即使基础费用为0且无触发随机；动作注册/费用/随机/控制消费均在同父一次修订，不按孩子各加一次。辅助无实物付款时inventory_revision不变，直接攻击仅原正常执行真实合法物品变化才恰+1，否则保持。原无执行结果本身不改变任何角色业务或修订，不能为通知排队失败创建新个人链项。",
+        "delivery": "原共同父冻结受控角色真实before/after及完整执行/选择/消费来源、必要world动作根和原下一sequence/previous_result_id，持久后才发同一封套。施加者只因是控制来源不接收本封套，不因其在线而替受控者保存。失联但原实体仍依法模拟时沿原权威角色最终状态/会话保存与待确认链，不能丢执行或另造会话；已经实际移除不再接纳。",
+        "dependencies": "原required_profile_world_step_or_null与共享链门槛照常，不用内部来源绕过。完整源角色after严格检查后才应用和保存/ACK；效果发生在未来原步时沿原辅助落效/直接伤害的真实接收者另行产生结果，不将接纳当已治疗/命中。",
+        "replay": "原event/sequence/record/完整after重复只回原正式封套，不再选票/付款/移除控制/增加修订或重新安装动作；同ID异正文拒绝。成功执行与未执行对同source/T互斥，由完整父历史认证，不能仅凭producer形状决定。",
+        "remaining": "两内部执行player producer与交付规则采用；完整角色/world/权威会话和多结果共同父、真实连续链/故障验证仍待，禁止仅凭白名单启用。"
+      }
+    },
+    "player_support_compatibility_ref": {
+      "file": "辅助武功采用.v1.json",
+      "pointer": "/cast_action_protocol/control_compatibility"
+    }
   },
   "persistent_effect_validation": {
     "validation_projection_ref": {

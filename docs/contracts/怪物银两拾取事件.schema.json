@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:monster-silver-pickup-event:v1",
+  "$comment": "原F选中单一银包的三阶段领取事件；只committed沿原随身银链入账。原死亡/包领取唯一、来源/距离及余额与修订等式另验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "silver_flow"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "silver_flow": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:silver-flow:v1"
+            },
+            {
+              "properties": {
+                "accounts": {
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "properties": {
+                      "account": {
+                        "const": "carried_silver"
+                      },
+                      "before_balance": {
+                        "maximum": 9007199254740990
+                      },
+                      "after_balance": {
+                        "minimum": 1
+                      },
+                      "previous_output": {
+                        "type": "object"
+                      },
+                      "opening_authorization": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                },
+                "movements": {
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "properties": {
+                      "from_account_index": {
+                        "type": "null"
+                      },
+                      "to_account_index": {
+                        "const": 0
+                      },
+                      "authorization": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "const": "loot"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "source_unavailable",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "$ref": "urn:solorxjh:bamboo-pickup-event:v1#/$defs/command"
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "world_step",
+        "drop_before",
+        "silver_before",
+        "previous_output"
+      ],
+      "properties": {
+        "rules_hash": {
+          "$ref": "urn:solorxjh:player-gather-action:v1#/properties/rules_hash"
+        },
+        "world_step": {
+          "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+        },
+        "drop_before": {
+          "$ref": "urn:solorxjh:monster-silver-scene-drop:v1"
+        },
+        "silver_before": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740990
+        },
+        "previous_output": {
+          "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:monster-silver-pickup-event:v1"
+      },
+      "contains": {
+        "type": "object",
+        "required": [
+          "phase"
+        ],
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    }
+  }
+}

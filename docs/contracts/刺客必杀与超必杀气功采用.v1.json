@@ -212,10 +212,28 @@
       ],
       "attack_category": "attack_martial_skill",
       "presentation_ref": "dev_teaching_assassin_finisher",
-      "new_role_initial_grant": false
+      "new_role_initial_grant": false,
+      "handler": "melee_line",
+      "vertical_hit_height_mm": 2000,
+      "base_secondary_damage_bp": 10000
     }
   ],
   "cast_order": "validateweapon/class/life/points3 andotherfees -> accepted保点 and一招增伤 results -> debitpoints whennotpreserved/mana afterexplicit reductions -> snapshots -> actualaccuracy/oneexclusivecriticaldraw -> damage/procs. Eachreceipt neverrepeated frommultiplehurtboxes.",
   "persistence": "combo0..3, paid/preserved marker andfinishergain, exclusivecriticaloutcome/consumption stored withaction/root. Ordinarysave waitsdescendants; no newpointsfromreplay. Configexplicitpoints keepssource record, no normal skillacquisition claim.",
-  "scope": "namedprofilesonly; own烈日 armor-mask adoption now owned by烈日防具失效气功采用.v1.json, not thiseffectfile. Fullofficialactivephase/gear/context/runtime dependencies remain unfinished."
+  "scope": "namedprofilesonly; own烈日 armor-mask adoption now owned by烈日防具失效气功采用.v1.json, not thiseffectfile. Fullofficialactivephase/gear/context/runtime dependencies remain unfinished.",
+  "accepted_finisher_snapshot": {
+    "schema_ref": {
+      "file": "docs/contracts/刺客必杀接纳快照.schema.json",
+      "pointer": ""
+    },
+    "root_field": "原唯一玩家attack_martial_skill根assassin_finisher_snapshot_or_null，不新增角色保点/增伤标志或独立日志。",
+    "binding": "目前只teaching_assassin_finisher必须非null两字段快照；其余已采用技能一律null。不能凭finishing_martial=true向其他职业必杀套刺客点数费用，未来新增刺客必杀必须先明确采用身份/费用再改本绑定。",
+    "qualification": "真实刺客/dual_blade/已学stage1/存活/合法目标/冷却及完整原费用与占用全部通过，接纳父before.combo_points必须精确3。保点有机会成功不授权0..2点施放；拒绝不抽数、不扣资源、不安装快照。",
+    "nullable_procs": "point_preservation_proc_or_null仅以怒还怒；finisher_damage_proc_or_null仅一招残杀。原已学/合法来源及有效grade正时各有精确qigong_id/effective_grade/triggered三字段；合法无正等级不抽为null，false表示实际抽过失败。完整角色已学/配置/反气功的来源证明留原接纳父before及冻结规则，不把缺来源当合法grade0。",
+    "random": "两正资格源按原cast_order先保点后增伤，各恰一次本人character流的uniform_integer(0,9999)调用。原draw.purpose分别精确assassin_finisher_preserve_points、assassin_finisher_damage_gain；两者low=0/high=9999，r<min(4000,100*grade)成功。只有一源则只调用该源，无虚拟占位抽样；一次调用可按原拒绝采样算法消费多块，不能假定恰一块。原接纳random_flow独占两实际draw，快照不重复保RNG数/receipt_id；用途/结果/有效等级/实际块区间与父原结果严格一致。命中/目标数不再次调用。",
+    "payment": "保点实际成功则原支付点数0且after仍3；无保点资格或已抽失败则原支付点数3且after0。paid/preserved语义标记仅由已冻结原保点结果及父实际before/after支付证明派生，不再保存另一消费量/布尔。保点不免内功、冷却或其他费用，不产生新点；完整支付/快照/根/随机与移除原候选同笔，任一失败整笔不发布。",
+    "damage": "一招残杀成功仅冻结该根具名30%直接增幅，按23原apply_explicit_non_power_action_modifiers_once阶段对已应用原phase系数的输入乘13000/10000向下取整一次；失败/null不加。不是flat武功威力3000，不叠加为暴击倍率，不每个hurtbox重触发，不传播派生伤害。所有逐次乘加先验安全整数，不能以最终floor后可容纳放行中间溢出。",
+    "lifetime": "接纳后漏打、几何失效、提前停止/死亡均不退点/内功或冷却；历史快照不随当前气功/点数/反气功改写。终态死亡仍清真实角色点数0，但不能因此抹掉已提交保点结果或把旧根重算付费。保存/重放沿原接纳父决定一次，不从当前随机流重建。",
+    "remaining": "本快照已接入完整武功根及公共动作集合，多段/弹体推进结构已采用；真实完整父共同提交及来源闭包仍待，D1未通过。"
+  }
 }

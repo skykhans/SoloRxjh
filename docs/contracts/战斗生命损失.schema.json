@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:combat-hp-resolution:v1",
+  "$comment": "原合格敌伤结果hp_resolution严格六字段；只记录敌伤HP阶段及本次破罩联动，非整个角色after/第二HP表。来源/算式/拦截及破罩引用和终态身份另验；未中/前置无效不造此组件。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "hp_before",
+    "hostile_damage_after_absorption",
+    "actual_hostile_hp_loss",
+    "interception_event_id_or_null",
+    "cloud_break_event_id_or_null",
+    "terminal_lethal_event_id_or_null"
+  ],
+  "properties": {
+    "hp_before": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "hostile_damage_after_absorption": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "actual_hostile_hp_loss": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "interception_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:lethal-interception-result:v1#/properties/event_id"
+        }
+      ]
+    },
+    "cloud_break_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:cloud-shield-break:v1#/properties/event_id"
+        }
+      ]
+    },
+    "terminal_lethal_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:combat-damage-identity:v1#/$defs/event_id"
+        },
+        {
+          "$ref": "urn:solorxjh:cloud-shield-break:v1#/properties/event_id"
+        }
+      ]
+    }
+  }
+}

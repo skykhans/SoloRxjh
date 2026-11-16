@@ -1,0 +1,949 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:third-advancement-upper-stage-event:v1",
+  "$comment": "三转上半段两阶段交付。原来源真实性、同一attempt/原推荐书、数量守恒、修订相等、经验算术、成长气功历史及完整共同父必须另行语义校验。",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan"
+      ],
+      "properties": {
+        "phase": {
+          "const": "reserved"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "character_revision_after",
+        "inventory_revision_after",
+        "quest_after",
+        "stack_flow",
+        "progress_after",
+        "qigong_after"
+      ],
+      "properties": {
+        "phase": {
+          "const": "committed"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "character_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inventory_revision_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "quest_after": {
+          "$ref": "urn:solorxjh:third-advancement-upper-quest-state:v1"
+        },
+        "stack_flow": {
+          "$ref": "#/$defs/consume_flow"
+        },
+        "progress_after": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:character-progress:v1"
+            },
+            {
+              "properties": {
+                "completed_rank": {
+                  "const": 2
+                },
+                "hp": {
+                  "minimum": 1
+                },
+                "total_xp": {
+                  "minimum": 156841000
+                }
+              }
+            }
+          ]
+        },
+        "qigong_after": {
+          "$ref": "urn:solorxjh:qigong-state:v1"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "identity",
+        "command",
+        "plan",
+        "reason"
+      ],
+      "properties": {
+        "phase": {
+          "const": "aborted"
+        },
+        "identity": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1"
+        },
+        "command": {
+          "$ref": "#/$defs/command"
+        },
+        "plan": {
+          "$ref": "#/$defs/plan"
+        },
+        "reason": {
+          "enum": [
+            "user_cancelled",
+            "interaction_invalid",
+            "state_changed"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "play_session_identity",
+        "command_id",
+        "expected_character_revision",
+        "expected_inventory_revision",
+        "interaction_id",
+        "confirmed_experience_cap_loss"
+      ],
+      "properties": {
+        "play_session_identity": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/play_session_identity"
+        },
+        "command_id": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/command_id"
+        },
+        "expected_character_revision": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/expected_character_revision",
+          "maximum": 9007199254740990
+        },
+        "expected_inventory_revision": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/expected_inventory_revision",
+          "maximum": 9007199254740990
+        },
+        "interaction_id": {
+          "$ref": "urn:solorxjh:firewood-delivery-event:v1#/$defs/command/properties/interaction_id"
+        },
+        "confirmed_experience_cap_loss": {
+          "type": "boolean"
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_hash",
+        "quest_before",
+        "inventory_before",
+        "inputs",
+        "branch_id",
+        "recommendation",
+        "progress_before",
+        "qigong_before",
+        "experience_or_null"
+      ],
+      "properties": {
+        "rules_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "quest_before": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:third-advancement-upper-quest-state:v1"
+            },
+            {
+              "properties": {
+                "state": {
+                  "const": "in_progress"
+                }
+              }
+            }
+          ]
+        },
+        "inventory_before": {
+          "$ref": "urn:solorxjh:item-locations:v1#/properties/inventory"
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "urn:solorxjh:third-advancement-upper-transition-event:v1#/$defs/material_input"
+              },
+              {
+                "$ref": "urn:solorxjh:third-advancement-upper-transition-event:v1#/$defs/recommendation_input"
+              }
+            ]
+          }
+        },
+        "branch_id": {
+          "enum": [
+            "righteous",
+            "evil"
+          ]
+        },
+        "recommendation": {
+          "$ref": "urn:solorxjh:third-advancement-upper-transition-event:v1#/$defs/recommendation_input"
+        },
+        "progress_before": {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:character-progress:v1"
+            },
+            {
+              "properties": {
+                "completed_rank": {
+                  "const": 2
+                },
+                "hp": {
+                  "minimum": 1
+                },
+                "total_xp": {
+                  "minimum": 156841000
+                }
+              }
+            }
+          ]
+        },
+        "qigong_before": {
+          "$ref": "urn:solorxjh:qigong-state:v1"
+        },
+        "experience_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/experience"
+            }
+          ]
+        }
+      }
+    },
+    "experience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base_award",
+        "credited",
+        "discarded"
+      ],
+      "properties": {
+        "base_award": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 350000
+        },
+        "credited": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 350000
+        },
+        "discarded": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 350000
+        }
+      }
+    },
+    "consume_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1,
+              "maxItems": 10,
+              "uniqueItems": true
+            },
+            "outputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "minItems": 1,
+              "maxItems": 10,
+              "items": {
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10
+                  },
+                  "reason": {
+                    "const": "quest_delivery"
+                  }
+                }
+              },
+              "uniqueItems": true
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "journal": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:third-advancement-upper-stage-event:v1"
+      },
+      "contains": {
+        "properties": {
+          "phase": {
+            "const": "reserved"
+          }
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 10,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "urn:solorxjh:third-advancement-upper-transition-event:v1#/$defs/material_input"
+                }
+              },
+              "experience_or_null": {
+                "type": "null"
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "in_progress"
+              },
+              "stage_index_or_null": {
+                "const": 2
+              },
+              "stage_receipts": {
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          },
+          "command": {
+            "properties": {
+              "confirmed_experience_cap_loss": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "urn:solorxjh:third-advancement-upper-transition-event:v1#/$defs/recommendation_input"
+                }
+              },
+              "experience_or_null": {
+                "$ref": "#/$defs/experience"
+              }
+            }
+          },
+          "quest_after": {
+            "properties": {
+              "state": {
+                "const": "delivered"
+              },
+              "stage_index_or_null": {
+                "const": null
+              },
+              "stage_receipts": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          },
+          "stack_flow": {
+            "properties": {
+              "inputs": {
+                "minItems": 1,
+                "maxItems": 1
+              },
+              "consumptions": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "quantity": {
+                      "const": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "righteous"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recommendation": {
+                "properties": {
+                  "stack": {
+                    "properties": {
+                      "item_id": {
+                        "const": "adv03_righteous_recommendation"
+                      },
+                      "quest_scope": {
+                        "properties": {
+                          "quest_id": {
+                            "const": "ref_QREF-63790-018"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "progress_before": {
+                "properties": {
+                  "route": {
+                    "const": "righteous"
+                  }
+                }
+              }
+            }
+          },
+          "progress_after": {
+            "properties": {
+              "route": {
+                "const": "righteous"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "righteous"
+              },
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "adv03_righteous_upper_good"
+                        },
+                        "quest_scope": {
+                          "properties": {
+                            "branch_id": {
+                              "const": "righteous"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "evil"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "recommendation": {
+                "properties": {
+                  "stack": {
+                    "properties": {
+                      "item_id": {
+                        "const": "adv03_evil_recommendation"
+                      },
+                      "quest_scope": {
+                        "properties": {
+                          "quest_id": {
+                            "const": "ref_QREF-63789-018"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "progress_before": {
+                "properties": {
+                  "route": {
+                    "const": "evil"
+                  }
+                }
+              }
+            }
+          },
+          "progress_after": {
+            "properties": {
+              "route": {
+                "const": "evil"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "branch_id": {
+                "const": "evil"
+              },
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "inputs": {
+                "items": {
+                  "properties": {
+                    "stack": {
+                      "properties": {
+                        "item_id": {
+                          "const": "adv03_evil_upper_good"
+                        },
+                        "quest_scope": {
+                          "properties": {
+                            "branch_id": {
+                              "const": "evil"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 2
+                  },
+                  "violation_count_or_null": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "experience_or_null": {
+                "properties": {
+                  "base_award": {
+                    "const": 350000
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 2
+                  },
+                  "violation_count_or_null": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "experience_or_null": {
+                "properties": {
+                  "base_award": {
+                    "const": 175000
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 2
+                  },
+                  "violation_count_or_null": {
+                    "const": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "experience_or_null": {
+                "properties": {
+                  "base_award": {
+                    "const": 175000
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 2
+                  },
+                  "violation_count_or_null": {
+                    "const": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "experience_or_null": {
+                "properties": {
+                  "base_award": {
+                    "const": 175000
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 2
+                  },
+                  "violation_count_or_null": {
+                    "const": 4
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "experience_or_null": {
+                "properties": {
+                  "base_award": {
+                    "const": 175000
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 2
+                  },
+                  "violation_count_or_null": {
+                    "const": 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "experience_or_null": {
+                "properties": {
+                  "base_award": {
+                    "const": 175000
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "plan": {
+            "properties": {
+              "quest_before": {
+                "properties": {
+                  "stage_index_or_null": {
+                    "const": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "if": {
+          "properties": {
+            "command": {
+              "properties": {
+                "confirmed_experience_cap_loss": {
+                  "const": true
+                }
+              }
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "plan": {
+              "properties": {
+                "experience_or_null": {
+                  "properties": {
+                    "discarded": {
+                      "minimum": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "else": {
+          "properties": {
+            "plan": {
+              "properties": {
+                "experience_or_null": {
+                  "properties": {
+                    "discarded": {
+                      "const": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

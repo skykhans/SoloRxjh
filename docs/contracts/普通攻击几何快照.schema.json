@@ -1,0 +1,405 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:accepted-basic-attack-geometry:v1",
+  "$comment": "原完整普通攻击根的几何字段联合投影，不保存第二geometry包装。十四职业分派与字段互斥；真实武器/规则版本/气功等级授权、range与lifetime联合算术另验。不是完整动作或投射运行状态。",
+  "type": "object",
+  "required": [
+    "basic_profile_id",
+    "handler",
+    "range_mm",
+    "maximum_targets_per_hit"
+  ],
+  "properties": {
+    "basic_profile_id": {
+      "enum": [
+        "basic_blade",
+        "basic_sword",
+        "basic_spear",
+        "basic_physician",
+        "basic_archer",
+        "basic_assassin",
+        "basic_musician",
+        "basic_fighter",
+        "basic_han_feiguan",
+        "basic_tan_hualing",
+        "basic_mei_liuzhen",
+        "basic_lu_fenglang",
+        "basic_dongling_shennv",
+        "basic_zhen_fengbai"
+      ]
+    },
+    "handler": {
+      "enum": [
+        "melee_single",
+        "projectile"
+      ]
+    },
+    "range_mm": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "maximum_targets_per_hit": {
+      "const": 1
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "arc_degrees",
+        "vertical_hit_height_mm"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_blade"
+        },
+        "handler": {
+          "const": "melee_single"
+        },
+        "range_mm": {
+          "const": 2200
+        },
+        "arc_degrees": {
+          "const": 90
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "vertical_hit_height_mm"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_sword"
+        },
+        "handler": {
+          "const": "melee_single"
+        },
+        "range_mm": {
+          "const": 2200
+        },
+        "arc_degrees": {
+          "const": 90
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "vertical_hit_height_mm"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_spear"
+        },
+        "handler": {
+          "const": "melee_single"
+        },
+        "range_mm": {
+          "const": 3000
+        },
+        "arc_degrees": {
+          "const": 90
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        }
+      }
+    },
+    {
+      "required": [
+        "projectile_speed_mm_per_second",
+        "projectile_radius_mm",
+        "maximum_projectile_steps"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_physician"
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "range_mm": {
+          "const": 12000
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 12000
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "maximum_projectile_steps": {
+          "const": 60
+        }
+      }
+    },
+    {
+      "required": [
+        "projectile_speed_mm_per_second",
+        "projectile_radius_mm",
+        "maximum_projectile_steps"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_archer"
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "range_mm": {
+          "type": "integer",
+          "minimum": 18000,
+          "maximum": 22000,
+          "multipleOf": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 16000
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "maximum_projectile_steps": {
+          "type": "integer",
+          "minimum": 68,
+          "maximum": 83
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "vertical_hit_height_mm"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_assassin"
+        },
+        "handler": {
+          "const": "melee_single"
+        },
+        "range_mm": {
+          "const": 1800
+        },
+        "arc_degrees": {
+          "const": 90
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        }
+      }
+    },
+    {
+      "required": [
+        "projectile_speed_mm_per_second",
+        "projectile_radius_mm",
+        "maximum_projectile_steps"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_musician"
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "range_mm": {
+          "const": 10000
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 12000
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "maximum_projectile_steps": {
+          "const": 50
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "vertical_hit_height_mm"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_fighter"
+        },
+        "handler": {
+          "const": "melee_single"
+        },
+        "range_mm": {
+          "const": 1700
+        },
+        "arc_degrees": {
+          "const": 90
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "vertical_hit_height_mm"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_han_feiguan"
+        },
+        "handler": {
+          "const": "melee_single"
+        },
+        "range_mm": {
+          "const": 2500
+        },
+        "arc_degrees": {
+          "const": 90
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "vertical_hit_height_mm"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_tan_hualing"
+        },
+        "handler": {
+          "const": "melee_single"
+        },
+        "range_mm": {
+          "const": 2200
+        },
+        "arc_degrees": {
+          "const": 90
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        }
+      }
+    },
+    {
+      "required": [
+        "projectile_speed_mm_per_second",
+        "projectile_radius_mm",
+        "maximum_projectile_steps"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_mei_liuzhen"
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "range_mm": {
+          "type": "integer",
+          "minimum": 18000,
+          "maximum": 22000,
+          "multipleOf": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 18000
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "maximum_projectile_steps": {
+          "type": "integer",
+          "minimum": 60,
+          "maximum": 74
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "vertical_hit_height_mm"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_lu_fenglang"
+        },
+        "handler": {
+          "const": "melee_single"
+        },
+        "range_mm": {
+          "const": 3000
+        },
+        "arc_degrees": {
+          "const": 90
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        }
+      }
+    },
+    {
+      "required": [
+        "projectile_speed_mm_per_second",
+        "projectile_radius_mm",
+        "maximum_projectile_steps"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_dongling_shennv"
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "range_mm": {
+          "const": 14000
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 12000
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "maximum_projectile_steps": {
+          "const": 70
+        }
+      }
+    },
+    {
+      "required": [
+        "projectile_speed_mm_per_second",
+        "projectile_radius_mm",
+        "maximum_projectile_steps"
+      ],
+      "properties": {
+        "basic_profile_id": {
+          "const": "basic_zhen_fengbai"
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "range_mm": {
+          "const": 16000
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 20000
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "maximum_projectile_steps": {
+          "const": 48
+        }
+      }
+    }
+  ],
+  "unevaluatedProperties": false
+}

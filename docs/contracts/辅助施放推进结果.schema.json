@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-support-cast-advance:v1",
+  "$comment": "十一键普通辅助正常逐步子结果，after严格before+1须联合原根认证。effect仅本步首次落效时非null，后摇不重复引用既有落效。停止由真实伤害/生命周期父持原停止引用，不伪造正常推进。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "action_id",
+    "before_elapsed_steps",
+    "after_elapsed_steps",
+    "effect_event_id_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 80,
+      "maxLength": 80,
+      "pattern": "^support-advance:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/properties/action_id"
+    },
+    "before_elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 77
+    },
+    "after_elapsed_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 78
+    },
+    "effect_event_id_or_null": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/properties/effect_event_id_or_null"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "after_elapsed_steps": {
+            "not": {
+              "enum": [
+                18,
+                30,
+                42,
+                60
+              ]
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "effect_event_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

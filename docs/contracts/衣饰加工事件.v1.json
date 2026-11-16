@@ -1,0 +1,66 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "strict_apparel_processing_event_adopted_not_runtime",
+  "scope": "1155衣饰的四槽合成及15档强化原事件，不含到期/分解/组合/转让/配置。",
+  "schema_ref": {
+    "file": "衣饰加工事件.schema.json",
+    "pointer": ""
+  },
+  "synthesis_owner_ref": {
+    "file": "衣饰热血石合成.v1.json",
+    "pointer": ""
+  },
+  "enhancement_owner_ref": {
+    "file": "衣饰强化.v1.json",
+    "pointer": ""
+  },
+  "instance_owner_ref": {
+    "file": "衣饰实例.v1.json",
+    "pointer": ""
+  },
+  "instance_flow_ref": {
+    "file": "唯一实例来源流.v1.json",
+    "pointer": ""
+  },
+  "stack_flow_ref": {
+    "file": "物品堆与来源.v1.json",
+    "pointer": ""
+  },
+  "silver_flow_ref": {
+    "file": "银两来源流.v1.json",
+    "pointer": ""
+  },
+  "random_owner_ref": {
+    "file": "随机序列.v1.json",
+    "pointer": ""
+  },
+  "field": "profile.apparel_processing_events",
+  "initial_value": [],
+  "identity": "通用身份原算法；request_id为71确定JSON [\"apparel_processing\",play_session_identity.session_id,command_id]，request_digest为完整严格十键command按71编码SHA256。先查请求，同命令异参拒绝；成功/概率失败已committed均只回原结果，不因后续成长/到期/转让/角色删除回装历史状态。",
+  "journal": "allocation_index严格递增、预留追加/决定原位替换，至多一reserved，同角色跨owner互斥。新profile及四旧导入新目标显式[]，已有目标保日志，当前格式缺字段拒绝。",
+  "selection": "本人完整合法衣饰在装备包真实held且未占用，源ID/revision及两角色修订匹配，interaction_id绑定实际NPC服务/操作/配方/属性/材料/规则。强化property_selection=null；合成必须选属性，非气功qigong=null，气功为原308精确ID，异职业保留但无效。material_selections沿原堆流ordering按本人材料包源槽号升序、再stack_id原UTF8字节排序，无重复，严格整数数量总和恰原配方消耗数，各堆真实本人inventory/held且数量足够；禁止仓储或其他角色材料。",
+  "plan": "恰rules_hash/recipe_id/source_input/material_inputs/random_state_before五键。原完整规则与operation和源强化/合成长度唯一决定配方，不允许跳级跳槽/自报费用概率。source_input保完整旧衣饰及真实前业务输出/最新held域；material_inputs与command选择同序，完整旧堆ID/revision及previous_output须匹配实际合法来源头/角色归属，不能仅凭快照自证。random_state_before为原角色真实状态，不建第二计数器。",
+  "reserve": "先完整库存/来源/期限/服务资格、全部修订、精确材料/银费/最终格重和安全整数预检，确认角色/库存/实例及存续堆修订可+1、随机可完成。counter+1/原reserved入档，钱物/原随机/角色修订不变；沿全档写锁及原业务占用，不靠客户端串行。",
+  "clock": "报价及预留不冻结自然寿命。提交前原角色rules_and_timers先处理到期，整件终结或纪念业务修订变化使原报价失效。plan旧衣饰与正式input只允许真实同代、连续实际角色步认证的正余时减少；正式输入必须当前源头/域，不以数值相减自证，不忽略余时或写回旧值。缺连续时钟封套/完整世界证据保持不可运行。 实际到期步若本reserved占用同角色，须先按本owner取消失效候选、保钱物/随机/两修订，再由原到期owner预留；不得双reserved或无限互等。",
+  "materials": "stack_flows恰一个无mint消费流，receipt_id本settlement。inputs按command/plan顺序指完整旧输出，每输入恰一craft consumption，input_index为本序号、quantity等command对应量，总量等具名配方；无漏项/重复消费。余量>0才输出原stack_id/revision+1/origin本settlement、原item/binding/quest_scope，contributions恰该输入余量、held/本人；余量0移除，无新ID/零墓碑/材料转换。保其他堆/位置，完全耗尽释放原槽，存续不自动整理合堆。",
+  "silver": "唯一本人carried_silver原账户，真实previous_output、opening=null；唯一index0→null支出，service_fee/authority本settlement，amount恰原配方费，after=before-fee>=0。flow.receipt_id本settlement，不扣仓银/他人、不增收入。",
+  "random": "正式执行前原角色random_state逐字段等plan.before；本人处理无其他子抽样。10000bp恰success、streams=[]且after=before。其他一条原character流、一个0..9999 draw，purpose按操作，原seed/算法不变，draw起点等正式before.counter、终点等正式after.counter；拒绝块与结果按原算法重算，outcome恰draw<配方bp。不跳块/重抽/借世界流/改概率，计数耗尽整笔拒绝。",
+  "instance": "唯一input为当前本人衣饰、前输出/held域匹配plan业务版本，差异仅合法自然余时；唯一output=revise/source_input_indices=[0]/held/creation_authorization=null，无retirements。保instance/item/lineage/owner/binding/creation，revision=input+1/state_origin本settlement。成功合成只追加连续槽固定属性/精确气功及本成功origin；成功强化只+1。失败两成长均不变但仍正式revise；保实际提交余时及嵌套原成功来源，不能改纪念/寿命。",
+  "commit": "成功及概率失败均将instance/stack/silver/random四流与原角色random_state_after、角色和inventory修订各+1、正式结果同一次完整替换提交。各旧源头只准唯一真实后继，当前注册表/位置/最新域闭合；输入在装备包，不影响当前穿戴贡献/回血。其他库存和配置修订不变，无独立第二加工账。",
+  "abort": "仅user_cancelled/interaction_invalid/state_changed，保正式分配与aborted记录，钱物/随机/两角色修订不变。预留后合法变化重核不符取消，未知来源/读失败保现场报错；概率失败是committed failure，不可用abort重抽。",
+  "recovery": "committed只回原结果不回装旧正文/余时；reserved沿原冻结规则/输入/原随机状态恢复，缺证据不猜，交互失效可取消。正式保存存疑先核原决定，保存失败仅重存同状态，不重扣/抽样/改属性。",
+  "implementation_gate": "严格加工与两材料购买事件/原profile日志/索引及来源组合设计已采用；完整角色/profile/来源闭包、连续计时/世界根/网络producer、NPC实际服务与Godot/文件LAN故障测试仍待，registered=false保持。",
+  "apparel_expiry_owner_ref": {
+    "file": "衣饰到期事件.v1.json",
+    "pointer": ""
+  },
+  "apparel_clock_result_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": "/clock/result"
+  },
+  "growth_material_purchase_owner_ref": {
+    "file": "成长材料购买事件.v1.json",
+    "pointer": ""
+  }
+}

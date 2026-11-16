@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:world-step-state:v1",
+  "$comment": "原world计时与本轮尚未完成scope队列的二字段投影；world身份在原根。复用training_gate_clock_steps，不再分配round计数、完成集合或队列游标。完整root/授予全集与原决定须另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "training_gate_clock_steps",
+    "step_pending_scopes"
+  ],
+  "properties": {
+    "training_gate_clock_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "step_pending_scopes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/scope"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "training_gate_clock_steps": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "step_pending_scopes": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "map_id",
+        "instance_id_or_null"
+      ],
+      "properties": {
+        "map_id": {
+          "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+        },
+        "instance_id_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/instance_binding"
+        }
+      ]
+    },
+    "private_map_id": {
+      "enum": [
+        "school_training_arena",
+        "instance_story_boss_q003",
+        "instance_story_boss_q004",
+        "instance_story_boss_q005",
+        "instance_faction_merit",
+        "instance_ascension_shadow",
+        "instance_adv08_three_waves",
+        "instance_adv08_final",
+        "instance_adv10_faction_proof",
+        "instance_adv10_memoir",
+        "instance_adv11_three_masters",
+        "instance_adv12_sword_canyon",
+        "instance_adv12_heavenly_demon"
+      ]
+    },
+    "instance_binding": {
+      "if": {
+        "required": [
+          "map_id"
+        ],
+        "properties": {
+          "map_id": {
+            "$ref": "#/$defs/private_map_id"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "instance_id_or_null": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    "training_map_id": {
+      "enum": [
+        "training_beihai_01",
+        "training_beihai_02",
+        "training_beihai_03",
+        "training_beihai_04",
+        "training_beihai_05",
+        "training_beihai_06",
+        "training_beihai_07",
+        "training_beihai_08",
+        "training_beihai_09",
+        "training_dongling_01",
+        "training_dongling_02",
+        "training_dongling_03",
+        "training_dongling_04",
+        "training_dongling_05",
+        "training_dongling_06",
+        "training_dongling_07",
+        "training_dongling_08",
+        "training_dongling_09",
+        "training_huxia_01",
+        "training_huxia_02",
+        "training_huxia_03",
+        "training_huxia_04",
+        "training_huxia_05",
+        "training_huxia_06",
+        "training_huxia_07",
+        "training_huxia_08",
+        "training_huxia_09",
+        "training_nanlin_01",
+        "training_nanlin_02",
+        "training_nanlin_03",
+        "training_nanlin_04",
+        "training_nanlin_05",
+        "training_nanlin_06",
+        "training_nanlin_07",
+        "training_nanlin_08",
+        "training_nanlin_09"
+      ]
+    }
+  }
+}

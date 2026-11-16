@@ -1,0 +1,1190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:accepted-martial-geometry:v1",
+  "$comment": "原攻击武功根几何投影，复用原handler/range/目标与形状字段，不持久geometry包装。按七来源4124合法技能阶段合并相同形状；具体能力/阶段/原武器与历史接纳来源必须另行严格绑定，任一几何分支合法不等于能替换原技能。射程与寿命精确联合算术另验。",
+  "type": "object",
+  "required": [
+    "handler",
+    "range_mm",
+    "maximum_targets_per_hit",
+    "native_target_kind"
+  ],
+  "properties": {
+    "handler": {
+      "type": "string"
+    },
+    "range_mm": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "maximum_targets_per_hit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "native_target_kind": {
+      "type": "string"
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "arc_degrees",
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "arc_degrees": {
+          "const": 100
+        },
+        "handler": {
+          "const": "melee_cone"
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "range_mm": {
+          "const": 3000
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "arc_degrees": {
+          "const": 100
+        },
+        "handler": {
+          "const": "melee_cone"
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "range_mm": {
+          "const": 3000
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "arc_degrees": {
+          "const": 140
+        },
+        "handler": {
+          "const": "sound_cone"
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "range_mm": {
+          "const": 4500
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            2
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "arc_degrees": {
+          "const": 90
+        },
+        "handler": {
+          "const": "melee_cone"
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "range_mm": {
+          "const": 2200
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            2,
+            3
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "arc_degrees": {
+          "const": 90
+        },
+        "handler": {
+          "const": "melee_cone"
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "range_mm": {
+          "const": 2500
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            3,
+            4,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "arc_degrees": {
+          "const": 90
+        },
+        "handler": {
+          "const": "melee_cone"
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "range_mm": {
+          "const": 2500
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "arc_degrees",
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "arc_degrees": {
+          "const": 90
+        },
+        "handler": {
+          "const": "melee_cone"
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "range_mm": {
+          "const": 3000
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "area_impact_radius_mm",
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "area_impact_radius_mm": {
+          "const": 2500
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "const": 45
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 16000
+        },
+        "range_mm": {
+          "const": 12000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            3,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "area_impact_radius_mm",
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "area_impact_radius_mm": {
+          "const": 2500
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "const": 48
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 20000
+        },
+        "range_mm": {
+          "const": 16000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            3,
+            4,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "area_impact_radius_mm",
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "area_impact_radius_mm": {
+          "const": 2500
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "enum": [
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83
+          ]
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 16000
+        },
+        "range_mm": {
+          "enum": [
+            18000,
+            18100,
+            18200,
+            18300,
+            18400,
+            18500,
+            18600,
+            18700,
+            18800,
+            18900,
+            19000,
+            19100,
+            19200,
+            19300,
+            19400,
+            19500,
+            19600,
+            19700,
+            19800,
+            19900,
+            20000,
+            20100,
+            20200,
+            20300,
+            20400,
+            20500,
+            20600,
+            20700,
+            20800,
+            20900,
+            21000,
+            21100,
+            21200,
+            21300,
+            21400,
+            21500,
+            21600,
+            21700,
+            21800,
+            21900,
+            22000
+          ]
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            2,
+            3,
+            4
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "area_impact_radius_mm",
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "area_impact_radius_mm": {
+          "const": 3000
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "const": 45
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 16000
+        },
+        "range_mm": {
+          "const": 12000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            3,
+            4,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "area_impact_radius_mm",
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "area_impact_radius_mm": {
+          "const": 3000
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "const": 48
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 20000
+        },
+        "range_mm": {
+          "const": 16000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            3,
+            4,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "area_impact_radius_mm",
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "area_impact_radius_mm": {
+          "const": 3000
+        },
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "enum": [
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83
+          ]
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 16000
+        },
+        "range_mm": {
+          "enum": [
+            18000,
+            18100,
+            18200,
+            18300,
+            18400,
+            18500,
+            18600,
+            18700,
+            18800,
+            18900,
+            19000,
+            19100,
+            19200,
+            19300,
+            19400,
+            19500,
+            19600,
+            19700,
+            19800,
+            19900,
+            20000,
+            20100,
+            20200,
+            20300,
+            20400,
+            20500,
+            20600,
+            20700,
+            20800,
+            20900,
+            21000,
+            21100,
+            21200,
+            21300,
+            21400,
+            21500,
+            21600,
+            21700,
+            21800,
+            21900,
+            22000
+          ]
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            3,
+            4,
+            5
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "width_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "melee_combo"
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "range_mm": {
+          "const": 1700
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "width_mm": {
+          "const": 500
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "width_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "melee_combo"
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "range_mm": {
+          "const": 1800
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "width_mm": {
+          "const": 500
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "width_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "melee_line"
+        },
+        "native_target_kind": {
+          "const": "area"
+        },
+        "range_mm": {
+          "const": 3000
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "width_mm": {
+          "const": 600
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            2
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "width_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "melee_line"
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "range_mm": {
+          "const": 1700
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "width_mm": {
+          "const": 500
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "width_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "melee_line"
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "range_mm": {
+          "const": 1800
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "width_mm": {
+          "const": 500
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "width_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "melee_line"
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "range_mm": {
+          "const": 2200
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "width_mm": {
+          "const": 600
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "native_target_kind",
+        "range_mm",
+        "vertical_hit_height_mm",
+        "width_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "melee_line"
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "range_mm": {
+          "const": 3000
+        },
+        "vertical_hit_height_mm": {
+          "const": 2000
+        },
+        "width_mm": {
+          "const": 600
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "const": 45
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 16000
+        },
+        "range_mm": {
+          "const": 12000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "const": 48
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 20000
+        },
+        "range_mm": {
+          "const": 16000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "const": 60
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 12000
+        },
+        "range_mm": {
+          "const": 12000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "enum": [
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74
+          ]
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 18000
+        },
+        "range_mm": {
+          "enum": [
+            18000,
+            18100,
+            18200,
+            18300,
+            18400,
+            18500,
+            18600,
+            18700,
+            18800,
+            18900,
+            19000,
+            19100,
+            19200,
+            19300,
+            19400,
+            19500,
+            19600,
+            19700,
+            19800,
+            19900,
+            20000,
+            20100,
+            20200,
+            20300,
+            20400,
+            20500,
+            20600,
+            20700,
+            20800,
+            20900,
+            21000,
+            21100,
+            21200,
+            21300,
+            21400,
+            21500,
+            21600,
+            21700,
+            21800,
+            21900,
+            22000
+          ]
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "enum": [
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83
+          ]
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 16000
+        },
+        "range_mm": {
+          "enum": [
+            18000,
+            18100,
+            18200,
+            18300,
+            18400,
+            18500,
+            18600,
+            18700,
+            18800,
+            18900,
+            19000,
+            19100,
+            19200,
+            19300,
+            19400,
+            19500,
+            19600,
+            19700,
+            19800,
+            19900,
+            20000,
+            20100,
+            20200,
+            20300,
+            20400,
+            20500,
+            20600,
+            20700,
+            20800,
+            20900,
+            21000,
+            21100,
+            21200,
+            21300,
+            21400,
+            21500,
+            21600,
+            21700,
+            21800,
+            21900,
+            22000
+          ]
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "required": [
+        "handler",
+        "maximum_projectile_steps",
+        "native_target_kind",
+        "projectile_radius_mm",
+        "projectile_speed_mm_per_second",
+        "range_mm",
+        "maximum_targets_per_hit"
+      ],
+      "properties": {
+        "handler": {
+          "const": "projectile"
+        },
+        "maximum_projectile_steps": {
+          "const": 70
+        },
+        "native_target_kind": {
+          "const": "single"
+        },
+        "projectile_radius_mm": {
+          "const": 100
+        },
+        "projectile_speed_mm_per_second": {
+          "const": 12000
+        },
+        "range_mm": {
+          "const": 14000
+        },
+        "maximum_targets_per_hit": {
+          "enum": [
+            1
+          ]
+        }
+      }
+    }
+  ],
+  "unevaluatedProperties": false
+}

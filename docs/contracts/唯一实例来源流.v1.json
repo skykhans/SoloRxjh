@@ -2,7 +2,7 @@
   "contract_version": 1,
   "updated_on": "2026-11-14",
   "status": "instance_flow_projection_adopted_not_full_event_not_implemented",
-  "scope": "2004已采用唯一实例版本/新生/替换/双输入进化/具名成长转移/跨角色转让与终结投影；未采用类型/完整档案/经济事件/时钟结果仍待。",
+  "scope": "3159已采用唯一实例版本/创建/替换/进化/成长转移/所有权与终结投影；新增1155衣饰结构仅按具名原事件授权，不自动继承旧服务。",
   "owners": {
     "schema": "唯一实例来源流.schema.json",
     "instances": "已采用装备实例.v1.json",
@@ -12,15 +12,15 @@
   },
   "event_embedding": "正式结算恰一个instance_flow对象，receipt_id等于外层结算ID；无实例正文/终结变动时不附该投影，不能造空流。只有原样移位/域迁移时沿布局/custody_transfers，不重复消费同一业务版本。本投影无独立提交权，必须与角色钱物/材料stack_flows/随机/位置/修订/来源授权同笔。",
   "inputs": "每项previous_output精确receipt_id/output_index指本实例最后业务版本输出；保存本次真实完整前正文及最后custody赋域/迁移ID与描述符。每个前输出只允许一次正式业务后继，全图无环，不能从原出生跳过中间修改。输入身份/owner/血统/修订与前输出一致，正文差异只允许下述已证明自然倒计时；纯位置/域迁移不使业务输出失效，但必须使用最新域。",
-  "clock_input": "武器/防具boost.remaining_steps自然递减不新造业务流，故输入快照可能比前输出少剩余。唯一允许差异为原owner合法权威世界快照证明的同一计时代次递减，不能增加/刷新、跨代、改层/凭证或偷偷置null。自然到期必须正式revise输出null并更新该owner状态来源/实例修订一次。完整时钟结果及证据结构仍待，不凭remaining数值相减自证。",
+  "clock_input": "武器/防具boost.remaining_steps及衣饰lifetime_remaining_steps_or_null自然正余时递减不新造每帧业务流，输入快照可能比前输出少剩余。唯一允许差异为各原owner合法权威实际时钟证明的同一计时代次递减，不能增加/刷新、跨代、改层/凭证或偷偷置null；衣饰必须沿实际角色接纳步，不能套房间总步差。武器/防具boost自然到期正式revise输出null；衣饰整件到期终结、纪念属性到期revise为0，精确沿apparel_expiry_owner_ref。衣饰六键计时结果投影已由apparel_clock_result_owner_ref采用，完整父阶段/实际接纳与连续时钟证明仍待，不凭remaining数值相减自证。",
   "output_snapshot": "每输出完整实例与held域，source_input_indices索引本流inputs且按具名operation顺序，非外部物品ID。嵌套instance须过精确类型根；所有来源证明/逐定义资格/真实前后差另验。当前已采用的六件可售旧兼容实例均buyback=false，未采用可复购实例或保管域加工，不能借本投影生成buyback；保管清空只能终结合法buyback输入。",
   "create": "无实例前驱，creation_authorization非空且实际owner认可该kind/authority_receipt_id，初始grant/购买/掉落/任务/制作/明确配置逐类核授权一次。新instance_id/lineage_id全新、revision0、创建锚=receipt_id；有state_origin的根也指本结算。同笔配置非零修改需另正式后继事件，不能把同ID两个输出放本流混作原子内部版本。材料消费通过同结算stack_flows证明，不用伪造实例输入。 已知旧导入仅七兼容实例允许legacy_import授权并保原强化0..3，业务revision仍0，专用路径ID及血统按旧装备兼容instance_root；其余正常创建不借legacy_import绕过初始规则。",
   "revise": "source_input_indices恰一项；同ID/item/lineage/owner/binding/创建锚，revision精确+1，更新该类型所需业务入口/加工/耐久来源，其余完整字段按owner保留。真实付费失败保成长但记录一次业务尝试属revise；拒绝/取消/无变化配置无流。七键宝珠/七键出尘戒/14键固定初始装备没有revise能力，不因通用操作新增可变字段。",
   "replace": "一前驱，旧ID终结reason=replacement；新ID、同lineage/owner/binding、revision0、创建锚与最新入口为本结算。只限具名提真/英雄晋阶转移等精确配方，旧成长凭证沿替换边保留；不把源最初出生写成新ID创建。",
   "combine": "两不同前驱，同角色合法宝珠A/B按索引顺序，二者终结reason=combination；13成功进化输出一颗指定下一品质，新ID、新独立lineage、revision0、创建锚本结算。两个旧血统均退役，不选其一冒充连续血统。失败仅A终结reason=craft、B没有业务输出/输入消费记录，外层结果记录B校验引用但其业务版本保持当前。",
   "growth_transfer": "两不同前驱顺序为目标、源；目标输出同ID/item/lineage/owner/binding/创建锚，revision+1且最近入口本结算；源终结reason=growth_transfer_source。48/59具名双实例强化转移的typed元素及精确保留规则仍由各owner核验，不授权任意复制成长/合并血统。",
-  "ownership_transfer": "一前驱，同ID/item/lineage/binding/创建锚，实际owner切换到71另一角色且revision+1；只限9新版武勋首饰适配器，ownership_origin/durability_origin本结算且耐久0，processing及原执行角色来源保留。前owner与输出owner不能相同；输入输出均held，角色绑定实例禁止此操作，不新生实例/创建锚。",
-  "retirements": "每条input_index唯一。每个输入若有同ID存续输出则不得retire；若没有同ID输出必须恰一终结。每个输入最多支撑一个输出，不能克隆、分裂单件；replace/combine/growth_transfer同时引用已终结前驱是明确来源边，不把它重新激活。无输出终结依真实丢弃/制作/交付/清理/配置等权限及事件证明，不给零值墓碑留在现持表。 npc_sale仅显式可售且不可复购定义的真实NPC出售终结，必须同笔具有对应实际售款收入；可复购物售出沿custody迁移，不得直接终结。 death_consumption仅授权出尘戒死亡消耗owner规定的精确实例和真实死亡收据/当前生效槽位，其他装备不得使用；无戒指不造空instance_flow。 character_deletion仅由角色删除.v1.json原committed授权，精确覆盖删除目标全部当前held资源，禁止其他业务借该原因终结；来源头/所有权及完整集合双向覆盖另验。",
+  "ownership_transfer": "一前驱，同ID/item/lineage/binding/创建锚，实际owner切换到71另一角色且revision+1；输入输出held且unbound。9新版武勋首饰沿原ownership_origin/durability_origin本结算及耐久0、保processing；1152衣饰保全部成长/收据，state_origin_receipt_id本trade，严格11键且实际余时由71决定时钟见证派生。禁止同owner、角色绑定、新生实例或创建锚。",
+  "retirements": "每条input_index唯一。每个输入若有同ID存续输出则不得retire；若没有同ID输出必须恰一终结。每个输入最多支撑一个输出，不能克隆、分裂单件；replace/combine/growth_transfer同时引用已终结前驱是明确来源边，不把它重新激活。无输出终结依真实丢弃/制作/交付/清理/配置等权限及事件证明，不给零值墓碑留在现持表。 npc_sale仅显式可售且不可复购定义的真实NPC出售终结，必须同笔具有对应实际售款收入；可复购物售出沿custody迁移，不得直接终结。 death_consumption仅授权出尘戒死亡消耗owner规定的精确实例和真实死亡收据/当前生效槽位，其他装备不得使用；无戒指不造空instance_flow。 character_deletion仅由角色删除.v1.json原committed授权，精确覆盖删除目标全部当前held资源，禁止其他业务借该原因终结；来源头/所有权及完整集合双向覆盖另验。 apparel_dismantling仅严格衣饰分解committed授权精确本人held衣饰及同笔1000银费/真实热血石mint与可选merge，其他类型/业务不得使用。 apparel_expiry仅衣饰到期committed授权34精确整件限时款在实际角色步余时1的终结，不能消耗纪念款或发钱物；同笔纪念到期仅按原输入索引revise保成长/余时0。",
   "id_and_lineage": "普通新生/双输入合成实例ID全局永不复用；lineage新生全局唯一。替换是唯一已采用换ID保血统路径；转让保同ID/血统，普通revise/成长转移目标同ID。任一时点每血统至多一个活体，历史完整旧快照不算当前实物。实例ID分配不消费玩法RNG；重试沿已持久计划保原ID，不重新授予。",
   "closure": "依正式结算顺序消费业务前输出，联合最新custody迁移推导held/buyback当前活体；held与equipment_instances及唯一位置闭合，buyback与会话保管闭合。输入完整正文/最后域不符、前输出双后继、缺终结、孤立输出/坏索引/未知来源均拒绝，不由当前快照反推假历史。",
   "validation_order": [
@@ -105,5 +105,26 @@
   "ordinary_armor_purchase_owner_ref": {
     "file": "普通防具基础定义.v1.json",
     "pointer": "/acquisition_policy/purchase_events"
+  },
+  "apparel_purchase_owner_ref": {
+    "file": "衣饰基础定义.v1.json",
+    "pointer": "/purchase/events"
+  },
+  "apparel_operations": "衣饰create仅严格购买npc_purchase；付费合成/强化revise由衣饰加工事件及instance/stack/silver/random同笔授权，成功失败均更新状态入口/版本。ownership_transfer采用71精确1152未绑定衣饰适配及决定时钟对账，实际父证明/运行时仍待；禁止replace/combine/growth_transfer及未登记配置/掉落/旧导入来源。分解专用终结与严格事件已由apparel_dismantling_owner_ref采用；自然到期专用终结与预留/提交事件由apparel_expiry_owner_ref采用，连续时钟与完整来源仍待，不借discard/configuration_remove发材料。",
+  "apparel_processing_owner_ref": {
+    "file": "衣饰加工事件.v1.json",
+    "pointer": ""
+  },
+  "apparel_dismantling_owner_ref": {
+    "file": "衣饰分解事件.v1.json",
+    "pointer": ""
+  },
+  "apparel_expiry_owner_ref": {
+    "file": "衣饰到期事件.v1.json",
+    "pointer": ""
+  },
+  "apparel_clock_result_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": "/clock/result"
   }
 }

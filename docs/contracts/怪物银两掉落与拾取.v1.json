@@ -1,0 +1,78 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-16",
+  "status": "strict_silver_pickup_event_and_journal_adopted_runtime_pending",
+  "schema_ref": {
+    "file": "怪物银两场景掉落.schema.json",
+    "pointer": ""
+  },
+  "scope": "普通公共/修炼怪明确silver_reward的唯一死亡银包；原个人任务银奖/活动结算/私场奖励与NPC交易不经本包。普通物品及唯一装备producer另按定义，不将本银包泛化为物品包。",
+  "production": "沿原真实击杀归属生成至多一包。先26对允许银分量算B=floor(silver_reward*silver_bp/10000)，再按至尊原reward_effects.silver与16猪取m=max(10000,有效至尊14000,有效猪15000)，amount=floor(B*m/10000)仅一次。完整源与原死亡快照认证，拾取时不重评倍率。缺定义/源报错，未知不默认0/1；正式金额0则null，不发0包。结果超MAX拒绝原候选决定，不截断。未有合法领取者则原死亡明确无包，不给房主补归属。",
+  "identity": "drop_id=\"silver-drop:\"+SHA256(71确定JSON [\"monster_silver_drop\",source_death_event_id] UTF8)。源death须原ordinary/training唯一已提交完整死亡，scope/致死点/原归属/金额与规则快照精确对应。只有死亡决定创建待领权利；不在此时写silver_flow或角色余额，避免生产与拾取各发一次。",
+  "ownership": "owner_character_id来自原实际击杀归属者，不能从队长/房主/最后网络报伤推断；玩家与NPC伙伴各沿原真实角色身份及拥有者映射，不将NPC份额复制给主人。原scope保包，position取真实致死脚位置，不随拾取者移动。无队伍副本/抢归属/自动改owner或超时转公有。",
+  "selection": "沿竹材F输入的原最近合法单份选择：post_combat旧推进之后，真实F才选择本人有权、距离<=2000毫米且LOS合法的一份；所有producer共用距离/原drop_id UTF8排序，选到银包不能以钱包满改捡第二份。不由靠近/死亡/重连或读档自动领取；批量输入仍须原严格父。",
+  "pickup": "原唯一拾取结算冻结包全文和本人随身账户前余额/有效输出、规则/会话/角色修订；核原包未消费或合法清理、本人资格与原源。预检silver+amount<=MAX，全额领取，溢出整包留场，不部分领取/转仓或转物。银不占背包格/实物重量；纯银拾取character_revision+1，inventory_revision不变，仓银不变。",
+  "silver_flow": "拾取才产生原唯一silver_flow，账户恰本人carried_silver原开户链及真实前后余额，唯一外部入账movement amount等包额，kind=loot，authority_receipt_id指原本次已提交拾取决定。该决定必须解析原完整死亡及唯一包领取权，不能以loot字符串/死亡未领包直接铸币。正式提交同笔删除场景包、记原领取消费证据/银流及余额；不建立第二claimed表。",
+  "replay": "同原拾取请求只回原已持久结果；旧包已领、银已花或角色移动后不能再加钱/重放包。场景删除和余额变更同原world/角色共同决定，存疑先核正式决定，不能先删包后补银。原死亡重放只回旧生产决定，不重装被领取或合法清理的包。",
+  "lifecycle": "普通明确离线场景重建按scene_registry.ordinary_rebuild收束未决并终结未领权利；修炼银包按scene_registry.training_restore随原world保存恢复。LAN个人退出/断线不清房主银包或改owner，无自动时限/转公有。",
+  "boundary": "银包映射、严格拾取事件/日志、来源提取和普通/修炼保存边界采用；完整scope根/重建决定严格结构/死亡及world共同父尚待，Godot/故障/LAN在P/T验证。",
+  "silver_multiplier_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/reward_effects/silver"
+  },
+  "pickup_event_schema_ref": {
+    "file": "怪物银两拾取事件.schema.json",
+    "pointer": ""
+  },
+  "pickup_protocol": {
+    "journal_field": "profile.monster_silver_pickup_events",
+    "identity": "四键命令复用原bamboo-pickup command，不接客户端drop_id/金额。request_id为71编码[\"monster_silver_pickup\",session_id,command_id]，摘要覆盖完整command。原最近选择先核本会话输入去重，真实选中银包才分配本身份；同角色跨owner未决互斥。",
+    "plan": "五键rules_hash/world_step/drop_before/silver_before/previous_output；冻结选中原包全文与本人carried_silver合法旧账户输出，不冻结第二库存布局。原command两修订须等真实角色/库存，原余额+包额可存且源认证后reserved，不改业务。",
+    "commit": "silver_flow.receipt_id=本settlement；唯一carried_silver账户character_id为原本人，before/previous_output等plan，after=before+drop.amount；唯一movement null→0金额等包，loot授权本settlement。character_revision_after=expected+1，inventory_revision_after=expected_inventory_revision原值，原正式银流/钱包与删除包同共同决定。",
+    "abort": "reserved可user_cancelled/source_unavailable/state_changed沿原原因唯一终态，不动钱包或复原已合法清理包。源未知/缺正式决定不伪造普通取消，保未决报错。",
+    "replay": "已提交只回原决定，不按现有位置/新余额重算或新选包；银已花/原场景已清不重发。原日志及源消费证据保留，来源提取合同已登记，实际加载器/完整world角色父仍待。"
+  },
+  "source_adapter_ref": {
+    "file": "来源现态推导.v1.json",
+    "pointer": "/monster_silver_pickup_extraction"
+  },
+  "scene_registry": {
+    "field": "scope.monster_silver_drops",
+    "schema_ref": {
+      "file": "怪物银两场景掉落.schema.json",
+      "pointer": "/$defs/drops"
+    },
+    "scope": "原真实world/authority/map/instance scene持有未领银包映射，键精确等正文drop_id。公共普通与修炼scope复用本片段，完整scope身份只由父持有；不是character字段或全档共享包。",
+    "initialization": "真正新scope显式{}；普通明确重建须原清理决定收束之后显式{}，不能加载时对缺字段补空。修炼完整world恢复必须保原映射与原来源，不能以当前无人清空；新内容为既有world新增字段须具名规则迁移，不是泛化修复。",
+    "production": "同原死亡正式决定恰插入唯一原包，无包则不改映射；键冲突/正文异文或已终结权利又见活体立即拒绝候选，不覆盖/忽略。每包源death/scope及原kill_owner须通过完整父。",
+    "pickup": "原拾取共同决定从此唯一映射删除精确plan.drop_before，原余额/来源与权利终结一同提交；未决占用从本reserved冻结计划派生，不另存锁表或claimed集合。扫描F须与其他producer活体映射合并后选择，不仅扫描银包。",
+    "ordinary_rebuild": "普通scope按原离线完整退出/明确现场重建，在已告知未拾取掉落丢失后收束所有相关未决死亡/拾取及共同保存，再原同一重建决定终结该scope全部未领银权利并清映射。必须保真实被清包全集及其原生产引用作为原重建证明，不能仅清数组无终结来源；不另分配通用经济结算。原生成代次/已领银链保留。 严格三类权利子结果及选择/终结职责沿ordinary_rebuild_protocol。",
+    "training_restore": "修炼scope的未领银包属于房主完整world快照，保存退出/离线暂停后原样恢复，既不按墙钟到期也不从死亡历史重新生成。个人退出/断线/换角色/退队/再进房间不清包或改owner。房主保持world时原权利一直归真实角色，回来仍须真实F/资格。无定时转公有/自动邮件/队长代领。",
+    "retention": "只有原明确普通现场清理或正式领取可终结本权利；未来删除world/档案沿各自原生命周期处理，未采用的删除路径不得据本节创造清理。当前活体必须恰未终结且原scope生命周期允许的生产权利全集。原重建/领取证明有依赖仍保，禁止删后靠余额猜已领。",
+    "boundary": "本原银包映射和普通/修炼保存边界采用；完整scope根/完整原重建决定严格父、多接收者与world原子替换尚待，运行及文件故障在P/T。",
+    "ordinary_death_outcome_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/respawn/death_outcome"
+    },
+    "ordinary_rebuild_protocol": {
+      "schema_ref": {
+        "file": "普通现场重建掉落清理.schema.json",
+        "pointer": ""
+      },
+      "scope": "仅已确认普通公共现场整体重建的三类掉落权利清理。原世界固定步公共非修炼/非私场地图，instance=null；修炼world保存恢复、任何LAN个人离开/断线/换图/重连、仅卸载渲染均不授权本子结果。个人竹材退出清理仍沿竹材原owner。",
+      "ownership": "原整体退出/死亡返回/明确重建生命周期共同决定内的drop_cleanup唯一子结果，无独立event_id/经济结算counter/profile日志或claimed表。父须有真实不可复用的原生命周期身份与scope源闭包，正文与原决定一起摘要/持久保留；未采用完整父前不得以本schema直接执行重建。",
+      "barrier": "先停止该scope接纳新输入、实际模拟及生产/领取，保原世界固定步与所有角色来源；完成原scope已授予固定步至phase=null，原world pending_scopes不含该scope，并收束全部已接纳攻击/采集/死亡/拾取及依赖保存决定。尚未决定动作须沿各原owner真实取消且保停止来源；缺类型/未决/保存存疑时拒绝重建，不先清队列或跳过原结果。收束期间新生成的合法未领包也须进入最终before全集。",
+      "selection": "scope_before精确原真实十键场景固定步状态，非模板/当前客户端时刻。三个映射分别等收束屏障后该scope.monster_silver_drops/ordinary_item_drops/bamboo_drops的完整原映射，键等正文drop_id，不是仅调用者所属或可见包。无该类包须显式{}；原scope缺字段/未知producer/坏源拒绝，不补空或静默过滤。完整源认证限定真实同world/authority/map/null；不允许修炼死亡银包混入普通清理。",
+      "authorization": "先展示并明确确认普通现场未拾取掉落将丢失。离线正常退出或原普通死亡明确返回沿其原生命周期授权；房主结束整个world只有原房间终局明确授权的整体清理才适用。个人LAN退出不是整体重建。已提交拾取早于屏障者不在清单，保held/钱包和原领取链；未提交不得用清理代替其原取消/共同保存。",
+      "commit": "仅原整体生命周期父正式提交时，同时终结清单全部drop_id并将三原映射置{}，保完整清单和每项原死亡/effect来源及原唯一决定。清理不产stack_flow/silver_flow、不补钱物/经验、不扣成长，不修改已持有实物、余额、任务进度或原ordinary_spawn_generations。actor/slot/节点等其他现场清理由各原owner及完整父另验，不能从本子结果推断已重建所有现场。",
+      "replay": "原父身份与完整正文相同只确认同一终结，不对当前同图新场景再次清空。清理后旧死亡/竹倒结果只回原生产决定，严禁据历史重新装入已终结drop_id。新现场只能由实际新生命/节点代次生产新身份；保原持久普通生成代次。任一已终结权利又见活体、漏列/多列或来源异文拒绝候选，不靠取并集/覆盖修复。",
+      "recovery": "发布三映射清空前须确认原完整共同父落盘，故障恢复先读原正式决定和前后源闭包。提交存疑保完整真实before/未决并停止作用域写入，不凭空映射/文件时间判成功，不清掉原proof后再从现态猜终结。跨角色/world持久原子决定沿完整共同保存协议，不能拆成三个独立成功保存。",
+      "retention": "每个drop的唯一终结由完整原领取或本整体清理决定证明，无第二可变墓碑表。来源闭包同时保实际生产、完整终结及后续消费者连续覆盖；有依赖不裁剪，不因场景已空/角色离线就删原死亡、effect或清理证明。",
+      "boundary": "四键子结果/原权利终结选择与保留职责采用；完整整体重建父、完整scope/world根、个人竹材退出清理父、跨接收者保存和Godot故障/LAN仍待，不宣称已完成整个重建事务。"
+    }
+  },
+  "joint_commit_owner_ref": {
+    "file": "档案共同提交.v1.json",
+    "pointer": ""
+  }
+}

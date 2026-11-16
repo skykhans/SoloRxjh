@@ -1,5 +1,9 @@
 {
   "contract_version": 1,
+  "supreme_processing_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/processing_effect"
+  },
   "updated_on": "2026-11-15",
   "status": "explicit_regular_enhancement_design_not_implemented_not_balanced",
   "scope": "仅普通主武器基础定义items内447件；不含8初始武器、2倒置来源、英雄/防具/首饰/宝珠/剧情剑。伪造与未完成允许本项强化是项目选择，身份不变。",
@@ -266,7 +270,7 @@
     "attack_selection": "先以精确(item_id,真实强化)查observed_attack_overrides，命中仅取该attack_flat；其他合法组合严格查项目曲线×(minimum_rank系数+真标识加1)。两者互斥，不叠加。此为显式完整分区，非缺值兜底。",
     "attack_contribution": "攻击上下界各加同一真实强化平值一次；基础来源值保持。只计当前生效装备组，备用/包/仓不叠加；持久化定义ID和真实强化，不持久化派生攻击缓存。",
     "martial_contribution": "本合同仅采用真实强化基础攻击；复合截图武功/气功/命中/无视等其他强化贡献未闭合，不能将缺资料解释为完整普通强化只有攻击或默认补零。",
-    "random": "未选符沿tier基础概率；选5%/10%/15%符按optional_luck_charm_owner_ref计算有效概率。有效10000不抽样，其余房主从0..9999均匀单抽，draw<有效bp成功；不另抽幸运符随机。",
+    "random": "tier为基础概率，合法选符加成沿optional_luck_charm_owner_ref；本人有效至尊再沿supreme_processing_owner_ref加500bp，统一封顶10000。未选符也须核实际至尊来源；无有效权益才沿原基础概率。有效10000不抽样，其余房主从0..9999均匀单抽，draw<有效bp成功；不另抽幸运符随机。",
     "success": "扣具名石数和银费，同实例真实强化+1；其他字段不变。",
     "failure": "同样扣材料和费用，真实强化不变，不毁/不降/不清成长；这是普通武器项目保护，不声称官网规则。",
     "cap": "15拒绝预览与提交，不耗材料/钱/随机，不存在16配方。",

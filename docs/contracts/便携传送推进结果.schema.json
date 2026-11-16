@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:portable-travel-advance:v1",
+  "$comment": "原post_combat便携队首正常单步十一键结果，不含已先行取消或资格失效。after恰before-1须语义验证；before=1必与原唯一完成决定同父，不以零余时单独授权移动。完整来源/逐步和完成共同父另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "channel_id",
+    "before_remaining_steps",
+    "after_remaining_steps",
+    "completion_event_id_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 81,
+      "maxLength": 81,
+      "pattern": "^portable-advance:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "channel_id": {
+      "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/channel/properties/channel_id"
+    },
+    "before_remaining_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 180
+    },
+    "after_remaining_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 179
+    },
+    "completion_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/completion_event_id"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "before_remaining_steps": {
+            "const": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "after_remaining_steps": {
+            "const": 0
+          },
+          "completion_event_id_or_null": {
+            "$ref": "#/$defs/completion_event_id"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "after_remaining_steps": {
+            "minimum": 1
+          },
+          "completion_event_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "completion_event_id": {
+      "type": "string",
+      "minLength": 80,
+      "maxLength": 80,
+      "pattern": "^portable-finish:[0-9a-f]{64}(?![\\s\\S])"
+    }
+  }
+}

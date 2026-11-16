@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:basic-combo-window:v1",
+  "$comment": "character.basic_combo_window_or_null：null或严格两键。下一段/职业/profile/生命轮次从原完整已完成普通根推导，不重复保存。剩余1在本步接纳仍有效，之后finalize才清；实际角色步/完成来源与原完整玩家动作另验。",
+  "$defs": {
+    "life_projection": {
+      "$comment": "仅联合验证两个原角色字段，不保存第二life/窗口包装；完整角色先验后投影。",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "life_state",
+        "basic_combo_window_or_null"
+      ],
+      "properties": {
+        "life_state": {
+          "$ref": "urn:solorxjh:character-life-state:v1#/properties/life_state"
+        },
+        "basic_combo_window_or_null": {
+          "$ref": "urn:solorxjh:basic-combo-window:v1"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "life_state": {
+                "const": "awaiting_respawn"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "basic_combo_window_or_null": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "completed_action_id",
+        "remaining_opportunity_steps"
+      ],
+      "properties": {
+        "completed_action_id": {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+        },
+        "remaining_opportunity_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 60
+        }
+      }
+    }
+  ]
+}

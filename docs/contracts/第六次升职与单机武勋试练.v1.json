@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-15",
   "status": "full_local_sixth_advancement_and_merit_trial_design_not_implemented_not_balanced",
   "source_evidence": {
     "file": "../reference/官网资料/目录正文.json",
@@ -90,7 +90,7 @@
     "acceptance": "存活脱战空闲、无其他挑战/传送动作/未结算战斗队列，精确NPC/地图<=2.5米；本人固定class/正邪/等级/rank/adv05/武勋均检查，唯一新attempt不发奖励；stage1完成收据与进入stage2同事务。",
     "ready_policy": "stage3+成功影子收据+最终费用和28行本人奖励布局可用，派生UI可交付；不另存影子击杀数或胜利物品。",
     "repeat": "角色跨世界一次；失败子挑战可重试主stage2，主任务确认放弃后新主attempt从头。",
-    "abandon": "确认取消主attempt，若有活动子局先原子终结为主动失败并办理返回；状态not_accepted，活动attempt/branch/stage/challenge_ref为null，历史收据保留原attempt。重接新主attempt，原胜利收据不得复用；最终已交付不可放弃。"
+    "abandon": "确认取消主attempt；没有活动子局时沿原主任务放弃规则。若在影子子局内，沿exit_authorization先唯一终结本局并保原主attempt/stage2/引用锁，实际返回成功后同笔将主任务not_accepted并清attempt/branch/stage/活动引用。返回等待期间不得重接/交付/再入场。历史收据保留旧主attempt且不得复用；最终已交付不可放弃。"
   },
   "martial_merit": {
     "field": "character.martial_merit",
@@ -101,8 +101,16 @@
     "initial": 0,
     "unit": "武勋点",
     "owner_policy": "与宗门贡献、普通历练、名声独立；非物品、不能存仓或卖，不从等级/击杀/捐献自动推得。",
+    "supreme_cap_owner_ref": {
+      "file": "至尊服务.v1.json",
+      "pointer": "/merit_cap_effect"
+    },
+    "supreme_gain_owner_ref": {
+      "file": "至尊服务.v1.json",
+      "pointer": "/merit_gain_effect"
+    },
     "trial_reward": 250,
-    "entry_overflow_preflight": "进试练前检查current<=9007199254740741；试练中禁止配置及其他主动武勋写入，原称号实际到期扣费/清除照常先结算。其间余额只能由原到期费用减少，故入场加250上界仍成立；胜利对终局实际余额checked_add250，不用入场余额覆盖，不截断/溢出。",
+    "entry_overflow_preflight": "进试练前统一检查current<=9007199254740616，预留最大375；试练中禁止配置及其他主动武勋写入，原称号实际到期扣费/清除照常先结算。胜利按至尊gain owner在终局T计时后对原250基数取有效15000或10000bp，实际375或250；对终局实际余额checked_add，不用入场余额覆盖，不截断/溢出。",
     "consumption": "本六转只检查拥有，不扣2000；以后明确消费规则另列，不能复用门派contribution余额。",
     "provenance": "普通武勋变动由真实试练胜利收据；18参数配置写入保独立来源标记且须先结束活动，不伪造挑战完成。",
     "title_upkeep_interlock": {
@@ -114,9 +122,9 @@
         "file": "武勋阶段与称号资格.v1.json",
         "pointer": "/upkeep/clock_ownership"
       },
-      "scope": "两个私场均保留本人原称号，不额外认证/刷新/免月费。武勋试练只在真实胜利加250，影子试练不发武勋；活动独占限制阻用户配置与其他活动，不阻本角色强制到期业务。",
+      "scope": "两个私场均保留本人原称号，不额外认证/刷新/免月费。武勋试练只在真实胜利按250基数结算实际250或375，影子试练不发武勋；活动独占限制阻用户配置与其他活动，不阻本角色强制到期业务。",
       "step_order": "每个实际接纳角色步先完成称号到期及资格/预算/当前资源联验，再推进本步战斗命中/死亡，按原timing裁定胜负/超时，最后持久终局与实际奖励。到期前已接受动作仍遵原动作快照，新接受动作读取新资格，不借旧输入重新接受。",
-      "reward": "称号到期不足先清除，即使本步稍后胜利+250使余额足够也不补续费/复原称号。足额先扣后对实际余额加250；两个原决定各自保真实来源和业务修订，终局不得回写入场余额/凭证/旧角色修订。失败不返已合法扣费，影子胜利仅推进原任务阶段。",
+      "reward": "称号到期不足先清除，即使本步稍后胜利加实际250或375使余额足够也不补续费/复原称号。足额先扣后对实际余额加实际250或375；两个原决定各自保真实来源和业务修订，终局不得回写入场余额/凭证/旧角色修订。失败不返已合法扣费，影子胜利仅推进原任务阶段。",
       "pending": "强制到期reserved/写入存疑未解决时，本私场该步战斗/期限推进及终局发布均等待原决定，保完整已确认现场；不先消费最终步、判超时或发250。不是暂停收费或玩家取消入口，恢复先核原决定，再从同一未消费战斗步继续。",
       "revision": "到期提交后，后续终局须重新取实际character_revision及原库存修订，不能复用入场或到期前两修订。原到期和终局各按其owner递增一次业务修订；普通余时递减不造业务修订。完整终局/战斗事件尚待采用，本条不授权省略其来源。",
       "terminal": "终局停止本局elapsed/敌AI/攻击与重复奖励；原角色实体若仍被接纳，称号继续按实际角色步计时。返回点被占不延长称号周期；离场不重置。角色实体未推进时不凭公共world经过步补扣。",
@@ -225,7 +233,9 @@
     ],
     "safe_zones": [],
     "navigation_policy": "0.35玩家/0.45敌人胶囊扩张障碍及边界；真实导航/视线/投射物碰撞按23，不能穿柱和边界。",
-    "source_policy": "本地48米方形私场，两个arena独立命名空间共用几何，不共用敌人生命/计时/实体。"
+    "source_policy": "本地48米方形私场，两个arena独立命名空间共用几何，不共用敌人生命/计时/实体。",
+    "player_spawn_yaw_radians": 3.141592653589793,
+    "enemy_spawn_yaw_radians": 0
   },
   "arenas": [
     {
@@ -240,10 +250,11 @@
       "minimum_rank_policy": "rank>=5;合法正邪14职业均可，六转后仍可作为武勋来源",
       "entry_fee_silver": 0,
       "entry_fee_practice": 0,
-      "win_result": "本次唯一胜利收据/武勋+250同事务；不推进任何adv06阶段",
+      "win_result": "本次唯一胜利收据/武勋原250基数经至尊owner得实际250或375同事务；不推进任何adv06阶段",
       "failure_result": "武勋不变，可从月宫NPC新建新attempt重试",
-      "repeat": "不限次数、无现实日刷新/日上限；每次实际击败同一新attempt敌人才授250，不因进入/读档发奖",
-      "combat_policy": "仅一个剑术教头，3.5米/秒追逐，进入2.2米时接受普通剑击；出界按有界寻路追逐，不传送至玩家脚下。"
+      "repeat": "不限次数、无现实日刷新/日上限；每次实际击败同一新attempt敌人才按250基数授实际250或375，不因进入/读档发奖",
+      "combat_policy": "仅一个剑术教头，3.5米/秒追逐，进入2.2米时接受普通剑击；出界按有界寻路追逐，不传送至玩家脚下。",
+      "supports_blood_devil": true
     },
     {
       "arena_id": "ascension_shadow_trial",
@@ -261,7 +272,8 @@
       "win_result": "击败收据和adv06stage2→3同事务，尚未六转，不给物品/资源",
       "failure_result": "保留主任务stage2，失败子attempt终结，重新进入用新子attempt/新敌人；不恢复本人资源/冷却",
       "repeat": "主任务stage3或delivered不能再挑战；失败允许新子attempt",
-      "combat_policy": "只攻击本人，接敌时若重击已就绪且<=5米优先重击，否则<=2.2米普通击，其他时寻路靠近；接受重击才启动600步冷却，普通动作独立120步冷却；首次两者ready，无相位切换/新增怪。"
+      "combat_policy": "只攻击本人，接敌时若重击已就绪且<=5米优先重击，否则<=2.2米普通击，其他时寻路靠近；接受重击才启动600步冷却，普通动作独立120步冷却；首次两者ready，无相位切换/新增怪。",
+      "supports_blood_devil": false
     }
   ],
   "enemies": [
@@ -274,7 +286,7 @@
       "capsule_height_mm": 1800,
       "qigong_allocations": {},
       "rage_enabled": false,
-      "supports_blood_devil": false,
+      "supports_blood_devil": true,
       "fixed_loot": [],
       "random_loot": [],
       "reward_xp": 0,
@@ -340,11 +352,26 @@
           "facing_locked_at_windup": true,
           "damage_kind": "ordinary_physical_root_melee",
           "critical_enabled": false,
-          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；重击仅显式1.5倍率，不暗加武功威力。"
+          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；重击仅显式1.5倍率，不暗加武功威力。",
+          "active_steps": 1,
+          "hit_offsets_in_active_steps": [
+            0
+          ]
         }
       ],
       "action_cost_hp_mana_stamina": 0,
-      "qigong_and_status_programs": []
+      "qigong_and_status_programs": [],
+      "martial_build": {
+        "class_id": "sword",
+        "rank": 5,
+        "route_policy": "入场冻结为本人当前合法派别的对立派别；righteous对应evil，evil对应righteous。无派别/未知派别拒绝入场。",
+        "learned_martial_abilities": [],
+        "counter_qigong_allocations": {},
+        "action_owner_pointer": "/enemies/0/attack_programs",
+        "resource_policy": "固定面板剑客NPC，仅原普通剑击，0内力与0气功为显式构筑；不借玩家剑客成长面板、秘籍或被动，不因标签获得血魔能力。",
+        "source_policy": "项目本地构筑，用于明确武者职业及敌对身份；不是官方NPC属性证据。",
+        "qigong_allocations_owner_pointer": "/enemies/0/qigong_allocations"
+      }
     },
     {
       "max_mana": 0,
@@ -390,7 +417,11 @@
           "facing_locked_at_windup": true,
           "damage_kind": "ordinary_physical_root_melee",
           "critical_enabled": false,
-          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；重击仅显式1.5倍率，不暗加武功威力。"
+          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；重击仅显式1.5倍率，不暗加武功威力。",
+          "active_steps": 1,
+          "hit_offsets_in_active_steps": [
+            0
+          ]
         },
         {
           "action_id": "shadow_moon_arc",
@@ -405,7 +436,11 @@
           "warning": "接受时锁朝向，在地面显示真实5米/120度扇形直至命中，不能用全屏不可躲伤害代替",
           "damage_kind": "ordinary_physical_root_melee",
           "critical_enabled": false,
-          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；重击仅显式1.5倍率，不暗加武功威力。"
+          "hit_resolution": "一次根攻击/每目标一次，按23几何/视线/闪避/命中/防御/保护顺序；重击仅显式1.5倍率，不暗加武功威力。",
+          "active_steps": 1,
+          "hit_offsets_in_active_steps": [
+            0
+          ]
         }
       ],
       "action_cost_hp_mana_stamina": 0,
@@ -414,7 +449,7 @@
   ],
   "entry_transaction": "从月宫NPC精确2.5米服务、存活脱战空闲、无活动挑战/传送或未结束动作派生、合法资格/已预检目标场景和NAV/模型/存档，创建world/character/attempt唯一instance并挂角色唯一挑战引用，移入后才开始私场计时；失败全不变。禁止帮手、队友/伙伴/宠物进入/攻击/分摊奖励，仅本人合法招式。",
   "resource_policy": "保留真实生命/内力/体力、怒气/弦/障力/充能、状态/冷却/随机流及装备；进入/返回/失败重试均不补资源或清冷却。允许正常合法药品与职业动作，遵守共享冷却/实际库存；装备/配置/商店/仓储/跨图/其他挑战在私场禁用，不剥离已合法穿戴/已生效技能。影子为普通BOSS不借NPC武者标签，试练教头明确NPC武者。",
-  "timing": "60Hz，每个私场保存自己的elapsed_steps，仅实际推进模拟步扣期限；同固定步先按23结算动作/双方死亡，再判本人死亡为失败；本人存活且敌死为胜利，先于该步超时。本人/敌同时死亡失败不发武勋/目标完成。无有效胜利且elapsed达到limit则失败。",
+  "timing": "60Hz，每个私场保存自己的elapsed_steps，仅实际推进模拟步扣期限；同固定步先按23结算动作/双方死亡，再判本人死亡为失败；本人存活且敌死为胜利，先于该步超时。本人/敌同时死亡失败不发武勋/目标完成。无有效胜利且elapsed达到limit则失败。 武勋试练若有有效血魔，先沿blood_devil_adaptation完成同T挑战终止再发布试练终局；活着超时/主动离场不能绕过挑战失败死亡。",
   "failure_and_exit": {
     "reasons": [
       "participant_death",
@@ -425,9 +460,13 @@
     "alive_failure_return_anchor_id": "nanlin_yuegong_return",
     "death_return_anchor_id": "story_workcamp_start",
     "death_rule": "正常死亡/复活规则，不发初始礼包；六转保持stage2。",
-    "explicit_leave": "活着可用退出装置<=2.5米或确认放弃命令，立即结束本子attempt；无费用/奖励/本人资源退款，不要求先脱战。放弃整个adv06同时取消活动子局并清主任务活动字段，旧轮收据不复用。",
+    "explicit_leave": "活着可用退出装置<=2.5米或明确确认放弃面板，沿exit_authorization结束本子局，不要求先脱战；无费用/奖励或本人资源退款。影子主放弃意图保在原授权，实际返回成功后才清主任务活动字段；未返回保原引用锁，旧轮收据不得复用。有效血魔先失败死亡，不能活人离场逃过。",
     "return_preflight": "alive terminal keeps authoritative terminal snapshot until exact declared return anchor is walkable/unoccupied; permit explicit retry of return without replaying victory/reward. Do not move to guessed nearby fallback.",
-    "no_auto_repeat": true
+    "no_auto_repeat": true,
+    "blood_devil_close_owner_ref": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/blood_devil_adaptation/closing"
+    }
   },
   "final_reward": {
     "stage_index": 3,
@@ -941,19 +980,17 @@
     "role_fields": "adv06及merit_trial_profile各只持active_challenge_ref；两个引用最多一个非null，全角色也不得同时参与其他挑战。；本人姿态/生命/内力/体力/特殊资源/效果仍用原角色状态，不在world克隆第二份。",
     "world_snapshot_fields": [
       "world_id",
+      "authority_profile_id",
       "instance_id",
+      "trial_attempt_id",
       "arena_id",
       "owner_character_id",
       "main_attempt_id_or_null",
-      "trial_attempt_id",
-      "state",
+      "entry_settlement_id",
+      "rules_hash",
       "elapsed_steps",
-      "participant_character_id_and_revision_ref",
-      "enemy_pose_hp_ai_actions_cooldowns",
-      "accepted_root_actions_and_derived_queues",
-      "random_state_and_consumption",
-      "death_and_settlement_receipts",
-      "terminal_return_pending"
+      "enemy",
+      "terminal_event_id_or_null"
     ],
     "authority": "房主唯一敌人/私场快照及角色当前权威状态组成完整保存：本人姿态/生命/特殊资源/状态只在角色状态，world通过角色ID/修订引用，不再复制本人完整面板。角色活动引用不另拷敌生命。远端只按05接收确认结果；离线本人即房主，05同笔存world+role。正常保存不要求停战，world保存期限/敌AI及双方已接受动作/投射/周期/随机队列、role保存本人真实资源，两者同修订恢复。",
     "save_exit": "挂起同一attempt和期限/敌生命/随机/队列，不算失败、胜利或自动返回；恢复同一世界同一instance，不能新开满血敌。",
@@ -961,7 +998,97 @@
     "new_world": "创建世界时显式初始化private_advancement_trials为空对象；已有新格式缺字段或引用无快照拒绝，不伪造空活动修复。已知旧档只建新角色档案无旧挑战，不改现有world。",
     "terminal_cleanup": "胜负及奖励和角色引用清除/终局收据持久确认后，且返回成功才删除活跃战斗快照；保留唯一收据防重放。返回暂失败则保留终局快照和引用锁，不再计时/受伤/发奖。",
     "external_effect_clocks": "外部修炼BUFF等继续遵守各自world时钟owner，进入私场不属于对应修炼主题因而失活；私场保存只引用其账本，不复制一份或借断线延长外部world期限。",
-    "validation": "严格校验arena/map/owner/主子attempt链接、状态/elapsed0..limit/生命/角色引用与所有动作随机收据。影子主stage3须有同主attempt成功子局且无活动模拟；正常运行中的stage2须绑定当前子局或明确未入场/失败终局。缺快照或同时两活动拒绝；终局pendingreturn引用保留不计作可继续战斗。"
+    "validation": "严格校验arena/map/owner/主子attempt链接、状态/elapsed0..limit/生命/角色引用与所有动作随机收据。影子主stage3须有同主attempt成功子局且无活动模拟；正常运行中的stage2须绑定当前子局或明确未入场/失败终局。缺快照或同时两活动拒绝；终局pendingreturn引用保留不计作可继续战斗。",
+    "activity_node": {
+      "schema_ref": {
+        "file": "晋级私场活动节点.schema.json",
+        "pointer": ""
+      },
+      "collection_schema_ref": {
+        "file": "晋级私场活动节点.schema.json",
+        "pointer": "/$defs/collection"
+      },
+      "placement": "world.private_advancement_trials[instance_id]的唯一十二键业务节点，world_snapshot_fields精确其required字段。原enemy_state全文只在enemy一份，角色只持原四键引用。world/authority/instance须等父world及字典键，trial/敌actor按identity_owner从entry_settlement_id派生。",
+      "entry": "entry_settlement_id必须解析原profile.private_trial_entry_events中唯一committed完整结果，核其原会话角色/world/authority、plan arena/main_attempt/rules_hash及迁移。reserved/aborted不得有节点。提交同笔安装enemy原初始化、elapsed_steps=0、terminal_event_id_or_null=null和唯一角色引用；不提前授予敌人/本人额外实体步。",
+      "participant": "owner_character_id即唯一participant，沿原共同提交读取角色真实修订、当前生命/资源/效果/位置及四键活动引用。不保存会随每次角色变更漂移的第二participant修订缓存，也不把入场character_revision_after误当当前修订。完整提交父context必须绑定实际角色输入修订及输出，现有来源无法认证时拒绝加载。",
+      "state": "terminal_event_id_or_null为null表示终局尚未提交，非null即terminal_return_pending；不另存state、pendingreturn、victory或suspended镜像。在线/挂起模拟资格由原world会话与scope生命周期认证，不按此null决定是否可运行。combat/post_combat阶段允许敌hp0且终局尚未裁决，必须保本T原致死/血魔/待处理队列，不能把这个中间态当可重新接纳下一步的活动。",
+      "combat_ownership": "原world同map/instance的scope_step_state、双方完整根动作/冻结候选、派生投射/周期/伤害队列与完整结果/回调来源沿23公共战斗现场唯一保存；world随机流沿原world.random_state，玩家流沿原角色random_state。本节点不再拷一份或只存ID列表替代这些完整正文。enemy.behavior当前根引用必须解析该原完整25字段敌动作；其停止/命中引用及冷却须闭合。完整公共战斗现场根/接纳与执行context仍待，不因本节点严格而允许缺正文恢复。",
+      "progress": "elapsed_steps只按本私场真正获授并完成的活动规则步沿原owner推进，0..10800或18000；世界挂起/未授予步及历史重放不补差步。规则包以rules_hash解析原不可变内容并验摘要，缺原包拒绝。结构上不将active上界改成limit-1，期限末步尚须依原post_combat先判本人死亡/亲自击杀再判超时。",
+      "terminal": "非null引用解析原world战后或原死亡协调决定唯一完整13字段终局，逐项核world/authority/instance/trial/arena/owner/rules_hash/elapsed，且终局步不晚于原world当前T；不在本节点复制第二终局或奖励。敌行为必须stopped/null，占用根已按实际原因停止或完成且保必要历史。胜利必原敌死亡，失败不强制杀敌；先成功后等待返回期间本人再死亡仍保原终局引用/奖励。",
+      "return_and_retention": "只有原活人返回或原死亡复活真实迁移成功、角色引用/主任务授权清理同笔后删除节点；terminal尚null不得返回清局。原入场、规则包、终局及所有依赖动作/命中/随机/死亡/退出授权父证据在仍有引用时保完整；回收节点不回收入场/终局去重收据。退出意图只从原终局证据或血魔死亡父决定的完整退出授权解析，不新增节点布尔。",
+      "joint_validation": "完整world根必须遍历全部节点/角色引用认证无孤儿、无同角色重复私场、无错scope/actor及无跨生命重绑。节点结构不证明原服务权限/随机消费/奖励修订/角色world同笔；这些仍按各原owner及完整父context闭合，不能据schema通过宣布完整保存或D1通过。"
+    },
+    "active_reference_schema_ref": {
+      "file": "晋级私场引用.schema.json",
+      "pointer": ""
+    },
+    "identity_owner": {
+      "scope": "仅本合同两个arena；不得将其他晋级私场或主任务attempt混用。本条不新增通用counter、第二活动ID或存档表。",
+      "derivation": "从原唯一已持久入场identity.settlement_id及实际world/authority/owner_character/arena派生：D=SHA256(71确定JSON [\"private_advancement_trial\",world_id,authority_profile_id,owner_character_id,arena_id,identity.settlement_id] UTF8)小写hex；trial_attempt_id=\"private-trial-attempt:\"+D，instance_id=\"private-trial-instance:\"+D，enemy_actor_id=\"private-trial-enemy:\"+D。三个前缀明确不同身份，不将定义ID当actor或将instance当attempt。",
+      "entry_source": "必须认证原入场三阶段结果/完整command与规则、真实会话/角色/服务资格及原通用结算身份；严格入场沿entry_events，入场迁移结果已采用，严格业务节点已采用，完整公共战斗现场与源服务父证明仍待，不能凭任意settlement字符串分配可运行活动。reserved只冻结身份与候选，不提前创建敌人/移动角色/计时或触发血魔。",
+      "role_reference": "adv06.active_challenge_ref_or_null与faction_merit_trial.active_challenge_ref_or_null均沿同一严格四键schema。影子仅adv06字段非null且须主stage2/原主attempt；武勋仅faction_merit_trial字段非null且不得冒挂adv06。同角色最多一个私场引用，全局其他挑战互斥另验。",
+      "world_link": "引用world_id/authority须等原房主世界及实际写者，instance_id精确world.private_advancement_trials键；节点trial_attempt_id等引用，owner_character_id等角色。arena/map/教头或影子definition均沿原两个具名绑定。引用不复制map/敌HP/余时/角色修订；这些从原唯一现场取。",
+      "lifecycle": "入场committed同笔安装world节点/唯一角色引用并递增原业务修订，库存无变化；aborted不安装。terminal_return_pending期间保留同引用锁与原终局节点；只有原终局已确认、实际返回成功及所有依赖清理同笔才将角色引用置null并回收活跃节点。不能在尚未返回时以null放行新挑战。",
+      "replay": "同入场命令/身份/完整正文重放返回原引用，无新D/敌人/满血现场。失败后明确再次挑战才用原新入场结算产生新D；旧血魔trigger/终局/奖励不得挂新attempt。同ID异world/角色/arena或异正文拒绝。",
+      "recovery": "双向核全部角色引用与world节点全集；缺引用、孤儿active节点、同角色两活动、错误authority/前缀/摘要或主子attempt关联拒绝，不从最近活动/当前选择角色修复。不可把挂起当terminal或据无角色引用推已清理。",
+      "boundary": "原活动引用、确定身份/双向关联、严格业务节点及入场/迁移/终局子结果已采用；终局父事件和角色-world完整根仍待，不授权独立运行。"
+    },
+    "enemy_behavior": {
+      "schema_ref": {
+        "file": "晋级私场敌人行为状态.schema.json",
+        "pointer": ""
+      },
+      "placement": "原activity_node.enemy内唯一行为组件，四键definition_id/ai_state/accepted_action_id_or_null/action_cooldowns；不另存target、第二动作时序或计时日志。完整敌人根沿enemy_state组合，不能独立保存此组件冒充现场。",
+      "initialization": "教头idle/null动作/merit_veteran_sword:null；影子idle/null动作/shadow_strike:null及shadow_moon_arc:null。首次AI在新私场后续实际world步，入场不立即命中或启动冷却。旧现行快照缺任一键拒绝，不能按当前模板补ready。",
+      "ownership": "唯一目标由原父活动owner_character_id及同world实例实际角色实体解析，须真实存活敌对；不以selected_character、最近角色或别的实例成员替换。敌人行为definition必须等原arena敌定义，实际actor_id由原入场身份派生。",
+      "choice": "每个实际敌实体规则步须先满足原存活/控制/动作占用及活动资格，不能凭本行为枚举绕过原控制。原动作尚活跃则attack且只推进原动作，不再接受第二根。空闲且有合法目标但不在可攻击距离/视线时chase并沿原有界寻路；目标可攻击且对应冷却ready时尝试接纳原普通动作，影子先检查已ready且<=5米的重击，否则<=2.2米普通击。距离内冷却未就绪则idle，不传送/补命中；接纳拒绝不造根不启动冷却。",
+      "actions": "每次真正成功接纳的原accepted-direct-attack身份必须使用本敌actor及本原action_id，accepted_action_id_or_null精确该根，且本动作冷却同笔保存remaining=120或600/trigger_event_id=原根。原定义显式active_steps=1、hit_offsets=[0]；普通windup36/recovery84总121步，影子重击90/90总181步。动作与冷却独立推进，冷却提前ready不打断当前恢复、不多开一根。完整动作沿enemy_attack严格25字段；只保存本原完整根一次，behavior只持引用。",
+      "cooldowns": "仅真实被接纳敌实体步各正余时减1，1到期置null；创建当步不扣，新动作相同冷却只在下一合法成功接纳替换。原触发/时序及冻结上限按历史规则验证，不能凭schema的120/600上界造剩余或借另一个动作根。不另存ready布尔、全局倒计时或从world差步补扣。",
+      "completion": "原动作结束/明确被合法停止后，引用置null并回idle或重新寻路，旧根及其原命中/派生结果沿完整父队列保留必要来源。效果造成的中止按原状态owner认证，不凭行为枚举取消已发生命中。无合法活体目标或原活动已终局时stopped/null，不继续AI/计时/攻击；目标暂阻挡仍chase，不伪造终局。",
+      "recovery": "保存引用必须解析原完整根动作、冻结规则/身份/时序与原唯一游标；attack无根、非attack残留根、同敌多个占用根、错动作冷却或未知来源拒绝。不从本组件重新生成动作或重抽命中；挂起不消费，恢复原下一未消费实体步。",
+      "boundary": "两具名敌行为/动作冷却、五键敌人根与25字段攻击正文已采用；完整父动作集合/接纳队列与活动父结果仍待，不代表可运行。",
+      "admission_identity_owner_ref": {
+        "file": "战斗命中与减伤.v1.json",
+        "pointer": "/accepted_attack_identity/private_trial_admission"
+      }
+    },
+    "enemy_state": {
+      "schema_ref": {
+        "file": "晋级私场敌人状态.schema.json",
+        "pointer": ""
+      },
+      "storage": "原父活动唯一敌人节点五键actor_id/location/hp/effects/behavior，由activity_node.enemy唯一持有。定义ID只在behavior，实际敌actor从原入场结算派生；不复制角色状态、target、动作游标、world RNG或另一敌人after。",
+      "rules": "父活动须持原入场rules_hash及可按哈希认证的完整原配置内容，冻结本arena敌定义、固定属性、职业构筑、装备投影及动作程序。恢复不得从同名当前模板重新补面板/投影或改气功；缺原包拒绝。HP上限/护甲/命中等由原固定面板和真实有效效果计算，不另存会漂移的派生面板缓存。",
+      "initialization": "唯一入场committed原子生成；actor_id沿原身份，location为本arena地图/enemy_spawn_m及yaw=0朝本人，教头hp24000/影子hp60000，effects显式取原效果根cleared完整值，behavior沿原具名初始化。两敌max_mana0、所有动作费用0、无气功/状态施放程序且rage_enabled=false为本地固定配置，不临时合成玩家职业资源。",
+      "effects": "复用原23字段完整效果根及每族原来源/时钟/实际接收资格；合法形状不等于本NPC可接受所有效果。本人/队友限定增益不因复用schema施给敌方，原可作用敌方的出血/控制/减益照原资格处理。两敌均无自身血魔，blood_devil_challenge恒null；教头supports标记只授权玩家对战它时血魔。",
+      "life": "hp>0为本敌尚活体，不存第二alive布尔；hp不得超过本次真实合法派生上限。hp0是原已真实死亡事实，须同笔停止原动作/AI并清完整临时效果、固定唯一原致死归属及活动结果；行为stopped/null，不走玩家awaiting_respawn/pending_death或再次生成敌人。活体也可因本人死亡/活动结束stopped，不能从stopped反推敌已死。",
+      "death": "敌人死亡来源由原完整伤害/状态结果及原活动终局父决定认证，不凭hp0或清空效果造胜利；本人存活且原亲自合法击杀才按原时序推进。未结原血魔先裁决，同一敌致死不能另发第二250。原正冷却可作为终局证据保留但不再扣时或用于继续攻击，原根的必要历史不因清活动占用删除。",
+      "save": "敌节点与原父活动进度、唯一角色引用/真实资源、原完整动作派生队列、随机消费及本T未决捕获/伤害/终局来源同笔。每阶段可发布边界都要核位置地图/实例/有限坐标/实际导航、actor派生、定义/arena和效果来源，不把五键schema当完整来源证明。",
+      "boundary": "两具名敌五键状态与现有效果/位置/行为组合已采用；严格业务节点已采用，原配置包历史存储、公共战斗现场及攻击/终局父决定仍待，尚无Godot或LAN保存实现。"
+    },
+    "terminal_result_owner_ref": {
+      "file": "第六次升职与单机武勋试练.v1.json",
+      "pointer": "/terminal_result"
+    },
+    "enemy_attack": {
+      "registry_owner_ref": {
+        "file": "战斗命中与减伤.v1.json",
+        "pointer": "/direct_combat_registries"
+      },
+      "schema_ref": {
+        "file": "晋级私场敌人攻击.schema.json",
+        "pointer": ""
+      },
+      "storage": "原父活动动作集合内每根完整25字段动作，七身份/五时序直接平铺，无额外identity/timing/attack_snapshot副本。敌behavior.accepted_action_id_or_null只引用当前占用根；完成/停止根保原必要历史与命中来源，不能通过清占用删证据。原公共战斗父动作集合已按23三类注册表采用，完整世界现场与来源父证明仍待。",
+      "identity": "沿23 private_trial_ai真实来源及action_id摘要，source_actor须等本trial原敌actor；program_id精确原arena敌定义的attack_programs.action_id，地图/实例/规则和真实目标生命轮次一致。本人target从原活动唯一角色实体解析，不能改绑定复活后新生命或别的实例实体。",
+      "attack": "attack_min/attack_max为原接纳完整有效固定攻击区间，两端必须相等且非负安全整数；无明确原贡献时教头650/影子850。accuracy为原有效快照，无贡献教头600/影子800；原敌方压制只按各效果owner实际资格和原阶段作用一次。critical_chance_bp=0/multiplier15000为两具名敌固定配置，无技能/气功暴击分支。attack_multiplier_bp精确普通10000/重击15000，不预乘攻击区间后命中又乘第二次；神女减益等真实源另验，不按当前模板重写旧根。",
+      "geometry": "accepted_yaw_radians为实际接纳时有限朝向；原facing_locked_at_windup后敌转头/寻路不改此根方向。命中用当步真实脚位置及锁定方向，普通2.2米90度/重击5米120度、单目标/视线/安全及控制资格沿原23；无效不追向/重绑或退费。原固定程序不派生投射物/额外多段。",
+      "clock": "接纳elapsed0且本步不推进；普通36/1/84/[0]第37动作步ordinal0、121步完成，重击90/1/90/[0]第91步ordinal0、181步完成。沿原真实敌实体步一次推进；挂起/终局不补world差步。费用三项0，程序120/600冷却仍由原behavior动作表独立同根启动，动作完成不刷新冷却。",
+      "coverage": "hit_result_event_id_or_null精确原同scope/root/target/ordinal0的combat-damage身份，解析原完整19字段结果。elapsed<=W必须null，elapsed>=W+1必须已提交非null；无效几何/未中/免疫也保原明确结果，不把无伤当未处理。命中来源/随机/可能玩家死亡、结果引用及游标越过首击同笔，存疑不先推进。",
+      "stop": "stop_event_id_or_null非null只允许原真实敌死亡、合法控制中断或私场终局停止，保存最后完整elapsed且<总长，不用强设总长伪造完成；此前已提交命中引用保留。原到期项执行前较早结果已杀死/停止本敌，则不生成该命中且不推进该动作步；本命中已经提交后同步回调使敌死则保本结果及完整首击步再停止。NPC不借玩家death_events伪造自身死亡。",
+      "validation": "严格完整动作先验后按原七身份/五时序投影复用；原完整before及规则/AI接纳/贡献、min=max、target/yaw和结果ID/历史生命对应另验。当前behavior占用须本根无停止且elapsed<总长并同source；历史完成/停止不要求敌当前仍活，但完整来源不能缺。禁止从游标猜命中或重新抽世界随机。",
+      "boundary": "三具名程序完整动作形状与引用覆盖已采用；严格业务节点已采用；原公共战斗父动作集合/接纳候选、伤害执行context与终局停止/历史保留结构仍待，未运行Godot或LAN。"
+    }
   },
   "initialization": "新角色及四已知旧档显式martial_merit0、faction_merit_trial初始空引用/空收据；adv06 not_accepted/nullattempt/branch/stage/active_ref/emptyreceipts。新格式缺字段拒绝；旧等级不推已六转/已得武勋。",
   "portable_travel": "两个精确私场禁止全部便携回城/土灵记录及移动/至尊与婚戒移动，验UI/命令/完成/保存恢复；退出走本合同终局，不消耗符，不允许改用合法外图落点绕开挑战。",
@@ -980,7 +1107,7 @@
       5
     ],
     "manual_review": "全部已有目录/本人派别/一式/rank6，每本1；最多5克，满60格无合堆则拒绝，空出本人所需1～5格恰可发。神女116书先持有而不提前学习。",
-    "boundary_review": "114/115、rank5唯一、1999/2000/2001、10亿及500万各差1、武勋不消费；八个不同实战胜利收据各250且重复不加，安全整数上限checked_add250检查。",
+    "boundary_review": "114/115、rank5唯一、1999/2000/2001、10亿及500万各差1、武勋不消费；无权益八个不同实战胜利收据各250，有效权益单次375且重复不加，安全整数上限checked_add实际250或375检查。",
     "timing_review": "两局末步本人活敌死胜先于超时；双方同死先判本人死亡失败；敌活至limit失败，limit-1仍active。",
     "path_method": "0.45米统一保守胶囊，建筑/NPC/出口标记扩张AABB；1米四邻网格。两轴阻挡宽>1米，不可跨越单位网格边；全部目标整数，无近似端点接入。",
     "maps": [
@@ -1025,5 +1152,118 @@
   "merit_stage_title_owner_ref": {
     "file": "武勋阶段与称号资格.v1.json",
     "pointer": ""
+  },
+  "blood_devil_adaptation": {
+    "owner_ref": {
+      "file": "怒气出血与血雨恶魔.v1.json",
+      "pointer": "/blood_devil"
+    },
+    "interception_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/lethal_interception_result"
+    },
+    "scope": "仅faction_merit_trial/instance_faction_merit内原本人对战project_faction_merit_veteran100；教头作为血魔致命对手，持有者只能实际已学正有效等级血魔的甄凤柏玩家。教头自己无血魔。ascension_shadow_trial及其他活动不继承本支持。",
+    "entry": "沿原月宫姮娥100级rank>=5/adv05delivered入口，不增加武勋门票。入场不赠气功点/血魔等级、资源或冷却重置。冻结原教头完整固定面板/职业构筑/普通剑击/装备投影及唯一实体身份，不重新用当前模板覆盖恢复现场。",
+    "qualification": "触发前双方原实际同scope存活敌对、活动active且原对手为本trial_attempt唯一教头；本人原甄凤柏等级>=60/rank>=3、已投入且有效等级>0、无封印且成功冷却ready。入场时达门槛不替代当次触发资格；必须是本教头合法直接敌伤致命，环境/自己费用/别的actor不借活动标签授权。",
+    "binding": "challenge.activity_attempt_id等本trial_attempt_id，opponent_actor_id等本attempt实际教头actor_id，trigger_event_id等本原成功致命拦截event_id；不能用enemy定义ID、主adv06 attempt或instance_id替代。教头只有一个，移除后不能生成替身接续挑战。",
+    "snapshot": "原persistence完整现场须覆盖双方身份/姿态/真实生命/构筑/效果/成功冷却、活动state/elapsed、原已接纳动作/投射/派生与随机流、未消费末步捕获及原终止/死亡结果。玩家数据仍唯一在原角色根，world只引用该原角色修订；教头只在原敌人快照。缺任一依赖拒绝保存恢复，不以supports=true或空对象补齐。",
+    "ordering": "同T先完成原计时捕获和战斗事实，再按血魔owner裁决本人已死/亲自击杀获救/对手移除或活动结束失败。只有血魔已收束且本人实际存活/教头真实死亡，才沿原timing发布胜利并按250基数加实际250或375。第300步本人合法击杀仍先于血魔超时；本人已死不能获救，同时死仍原试练失败。",
+    "closing": "本局期限耗尽、主动放弃/退出、强制移除教头或其他真实结束请求，若本人仍有有效血魔挑战，先以原请求事件作为activity_ended或opponent_removed证据唯一裁决failed及真实死亡，再按participant_death返回原死亡锚；不得先清活动/活人返回逃过失败。未有挑战的alive_timeout与原主动离场保持原规则。终止/原活动失败/清引用/返回pending共用原完整父决定，不另申请第二死亡。",
+    "recovery": "保存退出/断线挂起不是activity_ended，不触发失败；同attempt保持elapsed与挑战/冷却余时、同对手生命及原队列。恢复先解原未决终止/死亡/奖励，再推进原下一未消费步；不重抽、不续300、不清成功冷却、不重发250。",
+    "reward": "血魔获救不是额外奖励事件，只允许原教头一次真实击败沿原胜利250基数发实际250或375；血魔失败不发武勋/影子任务推进，不返原药品或合法费用。",
+    "boundary": "具名活动/入口/构筑及血魔裁决顺序已设计；完整严格活动根/入场与战斗父事件及真实Godot/LAN保存尚未采用，不能仅凭本支持位运行或宣称D1通过。"
+  },
+  "entry_events": {
+    "field": "profile.private_trial_entry_events",
+    "schema_ref": {
+      "file": "晋级私场入场事件.schema.json",
+      "pointer": ""
+    },
+    "initialization": "新档案及四已知旧档新建档案显式[]；导入已有档案保原日志/未决与counter。新格式缺字段拒绝，不补空或重建试练历史。",
+    "command": "精确五键play_session_identity/command_id/expected_character_revision/expected_inventory_revision/service_id。仅原月宫merit_trial服务对应faction_merit_trial，adv06服务只有本人原主stage2入场对应ascension_shadow_trial；同服务其他阶段不借入场命令接任务/交付。客户端不传attempt/instance/敌actor、候选状态或资源快照。",
+    "identity": "由该world真实authority沿原通用身份分配；request_id=71确定JSON [\"private_trial_entry\",play_session_identity.session_id,command_id]文本，request_digest=完整五键command的71编码SHA256。先查原请求再判当前位置/活动；同committed历史只返回原结果，不再次移动/装引用或覆盖后来的新活动。异摘要拒绝。",
+    "plan": "精确rules_hash/arena_id/main_attempt_id_or_null，原规则包及完整模板可认证；武勋主attempt明确null，影子为原adv06当前主attempt且stage2。原persistence.identity_owner从同identity派生三身份，不另存重复ID。",
+    "reserved": "锁原角色及私场迁移占用，检查真实active会话/authority、NPC2.5米、存活脱战空闲/无其他活动动作与未决、两修订、原各arena资格与安全整数修订余量，以及目标资源/几何可用。原计数与reserved同笔，角色未移动/不造敌/不计时/不抽玩法随机/不扣费。",
+    "commit": "重新核原规则/主attempt/当前真实来源、位置与资格仍满足和两修订未变。原完整父事务同笔构造原模板冻结的唯一world节点、教头或影子实际actor、绑定角色引用与实际移入姿态；character_revision+1，inventory_revision保持expected值。committed_world_step与migration_result沿本entry_events.migration明确的南林post_combat迁移边界，活动elapsed初始化0，首次模拟为后续实际world步。不补本人资源/清冷却/发250。",
+    "abort": "user_cancelled为明确取消，interaction_invalid为NPC距离/地图/服务无效，state_changed为修订/资格/主attempt或排他状态改变。终态保原身份/plan且计数不回退；不安装节点/引用/姿态，不改业务修订。缺正式规则/快照或未知格式为错误而非伪造可提交计划。",
+    "recovery": "原写入存疑先重读正式档案核原身份/阶段、world节点与角色引用及迁移同笔完整性；reserved保持原身份/plan再核资格，不换当前模板；committed只回原决定，不重造满血敌。无法证明完整正式父提交则阻依赖推进，不能靠日志单条或节点存在猜成功。",
+    "registration": "原档案日志投影与通用request_index.profile_owner_registry共同登记；不同角色仍须核世界排他/角色会话及原跨owner占用，不能凭每数组最多一个reserved允许同角色跨日志并发。",
+    "boundary": "严格入场事件与原日志/索引接入已采用；完整world节点/迁移父结果/角色根与原真实资源认证尚待，不据本事件结构宣称可运行或D1完成。",
+    "migration": {
+      "result_schema_ref": {
+        "file": "晋级私场入场事件.schema.json",
+        "pointer": "/$defs/migration_result"
+      },
+      "phase": "只在本人实际被本T南林公共scope接纳、完成本人rules_and_timers及本scope战斗后的post_combat服务边界执行入场提交；该角色本T源scope规则消费须有原正式父结果证明。尚未获得实际角色步的新接纳角色不能本T跳过规则直接迁移，等其下一实际南林步重验。reserved可等待，但不以等待冻结模拟期限或绕过原资格重验。",
+      "before": "location_before精确原角色本次提交前真实南林姿态，仍满足月宫NPC2.5米；不是reserved时客户端位置或预检旧值。源world/authority/角色沿原command和真实会话，源instance必须null。原角色步已完成，队列不含本人；不能伪造空队列证明本人已被接纳。",
+      "after": "location_after精确原arena地图/player_spawn_m及player_spawn_yaw_radians；yaw=pi按Godot前向-Z使本人朝+Z教头。目标实例从同原入场identity派生，预检几何/占位/资源全部有效才提交。不找附近替代点，不自动转到其他实例。",
+      "world_step": "committed_world_step等当前唯一world T与源scope T。目标为本T新建scope，不加入已经冻结的world本T待处理scope队列，首次模拟只能后续实际world步。新活动elapsed=0、敌人ready初态不于T立即AI攻击；角色本T已经完成的源计时/到期不能在目标再消费。不是以world差步补计私场时间。",
+      "atomicity": "原入场committed、迁移两姿态、唯一角色location/活动引用、world节点初建/敌actor、角色业务修订与原源scope服务结果同完整父提交。未落盘不得提前广播已移入/新敌或推进目标。结果只保存位置历史证据，不复制完整角色/随机流；本次无角色/敌人传送后额外扣时。",
+      "recovery": "原reserved尚未迁移只能按原来源重验，不能据目标节点存在猜提交。原committed后迁移结果是历史，角色后来已移动/死亡/返回不应按旧after强行复位；重放返回原决定，实际当前位置只沿后继完整来源链认证。源已提交目标未落场或只有角色引用无节点均拒绝坏父状态，不做半笔修复。",
+      "boundary": "本入场迁移阶段/姿态和新scope首步规则已采用；完整源父服务结果、world节点及全量接纳证明仍待，schema不单独证明实际时钟与原子保存。"
+    }
+  },
+  "terminal_result": {
+    "schema_ref": {
+      "file": "晋级私场终局结果.schema.json",
+      "pointer": ""
+    },
+    "embedding": "原完整私场战斗/战后权威决定内唯一不可变子结果，保原活动终局/必要收据来源，不新建profile日志/通用reserved/第二奖励事件。终局result不是角色pending_death，也不是返回成功。",
+    "identity": "event_id=\"private-trial-terminal:\"+SHA256(71确定JSON [world_id,authority_profile_id,trial_attempt_id] UTF8)小写hex；同一原trial_attempt恰一个终局身份，T/原因/胜负不参与分配。同ID异正文拒绝，重试或后来T不能改判。instance/敌actor须仍由原入场结算派生，三个身份关联完整核验。",
+    "context": "world/authority/instance/trial_attempt/arena/owner/rules_hash逐项等原父活动与唯一角色引用，world_step为原实际提交T，elapsed_steps为本局已完成真实接纳步数。双方HP/归属和原活动状态须完整认证；敌人/本人死亡须elapsed>=1，尚未开始模拟的elapsed0只可明确主动放弃/离场，不造入场即死或胜利。不能凭合法13字段授权胜利或把公共world T当elapsed。",
+    "selection": "原同T战斗/回调及血魔正常终止固定后，先本人实际死亡则failed/participant_death，evidence精确原真实致死来源事件；本人存活且原本人合法直接或亲自伤害状态击败唯一敌人则victory/enemy_defeated，evidence为敌原实际致死来源。无上述才处理到限alive_timeout；否则明确已授权退出请求才explicit_abandon_or_leave。原命令先后沿完整父结果，不允许后来的取消覆盖已经固定终局。",
+    "blood_devil": "有效挑战先沿原blood_devil_adaptation收束，血魔失败造成本人死亡则终局participant_death且evidence为该原blood-devil-terminal致死事件，不再记alive_timeout/活人离场；已真实其他死亡保原原因。第300步本人亲自击杀与试练最后一步胜利先于超时，双方同死优先本人死亡，无奖。",
+    "evidence": "enemy_defeated与participant_death必须解析同scope/同生命/本T已固定的原致死结果，不用怪定义ID/通用死亡结算或客户端击杀声明替代。explicit_abandon_or_leave引用原明确退出装置/放弃命令的已授权事件，不引用本终局自身或无授权裸command_id。alive_timeout证据明确null，仅沿原完整接纳时钟链证明elapsed恰limit；缺时钟不是默认到期。 真实主动退出证据沿exit_authorization严格子结果，先选原死亡或世界阶段唯一协调者，不新建退出通用reserved。",
+    "reward": "仅faction_merit_trial胜利同笔对终局当前真实武勋checked_add实际250或375并保存原唯一来源；先结算本角色本T称号到期，不能回写入场余额/重发。ascension_shadow_trial胜利同笔推进同主attempt的adv06stage2→3而不加武勋。所有failed不发250/阶段胜利/物品或退旧费用；胜利终局与本人实际角色业务修订合并一次，库存不因终局单独变更。",
+    "death_composition": "participant_death沿原死亡owner唯一事务及修订，终局不再申请第二死亡/递增第二次角色修订；同时发生的敌死亡仅固定事实不授权胜利。非死亡失败若血魔已合法收束才按原活人失败/资源规则。神女/出血等原派生归属不因终局重新抽样。",
+    "return": "终局同笔停止本局elapsed/AI/新接纳并置原terminal_return_pending；保原角色引用/锁与唯一终局，不因返回点占用延迟奖励决定或重复结算。实际死亡沿原复活返回；活人按原精确南林锚。只有真实返回成功并完成原后继来源清理才清引用与回收活跃节点，原历史终局保去重。",
+    "recovery": "先解原完整父提交及终局/死亡/奖励/角色修订，再重放原决定；terminal_return_pending只重试实际返回，不再扣期限/发奖/改敌HP或改判。活动active却已有终局、终局与角色/奖励半笔或同attempt多终局均拒绝，不从hp0/空引用/节点缺失猜已完成。",
+    "boundary": "严格终局子结果与顺序/来源/奖励关联已采用；完整父活动根、原退出事件、死亡与奖励完整组合/返回事件仍待，结构不授权独立运行。"
+  },
+  "exit_authorization": {
+    "schema_ref": {
+      "file": "晋级私场退出授权.schema.json",
+      "pointer": ""
+    },
+    "embedding": "原私场战后父决定或实际死亡协调决定中的不可变授权子结果，仅保存原event_id/完整七键command/world_step/rules_hash；不新建profile退出日志/通用结算身份或第二角色after。不保存反向terminal_id/death_id以避免证据循环。",
+    "identity": "event_id=\"private-trial-exit:\"+SHA256(71确定JSON [\"private_trial_exit\",play_session_identity.session_id,command_id] UTF8)小写hex。同原请求历史只回原决定；完整命令异正文拒绝，不因后来T/退出原因换ID。world/authority/角色从原真实会话认证，不复制第二份。",
+    "command": "play_session_identity/command_id/expected_character_revision/expected_inventory_revision/trial_attempt_id/interaction_id/abandon_main_quest精确七键。退出标记只退出子局且abandon_main=false；明确放弃面板可提交影子主任务放弃意图。武勋arena一律要求abandon_main=false，不能取消无关adv06。客户端不传候选终局/返回点/血魔结果。",
+    "qualification": "仅本人真实active会话/同world authority/本instance锁、同trial_attempt、两修订匹配、本人仍存活且活动尚无终局时接纳；不要求脱战。标记交互须本人真实姿态距原exit_interaction_m<=2.5米，面板为已明确确认命令。主放弃须原影子arena、主adv06相同attempt/stage2且未delivered。缺来源/未授权不造本子结果。",
+    "phase": "沿原scope post_combat服务边界，在本T伤害/死亡及已成立胜利固定后处理；已有终局拒绝新退出，不让取消覆盖胜利/死亡/已发奖。所有原控制/命令接纳资格照原owner，不因为出口位于同地图跳过来源。",
+    "coordination": "在原authority锁内先冻结本授权、原血魔终止与私场终局完整候选，再选原实际协调者；无血魔致死的普通活人退出由原世界阶段决定同笔保存授权+failed/explicit_abandon_or_leave终局，不消耗通用counter且不改角色/库存业务修订，因为本人资源/引用均保持、只改变world活动终态。若退出使有效血魔失败死亡，则由原death_events唯一预留/提交协调本授权、血魔failed、私场participant_death及原死亡副作用；仅该死亡identity计counter，角色/库存修订沿原死亡owner，不先预留退出再申请死亡。",
+    "evidence": "普通活人私场终局evidence_event_id_or_null等本event_id；血魔activity_ended终止证据亦本event_id，随后私场participant_death证据等原血魔终止致死ID。授权不反向引用这些终态，不凭裸客户端command_id授权关闭。完整父决定认证原先后及恰一次结果。",
+    "main_abandon": "abandon_main=true仅保存原不可变放弃意图并先终结影子子局；返回尚pending时保主stage2/主attempt/活动引用及锁，禁止重接/交付/再挑战。实际活人返回或原死亡复活返回成功的同一原返回决定，才将主任务not_accepted并清attempt/branch/stage/活动引用，原历史收据保留且旧胜利不得复用。不另存pending_abandon布尔或重复意图表，从本原授权取。",
+    "recovery": "重放先查原授权ID的完整父决定及原terminal/death关联，再判当前角色；原已提交即只回结果，不把后来新局退出或重复死亡。写入存疑沿选定原协调者恢复，未证明正式完整决定不得先关闭活动/回收敌人/清引用或广播活人返回。",
+    "boundary": "严格退出授权及血魔死亡单协调者/主放弃延迟清理已采用；完整世界阶段父记录、退出请求跨来源索引和实际返回/复活组合仍待，不据子结果独立运行。"
+  },
+  "return_events": {
+    "field": "profile.private_trial_return_events",
+    "schema_ref": {
+      "file": "晋级私场返回事件.schema.json",
+      "pointer": ""
+    },
+    "initialization": "新档案/已知旧档新目标显式[]，已有档案保原日志和counter；当前格式缺字段拒绝，不补空。",
+    "command": "精确六键play_session_identity/command_id/expected_character_revision/expected_inventory_revision/trial_attempt_id/interaction_id=private_trial_return_panel；仅活人已终局且terminal_return_pending时明确返回，不接客户端终局/目标姿态/资源/主任务清理意图。死亡者不得借本命令复活。",
+    "identity": "原world authority通用分配，request_id=71确定JSON [\"private_trial_return\",play_session_identity.session_id,command_id]文本，digest完整六键command的71编码SHA256。先查原请求再核当前位置；同committed历史只返回原结果，不再传送/清后来的新活动引用。",
+    "plan": "精确rules_hash/terminal_event_id，原终局必须完整认证且同trial_attempt/world/authority/owner，结论已固定不得重判/重发奖励。主放弃意图只从原退出授权认证，计划不复制终局/角色after或再收客户端布尔。",
+    "preflight": "本人真实active会话且life active/HP>0、原私场引用与已提交终局/返回等待锁双向一致、同两修订且character可+1、无依赖未决事务；原角色当前状态/效果/资源合法。精确nanlin_yuegong_return锚[1,0,-8]/yaw0及资源/导航/占位可用才预留；未知/阻挡不找附近替代。",
+    "phase": "实际返回只在原world.step_pending_scopes已空、本T所有scope已收尾且授予下一world步之前的命令边界提交；T等当前原world步且>=1，不为返回推进时钟。队列非空则等待，不把尚在运行的目标scope中途插入新角色。本T若已在私场消费角色步，迁出后不能再补公共角色步；后续实际world授予按真实南林接纳。",
+    "reserve": "原counter与reserved同笔，保持原角色位置/引用/资源及终局锁，目标可变化；提交重验同原计划、两修订/会话/源活动与真实返回可用性。reserved不等于已经回城，不阻其他角色正常原允许推进。",
+    "commit": "同原完整authority决定保存committed及实际T/migration_result，写角色南林精确姿态/清本原活动引用；若原已授权主放弃，按同原主attempt将adv06置not_accepted并清其当前字段/保历史。否则保影子胜利stage3或失败stage2，不重发250。回收原活跃活动节点须原来源历史/队列依赖已收束且终局/授权/入场/必要动作结果仍可认证，不能删除去重证据。character_revision=expected+1，inventory_revision=expected。",
+    "preservation": "活人返回不治愈、不补资源/清效果/清成功冷却、不退药或费用、不重算胜负/奖励；实际计时仍沿原真实角色接纳，不因返回把旧来源刷新。主任务清理仅原main_abandon明确意图例外，不顺带放弃其他任务。",
+    "abort": "user_cancelled/session_invalid/destination_unavailable/state_changed；保原终局/奖励/活动引用锁及角色资源/姿态/业务修订，原计数不回退。终局不回active，阻挡后须新明确返回请求，原同aborted只重放；写盘存疑按原正式决定恢复。",
+    "boundary": "严格活人返回与原日志/索引、世界空队列边界及原主放弃清理已采用；完整父活动/历史来源保留结构与world命令边界记录仍待，未运行Godot。"
+  },
+  "respawn_exit": {
+    "owner_ref": {
+      "file": "死亡与复活保存.v1.json",
+      "pointer": "/respawn_events"
+    },
+    "qualification": "仅本两私场本人由原death_events真实死亡，角色活动引用及已提交终局完整认证。原participant_death终局须evidence等当前原致死来源且pending_death.failed_activity_attempt_id_or_null等本trial_attempt；若原活人终局已提交而本人在等待返回时随后真实死亡，保原胜负/奖励/终局不改判，此次pending_death.failed_activity_attempt_id_or_null为null，另由原同scope后继致死链与仍持有的活动引用认证。同一活动不得再造第二终局。缺当前原死亡/引用来源或未决血魔/伤害拒绝，不以hp0伪造失败。",
+    "choice": "沿原无training_gate_choice的return_to_workcamp，精确story_workcamp_start锚及原资源恢复/冷却保留规则；不允许revive_in_same_room/leave_to_hyunbo或活人返回事件。",
+    "commit": "仅原respawn_events唯一通用identity/预留及角色修订，实际成功复活返回同笔清本原活动引用/回收可回收活跃节点，保原已提交胜负/奖励历史，不因随后死亡撤销已确认胜利或补发奖励。若原退出授权abandon_main=true，则同笔按同原主attempt清adv06当前字段；其余失败保主stage2。不给第二返回identity/角色修订，未真实返回不提前清锁。",
+    "phase": "复活实际迁移沿return_events.phase的world本T空scope队列边界；不提前移除未消费scope或给复活者本T新角色步。原死亡等待时是否接纳角色计时仍沿原dead_presence_clock/活动挂起策略，不从T差补扣。",
+    "abort": "原复活失败/目标占用/存疑保持原死亡/终局/引用锁和主放弃意图，不能半清活动或自动选活人南林返回。",
+    "boundary": "六转具名死亡离场差异已登记，原完整死亡/复活父候选与历史回收/实际world命令记录仍待。"
   }
 }

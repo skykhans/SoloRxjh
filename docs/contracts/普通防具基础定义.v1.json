@@ -55994,7 +55994,7 @@
           "file": "容器与仓储.v1.json",
           "pointer": "/persistent_layout"
         },
-        "source_validation": "先全量校验实际九键owned_inventory_state及原装备/堆来源；原背包slots按slot_index严格递增，无重复槽号/重复target_id/跨容器或装备位重复ID，所有引用精确解析真实同角色完整实例。plan快照只有背包引用，不作为缺正文或缺历史的替代授权。",
+        "source_validation": "先全量校验实际十一键owned_inventory_state及原装备/堆来源；原背包slots按slot_index严格递增，无重复槽号/重复target_id/跨容器或装备位重复ID，所有引用精确解析真实同角色完整实例。plan快照只有背包引用，不作为缺正文或缺历史的替代授权。",
         "capacity": "C=equipment_bag定义initial_slots+slots_per_expansion*equipment_bag_before.expansion_level，沿原8次扩容0..8，当前40+20*level最大200；每个原slot_index须0..C-1。禁止使用slots.length当最大索引或另存capacity；原布局非法先拒绝，不通过整理修复。",
         "allocation": "从[0,C)扣除原占用slot_index，按数值严格升序取前quantity个空槽；不足整笔拒绝。instance_flow.outputs第i行的真实新instance_id落第i个所选槽，新增kind=instance。保全部原slots正文/索引及expansion_level，将新旧行按slot_index严格递增构成候选equipment_bag；不移动旧物、不自动扩容/进仓/装备或部分成交。",
         "identity": "新实例ordinal只取原outputs顺序0..quantity-1，槽号不进入ID摘要；合法重放用原已决定结果，不能重新查当前空槽再插入原物。任何同ID现持/历史已分配冲突按原身份owner拒绝，不改顺序或换槽避碰撞。",

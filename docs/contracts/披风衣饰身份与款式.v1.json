@@ -1,0 +1,70 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "exact_apparel_identity_registry_adopted_not_full_item_or_instance_definitions_not_implemented",
+  "source_ref": {
+    "file": "../reference/披风与装饰目录.json",
+    "pointer": "/items"
+  },
+  "identity_schema_ref": {
+    "file": "衣饰目录身份.schema.json",
+    "pointer": ""
+  },
+  "scope": "1202来源记录中的1155衣饰稳定身份，47功能道具另归原owner；1155不是独立披风系列数。完整定义/实例另沿具名owner，现已精确接入3159类型分派。",
+  "identity": {
+    "rule": "逐原唯一详情记录id派生item_id=\"apparel_\"+原十进制id，精确成员沿本枚举；保持原id文本，不依名称/目录顺序/款式/价格/下载日期生成。每个ID须反查同原完整来源记录及source_sha256，不能仅凭正则接受未知商品。",
+    "aliases": "catalog_names只作该原记录的检索别名，不生成第二物品或合并其他详情ID；相同名称/不同ID保独立，普通/斗战/皇等原款式标签逐记录保留，不按去掉后缀的名字猜同系列/可互转关系。",
+    "corrected_link": "武神男60033/女60034各沿原详情独立身份；保原女款目录错链证据，不能按错链URL将其合入男款或让男款ID改体型。",
+    "functional_exclusion": "原classification=非披风功能/装饰道具的47记录不得经本枚举进入衣饰或披风实例；婚礼券/名称/美发/烟花/穿针引线等须原功能定义，不按装饰店来源强行塞披风槽。正文复核排除礼包/套餐及使用后替换发型的道具；套餐身份不等于内含衣饰身份，未逐项采用奖励前不得据名称生成奖励ID。"
+  },
+  "source_boundaries": {
+    "gender": "1082衣饰来源单一明示男或女，72未明示，39997正文女名/男款描述冲突，原字段与证据保留。逐ID体型采用沿eligibility_owner_ref：72未明示款在项目中明确制作双体型；39997仅female，均是有理由的项目设计，不回填为官网性别或抹除冲突。",
+    "type": "5个来源衣饰分类保持；429其他未明示类型不冒充官网已明确披风。项目沿eligibility_owner_ref明确全部1155占cape外套槽；此槽位选择不授予统一属性、热血石/强化/分解或名称款式互转。",
+    "timed": "来源正文46条期限证据（34时间制、12销售窗口、2纪念属性到期保披风；分类交叠）及未载明/原日历缺年边界保留。项目精确分派沿lifetime_owner_ref：1119永久、34整件24模拟小时、2仅纪念属性24模拟小时；具体值为项目选择，不改写官网。只消费真实角色接纳步，不从销售日/下载日或离线墙钟扣时。",
+    "heat_stone": "来源明示317衣饰、838未载明及3功能提及沿来源审计；项目全部1155四槽热血石合成沿synthesis_owner_ref，未载明不回填为官网支持。合成不自动授强化/分解能力。",
+    "restrictions": "逐字来源及16条补提取证据保留，1131原允许交易/3原禁止/21未载明分离。项目重量/堆叠/仓储/主动丢弃/NPC禁卖与绑定/玩家交易沿physical_and_permission_owner_ref；丢弃及21未载明交易权限有明确项目采用理由，不改写原禁丢事实。取得/购买价格与加工权限仍须其正式owner。"
+  },
+  "lookup": "正式定义将引用本唯一item_id及原来源，历史实例仅保原定义ID和必要真实成长/权限来源，不把官网目录别名/来源正文再复制入实例。规则清单纳入后续实际定义及实现，加载须先验证精确定义，不能以本枚举替代完整实例白名单。",
+  "initialization": "身份登记本身不发物；完整衣饰已接入3159装备根分派，购买只由严格衣饰购买事件授权。初装/掉落/礼包/旧档导入/配置不得借该登记发衣饰，实际运行仍待完整档案与服务。",
+  "remaining": "1155衣饰定义/11键根已接入3159分派，购买、合成/强化加工与分解的严格三阶段及自然到期预留/提交事件、原日志/通用索引已采用；严格配置/转让事件及连续实际时钟来源、两材料购买原事件来源联审、组合/变更/显隐、完整角色/档案/死亡及网络封套与Godot/经济/文件LAN/资源实现仍待，D1尚未完成。",
+  "eligibility_owner_ref": {
+    "file": "衣饰穿戴资格.v1.json",
+    "pointer": ""
+  },
+  "lifetime_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": ""
+  },
+  "physical_and_permission_owner_ref": {
+    "file": "衣饰重量与权限.v1.json",
+    "pointer": ""
+  },
+  "base_contribution_owner_ref": {
+    "file": "衣饰基础贡献.v1.json",
+    "pointer": ""
+  },
+  "synthesis_owner_ref": {
+    "file": "衣饰热血石合成.v1.json",
+    "pointer": ""
+  },
+  "enhancement_owner_ref": {
+    "file": "衣饰强化.v1.json",
+    "pointer": ""
+  },
+  "dismantling_owner_ref": {
+    "file": "衣饰分解.v1.json",
+    "pointer": ""
+  },
+  "growth_schema_ref": {
+    "file": "衣饰成长.schema.json",
+    "pointer": ""
+  },
+  "definition_owner_ref": {
+    "file": "衣饰基础定义.v1.json",
+    "pointer": ""
+  },
+  "full_instance_owner_ref": {
+    "file": "衣饰实例.v1.json",
+    "pointer": ""
+  }
+}

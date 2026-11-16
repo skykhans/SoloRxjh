@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:gather-effect:v1",
+  "$comment": "十一键采集落效子结果：非战斗命中，无随机。竹成功经验从结论派生，采倒只建场景领取权且stack_flows为空；木柴成功单mint或mint→merge两流，真实节点/背包/来源与共同父另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "action_id",
+    "outcome",
+    "scene_drop_id_or_null",
+    "stack_flows"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/$defs/effect_event_id"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:player-gather-action:v1#/properties/action_id"
+    },
+    "outcome": {
+      "enum": [
+        "bamboo_hit",
+        "bamboo_felled",
+        "bamboo_invalidated",
+        "firewood_collected",
+        "firewood_capacity_rejected"
+      ]
+    },
+    "scene_drop_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 76,
+          "maxLength": 76,
+          "pattern": "^gather-drop:[0-9a-f]{64}(?![\\s\\S])"
+        }
+      ]
+    },
+    "stack_flows": {
+      "type": "array",
+      "maxItems": 2,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/firewood_mint_flow"
+        },
+        {
+          "$ref": "#/$defs/firewood_merge_flow"
+        }
+      ],
+      "items": false
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "bamboo_felled"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "scene_drop_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "scene_drop_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "firewood_collected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "minItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "stack_flows": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "firewood_stack": {
+      "$ref": "urn:solorxjh:item-stack:v1",
+      "properties": {
+        "item_id": {
+          "const": "quest_firewood"
+        },
+        "binding": {
+          "const": "character"
+        },
+        "quest_scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "quest_id"
+          ],
+          "properties": {
+            "quest_id": {
+              "const": "ref_QREF-63791-006"
+            }
+          }
+        },
+        "quantity": {
+          "minimum": 1,
+          "maximum": 15
+        }
+      }
+    },
+    "firewood_mint_flow": {
+      "$ref": "urn:solorxjh:stack-flow:v1",
+      "properties": {
+        "inputs": {
+          "maxItems": 0
+        },
+        "consumptions": {
+          "maxItems": 0
+        },
+        "outputs": {
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "properties": {
+              "stack": {
+                "$ref": "#/$defs/firewood_stack",
+                "properties": {
+                  "quantity": {
+                    "const": 1
+                  },
+                  "revision": {
+                    "const": 0
+                  }
+                }
+              },
+              "contributions": {
+                "maxItems": 0
+              },
+              "custody": {
+                "const": {
+                  "kind": "held"
+                }
+              }
+            }
+          }
+        },
+        "mint_authorization": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "gather"
+            }
+          }
+        }
+      }
+    },
+    "firewood_merge_flow": {
+      "$ref": "urn:solorxjh:stack-flow:v1",
+      "properties": {
+        "inputs": {
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true
+        },
+        "consumptions": {
+          "maxItems": 0
+        },
+        "outputs": {
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "properties": {
+              "stack": {
+                "$ref": "#/$defs/firewood_stack",
+                "properties": {
+                  "quantity": {
+                    "minimum": 2,
+                    "maximum": 15
+                  },
+                  "revision": {
+                    "minimum": 1
+                  }
+                }
+              },
+              "contributions": {
+                "minItems": 2,
+                "maxItems": 2,
+                "prefixItems": [
+                  {
+                    "properties": {
+                      "input_index": {
+                        "const": 0
+                      },
+                      "quantity": {
+                        "minimum": 1,
+                        "maximum": 14
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "input_index": {
+                        "const": 1
+                      },
+                      "quantity": {
+                        "const": 1
+                      }
+                    }
+                  }
+                ],
+                "items": false
+              },
+              "custody": {
+                "const": {
+                  "kind": "held"
+                }
+              }
+            }
+          }
+        },
+        "mint_authorization": {
+          "type": "null"
+        }
+      }
+    }
+  }
+}

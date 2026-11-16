@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:apparel-growth:v1",
+  "$comment": "衣饰两平铺成长字段投影，不是完整实例。严格数值token、连续槽及真实付费失败/成功来源按各owner联合校验，不对完整实例直接allOf本投影。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "enhancement",
+    "synthesis_entries"
+  ],
+  "properties": {
+    "enhancement": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 15
+    },
+    "synthesis_entries": {
+      "$ref": "urn:solorxjh:apparel-synthesis-entries:v1"
+    }
+  }
+}

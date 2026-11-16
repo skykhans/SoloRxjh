@@ -1,6 +1,6 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-14",
+  "updated_on": "2026-11-16",
   "status": "one_source_quest_and_one_source_monster_designed_not_implemented_not_balanced",
   "source_policy": "QREF-63791-004 gives14level/Pingshizhi/paw100silver,gall200silver/unlimited; MREF-39821-008 gives熊/15level/hyunbo region; two item refs give names only. Monster stats/drop odds/positions/quest batch model/permissions are local design.",
   "quest": {
@@ -174,6 +174,10 @@
       "skills": [],
       "aggression": "local proactive within9m; source aggression field absent",
       "safe_zone": "honor every map safe zone/obstacle; return by valid path to home to heal,never teleport or grant reward"
+    },
+    "state_machine_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/ordinary_ai"
     }
   },
   "spawns": [
@@ -235,11 +239,363 @@
       "new_actor": "ordinary respawn or offline scene rebuild must issue last+1 before actor can generate combat/rewards; no reuse from resetting scene-local counter",
       "commit": "last-issued counter and actor creation result under05/19host world revision; persist before eligible live actor,write failure leaves actor unspawned; disconnected client never issues generation",
       "scope": "only monotone identity counter/death receipts persisted for rebuildable ordinary scene,not its discarded HP or AI snapshot",
-      "validation": "integer0..9007199254740991; checked increment,overflow errors; new-format missing existing world counter rejects; explicit new adoption requires marked content initialization,not load repair"
+      "validation": "integer0..9007199254740991; checked increment,overflow errors; new-format missing existing world counter rejects; explicit new adoption requires marked content initialization,not load repair",
+      "schema_ref": {
+        "file": "普通刷点生命代次.schema.json",
+        "pointer": ""
+      },
+      "adoption": "正式新world创建时显式{}，只在首个实际actor创建同笔插入spawn:0；不是提前枚举所有刷点为0。现行world缺映射拒绝，known1..4旧世界转新目标须沿原明确world导入/重建记录初始化，已有目标保原映射；完整旧世界导入结构尚待，不能自行清空已有代次。",
+      "transition": "同world写锁先验完整真实before/刷点定义/出生导航及5米排除/原生成原因；无键只允许真正首次生成0，有键g只允许实际新生命g+1。重生由原唯一死亡和7200步等待证明，离线重建由原明确现场重建决定证明，不借重连/入队重建。达MAX后明确拒绝新生命，不循环归零或复用。拒绝/出生受阻不写键不推进代次。",
+      "identity_binding": "原普通死亡generation必须等当时完整actor的已发代次并解析其创建来源；历史死亡可小于当前计数，不能用当前计数覆盖历史或要求所有历史死亡等于最新。每一实际actor创建只推进一次，同原创建决定重放回原结果；原已受伤或死亡后重放创建结果不恢复actor。",
+      "recovery": "正式决定不确定先解析原完整world替换/共同来源；未确认前不发布可战斗actor，不用已看到模型推断成功。离线丢弃现场只清真实允许的HP/AI/未拾取掉落，保代次表及完整已提交死亡/奖励依赖；LAN个人离线不得清房主现场。"
+    },
+    "death_identity": {
+      "schema_ref": {
+        "file": "普通怪死亡身份.schema.json",
+        "pointer": ""
+      },
+      "scope": "仅正式公共普通刷点实际生成生命，包括料理蛤蟆；map/monster/spawn须解析原唯一刷点定义且instance=null。修炼/召唤/私场有各自owner，不按普通身份归并。",
+      "identity": "event_id=\"ordinary-death:\"+SHA256(71确定JSON [\"ordinary_monster_death\",world_id,authority_profile_id,map_id,null,spawn_id,generation] UTF8)。不加入观察步/攻击ID/收件人/任务attempt，原同生命死亡唯一；同ID异正文拒绝。generation必须等原真实已发代次及被杀actor，不从新当前actor或客户端补值。",
+      "lethal": "lethal_damage_event_id解析原完整已提交combat-damage；target_actor_id/scope/rules/步与真实before/排序队列对应，原HP>0且实际最终归零、无死亡拦截才成立。取真正首个致死事件，不能因新一击换死亡ID。伤害/死亡/奖励/清根与倒计时必须在同共同决定。",
+      "lifecycle": "死亡不推进generation、不复生；删除同代actor并启动原respawn秒数对应步数，后续实际重生才原计数+1。返乡回满/离图移除/加载/脚本清理不造死亡或收益。",
+      "boundary": "仅身份和致死关系采用；完整公共普通actor/生命周期、死亡奖励所有者/多接收者与共同world决定结构尚待，不新增独立死亡日志/通用分配或据此开放运行。",
+      "resource_envelope_owner_ref": {
+        "file": "死亡共享收益分配.v1.json",
+        "pointer": "/envelope_protocol"
+      }
+    },
+    "death_lifecycle_result": {
+      "schema_ref": {
+        "file": "普通怪死亡生命周期结果.schema.json",
+        "pointer": ""
+      },
+      "before": "原真实scope普通刷点alive、旧actor生命及已发generation精确匹配；本步原伤害流水首个合法致死源解析identity，旧HP>0且提交后0。已死亡、脚本移除/返乡/离图不能再产本结果；同生命已决定死亡只回原身份，不按新伤害重算。",
+      "stop_set": "stopped_root_event_ids为本target_actor_id仍占用或有未落效进攻后代的原攻击根全集，UTF8严格递增。空数组必须证明原根全集无此项；同spawn其他代次或其他actor根不得混入。死亡根停止事件引用identity.event_id，不分配独立cancel ID/计数或清全场攻击。",
+      "roots": "尚未正常结束的原根以本死亡event_id设置原stop_event_id_or_null并保实际已完成游标；已正常完成但有飞行/范围等未落效后代者保正常结束，不倒改完成时刻，后代沿本原死亡来源失效。真实已提交伤害/随机/费用不撤回或退款，旧目标后续伤害不能命中新同spawn生命；独立效果是否存续沿各原owner，不能一律删光。",
+      "slot": "同原死亡共同决定移除旧活体、把原公共刷点置waiting/remaining_respawn_steps=ordinary_wait_steps，generation保持旧值；致死步D不立即扣等待，后续可推进模拟步每步一次，离线暂停不扣墙钟。等待0且原出生5米/占用/导航预检通过才实际创建新生命并沿原计数+1，受阻等0不换位置或提前发号。",
+      "publication": "原致死伤害、生命周期结果、停止根/后代及全部资源收益/银包/任务物与随机和实际角色修订同一次原world共同决定；未决不能先发奖励或清actor。普通现场明确重建沿原生命周期清现场但保代次/死亡奖励证明，不把旧结果重新写成waiting覆盖已新生actor。",
+      "boundary": "普通死亡生命周期结构与转换/停止职责采用。完整普通actor/slot根、死亡收益/掉落与角色转换及world共同父仍待；没有新增独立死亡日志或运行后端。"
+    },
+    "scene_slots": {
+      "field": "scope.ordinary_spawn_slots",
+      "schema_ref": {
+        "file": "普通公共刷点状态.schema.json",
+        "pointer": "/$defs/slots"
+      },
+      "scope": "仅采用本ordinary_wait_steps=7200规则的公共普通刷点，含原熊/料理蛤蟆；明确不同刷新规则/不复生boss/私场/修炼刷点不得借此默认7200。键沿原刷点唯一spawn_id且须属本scope。",
+      "initialization": "真正新建或明确普通现场重建slots={}，未实际创建的刷点不造generation0假slot；原持久ordinary_spawn_generations不清。第一次实际生成g0或重建g+1后才同笔新增alive槽。现场内已经有槽时缺字段拒绝，不从计数表补alive/满血。",
+      "alive": "alive必有真实同scope/monster/spawn/generation活体且remaining=0。slot.generation精确等本现场实际创建来源及原持久最后已发值；actor仅由完整actor根持有战斗数据，不在slot复制HP/AI。当前活体和slot必须一一对应，不允许孤立活体或两槽指同actor。",
+      "waiting": "唯一死亡将本已发generation保留、actor置null、remaining=7200、last_observed=D。倒计时逐原已模拟scope固定步推进，T必须>=last_observed，恰同T不重复扣；新剩余=max(0,旧剩余-原有效推进步数)。不能仅用墙钟或跨未模拟scope的world步差推断推进数，完整scope授予链必须证明。",
+      "spawn": "waiting0且原5米/导航/占用均通过才能原同笔counter+1/slot.alive/new actor，slot及持久最后已发g一致。受阻保waiting0、不推进generation或产生奖励。旧死亡重放不得覆盖新alive；MAX发号失败保waiting0并明确错误。",
+      "save": "普通可重建现场slot/actor不当永久HP/AI存档；原未决/共同替换恢复须保完整真实现场直到收束。已提交死亡/领取/清理/代次来源仍持久保留；LAN个人退出/重进不能清房主slot或重置倒计时。",
+      "boundary": "五键slot及生命周期关系采用，完整普通actor/场景固定步父及scene重建决定仍待，不据片段声称world根闭合。"
+    },
+    "life_identity": {
+      "schema_ref": {
+        "file": "普通怪生命身份.schema.json",
+        "pointer": ""
+      },
+      "identity": "actor_id=\"ordinary-actor:\"+SHA256(71确定JSON [\"ordinary_monster_actor\",world_id,authority_profile_id,map_id,null,spawn_id,generation] UTF8)。只由原实际生成共同决定分配，world/authority/map/null/spawn/generation全部从原真实刷点及已发计数认证。不加入HP/目标/规则时刻，受伤/仇恨改变不改生命ID。",
+      "creation": "第一次实际生成0、以后实际新生命或明确普通现场重建g+1；同生命创建重放保原ID但不重装满血。未生成/出生失败不发可战斗ID，不借通用结算counter或客户端随机命名。ID不可复用，MAX停止新生命。",
+      "bindings": "原actor唯一实体表键、本slot.active_actor_id_or_null、攻击/伤害source/target与原death.identity.target_actor_id均必须解析同一完整生命身份及创建证据。死亡的scope/spawn/generation与该生命逐项相等；历史死亡仍保旧ID，不能把同spawn新生命当旧目标。只符合字符串格式不能证明真实生命。",
+      "scope": "公共普通场景身份，不替代training-actor/私场boss或NPC伙伴身份；地图/刷点必须原正式定义且该生命实际生成。普通现场重建保world已发计数和历史来源，不从slot丢弃归零发旧ID。",
+      "boundary": "生命身份及原slot/死亡结构引用采用；完整actor战斗状态/生成共同结果及scope根仍待，不据ID格式启用运行。"
+    },
+    "spawn_identity_result": {
+      "schema_ref": {
+        "file": "普通怪生成身份结果.schema.json",
+        "pointer": ""
+      },
+      "identity": "event_id=\"ordinary-spawn:\"+SHA256(71确定JSON [\"ordinary_monster_spawn\",world_id,authority_profile_id,map_id,null,spawn_id,generation] UTF8)。同一实际新生命只此生成ID，不以cause/观察步/失败重试换号；同ID正文冲突拒绝。life_created.actor_id沿原life_identity重算。",
+      "first": "原持久代次无键且原现场无槽，真实首次生成g=0，previous_generation_or_null=null且slot_before_or_null=null。不能用缺字段/清掉历史计数伪造首次。",
+      "respawn": "原场景有完整waiting0槽，previous_generation_or_null=原持久计数=slot_before.generation，生成g=previous+1。原死亡/有效倒计时来源与同scope槽对应，拒绝未来观察步/未到期/仍alive或不是本刷点的槽。",
+      "rebuild": "原普通场景明确重建决定已收束/清理现场，持久最后已发g保留；本生成cause=scene_rebuild/previous=g、slot_before=null、new generation=g+1。真实从未生成的其他刷点仍first_spawn，不能全场统一加号。个人LAN进入/重连不是scene_rebuild。",
+      "commit": "全部导航/5米/定义/初始actor及原before预检通过后，同一次原world决定写持久已发计数、新alive slot与唯一新actor。观察T不推进代次以外新计数。创建失败或受阻不保成功本结果；MAX拒绝不归零。新生初态采用本spawn_result.initial_state，不从身份结果补缺字段。",
+      "replay": "已有正式生成决定仅回本原结果，不能恢复已受伤/死亡旧actor或推进第二代。正式决定未知先核共同world，未确认不得先发布可战斗实体。",
+      "boundary": "三个生成原因/代次门禁及原身份子结果采用，由spawn_result承接完整出生初态；生成world共同父与scene重建决定仍待。"
+    },
+    "spawn_result": {
+      "schema_ref": {
+        "file": "普通怪生成结果.schema.json",
+        "pointer": ""
+      },
+      "scope": "仅旧三地区四种非boss公共怪、原泫勃熊/料理蛤蟆及三转下半段嗜血狂狼/青头蛇、二转六种35～37级材料怪、一转两种12级材料怪与上半段四种60级怪二十种80刷点；各自monster/spawn/map定义沿原owner。boss/修炼/未明确采用实体不接入。",
+      "composition": "identity_result沿原七键生成身份；initial_state沿十一键出生状态。实际实体身份只取identity_result.life_created，状态不重复存actor_id、spawn_id或generation；两者是本次成功创建的同一结果，不能单独发布身份或无来源初态。",
+      "definition_sources": [
+        {
+          "file": "旧三地区怪物.v1.json",
+          "pointer": "/monsters"
+        },
+        {
+          "file": "旧三地区怪物.v1.json",
+          "pointer": "/spawns"
+        },
+        {
+          "file": "制药材料任务与泫勃熊.v1.json",
+          "pointer": "/monster"
+        },
+        {
+          "file": "制药材料任务与泫勃熊.v1.json",
+          "pointer": "/spawns"
+        },
+        {
+          "file": "五级寻找料理材料.v1.json",
+          "pointer": "/monster"
+        },
+        {
+          "file": "五级寻找料理材料.v1.json",
+          "pointer": "/spawns"
+        },
+        {
+          "file": "三转下半段与十四职业晋级.v1.json",
+          "pointer": "/monsters"
+        },
+        {
+          "file": "三转下半段与十四职业晋级.v1.json",
+          "pointer": "/spawns"
+        },
+        {
+          "file": "三转上半段猎物考验.v1.json",
+          "pointer": "/monsters"
+        },
+        {
+          "file": "三转上半段猎物考验.v1.json",
+          "pointer": "/spawns"
+        },
+        {
+          "file": "第一次升职十阶段.v1.json",
+          "pointer": "/monsters"
+        },
+        {
+          "file": "第一次升职十阶段.v1.json",
+          "pointer": "/spawns"
+        },
+        {
+          "file": "第二次升职九阶段.v1.json",
+          "pointer": "/monsters"
+        },
+        {
+          "file": "第二次升职九阶段.v1.json",
+          "pointer": "/spawns"
+        }
+      ],
+      "initial_values": "熊/蛤蟆/三转下半段两怪/上半段四怪/一转两怪/二转六怪原spawn以spawn_id、monster_id、home_feet_m、yaw_radians直接绑定；旧四普通怪原spawn以id、kind、position_feet_m分别绑定生命spawn_id、monster_id、feet_position_m，出生朝向按旧owner明确项目值0弧度。不可混用两种字段或缺字段补值。hp=已认证原monster.max_hp，mana=0且二十原定义max_mana必须=0；地图/碰撞导航/安全区及5米排除全部通过。不是客户端指定位置，不用受阻后邻近点代替。定义不一致拒绝。",
+      "local_ai_adoption": "项目明确采用：出生idle、目标null、巡逻目的null、remaining_ai_wait_steps=0，尚无接纳动作/冷却/效果源/进攻后代。理由是公共普通怪无需修炼怪60步生成保护等待；禁止从修炼初态拷贝60。出生本身不抽巡逻或战斗随机、不接纳攻击、不制造伤害。下一次原scope真实模拟步才参与AI原队列；本生成观察步不再行动，不能插回已冻结队列。",
+      "derived_definition": "等级/最大生命/攻防/速度/胶囊/模型/奖励/技能等从本生成rules_hash锁定的原monster与ai_owner解析，不在初态复制第二套配置。二十种原定义无消耗魔法、怒气或血魔，不因省略未知怪资源而纳入新monster；新增类型须先扩正式设计。",
+      "joint_commit": "预检完整来源、初态、代次/槽与导航后，同一次原world决定写生成结果、持久generation、alive槽和实体。alive槽generation=life_created.generation、active_actor=life_created.actor_id、remaining=0、last_observed=observed_world_step；不得先写代次再异步造actor。完整world共同父仍待。",
+      "replay": "原成功结果作为创建历史保留；后续HP/AI/动作状态只能沿原真实战斗推进修改。生成重放只返回原结果，不把initial_state覆盖当前actor或复活旧代。旧来源保留不代表重建旧实体。",
+      "boundary": "成功出生身份与完整初态已采用；活体运行状态、固定步生成/死亡world共同父、普通scene重建严格决定仍待，不声称普通actor运行根或Godot已完成。",
+      "definition_selection": "definition_sources是原资料来源，不是全行采用授权。实际monster集合严格等普通怪生成结果.schema.json的monster_id二十项白名单，按原monster_id唯一解析；spawn仅取原monster_id/kind属于该集合的行，共80且spawn_id/id唯一。旧源三首领保原定义，明确不接入；未知monster、重复定义/刷点、漏项、错map均拒绝，不按boss=false扫描其他未采用怪或按来源清单自动扩范围。"
+    },
+    "death_outcome": {
+      "schema_ref": {
+        "file": "普通怪死亡业务结果.schema.json",
+        "pointer": ""
+      },
+      "placement": "原战斗队首致死共同决定的十四键死亡业务结果，只在原world共同父保存一次；不独立分配通用结算/profile日志或另存第二死亡identity。actor_before为致死伤害实际作用前完整活体，lifecycle持唯一原十一键identity与停止根；完整combat伤害、根推进/回调和全角色after不由该组合代替。 既有主线计杀/剧情推进仍由原同父完整角色转换与主线owner持有，其严格转换组件仍待；本组合不另造计数。",
+      "source": "仅二十种80原公共刷点。逐项验actor_before.life_identity/monster/rules与真实scope、已发generation、alive槽和创建证明；lifecycle.identity的world/authority/map/null/spawn/generation/target精确等本生命，rules与T等原combat父。lethal_damage_event_id解析原真正首个致死伤害，hp_before等actor_before.hp，实际正损失使HP归零且无拦截。已死亡/脚本清理/返乡不得产死亡业务结果。",
+      "kill_owner": "kill_owner_character_id_or_null沿19真实致死根/已认证归属解析，不以网络到达序、房主或队长替代。null仅原规则明确无合法击杀归属且无资源/物品接收者时成立，对应三池null/credits[]/银包null/全部物品结果空/loot_random_flow=null。源缺失或原归属者暂离不是可静默置null的理由；原已冻结归属和合格队伍来源必须保。",
+      "resource_rewards": "原五键封套完整复用，沿同一死亡before的等级/队伍/连接/范围/倍率源核三池与个人入账逐ID/数额对应；任务物资格仍按各自owner，不以XP数值0排除。所有池/个人应用和实际角色成长/发点共同提交，一接收者坏源/溢出错误即整个候选拒绝，不先部分发放。",
+      "silver": "silver_drop_or_null按原银包owner精确生成，旧四怪silver_reward=0故严格null；熊/蛤蟆/三转下半段两怪、一转两怪/二转六怪及上半段四怪若有真实有权领取者与正式正金额则恰一包，源death/owner/位置/倍率逐项验。死亡仅插入待领包，不写silver_flow/钱包。null须原明确0额或无合法归属证明，不能漏掉应有包。",
+      "items": "fixed_item_drops按原四怪具名fixed_loot行序/精确数目生成，其他十六种为空；random_item_drops只对熊两具名随机材料可非空，按原random_loot行序保命中项，最多各一次、数量1。各包等真实kill_owner/死亡脚位，drop_id按原table_kind/行索引重算。其他十九怪random_item_drops=[]/loot_random_flow=null；不把熊两原试次误当空表。死亡只建待领权利，真实拾取才铸造held物。",
+      "tasks": "cooking_material_results只对真实蛤蟆可非空；adv03_lower_material_results只对三转两材料怪可非空，狂狼只正派分支、青蛇只邪派分支。各数组按character_id UTF8递增且逐ID唯一，最多原普通队伍6人；集合恰对应原before中真正已接/收集阶段且合格的接收者，满额或容量失败同样保结果，无候选才[]。两任务子结果沿各自严格原owner，真实before/原接受与阶段、库存源、C/容量及流逐一验。来源坏不伪装[]/容量失败，NPC若原owner不授予不得以队伍成员身份强领。",
+      "lifecycle": "同共同决定消费原combat队首、完成真实伤害/推进/回调、全部原未完成根停止与旧actor移除、slot置waiting/remaining7200/last_observed=T，generation不变；致死步不扣新等待。保原持久已发计数及全部已提交死亡/奖励证明。原银/固定地面权利与任务实物/各角色实际after及修订同父发布，不能先清actor再异步派奖。",
+      "revision_and_recovery": "world与各实际业务角色修订按原完整共同父各推进一次，多个资源/任务/flow不重复累加；库存只在真实held实物变动时推进一次。原身份同全文重放回决定，不重新计算资格/倍率/容量或复活/置waiting覆盖新生命。正式保存存疑先认证完整父；来源未知保原未决，不能清掉结果重做或部分可见。",
+      "remaining": "十四键普通死亡业务组合及具名生产职责采用；完整combat阶段/回调/角色after/共同world替换与LAN交付、主线计杀/剧情严格转换、完整普通场景重建父仍待，不声称完整运行事务已实现。",
+      "random": "熊有真实原kill_owner时loot_random_flow非null，只承载此普通物品两次world流试次；receipt_id等原death event_id，唯一stream.owner_id等原world_id，seed/算法/块区间取原真实world随机状态。按random_loot原行序先熊掌再熊胆，各恰uniform_integer(0,9999)，purpose为71确定JSON编码[\"ordinary_monster_loot\",death_event_id,\"random\",row_index]文本。概率先依26具名终结修正原5000/3000并取floor，上限10000；本普通郊野无修炼福加成，现行终结倍率至多12000故两概率仍严格0..10000内。result<p才有对应random_item_drop，否则不产该行。原两独立试次不因首行命中/袋满重抽，draw区间含拒绝块且连续/完整，同父世界状态推进与掉落权利提交。无归属不抽；其他十一怪本物品部分无随机，伤害/回调自己的随机仍归各原子结果，不在此复制。",
+      "upper_task_results": "四种上半段60级怪严格复用本十四键业务结果与原生命周期；正确两怪仅adv03_upper_material_results、错怪仅adv03_upper_wrong_results，逐原资格成员覆盖，料理、下半段、一转及二转四个任务数组空。无固定/随机物和任务随机，原普通资源/银包照常。子结果flow_index纳入同一原死亡完整有序流集合；失败/授予与所有角色成长/气功/库存/world须同完整共同父，业务结果本身不代替该父。",
+      "adv01_task_results": "adv01_material_results仅hyunbo_boar12阶段3后腿或hyunbo_graywolf12阶段7灰狼骨可非空，沿一转material_death_protocol逐真实合格角色覆盖，UTF8有序且character_id唯一最多6。满额/容量失败同样保原结果，无归属为空；不授予料理或三转材料。固定/随机物为空且loot_random_flow=null；原普通资源和银包保留。材料流纳入同一死亡完整有序流集合，与所有角色库存/成长/world共同提交，不单独递增修订或重连补发。",
+      "adv02_task_results": "二转六怪仅adv02_material_results可非空，monster精确映射原collection.producers派别/皮毛，原当前阶段2且本派合格角色逐ID唯一有序最多6；其他任务数组空。固定/随机物空且loot_random_flow=null；原普通资源/银包保留。任务子结果原mint/merge纳入同死亡完整流序，与所有角色/world共同提交，不按流叠加修订；满额/容量失败同样保决定不重连补发。"
     }
   },
   "pending": [
     "Godot NPC exchange UI/loot/AI/transaction execution",
     "bear model/animations and full early-growth economy calibration"
-  ]
+  ],
+  "ordinary_combat": {
+    "scope": "仅spawn_result明确二十种公共普通怪/80刷点；本地近战普通攻击，不能以普通怪名称给其他高阶/活动/boss自动套本规则。",
+    "schema_ref": {
+      "file": "普通怪普通攻击.schema.json",
+      "pointer": ""
+    },
+    "life_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/respawn/life_identity"
+    },
+    "identity_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/accepted_attack_identity"
+    },
+    "queue_owner_ref": {
+      "file": "战斗命中与减伤.v1.json",
+      "pointer": "/direct_attack_admission_phase"
+    },
+    "source": "source_actor_id必须解析本真实scope中alive槽与同代完整actor、原成功生成及持久已发代次；monster_id逐项等原spawn的正式定义，world/authority/map/null/规则与原before一致。已移除/死亡/旧代实体不可借复用spawn接纳。出生本步不候选，下一实际scope模拟步才准。",
+    "admission": "admission只含kind=ordinary_ai，冻结候选只含kind/target_actor_id；实际authority从已认证原AI决定生成每实体每真实步至多一项，与玩家/修炼/私场共享原队列、结果和UTF8排序。队首重验原占用/控制/真实目标/攻击资格，成功同笔安装e0根并移除队首；坏引用/缺真实来源属于错误，不造正常玩法拒绝吞掉。",
+    "snapshot": "原rules_hash锁定二十原monster与各自ai_owner，attack_min/max、accuracy、critical_chance_bp、critical_multiplier_bp取真实接纳时的合法构筑/效果合成值，须完整来源证明且min<=max；无合法修饰时精确原monster定义。本二十种攻击HP/内力/体力费用均0，无玩家气功/职业/连段/接纳随机；不伪造玩家会话或扣目标资源。",
+    "timing": "本轮项目明确W=36/A=1/R=84/offsets=[0]，接纳e0不推进；后续原scope每实际获步至多一次，第37动作步唯一ordinal0、第121步完成占用。生效或明确未中均保原combat-damage引用；e<37不得有命中结果，e>=37必须有。停止必须e<121，保最后真实游标/原来源，不退款、倒改命中或将e强设121。已正常完成的本近战无飞行后代，不再新停正常完成根。",
+    "geometry": "项目明确普通近战单个冻结目标，使用实际命中排序项执行时双方真实脚位置、原accepted_yaw；水平中心距<=1.8米，不加胶囊半径；完整扇形120度（半角60），脚高差abs<=1米，边界包含。yaw0前向-Z，f=(-sin(yaw),-cos(yaw))；dx/dz平方d2为0角度通过，否则p=f·d且p>=0、4*p*p>=d2。双方脚上方1米闭线段与原明确blocks_combat_sight实心几何相交（含端点/相切）即阻挡，排除双方自身，其他角色不作肉盾。核原地图安全区/敌对关系/目标生命及可攻击资格；不是修炼8米固定安全圈。",
+    "numeric": "原权威位置分量与yaw为有限binary64标量，按冻结发行规则sin/cos计算，不以动画/GPU或默认Vector3精度加入epsilon。原地图战斗遮挡与胶囊/导航数据缺失拒绝启用，不当默认可见。实际Godot边界/遮挡验证留P/T。",
+    "hit": "合法几何未通过时保原明确零损失combat-damage结果，不抽命中/区间/暴击随机，不留ordinal下步再打；几何通过按23原monster直接伤害管线使用真实目标构筑、合法世界随机流与原防护/回调。伤害身份沿原action_id/target生命/ordinal0；不能按当前仇恨切换冻结目标或命中同spawn新生命。",
+    "stop": "终态死亡由原death_lifecycle_result停止本source全部未完成根；已知目标失效/脱战返乡/控制的合法停止沿原AI/控制父，完整来源必须保留。未被本owner授权的事件不凭非空stop字符串取消。停止/伤害/死亡/奖励/队列与真实actor变化同world决定，根正文在原accepted_direct_attacks只存一次，actor仅引用其ID。",
+    "retention": "原接纳/命中或明确失效/停止父、规则、生成生命与完整依赖历史保留。重放回原结果，不再次接纳/抽样/落伤害；新代源及目标不能承接旧根。即使当前根完成/停止，原实体本T已有成功不得换目标再接纳。",
+    "boundary": "二十种普通怪攻击根、原队列/身份/接纳/AI/活体效果及本轮十键推进已采用；非玩家真实移动、完整阶段context、伤害来源与world共同提交仍待，不据结构声称运行完成。",
+    "hit_atomicity": "到期前e36在movement_and_due_capture只冻结原伤害批ordinal0候选，不提前写e37或虚构命中引用。轮到原combat队首时，完整伤害/无效结果、原根e36→37与hit_result引用、所需回调/死亡和消费队首同一父决定。先被较早项合法停止则保e36/null并以原停止证明消费候选；若本项已落效且回调同笔杀死本source，保e37/原结果再停止，不能伪装未发射。后续未到期/后摇推进也须真实一次获步与明确父来源；本轮普通怪推进沿advance严格子结果；其他NPC与完整父context仍待。",
+    "ai_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/ordinary_ai"
+    },
+    "advance": {
+      "schema_ref": {
+        "file": "普通怪攻击推进结果.schema.json",
+        "pointer": ""
+      },
+      "worklist_owner_ref": {
+        "file": "战斗命中与减伤.v1.json",
+        "pointer": "/normal_offense_advance_worklist"
+      },
+      "ownership": "十键子结果由原完整阶段父持有，不建NPC独立日志、推进数组/完成标记或新队列。只采用本轮六公共普通怪36/1/84根；修炼与私场攻击不套本结构。",
+      "identity": "event_id=ordinary-advance:加SHA256(71确定JSON [\"ordinary_monster_attack_advance\",world_id,authority_profile_id,action_id,world_step] UTF8)小写hex。每根每真实scope步至多一笔，目标/游标/结果不入摘要。同ID异正文拒绝，重放不再推进。",
+      "eligibility": "原本scope实际获T、accepted_world_step<T、原source仍同生命活体、stop=null且e<121，才进入原唯一进攻推进队列冻结全集。新接纳e0本T不推进；缺真实生命/历史来源报错，合法死亡停止按原停止证明消费。禁止按world步差或墙钟补跑。",
+      "joint_checks": "本结果world/authority/map/null/action精确原根和父scope；before等于原父before根e，after=before+1<=121且等于父after根e。只修改根e及本次唯一命中引用，不重算冻结数值/目标/yaw或重付费用。schema范围检查不能代替前后等式及来源认证。",
+      "ordinary_step": "before非36时，movement_and_due_capture原队首同笔提交本结果、根e推进与移除队首。hit_result_event_id_or_null必须null，根若已有旧命中引用仍原样保留，不在每步声称又一次伤害。",
+      "due_capture": "before=36的movement队首只同笔冻结本根ordinal0原ordinary伤害候选并移除推进队首，根仍e36且hit_result=null，不在此时产生本推进结果。原movement冻结before与该原候选证明本T已捕获；阶段恢复不得重扫重复加入或把它当漏推进。",
+      "combat_commit": "轮到同原ordinary战斗候选队首，真实伤害或明确未中/失效结果、本推进36→37及非null命中引用、根after、所需回调/死亡/效果和消费战斗队首同一完整父决定。引用必须等于该根ordinal0/本T的真实combat-damage结果。先被较早项停止则不产生本推进/假伤害，保e36并用原停止证明消费候选；自己的完整命中回调杀死自己则先保e37/原结果再按同父停止，不倒写e36。",
+      "completion": "120→121只解除原真实攻击占用；actor保持attack及原关联ID至下一真实AI normal_action_finished转chase清关联，不在本步立即重新攻击。不造完成事件/玩家连段窗口，不删除必要历史根或撤销既有伤害。",
+      "recovery": "阶段父不可变冻结全集、已提交前缀/剩余队列、原combat候选及逐项决定共同认证。到期项虽已从movement队列移除而e仍36属于已捕获待combat，不据e重入；存疑先核原共同父，不补结果或重抽。",
+      "boundary": "推进结构与原队列/到期共同提交协议采用，完整阶段context、真实移动/伤害来源与world保存及Godot运行仍待。"
+    }
+  },
+  "ordinary_ai": {
+    "scope": "本轮二十种公共普通怪：旧boar/mountain_wolf/valley_boar/frost_wolf、hyunbo_bear15/hyunbo_frog5及三转shenwu_bloodwolf61/liushan_green_snake61及三转上半段monsters四原定义，原80刷点。boss/修炼/未明确采用类型不自动接入。以下为明确项目设计，不声称官网AI帧表。",
+    "parameters_owner_ref": {
+      "file": "旧三地区怪物.v1.json",
+      "pointer": "/ai"
+    },
+    "life_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/respawn/life_identity"
+    },
+    "spawn_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/respawn/spawn_result"
+    },
+    "combat_owner_ref": {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/ordinary_combat"
+    },
+    "aggression_by_monster": {
+      "boar": "proactive",
+      "mountain_wolf": "proactive",
+      "valley_boar": "proactive",
+      "frost_wolf": "proactive",
+      "hyunbo_bear15": "proactive",
+      "hyunbo_frog5": "retaliation_only",
+      "shenwu_bloodwolf61": "proactive",
+      "liushan_green_snake61": "proactive",
+      "shenwu_gate_red_tiger60": "proactive",
+      "shenwu_gate_sabre_tiger60": "proactive",
+      "liushan_house_gold_bell_snake60": "proactive",
+      "liushan_house_coral_snake60": "proactive",
+      "hyunbo_boar12": "proactive",
+      "hyunbo_graywolf12": "proactive",
+      "liuzheng_pass_red_bear35": "proactive",
+      "liuzheng_pass_yellow_tiger36": "proactive",
+      "liuzheng_pass_white_tiger37": "proactive",
+      "sanxie_pass_red_bear35": "proactive",
+      "sanxie_pass_yellow_tiger36": "proactive",
+      "sanxie_pass_white_tiger37": "proactive"
+    },
+    "aggression_adoption": "旧四怪项目明确沿旧感知敌人玩法主动9米；熊沿原明确主动9米；蛤蟆保持原被动选择。被动只由下述真实正敌伤认主目标，不扫描附近玩家/伙伴来制造仇恨。不能按AI公共参数有sense_mm就把全部怪改成主动。 三转两怪沿各自原ai_owner明确主动9米，复用本home18米/实际路径/原地图安全区与36/1/84普攻；不继承蛤蟆被动。 上半段四怪按其原ai_owner.overrides.aggression=proactive9m明确主动9米，同用本实际路径/home18米/36-1-84普攻，不继承蛤蟆被动。 一转两怪按其原ai_owner.overrides.aggression=project proactive9m明确主动9米，同用本原home18米/实际路径/36-1-84普攻。 二转六怪沿原ai_owner.overrides.aggression=proactive9m，绑定原柳正关/三邪关安全区和home18米/实际路径/36-1-84普攻。",
+    "states": "活体idle/patrol/chase/attack/return五态，原终态死亡/现场明确移除由原生命周期负责且先于AI；不把HP0作为活体death态留在表。ai_state/target/patrol_destination/remaining_ai_wait只在原actor持有；攻击占用仅引用accepted_direct_attacks唯一正文，不复制根或新增仇恨表/巡逻索引。",
+    "priority": [
+      "原真实死亡/移除",
+      "超出本人home18米牵引或原目标已知失效→return并合法停止未完成进攻",
+      "return实际到精确合法home且生命恢复未封锁→按home_arrival回满一次；封锁中保持return等待",
+      "当前原攻击仍占用→attack保持",
+      "原目标仍合法或按主动/被动规则取得目标",
+      "无目标等待/巡逻"
+    ],
+    "clock_and_phase": "仅原scope真实授予的模拟步允许本实体一次AI决定，出生观察T不参与，下一实际scope步开始；未模拟/离线/暂停不按world步差或墙钟补决策。规则阶段完成原生命周期/控制和计时先决后形成非攻击转换或原候选意图；符合接纳条件的chase只冻结原ordinary_ai候选，不另发布一个本T的quiet_tick再追加AI决定。实际队首由原接纳成功/拒绝共同父封存本唯一attack_admitted/attack_rejected AI结果及真实before/after；初始候选/规则来源在原入口父保留，不能以已成功接纳倒推伪造最初意图。",
+    "target_eligibility": "候选必须是同world/实际公共scope的真实存活敌对player或npc_companion生命；player须原已连接且会话可参与，伙伴须其真实所属活动/队伍/世界准参与。服务NPC/同伴友方/其他地图/旧生命不能按名字补候选。按本地图原安全区脚中心判定不可攻击，缺完整地图/关系/路径或生命来源属于错误，不当没有敌人。原已知死亡/合法离场/断线/入安全区或导航判定无合法路径属于失效；无实体且无真实终结历史为坏引用。",
+    "proactive_selection": "无攻击占用且非return的主动怪，可从水平脚中心距<=9米、满足原战斗视线/安全区且导航可达的真实候选中，按实际合法路径总长度递增、再按生命actor_id未经规范化UTF8字节序选一名。当前合法目标可在感知9米外保留，直到它失效或本人越过home18米；有更短的合法新感知目标时只在无攻击占用的AI决定切换。原目标已知失效先return，不同一步直接换敌。",
+    "retaliation_damage": "蛤蟆原目标null且ai_state为idle/patrol、同笔伤害后仍存活时，原完整combat-damage outcome=resolved、hp_resolution.actual_hostile_hp_loss>0才可将target置该结果实际source_actor_id；该source须此时满足target_eligibility并有合法路径。被攻击来源认证沿原根/实际正敌伤，不按最后收包或动画碰撞；miss/blocked/吸收后0/环境/费用/友伤/致死移除均不认敌。直接/合法周期敌伤都按原结果核，原来源已合法死亡/离场则只保伤害而不选旧生命；缺来源是错误。无9米主动感知门槛，但本人之后仍受18米home牵引。",
+    "retaliation_atomicity": "上述target赋值只由原伤害共同父同时写真实actor，不造第二AI决定/仇恨日志；本T已有AI决定不被改写。批内多个正敌伤按原稳定伤害顺序，首个合法赋值后目标非null，后项不抢目标；chase/attack不因另一个打击者切敌。下一实际AI步对原非null目标重验再new_sensed_target进入chase，此事件在被动怪表示沿已认证受伤目标继续追击，绝非主动感知。return期间受伤仍扣真实HP/可死亡，但不选目标、不取消返乡。",
+    "leash": "本人实际脚位置XZ到原home平方距离>18^2才越界，恰18米不越；不是玩家距NPC18米。超界或原目标已知失效清target/巡逻目的地并转return，真实停止本source全部未完成进攻；已在return不反复清等待或制造新停止。返乡仍可被攻击/死亡，不无敌、不退已提交伤害。",
+    "attack": "idle/patrol取得原目标只转chase，本次不接纳攻击。chase在接纳阶段起点满足原单目标范围/高差/视线与资格且无占用才产生本T唯一候选，转向该真实目标并冻结yaw，XZ重合保原有限yaw；完整成功才attack/e0，拒绝保chase/目标，不换目标重试。仍有未完成根时保持attack/锁定朝向，不追逐或再次接纳；原目标仍合法但出攻击范围不等于目标失效，按到期真实几何保未中结果。正常完成后下一实际AI决定转chase，不能同次又接纳；生命/控制/失效中断须原源停止，不仅清动画。",
+    "movement": "patrol/chase/return按movement_owner_ref的十一键真实导航结果移动，attack不平移。只改真实位置/yaw；到达下一实际AI核状态/回血。普通原地图/二十定义身份保持，不继承修炼安全区。",
+    "idle_wait_steps": 60,
+    "path_retry_steps": 60,
+    "patrol_waypoint_offsets_mm": [
+      [
+        2000,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        2000
+      ],
+      [
+        -2000,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        -2000
+      ]
+    ],
+    "patrol_selection": "出生idle等待0；其他正常巡逻到点/返乡完成后idle等待60。每实际步先核目标，没目标才扣等待；刚扣至0的本步只结束等待，下实际步选点。四候选为原home加固定偏移；起点i=(SHA256(71确定JSON [\"ordinary_monster_patrol\",spawn_id] UTF8)首字节整数%4+floor(world_step/60)%4)%4，环序最多检查四点，取首个实际胶囊/地图/安全区/导航均合法点并保存目的地。不消费RNG或发巡逻计数；四点都因合法占用/无路径受阻则idle/null目的地/等待60，缺配置不当受阻。",
+    "patrol_retry": "巡逻/返乡受阻保原目的地与真实受损HP；仅原AI按movement_owner_ref.retry写唯一remaining_ai_wait_steps，原阻挡后第60个可消费实际步重试，不让移动结果重复扣等待或重设60。",
+    "home_arrival": "AI起点本人仍同代活体且HP>=1、前步真实路径完成且脚位置精确原home、当前home地图/胶囊合法，才本原return_home_ready决定HP=当时合法max_hp、idle/target null/patrol null/等60。未到家/受阻/只靠近/刚脱战不得回血；原定义/效果源缺失拒绝，不补满血。保生命ID、代次、效果，不发奖励/任务信用、不触发治疗被动；已满可结束return但不虚构治疗量。返乡回满属于生命恢复，必须先核effects.hp_recovery_block原有效来源。实际封锁仍有效时，即使已合法到家也保持return、目标/巡逻/动作引用null、到家等待0，以quiet_tick等待后续真实scope步；不得回血、退出return或清效果绕过封锁。封锁真实到期或合法清除后，下一实际AI重验到家条件才产生return_home_ready，恢复当时真实派生max_hp，不累计补偿治疗。",
+    "transition_table_ref": {
+      "file": "修炼怪物与刷点.v1.json",
+      "pointer": "/ai/state_machine/transition_table"
+    },
+    "transition_adoption": "显式复用该表的中性五态×12事件分派及23合法活体格；lifecycle_removed不产活体AI结果，reject_inconsistent_event拒绝不改状态。表的效果名对应本ordinary_ai的目标/等待/停止/移动/回血规则，不继承修炼actor身份、房间/8米圈、432数组巡逻序或60步出生等待。new_sensed_target在retaliation_only仅可沿原已绑定正敌伤目标，不准主动扫描。",
+    "decision_result": {
+      "schema_ref": {
+        "file": "普通怪AI决定.schema.json",
+        "pointer": ""
+      },
+      "identity": "event_id=\"ordinary-ai:\"+SHA256(71确定JSON [\"ordinary_ai_decision\",world_id,authority_profile_id,map_id,null,source_actor_id,world_step] UTF8)小写hex。同生命同真实步唯一，事件/目标/改态/重试不入摘要；同ID异正文拒绝。原步/普通生命/规则及真实before来自本完整父，不伪造玩家结算或独立AI日志。",
+      "projection": "严格十二键AI子结果，before/after各为原actor的ai_state/target/patrol_destination/remaining_wait/hp/accepted_action_id六字段历史投影，仅授予本事件变化。完整actor始终原唯一实体根，动作正文原唯一表；不能用投影充当活体或缺失效果/位置的默认值。",
+      "hp": "仅return_home_ready可把hp改到真实合法max_hp，其他AI事件before/after hp相等；同笔原战斗另有伤害也必须由其原结果单独授权，不混进AI回血。HP0/复活不属于本结果。 return_home_ready须通过home_arrival恢复封锁检查；封锁中quiet_tick保持HP。",
+      "stop_set": "仅forced_return可非空stopped_root_event_ids；精确本source所有未完成且需停止原根、按UTF8递增，不多漏/异源。各根以本event_id停止保真实e/已有命中，after清target/巡逻/占用。已return的重复forced_return无新停止且保持原重试等待；死亡停止由原生命周期持有。",
+      "admission_link": "attack_admitted须同父原接纳outcome=admitted及唯一e0普通根；attack_rejected须同父原明确拒绝且不装根。normal_action_finished仅清真实e121完成占用并保原命中；quiet_tick attack保持原动作引用。切状态不能提前消费候选或绕过本T成功守卫。 e121完成时保留attack及原动作关联ID至下一实际AI的normal_action_finished；该ID非占用标志，占用只由原根游标和停止状态判定。强制返乡或生命周期停止立即清关联。",
+      "other_diffs": "位置/朝向变化只由同原固定步中具名实际移动/转向子结果授权；效果、冷却、规则、代次和RNG不由本AI结果改。目标/目的地/等待差异逐原事件与真实来源核验，quiet_tick不得变成隐式新攻击。完整world/移动/控制及保存来源仍待。",
+      "replay": "原结果与完整父重放只返回原证明，不再次回血/认敌/发候选/停根；历史before/after不拿后来HP/新生命覆盖。当前未决完整来源须保留，存疑不先发状态。"
+    },
+    "boundary": "本轮主动/被动目标、五态优先级/巡逻/封锁下返乡与AI结果、十三键活体及九项效果结构已采用；非玩家真实移动/控制生产与world共同父继续待，不据参考转换表或schema声称Godot实际AI完成。",
+    "control": "原已采用效果/控制先按自身完整来源推进/终止；原真实禁攻击在接纳检查control_forbidden，禁移动只阻其原movement，不把控制当丢目标/返乡回血理由。控制若明示停止当前进攻须其原合法父决定保停止清单，AI不可清动作而不保来源。缺效果/控制定义或当前来源拒绝恢复，不按没有控制运行。",
+    "movement_owner_ref": {
+      "file": "怪物徒步移动.v1.json",
+      "pointer": ""
+    }
+  },
+  "ordinary_actor": {
+    "field": "scope.ordinary_monster_actors",
+    "schema_ref": {
+      "file": "普通怪活体状态.schema.json",
+      "pointer": ""
+    },
+    "map_schema_ref": {
+      "file": "普通怪活体状态.schema.json",
+      "pointer": "/$defs/actors"
+    },
+    "effects_owner_ref": {
+      "file": "普通怪效果根.v1.json",
+      "pointer": ""
+    },
+    "scope": "仅本轮二十种普通怪、32公共刷点。表键必须等于life_identity.actor_id，身份、地图、spawn、monster、generation与原定义、持久已发代次及alive槽逐项一一对应；不得采用修炼实体身份。",
+    "birth": "原成功生成identity_result.life_created及initial_state十一键合成唯一十三键活体，再绑定原rules_hash；counter、alive槽和实体同一world决定提交。新生效果只用原九项cleared，不能拿新生模板修复旧实体。",
+    "resources": "hp必须1..当前真实派生max_hp，mana恒0。原怪物定义及合法效果共同派生最大生命，复仇最大生命变化与到期夹取遵守原owner且不补当前HP；不复制派生属性面板。rules_hash锁定实际采用定义，不热读模板替换历史规则。",
+    "action": "accepted_action_id_or_null仅关联原scope.accepted_direct_attacks唯一正文。attack接纳e0后保存ID；根e121完成已解除占用，但保attack及ID至下一实际AI normal_action_finished清关联并转chase。禁止仅因ID非null判占用；强制返乡/合法停止清关联。无完成标记或动作副本。",
+    "mutation": "生命身份/monster/rules不可在活体上替换。AI、真实移动、伤害、效果应用与到期各由原父授权。被动青蛙idle/patrol的非空目标只能来自原真实正伤害报复父。无原生技能冷却、独立RNG或派生队列镜像；后代沿原世界队列。",
+    "lifecycle": "仅HP>0实体进入本表。真实终态死亡同原死亡/奖励父移除实体并置原槽waiting；场景重建与LAN边界沿原owner，不从客户端重建满血。历史来源缺失拒绝加载，不清效果或重发新生命修复。",
+    "boundary": "本结构及采用规则不代表完整world父、实际来源加载器或Godot运行时已经实现。"
+  }
 }

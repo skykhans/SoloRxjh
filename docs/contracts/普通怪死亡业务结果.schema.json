@@ -1,0 +1,1140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:ordinary-monster-death-outcome:v1",
+  "$comment": "二十种80刷点普通怪唯一死亡的十五键业务结果组合：原before、生命周期、归属、资源、银包/固定/随机物与七具名个人任务结果。不是完整战斗阶段或角色/world保存父；实际致死/资格/来源/随机/全角色after与共同提交另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "actor_before",
+    "lifecycle",
+    "kill_owner_character_id_or_null",
+    "resource_rewards",
+    "silver_drop_or_null",
+    "fixed_item_drops",
+    "cooking_material_results",
+    "adv03_lower_material_results",
+    "random_item_drops",
+    "loot_random_flow",
+    "adv03_upper_material_results",
+    "adv03_upper_wrong_results",
+    "adv01_material_results",
+    "adv02_material_results",
+    "hyunbo_recommendation_results"
+  ],
+  "properties": {
+    "actor_before": {
+      "$ref": "urn:solorxjh:ordinary-monster-actor:v1"
+    },
+    "lifecycle": {
+      "$ref": "urn:solorxjh:ordinary-monster-death-lifecycle:v1"
+    },
+    "kill_owner_character_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "resource_rewards": {
+      "$ref": "urn:solorxjh:death-resource-envelope:v1"
+    },
+    "silver_drop_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:monster-silver-scene-drop:v1"
+        }
+      ]
+    },
+    "fixed_item_drops": {
+      "type": "array",
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:ordinary-item-scene-drop:v1"
+      }
+    },
+    "cooking_material_results": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:cooking-material-death-result:v1"
+      }
+    },
+    "adv03_lower_material_results": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:third-advancement-lower-material-death-result:v1"
+      }
+    },
+    "random_item_drops": {
+      "type": "array",
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:ordinary-item-scene-drop:v1",
+        "properties": {
+          "item_id": {
+            "enum": [
+              "bear_paw",
+              "bear_gall"
+            ]
+          }
+        }
+      }
+    },
+    "loot_random_flow": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "urn:solorxjh:random-decision-flow:v1"
+            },
+            {
+              "properties": {
+                "streams": {
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "properties": {
+                      "owner_kind": {
+                        "const": "world"
+                      },
+                      "draws": {
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "properties": {
+                            "low": {
+                              "const": 0
+                            },
+                            "high": {
+                              "const": 9999
+                            },
+                            "result": {
+                              "minimum": 0,
+                              "maximum": 9999
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "adv03_upper_material_results": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:third-advancement-upper-material-death-result:v1"
+      }
+    },
+    "adv03_upper_wrong_results": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:third-advancement-upper-wrong-death-result:v1"
+      }
+    },
+    "adv01_material_results": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:first-advancement-material-death-result:v1"
+      }
+    },
+    "adv02_material_results": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:second-advancement-material-death-result:v1"
+      }
+    },
+    "hyunbo_recommendation_results": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:solorxjh:hyunbo-recommendation-material-death-result:v1"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "boar"
+              }
+            }
+          },
+          "kill_owner_character_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "fixed_item_drops": {
+            "minItems": 1,
+            "maxItems": 1,
+            "prefixItems": [
+              {
+                "properties": {
+                  "item_id": {
+                    "const": "beast_hide"
+                  },
+                  "quantity": {
+                    "const": 1
+                  }
+                }
+              }
+            ],
+            "items": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "mountain_wolf"
+              }
+            }
+          },
+          "kill_owner_character_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "fixed_item_drops": {
+            "minItems": 1,
+            "maxItems": 1,
+            "prefixItems": [
+              {
+                "properties": {
+                  "item_id": {
+                    "const": "wolf_fang"
+                  },
+                  "quantity": {
+                    "const": 1
+                  }
+                }
+              }
+            ],
+            "items": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "valley_boar"
+              }
+            }
+          },
+          "kill_owner_character_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "fixed_item_drops": {
+            "minItems": 2,
+            "maxItems": 2,
+            "prefixItems": [
+              {
+                "properties": {
+                  "item_id": {
+                    "const": "beast_hide"
+                  },
+                  "quantity": {
+                    "const": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "item_id": {
+                    "const": "spirit_ore"
+                  },
+                  "quantity": {
+                    "const": 1
+                  }
+                }
+              }
+            ],
+            "items": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "frost_wolf"
+              }
+            }
+          },
+          "kill_owner_character_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "fixed_item_drops": {
+            "minItems": 2,
+            "maxItems": 2,
+            "prefixItems": [
+              {
+                "properties": {
+                  "item_id": {
+                    "const": "wolf_fang"
+                  },
+                  "quantity": {
+                    "const": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "item_id": {
+                    "const": "spirit_ore"
+                  },
+                  "quantity": {
+                    "const": 1
+                  }
+                }
+              }
+            ],
+            "items": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kill_owner_character_id_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "silver_drop_or_null": {
+            "type": "null"
+          },
+          "fixed_item_drops": {
+            "maxItems": 0
+          },
+          "cooking_material_results": {
+            "maxItems": 0
+          },
+          "adv03_lower_material_results": {
+            "maxItems": 0
+          },
+          "resource_rewards": {
+            "properties": {
+              "experience_pool_or_null": {
+                "type": "null"
+              },
+              "practice_pool_or_null": {
+                "type": "null"
+              },
+              "ascension_pool_or_null": {
+                "type": "null"
+              },
+              "personal_credits": {
+                "maxItems": 0
+              }
+            }
+          },
+          "adv03_upper_material_results": {
+            "maxItems": 0
+          },
+          "adv03_upper_wrong_results": {
+            "maxItems": 0
+          },
+          "adv01_material_results": {
+            "maxItems": 0
+          },
+          "adv02_material_results": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "boar",
+                  "mountain_wolf",
+                  "valley_boar",
+                  "frost_wolf"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "silver_drop_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "fixed_item_drops": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "hyunbo_frog5"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "cooking_material_results": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "shenwu_bloodwolf61",
+                  "liushan_green_snake61"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "adv03_lower_material_results": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "shenwu_bloodwolf61"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv03_lower_material_results": {
+            "items": {
+              "properties": {
+                "quest_before": {
+                  "properties": {
+                    "branch_id_or_null": {
+                      "enum": [
+                        "righteous_blade",
+                        "righteous_sword",
+                        "righteous_spear",
+                        "righteous_physician",
+                        "righteous_archer",
+                        "righteous_assassin",
+                        "righteous_musician",
+                        "righteous_fighter",
+                        "righteous_orb"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "liushan_green_snake61"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv03_lower_material_results": {
+            "items": {
+              "properties": {
+                "quest_before": {
+                  "properties": {
+                    "branch_id_or_null": {
+                      "enum": [
+                        "evil_blade",
+                        "evil_sword",
+                        "evil_spear",
+                        "evil_physician",
+                        "evil_archer",
+                        "evil_assassin",
+                        "evil_musician",
+                        "evil_fighter",
+                        "evil_orb"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "hyunbo_bear15"
+              }
+            }
+          },
+          "kill_owner_character_id_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "loot_random_flow": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "random_item_drops": {
+            "maxItems": 0
+          },
+          "loot_random_flow": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "shenwu_gate_red_tiger60",
+                  "liushan_house_gold_bell_snake60"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "adv03_upper_material_results": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "shenwu_gate_red_tiger60",
+                  "shenwu_gate_sabre_tiger60"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv03_upper_material_results": {
+            "items": {
+              "properties": {
+                "branch_id": {
+                  "const": "righteous"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "liushan_house_gold_bell_snake60",
+                  "liushan_house_coral_snake60"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv03_upper_material_results": {
+            "items": {
+              "properties": {
+                "branch_id": {
+                  "const": "evil"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "shenwu_gate_sabre_tiger60",
+                  "liushan_house_coral_snake60"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "adv03_upper_wrong_results": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "shenwu_gate_red_tiger60",
+                  "shenwu_gate_sabre_tiger60"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv03_upper_wrong_results": {
+            "items": {
+              "properties": {
+                "branch_id": {
+                  "const": "righteous"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "liushan_house_gold_bell_snake60",
+                  "liushan_house_coral_snake60"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv03_upper_wrong_results": {
+            "items": {
+              "properties": {
+                "branch_id": {
+                  "const": "evil"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "hyunbo_boar12",
+                  "hyunbo_graywolf12"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "adv01_material_results": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "hyunbo_boar12"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv01_material_results": {
+            "items": {
+              "properties": {
+                "quest_before": {
+                  "properties": {
+                    "stage_index_or_null": {
+                      "const": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "hyunbo_graywolf12"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv01_material_results": {
+            "items": {
+              "properties": {
+                "quest_before": {
+                  "properties": {
+                    "stage_index_or_null": {
+                      "const": 7
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "liuzheng_pass_red_bear35",
+                  "liuzheng_pass_yellow_tiger36",
+                  "liuzheng_pass_white_tiger37",
+                  "sanxie_pass_red_bear35",
+                  "sanxie_pass_yellow_tiger36",
+                  "sanxie_pass_white_tiger37"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "adv02_material_results": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "liuzheng_pass_red_bear35"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv02_material_results": {
+            "items": {
+              "properties": {
+                "item_id": {
+                  "const": "adv02_red_bear_skin"
+                },
+                "quest_before": {
+                  "properties": {
+                    "selected_branch_or_null": {
+                      "const": "righteous"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "liuzheng_pass_yellow_tiger36"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv02_material_results": {
+            "items": {
+              "properties": {
+                "item_id": {
+                  "const": "adv02_yellow_tiger_skin"
+                },
+                "quest_before": {
+                  "properties": {
+                    "selected_branch_or_null": {
+                      "const": "righteous"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "liuzheng_pass_white_tiger37"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv02_material_results": {
+            "items": {
+              "properties": {
+                "item_id": {
+                  "const": "adv02_white_tiger_skin"
+                },
+                "quest_before": {
+                  "properties": {
+                    "selected_branch_or_null": {
+                      "const": "righteous"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "sanxie_pass_red_bear35"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv02_material_results": {
+            "items": {
+              "properties": {
+                "item_id": {
+                  "const": "adv02_red_bear_skin"
+                },
+                "quest_before": {
+                  "properties": {
+                    "selected_branch_or_null": {
+                      "const": "evil"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "sanxie_pass_yellow_tiger36"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv02_material_results": {
+            "items": {
+              "properties": {
+                "item_id": {
+                  "const": "adv02_yellow_tiger_skin"
+                },
+                "quest_before": {
+                  "properties": {
+                    "selected_branch_or_null": {
+                      "const": "evil"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "sanxie_pass_white_tiger37"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "adv02_material_results": {
+            "items": {
+              "properties": {
+                "item_id": {
+                  "const": "adv02_white_tiger_skin"
+                },
+                "quest_before": {
+                  "properties": {
+                    "selected_branch_or_null": {
+                      "const": "evil"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "enum": [
+                  "hyunbo_axe_bandit32",
+                  "hyunbo_bandit_leader33"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "hyunbo_recommendation_results": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "hyunbo_axe_bandit32"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "hyunbo_recommendation_results": {
+            "items": {
+              "properties": {
+                "item_id": {
+                  "const": "recommendation_bandit_axe"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "actor_before": {
+            "properties": {
+              "monster_id": {
+                "const": "hyunbo_bandit_leader33"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "hyunbo_recommendation_results": {
+            "items": {
+              "properties": {
+                "item_id": {
+                  "const": "recommendation_bandit_proof"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

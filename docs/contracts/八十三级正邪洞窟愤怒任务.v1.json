@@ -396,13 +396,21 @@
   "bonus_application": {
     "eligible_scope": "本人普通怪物原死亡经验，所有已采用公共/私场/修炼地图精确允许experience分量的怪；不含任务/活动完成奖、配置/交易/退款/升天进度/历练/银/物，不传给伙伴召唤物。",
     "component_gate": "普通怪finisher_reward_components、注册修炼怪training_reward_components明确含experience；按实际地图owner选唯一字段，缺配置拒绝导出，不按名字推断。",
-    "snapshot": "原死亡先按源世界当前步扣时，再对各收件人快照存活/连接/地图/有效同世界本槽来源（83/67真实任务或独立配置），原来源各自核真实授权；修炼金独立依原主题房间周期资格选源。事后拾取/交任务/重连/复活不重评。",
-    "family": "同个人经验倍率族effective_bp=max(10000,有效本槽任务或配置源12000,有效training_gold15000)；不可相乘成1.8。修炼金15000时仍扣愤怒源时间，无延后/暂停/退还。",
+    "snapshot": "原死亡先按源世界当前步扣时，再对各收件人快照存活/连接/地图/有效同世界本槽来源（83/67真实任务或独立配置），原来源各自核真实授权；修炼金独立依原主题房间周期资格选源。事后拾取/交任务/重连/复活不重评。 衣饰候选另取每收件人当前生效cape的精确39992/39991完整合法实例及正余时；衣饰已在其角色rules_and_timers推进，本死亡只读，不再次扣时。备用/仓库/背包/预览不提供衣饰候选；隐藏不影响。 至尊档案权益只读本T已完成的世界级服务计时结果，不在每个角色死亡再扣一步。",
+    "family": "同个人经验倍率族effective_bp=max(10000,有效本槽任务或配置源12000,有效training_gold15000,有效纪念衣饰12000,有效至尊服务15000)；只选一次，不相乘成1.8/1.44或再额外乘1.2。修炼金15000压过其他源时仍按各自时钟扣时，无延后/暂停/退还。衣饰并族是明确项目采用，不声称官网叠加公式已核。",
     "order": "26最后击杀先修正普通经验基数→19队伍独立经验池与等级权重分配base_share→每人floor(base_share*effective_bp/10000)一次→14经验上限实际/损失及升级基础属性/new covered_level发点；bonus=scaled-base_share独立生成，不回灌队伍池。",
-    "receipt": "原死亡保存全部有效候选/来源余时/稳定key/selected key/effective_bp/base_share/personal_bonus/scaled/actual/cap_loss及对应原授予或配置收据；sum(base_share)=pool,sum(actual+loss)=pool+sum(personal_bonus)。配置来源须保配置标记，不能仅记录任务收据槽。",
-    "source_key": "任务anger候选key=(anger83,world_id,source_quest_id,grant_receipt_id)；配置anger候选key=(anger_configuration,world_id,configuration_receipt_id)，两者只取当前单槽合法分支；金key=(training,world_id,theme_id,cycle_index)。同最大倍率字典序取一个源，候选仍全记；不得从配置凭证编造任务ID。",
+    "receipt": "原死亡保存全部有效候选/来源余时/稳定key/selected key/effective_bp/base_share/personal_bonus/scaled/actual/cap_loss及对应原授予或配置收据；sum(base_share)=pool,sum(actual+loss)=pool+sum(personal_bonus)。配置来源须保配置标记，不能仅记录任务收据槽。 衣饰候选还保存真实原实例业务版本/创建锚/实际owner与余时来源及当时剩余步；即使未选为最高仍保候选，不能把其来源写成任务或修炼周期。完整衣饰与原死亡收据严格封套仍待，不能据本字段接入未知实例。",
+    "source_key": "任务anger候选key=(anger83,world_id,source_quest_id,grant_receipt_id)；配置anger候选key=(anger_configuration,world_id,configuration_receipt_id)，两者只取当前单槽合法分支；金key=(training,world_id,theme_id,cycle_index)。同最大倍率字典序取一个源，候选仍全记；不得从配置凭证编造任务ID。 衣饰候选key=(apparel_commemorative,world_id,character_id,instance_id,creation_receipt_id)，资格/实际所有权与连续余时依apparel_candidate_owner_ref核；不从任意cloak名称或配置字符串造来源。 至尊候选key及档案权益/世界级先计时快照沿supreme_candidate_owner_ref，15000与修炼金并列仍只选一个，不重复floor或加奖。",
     "atomicity": "05/19同原死亡权威全收件人事务扣时快照/任务物及普通收益/个人经验等级发点/来源与收据；重放原结果，不重新加源/发点。",
-    "integer_safety": "任意精度整数中间值，最终scaled/actual/loss须各owner合法范围内严格整数token；不float/回绕/截断非法输入。"
+    "integer_safety": "任意精度整数中间值，最终scaled/actual/loss须各owner合法范围内严格整数token；不float/回绕/截断非法输入。",
+    "apparel_candidate_owner_ref": {
+      "file": "衣饰基础贡献.v1.json",
+      "pointer": "/experience_contribution"
+    },
+    "supreme_candidate_owner_ref": {
+      "file": "至尊服务.v1.json",
+      "pointer": "/reward_effects"
+    }
   },
   "reward_creation": "交付先验证原合法库存与本轮委托书1，候选扣委托书1后创建一枚独立七键戒指，实例/血统ID按同一交付结算固定输出顺序分配，全新revision0、character绑定、creation_receipt_id为该正式交付ID；instance_flow create附quest_reward授权并指真实交付收据。本次最终背包需一个独立装备槽及额外5克，不可与已有戒指合堆、直接替换穿戴或发入仓库。戒指所有权不要求已满足实际二转，但装备须40级及实际rank2。计时源槽及世界时钟校验/计时源授予/完成标记/凭证来源消费/新实例来源及角色库存修订同笔，任何一步不合法整笔拒绝；重放原结算不新分配实例或再次发奖。"
 }

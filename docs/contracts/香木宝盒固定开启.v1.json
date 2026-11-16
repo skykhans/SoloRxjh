@@ -49,14 +49,32 @@
       }
     ],
     "qualification": "本人存活连接/脱战空闲/无挑战交易服务预留，地图允许使用；14职业/三路线/等级>=1/rank>=0。自己inventory真实精确盒堆/绑定/来源/修订/数量合法，仓库不直接开。",
-    "capacity": "原完整库存合法；消费盒1/20克，再给consumable_bag药5/共50克，净增30克。药99堆/角色绑定按真实来源合堆/余量及新药槽布局；盒释放的inventory槽不能替药品槽。原药98+5须99+4两个药堆，药99满堆不能再填；药量全批预检，缺1克或缺任一药槽整笔保盒。",
+    "capacity": "原完整库存合法；消费盒1/20克，再给inventory药5/共50克，净增30克。药99堆/角色绑定按真实来源合堆/余量及新药槽布局；最后一个盒消费释放的inventory槽可用于新药堆；余盒仍占原槽。原药98+5须99+4两个药堆，药99满堆不能再填；药量全批预检，缺1克或缺任一药槽整笔保盒。",
     "transaction": "05/19单一use结算，盒终结reason use；药loot授权须解析本精确输入盒/固定输出5/既有药定义，不因字符串loot泛授药。新药堆不自动填快捷栏、不立即恢复HP、不启动或清理hp_restore冷却。盒和药真实来源/消费产出流及角色库存修订同笔各一次，无费用/XP/银/历练/RNG。",
     "deduplication": "同request同payload回原持久决定，不再次耗盒或发药；改payload同request拒绝；新request只能开真实余盒。"
   },
   "failure_and_save": "资格/来源/原状态/修订/最终药槽或负重失败整笔保盒。保存不确定解析原决定，旧结果不回装已使用/售卖/丢弃药；不再开盒。",
-  "persistence": "只用既有inventory/consumable_bag与真实堆来源，无新增timer或药定义；新角色/known1..4初始盒0，不补历史任务奖励。只有共同001终交授权5盒。",
+  "persistence": "只用既有inventory与真实堆来源，无新增timer或药定义；新角色/known1..4初始盒0，不补历史任务奖励。只有共同001终交授权5盒。",
   "pending": [
-    "Godot固定开盒/跨容器槽重/来源/保存/LAN验证",
+    "Godot固定开盒/背包槽重/来源/保存/LAN验证",
     "5盒共25小药的低等级经济校准"
-  ]
+  ],
+  "opening_protocol": {
+    "status": "strict_event_journal_and_source_contract_adopted_runtime_pending",
+    "request": "原本人活跃会话command_id、expected_character_revision、expected_inventory_revision及精确输入stack_id/revision；一次只开1盒。沿原通用分配与角色互斥，request_id为71编码[\"aromatic_wood_box_open\",session_id,command_id]，摘要覆盖完整原命令。同请求先查原决定，不因当前盒已消失重复开盒。",
+    "plan": "冻结rules_hash、完整inventory_before、精确盒previous_output/完整stack及实际接收增量的小药旧堆previous_output/完整stack。盒须本人inventory、character绑定、quest_scope=null、有效held头、quantity>=1；药接收堆仅本人inventory同定义/绑定/非任务有效held头，按槽序且quantity1..98，至多5堆。坏源拒绝，不跳过坏堆新建以掩盖损坏。",
+    "allocation": "先消费盒1；盒余量>0保原ID/槽且revision+1，余量0退休并释放inventory槽。5药按inventory槽序填旧堆至99，余R>0仅一个新药堆入最低空药槽。最后一个盒消费释放的inventory槽可用于新药堆；余盒仍占原槽；预检完整原状态、最终真实重量原值+30克、药槽及所有修订可推进，任一失败整笔不变。",
+    "consume": "原consume流输入恰完整盒旧输出；consumptions恰input_index0/quantity1/reason=use。若余盒>0仅一个本人held输出，原stack_id/同定义绑定scope/origin_receipt_id、quantity旧-1/revision旧+1，贡献仅input_index0/quantity旧-1；最后一盒无输出。不得用全堆终结丢失余盒。",
+    "mint": "原mint流恰一个本人held/character绑定/非任务consumable_hp_small数量5/revision0/贡献空的新堆；loot授权必须解析本原已提交开盒决定及已消费精确盒1。授权不是任务交付、任意loot字符串或直接恢复HP。",
+    "merge": "无接收旧药堆时consume→mint；有时consume→mint→merge，末流输入依次旧药槽序再临时mint，完整贡献守恒且无mint/consumptions。旧药ID/槽及origin_receipt_id保留、revision+1；R>0仅一个新最终药堆，否则无新最终堆。临时mint全部消费退役，不占临时槽。",
+    "identity": "流ID分别原settlement+:stack:consume/:stack:mint/:stack:merge；新stack_identity_v1 ordinal0给mint，有merge且R>0才ordinal1给最终新药堆。余盒保原ID不占新ordinal。三流同一原决定，禁止分别分配或发布。",
+    "commit": "同次正式替换保存全部源流、盒余量/退休、药堆/布局及character/inventory各+1。无RNG/银/经验/历练/冷却/快捷栏变化。reserved不改业务；取消或保存失败按原决定恢复，不补盒/补药；已提交只回结果，不回装已经移动或使用的药。",
+    "boundary": "严格三阶段事件、profile日志/通用分配登记及新建导入初始化、来源提取合同已采用。真实数量/修订等式、完整父/来源加载器及Godot实现/故障/LAN测试仍待，不开放执行。",
+    "event_schema_ref": {
+      "file": "香木宝盒开启事件.schema.json",
+      "pointer": ""
+    },
+    "journal_field": "profile.aromatic_wood_box_open_events",
+    "semantic_equalities": "command精确绑定plan盒ID/修订及真实角色/库存before；character_revision_after=expected_character_revision+1，inventory_revision_after=expected_inventory_revision+1。盒量B消费1、余量B-1；有余输出原身份/定义/绑定/归属/origin保持、revision旧+1。第i旧药输入量Qi按槽序接di=min(尚余5,99-Qi)，仅di>0入plan，旧输出Qi+di/revision旧+1且原身份/origin不变；R=5-sum(di)，有R恰一新最终堆，否则无。每个flow输入须逐索引等plan旧输出或本mint唯一输出，贡献逐索引全量覆盖，不能只凭总量守恒换源。除盒/药相关item_stacks与inventory槽、来源日志、通用分配计数/本事件及两业务修订外，其他角色业务字段保持原值；档案修订沿原完整替换。"
+  }
 }

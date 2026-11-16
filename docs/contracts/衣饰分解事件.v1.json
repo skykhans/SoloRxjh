@@ -1,0 +1,55 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "strict_apparel_dismantling_event_and_mint_merge_adopted_not_runtime",
+  "schema_ref": {
+    "file": "衣饰分解事件.schema.json",
+    "pointer": ""
+  },
+  "rules_owner_ref": {
+    "file": "衣饰分解.v1.json",
+    "pointer": ""
+  },
+  "instance_owner_ref": {
+    "file": "衣饰实例.v1.json",
+    "pointer": ""
+  },
+  "stack_owner_ref": {
+    "file": "物品堆与来源.v1.json",
+    "pointer": ""
+  },
+  "layout_owner_ref": {
+    "file": "容器与仓储.v1.json",
+    "pointer": ""
+  },
+  "field": "profile.apparel_dismantling_events",
+  "initial_value": [],
+  "identity": "原通用身份；request_id为71确定JSON [\"apparel_dismantle\",play_session_identity.session_id,command_id]，request_digest对完整严格八键command编码SHA256。先查请求，同命令异参拒绝；committed只回原决定，即使日期/目标/角色现态已变化也不重复销毁或发物。",
+  "journal": "allocation_index递增、预留追加/决定原位替换，至多一reserved，同角色跨owner互斥；新profile及四旧导入新目标显式[]，当前格式缺字段拒绝，不伪造旧分解来源。",
+  "admission": "原分解owner规定本人服务/交互/held装备包/源版本与库存完整合法，interaction_id必须绑定源实例/修订/完整预览/会话/规则与确认。允许源revision=MAX（终结不再修订源），角色/库存及实际存续材料修订仍须可+1。不要求穿戴体型合格；两套cape/仓库须先明确卸/取。",
+  "plan": "rules_hash/source_input/inventory_before/merge_inputs/calendar_date_or_null恰五键；source_input保实际完整衣饰/前业务输出/最新held域，inventory_before为该expected_inventory_revision的完整原材料包布局，不能仅保可合堆片段掩盖坏库存。merge_inputs冻结实际会接收回收量的原材料堆完整正文/前输出，顺序为材料包原槽号升序（同槽不合法，不靠排序修复），最多6堆，各原量1..98且同本人held/非任务/角色绑定heat_blood_synthesis_stone、可用未占用。",
+  "confirmation": "enhancement=0时原第一层明确确认绑定interaction，command日期输入与plan日历均null；>0时两者非空。plan冻结房主真实本地ISO日历，严格有效年1..9999/月/日；command为四字节ASCII MMDD、前导零保留且恰该日历月日。提交核当前房主日历仍相同；变更先calendar_changed取消并重新审阅，不偷偷改提示。日期只作交互，不推进寿命、不作账号认证。",
+  "capacity": "输出N=1+floor(源真实强化/3)，1..6。按完整原inventory槽升序，将N依次填入可用兼容旧堆至99；只有实际接收量>0者入merge_inputs，满堆/未接收者不改。余量R>0时需原材料包最低空槽，新堆最多一个；装备包移除衣饰释放的槽不能当材料槽。最终全随身重量=原真实重量-500+N*10，核当前真实承重及各域，禁止超量丢弃/入仓/占临时格；完整来源与原布局须先合法。",
+  "reserve": "全部源/材料/布局/钱/重量/修订/确认与日期/规则预检通过才counter+1/reserved入档；钱物/随机/角色修订不变。原衣饰计时不冻结，提交前rules_and_timers先处理，整件到期无分解输出，纪念到期改变源业务版使旧报价取消。合法正余时差只沿真实角色连续步证明，不凭相减自证。 实际到期步若本reserved占用同角色，须先按本owner取消失效候选、保钱物/随机/两修订，再由原到期owner预留；不得双reserved或无限互等。",
+  "instance_flow": "receipt_id本settlement，inputs恰源当前完整衣饰，前输出/域/业务版与plan匹配，差异只限原合法余时递减；outputs空、retirements恰input0/reason=apparel_dismantling。移除原唯一equipment_bag位置与活体正文，保终结历史，不给旧血统新衣饰后继，不复制旧合成成功凭证至材料。",
+  "mint": "stack_flows[0]inputs/consumptions空、outputs恰一，craft_output/authority_receipt_id本settlement，只铸本人绑定非任务热血石N，revision0/contributions[]/held；不授权其他物品。若merge_inputs空，单流receipt_id=settlement，输出直接入最低空材料槽。非空时该流receipt_id=settlement+:stack:mint，中间输出仅历史，不需临时格、不先插活体库存。",
+  "merge": "merge_inputs非空时恰第二流receipt_id=settlement+:stack:merge，无mint/consumptions。inputs先原merge_inputs按原槽序，后引用同事件flow0唯一输出，禁止自环/前向引用/重用输入。输出依capacity先保原接收堆ID/位置、数量原值+接收量、revision+1，再将余量R>0形成新堆/revision0/最低原材料空槽；每输出贡献精确旧输入原量与mint输入分配量，合计守恒，origin为merge receipt。原满堆/未接收堆不入流、不递增。flow0中间ID在merge全部消费后退役，不得同时挂活体。",
+  "identities": "新堆ID沿原stack_identity_v1，全事件新ID ordinal不按flow重置；无merge时flow0新ID ordinal0为最终新堆。存在merge时中间mint ID ordinal0被消费，若还有新余量堆则使用后续ordinal1/revision0；不是复用中间ID/修订。碰撞/编号溢出整笔拒绝，不换盐/改序。source旧衣饰instance/lineage不转成材料ID或血统。",
+  "silver": "仅本人carried_silver真实前账户、无opening，唯一index0→null service_fee1000/authority本settlement，after=before-1000>=0，receipt_id本settlement；不扣仓银/改费/新增卖款。",
+  "commit": "同一正式替换提交终结/布局/实例头、最终材料源头/真实stack_flows、银费及原结果，character/inventory各+1，其他布局/堆/配置修订保持。中间mint已消费输出只留历史，不在活体表留双份；无随机消费或随机状态变更，不加空random_flow。",
+  "abort": "user_cancelled/interaction_invalid/state_changed/calendar_changed只保原身份及aborted记录，不扣钱物/随机/角色修订；预留后合法源/版本/日历变化取消。缺源/读失败保现场报错，不当容量不足吞掉坏状态。",
+  "recovery": "committed重放原决定，不按现在日期拒认旧结果或再次给石；reserved核原冻结输入/规则/最新合法时钟/日历和真实交互，失效按原因取消。保存存疑先核正式决定，不能部分发布销毁/铸造/合堆/扣费。",
+  "implementation_gate": "严格分解事件/专用终结原因/原日志及来源投影设计采用，完整profile/角色/真实计时/源头/材料定义与NPC/网络producer/Godot/文件LAN仍待，服务registered=false。",
+  "apparel_expiry_owner_ref": {
+    "file": "衣饰到期事件.v1.json",
+    "pointer": ""
+  },
+  "apparel_clock_result_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": "/clock/result"
+  },
+  "growth_material_purchase_owner_ref": {
+    "file": "成长材料购买事件.v1.json",
+    "pointer": ""
+  }
+}

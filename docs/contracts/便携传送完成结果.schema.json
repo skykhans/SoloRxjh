@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:portable-travel-finish:v1",
+  "$comment": "原便携末步共同父十五键完成决定；channel_before为真实r1前像，completed才消费/移动/启动冷却，rejected保钱物位置并清读条。原角色/world/来源/精确数量与共同保存另验，不含较早外部取消。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "channel_before",
+    "outcome",
+    "reason_or_null",
+    "destination_or_null",
+    "stack_flow_or_null",
+    "auto_route_terminal_or_null",
+    "character_revision_after",
+    "inventory_revision_after"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "$ref": "urn:solorxjh:portable-travel-advance:v1#/$defs/completion_event_id"
+    },
+    "channel_before": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/channel"
+        },
+        {
+          "properties": {
+            "remaining_steps": {
+              "const": 1
+            }
+          }
+        }
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "completed",
+        "rejected"
+      ]
+    },
+    "reason_or_null": {
+      "enum": [
+        null,
+        "source_unavailable",
+        "action_interrupted",
+        "activity_forbidden",
+        "overweight",
+        "in_combat",
+        "authorization_expired",
+        "point_unavailable",
+        "entry_gate_failed",
+        "destination_blocked"
+      ]
+    },
+    "destination_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:character-location:v1"
+        }
+      ]
+    },
+    "stack_flow_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/consumption_flow"
+        }
+      ]
+    },
+    "auto_route_terminal_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:auto-route-state:v1#/$defs/terminal",
+          "properties": {
+            "reason": {
+              "enum": [
+                "scope_changed",
+                "explicit_cancel"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "character_revision_after": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "inventory_revision_after": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "completed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reason_or_null": {
+            "type": "null"
+          },
+          "destination_or_null": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "reason_or_null": {
+            "type": "string"
+          },
+          "destination_or_null": {
+            "type": "null"
+          },
+          "stack_flow_or_null": {
+            "type": "null"
+          },
+          "auto_route_terminal_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "channel_before": {
+            "properties": {
+              "action_kind": {
+                "const": "supreme_talisman_travel"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flow_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "if": {
+          "properties": {
+            "outcome": {
+              "const": "completed"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "stack_flow_or_null": {
+              "type": "object"
+            },
+            "inventory_revision_after": {
+              "minimum": 1
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "consumption_flow": {
+      "$ref": "urn:solorxjh:stack-flow:v1",
+      "properties": {
+        "inputs": {
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "outputs": {
+          "maxItems": 1,
+          "items": {
+            "properties": {
+              "stack": {
+                "properties": {
+                  "item_id": {
+                    "enum": [
+                      "return_talisman",
+                      "return_liuzheng",
+                      "return_sanxie",
+                      "return_shenwu",
+                      "return_liushan",
+                      "return_beihai",
+                      "earth_spirit_talisman"
+                    ]
+                  },
+                  "binding": {
+                    "const": "character"
+                  },
+                  "quest_scope": {
+                    "type": "null"
+                  },
+                  "quantity": {
+                    "maximum": 98
+                  },
+                  "revision": {
+                    "minimum": 1
+                  }
+                }
+              },
+              "contributions": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "properties": {
+                    "input_index": {
+                      "const": 0
+                    },
+                    "quantity": {
+                      "maximum": 98
+                    }
+                  }
+                }
+              },
+              "custody": {
+                "properties": {
+                  "kind": {
+                    "const": "held"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "consumptions": {
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "properties": {
+              "input_index": {
+                "const": 0
+              },
+              "quantity": {
+                "const": 1
+              },
+              "reason": {
+                "const": "use"
+              }
+            }
+          }
+        },
+        "mint_authorization": {
+          "type": "null"
+        }
+      }
+    }
+  }
+}

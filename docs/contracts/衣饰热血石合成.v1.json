@@ -1,0 +1,261 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "apparel_synthesis_design_adopted_not_complete_growth_or_instance_not_implemented",
+  "scope": "现有衣饰身份枚举1155款，全部四条合成槽；47功能道具严格排除。仅热血石合成，不代替强化/分解或完整实例。",
+  "identity_schema_ref": {
+    "file": "衣饰目录身份.schema.json",
+    "pointer": ""
+  },
+  "source_audit_ref": {
+    "file": "../reference/衣饰合成与强化来源审计.json",
+    "pointer": ""
+  },
+  "entries_schema_ref": {
+    "file": "衣饰合成条目.schema.json",
+    "pointer": ""
+  },
+  "eligibility_owner_ref": {
+    "file": "衣饰穿戴资格.v1.json",
+    "pointer": ""
+  },
+  "lifetime_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": ""
+  },
+  "permission_owner_ref": {
+    "file": "衣饰重量与权限.v1.json",
+    "pointer": ""
+  },
+  "base_contribution_owner_ref": {
+    "file": "衣饰基础贡献.v1.json",
+    "pointer": ""
+  },
+  "qigong_effective_level_owner_ref": {
+    "file": "升级发点.v1.json",
+    "pointer": "/effective_level_policy"
+  },
+  "qigong_identity_owner_ref": {
+    "file": "武功气功来源映射.v1.json",
+    "pointer": "/qigong_identities"
+  },
+  "random_owner_ref": {
+    "file": "随机序列.v1.json",
+    "pointer": ""
+  },
+  "source_and_project": {
+    "published": "317衣饰明确支持热血石；52旧FAQ支持四条属性及失败不销毁目标；旧说明称本职业气功生效、其他职业无效。以上不证明完整现代目录、石属性池/数值、费用或概率。",
+    "adopted_scope": "统一1155款四槽，为全目录可培养且保独立外观的明确项目选择；838未载明款也采用，原heat_stone字段不改。不能将52旧版禁止强化推广到全目录，强化由其独立owner决定。",
+    "adopted_values": "下列固定属性、玩家选属性、重复条目、通用石取得/绑定/价格与四槽费用/概率/消耗均为项目设计；不是官网完整石档，尚未平衡。"
+  },
+  "material": {
+    "item_id": "heat_blood_synthesis_stone",
+    "name": "热血石",
+    "kind": "growth_material",
+    "container": "inventory",
+    "max_stack": 99,
+    "weight_g": 10,
+    "binding": "character",
+    "warehouse": true,
+    "discard": true,
+    "sell_to_npc": false,
+    "player_trade": false,
+    "buyback": false,
+    "equip": false,
+    "direct_use": false,
+    "recipe_input_only": true,
+    "purchase_allowed": true,
+    "buy_price": 10000,
+    "minimum_purchase_level": 1,
+    "minimum_purchase_rank": 0,
+    "purchase_provider_id": "npc_daojianxiao",
+    "stock": "unlimited",
+    "presentation_ref": "dev_item_heat_blood_synthesis_stone",
+    "authority": "项目通用本地合成催化石；不合并原任务具名不同属性石、不改任何官网材料来源。"
+  },
+  "property_pool": [
+    {
+      "property_id": "apparel_max_hp",
+      "stat_key": "max_hp_flat",
+      "value": 50,
+      "authority": "项目固定值"
+    },
+    {
+      "property_id": "apparel_max_mp",
+      "stat_key": "max_mp_flat",
+      "value": 50,
+      "authority": "项目固定值"
+    },
+    {
+      "property_id": "apparel_attack",
+      "stat_key": "attack_flat",
+      "value": 5,
+      "authority": "项目固定值"
+    },
+    {
+      "property_id": "apparel_defense",
+      "stat_key": "defense_flat",
+      "value": 5,
+      "authority": "项目固定值"
+    },
+    {
+      "property_id": "apparel_qigong_level",
+      "value": 1,
+      "qigong_id_schema_ref": {
+        "file": "升级发点历史.schema.json",
+        "pointer": "/$defs/allocations/propertyNames"
+      },
+      "authority": "本地固定+1；目标为既有308普通/升天气功之一，不包括29反气功、状态技能或主动攻击技能。"
+    }
+  ],
+  "instance_entries": {
+    "field": "synthesis_entries",
+    "fresh_creation": [],
+    "fields": "普通属性恰slot_index/property_id/value/origin_receipt_id四键；气功条目额外必有qigong_id一键，不存可推导class/name/stat_key或有效等级。",
+    "validation": "长度0..4；slot_index严格JSON整数0..3且等数组位置，value严格JSON整数且等本池固定值，排除bool/浮点/字符串；未知字段/属性/气功、缺字段、跳槽或超长拒绝，不能裁剪/补默认。相同属性及相同qigong_id可重复，各成功条目有独立真实来源。",
+    "provenance": "origin_receipt_id必须指向原同血统衣饰在该槽、相同属性/目标气功/值的唯一已提交成功合成事件。原持有人与当时归属匹配；合法转让后可沿连续所有权历史认证原事件，不能要求永远当前收件人。失败、普通防具/武器/纪念属性/其他实例收据均无资格。",
+    "load": "正式新生沿本owner显式[]，加载缺失错误；完整实例另由3159类型分派的衣饰11键根校验，不能用本条目投影补字段或授权真实加工。"
+  },
+  "recipes": [
+    {
+      "recipe_id": "apparel_synthesize_slot_0",
+      "target_slot_index": 0,
+      "requires_existing_entry_count": 0,
+      "consumed_item_id": "heat_blood_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "allowed_property_ids": [
+        "apparel_max_hp",
+        "apparel_max_mp",
+        "apparel_attack",
+        "apparel_defense",
+        "apparel_qigong_level"
+      ]
+    },
+    {
+      "recipe_id": "apparel_synthesize_slot_1",
+      "target_slot_index": 1,
+      "requires_existing_entry_count": 1,
+      "consumed_item_id": "heat_blood_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 8000,
+      "random_draw_required": true,
+      "allowed_property_ids": [
+        "apparel_max_hp",
+        "apparel_max_mp",
+        "apparel_attack",
+        "apparel_defense",
+        "apparel_qigong_level"
+      ]
+    },
+    {
+      "recipe_id": "apparel_synthesize_slot_2",
+      "target_slot_index": 2,
+      "requires_existing_entry_count": 2,
+      "consumed_item_id": "heat_blood_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 6000,
+      "random_draw_required": true,
+      "allowed_property_ids": [
+        "apparel_max_hp",
+        "apparel_max_mp",
+        "apparel_attack",
+        "apparel_defense",
+        "apparel_qigong_level"
+      ]
+    },
+    {
+      "recipe_id": "apparel_synthesize_slot_3",
+      "target_slot_index": 3,
+      "requires_existing_entry_count": 3,
+      "consumed_item_id": "heat_blood_synthesis_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 5000,
+      "success_probability_bp": 4000,
+      "random_draw_required": true,
+      "allowed_property_ids": [
+        "apparel_max_hp",
+        "apparel_max_mp",
+        "apparel_attack",
+        "apparel_defense",
+        "apparel_qigong_level"
+      ]
+    }
+  ],
+  "service": {
+    "planned_service_id": "npc_daojianxiao_apparel_synthesis",
+    "registered": false,
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "eligibility": "本人存活脱战空闲、无未结算战斗/挑战/传送，NPC同图可用且距离<=2500毫米。唯一目标在本人装备背包内真实held、未被其他事务占用，完整衣饰定义/实例/来源/连续余时认证，并符合该ID实际穿戴资格；仓库或两套cape须先明确取出/卸下。",
+    "selection": "仅追加当前长度槽；玩家报价前选择具名属性，气功属性还须选308精确气功之一。允许选择未学/异职业气功，必须明确预览当前不生效；选择不授学习、转职或点数，不允许提交后换目标。",
+    "preservation": "保item_id/instance_id/lineage_id/创建锚、绑定、所有权及非合成合法成长字段；仅成功追加条目。合成失败不销毁、不降级、不清已有属性、不延寿或恢复纪念属性。",
+    "luck": "本配方不采用任何幸运符/神物之石/武器防具材料或概率加成，不借其他服务权限。"
+  },
+  "acquisition": {
+    "registered": false,
+    "npc_id": "npc_daojianxiao",
+    "quantity_range": [
+      1,
+      99
+    ],
+    "policy": "仅正式商店适配完成后可购，14职业共用；原库存合法且本人随身银两足够，核最终格重及合法同绑定堆。购买量×10000须安全整数；同笔扣银、生成/合堆来源、修订与去重，不扣仓银或借债。 严格购买三阶段/原日志/通用索引已由growth_material_purchase_owner_ref采用，真实服务与完整来源/网络仍待，registered=false。"
+  },
+  "contribution": {
+    "active": "沿base_contribution_owner_ref的active_source.selection；仅当前真实合法cape，备用/包/仓/预览不贡献，隐藏外观仍贡献。整件到期撤全部；纪念加量到期只撤纪念，不撤本合成成长。",
+    "flat": "普通条目分别累计到max_hp_flat/max_mp_flat/attack_flat/defense_flat的装备源各一次；不按衣饰强化倍增，不进入衣服罡气、PvE专属防御或第二次额外伤害。沿实际战斗/属性顺序，不能在最终配置覆盖后又加一次。",
+    "qigong": "气功条目仅给精确qigong_id的equipment/effect等级输入+1；与纪念all_qigong_levels及其他合法源合并，沿原已学/已解锁/兼容/自有投入>=1、具名上限及反气功顺序求有效值。异职业/未学/0投入条目留原文与红色无效预览，不贡献且不改身份。缺具名规则拒绝，不默认上限。",
+    "resources": "提高HP/MP上限不补当前值，合法源损失只下裁当前资源，不返自有气功点/预算、不增反气功装备预算。已接纳攻击沿原快照，后续换装不回算。"
+  },
+  "transaction": {
+    "quote_keys": [
+      "character_id",
+      "npc_id",
+      "service_session_id",
+      "source_instance_id",
+      "source_revision",
+      "inventory_revision",
+      "character_revision",
+      "target_slot_index",
+      "property_id",
+      "qigong_id_or_null",
+      "recipe_id",
+      "recipe_version",
+      "material_stack_ids_and_quantities",
+      "command_id"
+    ],
+    "preview": "显示目标独立款式/实际余时、已有条目/新槽、选定属性及当前有效性、成功率、材料/费用和失败仍消耗。属性非气功时请求qigong_id_or_null必须null；气功时必须精确ID。",
+    "timer": "报价不冻结余时。rules_and_timers先处理自然到期；整件到期不再加工，纪念属性到期改变实例业务修订，原报价失效。正余时自然递减须实际角色接纳步证明认证，不能客户端自改或简单忽略余时比较。成功/失败均保提交时真实余时，不写回报价旧值。",
+    "admit": "房主按原角色串行先查同命令正式结果；同命令异参数拒绝，重放回原结果。重验完整原库存/来源/实例/修订/当前槽/材料归属/服务资格及安全整数预算，副本扣精确1石和5000随身银两，验证最终格重，不能要求消费后多余空格。",
+    "random": "沿本人character.random_state；第0槽10000确定成功不消费块，其他仅一次名为apparel_synthesis_success的uniform_integer(0,9999)，draw<success_probability_bp成功。原合成事件random_flow记录实际抽样，同冻结before/after及完整事务覆盖认证；无世界流或属性随机抽样。",
+    "success": "同实例只追加本槽固定值和本成功事件ID；state_origin_receipt_id指本正式事件，实例业务revision+1，角色/inventory修订各+1；其他合法字段除实际时钟推进不改。",
+    "failure": "扣相同石/银，合成数组及其他成长不变；沿唯一实例来源协议的正式付费加工revise，state_origin_receipt_id指本失败事件、实例业务revision+1，角色/inventory修订各+1。计时按原角色步独立认证，失败不是冻结/恢复时钟理由。",
+    "invalid_or_cancel": "取消、过期报价、无资格、满槽、钱/材料不足、来源/计时不合法及任何预检失败整笔不提交，不扣费/随机/修订；不能把正式概率失败当预检拒绝。",
+    "commit_and_save": "同一正式决定原子提交消费来源/银两/成长/修订/实际随机流与结果，成功及失败均去重。真实业务提交后保存失败仅重存同状态，存疑先核原决定，不能重抽/扣费或回装旧余时。"
+  },
+  "implementation_gate": "完整衣饰根、严格合成/强化加工与分解事件及本地衣饰购买价格设计已采用；真实材料取得/商店适配、完整档案/连续时钟/来源与网络结果及服务映射完成后才注册运行，目前未实现服务。",
+  "instance_flow_owner_ref": {
+    "file": "唯一实例来源流.v1.json",
+    "pointer": "/revise"
+  },
+  "definition_owner_ref": {
+    "file": "衣饰基础定义.v1.json",
+    "pointer": ""
+  },
+  "full_instance_owner_ref": {
+    "file": "衣饰实例.v1.json",
+    "pointer": ""
+  },
+  "apparel_processing_owner_ref": {
+    "file": "衣饰加工事件.v1.json",
+    "pointer": ""
+  },
+  "growth_material_purchase_owner_ref": {
+    "file": "成长材料购买事件.v1.json",
+    "pointer": ""
+  }
+}

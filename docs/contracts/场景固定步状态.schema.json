@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:scope-step-state:v1",
+  "$comment": "原world同scope固定步十字段投影；规则阶段保存角色会话剩余队列，post_combat先旧采集、旧辅助施放再旧便携剩余队列，无第二游标/完成集。world_step观察唯一world步，完整队列全集/父before/已处理来源须语义验证。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "phase_or_null",
+    "rules_and_timers_pending_role_session_ids_or_null",
+    "post_combat_pending_gather_action_ids_or_null",
+    "post_combat_pending_portable_channel_ids_or_null",
+    "post_combat_pending_support_action_ids_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "phase_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "enum": [
+            "rules_and_timers",
+            "direct_attack_admission",
+            "movement_and_due_capture",
+            "combat",
+            "post_combat",
+            "finalize"
+          ]
+        }
+      ]
+    },
+    "rules_and_timers_pending_role_session_ids_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "urn:solorxjh:character-session:v1#/$defs/identity/properties/session_id"
+          }
+        }
+      ]
+    },
+    "post_combat_pending_gather_action_ids_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "urn:solorxjh:player-gather-action:v1#/properties/action_id"
+          }
+        }
+      ]
+    },
+    "post_combat_pending_portable_channel_ids_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "urn:solorxjh:portable-travel-channel:v1#/$defs/channel/properties/channel_id"
+          }
+        }
+      ]
+    },
+    "post_combat_pending_support_action_ids_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "urn:solorxjh:player-support-cast:v1#/properties/action_id"
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase_or_null": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "world_step": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "phase_or_null": {
+            "const": "rules_and_timers"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "rules_and_timers_pending_role_session_ids_or_null": {
+            "type": "array"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "rules_and_timers_pending_role_session_ids_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase_or_null": {
+            "const": "post_combat"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "post_combat_pending_gather_action_ids_or_null": {
+            "type": "array"
+          },
+          "post_combat_pending_portable_channel_ids_or_null": {
+            "type": "array"
+          },
+          "post_combat_pending_support_action_ids_or_null": {
+            "type": "array"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "post_combat_pending_gather_action_ids_or_null": {
+            "type": "null"
+          },
+          "post_combat_pending_portable_channel_ids_or_null": {
+            "type": "null"
+          },
+          "post_combat_pending_support_action_ids_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

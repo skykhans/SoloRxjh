@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:assassin-finisher-admission-snapshot:v1",
+  "$comment": "原攻击武功根assassin_finisher_snapshot_or_null；只有原三息绝击采用本两字段快照。保点与增伤各自只保实际接纳抽样，支付数及增伤系数按原规则派生，不另存重复布尔/消费量/随机日志。完整原资格、接纳父before/支付/随机共同提交另验。",
+  "oneOf": [
+    {
+      "type": "null"
+    },
+    {
+      "$ref": "#/$defs/snapshot"
+    }
+  ],
+  "$defs": {
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "point_preservation_proc_or_null",
+        "finisher_damage_proc_or_null"
+      ],
+      "properties": {
+        "point_preservation_proc_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/proc"
+                },
+                {
+                  "properties": {
+                    "qigong_id": {
+                      "const": "qigong_assassin_e05a70bee4f7"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "finisher_damage_proc_or_null": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/proc"
+                },
+                {
+                  "properties": {
+                    "qigong_id": {
+                      "const": "qigong_assassin_98cc2fd5447f"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "proc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "qigong_id",
+        "effective_grade",
+        "triggered"
+      ],
+      "properties": {
+        "qigong_id": {
+          "type": "string"
+        },
+        "effective_grade": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 40
+        },
+        "triggered": {
+          "type": "boolean"
+        }
+      }
+    },
+    "root_binding": {
+      "if": {
+        "required": [
+          "ability_id"
+        ],
+        "properties": {
+          "ability_id": {
+            "const": "teaching_assassin_finisher"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "assassin_finisher_snapshot_or_null"
+        ],
+        "properties": {
+          "assassin_finisher_snapshot_or_null": {
+            "$ref": "#/$defs/snapshot"
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "assassin_finisher_snapshot_or_null"
+        ],
+        "properties": {
+          "assassin_finisher_snapshot_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  }
+}

@@ -73,7 +73,7 @@
       "stack_limit": 99,
       "maximum_carried": 10,
       "weight_g": 0,
-      "producer": "active attempt stage2source monster binding pending"
+      "producer": "collection.producers具名本派材料怪，第2阶段固定1件/每类cap10，material_death_protocol原死亡共同结果"
     },
     {
       "item_id": "adv02_yellow_tiger_skin",
@@ -81,7 +81,7 @@
       "stack_limit": 99,
       "maximum_carried": 10,
       "weight_g": 0,
-      "producer": "active attempt stage2source monster binding pending"
+      "producer": "collection.producers具名本派材料怪，第2阶段固定1件/每类cap10，material_death_protocol原死亡共同结果"
     },
     {
       "item_id": "adv02_white_tiger_skin",
@@ -89,7 +89,7 @@
       "stack_limit": 99,
       "maximum_carried": 10,
       "weight_g": 0,
-      "producer": "active attempt stage2source monster binding pending"
+      "producer": "collection.producers具名本派材料怪，第2阶段固定1件/每类cap10，material_death_protocol原死亡共同结果"
     },
     {
       "item_id": "adv02_clothes_box",
@@ -372,18 +372,18 @@
       "stage_receipts",
       "guide_grant_receipts"
     ],
-    "world_fields": "future ordinary source spawn actors use existing monotone generation owner; quest state and receipts are character across worlds",
+    "world_fields": "六种材料怪/24原公共刷点沿公共普通怪原唯一生命/单调generation/死亡决定；任务六键与收据属于角色且跨world保留，完整world共同父仍待。",
     "new_character": "not_accepted,null attempt/branch/stage,empty receipts,no tokens",
     "legacy_import": "旧档导入.v1.json /advancement_quest_conversion;known1..4imports rank0/unselected and explicit unstarted adopted quests;no completion bylevel,unknown missing fields rejects",
     "states": [
       "not_accepted",
       "in_progress",
-      "ready_to_turn_in",
       "delivered"
     ],
-    "readiness": "current stage inputs/NPC service qualify;not independent kill count"
+    "readiness": "ready_to_turn_in仅按当前阶段真实实物/NPC服务资格派生，不持久；不存独立计杀计数。"
   },
   "pending": [
+    "完整死亡/角色/world共同父与真实来源/数量/语义/重放验证",
     "Godot quest UI/save/inventory/LAN/runtime tests and creature/NPC art/economy"
   ],
   "prerequisite_owner": {
@@ -970,5 +970,69 @@
   "respawn_owner": {
     "file": "制药材料任务与泫勃熊.v1.json",
     "pointer": "/respawn"
+  },
+  "persistent_state": {
+    "field": "character.quests.adv_02",
+    "schema_ref": {
+      "file": "二转任务状态.schema.json",
+      "pointer": ""
+    },
+    "initial": {
+      "attempt_id_or_null": null,
+      "selected_branch_or_null": null,
+      "stage_index_or_null": null,
+      "state": "not_accepted",
+      "stage_receipts": [],
+      "guide_grant_receipts": {}
+    },
+    "stage_receipts": "仅当前attempt已完成阶段的原结算ID，按阶段1..9顺序且唯一；in_progress阶段i恰i-1项，delivered恰9项，最后一项即最终收据，不另存final字段。原accept结算ID作为attempt；接受不会伪造阶段1完成。",
+    "guide_grant_receipts": "项目明确采用稀疏分支映射，仅righteous/evil可出现，值为该分支唯一实际向导领取的原接取结算ID；缺键表示从未领取。接受当前分支后必有该键，跨attempt/放弃保留，禁止用布尔或凭空ID占位。每项须解析原grant结果、同角色/adv_02/branch/guide_grant与真实一次物品来源；两分支不能复用同一实际结算。",
+    "abandon": "清当前attempt/selected_branch/stage为null，state回not_accepted且stage_receipts=[]；guide_grant_receipts完整保留，旧阶段/接受历史保在原事件来源，不删除或重发。推荐书仅释放原派生锁，不补发。",
+    "joint_validation": "in_progress要求rank1/route unselected及当前attempt接取与逐阶段原事件来源；delivered要求rank2及路线等selected_branch、原九阶段同attempt且最终恰消费推荐书/授本派回城符。完成后后续rank增长沿真实晋级来源验证，不把rank2冻结为终生不变量。无独立可写推荐书锁表，锁由原活跃接取与严格任务状态派生；真实原持有/消费证明和完整角色/world另验。",
+    "construction": "只新建角色及原已知四种旧来源使用本精确六键初值；当前格式缺/多字段拒绝，不套通用模板或修复已玩角色。",
+    "remaining": "严格六键根/构造职责采用；完整角色/world/source与Godot仍待。"
+  },
+  "transition_protocol": {
+    "field": "profile.adv02_transition_events",
+    "schema_ref": {
+      "file": "二转任务转换事件.schema.json",
+      "pointer": ""
+    },
+    "identity": "沿原通用结算与character未决互斥；request_id按71确定JSON [\"adv02_transition\",session_id,command_id]，request_digest覆盖原完整六键command。accept原settlement_id即新attempt，不新建计数。跨owner先认证原请求全文，同请求异参数冲突，重放原决定不重授符。",
+    "plan": "六键rules_hash/quest_before/inventory_before/inputs/branch_id/recommendation；推荐书完整原held堆与previous_output仅锁定证据，从原推荐书前置实际完成结果验证，精确本人/quest_id=ref_QREF-63791-016/completion_receipt_id及quantity1，不进入cleanup输入。分支明确选择并冻结原guide interaction；accept只not_accepted且rank1/route unselected、adv_01和推荐书前置实际完成。 plan.branch_id必须由该原interaction_id认证的guide_npc_id与map唯一解析并等确认分支，不采客户端未入摘要的旁路参数；abandon分支只能取原quest_before。",
+    "guide_grant": "本分支guide_grant_receipts缺键时，接取恰单quest_reward mint本派return_liuzheng或return_sanxie一件、character绑定/quest_scope null/revision0，原settlement为receipt且flow_index0/输出0；项目采用独立新堆及实际空槽/重量预检，不将普通回城符附任务scope，也不消费旧同物堆或隐式merge。有本分支凭证则stack_flow=null且保持旧凭证，绝不因符已用完/丢弃重发；首次才追加该分支键=本settlement，另一分支不变。",
+    "abandon": "必须确认当前branch/阶段及完整实物损失，plan.branch_id等before.selected_branch。阶段1/9无attempt held；阶段2三皮各0..10；阶段3..6三皮各恰10且最多30真实分堆；阶段7恰衣服箱1，阶段8恰衣服箱1+传达箱1。逐真实库存顺序取全本人本attempt/branch五类实物，推荐书与回城符不属cleanup。无物null，有物单quest_cleanup无mint/outputs，各原输入完整量消费一次、receipt=本settlement/flow_index0。",
+    "after": "accept仅设attempt=本settlement/branch/stage1/in_progress/空stage_receipts并按guide_grant追加凭证；abandon回原三null/not_accepted/空stage_receipts，保guide_grant_receipts全部原值。不改前置已完成状态/XP历史/推荐书数量，不退款或补物。推荐书锁从原活跃状态/接受历史派生，无独立锁表。",
+    "revisions": "每次成功character.revision=expected+1；仅真实首次授符或非空cleanup时inventory.revision=expected+1，其余精确不变。预检对应上限；库存位置/完整来源/实际净变动和quest_after同一原完整角色/world/profile共同候选，不能按子流重复加号。",
+    "abort": "reserved/aborted不产生实物/状态/凭证变化；原三种abort原因及当前会话/交互/规则沿共同owner。所有身份/原输入和已有前置来源保留，未决不会因新world自清。",
+    "remaining": "严格转换及来源职责已采用；完整角色/world/source与实际重放/Godot仍待。"
+  },
+  "stage_protocol": {
+    "field": "profile.adv02_stage_events",
+    "schema_ref": {
+      "file": "二转阶段提交事件.schema.json",
+      "pointer": ""
+    },
+    "identity": "原通用结算/character未决互斥，request_id按71确定JSON [\"adv02_stage\",session_id,command_id]，request_digest覆盖原五键交付command；interaction唯一解析当前branch/stage原NPC/地图/服务。重放原决定先于新资格判断，不重验后重做旧消费/授物。",
+    "plan": "五键rules_hash/quest_before/inventory_before/inputs/progress_before。inputs仅一套真实完整原堆与previous_output，含推荐书保留证据及本阶段所有皮箱，不复制recommendation或retained表。实际背包顺序冻结全部原held本人堆，逐证原来源/归属与锁；inputs不是默认消费清单。所有阶段rank1/route unselected、XP>=原35级6341000、alive/out of combat/Idle/无挑战及原2500mm/视线与当前精确NPC。",
+    "held_by_stage": "阶段1/9仅前置原推荐书1；阶段2..6原推荐书1及三皮各10（每皮1..10堆，最多31项）；阶段7书1+衣服箱1；阶段8书1+衣服箱1+传达箱1。皮箱精确本人/adv_02/原attempt/selected_branch，书精确ref_QREF-63791-016及原完成收据；任何旧轮/错分支/多余材料/坏源或漏项拒绝，不补发。",
+    "flow_selection": "阶段1..5无流且保全部实物，阶段2仅验看三皮、3..5同样保留；阶段6只消费三皮各10，保书并单quest_exchange mint衣服箱1；阶段7保书/衣服箱，只单quest_exchange mint传达箱1；阶段8只消费两箱，保书；阶段9只消费原推荐书1并单quest_reward mint本派回城符1。数量消费逐真实previous_output完整量一次，reason=quest_delivery；保留证据绝不误作消费输入。",
+    "mint_and_ids": "皮箱产物quantity1/revision0/character绑定/原adv_02/attempt/branch；最终普通回城符quantity1/revision0/character绑定/quest_scope null。独立新堆与最终实际空槽/重量预检，无隐式merge。单流receipt=本settlement；消费→mint双流分别settlement:stack:consume与settlement:stack:mint，flow_index按0/1顺序，output_index在本流内0，origin_receipt_id精确本流。单mint阶段7flow_index0、无输入/consumptions；消费无mint/outputs。",
+    "after": "保原attempt/selected_branch及全部guide_grant_receipts，每次stage_receipts仅按顺序追加本settlement。阶段1..8推进i+1/in_progress；阶段9保持branch、stage null/delivered，原九阶段及同一接受链真实完成才rank1->2且route=branch。不得同时产QREF017/018两个最终结果。其他progress total_xp/hp/mana/stamina精确原值，rank不变阶段仍1/unselected；晋级重算合法上限沿14但不补满当前资源/清冷却/免费发点，原本次无XP/历练/银奖励。",
+    "joint_commit": "每次成功character.revision=expected+1；仅阶段6..9真实数量流令inventory.revision=expected+1且预检上限，阶段1..5严格不变。所有流、任务/成长、实物位置/来源与原完整角色/world/profile同一共同候选，不按双流各加修订。reserved/aborted不消费/发物/写阶段收据；完整日志与原推荐书/材料祖先必须保留。",
+    "remaining": "严格九阶段/来源职责已采用；完整角色/world/source及真实语义/重放/Godot仍待。"
+  },
+  "material_death_protocol": {
+    "schema_ref": {
+      "file": "二转材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "parent": "原公共普通怪唯一死亡共同决定adv02_material_results数组；character_id UTF8有序且唯一最多6，item_id由原死亡monster精确匹配collection.producers。无独立结算/日志/counter，普通资源/银包仍同原死亡。",
+    "qualification": "仅原quest_before.in_progress阶段2，本人实际已接受/原selected_branch与原怪地图/定义精确匹配；alive/connected/同scene、solo owner或19原普通队伍快照合格成员，不含NPC伙伴。三皮持量逐本人held本quest/attempt/branch/item全集，不能只看当前首堆或其他轮库存。无归属/候选数组空，满额/容量失败同样保该人结果。",
+    "grant": "固定100%单件loot mint、revision0、character绑定和原adv_02/attempt/branch，无任务随机/倍率。held<10才可授，held=0独立新堆；held1..9选背包顺序首个同merge-key完整旧堆，冻结previous_output与原stack，mint→merge保旧ID/槽、旧revision+1/数量旧选中堆+1。全局held不冒充被选中堆数量；临时mint不占格且完整退役。",
+    "identity": "按71确定JSON [原death_id,character_id,\"adv_02\",attempt_id,selected_branch,item_id]的原UTF8摘要构造唯一任务材料receipt根；单mint用该根，合并两流加:stack:mint/:stack:merge。各流flow_index纳入同原死亡完整有序流全集，output_index仅本流0；authority_receipt_id引用原真正death_id，不另分配结算。",
+    "no_grant": "cap_reached恰held10，capacity_rejected仅held0..9且实际最终布局/重量或所需旧堆修订无法提交；均merge_input null/flows[]，在原死亡保存不授物决定，不因清空间/重连重试原死亡。坏来源/错误任务状态不是容量失败或空数组。",
+    "joint_commit": "保持任务六键原值，不写收集计数/阶段收据；同死亡的普通资源、所有角色实际库存/成长/修订、随机及world生命周期共同候选一次提交。角色/库存修订沿原完整父实际变更一次，不按个人子结果/双流叠加。重放原死亡只原决定，不对新attempt补发。",
+    "remaining": "严格七键子结果与职责采用；完整死亡/角色/world父及真实来源/数量/重放与Godot仍待。"
   }
 }

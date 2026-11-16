@@ -146,11 +146,11 @@
       "attack_interrupt": "上述超出/原目标失效发生且accepted_action非null时，以本原AI决定作为stop_event_id_or_null，保存本actor全部实际待停止根集合并按原NPC停止规则取消占用及未落效进攻；不是只清accepted_action或动画。保各根最后完成游标、已提交hit_result与明确取消来源，不退款/改写旧命中。移除类停止由原生命周期结果持有，不伪造活体AI决定。活体AI结果与根ID清单结构沿decision_result；完整停止来源/世界固定步仍待，缺来源不能先运行本转换。",
       "idle_patrol": "idle每步先查感知；有目标转chase并清巡逻目的地/等待，不在同次状态转换直接接纳攻击。无目标时实际接纳步递减remaining_ai_wait_steps，降至0的该步仅结束等待；下一实际步才选巡逻目的地。patrol仍每步先查感知，有目标转chase；否则沿已保存目的地寻路，不能每帧换点。",
       "patrol_selection": "四个patrol_waypoint_offsets_mm是相对原home的固定候选，顺序+X/+Z/-X/-Z，均半径2米。选择起点i=(原432刷点数组中本spawn的0基序号+实际world_step//idle_wait_steps)%4，从i起按环序最多检查四点：实际原地图可站立、完整胶囊不碰阻挡/安全区且有合法路径才采用第一个合格点，保存精确目的地。四点均被合法动态占用/无路径则idle/null目的地/等待60步，不挪坐标、传送或随机补点；缺地图/导航数据是配置错误，不能当四点被占。该固定选择不消费RNG或新增计数。",
-      "patrol_arrival": "实际沿路径完成到原巡逻目的地才转idle并等待60步，目的地可清null；中途被堵保持原目的地，沿path_retry_steps每60个实际接纳步重试，不能刷新整条巡逻。此计时唯一remaining_ai_wait_steps；转状态时按该状态规则置值，不与其他状态共跑两套等待。",
+      "patrol_arrival": "真实到原巡逻点后下一AI转idle并等待60；途中受阻保持目的地，按movement_owner_ref.retry由原AI唯一写remaining_ai_wait_steps，阻挡后第60个可消费实际步重试。不缓存路径或建立第二等待计数。",
       "chase": "chase对当前合法目标持续按原导航/碰撞及怪物movement_mm_per_second寻路，不能直线穿墙。接纳阶段开始已满足原距离/高差/视线时，可将当前实体朝向转向该原目标并冻结accepted_yaw；XZ重合保原有限yaw。原攻击本次接纳全部成功才转attack并停止平移；若资源/占用等真实拒绝仍保chase与原目标，不虚构成功动作或当步自动重试第二次。新根e0沿23。本步移动才进入范围者须下个实际接纳步重验，不在移动后补插本步接纳。",
       "attack": "有未停止且elapsed<T的accepted_action时ai_state=attack，保持原锁定朝向及原动作占用，不追逐移动/转头/新接纳。原目标保持合法但出攻击范围并不立即取消，本根到期几何可明确未中；只有上述已知失效/超牵引或真实生命周期/原合法中断才停止。原根正常完成后在下一AI决定转chase（目标仍合法）或return（已失效），不能清动作同一步再接纳第二根。",
       "return": "清当前target/巡逻目的地，不攻击、不感知换目标，按原合法导航回精确home，速度沿原monster。路被堵时原位置/受损HP保持，每60实际步重试；不传送、不用附近可站立点代替home。目标位置无效或缺导航/原刷点是坏来源，拒绝而非默认回满。",
-      "home_arrival": "在AI阶段起点核上一步真实完成路径且脚位置已到精确home、该位置当前合法且实际胶囊不受占、本人仍同轮活体且HP>=1，才同一原AI决定写HP为当前合法max_hp、ai_state=idle、target/null目的地、等待60。不在受阻/靠近/脱战瞬间回血；本步移动刚到家留到下一AI阶段重验，后来本步先死不能回血复活。返乡不重置效果/一般冷却/实体生命轮次、不再发经验/掉落/任务信用，也不伪装医师治疗触发。原怪物HP/相关来源与该AI决定同笔保存。",
+      "home_arrival": "在AI阶段起点核上一步真实完成路径且脚位置已到精确home、该位置当前合法且实际胶囊不受占、本人仍同轮活体且HP>=1，才同一原AI决定写HP为当前合法max_hp、ai_state=idle、target/null目的地、等待60。不在受阻/靠近/脱战瞬间回血；本步移动刚到家留到下一AI阶段重验，后来本步先死不能回血复活。返乡不重置效果/一般冷却/实体生命轮次、不再发经验/掉落/任务信用，也不伪装医师治疗触发。原怪物HP/相关来源与该AI决定同笔保存。返乡回满属于生命恢复，必须先核effects.hp_recovery_block原有效来源。实际封锁仍有效时，即使已合法到家也保持return、目标/巡逻/动作引用null、到家等待0，以quiet_tick等待后续真实scope步；不得回血、退出return或清效果绕过封锁。封锁真实到期或合法清除后，下一实际AI重验到家条件才产生return_home_ready，恢复当时真实派生max_hp，不累计补偿治疗。",
       "decision_identity": "需要持久状态转换/攻击停止/返乡回血的原AI决定event_id=\"training-ai:\"+SHA256(71确定JSON [\"training_ai_decision\",world_id,authority_profile_id,map_id,instance_id_or_null,source_actor_id,world_step]的UTF8)。同actor同实际步只有一原AI决定，异正文拒绝；其原before/after与停止清单沿world固定步结果，不额外申请通用结算counter或另建可写AI日志。无状态变化不伪造奖励/回血事件。本活体AI结果schema沿decision_result已采用，完整固定步来源/生命周期停止结果仍待。",
       "boundary": "五态转换、巡逻候选、占用/目标失效及返乡回血设计采用；活体AI结果结构已采用；完整停止来源/导航快照、actor/world根及Godot路径/堵路/联机保存仍待，不将转换表当真实AI运行验证。",
       "transition_table_policy": "表中输入为通过上述优先级和真实条件分派的原事件，非允许客户端直接发状态事件。to=null只在original_lifecycle_removes_actor表示由原槽移除；其他null为拒绝不变，不是把ai_state写null。normal_action_finished仅在目标仍合法时分派，否则先forced_return；本事件不能取消停止根或自动接纳新攻击。等待结束/巡逻选点/巡逻到达/四点受阻分别走显式事件；quiet_tick只保持原态并处理该态合法等待或路径移动，不能借自环额外转态。路径刚到达在下一AI决定核实际姿态后分派到达事件；每步仍至多一次AI决定。",
@@ -414,12 +414,16 @@
         "field": "原world固定步实际已提交结果内的本AI子结果，严格12字段；不新建world.ai_events/玩家profile日志或通用结算编号。before/after只保本结果授权涉及的原actor六字段历史投影，不是第二live actor/完整HP表。原正式world快照仍唯一持有实际actor/完整动作；完整world结果位置/保存协议仍须原owner采用。",
         "identity": "event_id精确decision_identity算法，world/authority/map/instance/actor/步/规则与同原固定步及本实际槽生命轮次一致。同actor同实际步只能一个AI决定，原正文异同必须完整比对，不凭相同摘要吞冲突。原actor初始/返回/移动和目标来源必须通过，不能以六字段投影伪造完整before。",
         "transition": "event及before.ai_state/after.ai_state精确命中原transition_table的23合法活体格，拒绝格/原生命周期移除不产本结果。before六字段等实际原actor、after六字段等本同笔实际actor，不在正式根之外安装另一份。原AI/移动/动作到期阶段不可拆成多个同actor同step的AI决定；移动与命中仍按其原阶段/子结果共同提交。",
-        "hp": "除return_home_ready外after.hp必须before.hp；此事件须当时同轮仍活体、真实已在合法原home、原返回完成与当前构筑通过，after.hp精确当前合法max_hp且>=before.hp。已满可转idle/等待但不生成虚假治疗量或奖励。其他本步伤害/周期/回调不混入AI投影变化，不用本结果授权0HP或复活。",
+        "hp": "除return_home_ready外after.hp必须before.hp；此事件须当时同轮仍活体、真实已在合法原home、原返回完成、当前构筑及home_arrival生命恢复封锁检查通过，after.hp精确当前合法max_hp且>=before.hp。已满可转idle/等待但不生成虚假治疗量或奖励。其他本步伤害/周期/回调不混入AI投影变化，不用本结果授权0HP或复活。",
         "action_refs": "accepted_action_id_or_null只指同actor原动作，不复制整根。attack_admitted后指该步本AI已成功接纳的唯一根/e0，before无攻击占用；attack_rejected不安装根。normal_action_finished只清已真实完成且保原命中证明的占用，后态chase仍须原目标合法；quiet_tick attack保同原占用引用，不把动画事件当完成。",
         "stopped_roots": "stopped_root_event_ids精确原作用域/该source_actor所有仍占用或有未落效进攻后代的根，原ID按UTF8严格递增，重复/漏/多/异源拒绝。仅forced_return可非空，after清target/巡逻目的地/占用；所有这些根stop_event_id_or_null指本event_id并同笔停，不抹旧命中或伪装elapsed=T。已经return的重复forced_return应为空且保持原路径重试等待；原生命周期移除根停止在原生命周期结果，不借本结果。",
         "other_diffs": "仅本事件明示的六字段变化合法：目标/巡逻目的地/等待遵原状态规则，未授权字段保持；完整actor其他字段（位置/yaw/原动作进度等）只可由同完整固定步中已登记的转向/移动/动作子结果授权。原世界/槽轮次、怪物定义、效果/冷却及随机流不由本AI结果修改；固定巡逻选择不消费随机。",
         "replay": "同原决定重放只核来源/回原结果，不重复回血、停止或接纳；历史原before/after不与后来actor当前HP比较。存疑原步阻依赖推进，不能先发布after再补证明。所需原停止/回血/动作来源与接收确认未闭合前保原必要历史，不随表现对象释放丢弃。",
         "boundary": "活体AI结果结构及23格约束采用；完整NPC生命周期/停止根证明、导航/固定步记录、actor/world根和Godot/LAN实际保存仍待，不将schema正向样本当运行通过。"
+      },
+      "movement_owner_ref": {
+        "file": "怪物徒步移动.v1.json",
+        "pointer": ""
       }
     }
   },
@@ -516,10 +520,8 @@
       "target_actor_id_or_null",
       "patrol_destination_or_null",
       "remaining_ai_wait_steps",
-      "accepted_action_or_null",
-      "cooldowns",
-      "effect_sources",
-      "pending_derived_events"
+      "accepted_action_id_or_null",
+      "effects"
     ],
     "ai_states": [
       "idle",
@@ -529,7 +531,7 @@
       "return"
     ],
     "single_owner": "slot owns spawn lifecycle/generation/cycle and one active_actor snapshot or null; hp/pose/action only inside active_actor, never duplicated in slot plus actor table; historical death receipt is not live HP",
-    "snapshot_invariants": "alive requires one active_actor with HP1..max, legal pose, matching spawn/monster/generation and known AI state; waiting/killed/expired/pending require null actor. Ordinary alive wait0, waiting wait0..7200; generation integer>=0; summoned cycle equals reconciled world cycle. Pending only in open window before successful spawn; expiry before actions. Validate action/event references and cooldown/effect ranges by23/owners; unknown targets reject rather than silently reset AI.",
+    "snapshot_invariants": "alive requires one active_actor with HP1..max, legal pose, matching spawn/monster/generation and known AI state; waiting/killed/expired/pending require null actor. Ordinary alive wait0, waiting wait0..7200; generation integer>=0; summoned cycle equals reconciled world cycle. Pending only in open window before successful spawn; expiry before actions. Validate action/event references and typed effects and source ranges by23/owners; unknown targets reject rather than silently reset AI.",
     "transaction_owner": "05host-owned world snapshot and19durable settlement log; monster death,slot transition,random advancement,public bag and all recipient results one host transaction before clients apply same results; no world/character independent save with mismatched death",
     "actor_identity": {
       "scope": "仅本owner的432刷点；不推定其他怪物、伙伴或玩家的实体身份规则。 原修炼之门room_identity按world_id/map_id共享，instance_id_or_null必须null；非空私场ID整笔拒绝，不为同房复制满血实体。",
@@ -542,18 +544,22 @@
       "boundary": "本规则闭合修炼刷点的身份派生；完整actor快照schema、动作接纳、队列恢复及其他实体owner仍待，不能据此宣称完整战斗来源已闭合。"
     },
     "normal_attack": {
+      "registry_owner_ref": {
+        "file": "战斗命中与减伤.v1.json",
+        "pointer": "/direct_combat_registries"
+      },
       "schema_ref": {
         "file": "修炼怪普通攻击.schema.json",
         "pointer": ""
       },
-      "field": "本owner原active_actor.accepted_action_or_null中普通攻击非null分支直接保存本完整严格动作，不保存额外identity/timing/attack_snapshot副本。active_actor仅保仍实际占用动作；完成或停止后保原决定和仍被未决子项引用的原根，不能通过清现场抹来源。原完整actor/世界根仍待。",
+      "field": "原active_actor.accepted_action_id_or_null只关联同scope.accepted_direct_attacks唯一原根。e121完成解除占用，保attack及关联ID至下一实际AI normal_action_finished清关联转chase；停止立即清关联。占用由原根游标/停止状态判断，不由ID非null判断。不复制动作正文，历史来源按依赖保留。完整actor/world根仍待。",
       "identity": "七身份字段沿23 accepted_attack_identity，只允许training_ai；source_actor_id精确本原槽actor_identity派生值，monster_id/地图/轮次与原槽和原144定义一致。action_id按原步/实体重算；accepted_world_step须真实AI接纳原决定，不从elapsed推算。rules_hash冻结整份原规则及源定义，历史加载用原版本，不按当前AI重写。",
       "frozen_attack": "attack_min/attack_max/accuracy/critical_chance_bp/critical_multiplier_bp为接纳时完整合法原实体的有效攻击快照，含明确允许的原贡献且只一次。先核完整原monster/效果来源与规则，区间0<=min<=max<=安全上限、accuracy非负安全整数、暴击概率0..10000、倍率>=10000且安全；禁止用当前定义覆盖旧动作或把缺参数补0。原表基础暴击0、倍率15000；无明确贡献时精确原表，其余增强/压制须原owner明确允许作用monster，不能套玩家气功。",
       "target_and_yaw": "原AI选唯一target_actor_id，本普通攻击normal_max_targets=1，按原范围和120度扇形重验这一个目标，不能顺便攻击其他扇形实体或重绑已死目标。accepted_yaw_radians为原接纳实体有限朝向，facing_locked_at_windup下后续转头不改该攻击方向；原命中步用实际脚位置与锁定方向验距离/遮挡/安全区/目标生命轮次。无效几何保明确ordinal结果，不追踪改向、不退费。",
       "timing": "五字段直接平铺复用23投影约束，W/A/R及偏移精确原rules_hash的AI与明确合法时序贡献；当前原基表36/1/84/[0]。接纳elapsed0，本步不推进；实际第37步一次ordinal0，121步完成占用。已发射/未中/停止必须有原结果证明，不能仅凭elapsed重放命中。",
       "stop": "stop_event_id_or_null显式null表示未被原合法事件中断：elapsed<T仍占用，elapsed=T正常完成。非null须解析该实际source生命轮次/作用域真实原停止事件，保最后完整elapsed且elapsed<T；不得写T伪装完成或在正常完成后再改成中断。实际NPC死亡/召唤到期/活动终局停止按各原owner，不借玩家death_events冒充NPC死亡。原已提交伤害不撤销，未发射ordinal按来源取消，不多抽样。",
       "admission": "本普攻原费用HP/mana/stamina均0、原skills=[]，不写玩家技能/药品冷却或伪造会话；占用121步按时序约束，原AI等待/目标/姿态只在actor持有。冻结动作与原AI决定/世界接纳步/原作用域及候选游标同笔，reserved或存疑不先安装。",
-      "validation": "完整快照严格白名单先验，再取七身份/五时序投影复用，不能把additionalProperties=false的投影直接allOf完整动作。完整历史根验证按原接纳before，不要求死去来源现在仍有活active_actor；实际当前占用则必须有相符活体且无停止。未知规则/坏来源/非有限yaw/不完整ordinal证明拒绝，不加载时静默修复。 hit_result_event_id_or_null与已完成游标按hit_result双向覆盖；本动作结构现24字段。",
+      "validation": "完整快照严格白名单先验，再取七身份/五时序投影复用，不能把additionalProperties=false的投影直接allOf完整动作。完整历史根验证按原接纳before，不要求死去来源现在仍有活active_actor；实际当前占用则必须有相符活体且无停止。未知规则/坏来源/非有限yaw/不完整ordinal证明拒绝，不加载时静默修复。 hit_result_event_id_or_null与已完成游标按hit_result双向覆盖；本动作结构现24字段。 场景结构只收原36共享修炼地图且instance=null；map_id与monster_id逐144原定义精确配对，不能把另一房的合法怪物ID或城镇地图拼进动作。七身份投影training_ai分支同步限定这36地图，玩家分支仍按真实公共/私人scope。完整原槽/source_actor轮次与本房绑定仍需来源认证。",
       "boundary": "本NPC普通攻击完整动作快照形状与语义采用；完整actor、AI接纳原事件/候选、NPC死亡到期停止证明、发射结果与世界队列仍待，未实现Godot，不据此宣称战斗来源闭合。",
       "hit_result": {
         "field": "本完整动作新增唯一hit_result_event_id_or_null，接纳显式null；本单目标单段近战不另存emitted/missed标记、发射日志或第二命中结果。原damage结果负责命中/随机/损失/回调/死亡实际正文，动作仅保原结果引用。停止仍用stop_event_id_or_null原字段。",
@@ -583,7 +589,7 @@
       "ordinary_respawn": "before精确实际原ordinary槽generation/waiting/null actor/remaining_respawn_steps=0/last_observed步；原真实死亡/7200步倒计时及最后观察来源已闭合，目标generation=before.generation+1且安全不溢出。真实生成前不推进generation；被5米排除/胶囊/导航挡住保持waiting0/旧generation，无成功生成结果、不挪点或保底造怪。该步最后观察等T且只消耗一次真实复活资格。",
       "summoned_spawn": "before为原已对账当前cycle的pending/null actor/last_observed_world_step=T，cycle=T//108000且T%108000<36000。目标generation_or_cycle精确before.cycle_index，不增加额外代次；本槽该cycle此前没有成功生成/死亡/过期，已killed/expired不可借本分支补刷。被占保pending至窗口结束；恰36000先对账过期，不生成。",
       "collision": "实际原home_feet_m/yaw与生成位置/朝向精确相等；以真实怪物0.45m半径/1.8m高度完整胶囊核场景合法、无实心/其他实体占用、不进入闭安全圈且存在原合法导航。所有原房已连接存活玩家水平脚中心距<5m阻止生成，恰5m不因该排除阻挡但仍验实际胶囊/安全/导航；不是只检查本地玩家或敌对目标。动态受阻是正常不生成，缺正式地图/导航数据是错误，不默认成功。",
-      "actor_initial": "stable_actor_id按原actor_identity用实际world/authority/map/null/spawn/本generation_or_cycle派生；monster_id/spawn字段精确源行，HP精确原规则初始合法max_hp，位置/朝向精确home。ai_state=idle，目标/巡逻目的地/accepted_action均null，remaining_ai_wait_steps=60，cooldowns/effect_sources空对象，pending_derived_events空数组。此初值只用于真实新生实体，不把旧actor效果/伤害通过加载抹掉；不复制上一生命目标/攻击。",
+      "actor_initial": "stable_actor_id按原actor_identity用实际world/authority/map/null/spawn/本generation_or_cycle派生；monster_id/spawn字段精确源行，HP精确原规则初始合法max_hp，位置/朝向精确home。ai_state=idle，目标/巡逻目的地/accepted_action_id_or_null均null，remaining_ai_wait_steps=60，effects为普通怪效果根.schema.json的九项cleared初态。此初值只用于真实新生实体，不把旧actor效果/伤害通过加载抹掉；不复制上一生命目标/攻击。",
       "identity": "event_id=\"training-spawn:\"+SHA256(71确定JSON [\"training_monster_spawn\",world_id,authority_profile_id,map_id,null,spawn_id,cause,actor_created.generation_or_cycle]的UTF8)。身份按真实生命轮次而非观察T，重试/重载不能换T绕过去重；同槽同真实轮次最多一次成功创建，完整before/actor_created正文异同必须核验，原生成已成功只回旧结果，不生成第二个actor。",
       "apply": "同一完整world决定写原槽alive/active_actor、该实际轮次/观察T；ordinary remaining_respawn_steps=0，summoned保当前cycle且state=alive。实体创建、槽轮次和必要生命周期来源同笔，不能先增代次再补actor；本结果不支付XP/钱物/任务信用、不消耗攻击RNG、不清别的角色冷却。生成失败不申请通用counter/玩家结果号或占一个已生成轮次。",
       "replay": "原已生成结果重放不重装actor_created覆盖后来受损/死亡/目标/效果；已过期或已换新轮仍只回历史决定。存疑先核原正式world决定，未确认不发布新实体或接纳它的AI攻击；恢复真实槽必须完整根/来源通过，缺字段拒绝不补满血。",
@@ -602,7 +608,15 @@
       "stopped_roots": "stopped_root_event_ids精确旧target_actor_id在同scope中仍占用或有未落效进攻后代的全部根，原ID UTF8严格递增且无重复；空集合也核确无此类根。未正常完成原根的stop_event_id_or_null指本event_id，保实际完成游标和所有已提交命中；正常完成但仍有未落效后代的根保原完成游标并沿原后代停止来源，不篡改为e<T。不重绑同spawn新生命、不退款/重抽/撤销旧已提交伤害，独立效果仅按各原owner明确存续规则。",
       "rewards": "同一原完整死亡事务沿19唯一归属/资格快照、原monster明确基础XP/历练/银两/升天与任务producer，原26直接终结及个人有效倍率各按原owner计算。基础表已含ordinary*3/summoned*12，不再乘修炼倍率。空fixed_loot/random_loot不抽普通物品随机；银两沿原公共包，个人任务物品逐任务判定，不给全队复制。零合格接收者也保真实死亡，不补造归属；资格来源未知则整笔拒绝，不冒充零接收者。多接收者结果/包/随机游标与原槽同笔提交，完整收益封套仍须另闭合，不能凭本12字段声称奖励已证明。",
       "save_replay": "原致死伤害、死亡子结果、停止/回调、资格与所有实际收益来源/角色修订及原world槽同一durable决定；reserved/存疑不得先清actor或先发奖。相同已提交死亡回原结果，不按当前队伍重算，不将历史waiting/killed写回后来新生命；旧目标后续项按原死亡证明失效，不生成第二死亡。必要历史在来源/接收确认仍引用时保留。",
-      "boundary": "本生命周期死亡子结果结构与转换语义采用；完整致死伤害/收益/停止后代来源、world固定步及多接收者封套和Godot实际保存仍待，D1未完成。"
+      "boundary": "本生命周期死亡子结果结构与转换语义采用；完整致死伤害/收益/停止后代来源、world固定步及多接收者封套和Godot实际保存仍待，D1未完成。",
+      "resource_envelope_owner_ref": {
+        "file": "死亡共享收益分配.v1.json",
+        "pointer": "/envelope_protocol"
+      }
+    },
+    "effects_owner_ref": {
+      "file": "普通怪效果根.v1.json",
+      "pointer": ""
     }
   },
   "monsters": [

@@ -1,8 +1,8 @@
 {
   "contract_version": 1,
-  "updated_on": "2026-11-15",
+  "updated_on": "2026-11-16",
   "status": "project_design_not_implemented_not_complete_item_catalog",
-  "scope": "三个容器容量/扩容与七个仓管的角色私人仓储服务；不是账号共享仓库或完整物品权限表。",
+  "scope": "四个容器布局、三个可扩容容器与七个仓管的角色私人仓储服务；侠客行囊独立重量及门禁沿唯一owner，不是完整物品权限表。",
   "authority": {
     "readable_contract": "../17-物品背包与经济采用合同.md",
     "world_owner_file": "世界图谱.v1.json",
@@ -82,6 +82,16 @@
       ],
       "counts_carried_weight": false,
       "acceptance": "only explicit warehouse-permitted items; preserve binding, expiry, quest ownership and instance/stack identity"
+    },
+    {
+      "container_id": "knight_bag",
+      "display_name": "侠客行囊",
+      "initial_slots": 20,
+      "slots_per_expansion": 0,
+      "maximum_slots": 20,
+      "expansion_silver_prices": [],
+      "counts_carried_weight": true,
+      "acceptance": "only stack definitions explicitly permitting knight_bag; no instances or automatic alternate destination"
     }
   ],
   "carried_weight": {
@@ -89,6 +99,7 @@
     "base_limit_grams": 100000,
     "included_locations": [
       "inventory",
+      "knight_bag",
       "equipment_bag",
       "both_equipment_sets",
       "equipped_gems"
@@ -100,7 +111,7 @@
     ],
     "modifier_owner_file": "弓手箭矢与距离气功.v1.json",
     "unknown_item_weight": "configuration error",
-    "legal_overweight_state": "use archer contract source/revision receipt; no automatic deletion, no generic overload exception"
+    "legal_overweight_state": "角色总携重沿弓手原来源/修订凭证；侠客行囊分区超重另沿侠客行囊owner的到期来源证明，二者独立且动作限制取交集。无来源拒绝，不自动删物。"
   },
   "service_eligibility": {
     "minimum_level": 1,
@@ -117,13 +128,19 @@
     "requires_same_map_and_available_npc": true,
     "close_or_leave_range": "invalidate service session/quotes; keep already committed results",
     "concurrent_commands": "host serializes per-character state revision; stale revision rejected",
-    "lan_authority": "host validates the requester's own character, containers and carried silver; never party leader or another player's account"
+    "lan_authority": "host validates the requester's own character, containers and carried silver; never party leader or another player's account",
+    "challenge_owner_ref": {
+      "file": "怒气出血与血雨恶魔.v1.json",
+      "pointer": "/blood_devil/effective_challenge"
+    },
+    "challenge_gate": "forbids_active_challenge按原统一effective_challenge查询；活跃本体null但本T末步捕获未终止仍禁止，缺父证明/残留捕获拒绝，不将查询错误当无挑战。"
   },
   "actions": {
     "deposit_items": {
       "source_containers": [
         "inventory",
-        "equipment_bag"
+        "equipment_bag",
+        "knight_bag"
       ],
       "destination_container": "warehouse",
       "silver_fee": 0,
@@ -170,6 +187,15 @@
       "at_maximum": "reject before charging",
       "batch_multiple_levels_in_one_command": false,
       "cross_npc_state": "same character expansion levels; switching NPC never resets count or price"
+    },
+    "move_knight_bag_items": {
+      "owner_ref": {
+        "file": "侠客行囊.v1.json",
+        "pointer": "/move_protocol"
+      },
+      "source_and_destination": "明确本人inventory与knight_bag相反两分区；不扫描或自动改投",
+      "fee": 0,
+      "boundary": "原严格三阶段/日志/索引已登记，完整共同父与运行仍待，不能执行。"
     }
   },
   "transaction": {
@@ -277,10 +303,10 @@
       "character.equipment_instances"
     ],
     "registry_key": "各注册表键等于正文stack_id/instance_id；同角色及跨角色真实现持身份不得重复。只保当前本角色实物，不含preview/他人历史输出或复购保管。",
-    "containers": "character.inventory/equipment_bag/warehouse各精确expansion_level与slots；slots仅存占用格，条目精确slot_index/kind/target_id，slot从0起且严格递增不重复，空格由未出现索引表示。容量只从本合同扩容式推导，不保存第二份capacity。",
+    "containers": "character.inventory/equipment_bag/warehouse各精确expansion_level与slots；slots仅存占用格，条目精确slot_index/kind/target_id，slot从0起且严格递增不重复，空格由未出现索引表示。容量只从本合同扩容式推导，不保存第二份capacity。 character.knight_bag精确单键slots，同样三键槽条目且slot_index=0..19，最多20项；无expansion_level/weight/capacity持久镜像，物品权限与服务余时联合验证。 character.knight_bag_overweight_or_null为必有nullable历史来源，沿侠客行囊owner核真实到期及当前减负链。",
     "equipment": "character.loadouts精确primary/secondary两组各14槽；character.gems精确6位；空槽显式null，非空为唯一实例ID。active_loadout_id仅primary/secondary。完整槽表按装备组与宝珠.v1.json，不允许缩回11槽。",
     "closure": "两正文注册表每条恰好被一个正式容器槽/装备组槽/宝珠位引用；每个位置引用必须解析到正确种类、正确本角色owner和实际定义，注册表孤立条目/悬空引用/重复槽号/同ID跨位置均拒绝，不自动整理或删除修复。实例owner与外层角色必须一致，不能借注册表搬移重写所有权。",
-    "instance_dispatch": "equipment_instances每条通过已采用装备实例完整schema唯一分派，item_stacks每条通过物品堆完整schema；注册表禁止空白键/非对象/不完整正文或未知装备定义，逐定义权限/任务scope仍须业务校验。owned_inventory_state严格联合九个原平铺字段，不新建inventory_state持久包装，不复制正文；完整角色根须另保全角色白名单，不能先删未知字段再抽取九键通过校验。",
+    "instance_dispatch": "equipment_instances每条通过已采用装备实例完整schema唯一分派，item_stacks每条通过物品堆完整schema；注册表禁止空白键/非对象/不完整正文或未知装备定义，逐定义权限/任务scope仍须业务校验。owned_inventory_state严格联合十一个原平铺字段，不新建inventory_state持久包装，不复制正文；完整角色根须另保全角色白名单，不能先删未知字段再抽取十一键通过校验。",
     "validation_order": [
       "严格JSON/token/布局白名单与容量",
       "两注册表键与正文身份及逐定义完整类型",
@@ -291,8 +317,8 @@
       "候选变更后重查并原子保存正文/引用/费用/修订/收据"
     ],
     "revision": "inventory_revision严格非负安全整数，任何实际布局/容量/数量/实例库存状态变更的一个正式事件恰加1；同事件多个位置仅一次，纯预览和无变化排序不加。角色业务revision同事件按原owner增加，协议guard元数据不冒充库存变更。溢出拒绝。",
-    "initial": "正式新角色三容器expansion_level=0/slots=[]、两正文表={}、inventory_revision=0、两组14槽及6宝珠位=null、active_loadout_id=primary；这是礼包前基线，22实际礼包唯一提交后相应写正文/位置/来源及修订，不持久化空基线后重发。",
-    "legacy": "四组已知旧档导入为新角色初始化两空正文表及三0扩容容器，再按原背包顺序占连续槽和原weapon/armor对应primary.weapon/body；实际堆超定义上限须按原数量拆堆预检容量，拒绝溢出，不免费扩容/丢物。其他位置null、active=primary，实际导入与来源/库存修订同结算。目标其他角色/world不变；新格式缺布局字段拒绝。",
+    "initial": "正式新角色三容器expansion_level=0/slots=[]、两正文表={}、inventory_revision=0、两组14槽及6宝珠位=null、active_loadout_id=primary；这是礼包前基线，22实际礼包唯一提交后相应写正文/位置/来源及修订，不持久化空基线后重发。 character.knight_bag显式{slots:[]}，不分配实物或改礼包目的地。 knight_bag_overweight_or_null显式null。",
+    "legacy": "四组已知旧档导入为新角色初始化两空正文表及三0扩容容器，再按原背包顺序占连续槽和原weapon/armor对应primary.weapon/body；实际堆超定义上限须按原数量拆堆预检容量，拒绝溢出，不免费扩容/丢物。其他位置null、active=primary，实际导入与来源/库存修订同结算。目标其他角色/world不变；新格式缺布局字段拒绝。 四已知旧来源的新导入角色knight_bag显式{slots:[]}；已有目标角色保原合法分区，不把旧背包物移入新分区。 新导入角色knight_bag_overweight_or_null显式null，既有目标角色保原合法来源。",
     "buyback": "复购保管独立会话域不进角色持有注册表；真实出售/复购/清空必须原子转移并守恒。可复购物正文保管与退出故障适配仍待，不以简单删注册表代替。",
     "instance_dispatch_owner_ref": {
       "file": "已采用装备实例.v1.json",
@@ -314,5 +340,18 @@
   "ordinary_armor_purchase_owner_ref": {
     "file": "普通防具基础定义.v1.json",
     "pointer": "/acquisition_policy/purchase_events/layout"
+  },
+  "apparel_purchase_owner_ref": {
+    "file": "衣饰基础定义.v1.json",
+    "pointer": "/purchase/events"
+  },
+  "knight_bag_owner_ref": {
+    "file": "侠客行囊.v1.json",
+    "pointer": ""
+  },
+  "container_definition_resolution": "药品、普通材料与盒均按逐定义进入inventory，共享同一容量/槽序；consumable_bag不是正式容器ID，不做运行时别名映射。最后一件输入消费释放的inventory槽可容纳本次新输出，输入余堆仍占槽；最终完整布局统一预检。equipment_bag/warehouse/knight_bag仍按各自精确权限和位置规则。",
+  "adv03_upper_recommendation_lock_owner_ref": {
+    "file": "三转上半段猎物考验.v1.json",
+    "pointer": "/transition_protocol/lock"
   }
 }

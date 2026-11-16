@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:aux-displacement-command:v1",
+  "$comment": "七键三种辅助位移意图；不携客户端位置/资源/目标/阶段/时刻。移形换位忽略方向轴而沿原before朝向后退。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "play_session_identity",
+    "command_id",
+    "ability_id",
+    "move_x",
+    "move_forward",
+    "camera_yaw_turn_u16"
+  ],
+  "properties": {
+    "kind": {
+      "const": "player_aux_displacement"
+    },
+    "play_session_identity": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/play_session_identity"
+    },
+    "command_id": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/command_id"
+    },
+    "ability_id": {
+      "enum": [
+        "aux_assassin_cacb59d3e2be",
+        "aux_archer_a49687a8ee4b",
+        "aux_fighter_22a544440957"
+      ]
+    },
+    "move_x": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/move_x"
+    },
+    "move_forward": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/move_forward"
+    },
+    "camera_yaw_turn_u16": {
+      "$ref": "urn:solorxjh:player-movement-command:v1#/properties/camera_yaw_turn_u16"
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:bleeding-application-result:v1",
+  "$comment": "原成功出血施加/替换的严格11字段历史状态子结果。未触发不制造状态子结果，原概率判定仍须完整父来源证明。source_index索引after的新300步来源；共享相位F取after，不能从当前效果反推。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "target_actor_id",
+    "world_step",
+    "after",
+    "triggering_damage_event_id",
+    "before",
+    "source_index"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 79,
+      "maxLength": 79,
+      "pattern": "^bleeding-apply:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "target_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "after": {
+      "$ref": "urn:solorxjh:bleeding-effect-state:v1",
+      "properties": {
+        "sources": {
+          "minItems": 1
+        }
+      }
+    },
+    "triggering_damage_event_id": {
+      "type": "string",
+      "minLength": 78,
+      "maxLength": 78,
+      "pattern": "^combat-damage:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "before": {
+      "$ref": "urn:solorxjh:bleeding-effect-state:v1"
+    },
+    "source_index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    }
+  ]
+}

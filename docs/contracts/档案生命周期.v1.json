@@ -20,9 +20,123 @@
   "enumeration": "持目录锁枚举实际profiles直接子项，.json扩展候选按Windows不区分大小写识别，只有精确<profile_id>.json才可验证为正式档案。损坏/不可读/错文件名/不兼容候选仍占3个名额；目录/链接伪装成json、目录读取失败均明确报错，不能跟随链接越出存档根或当不存在。新建/改名需全部候选完整验证以证明姓名唯一，非json的临时文件不充当权威或占档案名额。",
   "create": {
     "confirmation": "输入姓名沿原Unicode15.0.0/2..16标量规范规则，确认时分配一次系统CSPRNG16字节profile_id；同次重试保ID/规范名，不以显示名拼路径。目录锁内核所有候选有效、现存少于3、规范名唯一、ID及正式路径无冲突。ID碰撞明确拒绝本次确认，不覆盖或自动换ID。",
-    "initial_state": "只构造完整严格空profile：schema_version5/content_version原值、确认ID/名、revision1、selected=null、characters=[]、worlds={}、原设置全部显式默认，全部已采用日志显式空、导入pending=null、两分配counter0；全部后续原owner新增字段须由完整profile初值定义一并生成。不给角色/礼包/世界/会话或玩法随机种子。完整profile根与唯一初值集未闭合前禁止运行新建，不能以元数据/日志投影拼半份文件。",
+    "initial_state": "只构造完整严格空profile：schema_version5/content_version原值、确认ID/名、revision1、selected=null、characters=[]、worlds={}、原设置全部显式默认，全部已采用日志显式空、导入pending=null、两分配counter0；全部后续原owner新增字段须由完整profile初值定义一并生成。不给角色/礼包/世界/会话或玩法随机种子。原initial_root已冻结完整新空档案初值；完整目录锁/无覆盖持久与故障实现未验证前仍禁止宣称新建已运行，不以投影或本schema代替实际文件提交。",
     "publication": "完整候选先校验，以本次操作唯一临时文件写入并flush，随后同目录以不覆盖既存正式路径的原子发布提交。持目录锁与新档租约确认正式全量快照相等后才显示成功/进入选角；不将选择档案另写成全局索引。只有明确尚未发布的本次临时文件可清理，既有其他tmp不删。",
-    "uncertain": "发布存疑保ID并停本次后续写，锁内重读确切正式路径。文件存在且完整内容精确为本次冻结初值才确认成功；文件不存在且枚举/读取证明未发布才允许同次重试。文件不符/不可读报错保留原文件，不改名覆盖或另建副本。进程重开按正式目录展示，不自动重演丢失的内存确认。"
+    "uncertain": "发布存疑保ID并停本次后续写，锁内重读确切正式路径。文件存在且完整内容精确为本次冻结初值才确认成功；文件不存在且枚举/读取证明未发布才允许同次重试。文件不符/不可读报错保留原文件，不改名覆盖或另建副本。进程重开按正式目录展示，不自动重演丢失的内存确认。",
+    "supreme_service_initialization": {
+      "owner_ref": {
+        "file": "至尊服务.v1.json",
+        "pointer": "/ownership"
+      },
+      "target_field": "profile.supreme_service_or_null",
+      "initial": null,
+      "policy": "仅显式新空档案与其余原字段同次初始化，创建不发至尊物品或伪造激活历史；不是settings/元数据包装内字段，完整profile根仍待。",
+      "activation_events_field": "profile.supreme_service_activation_events",
+      "activation_events_initial": [],
+      "purchase_events_field": "profile.supreme_service_purchase_events",
+      "purchase_events_initial": []
+    },
+    "knight_bag_move_initialization": {
+      "owner_ref": {
+        "file": "侠客行囊.v1.json",
+        "pointer": "/move_protocol"
+      },
+      "target_field": "profile.knight_bag_move_events",
+      "initial": []
+    },
+    "firewood_delivery_initialization": {
+      "target_field": "profile.firewood_delivery_events",
+      "initial": []
+    },
+    "portable_travel_admission_initialization": {
+      "owner_ref": {
+        "file": "便携传送与修炼限制.v1.json",
+        "pointer": "/admission_event"
+      },
+      "target_field": "profile.portable_travel_admission_events",
+      "initial": []
+    },
+    "firewood_transition_initialization": {
+      "target_field": "profile.firewood_task_transition_events",
+      "initial": []
+    },
+    "cooking_material_transition_initialization": {
+      "target_field": "profile.cooking_material_task_transition_events",
+      "initial": []
+    },
+    "cooking_material_delivery_initialization": {
+      "target_field": "profile.cooking_material_delivery_events",
+      "initial": []
+    },
+    "initial_root": {
+      "schema_ref": {
+        "file": "新空档案.schema.json",
+        "pointer": ""
+      },
+      "fields": "完整七十一键：原元数据七字段、原日志投影六十一字段，加characters/worlds/supreme_service_or_null三字段。原两计数0、全部日志/导入凭证数组空、两个远端证明映射空、导入pending/服务null、角色空数组/world空映射，正式发布revision1且selected_character_id=null。新增profile字段必须同步本完整新建初值与原owner，不能运行时补字段。",
+      "settings": "设置只取原默认完整九键或本次新建时用户已明确确认的合法完整设置，不能继承另一档案或把现行缺字段当默认。默认值唯一归原设置owner，不在本root再复制数值。",
+      "boundary": "新空档案结构及唯一初值范围采用；已有角色/世界/历史的完整profile、目录租约/无覆盖发布与故障恢复及Godot仍待。该schema不是导入新档/删除至空档的验证捷径，不以当前无角色清历史或重置revision/counter。"
+    },
+    "aromatic_wood_box_open_initialization": {
+      "target_field": "profile.aromatic_wood_box_open_events",
+      "initial": []
+    },
+    "monster_silver_pickup_initialization": {
+      "target_field": "profile.monster_silver_pickup_events",
+      "initial": []
+    },
+    "adv03_lower_transition_initialization": {
+      "owner_ref": {
+        "file": "三转下半段与十四职业晋级.v1.json",
+        "pointer": "/transition_protocol"
+      },
+      "target_field": "profile.adv03_lower_transition_events",
+      "initial": []
+    },
+    "adv03_lower_stage_initialization": {
+      "owner_ref": {
+        "file": "三转下半段与十四职业晋级.v1.json",
+        "pointer": "/stage_protocol"
+      },
+      "target_field": "profile.adv03_lower_stage_events",
+      "initial": []
+    },
+    "ordinary_item_pickup_initialization": {
+      "target_field": "profile.ordinary_item_pickup_events",
+      "initial": []
+    },
+    "adv03_upper_transition_initialization": {
+      "target_field": "profile.adv03_upper_transition_events",
+      "initial": []
+    },
+    "adv03_upper_stage_initialization": {
+      "target_field": "profile.adv03_upper_stage_events",
+      "initial": []
+    },
+    "adv01_transition_initialization": {
+      "target_field": "profile.adv01_transition_events",
+      "initial": []
+    },
+    "adv01_stage_initialization": {
+      "target_field": "profile.adv01_stage_events",
+      "initial": []
+    },
+    "adv02_transition_initialization": {
+      "target_field": "profile.adv02_transition_events",
+      "initial": []
+    },
+    "adv02_stage_initialization": {
+      "target_field": "profile.adv02_stage_events",
+      "initial": []
+    },
+    "hyunbo_recommendation_transition_initialization": {
+      "target_field": "profile.hyunbo_recommendation_transition_events",
+      "initial": []
+    },
+    "hyunbo_recommendation_delivery_initialization": {
+      "target_field": "profile.hyunbo_recommendation_delivery_events",
+      "initial": []
+    }
   },
   "rename": {
     "preconditions": "精确目标profile_id/当前profile_name/expected_profile_revision及新规范名确认，持目录锁和目标租约重读全部候选。原目标已完整验证、修订/原名相等，新名与其他档案规范比较键不重复；有整档冻结事务或未保存/存疑决定时先恢复，不插写。",
@@ -35,5 +149,9 @@
     "commit": "持两锁只删除确认的一个正式json，不递归删除profiles、存档根、其他档案/规则包/资源或用户导出文件。此操作不是逐角色删除，不在即将消失档案追加假去重墓碑或逐角色销毁流；整档移除需证明不留外部活动/证明依赖。成功后清本进程当前档案与内存草稿并返回档案列表，重新枚举才释放容量。",
     "uncertain": "删除调用存疑保持目录锁/目标租约并重查同精确路径：确认不存在才报已删除；完整原文件仍在则未删除可重试；读取/目录状态不确定报错，不能新建同ID、靠备份复活或递归再删。删档后历史去重不再存在，用户重新导入另一个新档属于新目标授权，不承诺跨已删除档案的永久去重。"
   },
-  "remaining": "完整空profile根/初始化与全部来源闭包、Windows锁/无覆盖发布/flush及故障后实际行为、Godot界面及验收仍待。本文为D1协议，不代表已执行任何用户文件创建/改名/删除。"
+  "remaining": "新空profile六十八键初值根已采用；含角色/world的完整profile与全部来源闭包、Windows锁/无覆盖发布/flush及故障后实际行为、Godot界面及验收仍待。本文为D1协议，不代表已执行任何用户文件创建/改名/删除。",
+  "existing_profile_commit_owner_ref": {
+    "file": "档案共同提交.v1.json",
+    "pointer": ""
+  }
 }

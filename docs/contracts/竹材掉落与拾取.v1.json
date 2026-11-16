@@ -1,0 +1,73 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "竹材场景领取权与正式拾取事件采用，完整场景/输入/多接收者父和Godot仍待",
+  "schema_ref": {
+    "file": "竹材拾取事件.schema.json",
+    "pointer": ""
+  },
+  "drop_schema_ref": {
+    "file": "竹材场景掉落.schema.json",
+    "pointer": ""
+  },
+  "drop_registry_schema_ref": {
+    "file": "竹材场景掉落.schema.json",
+    "pointer": "/$defs/drops"
+  },
+  "source_owner_ref": {
+    "file": "采集动作.v1.json",
+    "pointer": "/bamboo"
+  },
+  "item_owner_ref": {
+    "file": "剧情剑与玲珑竹.v1.json",
+    "pointer": "/items/1"
+  },
+  "scope": "仅原六株真竹bamboo_felled掉落的linglong_bamboo一单位本人绑定实物领取权。怪物/装备/银两等掉落不借本owner授权；通用F须先解析完整真实场景掉落全集，再按已选掉落的原producer分派，不可仅扫描竹材而跳过更近的其他掉落或未知源。",
+  "scene": {
+    "field": "原普通scope.bamboo_drops以gather-drop ID为键保存六键唯一未领取正文，键等drop_id。context沿原effect/action解析同world/authority/map/instance，不复制第二scope身份/节点位置缓存。无claimed bool或已拾取集合；正式committed拾取及原生命周期证明消费，活体映射仅保尚未消费项。",
+    "creation": "只在原bamboo_felled同post_combat父创建一次，drop_id等原effect.scene_drop_id_or_null，source_effect_event_id等本effect.event_id，owner_actor_id等最后有效采击者生命actor，item_id=linglong_bamboo/quantity1，position精确原节点地面脚位。重播effect不再建映射；撞同ID或已有消费证明又见活体是错误，不能合并或重发。",
+    "provenance": "drop不是玩家held堆，无stack_id、revision、origin_receipt_id或stack_flow。本人累计经验已由原有效采击提交；拾取不再发经验/历练/资源，不把掉落先计任务携带。源effect/root/接纳/原规则与领取/清理历史依赖保留，代次刷新或普通现场重建不能重新授权旧掉落。",
+    "lifetime": "沿02原普通现场规则：未拾取不定时消失，节点刷新不清旧drop；本人正常会话退出或真实死亡返回前，先收束该session全部未决拾取再沿原退出/返回父清本人未领取drop。LAN仅清该本人，不清其他玩家；地图访问/个人面板/暂时失联不等于退出世界，不能借重连清场。普通竹现场不写角色永久库存档，但未决保存/原world共同恢复必须保真实现场和来源，不能加载先补新场景。",
+    "initialization": "仅原新建/显式真正重建普通场景时bamboo_drops={}，有未决拾取/采集或必要历史引用须先按原父收束；已有当前现场缺字段拒绝。已携带竹材和正式来源闭包不受普通场景清理。",
+    "ordinary_rebuild_owner_ref": {
+      "file": "怪物银两掉落与拾取.v1.json",
+      "pointer": "/scene_registry/ordinary_rebuild_protocol"
+    }
+  },
+  "input": {
+    "command": "四键play_session_identity/command_id/expected_character_revision/expected_inventory_revision；不携drop_id、位置、数量、客户端时刻或临时选中目标。仅来源认证后的明确F拾取输入生成，不由靠近、自动寻路到达、采倒或读档自动产生。",
+    "phase": "项目采用post_combat：旧采集落效/敌伤死亡结果固定后，处理本步真实F拾取输入，随后其他新服务/活动输入仍沿各owner既定顺序。拾取不占用攻击动作、不扣体力/内功或重置攻击/采集冷却、不取消自动路线；本人须存活且原会话可操作，无活动明确禁止拾取或冲突经济未决，不能从此豁免原场景限制。",
+    "selection": "实际处理before由完整真实scope掉落全集筛本人有权、距离<=2000毫米且视线无遮挡的未领取掉落；同距按drop_id未经规范化UTF8字节序。选最近一个后按原producer分派；选中竹材才进入本事件。无可拾取给明确无目标反馈，不分配通用结算；选中而容量不足保该掉落并反馈，不能改捡第二个。未知producer/损坏source拒绝坏现场，不当没有掉落。",
+    "batch": "单次正式命令只拾一份整drop，无部分入包。显式多件拾取操作按冻结的距离/ID顺序逐份原子提交，下一命令沿上份已提交实际修订重新构造，列出失败/未拾项；不拿同一个command_id反复生成新结算或暗自重试已拒绝份。批量输入严格父结构仍待。"
+  },
+  "identity": "沿原结算身份通用分配，request_id为71确定JSON [\"bamboo_pickup\",play_session_identity.session_id,command_id]，request_digest为四键command的71编码SHA256。先核同原会话全输入命令正文去重，再查原正式事件；相同请求只回原终态/继续同reserved，不在当前T重新挑最近掉落。",
+  "plan": "严格rules_hash/world_step/drop_before/inventory_before/merge_input_or_null五键。drop_before保存选中原六键全文，真实scope/本人来源由原effect认证。inventory_before为本expected_inventory_revision完整布局；若本人held/绑定/非任务同item旧竹堆1..98可接收，按原槽号再stack_id UTF8取第一个，冻结其previous_output/stack到merge_input_or_null，否则null。不能把满99堆、仓库、别角色或被占用堆拿来合并；未知/坏来源报错，不略过以新建堆掩盖损坏。",
+  "reserve": "核原会话/生命/场景、真实最近选择/2米/LOS/领取权、完整库存源与两修订、最终负重+100克、无合堆时最低空槽、各修订/ID可推进才counter+1并保存reserved。此时不删除drop、不计任务/经验、不创建held堆或改业务修订；drop占用从唯一reserved原plan派生，不新增场景reservation字段或第二锁表。跨owner未决互斥沿原通用规则。",
+  "allocation": {
+    "no_merge": "merge_input_or_null=null时恰一个gather mint流，receipt_id=settlement，outputs恰本人held/character绑定/quest_scope=null/linglong_bamboo/quantity1/revision0/contributions[]；原stack_identity_v1 ordinal0新ID入最低空inventory槽。",
+    "merge": "有merge_input时恰mint→merge两流。mint receipt_id=settlement+:stack:mint、authority_receipt_id=原settlement，ordinal0临时竹材堆数量1；merge receipt_id=settlement+:stack:merge，无mint/consumptions，inputs恰旧堆previous_output再本mint唯一输出，output恰旧ID/quantity旧+1/revision旧+1/held/本人，contributions恰旧输入全量及mint的1。临时堆全消费退役，不占临时格、不另产ordinal1最终堆。",
+    "same_source": "两分支的原authority_receipt_id必须解析本已提交拾取身份及唯一bamboo_felled领取权，源授权kind=gather，不能用任意非空字符串、quest_reward或loot代替。drop权利未消费不能证明可重复铸造。"
+  },
+  "commit": "重验原计划/两修订/领取权未消费与完整来源，原source位置/本人仍可拾取；同正式共同决定删除bamboo_drops对应项及地图标记、提交stack_flows/最新held头/槽位/真实重量与character/inventory各+1并保存committed。任务按原bamboo_partition_policy区分实际两分区持有量与inventory可交付量，只查询实际held后物，不额外写已捡计数或把非任务竹材改成任务绑定。源drop与新held不存在可分开发布的两笔结果；网络/保存不确定先核正式决定，禁止先删场景再发背包。",
+  "abort": "user_cancelled/source_unavailable/state_changed仅在真实reserved后沿原不可变计划持久aborted，不创建/销毁held实物，不删除drop或改两业务修订。已因原明确生命周期合法清理者不得从drop_before复原；未知消失/来源矛盾报错保现场，不捏造正常取消。",
+  "journal": {
+    "field": "profile.bamboo_pickup_events",
+    "initial_value": [],
+    "rule": "原数组allocation_index递增，reserved追加、原位替换终态，至少保身份/全文计划/决定与依赖；至多一个reserved并纳入全owner同角色未决互斥。新profile显式[]，四已知旧导入仅新目标[]，已有目标保原日志；当前格式缺字段拒绝，不从现物补历史。"
+  },
+  "recovery": "committed重放只回原结果，即使物已卖/丢/仓储也不再铸造或复原drop。reserved先查原正式决定、认证完整world/drop/角色/来源与真实计划，不从现距重选；已合法变化才按原取消规则处理。完整drop恢复依赖不能以六键结构独自证明，普通现场重建不覆盖未决。",
+  "remaining_work": [
+    "实际完整F输入/批量输入父与post_combat其他命令全集顺序",
+    "普通场景完整root/退出死亡返回清理父、世界与角色多接收者决定和网络证明",
+    "怪物/装备/银两等其他掉落producer及拾取适配",
+    "Godot真实拾取/满包/保存故障和LAN测试"
+  ],
+  "task_partition_policy_ref": {
+    "file": "剧情剑与玲珑竹.v1.json",
+    "pointer": "/bamboo_partition_policy"
+  },
+  "joint_commit_owner_ref": {
+    "file": "档案共同提交.v1.json",
+    "pointer": ""
+  }
+}

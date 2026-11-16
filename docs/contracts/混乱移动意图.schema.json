@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dongling-random-walk-intent:v1",
+  "$comment": "受控player/六公共怪/144修炼定义的十一键混乱方向意图；方向仅取唯一random_flow draw.result，2米终点由起点/方向推导，不重复存方向/目标/余距。真实控制授权/重选时点/原流与完整父另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "event_id",
+    "rules_hash",
+    "source_actor_id",
+    "application_event_id",
+    "start_position_m",
+    "random_flow"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "event_id": {
+      "$ref": "urn:solorxjh:dongling-random-walk-intent:v1#/$defs/event_id"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/rules_hash"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:dongling-random-walk-intent:v1#/$defs/source_actor_id"
+    },
+    "application_event_id": {
+      "$ref": "urn:solorxjh:dongling-control-effect-state:v1#/$defs/source/properties/application_event_id"
+    },
+    "start_position_m": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/position"
+    },
+    "random_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:random-decision-flow:v1"
+        },
+        {
+          "properties": {
+            "streams": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "draws": {
+                    "minItems": 1,
+                    "maxItems": 1,
+                    "items": {
+                      "properties": {
+                        "purpose": {
+                          "const": "dongling_random_walk.direction"
+                        },
+                        "low": {
+                          "const": 0
+                        },
+                        "high": {
+                          "const": 7
+                        },
+                        "result": {
+                          "minimum": 0,
+                          "maximum": 7
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "event_id": {
+      "type": "string",
+      "minLength": 85,
+      "maxLength": 85,
+      "pattern": "^dongling-walk-intent:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "source_actor_id": {
+      "oneOf": [
+        {
+          "$ref": "urn:solorxjh:player-normal-attack:v1#/properties/source_actor_id"
+        },
+        {
+          "$ref": "urn:solorxjh:ordinary-monster-life-identity:v1#/properties/actor_id"
+        },
+        {
+          "$ref": "urn:solorxjh:training-monster-spawn:v1#/$defs/initial_actor/properties/stable_actor_id"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^ordinary-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^training-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_actor_id": {
+            "pattern": "^player-actor:"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "items": {
+                  "properties": {
+                    "owner_kind": {
+                      "const": "character"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "random_flow": {
+            "properties": {
+              "streams": {
+                "items": {
+                  "properties": {
+                    "owner_kind": {
+                      "const": "world"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

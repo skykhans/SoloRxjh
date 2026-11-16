@@ -19,7 +19,7 @@
   "combine_current": "业务版本与最终合法域联合决定现态：held归本角色实物注册表及一个正式位置，buyback归对应会话/原sale保管表，终结无任一活体域。最后业务输出在held但后续整物售出至buyback时，不能按出生域放回背包；最后buyback全量返回held亦然。合法时钟递减只按73权威证明比较正文，不因此造新业务头。",
   "closure": "scope内held堆/实例候选与该角色两正文注册表精确双向一致，键/正文owner/定义/版本和每物唯一位置均匹配；buyback候选与该会话合法保管正文/队列精确一致，不与held重复。silver两账户after_balance精确等于角色silver/warehouse_silver，各有真实opening链；不能多头选最新、缺头补0或把历史快照再入账。",
   "identity_retention": "除当前头之外必须保所有已分配实例/堆身份与新血统的退役/替换及授权证据，用于拒绝新ID复用；不是把完整旧实物恢复进注册表。允许压缩的只有原owner明确证明不再需要的重复副本，哈希/头索引不能替代未来来源/未决复购/对方未确认结果的完整依赖。",
-  "clock_boundary": "remaining自然递减不加业务消费边；从头节点到当前正文的时钟差须按原计时代次/权威快照验证。原头非空boost而当前为null必须有真实到期revise输出，不能凭当前步过期删字段。完整时钟证据结构尚待，头推导不能代替它。",
+  "clock_boundary": "remaining自然递减不加业务消费边；从头节点到当前正文的时钟差须按原计时代次/权威快照验证。原头非空boost而当前为null必须有真实到期revise输出，不能凭当前步过期删字段。完整时钟证据结构尚待，头推导不能代替它。 衣饰按apparel_clock_proof_owner_ref从真实业务头（交易先物化）沿完整父链重放，不能拿任意T列表或六键子结果证明无遗漏。",
   "missing_proof": "任何必要依赖缺失、图循环/双消费、多个候选头、未知来源/错当前域/跨scope错误激活均报具体字段/引用路径并拒绝快照或命令；不修复/挑一个头/从现物倒造创建记录。完整证明不足时无可运行新业务，不额外扫描真实用户存档尝试修复。",
   "implementation_gate": "当前头内存派生算法设计已采用，取消独立持久head表/schema需求；完整事件与producer授权/完整证明闭包根、时钟/档案和Godot/LAN仍待，未执行真实加载/跨角色恢复/域迁移。",
   "player_trade_extraction": {
@@ -39,7 +39,367 @@
       "stack": "/plan/transfer_provenance/stack_flow",
       "instance": "/plan/transfer_provenance/instance_flow"
     },
-    "authorization": "先通过原完整交易根/原规则/双方guard与准备保存及真实唯一决定授权，只对decision=commit提取非null三流；每流receipt_id精确trade_id=settlement_id。decision=null/abort即使plan内有完整合法候选流也不入图、不消费原节点、不产生输出。不能仅按路径发现flow就当成交。",
-    "duplicate": "world原journal与多个接收封套携带的同trade决定是同一原事件证明，须原完整身份/摘要/决定/冻结plan逐字段相同，再只建一组实际输出/消费边；同ID不同源拒绝，不把合法重复传输当两次转让或先set掩盖差异。历史after实际已继续转让/消耗不重激活旧输出。"
+    "authorization": "先通过原完整交易根/原规则/双方guard与准备保存及真实唯一决定授权，只对decision=commit提取非null三流；每流receipt_id精确trade_id=settlement_id。decision=null/abort即使plan内有完整合法候选流也不入图、不消费原节点、不产生输出。不能仅按路径发现flow就当成交。 instance路径为冻结模板，必须先按衣饰时钟owner验证决定见证并派生唯一实际流，再建立输入消费/输出节点；不能直接把模板余时入图。",
+    "duplicate": "world原journal与多个接收封套携带的同trade决定是同一原事件证明，须原完整身份/摘要/决定/冻结plan逐字段相同，再只建一组实际输出/消费边；同ID不同源拒绝，不把合法重复传输当两次转让或先set掩盖差异。历史after实际已继续转让/消耗不重激活旧输出。 完整决定比较包含clock_reconciliation_or_null。",
+    "apparel_clock_owner_ref": {
+      "file": "玩家交易.v1.json",
+      "pointer": "/apparel_clock_reconciliation"
+    }
+  },
+  "apparel_clock_proof_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": "/clock/continuous_proof"
+  },
+  "checkpoint_stack_adapter": {
+    "manifest_owner_ref": {
+      "file": "至尊服务.v1.json",
+      "pointer": "/shared_profile_results/checkpoint_protocol/retained_manifest"
+    },
+    "flow_schema_ref": {
+      "file": "物品堆来源流.schema.json",
+      "pointer": ""
+    },
+    "status": "stack_source_checkpoint_adapter_contract_adopted_runtime_loader_pending",
+    "source_unit": "保留单位是原已登记producer的完整不可变已提交事件组件，schema_id/key沿该producer原身份；stack_flow只是该正文内部投影，不以urn:solorxjh:stack-flow:v1加receipt_id另造一份独立manifest正文。同事件多流只保同一事件一次，完整原事件摘要必须覆盖所有流及其共同决定；可变ACK包装不冒充事件正文。未知producer或缺精确正文提取适配时拒绝准备，不能仅因找到同名stack_flows字段而入图。",
+    "flow_resolution": "先按原producer身份/唯一决定认证完整事件，再从其具名投影建立内存receipt_id到事件及流的唯一映射。双流/三流后缀只按原owner精确生成规则绑定，禁止通用截取冒号猜结算ID；同receipt_id命中不同事件或不同完整流即冲突。输入output_index须为该流实际输出范围，精确解析stack类型，不与instance/silver共享索引。",
+    "dependency_order": "逐输入保完整原输出事件和全部祖先，并按原数量/绑定/贡献/版本/权限规则验证。事件内mint到merge依赖以(type,receipt_id,output_index)节点拓扑判断：同一事件较早流的真实输出可被后流消费，不因manifest事件身份相同误判自环；同流自引、前向依赖及实际节点循环拒绝。manifest事件去重不得跳过尚未完成的内部流核验。",
+    "consumer_evidence": "闭包既保输入祖先，也保cut及其他仍可达消费者所需的已提交消费、整物域迁移、终结及身份不可复用证明。单有祖先DAG不能证明某输出未被后继消费：必须从原完整已认证来源索引及原连续决定/当前根覆盖验证消费全集，再与当前业务头和保管头双向闭合。不得删除已消费后继后把旧输出重激活，也不凭清单声称未双花。跨角色交易仍依原唯一决定/双方guard，不要求从一侧文件猜对方现态。",
+    "mint_and_custody": "每个mint保其原具名授予授权/去重/精确物品数量绑定证据，authority_receipt_id等本事件时只作原授权回指，不当作缺失祖先或一般循环。每个输入实际使用前沿原previous_custody_receipt_id保完整最新合法域链；原输出held不证明后来未售出。保管清理/删除等终结沿其原owner，不能保零数量实物代替来源。",
+    "cut_and_failure": "上述图以冻结cut及所有实际保留消费者为准，准备期间新增后缀仍保其真实依赖；不能拿较晚当前头覆盖cut状态。原完整根/来源索引/producer授权或时钟父缺失时保原前缀与来源并拒绝检查点准备。此适配仅采用物品流到原事件的解析与保留职责，未完成逐producer正文适配、真实闭包加载、有界存储或Godot验证，不允许裁剪。"
+  },
+  "cooking_material_transition_extraction": {
+    "owner_ref": {
+      "file": "五级寻找料理材料.v1.json",
+      "pointer": "/transition_protocol"
+    },
+    "record_schema_ref": {
+      "file": "料理材料任务转换事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "receipt_id_pointer": "/identity/settlement_id",
+    "decision_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flow",
+    "authorization": "先核原完整事件/真实会话/本人任务before及实际原唯一决定，再提取phase=committed的非null stack_flow；唯一允许command.operation=abandon且plan.inputs非空。reserved/aborted不消费任何输出，accept及零物abandon严格null，不创建空铸造/假消费流。",
+    "closure": "流receipt_id等原settlement，输入按plan.inputs原previous_output逐一精确匹配；每个完整旧输出当前确属本人inventory/本quest/quest_before.attempt_id，原堆与plan快照一致。输入数量全集0..10、总量<=10，实际当前本轮全部后腿被覆盖；每输入完整量恰一次quest_cleanup，outputs=[]且mint_authorization=null。不能仅验局部消耗量或跳过其他域/旧轮残物。",
+    "replay": "同原身份的完整决定/计划/流相同才复用一次消费边，正文冲突拒绝。保该终结与原接取attempt证明及所有输入祖先；不能因放弃后任务回未接或后续重接就裁掉终结重激活旧后腿。同request重放只回原决定，旧清理不可作用于新attempt。",
+    "boundary": "这是本producer来源图提取职责，不是实际加载器。完整当前根/决定与输入授权认证仍待，缺源保原未决，不能从未接状态或缺材料倒造放弃。"
+  },
+  "cooking_material_delivery_extraction": {
+    "owner_ref": {
+      "file": "五级寻找料理材料.v1.json",
+      "pointer": "/delivery_protocol"
+    },
+    "record_schema_ref": {
+      "file": "料理材料交付事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flows",
+    "authorization": "仅原完整committed交付决定提取按原顺序consume/mint/可选merge；reserved/aborted不入图。先核真实本人本attempt材料全集、5盒授权/布局/完成来源、原共同父及全部旧盒祖先，再建立流节点。原身份相同全文一致只入一次，冲突拒绝。",
+    "retention": "同原事件内部mint→merge按节点拓扑，不误判事件自环。临时mint已被merge全量消费不物化；保消费终结、奖励mint/合堆前链与真实原交付正文，不能删除完成后重发5盒或重激活后腿。完整根/来源加载仍待。"
+  },
+  "aromatic_wood_box_open_extraction": {
+    "owner_ref": {
+      "file": "香木宝盒固定开启.v1.json",
+      "pointer": "/opening_protocol"
+    },
+    "record_schema_ref": {
+      "file": "香木宝盒开启事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flows",
+    "authorization": "仅完整原committed决定且身份/会话/原盒来源及精确消费1、产药5、合堆/最终布局已认证才提取；reserved/aborted不入图。consume余盒沿完整旧盒输出贡献，只消费1，不能把余盒终结。mint的loot精确指向本开盒决定，不泛授loot。",
+    "retention": "内部mint→merge按流节点拓扑；保余盒链、盒1终结、药mint/合堆与所有消费祖先及后继，不重复物化临时堆。完整相同原事件只提取一次，冲突拒绝。旧结果不回装已用药或余盒；实际加载器及完整父仍待。"
+  },
+  "monster_silver_pickup_extraction": {
+    "owner_ref": {
+      "file": "怪物银两掉落与拾取.v1.json",
+      "pointer": "/pickup_protocol"
+    },
+    "record_schema_ref": {
+      "file": "怪物银两拾取事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/silver_flow",
+    "identity": "原完整event先验schema/分配身份/command会话及规则，silver_flow.receipt_id精确identity.settlement_id。相同原事件全文一致传输副本只入一次，异文拒绝；reserved/aborted无银流或领取消费边。",
+    "account": "本人carried_silver旧链/previous_output与plan精确相等，唯一账户与唯一null→0 loot腿/amount=drop_before.amount，before+amount=after，授权本settlement，不新开账户。当前账户头依原银图唯一未消费输出派生。",
+    "right": "另在同一来源验证中从原完整死亡解析唯一silver-drop生产正文，drop_id/源死亡/owner/位置/金额逐项等plan.drop_before；验证真实scope及领取门禁。按drop_id建立原权利节点，committed拾取添加唯一消费边；两不同settlement消费同包即拒绝，即便各自用不同合法旧钱包源。合法场景清理同样终结该权利，不能和拾取双终结。",
+    "retention": "保原死亡生产完整证明、本领取决定/银流、必要账户前后链及包消费/合法清理证明，不能只保钱包祖先遗漏权利终结。旧死亡重放不重新生产可领包，当前scope银包全集须精确等未终结且原生命周期允许的生产权利；不凭历史生产记录恢复已清包。",
+    "boundary": "此为原producer提取与权利/账户联合审查职责，不是新增持久claim/head表；完整死亡/场景生命周期及实际来源加载器/world父仍待。"
+  },
+  "adv03_lower_transition_extraction": {
+    "owner_ref": {
+      "file": "三转下半段与十四职业晋级.v1.json",
+      "pointer": "/transition_protocol"
+    },
+    "record_schema_ref": {
+      "file": "三转下半段任务转换事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flow",
+    "authorization": "原完整committed/真实本人会话、before/完整父先认证，仅abandon且原inputs非空提取唯一quest_cleanup流。accept/空abandon为null，reserved/aborted不入图。按原背包槽序全量冻结本attempt/branch/class任务实物及全部真实前输出，逐输入完整数量终结，流receipt等本settlement；旧轮或其他域残物报错，不能略过。",
+    "retention": "保原接受attempt与本放弃/输入祖先及终结，旧放弃重放只返原决定，不清新轮实物；同原身份全文唯一，不能以当前任务初态倒造清理。实际加载器和完整父仍待。"
+  },
+  "adv03_lower_stage_extraction": {
+    "owner_ref": {
+      "file": "三转下半段与十四职业晋级.v1.json",
+      "pointer": "/stage_protocol"
+    },
+    "record_schema_ref": {
+      "file": "三转下半段阶段提交事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flows",
+    "authorization": "先核原完整committed/真实本人会话及attempt/branch/class/route/92具名阶段、原requires/consume/grant、输入全集/修订/布局与共同父。仅按该阶段实际consume/mint/merge顺序和精确receipt后缀提取，空数组不造流；quest_exchange只授权该阶段原grant和本settlement。reserved/aborted不入图。",
+    "retention": "逐流output_index与原receipt_id精确定位，事件内consume余量或mint到merge按实际节点拓扑，不全局展平、不把同事件合法前流依赖判自环。中间堆不重复物化；保原接受、全部阶段收据及祖先/终结/最终rank2→3共同决定，同attempt/stage只能一次提交。旧决定不重新消费或发放，结构不代替真实源与完整父认证。"
+  },
+  "adv03_lower_material_extraction": {
+    "owner_ref": {
+      "file": "三转下半段与十四职业晋级.v1.json",
+      "pointer": "/collection/source_protocol"
+    },
+    "record_schema_ref": {
+      "file": "三转下半段材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "flow_pointer": "/stack_flows",
+    "authorization": "必须从原完整普通死亡共同决定提取已认证个人结果，不单凭此子对象或outcome=granted授权。原death identity/真实spawn与18具名producer、本人/attempt/branch/class/收集stage、成员资格与C/容量、同父角色after及全部原来源先验；只granted的实际mint/merge入图，cap/capacity无流，不新建独立结算或日志。",
+    "identity": "逐角色全局新堆ordinal及各flow receipt按原owner精确元组重算，mint的loot授权等原death_identity.event_id；merge前引用顺序旧头→本mint输出0，数量/贡献/旧ID与修订、origin_receipt等原流。输入不得借其他轮次/凭证/域，临时mint已消费不再作为现态头。",
+    "retention": "保同原死亡完整决定、本人原接受与前序阶段/全部堆祖先及后续消费终结；同身份全文一致只提取一次，冲突拒绝。无物决定同样保留以禁止腾包重放补发；原轮已交或放弃不删除此证明。完整死亡/world与真实加载器仍待，不能从子schema通过推定授权。"
+  },
+  "ordinary_item_pickup_extraction": {
+    "owner_ref": {
+      "file": "旧三地区怪物.v1.json",
+      "pointer": "/loot_ownership/ordinary_item_drop/pickup_protocol"
+    },
+    "record_schema_ref": {
+      "file": "普通物品拾取事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flows",
+    "authorization": "先认证原完整事件、真实会话/规则/权利/死亡kill-owner及唯一共同提交，再提取单loot mint或mint→merge。reserved/aborted不入图；保完整死亡/表行/随机命中证据及唯一领取终结，不能只凭authority字符串发物。",
+    "closure": "流ID沿原owner；output_index为该流本地索引。核旧堆前链/最新held域、旧量、物品绑定/原槽/新修订及完整贡献；临时mint被merge消费不成为现态头。",
+    "replay": "同原身份全文相同只建一次节点，异文拒绝；另请求不得消费同drop_id。保领取/明确重建终结及消费者全集，后续卖出/丢弃/任务消耗不回滚领取或重激活旧权利。缺死亡/共同决定/终结来源拒绝，不由现态补历史。",
+    "boundary": "提取职责采用；完整根/来源加载、共同角色/world持久及LAN结果producer仍待，未授权裁剪。"
+  },
+  "ordinary_rebuild_drop_terminal_extraction": {
+    "owner_ref": {
+      "file": "怪物银两掉落与拾取.v1.json",
+      "pointer": "/scene_registry/ordinary_rebuild_protocol"
+    },
+    "record_schema_ref": {
+      "file": "普通现场重建掉落清理.schema.json",
+      "pointer": ""
+    },
+    "source_unit": "只有原真实整体生命周期已提交完整父携带的唯一drop_cleanup可提取；子结果无独立收据，不以schema_id/任意字符串或单独四键正文作为manifest事件。保原父身份/摘要/唯一决定，未决/取消/预览不建终结边。",
+    "terminals": "从三完整映射逐drop_id建立对应producer地面权利终结关系，逐项解析原死亡/effect及真实scope；与原领取证据联合验证每权利最多一个终结。同原父全文一致只复用原终结，异文/已领取再清/不同父重复终结/权利活体重现均拒绝。",
+    "flow_boundary": "清理不产生held堆或银流，不把地面drop当stack业务输出，也不消费早已入包/钱包的来源节点。保完整生产与终结、消费者全集和原scope生命周期证明，不能用空现场或有祖先DAG推断未重复领取。",
+    "remaining": "严格完整生命周期父/闭包加载/多接收者持久仍待，不能据此裁剪历史。"
+  },
+  "adv03_upper_transition_extraction": {
+    "owner_ref": {
+      "file": "三转上半段猎物考验.v1.json",
+      "pointer": "/transition_protocol"
+    },
+    "record_schema_ref": {
+      "file": "三转上半段任务转换事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flow",
+    "authorization": "仅原完整committed abandon且plan.inputs非空提取唯一quest_cleanup；先核原本人/原accept attempt/派别/推荐书原来源与原共同决定。accept/零物abandon为null，reserved/aborted不消费。推荐书证据不建消费边，不从一次接取生成第二held输出。",
+    "closure": "receipt_id等原settlement；逐旧输入等计划完整前输出且当前本人held/本attempt/branch，数量完整恰一次清理，总量<=10。保原材料生产/域及消费者全集，不能漏清旧轮残物或消费原前置书。",
+    "replay": "原身份全文同一只入图一次，异文拒绝；已放弃后重放不清新attempt，原书仍其合法原版本。保完整放弃/原accept及推荐书保护释放证据和所有祖先，不能清历史后重激活旧凭证。",
+    "boundary": "提取职责采用；完整事件认证/来源加载及角色/world共同父仍待，未授权裁剪。"
+  },
+  "adv03_upper_stage_extraction": {
+    "owner_ref": {
+      "file": "三转上半段猎物考验.v1.json",
+      "pointer": "/stage_protocol"
+    },
+    "record_schema_ref": {
+      "file": "三转上半段阶段提交事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flow",
+    "authorization": "仅完整原committed阶段交付提取单quest_delivery流；stage1本人本attempt/branch正确凭证全集总量10，stage2恰原accept原前置完成书单位。核原共同决定、原accept、原stage1及全部祖先；reserved/aborted无消费。",
+    "closure": "receipt_id=原settlement；流输入逐项等plan.inputs.previous_output，完整量逐一终结且无mint/outputs。推荐书plan证据只在stage2成为输入，stage1不另建输出或消费边。保完整原书授权/锁及材料生产和全部终结。",
+    "replay": "原身份全文仅入图一次，异文拒绝；不得从delivered/现物缺失倒造消费或再授书，保原阶段与经验成长完整决定。",
+    "boundary": "职责采用；完整来源加载与角色/world共同父及运行验证仍待。"
+  },
+  "adv03_upper_material_extraction": {
+    "owner_ref": {
+      "file": "三转上半段猎物考验.v1.json",
+      "pointer": "/material_death_protocol"
+    },
+    "record_schema_ref": {
+      "file": "三转上半段材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "parent_authentication": "仅原完整committed正确怪死亡共同父中该个人唯一granted子结果，核真实死因/派别/地图/成员资格、原accept与原书保护、本人stage1/current attempt及全持量。无独立身份或日志，父schema尚待，不从孤立子结果运行授物。",
+    "flow_pointer": "/stack_flows",
+    "authorization": "先loot mint当前正确凭证1件，必要时同父紧接merge；仅父原有flow_index产生来源键。cap_reached/capacity_rejected无流/来源节点，不能重试转授予。",
+    "closure": "原选堆完整previous_output、本mint单位及merge全部贡献守恒，原任务不推进/重置；保父死亡与原accept/推荐书和全部祖先。每死亡/character/attempt/kind一决定，全文同一仅入图一次、异文拒绝。",
+    "boundary": "职责采用；完整combat/角色/world共同父与角色/world共同保存、加载认证及Godot仍待。"
+  },
+  "adv03_upper_wrong_extraction": {
+    "owner_ref": {
+      "file": "三转上半段猎物考验.v1.json",
+      "pointer": "/wrong_death_protocol"
+    },
+    "record_schema_ref": {
+      "file": "三转上半段错杀死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "flow_pointer": "/cleanup_flow_or_null",
+    "authorization": "仅原完整committed错怪死亡父第六违规，按原个人资格与原accept/attempt/branch认证唯一quest_cleanup；1..5或第六零材料无流，不建消费或错物节点。原书只保原held来源不消费。",
+    "closure": "第六stage1完整终结本attempt/branch全部正确凭证，总量0..10；stage2无材料。输入逐项原计划previous_output且完整数量一次，无mint/outputs，receipt_id/flow_index沿原死亡父。失败收据引用原death_id，不另立身份或来源表。",
+    "retention": "保完整原死亡/普通奖励/个人子结果、原accept/阶段事件/推荐书与材料祖先。旧失败重放不作用新attempt；任务根已重置不是再次发书或重处理的授权。",
+    "boundary": "子结果提取职责采用；完整combat/角色/world共同父、来源加载和角色/world同父及Godot仍待。"
+  },
+  "adv01_transition_extraction": {
+    "owner_ref": {
+      "file": "第一次升职十阶段.v1.json",
+      "pointer": "/transition_protocol"
+    },
+    "record_schema_ref": {
+      "file": "一转任务转换事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flow",
+    "authorization": "仅本人原committed abandon的非空inputs提取唯一quest_cleanup；真实原accept/attempt/阶段与allowed_inventory_by_stage逐项认证。accept或零物放弃无流，reserved/aborted不终结。",
+    "closure": "receipt_id=本settlement，inputs逐项等计划previous_output且完整量恰一次消费，无mint/outputs；当前本人本attempt实物全集与阶段必有产物双向覆盖。铁匠托管由阶段历史证明，不是本held清理或返还来源。",
+    "replay": "原身份全文同一只入图一次，旧轮决定不清新轮；保原accept/阶段授物/消费/abandon全历史，缺物不得推断合法清理。",
+    "boundary": "提取职责采用；完整事件认证/来源加载与角色/world共同父及Godot仍待。"
+  },
+  "adv01_stage_extraction": {
+    "owner_ref": {
+      "file": "第一次升职十阶段.v1.json",
+      "pointer": "/stage_protocol"
+    },
+    "record_schema_ref": {
+      "file": "一转阶段提交事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flows",
+    "authorization": "仅原committed精确当前stage及原accept/全部前序历史认证后提取consume再mint，输入逐物总量和原stages等式、输出逐行绑定本人本attempt。stage5旧甲终结，stage8新剑甲由本交换授予，不能复活旧甲头。无实物阶段空流，reserved/aborted无产物或消费。",
+    "silver": "仅stage10原silver_flow按计划carried账户前输出与实际余额认证，单quest_reward入10000、rank0->1及任务最终同完整共同父。非最终无银，不授权开户/仓库/第二账户；重放只认原结果。",
+    "closure": "保原accept/每阶段/材料死亡/流和最终银的完整祖先及消费者；同身份全文只入图一次，跳步/异文/坏源拒绝，不从当前stage或缺物倒造托管或再次取甲。",
+    "boundary": "提取职责采用；完整来源加载、角色/world共同父及Godot仍待。"
+  },
+  "adv01_material_extraction": {
+    "owner_ref": {
+      "file": "第一次升职十阶段.v1.json",
+      "pointer": "/material_death_protocol"
+    },
+    "record_schema_ref": {
+      "file": "一转材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "flow_pointer": "/stack_flows",
+    "authorization": "仅原完整committed对应野猪/灰狼死亡父的本人唯一granted结果；真实原accept/阶段3或7/成员资格/held全集及容量逐项认证。先loot mint1，骨已有量才可紧接merge。cap/capacity无流且不能重连补发。",
+    "closure": "按原死亡flow_index及receipt来源入图，完整选堆与本新单位贡献守恒；保持原任务阶段，旧轮重放不作用新attempt，保原死亡/阶段/原accept与全部祖先。",
+    "boundary": "职责采用；两怪正式公共白名单/完整死亡父及来源加载、角色/world共同提交和Godot仍待。"
+  },
+  "adv02_transition_extraction": {
+    "owner_ref": {
+      "file": "第二次升职九阶段.v1.json",
+      "pointer": "/transition_protocol"
+    },
+    "record_schema_ref": {
+      "file": "二转任务转换事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flow",
+    "authorization": "仅原committed首次分支接取quest_reward单mint或确认放弃quest_cleanup单消费，另一分支/旧凭证/保留推荐书/回城符不为cleanup授权。reserved/aborted或空流无来源节点。",
+    "closure": "原settlement/flow_index0；首次授符输出0/quantity1/新堆，放弃逐输入等原previous_output完整消费，本人/attempt/branch与阶段实物全集双向覆盖；保原推荐书前置/向导历史和任务全部祖先。",
+    "replay": "同原身份全文只入图一次，重放不改新attempt/当前符或凭证，缺源不得按当前无物推断已消费。",
+    "boundary": "完整来源加载/真实数量等式与角色/world共同父及Godot仍待。"
+  },
+  "adv02_stage_extraction": {
+    "owner_ref": {
+      "file": "第二次升职九阶段.v1.json",
+      "pointer": "/stage_protocol"
+    },
+    "record_schema_ref": {
+      "file": "二转阶段提交事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flows_pointer": "/stack_flows",
+    "authorization": "原committed阶段1..5无流；6仅三皮消费+衣服箱quest_exchange mint；7仅传达箱quest_exchange mint；8仅两箱消费；9仅原书消费+本派回城符quest_reward mint。inputs包括保留证据，须沿原owner选择，不整体消费。",
+    "closure": "逐本阶段完整原输入和原接受/收据链认证，保留书/箱/皮不发终结边；消费完整量一次无outputs，mint单新堆无inputs/consumptions。单流=settlement，双流:stack:consume/:stack:mint，flow/output索引及origin精确同owner。原角色库存/任务/rank-route/修订同完整共同父。",
+    "retention": "保原接受/全部阶段/材料死亡/前置推荐书和向导祖先；阶段验看无流仍保真实证据。重放只原决定，旧attempt不作用新轮，不因当前书已消失推断先前任意阶段完成。",
+    "boundary": "完整来源加载/真实数量与来源重放及角色/world共同父/Godot仍待。"
+  },
+  "adv02_material_extraction": {
+    "owner_ref": {
+      "file": "第二次升职九阶段.v1.json",
+      "pointer": "/material_death_protocol"
+    },
+    "record_schema_ref": {
+      "file": "二转材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "authorization": "仅原committed普通死亡共同父adv02_material_results granted可产loot mint及可选merge；真实monster/派别/item/第2阶段/成员资格与全部原持量/来源先验。cap或capacity失败不产流，不是重试令牌。",
+    "closure": "固定mint1、原死亡摘要receipt根与可选:stack:mint/:stack:merge沿owner；merge按原背包顺序首堆完整旧前输出+临时mint0，保旧堆ID/槽与revision+1、旧堆数量+1，临时堆完整退役。flow_index属原死亡完整流集合，output_index属本流，不复制来源账。",
+    "retention": "保原死亡/接取/已有皮毛祖先及共同所有角色after；同死亡重放一次，不授新attempt或因当前物品不在补发。",
+    "boundary": "完整共同父与来源实际加载/数量/重放/Godot仍待。"
+  },
+  "hyunbo_recommendation_transition_extraction": {
+    "owner_ref": {
+      "file": "泫勃派推荐书任务.v1.json",
+      "pointer": "/transition_protocol"
+    },
+    "record_schema_ref": {
+      "file": "泫勃推荐书转换事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flow_pointer": "/stack_flow",
+    "authorization": "仅原committed abandon非空材料单quest_cleanup；accept/空物放弃/reserved/aborted无流。仅本人本attempt斧/证明全集，不含原推荐书或二转物品。",
+    "closure": "receipt等本settlement，flow_index0，逐输入previous_output与原完整持量恰一次终结，无mint/outputs；双向核全部当前held、各cap与真实接受/死亡材料祖先。",
+    "replay": "同原身份全文只入图一次，旧放弃不清新轮，当前无物不证明旧终结已发生。",
+    "boundary": "完整源加载/真实数量与角色/world共同父、Godot仍待。"
+  },
+  "hyunbo_recommendation_delivery_extraction": {
+    "owner_ref": {
+      "file": "泫勃派推荐书任务.v1.json",
+      "pointer": "/delivery_protocol"
+    },
+    "record_schema_ref": {
+      "file": "泫勃推荐书交付事件.schema.json",
+      "pointer": "/oneOf/1"
+    },
+    "phase_pointer": "/phase",
+    "committed_value": "committed",
+    "flows_pointer": "/stack_flows",
+    "authorization": "只准原committed前置交付第0消费与第1推荐书授予两流，恰15材料消费及1本任务书；XP/qigong同时由原event after闭合，不允许拆笔。",
+    "closure": "receipt=settlement:stack:consume/mint且flow_index0/1，输入完整全量本人attempt来源；输出单本scope null、origin等mint流。XP credited/discarded精确封顶算术，确认只在discarded>0，跨等级原奖励历史连续。",
+    "replay": "保accept/全部死亡材料/最终交付及之后二转推荐书消费证明；同结算只写来源图一次，不补书/经验/发点。",
+    "boundary": "数量/经验算术、角色发点history和完整角色/world共同父需语义及运行验证。"
   }
 }

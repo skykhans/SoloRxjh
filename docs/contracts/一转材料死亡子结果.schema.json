@@ -1,0 +1,533 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:first-advancement-material-death-result:v1",
+  "$comment": "一转第3阶段后腿/第7阶段灰狼骨六键个人死亡子结果，无独立日志/身份。固定1件、封顶1/3，真实死亡/资格/attempt/来源/容量/流守恒及完整共同父另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "character_id",
+    "quest_before",
+    "held_quantity_before",
+    "outcome",
+    "merge_input_or_null",
+    "stack_flows"
+  ],
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "quest_before": {
+      "$ref": "urn:solorxjh:first-advancement-quest-state:v1",
+      "properties": {
+        "state": {
+          "const": "in_progress"
+        },
+        "stage_index_or_null": {
+          "enum": [
+            3,
+            7
+          ]
+        }
+      }
+    },
+    "held_quantity_before": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "outcome": {
+      "enum": [
+        "granted",
+        "cap_reached",
+        "capacity_rejected"
+      ]
+    },
+    "merge_input_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "previous_output",
+            "stack"
+          ],
+          "properties": {
+            "previous_output": {
+              "$ref": "urn:solorxjh:stack-flow:v1#/properties/inputs/items"
+            },
+            "stack": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/material_stack"
+                },
+                {
+                  "properties": {
+                    "quantity": {
+                      "minimum": 1,
+                      "maximum": 2
+                    },
+                    "revision": {
+                      "maximum": 9007199254740990
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "stack_flows": {
+      "type": "array",
+      "maxItems": 2,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/mint_flow"
+        },
+        {
+          "$ref": "#/$defs/merge_flow"
+        }
+      ],
+      "items": false
+    }
+  },
+  "$defs": {
+    "mint_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "maxItems": 0
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/material_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "const": 1
+                          },
+                          "revision": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  },
+                  "contributions": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "loot"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "merge_flow": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:stack-flow:v1"
+        },
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "consumptions": {
+              "maxItems": 0
+            },
+            "outputs": {
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "properties": {
+                  "stack": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/material_stack"
+                      },
+                      {
+                        "properties": {
+                          "quantity": {
+                            "minimum": 2
+                          },
+                          "revision": {
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "custody": {
+                    "const": {
+                      "kind": "held"
+                    }
+                  }
+                }
+              }
+            },
+            "mint_authorization": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "material_stack": {
+      "$ref": "urn:solorxjh:first-advancement-transition-event:v1#/$defs/plan/properties/inputs/items/properties/stack",
+      "properties": {
+        "item_id": {
+          "enum": [
+            "adv01_boar_leg",
+            "adv01_wolf_bone"
+          ]
+        },
+        "quantity": {
+          "maximum": 3
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stack_flows": {
+            "maxItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "stack_flows": {
+            "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "held_quantity_before": {
+            "const": 0
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "granted"
+          },
+          "held_quantity_before": {
+            "minimum": 1,
+            "maximum": 9
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "merge_input_or_null": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 3
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "allOf": [
+          {
+            "properties": {
+              "held_quantity_before": {
+                "maximum": 1
+              },
+              "merge_input_or_null": {
+                "properties": {
+                  "stack": {
+                    "properties": {
+                      "item_id": {
+                        "const": "adv01_boar_leg"
+                      },
+                      "quantity": {
+                        "maximum": 1
+                      }
+                    }
+                  }
+                }
+              },
+              "stack_flows": {
+                "items": {
+                  "properties": {
+                    "outputs": {
+                      "items": {
+                        "properties": {
+                          "stack": {
+                            "properties": {
+                              "item_id": {
+                                "const": "adv01_boar_leg"
+                              },
+                              "quantity": {
+                                "maximum": 1
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "granted"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "held_quantity_before": {
+                  "maximum": 0
+                },
+                "stack_flows": {
+                  "minItems": 1
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "merge_input_or_null": {
+                  "type": "null"
+                },
+                "stack_flows": {
+                  "maxItems": 0
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "cap_reached"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "held_quantity_before": {
+                  "const": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "capacity_rejected"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "held_quantity_before": {
+                  "maximum": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quest_before": {
+            "properties": {
+              "stage_index_or_null": {
+                "const": 7
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "allOf": [
+          {
+            "properties": {
+              "held_quantity_before": {
+                "maximum": 3
+              },
+              "merge_input_or_null": {
+                "properties": {
+                  "stack": {
+                    "properties": {
+                      "item_id": {
+                        "const": "adv01_wolf_bone"
+                      },
+                      "quantity": {
+                        "maximum": 3
+                      }
+                    }
+                  }
+                }
+              },
+              "stack_flows": {
+                "items": {
+                  "properties": {
+                    "outputs": {
+                      "items": {
+                        "properties": {
+                          "stack": {
+                            "properties": {
+                              "item_id": {
+                                "const": "adv01_wolf_bone"
+                              },
+                              "quantity": {
+                                "maximum": 3
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "granted"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "held_quantity_before": {
+                  "maximum": 2
+                },
+                "stack_flows": {
+                  "minItems": 1
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "merge_input_or_null": {
+                  "type": "null"
+                },
+                "stack_flows": {
+                  "maxItems": 0
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "cap_reached"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "held_quantity_before": {
+                  "const": 3
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "outcome": {
+                  "const": "capacity_rejected"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "held_quantity_before": {
+                  "maximum": 2
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

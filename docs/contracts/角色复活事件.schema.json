@@ -143,7 +143,8 @@
           "enum": [
             "return_to_workcamp",
             "revive_in_same_room",
-            "leave_to_hyunbo"
+            "leave_to_hyunbo",
+            "supreme_revive_in_place"
           ]
         }
       }
@@ -164,6 +165,9 @@
         },
         "pending_death_before": {
           "$ref": "urn:solorxjh:character-life-state:v1#/$defs/pending_death"
+        },
+        "supreme_source_receipt_id": {
+          "$ref": "urn:solorxjh:allocated-settlement-identity:v1#/properties/settlement_id"
         }
       }
     },
@@ -222,8 +226,50 @@
           "command": {
             "properties": {
               "choice_id": {
-                "const": "return_to_workcamp"
+                "enum": [
+                  "return_to_workcamp",
+                  "supreme_revive_in_place"
+                ]
               }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "command"
+        ],
+        "properties": {
+          "command": {
+            "required": [
+              "choice_id"
+            ],
+            "properties": {
+              "choice_id": {
+                "const": "supreme_revive_in_place"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "plan": {
+            "required": [
+              "supreme_source_receipt_id"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "plan": {
+            "not": {
+              "required": [
+                "supreme_source_receipt_id"
+              ]
             }
           }
         }

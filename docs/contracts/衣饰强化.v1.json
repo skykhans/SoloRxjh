@@ -1,0 +1,294 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-15",
+  "status": "apparel_enhancement_design_not_complete_instances_or_events_not_implemented",
+  "scope": "现有1155精确衣饰统一真实强化0..15；47功能道具排除，不以来源分类或名称代替身份枚举。",
+  "identity_schema_ref": {
+    "file": "衣饰目录身份.schema.json",
+    "pointer": ""
+  },
+  "source_audit_ref": {
+    "file": "../reference/衣饰合成与强化来源审计.json",
+    "pointer": ""
+  },
+  "eligibility_owner_ref": {
+    "file": "衣饰穿戴资格.v1.json",
+    "pointer": ""
+  },
+  "lifetime_owner_ref": {
+    "file": "衣饰期限.v1.json",
+    "pointer": ""
+  },
+  "synthesis_owner_ref": {
+    "file": "衣饰热血石合成.v1.json",
+    "pointer": ""
+  },
+  "instance_flow_owner_ref": {
+    "file": "唯一实例来源流.v1.json",
+    "pointer": "/revise"
+  },
+  "shared_material_ref": {
+    "file": "英雄主武器强化.v1.json",
+    "pointer": "/items/0"
+  },
+  "source_and_project": {
+    "published": "52旧FAQ称不能强化，V25原图实际存在强化披风分解确认；不据此推断现代具体目录/上限/收益/概率。",
+    "adoption": "项目显式将全部1155开放0..15强化，旧限制保留在原文；统一规则避免名称/普通/斗战/皇猜强弱等级，仍保各款原独立身份。",
+    "values": "以下每级HP+10/防御+2、各档成本/概率、失败保级均为项目设计。成本曲线有意采用现有普通防具相同项目数值，权限和配方仍为独立衣饰服务，不继承其罡气/守护/减伤/反气功预算或幸运符资格。"
+  },
+  "field": {
+    "name": "enhancement",
+    "type": "strict_integer",
+    "minimum": 0,
+    "maximum": 15,
+    "fresh_creation": 0,
+    "policy": "不存显示强化镜像、附加提升、突破或保底计数；加载缺失/浮点/布尔/字符串/越界拒绝。配置另须其严格授权，不能从官网款式标签造非0初态。"
+  },
+  "tiers": [
+    {
+      "recipe_id": "apparel_enhance_01",
+      "from_enhancement": 0,
+      "to_enhancement": 1,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 100,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 0
+    },
+    {
+      "recipe_id": "apparel_enhance_02",
+      "from_enhancement": 1,
+      "to_enhancement": 2,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 300,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 1
+    },
+    {
+      "recipe_id": "apparel_enhance_03",
+      "from_enhancement": 2,
+      "to_enhancement": 3,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 1000,
+      "success_probability_bp": 10000,
+      "random_draw_required": false,
+      "failure_enhancement": 2
+    },
+    {
+      "recipe_id": "apparel_enhance_04",
+      "from_enhancement": 3,
+      "to_enhancement": 4,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 1,
+      "silver_fee": 3000,
+      "success_probability_bp": 9000,
+      "random_draw_required": true,
+      "failure_enhancement": 3
+    },
+    {
+      "recipe_id": "apparel_enhance_05",
+      "from_enhancement": 4,
+      "to_enhancement": 5,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 10000,
+      "success_probability_bp": 8500,
+      "random_draw_required": true,
+      "failure_enhancement": 4
+    },
+    {
+      "recipe_id": "apparel_enhance_06",
+      "from_enhancement": 5,
+      "to_enhancement": 6,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 2,
+      "silver_fee": 30000,
+      "success_probability_bp": 8000,
+      "random_draw_required": true,
+      "failure_enhancement": 5
+    },
+    {
+      "recipe_id": "apparel_enhance_07",
+      "from_enhancement": 6,
+      "to_enhancement": 7,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 100000,
+      "success_probability_bp": 7500,
+      "random_draw_required": true,
+      "failure_enhancement": 6
+    },
+    {
+      "recipe_id": "apparel_enhance_08",
+      "from_enhancement": 7,
+      "to_enhancement": 8,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 3,
+      "silver_fee": 300000,
+      "success_probability_bp": 6500,
+      "random_draw_required": true,
+      "failure_enhancement": 7
+    },
+    {
+      "recipe_id": "apparel_enhance_09",
+      "from_enhancement": 8,
+      "to_enhancement": 9,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 4,
+      "silver_fee": 600000,
+      "success_probability_bp": 5500,
+      "random_draw_required": true,
+      "failure_enhancement": 8
+    },
+    {
+      "recipe_id": "apparel_enhance_10",
+      "from_enhancement": 9,
+      "to_enhancement": 10,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 5,
+      "silver_fee": 1000000,
+      "success_probability_bp": 4500,
+      "random_draw_required": true,
+      "failure_enhancement": 9
+    },
+    {
+      "recipe_id": "apparel_enhance_11",
+      "from_enhancement": 10,
+      "to_enhancement": 11,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 6,
+      "silver_fee": 2000000,
+      "success_probability_bp": 3500,
+      "random_draw_required": true,
+      "failure_enhancement": 10
+    },
+    {
+      "recipe_id": "apparel_enhance_12",
+      "from_enhancement": 11,
+      "to_enhancement": 12,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 8,
+      "silver_fee": 3000000,
+      "success_probability_bp": 2500,
+      "random_draw_required": true,
+      "failure_enhancement": 11
+    },
+    {
+      "recipe_id": "apparel_enhance_13",
+      "from_enhancement": 12,
+      "to_enhancement": 13,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 10,
+      "silver_fee": 5000000,
+      "success_probability_bp": 2000,
+      "random_draw_required": true,
+      "failure_enhancement": 12
+    },
+    {
+      "recipe_id": "apparel_enhance_14",
+      "from_enhancement": 13,
+      "to_enhancement": 14,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 12,
+      "silver_fee": 8000000,
+      "success_probability_bp": 1500,
+      "random_draw_required": true,
+      "failure_enhancement": 13
+    },
+    {
+      "recipe_id": "apparel_enhance_15",
+      "from_enhancement": 14,
+      "to_enhancement": 15,
+      "consumed_item_id": "enhancement_stone",
+      "consumed_quantity": 15,
+      "silver_fee": 10000000,
+      "success_probability_bp": 1000,
+      "random_draw_required": true,
+      "failure_enhancement": 14
+    }
+  ],
+  "contribution": {
+    "max_hp_flat_per_level": 10,
+    "defense_flat_per_level": 2,
+    "application": "仅本人当前生效cape合法实例，真实enhancement乘每级值后作为装备HP/普通防御平值各一次，与合成和原纪念贡献相加；强化不乘合成/纪念属性，不授气功等级、反气功预算、衣服罡气或PvE专属项。隐藏外观照常贡献，备用/包/仓/预览不贡献。",
+    "boundary_examples": [
+      {
+        "enhancement": 0,
+        "max_hp_flat": 0,
+        "defense_flat": 0
+      },
+      {
+        "enhancement": 1,
+        "max_hp_flat": 10,
+        "defense_flat": 2
+      },
+      {
+        "enhancement": 14,
+        "max_hp_flat": 140,
+        "defense_flat": 28
+      },
+      {
+        "enhancement": 15,
+        "max_hp_flat": 150,
+        "defense_flat": 30
+      }
+    ],
+    "loss": "资源上限增加不回血；合法源丢失只下裁当前HP，保自有气功分配。整件到期撤全部成长，纪念加量到期保强化；已接纳动作沿原快照，不回算。"
+  },
+  "material_acquisition": {
+    "registered": false,
+    "item_id": "enhancement_stone",
+    "npc_id": "npc_daojianxiao",
+    "quantity_range": [
+      1,
+      99
+    ],
+    "minimum_level": 1,
+    "minimum_rank": 0,
+    "class_filter": "现有14职业",
+    "policy": "仅共享原强化石唯一定义（500两/10克/99堆/角色绑定），本衣饰购买适配器须明确注册，不能借其原六英雄筛选假定14职业已可购；原库存合法，随身银两/最终格重/来源/修订与去重同笔。 本14职业适配器严格购买事件/原日志/通用索引现由growth_material_purchase_owner_ref采用，未激活真实服务。"
+  },
+  "service": {
+    "planned_service_id": "npc_daojianxiao_apparel_enhance",
+    "registered": false,
+    "npc_id": "npc_daojianxiao",
+    "interaction_distance_mm": 2500,
+    "qualification": "本人存活脱战空闲、NPC可用且同图距离<=2500毫米，无挑战/传送/未结算战斗；原衣饰在本人equipment_bag真实held且未占用，完整定义/实例/来源/时钟/库存合法并符合逐ID穿戴资格，仓/两套cape须先明确取出/卸下。",
+    "quote": "绑定实际目标ID/revision/character_revision/inventory_revision、原from强化、配方ID/版本、真实材料堆及数量、服务会话/命令ID；显示目标独立款式/实际余时、成功概率、费用、失败保级和新增贡献。",
+    "other_processing": "不采用幸运符、神物之石、天池神丹、附加提升、强化转移或款式互转。所有非强化合法字段保留，不清合成/纪念/寿命；未来新增须独立采用，不以未知状态填null。"
+  },
+  "transaction": {
+    "timers": "沿衣饰合成原timer规则，报价不冻结；自然整件到期先终结，纪念到期改变实例修订使旧报价失效；正余时须原角色实际步认证，成功/失败保提交时真实余时。",
+    "admission": "房主角色串行先去重，异参数同命令拒绝；重验原资格/修订/精确from级/配方/材料和随身银两，安全整数预检并核扣投入后最终格重。0..14各仅一下一档，+15拒绝，无+16/跳级。",
+    "random": "使用原character.random_state，10000bp档不抽，其他一次apparel_enhancement_success的uniform_integer(0,9999)，draw<bp才成功；原事件random_flow及事务调用覆盖沿随机owner，拒绝/取消不消费。",
+    "success": "扣本档石数/银费，enhancement恰from+1，保同实例/血统/创建锚及全部其他合法成长；state_origin_receipt_id指本事件，实例revision+1，角色/inventory各+1。",
+    "failure": "同样扣石/银，不毁/不降级/不清合成；真实付费尝试沿原revise更新state_origin_receipt_id并实例revision+1，角色/inventory各+1；不得把失败当未发生或重抽。",
+    "commit": "材料stack_flows/银两/唯一实例revise/随机流/修订/正式结果同笔，成功及失败均去重。已提交保存失败只重存，存疑先核原决定；重放只返回旧决定，不回装历史余时/成长。",
+    "invalid": "取消、满级、过期报价、资格/来源/时钟/材料/银两/格重/数值不合法整笔拒绝，不扣费/随机/修订。"
+  },
+  "random_owner_ref": {
+    "file": "随机序列.v1.json",
+    "pointer": ""
+  },
+  "implementation_gate": "完整衣饰根及强化命令-冻结计划-提交严格事件已采用；完整来源闭包/连续时钟、材料真实取得与NPC服务/网络结果仍待，当前不注册真实服务；D1或Godot尚未完成。",
+  "definition_owner_ref": {
+    "file": "衣饰基础定义.v1.json",
+    "pointer": ""
+  },
+  "full_instance_owner_ref": {
+    "file": "衣饰实例.v1.json",
+    "pointer": ""
+  },
+  "apparel_processing_owner_ref": {
+    "file": "衣饰加工事件.v1.json",
+    "pointer": ""
+  },
+  "growth_material_purchase_owner_ref": {
+    "file": "成长材料购买事件.v1.json",
+    "pointer": ""
+  }
+}

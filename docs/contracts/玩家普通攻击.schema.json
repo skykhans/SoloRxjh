@@ -1,0 +1,779 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:player-normal-attack:v1",
+  "$comment": "玩家普通攻击原根完整字段白名单，十四profile近战/投射分派。各投影通过原字段引用重用，不持久包装/重复角色面板。接纳父before/after与历史规则/来源、算术/逐项结果和原子提交另验。",
+  "type": "object",
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "source_actor_id",
+    "map_id",
+    "instance_id_or_null",
+    "accepted_world_step",
+    "admission",
+    "action_id",
+    "admission_event_id",
+    "rules_hash",
+    "attack_category",
+    "weapon_instance_id",
+    "primary_target_id_or_null",
+    "accepted_yaw_radians",
+    "combo_stage",
+    "combo_predecessor_action_id_or_null",
+    "attack_multiplier_bp",
+    "normal_admission_proc_or_null",
+    "weapon_proc_pool_or_null",
+    "taken_next_attack_bonus_or_null",
+    "dispatch_event_id_or_null",
+    "stop_event_id_or_null",
+    "basic_profile_id",
+    "handler",
+    "range_mm",
+    "maximum_targets_per_hit",
+    "critical_chance_bp",
+    "critical_multiplier_bp",
+    "supercritical_chance_bp",
+    "supercritical_multiplier_bp_or_null",
+    "windup_steps",
+    "active_steps",
+    "recovery_steps",
+    "hit_offsets_in_active_steps",
+    "elapsed_steps",
+    "attack_min",
+    "attack_max",
+    "accuracy",
+    "flat_power_per_hit"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/properties/authority_profile_id"
+    },
+    "source_actor_id": {
+      "type": "string",
+      "pattern": "^player-actor:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/properties/instance_id_or_null"
+    },
+    "accepted_world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "admission": {
+      "oneOf": [
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/player_command"
+        },
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/dongling_forced_action"
+        }
+      ]
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+    },
+    "admission_event_id": {
+      "$ref": "urn:solorxjh:direct-attack-admission-result:v1#/properties/event_id"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:direct-attack-admission-result:v1#/properties/rules_hash"
+    },
+    "attack_category": {
+      "const": "normal_attack"
+    },
+    "weapon_instance_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "primary_target_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "accepted_yaw_radians": {
+      "type": "number"
+    },
+    "combo_stage": {
+      "enum": [
+        1,
+        2,
+        3
+      ]
+    },
+    "combo_predecessor_action_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:accepted-direct-attack-identity:v1#/$defs/action_id"
+        }
+      ]
+    },
+    "attack_multiplier_bp": {
+      "enum": [
+        10000,
+        12000
+      ]
+    },
+    "normal_admission_proc_or_null": {
+      "$ref": "urn:solorxjh:normal-admission-proc:v1"
+    },
+    "weapon_proc_pool_or_null": {
+      "$ref": "urn:solorxjh:normal-weapon-proc-pool:v1"
+    },
+    "taken_next_attack_bonus_or_null": {
+      "$ref": "urn:solorxjh:taken-next-attack-bonus:v1"
+    },
+    "dispatch_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "urn:solorxjh:normal-attack-dispatch:v1#/$defs/event_id"
+        }
+      ]
+    },
+    "stop_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "basic_profile_id": {
+      "$ref": "urn:solorxjh:normal-critical-snapshot:v1#/properties/basic_profile_id"
+    },
+    "handler": {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/properties/handler"
+    },
+    "range_mm": {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/properties/range_mm"
+    },
+    "maximum_targets_per_hit": {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/properties/maximum_targets_per_hit"
+    },
+    "critical_chance_bp": {
+      "$ref": "urn:solorxjh:normal-critical-snapshot:v1#/properties/critical_chance_bp"
+    },
+    "critical_multiplier_bp": {
+      "$ref": "urn:solorxjh:normal-critical-snapshot:v1#/properties/critical_multiplier_bp"
+    },
+    "supercritical_chance_bp": {
+      "$ref": "urn:solorxjh:normal-critical-snapshot:v1#/properties/supercritical_chance_bp"
+    },
+    "supercritical_multiplier_bp_or_null": {
+      "$ref": "urn:solorxjh:normal-critical-snapshot:v1#/properties/supercritical_multiplier_bp_or_null"
+    },
+    "windup_steps": {
+      "$ref": "urn:solorxjh:accepted-attack-timing:v1#/properties/windup_steps"
+    },
+    "active_steps": {
+      "$ref": "urn:solorxjh:accepted-attack-timing:v1#/properties/active_steps"
+    },
+    "recovery_steps": {
+      "$ref": "urn:solorxjh:accepted-attack-timing:v1#/properties/recovery_steps"
+    },
+    "hit_offsets_in_active_steps": {
+      "$ref": "urn:solorxjh:accepted-attack-timing:v1#/properties/hit_offsets_in_active_steps"
+    },
+    "elapsed_steps": {
+      "$ref": "urn:solorxjh:accepted-attack-timing:v1#/properties/elapsed_steps"
+    },
+    "attack_min": {
+      "$ref": "urn:solorxjh:normal-attack-input:v1#/properties/attack_min"
+    },
+    "attack_max": {
+      "$ref": "urn:solorxjh:normal-attack-input:v1#/properties/attack_max"
+    },
+    "accuracy": {
+      "$ref": "urn:solorxjh:normal-attack-input:v1#/properties/accuracy"
+    },
+    "flat_power_per_hit": {
+      "$ref": "urn:solorxjh:normal-attack-input:v1#/properties/flat_power_per_hit"
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/0"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/1"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/2"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/3"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/4"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/5"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/6"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/7"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/8"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/9"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/10"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/11"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/12"
+    },
+    {
+      "$ref": "urn:solorxjh:accepted-basic-attack-geometry:v1#/oneOf/13"
+    }
+  ],
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "$ref": "urn:solorxjh:normal-critical-snapshot:v1#/allOf/0"
+    },
+    {
+      "$ref": "urn:solorxjh:normal-critical-snapshot:v1#/allOf/1"
+    },
+    {
+      "$ref": "urn:solorxjh:normal-critical-snapshot:v1#/allOf/2"
+    },
+    {
+      "$ref": "urn:solorxjh:normal-weapon-proc-pool:v1#/$defs/proc_pool_projection/allOf/0"
+    },
+    {
+      "$ref": "urn:solorxjh:normal-weapon-proc-pool:v1#/$defs/proc_pool_projection/allOf/1"
+    },
+    {
+      "$ref": "urn:solorxjh:normal-weapon-proc-pool:v1#/$defs/proc_pool_projection/allOf/2"
+    },
+    {
+      "if": {
+        "properties": {
+          "combo_stage": {
+            "const": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attack_multiplier_bp": {
+            "const": 10000
+          },
+          "combo_predecessor_action_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "combo_stage": {
+            "const": 2
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attack_multiplier_bp": {
+            "const": 10000
+          },
+          "combo_predecessor_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "combo_stage": {
+            "const": 3
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "attack_multiplier_bp": {
+            "const": 12000
+          },
+          "combo_predecessor_action_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_blade"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "type": "null"
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_sword"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "qigong_id": {
+                    "enum": [
+                      "qigong_sword_526d7146868a"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "taken_next_attack_bonus_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "profile_id": {
+                    "const": "evaded_attack_stack"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_spear"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "qigong_id": {
+                    "enum": [
+                      "qigong_spear_0fd0be5106f8"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_physician"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "type": "null"
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_archer"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "type": "null"
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_assassin"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "type": "null"
+          },
+          "taken_next_attack_bonus_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "profile_id": {
+                    "const": "evade_next_normal_bonus"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_musician"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "qigong_id": {
+                    "enum": [
+                      "qigong_musician_92e2a06cde35"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_fighter"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "type": "null"
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_han_feiguan"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "qigong_id": {
+                    "enum": [
+                      "qigong_han_feiguan_9b9acbfddd29"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_tan_hualing"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "qigong_id": {
+                    "enum": [
+                      "qigong_tan_hualing_526d7146868a"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "taken_next_attack_bonus_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "profile_id": {
+                    "const": "evaded_attack_stack"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_mei_liuzhen"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "qigong_id": {
+                    "enum": [
+                      "qigong_mei_liuzhen_15fbf2a219d2"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_lu_fenglang"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "qigong_id": {
+                    "enum": [
+                      "qigong_lu_fenglang_a5f621132db5"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_dongling_shennv"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "type": "null"
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basic_profile_id": {
+            "const": "basic_zhen_fengbai"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "normal_admission_proc_or_null": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "qigong_id": {
+                    "enum": [
+                      "qigong_zhen_fengbai_9eca08cd0894"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "taken_next_attack_bonus_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "admission": {
+            "properties": {
+              "kind": {
+                "const": "dongling_forced_action"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "accepted_world_step": {
+            "minimum": 1
+          },
+          "primary_target_id_or_null": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ],
+  "unevaluatedProperties": false
+}

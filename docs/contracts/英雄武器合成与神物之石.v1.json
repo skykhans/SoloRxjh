@@ -1,5 +1,9 @@
 {
   "contract_version": 1,
+  "supreme_processing_owner_ref": {
+    "file": "至尊服务.v1.json",
+    "pointer": "/processing_effect"
+  },
   "updated_on": "2026-11-14",
   "status": "explicit_hero_synthesis_and_divine_stone_design_not_implemented_not_balanced",
   "scope": "107主武器四槽本地合成，以及stage4及以上83件主武器的神物之石单槽属性变更；不覆盖普通武器/防具合成或其他成长。",
@@ -842,7 +846,7 @@
     ],
     "preview": "show exact target slot/old property, allowed outcomes and exact success/failure probability/cost, no hidden temporary buff or choose-after-draw",
     "capacity": "processing same instance/slot, only consumes material; craft removes5 material before allocating/stacking1 stone and checks final slots+weight. Cannot count a partially depleted stack as a free slot.",
-    "rng": "clone requester RNG only after all qualification/cost/capacity/schema checks. Guaranteed synthesis and craft do not draw. Other synthesis draws once; mutation draws second property only on success. Uniform integer helper must avoid modulo bias.",
+    "rng": "clone requester RNG only after all qualification/cost/capacity/schema checks. Synthesis uses base plus valid supreme500bp capped10000 under supreme_processing_owner_ref; this never changes mutation/craft probabilities. Effective guaranteed synthesis and guaranteed craft do not draw. Other synthesis draws once against effective bp; mutation draws second property only on success. Uniform integer helper must avoid modulo bias.",
     "atomic_commit": "costs, chosen entry or crafted output, RNG state, source/character revisions and command receipt committed once on host",
     "cancel_stale_invalid": "no item/silver/random/revision change; do not pre-roll preview",
     "duplicate": "same command/payload returns original receipt before current slot validation, no new roll; changed payload with old command ID rejected",

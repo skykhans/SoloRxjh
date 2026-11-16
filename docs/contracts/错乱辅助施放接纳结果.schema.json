@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dongling-support-cast-admission:v1",
+  "$comment": "内部错乱51普通辅助成功接纳十二键子结果，唯一action_id解析完整e0根及choice来源，不复制用户请求/能力/阶段/目标或冗余成功标志。医师快照能力对应、来源/费用/随机及选择消费同父另验；不支持玩法拒绝，缺生产者或计算错误保未决。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "rules_hash",
+    "action_id",
+    "physician_double_heal_proc_or_null",
+    "random_flow",
+    "physician_heal_potency_snapshot_or_null"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/event_id"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/rules_hash"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:player-support-cast:v1#/properties/action_id"
+    },
+    "physician_double_heal_proc_or_null": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/physician_double_heal_proc_or_null"
+    },
+    "random_flow": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/random_flow"
+    },
+    "physician_heal_potency_snapshot_or_null": {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/properties/physician_heal_potency_snapshot_or_null"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "$ref": "urn:solorxjh:player-support-cast-admission:v1#/$defs/physician_proc_random_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "physician_heal_potency_snapshot_or_null": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "physician_double_heal_proc_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

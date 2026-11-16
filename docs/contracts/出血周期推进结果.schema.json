@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:bleeding-clock-result:v1",
+  "$comment": "仅真实有旧出血来源的一个实际实体固定步，严格10字段；before/after为原效果历史组件，due只索引before赢家及原机会序号，不复制赢家或新建tick日志/live计数。扣时/赢家/原相位和父阶段仍需来源验证。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "target_actor_id",
+    "world_step",
+    "before",
+    "after",
+    "due_or_null"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 79,
+      "maxLength": 79,
+      "pattern": "^bleeding-clock:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    },
+    "target_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "before": {
+      "$ref": "urn:solorxjh:bleeding-effect-state:v1",
+      "properties": {
+        "sources": {
+          "minItems": 1
+        }
+      }
+    },
+    "after": {
+      "$ref": "urn:solorxjh:bleeding-effect-state:v1"
+    },
+    "due_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_index",
+            "hit_or_tick_ordinal"
+          ],
+          "properties": {
+            "source_index": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "hit_or_tick_ordinal": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "before": {
+            "properties": {
+              "next_tick_remaining_steps": {
+                "const": 1
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "due_or_null": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "due_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "contract_version": 1,
+  "updated_on": "2026-11-16",
+  "status": "explicit_unarmored_monster_effect_root_designed_not_runtime",
+  "field": "原完整世界实体actor.effects",
+  "schema_ref": {
+    "file": "普通怪效果根.schema.json",
+    "pointer": ""
+  },
+  "initial_value_schema_ref": {
+    "file": "普通怪效果根.schema.json",
+    "pointer": "/$defs/cleared"
+  },
+  "scope": "只采用原旧四普通怪/熊/蛤蟆/三转下半段两具名材料怪、二转六怪、一转两怪及上半段四怪二十定义与修炼原144怪定义；皆combat_kind=monster/is_npc_martial=false/max_mana=0/rage_enabled=false/qigong_allocations={}，无护甲实例、原skills=[]。其他怪物/boss/伙伴/武者NPC须明确自己的定义与根，不以名字/缺字段套本根。",
+  "definition_owner_refs": [
+    {
+      "file": "旧三地区怪物.v1.json",
+      "pointer": "/monsters"
+    },
+    {
+      "file": "制药材料任务与泫勃熊.v1.json",
+      "pointer": "/monster"
+    },
+    {
+      "file": "五级寻找料理材料.v1.json",
+      "pointer": "/monster"
+    },
+    {
+      "file": "修炼怪物与刷点.v1.json",
+      "pointer": "/monsters"
+    },
+    {
+      "file": "三转下半段与十四职业晋级.v1.json",
+      "pointer": "/monsters"
+    },
+    {
+      "file": "三转上半段猎物考验.v1.json",
+      "pointer": "/monsters"
+    },
+    {
+      "file": "第一次升职十阶段.v1.json",
+      "pointer": "/monsters"
+    },
+    {
+      "file": "第二次升职九阶段.v1.json",
+      "pointer": "/monsters"
+    }
+  ],
+  "fields": {
+    "bleeding": {
+      "owner_ref": {
+        "file": "怒气出血与血雨恶魔.v1.json",
+        "pointer": "/bleeding/persistent_state"
+      },
+      "schema_ref": {
+        "file": "普通怪效果根.schema.json",
+        "pointer": "/properties/bleeding"
+      },
+      "adoption": "原世界实体出血共享相位/真实敌伤来源，目标本体唯一持有，不复制到施加者。"
+    },
+    "dongling_attributes": {
+      "owner_ref": {
+        "file": "神女状态技能.v1.json",
+        "pointer": "/persistent_attribute_state"
+      },
+      "schema_ref": {
+        "file": "普通怪效果根.schema.json",
+        "pointer": "/properties/dongling_attributes"
+      },
+      "adoption": "可受weakening及revenge；神女proc_seal因无原触发被动恒空，immunity为自体/实际队友正面，本敌对怪无合法来源恒空。revenge仅真实原marked目标成为施加者终结击杀者才激活，不能因普通死亡报告触发。"
+    },
+    "dongling_control": {
+      "owner_ref": {
+        "file": "神女状态技能.v1.json",
+        "pointer": "/persistent_control_state"
+      },
+      "schema_ref": {
+        "file": "普通怪效果根.schema.json",
+        "pointer": "/properties/dongling_control"
+      },
+      "adoption": "forced_action_once与random_walk沿原应用源和受控者world随机/合法基本动作/真实路径；无原learned技能不捏造技能池，原paid动作照原规则完成。完整强制基本攻击选择/移动生产仍待。"
+    },
+    "dongling_delayed_burst": {
+      "owner_ref": {
+        "file": "神女状态技能.v1.json",
+        "pointer": "/persistent_delayed_burst_state"
+      },
+      "schema_ref": {
+        "file": "普通怪效果根.schema.json",
+        "pointer": "/properties/dongling_delayed_burst"
+      },
+      "adoption": "保真实累计敌伤/原来源，仅自然到期可爆；死亡/清理/合法解除安全移除不爆。"
+    },
+    "dongling_periodic": {
+      "owner_ref": {
+        "file": "神女状态技能.v1.json",
+        "pointer": "/persistent_periodic_state"
+      },
+      "schema_ref": {
+        "file": "普通怪效果根.schema.json",
+        "pointer": "/properties/dongling_periodic"
+      },
+      "adoption": "可受stationary burn，共享周期与真实累计路程沿原族；healing来源为空且共享余时0，敌对怪不冒充原玩家队伍/团治疗接收者。"
+    },
+    "half_ordinary_defense": {
+      "owner_ref": {
+        "file": "护身与破甲采用.v1.json",
+        "pointer": "/persistent_half_defense_state"
+      },
+      "schema_ref": {
+        "file": "普通怪效果根.schema.json",
+        "pointer": "/properties/half_ordinary_defense"
+      },
+      "adoption": "真实剑客根合格命中后的无坚减防源，按原族最强比例；不修改基表或怪物防护评级。"
+    },
+    "hp_recovery_block": {
+      "owner_ref": {
+        "file": "致残恢复封锁.v1.json",
+        "pointer": "/persistent_state"
+      },
+      "schema_ref": {
+        "file": "普通怪效果根.schema.json",
+        "pointer": "/properties/hp_recovery_block"
+      },
+      "adoption": "真实致残源阻生命恢复且不删其他源，目标死亡清理；本采用集无障力/药品，仍会影响返乡回血。"
+    },
+    "music_timed": {
+      "owner_ref": {
+        "file": "乐师和弦联动气功.v1.json",
+        "pointer": "/persistent_timed_state"
+      },
+      "schema_ref": {
+        "file": "普通怪效果根.schema.json",
+        "pointer": "/properties/music_timed"
+      },
+      "adoption": "只有敌方despair受体可能非空，luanfeng恒null；本采用集无攻击武功，既有合法绝望不虚构flat skillpower或降低普通武器攻击。原施加资格仍按族，不新添意义门禁。"
+    },
+    "spear_fighter_timed": {
+      "owner_ref": {
+        "file": "枪格斗狂风与破甲气功.v1.json",
+        "pointer": "/persistent_timed_state"
+      },
+      "schema_ref": {
+        "file": "普通怪效果根.schema.json",
+        "pointer": "/properties/spear_fighter_timed"
+      },
+      "adoption": "允许符合原实际命中失败条件的fighter_move_root；martial_duel_attack20恒null、nearby_stun恒空，寒冰只对武者NPC不能给野兽套眩晕。"
+    }
+  },
+  "exclusions": "不保存armor_suppression、venom_kill、rage_sources或职业自体/队伍增益/护罩等角色字段。无真实护甲实例不能触发防具失效；无触发气功和怒气不得为封印/妨怒编造有意义受体或无用抽样。神女proc_seal同样要求真实触发被动，本采用集无此被动故恒空；非武者野兽不接受寒冰领域nearby_stun。空值为明确受体限制，不是未知效果的默认值。",
+  "landing": "原施加动作/命中/状态结果先验真实目标生命、资格、距离/保护、原施加者职业/技能/等级与实际随机，合法成功才同原world共同父写目标唯一effects。各族仍遵自身有意义目标门禁，结构可表示不代表本次必可施加。当前不合格/无意义沿原owner拒绝或不抽样，不伪造怪物主动气功/友方队伍关系。",
+  "timers": "所有真实旧源只按该actor所属scope实际获步及原各族阶段扣一次，新源生成步不扣；不以未模拟world步差或墙钟补扣。出血/烧伤等共享周期、末跳捕获与延迟爆炸原owner先后保留，不先统一清到期源抹掉合法末跳；原完整固定步来源仍须共同提交。",
+  "death_cleanup": "真正目标死亡由原完整死亡/收益父安全清受体效果并删除actor，原神女追踪爆炸因target_death移除不爆炸；必要原tick捕获/伤害/停止及历史来源保留。普通明确scene清理同样安全移除，不因清理发死亡收益。修炼活体随world保存原effects，个人进出/重连不清；施加者离线/死亡按各族原例外，不能一律删除。",
+  "recovery": "返乡/加载/重放不清效果或补时；hp_recovery_block会阻止原返乡生命恢复，具体等待/重试归原AI。revenge造成maxHP下降按原族钳当前HP，源到期不回补HP；返乡最多回当时合法maxHP，不能按裸基表越上限。",
+  "validation": "完整actor白名单先验，再验本九键根和原各族schema；逐源认证原应用/目标生命/唯一排序、原规则/余时/周期/冻结锚与实际扣时链。缺字段/未知族/坏引用整候选拒绝，不清空或迁成角色23字段以过检。受控移动/强制动作RNG沿实际受控world与原应用源，不借施加者/Host当前角色。",
+  "boundary": "本采用集效果受体白名单与结构、原来源/计时/死亡职责采用；原施加/周期/控制全部生产父与NPC移动/完整world仍待，不把结构合法当效果已运行。"
+}

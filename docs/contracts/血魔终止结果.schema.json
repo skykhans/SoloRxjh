@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:blood-devil-terminal-result:v1",
+  "$comment": "原血魔正常获救/失败/原死亡清理不可变13键子结果，不新建日志/结算counter。配置解除不在本schema。失败结果为角色死亡lethal源；不反向复制死亡ID，避免循环。真实来源/归属/角色及共同决定仍另验。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "target_actor_id",
+    "world_step",
+    "rules_hash",
+    "source_kind",
+    "challenge_before",
+    "outcome",
+    "reason",
+    "evidence_event_id_or_null"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 85,
+      "maxLength": 85,
+      "pattern": "^blood-devil-terminal:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "world_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "authority_profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:character-location:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:scope-step-state:v1#/properties/instance_id_or_null"
+    },
+    "target_actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "world_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "rules_hash": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "source_kind": {
+      "enum": [
+        "active",
+        "expiry_capture"
+      ]
+    },
+    "challenge_before": {
+      "allOf": [
+        {
+          "$ref": "urn:solorxjh:blood-devil-challenge-state:v1"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "rescued",
+        "failed",
+        "already_dead"
+      ]
+    },
+    "reason": {
+      "enum": [
+        "bound_opponent_self_kill",
+        "timeout",
+        "opponent_killed_by_other",
+        "opponent_removed",
+        "activity_ended",
+        "holder_already_dead"
+      ]
+    },
+    "evidence_event_id_or_null": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "source_kind": {
+            "const": "expiry_capture"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "challenge_before": {
+            "properties": {
+              "remaining_steps": {
+                "const": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "oneOf": [
+    {
+      "properties": {
+        "outcome": {
+          "const": "rescued"
+        },
+        "reason": {
+          "const": "bound_opponent_self_kill"
+        },
+        "evidence_event_id_or_null": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    {
+      "properties": {
+        "outcome": {
+          "const": "failed"
+        },
+        "reason": {
+          "const": "timeout"
+        },
+        "source_kind": {
+          "const": "expiry_capture"
+        },
+        "evidence_event_id_or_null": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "properties": {
+        "outcome": {
+          "const": "failed"
+        },
+        "reason": {
+          "enum": [
+            "opponent_killed_by_other",
+            "opponent_removed",
+            "activity_ended"
+          ]
+        },
+        "evidence_event_id_or_null": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    {
+      "properties": {
+        "outcome": {
+          "const": "already_dead"
+        },
+        "reason": {
+          "const": "holder_already_dead"
+        },
+        "evidence_event_id_or_null": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    }
+  ]
+}

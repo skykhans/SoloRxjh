@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dodge-advance:v1",
+  "$comment": "十一键本人唯一移动推进结果；after=before+1及125毫米实际连续路径另验，不能混入同本人同T普通/自动移动结果。到e24同父释放占用，完成不用第二bool/结果副本。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "source_actor_id",
+    "event_id",
+    "action_id",
+    "before_elapsed_steps",
+    "after_elapsed_steps",
+    "path_positions"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "source_actor_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/source_actor_id"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 78,
+      "maxLength": 78,
+      "pattern": "^dodge-advance:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "action_id": {
+      "$ref": "urn:solorxjh:player-dodge:v1#/properties/action_id"
+    },
+    "before_elapsed_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 23
+    },
+    "after_elapsed_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 24
+    },
+    "path_positions": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/path_positions"
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    }
+  ]
+}

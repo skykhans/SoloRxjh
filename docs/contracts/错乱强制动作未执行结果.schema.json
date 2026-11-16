@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:solorxjh:dongling-forced-action-not-executed:v1",
+  "$comment": "原接纳队首完整父持有的九键内部未执行子结果，保完整原候选及首个真实失败原因；无选择/执行/随机/费用或控制消费。来源/原因与不变业务后像、队首消费同父另验，不可独立发布或凭组件推进。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "world_id",
+    "authority_profile_id",
+    "map_id",
+    "instance_id_or_null",
+    "world_step",
+    "event_id",
+    "rules_hash",
+    "candidate",
+    "reason"
+  ],
+  "properties": {
+    "world_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_id"
+    },
+    "authority_profile_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/authority_profile_id"
+    },
+    "map_id": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/map_id"
+    },
+    "instance_id_or_null": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/instance_id_or_null"
+    },
+    "world_step": {
+      "$ref": "urn:solorxjh:player-on-foot-motion-result:v1#/properties/world_step"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 83,
+      "maxLength": 83,
+      "pattern": "^dongling-no-action:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "rules_hash": {
+      "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/rules_hash"
+    },
+    "candidate": {
+      "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/$defs/candidate",
+      "properties": {
+        "request": {
+          "$ref": "urn:solorxjh:direct-attack-admission-worklist:v1#/$defs/forced_request"
+        }
+      }
+    },
+    "reason": {
+      "enum": [
+        "source_unavailable",
+        "control_source_inactive",
+        "control_source_replaced",
+        "already_admitted_this_step",
+        "action_occupied",
+        "no_legal_option"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "urn:solorxjh:world-step-state:v1#/$defs/instance_binding"
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "source_actor_id": {
+                "pattern": "^ordinary-actor:"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:ordinary-normal-attack:v1#/properties/map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate": {
+            "properties": {
+              "source_actor_id": {
+                "pattern": "^training-actor:"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "map_id": {
+            "$ref": "urn:solorxjh:world-step-state:v1#/$defs/training_map_id"
+          },
+          "instance_id_or_null": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}
