@@ -4,6 +4,8 @@ extends RefCounted
 const ARCHIVE_SCHEMA_PATH: String = "res://docs/contracts/新空档案.schema.json"
 const METADATA_SCHEMA_PATH: String = "res://docs/contracts/档案元数据投影.schema.json"
 const METADATA_OWNER_PATH: String = "res://docs/contracts/档案元数据与设置.v1.json"
+const ARCHIVE_FILE_LEASE: Script = preload("res://scripts/archive_file_lease.gd")
+const UNICODE_NORMALIZER: Script = preload("res://scripts/unicode15_normalizer.gd")
 const APP_DATA_DIRECTORY_NAME: String = "SoloRxjh"
 const MAX_ARCHIVES: int = 3
 
@@ -34,7 +36,7 @@ func list_profiles() -> Dictionary:
 	if not directory_error.is_empty():
 		return _failure(directory_error)
 
-	var directory_lease: WindowsArchiveLease = WindowsArchiveLease.new()
+	var directory_lease: Variant = ARCHIVE_FILE_LEASE.new()
 	var lock_result: Dictionary = directory_lease.try_acquire(_profiles_directory)
 	if not lock_result.get("ok", false):
 		return _failure("无法读取档案目录：%s" % lock_result.get("error", "unknown"))
@@ -44,8 +46,61 @@ func list_profiles() -> Dictionary:
 	return result
 
 
+func rename_profile(
+		profile_id: String,
+		expected_profile_name: String,
+		expected_profile_revision: int,
+		raw_name: String
+) -> Dictionary:
+	if not _is_profile_id(profile_id):
+		return _failure("档案ID无效。")
+	if expected_profile_revision < 1 or expected_profile_revision > 9007199254740991:
+		return _failure("档案修订无效。")
+	if not _pending_profile_id.is_empty():
+		return _failure("上一笔档案创建结果尚未确认，暂不能改名。")
+
+	var expected_name_result: Dictionary = UNICODE_NORMALIZER.normalize_profile_name(
+		expected_profile_name
+	)
+	if (
+		not expected_name_result.get("ok", false)
+		or expected_name_result["profile_name"] != expected_profile_name
+	):
+		return _failure("当前档案名称无效。")
+	var name_result: Dictionary = UNICODE_NORMALIZER.normalize_profile_name(raw_name)
+	if not name_result.get("ok", false):
+		return _failure("档案名称无效：%s" % name_result.get("error", "unknown"))
+
+	var directory_error: String = _ensure_profiles_directory()
+	if not directory_error.is_empty():
+		return _failure(directory_error)
+	var directory_lease: Variant = ARCHIVE_FILE_LEASE.new()
+	var lock_result: Dictionary = directory_lease.try_acquire(_profiles_directory)
+	if not lock_result.get("ok", false):
+		return _failure("无法改名档案：%s" % lock_result.get("error", "unknown"))
+
+	var result: Dictionary = _rename_profile_with_directory_lease(
+		directory_lease,
+		profile_id,
+		expected_profile_name,
+		expected_profile_revision,
+		name_result["profile_name"],
+		name_result["comparison_key"]
+	)
+	if not directory_lease.release():
+		var release_error: String = directory_lease.get_last_error()
+		if result.get("ok", false):
+			result["warning"] = "档案改名已提交，但目录租约释放失败：%s" % release_error
+		else:
+			result["error"] = "%s；目录租约释放失败：%s" % [
+				result.get("error", "档案改名失败"),
+				release_error,
+			]
+	return result
+
+
 func create_profile(raw_name: String) -> Dictionary:
-	var name_result: Dictionary = WindowsArchiveLease.new().normalize_profile_name(raw_name)
+	var name_result: Dictionary = UNICODE_NORMALIZER.normalize_profile_name(raw_name)
 	if not name_result.get("ok", false):
 		return _failure("档案名称无效：%s" % name_result.get("error", "unknown"))
 	var profile_name: String = name_result["profile_name"]
@@ -56,7 +111,7 @@ func create_profile(raw_name: String) -> Dictionary:
 	if not directory_error.is_empty():
 		return _failure(directory_error)
 
-	var directory_lease: WindowsArchiveLease = WindowsArchiveLease.new()
+	var directory_lease: Variant = ARCHIVE_FILE_LEASE.new()
 	var lock_result: Dictionary = directory_lease.try_acquire(_profiles_directory)
 	if not lock_result.get("ok", false):
 		return _failure("无法创建档案：%s" % lock_result.get("error", "unknown"))
@@ -97,7 +152,7 @@ func create_profile(raw_name: String) -> Dictionary:
 
 
 func _continue_pending_create(
-		directory_lease: WindowsArchiveLease,
+		directory_lease: Variant,
 		profile_name: String,
 		comparison_key: String
 ) -> Dictionary:
@@ -127,7 +182,7 @@ func _continue_pending_create(
 	if catalog["profiles"].size() >= MAX_ARCHIVES:
 		return _failure("档案数量已达上限（%d）。" % MAX_ARCHIVES)
 
-	var profile_lease: WindowsArchiveLease = WindowsArchiveLease.new()
+	var profile_lease: Variant = ARCHIVE_FILE_LEASE.new()
 	var profile_lock: Dictionary = profile_lease.try_acquire(_profiles_directory, _pending_profile_id)
 	if not profile_lock.get("ok", false):
 		profile_lease.release()
@@ -135,7 +190,7 @@ func _continue_pending_create(
 
 	var serialized: String = JSON.stringify(candidate["data"], "\t", true, true) + "\n"
 	var candidate_bytes: PackedByteArray = serialized.to_utf8_buffer()
-	var publish_result: Dictionary = profile_lease.publish_bytes(
+	var publish_result: Dictionary = directory_lease.publish_bytes(
 		_profiles_directory,
 		".%s.create.tmp" % _pending_profile_id,
 		target_name,
@@ -166,7 +221,181 @@ func _continue_pending_create(
 	}
 
 
-func _scan_profiles(directory_lease: WindowsArchiveLease) -> Dictionary:
+func _rename_profile_with_directory_lease(
+		directory_lease: Variant,
+		profile_id: String,
+		expected_profile_name: String,
+		expected_profile_revision: int,
+		profile_name: String,
+		comparison_key: String
+) -> Dictionary:
+	var catalog: Dictionary = _scan_profiles(directory_lease)
+	if not catalog.get("ok", false):
+		return catalog
+	if not catalog.get("all_valid", false):
+		return _failure("存在无法完整验证的档案，已停止改名。")
+
+	var target: Dictionary = {}
+	for profile: Dictionary in catalog["profiles"]:
+		if profile["profile_id"] == profile_id:
+			target = profile
+		elif profile["comparison_key"] == comparison_key:
+			return _failure("档案名称已被使用。")
+	if target.is_empty():
+		return _failure("未找到目标档案。")
+
+	var profile_lease: Variant = ARCHIVE_FILE_LEASE.new()
+	var profile_lock: Dictionary = profile_lease.try_acquire(
+		_profiles_directory,
+		profile_id
+	)
+	if not profile_lock.get("ok", false):
+		profile_lease.release()
+		return _failure("无法改名档案：%s" % profile_lock.get("error", "unknown"))
+
+	var result: Dictionary = _commit_profile_rename(
+		directory_lease,
+		target,
+		expected_profile_name,
+		expected_profile_revision,
+		profile_name
+	)
+	if not profile_lease.release():
+		var release_error: String = profile_lease.get_last_error()
+		if result.get("ok", false):
+			result["warning"] = "档案改名已提交，但档案租约释放失败：%s" % release_error
+		else:
+			result["error"] = "%s；档案租约释放失败：%s" % [
+				result.get("error", "档案改名失败"),
+				release_error,
+			]
+	return result
+
+
+func _commit_profile_rename(
+		directory_lease: Variant,
+		target: Dictionary,
+		expected_profile_name: String,
+		expected_profile_revision: int,
+		profile_name: String
+) -> Dictionary:
+	var latest: Dictionary = _read_published_candidate(
+		directory_lease,
+		target["file_name"]
+	)
+	if not latest.get("ok", false):
+		return latest
+	if (
+		latest["profile_id"] != target["profile_id"]
+		or latest["profile_name"] != expected_profile_name
+		or int(latest["revision"]) != expected_profile_revision
+	):
+		if (
+			latest["profile_id"] == target["profile_id"]
+			and profile_name != expected_profile_name
+			and latest["profile_name"] == profile_name
+			and int(latest["revision"]) == expected_profile_revision + 1
+		):
+			return {
+				"ok": true,
+				"profile": latest,
+				"changed": true,
+				"recovered": true,
+			}
+		return _failure("档案已被其他操作修改，请刷新后重试。")
+
+	if profile_name == expected_profile_name:
+		return {
+			"ok": true,
+			"profile": latest,
+			"changed": false,
+			"recovered": false,
+		}
+	if expected_profile_revision >= 9007199254740991:
+		return _failure("档案修订已达安全整数上限，不能改名。")
+
+	var original_data: Dictionary = latest["data"]
+	var candidate: Dictionary = original_data.duplicate(true)
+	candidate["profile_name"] = profile_name
+	candidate["revision"] = expected_profile_revision + 1
+	var validation: Dictionary = _validate_profile(candidate, target["file_name"])
+	if not validation.get("ok", false):
+		return _failure("档案改名候选无效：%s" % validation.get("error", "unknown"))
+
+	var serialized: PackedByteArray = (
+		JSON.stringify(candidate, "\t", true, true) + "\n"
+	).to_utf8_buffer()
+	var temporary_name: String = ".%s.rename.tmp" % target["profile_id"]
+	var temporary_result: Dictionary = _remove_matching_rename_temporary(
+		temporary_name,
+		serialized
+	)
+	if not temporary_result.get("ok", false):
+		return temporary_result
+
+	var publish_result: Dictionary = directory_lease.publish_bytes(
+		_profiles_directory,
+		temporary_name,
+		target["file_name"],
+		serialized,
+		true
+	)
+	var published: Dictionary = _read_published_candidate(
+		directory_lease,
+		target["file_name"]
+	)
+	if published.get("ok", false) and published["data"] == candidate:
+		return {
+			"ok": true,
+			"profile": published,
+			"changed": true,
+			"recovered": not publish_result.get("ok", false),
+		}
+	if published.get("ok", false) and published["data"] == original_data:
+		return _failure(
+			"档案改名未提交：%s" % publish_result.get("error", "正式档案保持原值")
+		)
+	return _failure("档案改名结果无法确认，正式档案已保留。")
+
+
+func _remove_matching_rename_temporary(
+		temporary_name: String,
+		expected_contents: PackedByteArray
+) -> Dictionary:
+	var directory: DirAccess = DirAccess.open(_profiles_directory)
+	if directory == null:
+		return _failure("无法检查档案改名临时文件。")
+	if directory.is_link(temporary_name) or directory.dir_exists(temporary_name):
+		return _failure("档案改名临时路径类型无效，原档案已保留。")
+	if not directory.file_exists(temporary_name):
+		return {
+			"ok": true,
+		}
+
+	var temporary_path: String = _profiles_directory.path_join(temporary_name)
+	var file: FileAccess = FileAccess.open(temporary_path, FileAccess.READ)
+	if file == null:
+		return _failure("无法读取档案改名临时文件。")
+	var file_length: int = file.get_length()
+	if file_length < 0:
+		file.close()
+		return _failure("档案改名临时文件长度无效。")
+	var contents: PackedByteArray = file.get_buffer(file_length)
+	var read_error: Error = file.get_error()
+	file.close()
+	if read_error != OK or contents.size() != file_length:
+		return _failure("档案改名临时文件读取不完整。")
+	if contents != expected_contents:
+		return _failure("存在其他未决档案改名临时文件，原档案已保留。")
+	var remove_error: Error = DirAccess.remove_absolute(temporary_path)
+	if remove_error != OK or FileAccess.file_exists(temporary_path):
+		return _failure("无法清理本次档案改名临时文件。")
+	return {
+		"ok": true,
+	}
+
+
+func _scan_profiles(directory_lease: Variant) -> Dictionary:
 	var enumeration: Dictionary = directory_lease.enumerate_profile_candidates(_profiles_directory)
 	if not enumeration.get("ok", false):
 		return _failure("无法枚举档案目录：%s" % enumeration.get("error", "unknown"))
@@ -257,7 +486,7 @@ func _validate_profile(profile: Dictionary, file_name: String) -> Dictionary:
 	):
 		return _failure("档案revision无效")
 
-	var name_result: Dictionary = WindowsArchiveLease.new().normalize_profile_name(
+	var name_result: Dictionary = UNICODE_NORMALIZER.normalize_profile_name(
 		str(profile.get("profile_name", ""))
 	)
 	if not name_result.get("ok", false) or name_result["profile_name"] != profile["profile_name"]:
@@ -387,7 +616,7 @@ func _build_empty_profile(profile_id: String, profile_name: String) -> Dictionar
 
 
 func _read_published_candidate(
-		directory_lease: WindowsArchiveLease,
+		directory_lease: Variant,
 		file_name: String
 ) -> Dictionary:
 	var read_result: Dictionary = directory_lease.read_profile_candidate(

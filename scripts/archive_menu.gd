@@ -19,6 +19,12 @@ var _name_input: LineEdit
 var _create_button: Button
 var _status: Label
 var _model_pivot: Node3D
+var _rename_dialog: ConfirmationDialog
+var _rename_input: LineEdit
+var _rename_profile_id: String = ""
+var _rename_expected_name: String = ""
+var _rename_expected_revision: int = 0
+var _all_profiles_valid: bool = false
 
 
 func _ready() -> void:
@@ -134,6 +140,27 @@ func _build_layout() -> void:
 	image_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	columns.add_child(image_column)
 	_build_character_view(image_column)
+	_build_rename_dialog()
+
+
+func _build_rename_dialog() -> void:
+	_rename_dialog = ConfirmationDialog.new()
+	_rename_dialog.title = "更改档案名称"
+	_rename_dialog.dialog_text = "新名称将立即保存。"
+	_rename_dialog.confirmed.connect(_on_rename_confirmed)
+	add_child(_rename_dialog)
+
+	var content: VBoxContainer = VBoxContainer.new()
+	content.add_theme_constant_override("separation", 10)
+	_rename_dialog.add_child(content)
+
+	_rename_input = LineEdit.new()
+	_rename_input.custom_minimum_size = Vector2(440.0, 44.0)
+	_rename_input.max_length = 32
+	_rename_input.placeholder_text = "2～16个字符"
+	content.add_child(_rename_input)
+
+	_rename_dialog.get_ok_button().text = "保存"
 
 
 func _build_character_view(parent: Control) -> void:
@@ -233,11 +260,13 @@ func _refresh_profiles() -> void:
 
 	var catalog: Dictionary = _repository.list_profiles()
 	if not catalog.get("ok", false):
+		_all_profiles_valid = false
 		_status.text = catalog.get("error", "档案目录读取失败")
 		_status.add_theme_color_override("font_color", COLOR_ERROR)
 		_create_button.disabled = true
 		return
 
+	_all_profiles_valid = catalog.get("all_valid", false)
 	var profiles: Array = catalog.get("profiles", [])
 	if profiles.is_empty():
 		var empty_state: Label = Label.new()
@@ -260,7 +289,7 @@ func _refresh_profiles() -> void:
 
 func _make_profile_row(profile: Dictionary) -> Control:
 	var row: PanelContainer = PanelContainer.new()
-	row.custom_minimum_size = Vector2(0.0, 78.0)
+	row.custom_minimum_size = Vector2(0.0, 82.0)
 	var style: StyleBoxFlat = StyleBoxFlat.new()
 	style.bg_color = COLOR_PANEL if profile.get("valid", false) else Color("#342421")
 	style.set_corner_radius_all(4)
@@ -270,9 +299,14 @@ func _make_profile_row(profile: Dictionary) -> Control:
 	style.content_margin_bottom = 8.0
 	row.add_theme_stylebox_override("panel", style)
 
+	var row_content: HBoxContainer = HBoxContainer.new()
+	row_content.add_theme_constant_override("separation", 12)
+	row.add_child(row_content)
+
 	var text: VBoxContainer = VBoxContainer.new()
+	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	text.add_theme_constant_override("separation", 3)
-	row.add_child(text)
+	row_content.add_child(text)
 	var title: Label = Label.new()
 	title.text = (
 		"%s  ·  %d 个角色" % [
@@ -282,6 +316,7 @@ func _make_profile_row(profile: Dictionary) -> Control:
 		if profile.get("valid", false)
 		else profile.get("file_name", "档案")
 	)
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	title.add_theme_color_override(
 		"font_color",
 		COLOR_TEXT if profile.get("valid", false) else COLOR_ERROR
@@ -298,6 +333,19 @@ func _make_profile_row(profile: Dictionary) -> Control:
 	detail.add_theme_color_override("font_color", COLOR_MUTED)
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.add_child(detail)
+
+	var rename_button: Button = _make_button("改名", false)
+	rename_button.custom_minimum_size = Vector2(82.0, 46.0)
+	rename_button.disabled = not profile.get("valid", false) or not _all_profiles_valid
+	if profile.get("valid", false):
+		rename_button.pressed.connect(
+			_on_rename_pressed.bind(
+				profile["profile_id"],
+				profile["profile_name"],
+				int(profile["revision"])
+			)
+		)
+	row_content.add_child(rename_button)
 	return row
 
 
@@ -337,3 +385,41 @@ func _on_create_pressed() -> void:
 
 func _on_name_submitted(_submitted_text: String) -> void:
 	_on_create_pressed()
+
+
+func _on_rename_pressed(profile_id: String, profile_name: String, revision: int) -> void:
+	_rename_profile_id = profile_id
+	_rename_expected_name = profile_name
+	_rename_expected_revision = revision
+	_rename_input.text = profile_name
+	_rename_dialog.popup_centered(Vector2i(560, 190))
+	_rename_input.grab_focus()
+	_rename_input.select_all()
+
+
+func _on_rename_confirmed() -> void:
+	if _rename_profile_id.is_empty():
+		return
+
+	var result: Dictionary = _repository.rename_profile(
+		_rename_profile_id,
+		_rename_expected_name,
+		_rename_expected_revision,
+		_rename_input.text
+	)
+	_rename_profile_id = ""
+	_rename_expected_name = ""
+	_rename_expected_revision = 0
+	_refresh_profiles()
+	if not result.get("ok", false):
+		_status.text = result.get("error", "档案改名失败")
+		_status.add_theme_color_override("font_color", COLOR_ERROR)
+	elif not str(result.get("warning", "")).is_empty():
+		_status.text = result["warning"]
+		_status.add_theme_color_override("font_color", COLOR_ERROR)
+	elif result.get("changed", false):
+		_status.text = "档案名称已更新：%s" % result["profile"]["profile_name"]
+		_status.add_theme_color_override("font_color", COLOR_ACCENT)
+	else:
+		_status.text = "档案名称未变化。"
+		_status.add_theme_color_override("font_color", COLOR_MUTED)
