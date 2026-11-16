@@ -382,11 +382,11 @@
     },
     "identity": "通用结算/character未决互斥，request_id按71确定JSON [\"hyunbo_recommendation_delivery\",session_id,command_id]，digest覆盖完整六键command；同请求重放返回原结果。",
     "eligibility": "仅state=in_progress且本人attempt/实际10斧5证明全部可验、rank1/route unselected/至少35级、掌门原服务NPC合法交互；推荐书未曾交付。",
-    "inputs": "plan.inputs是背包顺序全量输入证据：恰覆盖本人本attempt两种材料所有held堆，斧合计10、证明合计5，previous_output/源堆及绑定范围逐项有效。推荐书不是输入，发放用独立new stack不merge。",
+    "inputs": "plan.inputs按inventory.slots.slot_index升序冻结：每个target_id解析到character.item_stacks同ID且stack_id相等的唯一当前堆；恰纳入本角色、本attempt、character绑定且quest_scope精确等于{quest_id:ref_QREF-63791-016,attempt_id:quest_before.attempt_id}的两种材料全部held堆。输入按该槽位顺序与正文stack_id一一对应，stack逐字段等于注册表正文；previous_output引用该当前堆有效的原物品流output，来源链及可消费性由物品堆来源流owner验证。按item_id用安全整数分别累加quantity，必须精确为斧10、证明5；漏堆、重复堆、错序、非当前attempt堆代入、无效来源或总量不等均拒绝。推荐书不是输入，发放用独立new stack不merge。",
     "stack_flows": "固定flow[0]完整消费15材料，receipt_id=settlement:stack:consume；flow[1]单quest_reward mint adv02_recommendation数量1、character绑定、scope null、revision0，receipt_id=settlement:stack:mint，authority=本settlement。不得因背包满改发地面/仓库。inventory_revision仅一次+1。",
     "experience": "base_award=11000，credited=min(11000,371126840985-before.total_xp)，discarded=11000-credited；如果discarded>0，确认命令必须true，等于0必须false。progress仅total_xp加credited，其余字段保持原值。每个跨过的等级按原等级表和升级owner连续追加发点跨度/qigong，不读快照猜测、不自动分配气功。",
     "after": "character.revision恰+1；任务保attempt并state=delivered/completion_receipt=本settlement；rank/route不变。角色XP、qigong发点、任务、库存与双堆流在唯一完整profile/world共同提交；任一来源/容量/经验历史验证失败整笔不提交。",
-    "remaining": "交付三阶段schema元结构及全量文档引用已通过；事件有效/无效实例、15件聚合、XP封顶算术、等级发点来源及全角色共同父/真实重放/Godot仍待."
+    "remaining": "交付三阶段schema元结构及全量文档引用已通过；完整事件有效/无效实例、等级发点来源及全角色共同父/真实重放/Godot仍待。拆堆材料合计/槽位覆盖和独立XP封顶结果由recommendation_material_aggregation.gd与recommendation_experience_award.gd验证，但不替代完整before/after根、来源和事件联合验证。"
   },
   "material_death_protocol": {
     "field": "ordinary_death_outcome.hyunbo_recommendation_results",

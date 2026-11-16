@@ -34,11 +34,16 @@ var _delete_profile_id: String = ""
 var _delete_expected_name: String = ""
 var _delete_expected_revision: int = 0
 var _all_profiles_valid: bool = false
+var _profiles_directory: String = ""
+
+
+func _init(profiles_directory: String = "") -> void:
+	_profiles_directory = profiles_directory
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_repository = ARCHIVE_REPOSITORY.new()
+	_repository = ARCHIVE_REPOSITORY.new(_profiles_directory)
 	_build_theme()
 	_build_layout()
 	_refresh_profiles()

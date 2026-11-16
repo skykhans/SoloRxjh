@@ -20,6 +20,11 @@ enum AppState {
 
 
 func _ready() -> void:
+	var arguments_result: Dictionary = parse_startup_arguments(OS.get_cmdline_user_args())
+	if not arguments_result.get("ok", false):
+		_fail(arguments_result.get("error", "启动参数无效。"))
+		return
+
 	var engine_error: String = validate_engine_version()
 	if not engine_error.is_empty():
 		_fail(engine_error)
@@ -35,13 +40,85 @@ func _ready() -> void:
 		_fail(resource_error)
 		return
 
-	_archive_menu = ARCHIVE_MENU.new() as Control
+	_archive_menu = ARCHIVE_MENU.new(arguments_result["profiles_directory"]) as Control
 	if _archive_menu == null:
 		_fail("无法创建本地档案界面。")
 		return
 	_archive_menu.connect("practice_requested", _enter_practice)
 	add_child(_archive_menu)
 	app_state = AppState.MAIN_MENU
+
+
+static func parse_startup_arguments(
+		arguments: PackedStringArray,
+		current_directory: String = ""
+) -> Dictionary:
+	if arguments.is_empty():
+		return {
+			"ok": true,
+			"profiles_directory": "",
+		}
+
+	var save_dir_count: int = 0
+	for argument: String in arguments:
+		if argument == "--save-dir":
+			save_dir_count += 1
+	if save_dir_count > 1:
+		return {
+			"ok": false,
+			"error": "启动参数重复：--save-dir。",
+		}
+	if arguments[0] != "--save-dir":
+		return {
+			"ok": false,
+			"error": "不支持的启动参数：%s" % arguments[0],
+		}
+	if arguments.size() < 2:
+		return {
+			"ok": false,
+			"error": "--save-dir 缺少存档根路径。",
+		}
+	if arguments.size() > 2:
+		return {
+			"ok": false,
+			"error": "不支持的启动参数：%s" % arguments[2],
+		}
+
+	var save_root: String = arguments[1]
+	if save_root.is_empty() or save_root.begins_with("--"):
+		return {
+			"ok": false,
+			"error": "--save-dir 缺少有效的存档根路径。",
+		}
+
+	var base_directory: String = current_directory
+	if base_directory.is_empty():
+		var current_directory_access: DirAccess = DirAccess.open(".")
+		if current_directory_access == null:
+			return {
+				"ok": false,
+				"error": "无法解析存档路径：不能读取当前工作目录。",
+			}
+		base_directory = current_directory_access.get_current_dir()
+	if not base_directory.is_absolute_path():
+		return {
+			"ok": false,
+			"error": "无法解析存档路径：当前工作目录不是绝对路径。",
+		}
+	var absolute_root: String = (
+		save_root.simplify_path()
+		if save_root.is_absolute_path()
+		else base_directory.path_join(save_root).simplify_path()
+	)
+	if not absolute_root.is_absolute_path():
+		return {
+			"ok": false,
+			"error": "--save-dir 必须能解析为绝对路径。",
+		}
+	return {
+		"ok": true,
+		"profiles_directory": absolute_root.path_join("profiles"),
+	}
 
 
 static func validate_engine_version() -> String:
