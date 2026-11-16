@@ -2,6 +2,8 @@ extends Node
 
 const REQUIRED_ENGINE_HASH: String = "ed1daf0bf001b61586d9930840f2f1394092c079"
 const CONFIG_DIRECTORY: String = "res://assets/config"
+const RESOURCE_MANIFEST_PATH: String = "res://assets/config/resources.json"
+const CONFIG_LOADER: Script = preload("res://scripts/config_loader.gd")
 
 var app_state: AppState = AppState.LOADING
 
@@ -22,6 +24,11 @@ func _ready() -> void:
 	var config_error: String = validate_runtime_config()
 	if not config_error.is_empty():
 		_fail(config_error)
+		return
+
+	var resource_error: String = validate_resource_manifest()
+	if not resource_error.is_empty():
+		_fail(resource_error)
 		return
 
 	app_state = AppState.MAIN_MENU
@@ -77,6 +84,10 @@ static func validate_runtime_config(config_dir: String = CONFIG_DIRECTORY) -> St
 			return "正式 JSON 配置根节点必须是对象：%s" % config_path
 
 	return ""
+
+
+static func validate_resource_manifest(manifest_path: String = RESOURCE_MANIFEST_PATH) -> String:
+	return CONFIG_LOADER.validate_manifest_file(manifest_path)
 
 
 func _fail(message: String) -> void:

@@ -7,7 +7,9 @@ import bpy
 
 ROOT = Path(__file__).resolve().parents[1]
 DEST = ROOT / "assets" / "models" / "characters"
+SOURCE = ROOT / "assets" / "models" / "sources"
 DEST.mkdir(parents=True, exist_ok=True)
+SOURCE.mkdir(parents=True, exist_ok=True)
 bpy.ops.object.select_all(action="SELECT")
 bpy.ops.object.delete(use_global=False)
 bpy.context.preferences.filepaths.save_version = 0
@@ -278,4 +280,4 @@ bpy.ops.object.join()
 bpy.context.object.name="LinglongBamboo"
 bpy.ops.export_scene.gltf(filepath=str(DEST / "linglong_bamboo.glb"),export_format="GLB",use_selection=True,export_yup=True,export_animations=False)
 # Retain the complete editable source, with rigs and named NLA tracks.
-bpy.ops.wm.save_as_mainfile(filepath=str(DEST / "characters.blend"))
+bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE / "characters.blend"))

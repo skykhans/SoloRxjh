@@ -1,6 +1,7 @@
 extends SceneTree
 
 const APP_SCRIPT: Script = preload("res://scripts/app.gd")
+const CONFIG_LOADER: Script = preload("res://scripts/config_loader.gd")
 const REQUIRED_INPUT_ACTIONS: PackedStringArray = [
 	"move_forward",
 	"move_left",
@@ -136,6 +137,53 @@ func _initialize() -> void:
 		"Valid nested JSON configuration was rejected."
 	):
 		return
+
+	var resource_error: String = APP_SCRIPT.validate_resource_manifest()
+	if not _require(resource_error.is_empty(), "Formal resource manifest failed: %s" % resource_error):
+		return
+	var resource_file: FileAccess = FileAccess.open(
+		"res://assets/config/resources.json",
+		FileAccess.READ
+	)
+	if not _require(resource_file != null, "Formal resource manifest is missing."):
+		return
+	var resource_json: JSON = JSON.new()
+	if not _require(
+		resource_json.parse(resource_file.get_as_text()) == OK,
+		"Formal resource manifest is invalid JSON."
+	):
+		return
+	var resource_manifest: Dictionary = resource_json.data
+	if not _require(
+		resource_manifest["resources"].size() == 18,
+		"Formal resource manifest does not enumerate all 18 migrated assets."
+	):
+		return
+	var malformed_manifest: Dictionary = resource_manifest.duplicate(true)
+	malformed_manifest["resources"][1]["id"] = malformed_manifest["resources"][0]["id"]
+	var manifest_error: String = CONFIG_LOADER.validate_manifest(malformed_manifest)
+	if not _require(
+		manifest_error.contains("重复 ID"),
+		"Duplicate resource IDs were not rejected: %s" % manifest_error
+	):
+		return
+	malformed_manifest = resource_manifest.duplicate(true)
+	malformed_manifest["resources"][0]["path"] = "res://assets/../Cargo.toml"
+	manifest_error = CONFIG_LOADER.validate_manifest(malformed_manifest)
+	if not _require(
+		manifest_error.contains("path"),
+		"Resource traversal was not rejected: %s" % manifest_error
+	):
+		return
+	malformed_manifest = resource_manifest.duplicate(true)
+	malformed_manifest["unexpected"] = true
+	manifest_error = CONFIG_LOADER.validate_manifest(malformed_manifest)
+	if not _require(
+		manifest_error.contains("format_version"),
+		"Unknown manifest fields were not rejected: %s" % manifest_error
+	):
+		return
+
 	var syntax_error: String = APP_SCRIPT.validate_runtime_config(
 		"res://tests/fixtures/p1-invalid-syntax"
 	)

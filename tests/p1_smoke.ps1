@@ -11,8 +11,8 @@ if ($LASTEXITCODE -ne 0 -or $versionOutput.Trim() -ne "4.7.2.stable.official.ed1
 	throw "Unexpected Godot version: $versionOutput"
 }
 
-$importOutput = & $godotPath --headless --editor --path $projectPath --quit 2>&1 | Out-String
-if ($LASTEXITCODE -ne 0) {
+$importOutput = & $godotPath --headless --editor --path $projectPath --import 2>&1 | Out-String
+if ($LASTEXITCODE -ne 0 -or $importOutput -match '(?m)^ERROR:|SCRIPT ERROR:') {
 	throw "Godot editor import check failed:`n$importOutput"
 }
 
