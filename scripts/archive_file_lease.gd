@@ -3,6 +3,8 @@ extends RefCounted
 
 const OWNER_FILE_NAME: String = "owner.json"
 const STAGING_PREFIX: String = ".archive-lease."
+const PUBLISH_BACKUP_PREFIX: String = ".archive-publish."
+const PUBLISH_BACKUP_SUFFIX: String = ".backup"
 const OWNER_VERSION: int = 1
 
 var _profiles_directory: String = ""
@@ -94,6 +96,9 @@ func enumerate_profile_candidates(profiles_directory: String) -> Dictionary:
 	var lease_error: String = _validate_lease_directory(profiles_directory)
 	if not lease_error.is_empty():
 		return _failure(lease_error)
+	var recovery_result: Dictionary = _recover_publish_backups()
+	if not recovery_result.get("ok", false):
+		return _failure("publish_recovery_failed:%s" % recovery_result.get("error", "unknown"))
 
 	var directory: DirAccess = DirAccess.open(_profiles_directory)
 	if directory == null:
@@ -135,6 +140,9 @@ func read_profile_candidate(profiles_directory: String, file_name: String) -> Di
 	var lease_error: String = _validate_lease_directory(profiles_directory)
 	if not lease_error.is_empty():
 		return _failure(lease_error)
+	var recovery_result: Dictionary = _recover_publish_backups()
+	if not recovery_result.get("ok", false):
+		return _failure("publish_recovery_failed:%s" % recovery_result.get("error", "unknown"))
 
 	var directory: DirAccess = DirAccess.open(_profiles_directory)
 	if directory == null:
@@ -173,9 +181,14 @@ func publish_bytes(
 		return _failure("directory_lease_required")
 	if not _is_leaf_name(temporary_name) or not _is_leaf_name(target_name):
 		return _failure("invalid_file_name")
+	if replace and not _is_profile_file_name(target_name):
+		return _failure("invalid_file_name")
 	var lease_error: String = _validate_lease_directory(profiles_directory)
 	if not lease_error.is_empty():
 		return _failure(lease_error)
+	var recovery_result: Dictionary = _recover_publish_backups()
+	if not recovery_result.get("ok", false):
+		return _failure("publish_recovery_failed:%s" % recovery_result.get("error", "unknown"))
 
 	var directory: DirAccess = DirAccess.open(_profiles_directory)
 	if directory == null:
@@ -193,6 +206,22 @@ func publish_bytes(
 		return _failure("publish_target_missing")
 	if not replace and target_exists:
 		return _failure("publish_target_exists")
+
+	var backup_path: String = ""
+	if replace:
+		var backup_token_bytes: PackedByteArray = Crypto.new().generate_random_bytes(16)
+		if backup_token_bytes.size() != 16:
+			return _failure("system_random_failed")
+		backup_path = _profiles_directory.path_join(
+			"%s%s.%s%s" % [
+				PUBLISH_BACKUP_PREFIX,
+				target_name,
+				backup_token_bytes.hex_encode(),
+				PUBLISH_BACKUP_SUFFIX,
+			]
+		)
+		if _path_exists(backup_path):
+			return _failure("publish_backup_exists")
 
 	var temporary_file: FileAccess = FileAccess.open(temporary_path, FileAccess.WRITE)
 	if temporary_file == null:
@@ -216,10 +245,33 @@ func publish_bytes(
 		_remove_owned_temporary(temporary_path)
 		return _failure("publish_target_exists")
 
+	if replace:
+		var backup_error: Error = DirAccess.rename_absolute(target_path, backup_path)
+		if backup_error != OK:
+			_remove_owned_temporary(temporary_path)
+			return _failure("publish_backup_stage_failed:%s" % error_string(backup_error))
+
 	var rename_error: Error = DirAccess.rename_absolute(temporary_path, target_path)
 	if rename_error != OK:
 		_remove_owned_temporary(temporary_path)
-		return _failure("atomic_publish_failed:%s" % error_string(rename_error))
+		if replace:
+			var restore_error: Error = DirAccess.rename_absolute(backup_path, target_path)
+			if restore_error != OK:
+				return _failure(
+					"publish_failed_backup_retained:%s;restore_failed:%s"
+					% [error_string(rename_error), error_string(restore_error)]
+				)
+			return _failure("publish_failed_old_target_restored:%s" % error_string(rename_error))
+		return _failure("publish_failed:%s" % error_string(rename_error))
+
+	if replace:
+		var backup_remove_error: Error = DirAccess.remove_absolute(backup_path)
+		if backup_remove_error != OK or _path_exists(backup_path):
+			return {
+				"ok": true,
+				"error": "",
+				"warning": "publish_backup_cleanup_failed",
+			}
 	return {
 		"ok": true,
 		"error": "",
@@ -268,6 +320,80 @@ func _validate_lease_directory(profiles_directory: String) -> String:
 	if int(owner["process_id"]) != OS.get_process_id() or owner["token"] != _token:
 		return "lease_owner_mismatch"
 	return ""
+
+
+func _recover_publish_backups() -> Dictionary:
+	var listing: Dictionary = _list_directory_entries(_profiles_directory)
+	if not listing.get("ok", false):
+		return listing
+
+	var collected: Dictionary = _collect_publish_backups(listing["entries"])
+	if not collected.get("ok", false):
+		return collected
+	var backups: Dictionary = collected["backups"]
+	var target_names: Array[String] = []
+	for target_name: String in backups:
+		target_names.push_back(target_name)
+	target_names.sort()
+	for target_name: String in target_names:
+		var result: Dictionary = _recover_publish_backup(
+			target_name,
+			backups[target_name]
+		)
+		if not result.get("ok", false):
+			return result
+	return {
+		"ok": true,
+		"error": "",
+	}
+
+
+func _collect_publish_backups(entries: Array[String]) -> Dictionary:
+	var backups: Dictionary = {}
+	for entry: String in entries:
+		var identity: Dictionary = _parse_publish_backup_name(entry)
+		if not identity.get("ok", false):
+			if entry.begins_with(PUBLISH_BACKUP_PREFIX) and entry.ends_with(PUBLISH_BACKUP_SUFFIX):
+				return _failure("publish_backup_name_invalid")
+			continue
+		var backup_path: String = _profiles_directory.path_join(entry)
+		if (
+			_entry_is_link(backup_path)
+			or DirAccess.dir_exists_absolute(backup_path)
+			or not FileAccess.file_exists(backup_path)
+		):
+			return _failure("publish_backup_type_mismatch")
+		var target_name: String = identity["target_name"]
+		if backups.has(target_name):
+			return _failure("publish_backup_ambiguous")
+		backups[target_name] = backup_path
+
+	return {
+		"ok": true,
+		"backups": backups,
+	}
+
+
+func _recover_publish_backup(target_name: String, backup_path: String) -> Dictionary:
+	var target_path: String = _profiles_directory.path_join(target_name)
+	if _entry_is_link(target_path) or DirAccess.dir_exists_absolute(target_path):
+		return _failure("publish_target_type_mismatch")
+	if FileAccess.file_exists(target_path):
+		var remove_error: Error = DirAccess.remove_absolute(backup_path)
+		if remove_error != OK or _path_exists(backup_path):
+			return _failure("publish_backup_cleanup_failed:%s" % error_string(remove_error))
+		return {
+			"ok": true,
+			"error": "",
+		}
+
+	var restore_error: Error = DirAccess.rename_absolute(backup_path, target_path)
+	if restore_error != OK or not FileAccess.file_exists(target_path):
+		return _failure("publish_backup_restore_failed:%s" % error_string(restore_error))
+	return {
+		"ok": true,
+		"error": "",
+	}
 
 
 func _reclaim_stale_lock(
@@ -501,6 +627,32 @@ func _list_directory_entries(path: String) -> Dictionary:
 	}
 
 
+func _parse_publish_backup_name(file_name: String) -> Dictionary:
+	if (
+		not file_name.begins_with(PUBLISH_BACKUP_PREFIX)
+		or not file_name.ends_with(PUBLISH_BACKUP_SUFFIX)
+	):
+		return {}
+	var token_start: int = file_name.length() - PUBLISH_BACKUP_SUFFIX.length() - 32
+	var separator_index: int = token_start - 1
+	if (
+		token_start <= PUBLISH_BACKUP_PREFIX.length()
+		or file_name.substr(separator_index, 1) != "."
+	):
+		return {}
+	var target_name: String = file_name.substr(
+		PUBLISH_BACKUP_PREFIX.length(),
+		separator_index - PUBLISH_BACKUP_PREFIX.length()
+	)
+	var token: String = file_name.substr(token_start, 32)
+	if not _is_profile_file_name(target_name) or not _is_token(token):
+		return {}
+	return {
+		"ok": true,
+		"target_name": target_name,
+	}
+
+
 func _parse_staging_name(file_name: String) -> Dictionary:
 	var parts: PackedStringArray = file_name.split(".")
 	if (
@@ -625,6 +777,12 @@ func _is_profile_id(profile_id: String) -> bool:
 		if not (codepoint in range(0x30, 0x3A) or codepoint in range(0x61, 0x67)):
 			return false
 	return true
+
+
+func _is_profile_file_name(file_name: String) -> bool:
+	if not file_name.ends_with(".json"):
+		return false
+	return _is_profile_id(file_name.substr(0, file_name.length() - 5))
 
 
 func _is_leaf_name(file_name: String) -> bool:

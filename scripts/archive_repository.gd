@@ -99,6 +99,73 @@ func rename_profile(
 	return result
 
 
+func delete_profile(
+		profile_id: String,
+		expected_profile_name: String,
+		expected_profile_revision: int,
+		confirmation_name: String
+) -> Dictionary:
+	var validation_error: String = _delete_request_error(
+		profile_id,
+		expected_profile_name,
+		expected_profile_revision,
+		confirmation_name
+	)
+	if not validation_error.is_empty():
+		return _failure(validation_error)
+
+	var directory_error: String = _ensure_profiles_directory()
+	if not directory_error.is_empty():
+		return _failure(directory_error)
+	var directory_lease: Variant = ARCHIVE_FILE_LEASE.new()
+	var lock_result: Dictionary = directory_lease.try_acquire(_profiles_directory)
+	if not lock_result.get("ok", false):
+		return _failure("无法删除档案：%s" % lock_result.get("error", "unknown"))
+
+	var result: Dictionary = _delete_profile_with_directory_lease(
+		directory_lease,
+		profile_id,
+		expected_profile_name,
+		expected_profile_revision
+	)
+	if not directory_lease.release():
+		var release_error: String = directory_lease.get_last_error()
+		if result.get("ok", false):
+			result["warning"] = "档案已删除，但目录租约释放失败：%s" % release_error
+		else:
+			result["error"] = "%s；目录租约释放失败：%s" % [
+				result.get("error", "档案删除失败"),
+				release_error,
+			]
+	return result
+
+
+func _delete_request_error(
+		profile_id: String,
+		expected_profile_name: String,
+		expected_profile_revision: int,
+		confirmation_name: String
+) -> String:
+	if not _is_profile_id(profile_id):
+		return "档案ID无效。"
+	if expected_profile_revision < 1 or expected_profile_revision > 9007199254740991:
+		return "档案修订无效。"
+	if confirmation_name != expected_profile_name:
+		return "确认名称必须与当前档案名称完全一致。"
+	if not _pending_profile_id.is_empty():
+		return "上一笔档案创建结果尚未确认，暂不能删除档案。"
+
+	var expected_name_result: Dictionary = UNICODE_NORMALIZER.normalize_profile_name(
+		expected_profile_name
+	)
+	if (
+		not expected_name_result.get("ok", false)
+		or expected_name_result["profile_name"] != expected_profile_name
+	):
+		return "当前档案名称无效。"
+	return ""
+
+
 func create_profile(raw_name: String) -> Dictionary:
 	var name_result: Dictionary = UNICODE_NORMALIZER.normalize_profile_name(raw_name)
 	if not name_result.get("ok", false):
@@ -221,6 +288,107 @@ func _continue_pending_create(
 	}
 
 
+func _delete_profile_with_directory_lease(
+		directory_lease: Variant,
+		profile_id: String,
+		expected_profile_name: String,
+		expected_profile_revision: int
+) -> Dictionary:
+	var catalog: Dictionary = _scan_profiles(directory_lease)
+	if not catalog.get("ok", false):
+		return catalog
+	if not catalog.get("all_valid", false):
+		return _failure("存在无法完整验证的档案，已停止删除。")
+
+	var target: Dictionary = {}
+	for profile: Dictionary in catalog["profiles"]:
+		if profile["profile_id"] == profile_id:
+			target = profile
+	if target.is_empty():
+		return _failure("未找到目标档案。")
+	if not _is_empty_profile(target):
+		return _failure("当前仅允许删除没有角色、世界或未决记录的空档案。")
+
+	var profile_lease: Variant = ARCHIVE_FILE_LEASE.new()
+	var profile_lock: Dictionary = profile_lease.try_acquire(
+		_profiles_directory,
+		profile_id
+	)
+	if not profile_lock.get("ok", false):
+		profile_lease.release()
+		return _failure("无法删除档案：%s" % profile_lock.get("error", "unknown"))
+
+	var result: Dictionary = _commit_profile_delete(
+		directory_lease,
+		target,
+		expected_profile_name,
+		expected_profile_revision
+	)
+	if not profile_lease.release():
+		var release_error: String = profile_lease.get_last_error()
+		if result.get("ok", false):
+			result["warning"] = "档案已删除，但档案租约释放失败：%s" % release_error
+		else:
+			result["error"] = "%s；档案租约释放失败：%s" % [
+				result.get("error", "档案删除失败"),
+				release_error,
+			]
+	return result
+
+
+func _commit_profile_delete(
+		directory_lease: Variant,
+		target: Dictionary,
+		expected_profile_name: String,
+		expected_profile_revision: int
+) -> Dictionary:
+	var latest: Dictionary = _read_published_candidate(
+		directory_lease,
+		target["file_name"]
+	)
+	if not latest.get("ok", false):
+		return latest
+	if (
+		latest["profile_id"] != target["profile_id"]
+		or latest["profile_name"] != expected_profile_name
+		or int(latest["revision"]) != expected_profile_revision
+		or not _is_empty_profile(latest)
+	):
+		return _failure("档案已被其他操作修改，请刷新后重试。")
+
+	var target_path: String = _profiles_directory.path_join(target["file_name"])
+	var remove_error: Error = DirAccess.remove_absolute(target_path)
+	var after_delete_catalog: Dictionary = directory_lease.enumerate_profile_candidates(
+		_profiles_directory
+	)
+	if not after_delete_catalog.get("ok", false):
+		return _failure(
+			"档案删除结果无法确认：%s" % after_delete_catalog.get("error", "目录读取失败")
+		)
+	var target_still_exists: bool = false
+	for entry: Dictionary in after_delete_catalog.get("entries", []):
+		if entry.get("name") == target["file_name"]:
+			target_still_exists = true
+			break
+	if not target_still_exists:
+		return {
+			"ok": true,
+			"deleted": true,
+			"profile_id": target["profile_id"],
+			"profile_name": expected_profile_name,
+		}
+
+	var after_delete: Dictionary = _read_published_candidate(
+		directory_lease,
+		target["file_name"]
+	)
+	if after_delete.get("ok", false) and after_delete.get("data") == latest["data"]:
+		return _failure(
+			"档案未删除，原文件仍完整保留：%s" % error_string(remove_error)
+		)
+	return _failure("档案删除结果无法确认，目标路径内容需要重新验证。")
+
+
 func _rename_profile_with_directory_lease(
 		directory_lease: Variant,
 		profile_id: String,
@@ -317,7 +485,7 @@ func _commit_profile_rename(
 	var original_data: Dictionary = latest["data"]
 	var candidate: Dictionary = original_data.duplicate(true)
 	candidate["profile_name"] = profile_name
-	candidate["revision"] = expected_profile_revision + 1
+	candidate["revision"] = float(expected_profile_revision + 1)
 	var validation: Dictionary = _validate_profile(candidate, target["file_name"])
 	if not validation.get("ok", false):
 		return _failure("档案改名候选无效：%s" % validation.get("error", "unknown"))
@@ -355,7 +523,14 @@ func _commit_profile_rename(
 		return _failure(
 			"档案改名未提交：%s" % publish_result.get("error", "正式档案保持原值")
 		)
-	return _failure("档案改名结果无法确认，正式档案已保留。")
+	var mismatch_reason: String = str(published.get("error", ""))
+	if mismatch_reason.is_empty():
+		mismatch_reason = str(publish_result.get("error", ""))
+	if mismatch_reason.is_empty():
+		mismatch_reason = "正式档案内容与候选及原档案均不匹配"
+	return _failure(
+		"档案改名结果无法确认，正式档案已保留：%s" % mismatch_reason
+	)
 
 
 func _remove_matching_rename_temporary(
@@ -522,6 +697,19 @@ func _validate_profile(profile: Dictionary, file_name: String) -> Dictionary:
 		"character_count": profile["characters"].size(),
 		"data": profile,
 	}
+
+
+func _is_empty_profile(profile: Dictionary) -> bool:
+	var data: Dictionary = profile.get("data", {})
+	return (
+		data.get("selected_character_id") == null
+		and data.get("characters") is Array
+		and data["characters"].is_empty()
+		and data.get("worlds") is Dictionary
+		and data["worlds"].is_empty()
+		and int(data.get("character_session_next_id", -1)) == 0
+		and int(data.get("settlement_next_id", -1)) == 0
+	)
 
 
 func _validate_settings(settings: Variant, defaults: Dictionary) -> String:

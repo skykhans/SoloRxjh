@@ -105,21 +105,71 @@ func _initialize() -> void:
 		directory_lease.release()
 		return
 
+	var replacement_contents: PackedByteArray = "{\"revision\":2}".to_utf8_buffer()
 	var replace_result: Dictionary = directory_lease.publish_bytes(
 		profiles_directory,
 		".p2-smoke-replace.tmp",
 		target_name,
-		"{\"revision\":2}".to_utf8_buffer(),
+		replacement_contents,
 		true
 	)
-	if not _require(replace_result.get("ok", false), "Atomic replacement failed: %s" % replace_result):
+	if not _require(replace_result.get("ok", false), "Profile replacement failed: %s" % replace_result):
 		profile_lease.release()
 		directory_lease.release()
 		return
 	if not _require(
-		_read_bytes(profiles_directory.path_join(target_name))
-			== "{\"revision\":2}".to_utf8_buffer(),
-		"Atomic replacement did not publish the complete new contents."
+		_read_bytes(profiles_directory.path_join(target_name)) == replacement_contents,
+		"Profile replacement did not publish the complete new contents."
+	):
+		profile_lease.release()
+		directory_lease.release()
+		return
+
+	var completed_backup_path: String = profiles_directory.path_join(
+		".archive-publish.%s.%s.backup" % [target_name, "c".repeat(32)]
+	)
+	if not _require(
+		_write_bytes(completed_backup_path, first_contents),
+		"Could not create a completed-replacement recovery fixture."
+	):
+		profile_lease.release()
+		directory_lease.release()
+		return
+	var completed_recovery: Dictionary = directory_lease.enumerate_profile_candidates(
+		profiles_directory
+	)
+	if not _require(
+		completed_recovery.get("ok", false)
+			and _read_bytes(profiles_directory.path_join(target_name)) == replacement_contents
+			and not FileAccess.file_exists(completed_backup_path)
+			and not _contains_suffix_entry(profiles_directory, ".backup"),
+		"Recovery did not retain the published file and remove its old backup."
+	):
+		profile_lease.release()
+		directory_lease.release()
+		return
+
+	var interrupted_backup_path: String = profiles_directory.path_join(
+		".archive-publish.%s.%s.backup" % [target_name, "d".repeat(32)]
+	)
+	if not _require(
+		DirAccess.remove_absolute(profiles_directory.path_join(target_name)) == OK
+			and _write_bytes(interrupted_backup_path, first_contents),
+		"Could not create an interrupted-replacement recovery fixture."
+	):
+		profile_lease.release()
+		directory_lease.release()
+		return
+	var restored_candidate: Dictionary = directory_lease.read_profile_candidate(
+		profiles_directory,
+		target_name
+	)
+	if not _require(
+		restored_candidate.get("ok", false)
+			and restored_candidate.get("bytes") == first_contents
+			and _read_bytes(profiles_directory.path_join(target_name)) == first_contents
+			and not FileAccess.file_exists(interrupted_backup_path),
+		"Recovery did not restore a backup when the published target was missing."
 	):
 		profile_lease.release()
 		directory_lease.release()
@@ -249,6 +299,17 @@ func _read_bytes(path: String) -> PackedByteArray:
 	var contents: PackedByteArray = file.get_buffer(file.get_length())
 	file.close()
 	return contents
+
+
+func _write_bytes(path: String, contents: PackedByteArray) -> bool:
+	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		return false
+	file.store_buffer(contents)
+	file.flush()
+	var succeeded: bool = file.get_error() == OK
+	file.close()
+	return succeeded
 
 
 func _contains_suffix_entry(path: String, suffix: String) -> bool:

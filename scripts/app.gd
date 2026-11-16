@@ -5,8 +5,11 @@ const CONFIG_DIRECTORY: String = "res://assets/config"
 const RESOURCE_MANIFEST_PATH: String = "res://assets/config/resources.json"
 const CONFIG_LOADER: Script = preload("res://scripts/config_loader.gd")
 const ARCHIVE_MENU: Script = preload("res://scripts/archive_menu.gd")
+const TRAINING_YARD: PackedScene = preload("res://scenes/training_yard.tscn")
 
 var app_state: AppState = AppState.LOADING
+var _archive_menu: Control
+var _training_yard: Node3D
 
 enum AppState {
 	LOADING,
@@ -32,11 +35,12 @@ func _ready() -> void:
 		_fail(resource_error)
 		return
 
-	var menu: Control = ARCHIVE_MENU.new() as Control
-	if menu == null:
+	_archive_menu = ARCHIVE_MENU.new() as Control
+	if _archive_menu == null:
 		_fail("无法创建本地档案界面。")
 		return
-	add_child(menu)
+	_archive_menu.connect("practice_requested", _enter_practice)
+	add_child(_archive_menu)
 	app_state = AppState.MAIN_MENU
 
 
@@ -155,6 +159,29 @@ static func _collect_json_paths(directory_path: String, output: Array[String]) -
 	child_directories.sort()
 	for child_directory: String in child_directories:
 		_collect_json_paths(directory_path.path_join(child_directory), output)
+
+
+func _enter_practice() -> void:
+	if app_state != AppState.MAIN_MENU or _training_yard != null:
+		return
+
+	_training_yard = TRAINING_YARD.instantiate() as Node3D
+	if _training_yard == null:
+		_fail("无法创建练功场。")
+		return
+	_training_yard.connect("exit_requested", _return_to_archive_menu)
+	_archive_menu.hide()
+	add_child(_training_yard)
+	app_state = AppState.IN_GAME
+
+
+func _return_to_archive_menu() -> void:
+	if app_state != AppState.IN_GAME or _training_yard == null:
+		return
+	_training_yard.queue_free()
+	_training_yard = null
+	_archive_menu.show()
+	app_state = AppState.MAIN_MENU
 
 
 func _exit_failed_startup() -> void:

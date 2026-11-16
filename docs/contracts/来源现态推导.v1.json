@@ -401,5 +401,25 @@
     "closure": "receipt=settlement:stack:consume/mint且flow_index0/1，输入完整全量本人attempt来源；输出单本scope null、origin等mint流。XP credited/discarded精确封顶算术，确认只在discarded>0，跨等级原奖励历史连续。",
     "replay": "保accept/全部死亡材料/最终交付及之后二转推荐书消费证明；同结算只写来源图一次，不补书/经验/发点。",
     "boundary": "数量/经验算术、角色发点history和完整角色/world共同父需语义及运行验证。"
+  },
+  "hyunbo_recommendation_material_extraction": {
+    "owner_ref": {
+      "file": "泫勃派推荐书任务.v1.json",
+      "pointer": "/material_death_protocol"
+    },
+    "record_schema_ref": {
+      "file": "普通怪死亡业务结果.schema.json",
+      "pointer": "/properties/hyunbo_recommendation_results/items"
+    },
+    "result_schema_ref": {
+      "file": "推荐书材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "death_pointer": "/hyunbo_recommendation_results",
+    "flow_pointer": "/stack_flows",
+    "authorization": "只从已认证原ordinary death唯一共同决定提取；先核真实monster/spawn/generation、致死与成员before、在线同场景及本任务in_progress/attempt，再按原producer映射、全局held来源、cap、最终布局和共同预检核每个角色结果。仅granted产生loot mint，cap_reached/capacity_rejected保原死亡结果但无流；缺失、重复、异attempt或坏来源拒绝整个原死亡，不视为空集合。",
+    "closure": "参与者集合须等原成员资格快照中全部合格角色，按character_id UTF8唯一排序；物品由monster精确映射且quest_scope绑定本attempt。held_quantity_before是全来源图中该任务/attempt/item总量。持量为0时仅mint；持量大于0时仅合并原背包顺序首个兼容堆，输入为旧完整输出后接本死亡mint临时输出0，保旧stack_id/槽、quantity恰加1、revision恰+1，临时输出完整消费且不物化。flow_index属于普通死亡完整有序流集合，不能另分结算身份或日志。",
+    "retention": "保完整死亡决定、真实attempt/成员快照、每个结果及所有旧堆祖先和后继消费闭包；同death全文重放只提取一次。cap或容量失败也保原死亡结果，后续腾槽、重连、放弃重接均不能重算或补发旧死亡。",
+    "boundary": "提取职责及两producer原范围已采用；完整ordinary death/角色/world共同父、全部角色实际保存、真实来源图加载/重放、LAN及Godot仍未实现或验证。"
   }
 }

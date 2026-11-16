@@ -384,7 +384,7 @@
       "file": "战斗命中与减伤.v1.json",
       "pointer": "/player_normal_attack"
     },
-    "scope": "仅明确normal_attack或attack_martial_skill直接攻击根：22各普攻combo_stages及直接攻击定义、24/25/27/28实际直接攻击profile。自恢复/治疗/格挡/采集/闪避/传送/周期/即时派生不因字段相似继承此规则，须沿自身owner。此为项目60Hz时序采用，不宣称官网帧表。 修炼怪物与刷点原ai的普通攻击明确接入同一直接攻击时序，冻结其原normal_*与recovery_steps，不把NPC的零费用改成玩家费用或伪造玩家会话。 六转两具名私场private_trial_ai的三个原attack_programs亦明确接入本时序，保持原零费用及单步有效阶段，不借用玩家职业费用。 本轮二十种公共普通怪ordinary_ai明确接入36/1/84、offset[0]的本直接时序；保持原公共地图、安全区及零费用规则。",
+    "scope": "仅明确normal_attack或attack_martial_skill直接攻击根：22各普攻combo_stages及直接攻击定义、24/25/27/28实际直接攻击profile。自恢复/治疗/格挡/采集/闪避/传送/周期/即时派生不因字段相似继承此规则，须沿自身owner。此为项目60Hz时序采用，不宣称官网帧表。 修炼怪物与刷点原ai的普通攻击明确接入同一直接攻击时序，冻结其原normal_*与recovery_steps，不把NPC的零费用改成玩家费用或伪造玩家会话。 六转两具名私场private_trial_ai的三个原attack_programs亦明确接入本时序，保持原零费用及单步有效阶段，不借用玩家职业费用。 本轮二十二种公共普通怪ordinary_ai明确接入36/1/84、offset[0]的本直接时序；保持原公共地图、安全区及零费用规则。",
     "schema_ref": {
       "file": "已接受攻击时序.schema.json",
       "pointer": ""
@@ -448,7 +448,7 @@
       "pointer": ""
     },
     "fields": "原world每真实map/instance公共scope采用accepted_direct_attacks、normal_projectiles、martial_projectiles、accepted_dodges、accepted_aux_displacements、accepted_gathers、accepted_support_casts七字段唯一正文注册表，不持久第二combat_registry包装。初次真实创建scope显式七个空对象，当前格式缺字段拒绝，不用模板重建已有未决现场；完整scope创建/world根仍由原owner认证。",
-    "dispatch": "actions每键严格原combat-action ID，正文五类完整根分派：玩家普通、玩家攻击武功、修炼普通、两具名私场敌攻击、本轮二十种公共普通怪普通攻击。normal_projectiles与martial_projectiles各按专用ID前缀及完整六键正文分派；各键等于正文ID。其他未采用NPC/伙伴/派生根拒绝，不以空对象代替。 accepted_dodges按dodge-action键存十八键闪避根，accepted_aux_displacements按aux-displacement-action键存二十四键位移根；不混入accepted_direct_attacks、弹体或进攻推进队列。所有表键须等于正文原ID，任何其他动作/字段拒绝而不降级。 accepted_gathers按gather-action键存二十一键采集根，竹/木柴各严格分型；只在本表存一次，不混入直接攻击、弹体或进攻推进队列。 accepted_support_casts按support-action键保存十九键51能力普通辅助根，键等正文action_id；不混入直接攻击/弹体/进攻推进队列。",
+    "dispatch": "actions每键严格原combat-action ID，正文五类完整根分派：玩家普通、玩家攻击武功、修炼普通、两具名私场敌攻击、本轮二十二种公共普通怪普通攻击。normal_projectiles与martial_projectiles各按专用ID前缀及完整六键正文分派；各键等于正文ID。其他未采用NPC/伙伴/派生根拒绝，不以空对象代替。 accepted_dodges按dodge-action键存十八键闪避根，accepted_aux_displacements按aux-displacement-action键存二十四键位移根；不混入accepted_direct_attacks、弹体或进攻推进队列。所有表键须等于正文原ID，任何其他动作/字段拒绝而不降级。 accepted_gathers按gather-action键存二十一键采集根，竹/木柴各严格分型；只在本表存一次，不混入直接攻击、弹体或进攻推进队列。 accepted_support_casts按support-action键保存十九键51能力普通辅助根，键等正文action_id；不混入直接攻击/弹体/进攻推进队列。",
     "scope": "动作正文world/authority/map/instance逐项等于该真实scope；弹体沿原dispatch/action解析同scope，不能用当前玩家位置替换。历史原根跨角色迁移仍保其原scope归属；只要有在途/队列/活动/窗口或原历史引用，该原scope及必要全文/来源不能因玩家离场直接释放。",
     "references": "玩家占用查询、私场enemy.behavior.accepted_action_id_or_null、修炼/公共普通AI当前根和接纳结果均只引用此actions唯一全文；连段前驱/发射/弹体/伤害原根引用亦同。normal_projectiles不内嵌第二完整根；弹体action/dispatch三ID双向核对、原根必须投射handler且原发射projectile_id等于本项，不能一个根本ordinal0挂两弹体或一弹体挂两个根。 martial_projectiles同样只引用唯一原武功根/发射；每个真实ordinal至多一弹体，三ID及根发射列表逐项认证，不能跨ordinal共用。 闪避/辅助位移接纳结果和推进只引用各自唯一正文，死亡/正式会话结束按其owner停止原根，不再在角色保存完整动作副本。 采集推进/生效、木柴collector_action与接纳只引用accepted_gathers唯一全文；节点预留不得另存完整根。 普通辅助接纳/落效和生命周期停止仅引用accepted_support_casts唯一根，目标效果源按各原owner保存，不在角色复制动作。",
     "occupation": "六类已采用玩家动作（普通攻击/攻击武功/闪避/辅助位移/采集/普通辅助施放）跨五动作表联合查询adopted_player_action_occupation。直接攻击含NPC不得当玩家；完成/停止历史根不占用。初始治疗/神女/升天等其他施放仍须各原owner闭合，不能据已采用根无占用补完整Idle。",
@@ -756,7 +756,7 @@
       "file": "已接纳直接攻击身份.schema.json",
       "pointer": ""
     },
-    "scope": "仅本owner直接攻击时序的玩家normal_attack/attack_martial_skill、原432修炼刷点training_ai普通攻击、六转两具名私场private_trial_ai攻击及本轮二十种公共普通怪ordinary_ai攻击。周期、反射、副箭等派生保真实父根和自身owner，不冒充新接纳；其他NPC/伙伴/环境来源须自身owner显式登记，不能借training_ai分支。 以上player/普通/修炼三类还可沿forced_admission使用内部强制来源；私场敌及其他NPC不注册此来源。",
+    "scope": "仅本owner直接攻击时序的玩家normal_attack/attack_martial_skill、原432修炼刷点training_ai普通攻击、六转两具名私场private_trial_ai攻击及本轮二十二种公共普通怪ordinary_ai攻击。周期、反射、副箭等派生保真实父根和自身owner，不冒充新接纳；其他NPC/伙伴/环境来源须自身owner显式登记，不能借training_ai分支。 以上player/普通/修炼三类还可沿forced_admission使用内部强制来源；私场敌及其他NPC不注册此来源。",
     "fields": "原已接纳动作的world_id/authority_profile_id/map_id/instance_id_or_null/source_actor_id/accepted_world_step/admission七字段投影。完整动作严格白名单须先验，不保存第二identity包装；action_id为同原动作字段，不能只验非空字符串授权。",
     "source": "实际authority在原接纳固定步验证scope、存活且未被活动终局禁止、合法动作占用/目标/规则与费用。source_actor_id必须解析当时真实实体生命轮次；玩家原play_session_identity的world/authority/profile/character须与真实角色实体及会话接纳证明一致，不能以当前selected角色或奖励主人替代。training_ai实际来源须解析修炼刷点原槽、同generation/cycle与原active_actor；禁止伪造玩家会话。 private_trial_ai只解析六转原两arena的唯一敌actor/原trial_attempt、完整具名构筑与行为，实际来源须等原入场派生的private-trial-enemy身份、同scope且本活动active；不能借其他NPC/伙伴、世界同名模板或玩家会话。 ordinary_ai须解析原ordinary-monster-life身份/生成决定、alive槽、实际actor与本轮二十种原定义，不借修炼槽/玩家会话或私场实例。",
     "player_admission": "admission精确kind=player_command/play_session_identity/command_id三键；command_id属于原会话命令空间。先按原会话与command_id查询完整原命令/摘要及决定，同ID异参数拒绝；已有决定只回原结果，不用当前世界步/会话/目标重新派生根。仅首次合法成功接纳冻结accepted_world_step与根；拒绝不产生已接纳动作，不扣费/抽样或推进动作游标。完整命令沿persistent_worklist严格八键请求；已提交子结果沿direct_attack_admission_phase.result，完整父共同决定仍待。",
@@ -808,7 +808,7 @@
     }
   },
   "direct_attack_admission_phase": {
-    "scope": "本原接纳阶段已登记玩家普攻/攻击武功（含竹采集路由）、闪避/三种辅助位移/明确木柴交互/51普通辅助施放以及432修炼AI、两具名私场敌攻击与本轮二十种公共普通怪，及错乱内部来源入口，共九请求kind；细化03输入→规则AI→移动→结算。阶段名保direct_attack_admission，逐队首按mixed_result_dispatch分派；其余治疗/道具/传送输入须各原owner闭合。",
+    "scope": "本原接纳阶段已登记玩家普攻/攻击武功（含竹采集路由）、闪避/三种辅助位移/明确木柴交互/51普通辅助施放以及432修炼AI、两具名私场敌攻击与本轮二十二种公共普通怪，及错乱内部来源入口，共九请求kind；细化03输入→规则AI→移动→结算。阶段名保direct_attack_admission，逐队首按mixed_result_dispatch分派；其余治疗/道具/传送输入须各原owner闭合。",
     "prerequisite": "只有实际Playing且本角色/场景原时钟允许该固定步才处理；原存疑决定/未决依赖先收束。各原owner明确要求先于新攻击的过期、移除、会话/活动资格及场景关闭先完成，例如修炼召唤窗口到期移除；死亡/失联挂起/关闭场景不得借队列残留接纳新根。不能为本阶段统一重排尚未定义的其他计时owner。",
     "cutoff": "authority在原步接纳阶段入口冻结实际收到且完成原命令身份/来源解析的本步候选集合；同原会话command_id重复先查完整原决定/原正文，异正文冲突拒绝，不作为两个候选。阶段关闭后到达的新请求不插入本步任何已处理游标，只能进入后续实际接纳步并重验；不按客户端声称的帧号追补旧步。重放已决定请求只回原结果，不改变本步候选集合或旧根接纳步。",
     "ai_candidates": "training_ai仅从该步上述先决收束后的真实原槽/活体和已登记AI规则产生至多一个普通攻击候选/实体；选目标按原AI可达距离及稳定ID规则，不从客户端怪物攻击报告补候选。候选形成后仍须逐项重验实际资格，先前合法结果改变资格不得照旧强行接纳。完整AI决定来源须与原步候选一起可恢复。 private_trial_ai只从原两具名私场active活动和唯一敌人behavior产生同敌至多一个具名攻击候选；保原AI普通/重击选择及冷却/控制/目标来源，不从修炼槽推私场实体。 ordinary_ai仅从本轮十二怪真实已生成活体及其原AI决定生成一项冻结目标候选，生命/槽/定义同源；出生本T不参与，缺AI决定不是可默认攻击。",
@@ -834,7 +834,7 @@
       "atomicity": "同一正式父决定提交完整结果、原规则/真实before-after、所有受影响角色与world/RNG/动作占用、原完整新根/冷却和移除恰一个候选；任一合法候选计算或保存未确认均不发布半笔/移动队首。成功之后同T受旧攻击死亡/活动停止，沿原停止与死亡决定保原成功/费用/随机，不把结果改为拒绝/退款。先前已成功证明沿完整历史，即便当前根已停止也不能本T再接纳。",
       "replay_and_delivery": "按原event_id查正式结果与完整父决定，重发返回原正文/已发网络结果链，不再次扣费/抽样/递增修订或插回队列；同ID异请求/来源为冲突。单机同样保存原决定，不能以无网络省略。角色/世界独立文件或LAN接收仍由05/19原共同协议负责，结果schema不授权独立ACK半笔。",
       "boundary": "十二字段接纳成功/拒绝子结果、来源分型/稳定身份与资源时序已采用；完整world共同决定与多角色after、玩家完整攻击/占用/推进及所有接纳触发来源仍待。结果与队列形状不代替父context或Godot功能验收。",
-      "ordinary": "ordinary_ai同原直接攻击结果十四字段，候选恰原source/两键请求；本轮24字段根原正文由ordinary_combat认证。null实例/四公共地图、无接纳随机且不取消任何玩家木柴或便携读条。普通怪伤害导致目标读条取消只能在真实后续正敌伤结果处理，不能把接纳敌攻击当已打中。"
+      "ordinary": "ordinary_ai同原直接攻击结果十四字段，候选恰原source/两键请求；本轮24字段根原正文由ordinary_combat认证。null实例/六张公共地图、无接纳随机且不取消任何玩家木柴或便携读条。普通怪伤害导致目标读条取消只能在真实后续正敌伤结果处理，不能把接纳敌攻击当已打中。"
     },
     "persistent_worklist": {
       "command_schema_ref": {
@@ -851,7 +851,7 @@
       "revision_policy": "实时攻击输入不携客户端expected_character_revision/expected_inventory_revision，不以网络时延或本T规则计时推进导致的修订变化拒绝正常输入，也不静默改写旧请求。authority只从已认证仍启用的原会话接收，按候选处理时唯一真实before检查原当前能力/武器/资源/冷却/生命与目标；正式父决定绑定这些实际业务修订、完整before及输出。原单写者计算/提交边界保证该before未被其他决定穿插更改；存疑先核正式结果，不借移除客户端CAS放宽共同提交。购买/交易/服务等经济命令保各自原expected_revision规则，不继承本实时攻击输入。",
       "request_identity": "同会话command_id原空间唯一；原完整八键请求按71确定JSON求SHA256并绑定原接纳/拒绝决定。所有数值输入字段均原整数词元，禁止以1.0/指数/布尔绕过；字符串沿71 Unicode/代理检查。重放完整正文必须相同，异目标/技能/阶段/方向冲突拒绝，不能取当前T另造根。此命令不分配通用settlement，action_id仍沿accepted_attack_identity。",
       "gathering_route": "所有原player_command完整请求先进入本唯一队列，不在冻结前分流采集。到队首按采集动作.v1.json#/admission/bamboo_dispatch用实际before判定：六已知竹显式ID或无显式目标/无近锥敌且存在合法最近植物走采集结果；其他走原直接攻击结果。采集优先武器检查，非法显式目标不替换。木柴只用原明确交互请求，不由地面到达/普通攻击自动触发。",
-      "freeze": "原scope进入direct_attack_admission时与完整阶段入口决定同笔安装队列，包括空[]，核本scope/world/authority/T及原rules_hash。截止前实际已解析的新请求按cutoff去重，AI按原完整before规则只选一个目标/程序；玩家正常来源仅原player-actor，修炼仅原training-actor/36图/public，私场仅原private-trial-enemy/两图/原实例及对应程序。原请求或AI选择全文只在本原候选/父历史保留，不通过ID-only列表丢正文。 ordinary_ai来源仅原ordinary-actor、本轮80刷点/四公共地图/null实例，须原生命周期/出生步与实际AI候选证据，不能客户端提交。",
+      "freeze": "原scope进入direct_attack_admission时与完整阶段入口决定同笔安装队列，包括空[]，核本scope/world/authority/T及原rules_hash。截止前实际已解析的新请求按cutoff去重，AI按原完整before规则只选一个目标/程序；玩家正常来源仅原player-actor，修炼仅原training-actor/36图/public，私场仅原private-trial-enemy/两图/原实例及对应程序。原请求或AI选择全文只在本原候选/父历史保留，不通过ID-only列表丢正文。 ordinary_ai来源仅原ordinary-actor、本轮88刷点/六张公共地图/null实例，须原生命周期/出生步与实际AI候选证据，不能客户端提交。",
       "phase_invariant": "scope.phase_or_null=direct_attack_admission当且仅当本组件非null，含队列已空但尚未切阶段。进入阶段/安装初始全集、离开阶段/置null各同笔；本scope当前批不得与此接纳队列同时处于combat执行。其他scope不能另保本T活跃接纳队列。源规则阶段若生成AI先决证据，仍由原规则父结果保留，阶段入口引用完整原before认证，不重跑。",
       "order_and_uniqueness": "按本阶段order及forced_owner_ref冻结唯一全集；同源内部候选至多一项且禁止并存普通/修炼自主AI，真实玩家命令仍按command_id排序。两键候选uniqueItems只拒绝完全重复，不能代替同键异正文/来源竞争及全集认证。",
       "consume": "只处理原唯一队首，按真实权威before及冻结规则重验。成功同笔保存对应kind的完整接纳结果、真实费用/冷却/允许随机、e0唯一根和占用，并移除一个队首；拒绝保原具名原因并移除队首，不造动作/扣费/抽样。同实体本T已有成功从原各类已提交结果/根认证，不存第二成功集合；直接攻击用already_admitted_this_step，闪避/辅助位移/采集/普通辅助用action_occupied表达本T不可再接纳。后摇稍后完成不追补已拒绝请求。结果按mixed_result_dispatch分派，完整父决定仍待。",

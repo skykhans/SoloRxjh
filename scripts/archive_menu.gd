@@ -1,5 +1,7 @@
 extends Control
 
+signal practice_requested
+
 const ARCHIVE_REPOSITORY: Script = preload("res://scripts/archive_repository.gd")
 const FONT_PATH: String = "res://assets/fonts/NotoSansCJKsc-Regular.otf"
 const MODEL_PATH: String = "res://assets/models/characters/fang_chen.glb"
@@ -17,6 +19,7 @@ var _repository: RefCounted
 var _profile_list: VBoxContainer
 var _name_input: LineEdit
 var _create_button: Button
+var _practice_button: Button
 var _status: Label
 var _model_pivot: Node3D
 var _rename_dialog: ConfirmationDialog
@@ -24,6 +27,12 @@ var _rename_input: LineEdit
 var _rename_profile_id: String = ""
 var _rename_expected_name: String = ""
 var _rename_expected_revision: int = 0
+var _delete_dialog: ConfirmationDialog
+var _delete_summary: Label
+var _delete_input: LineEdit
+var _delete_profile_id: String = ""
+var _delete_expected_name: String = ""
+var _delete_expected_revision: int = 0
 var _all_profiles_valid: bool = false
 
 
@@ -136,11 +145,17 @@ func _build_layout() -> void:
 	_status.add_theme_color_override("font_color", COLOR_MUTED)
 	content.add_child(_status)
 
+	_practice_button = _make_button("进入演练场", false)
+	_practice_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_practice_button.pressed.connect(_on_practice_pressed)
+	content.add_child(_practice_button)
+
 	var image_column: Control = Control.new()
 	image_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	columns.add_child(image_column)
 	_build_character_view(image_column)
 	_build_rename_dialog()
+	_build_delete_dialog()
 
 
 func _build_rename_dialog() -> void:
@@ -161,6 +176,33 @@ func _build_rename_dialog() -> void:
 	content.add_child(_rename_input)
 
 	_rename_dialog.get_ok_button().text = "保存"
+
+
+func _build_delete_dialog() -> void:
+	_delete_dialog = ConfirmationDialog.new()
+	_delete_dialog.title = "永久删除档案"
+	_delete_dialog.dialog_text = "此操作不可撤销。请输入完整档案名称确认。"
+	_delete_dialog.confirmed.connect(_on_delete_confirmed)
+	_delete_dialog.canceled.connect(_clear_delete_confirmation)
+	add_child(_delete_dialog)
+
+	var content: VBoxContainer = VBoxContainer.new()
+	content.add_theme_constant_override("separation", 10)
+	_delete_dialog.add_child(content)
+
+	_delete_summary = Label.new()
+	_delete_summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	content.add_child(_delete_summary)
+
+	_delete_input = LineEdit.new()
+	_delete_input.custom_minimum_size = Vector2(440.0, 44.0)
+	_delete_input.max_length = 32
+	_delete_input.placeholder_text = "完整档案名称"
+	_delete_input.text_changed.connect(_on_delete_input_changed)
+	content.add_child(_delete_input)
+
+	_delete_dialog.get_ok_button().text = "永久删除"
+	_delete_dialog.get_ok_button().disabled = true
 
 
 func _build_character_view(parent: Control) -> void:
@@ -229,8 +271,8 @@ func _build_character_view(parent: Control) -> void:
 	camera.position = Vector3(0.0, 1.45, 4.8)
 	camera.fov = 34.0
 	camera.current = true
-	camera.look_at(Vector3(0.0, 1.0, 0.0), Vector3.UP)
 	world.add_child(camera)
+	camera.look_at(Vector3(0.0, 1.0, 0.0), Vector3.UP)
 
 	var caption: VBoxContainer = VBoxContainer.new()
 	caption.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
@@ -346,6 +388,20 @@ func _make_profile_row(profile: Dictionary) -> Control:
 			)
 		)
 	row_content.add_child(rename_button)
+
+	var delete_button: Button = _make_button("删除", false)
+	delete_button.custom_minimum_size = Vector2(82.0, 46.0)
+	delete_button.disabled = not profile.get("valid", false) or not _all_profiles_valid
+	if profile.get("valid", false):
+		delete_button.pressed.connect(
+			_on_delete_pressed.bind(
+				profile["profile_id"],
+				profile["profile_name"],
+				int(profile["revision"]),
+				int(profile["character_count"])
+			)
+		)
+	row_content.add_child(delete_button)
 	return row
 
 
@@ -387,6 +443,10 @@ func _on_name_submitted(_submitted_text: String) -> void:
 	_on_create_pressed()
 
 
+func _on_practice_pressed() -> void:
+	practice_requested.emit()
+
+
 func _on_rename_pressed(profile_id: String, profile_name: String, revision: int) -> void:
 	_rename_profile_id = profile_id
 	_rename_expected_name = profile_name
@@ -423,3 +483,66 @@ func _on_rename_confirmed() -> void:
 	else:
 		_status.text = "档案名称未变化。"
 		_status.add_theme_color_override("font_color", COLOR_MUTED)
+
+
+func _on_delete_pressed(
+		profile_id: String,
+		profile_name: String,
+		revision: int,
+		character_count: int
+) -> void:
+	_delete_profile_id = profile_id
+	_delete_expected_name = profile_name
+	_delete_expected_revision = revision
+	_delete_summary.text = "档案：%s\nID：%s\n角色数：%d\n该档案中的角色、世界和历史将永久删除。" % [
+		profile_name,
+		profile_id,
+		character_count,
+	]
+	_delete_input.clear()
+	_delete_dialog.get_ok_button().disabled = true
+	_delete_dialog.popup_centered(Vector2i(620, 300))
+	_delete_input.grab_focus()
+
+
+func _on_delete_input_changed(value: String) -> void:
+	_delete_dialog.get_ok_button().disabled = (
+		_delete_profile_id.is_empty()
+		or value != _delete_expected_name
+	)
+
+
+func _on_delete_confirmed() -> void:
+	if _delete_profile_id.is_empty():
+		return
+
+	var profile_id: String = _delete_profile_id
+	var profile_name: String = _delete_expected_name
+	var profile_revision: int = _delete_expected_revision
+	var confirmation_name: String = _delete_input.text
+	_clear_delete_confirmation()
+
+	var result: Dictionary = _repository.delete_profile(
+		profile_id,
+		profile_name,
+		profile_revision,
+		confirmation_name
+	)
+	_refresh_profiles()
+	if not result.get("ok", false):
+		_status.text = result.get("error", "档案删除失败")
+		_status.add_theme_color_override("font_color", COLOR_ERROR)
+	elif not str(result.get("warning", "")).is_empty():
+		_status.text = result["warning"]
+		_status.add_theme_color_override("font_color", COLOR_ERROR)
+	else:
+		_status.text = "档案已永久删除：%s" % profile_name
+		_status.add_theme_color_override("font_color", COLOR_ACCENT)
+
+
+func _clear_delete_confirmation() -> void:
+	_delete_profile_id = ""
+	_delete_expected_name = ""
+	_delete_expected_revision = 0
+	_delete_input.clear()
+	_delete_dialog.get_ok_button().disabled = true

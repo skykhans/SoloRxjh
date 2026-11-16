@@ -6,7 +6,7 @@ param(
 $ErrorActionPreference = "Stop"
 $godotPath = (Resolve-Path -LiteralPath $Godot).Path
 $projectPath = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
-$versionOutput = & $godotPath --version
+$versionOutput = & $godotPath --headless --version 2>&1 | Out-String
 if ($LASTEXITCODE -ne 0 -or $versionOutput.Trim() -ne "4.7.2.stable.official.ed1daf0bf") {
 	throw "Unexpected Godot version: $versionOutput"
 }

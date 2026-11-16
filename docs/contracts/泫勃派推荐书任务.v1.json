@@ -333,7 +333,7 @@
   },
   "initialization": "explicit new role unstarted/null attempt/no tokens;known legacy1..4import maps missing adopted quest to unstarted without level-derived completion;unknown newer-format missing data rejects",
   "pending": [
-    "严格材料死亡producer、两怪公共接入及完整角色/world/source共同父和真实语义重放",
+    "完整普通死亡/角色/world/source共同父、真实语义重放与Godot任务/库存保存",
     "Godot inventory/quest/save/LAN implementation and runtime tests",
     "source bandit art and level35growth/economy calibration"
   ],
@@ -359,7 +359,7 @@
     "abandon": "只有in_progress可确认清理本attempt全部两类真实任务物并回完整initial，旧接取/死亡/放弃事件及来源永久保留；delivered不可放弃或重接。重放旧轮决定不清新轮。",
     "construction": "新建与四已知旧源导入精确复制本三键initial，不按等级/已有旧剧情或推荐书物品猜已完成；当前格式缺/多字段拒绝，不套通用晋级模板。",
     "joint_validation": "in_progress本轮实际接受来源与rank1/route unselected及前置一转完成一致；delivered认证同原attempt最终交付及XP/单书来源，后续路线/rank与书已消费依各真实二转/后继事件，不把rank1/unselected冻结为终生条件。角色真实配置例外仍按18原owner，不伪造任务事件。",
-    "remaining": "状态/构造及接取放弃/最终交付结构已采用；材料死亡事件、两原怪公共接入、完整角色/world/source实例验证、实际重放与Godot仍待。"
+    "remaining": "状态/构造及接取放弃/最终交付结构、推荐书材料死亡子结果与两原怪公共接入已采用；完整角色/world/source实例验证、实际重放与Godot仍待。"
   },
   "transition_protocol": {
     "field": "profile.hyunbo_recommendation_transition_events",
@@ -372,7 +372,7 @@
     "abandon": "仅in_progress且本人明确确认本轮10斧/5证明实际损失；按背包顺序冻结本人held本quest/attempt全部两类完整堆与previous_output，斧总0..10/证明总0..5且最多15堆。非空恰单quest_cleanup完整量消费、无mint/outputs，receipt=本settlement/flow_index0；零物null。after精确原三键initial，旧接受/死亡/放弃来源保留，完成不可放弃。",
     "revisions": "成功character.revision=expected+1；只有非空cleanup inventory.revision=expected+1并预检上限，accept/空物放弃精确不变。任务、库存布局/来源和全部变化同一原完整角色/world/profile共同候选。reserved/aborted不清材料或取消已接受任务，不发物/XP/完成凭证。",
     "replay": "旧轮请求只回原决定，不清新attempt或重新接受；坏来源/超cap/漏材料不作空放弃或自动修复。保原日志与完整祖先；不改一转/二转或其他任务状态。",
-    "remaining": "严格转换及来源职责采用；最终交付实例/算术、两材料死亡/两怪公共接入、完整角色/world/source与真实重放/Godot仍待。"
+    "remaining": "严格转换及来源职责采用；最终交付实例/算术已另列，材料死亡子结果及两怪公共接入已采用；完整角色/world/source与真实重放/Godot仍待。"
   },
   "delivery_protocol": {
     "field": "profile.hyunbo_recommendation_delivery_events",
@@ -387,5 +387,26 @@
     "experience": "base_award=11000，credited=min(11000,371126840985-before.total_xp)，discarded=11000-credited；如果discarded>0，确认命令必须true，等于0必须false。progress仅total_xp加credited，其余字段保持原值。每个跨过的等级按原等级表和升级owner连续追加发点跨度/qigong，不读快照猜测、不自动分配气功。",
     "after": "character.revision恰+1；任务保attempt并state=delivered/completion_receipt=本settlement；rank/route不变。角色XP、qigong发点、任务、库存与双堆流在唯一完整profile/world共同提交；任一来源/容量/经验历史验证失败整笔不提交。",
     "remaining": "交付三阶段schema元结构及全量文档引用已通过；事件有效/无效实例、15件聚合、XP封顶算术、等级发点来源及全角色共同父/真实重放/Godot仍待."
+  },
+  "material_death_protocol": {
+    "field": "ordinary_death_outcome.hyunbo_recommendation_results",
+    "schema_ref": {
+      "file": "推荐书材料死亡子结果.schema.json",
+      "pointer": ""
+    },
+    "parent": "只嵌入原普通怪唯一死亡共同决定，不建立独立死亡identity/结算/日志/counter；数组按character_id UTF8递增且唯一，最多原普通队伍6人。monster必须为本任务两producer之一，item_id严格按monster映射。",
+    "qualification": "仅原致死成员/19队伍资格快照中alive、connected、同scene且拥有本任务state=in_progress的角色产生结果；quest_before/attempt必须逐字段等同该角色真实death-before，材料来源必须精确属当前attempt。集合恰包含全部合格接收者，不因未满足、满额、容量不足或队友优先级漏项。",
+    "held": "从完整本人held库存与来源图重算本quest/attempt/item全部数量，axe为0..10、proof为0..5；quest_before.attempt_id等全部任务堆quest_scope。held_quantity_before是该作用域总量，不是所选堆数量。grant且持量>0时选择原背包顺序首个同item/同binding/同quest_scope堆，完整previous_output及该堆quantity必须各自认证；坏来源、重复源、旧attempt或scope外堆不是未持有。",
+    "decision": "持量恰为本item cap时记录cap_reached且无流。持量未满时固定候选quantity=1、概率10000bp、无普通掉落/终结/训练倍率及随机；真实最终布局可容纳时granted，否则capacity_rejected且无流。容量失败结果随原死亡永久提交，腾槽、重连或新attempt均不能重算旧死亡；来源/资格/库存全集不合法拒绝整个死亡候选，不能伪装为空数组或容量失败。",
+    "flows": "仅granted可有stack_flows：先loot mint一件character绑定、quest_scope精确本quest/attempt、revision=0的材料；held=0仅此一流，held>0随后单merge，输入按旧完整堆再本mint输出0，输出保旧stack_id/原槽并revision+1、数量=所选旧堆数量+1，临时mint堆完整退役且不占最终槽。新mint数由死亡身份/character/quest/attempt/item确定；全局flow_index属于原死亡完整流序，output_index属于本流。未granted的merge_input_or_null必须null且stack_flows=[]。",
+    "shared_axe_bandit_owner_ref": {
+      "file": "打退山贼任务.v1.json",
+      "pointer": "/shared_death_collection"
+    },
+    "shared_axe_bandit_preflight": "巨斧山贼死亡与打退山贼、打退山贼2共同预检所有本死亡/各自活动attempt内未封顶的合格产物，按实际完整库存及最终布局判断，不使用任务优先级；任一候选容量失败则所有候选均不授并各自记录原容量失败结果。山贼头领只有推荐书证明producer，仍使用同一死亡共同决定/角色after。",
+    "identity": "任务材料流根按71确定JSON [death_event_id,character_id,\"ref_QREF-63791-016\",attempt_id,item_id] UTF8作SHA256并加hyunbo-recommendation-material:前缀；death_event_id取lifecycle.identity.event_id。单mint使用根，合并时依次使用根:stack:mint和根:stack:merge；mint授权authority_receipt_id为真实death_event_id。原死亡所有material flows按owner规定flow_index排序，同一death_id只提交一次。",
+    "joint": "ordinary XP/历练/银包/地面掉落、全部任务子结果与个人完整角色/库存/随机/world死亡生命周期在原唯一共同父一次预检及提交。修订按实际变化每角色/库存/world各递增一次，不按多人子结果或mint/merge叠加。cap/capacity无流仍作为原死亡历史结果保留。",
+    "replay": "原完整死亡决定全文相同只提取一次；异文、缺失source或已消费旧输出拒绝。重复死亡请求返回原结果，不重算组队资格/持量/容量或发新物；放弃后重接只能等后续新死亡，不回放旧源补材料。",
+    "remaining": "死亡子结果schema及身份/资格/物品/流提取职责已采用；完整ordinary death与角色/world共同父、真实来源闭包加载/重放、LAN及Godot尚未实现或验证。"
   }
 }

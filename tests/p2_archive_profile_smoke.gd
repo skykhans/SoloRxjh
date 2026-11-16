@@ -82,10 +82,18 @@ func _initialize() -> void:
 		1,
 		"锁定改名"
 	)
+	var blocked_delete: Dictionary = repository.delete_profile(
+		first["profile"]["profile_id"],
+		"ß甲",
+		1,
+		"ß甲"
+	)
 	var lease_released: bool = held_profile_lease.release()
 	if not _require(
-		not blocked_rename.get("ok", false) and lease_released,
-		"A profile with an active lease was renamed or left the directory lease held."
+		not blocked_rename.get("ok", false)
+			and not blocked_delete.get("ok", false)
+			and lease_released,
+		"A profile with an active lease was modified or left the directory lease held."
 	):
 		return
 
@@ -105,7 +113,7 @@ func _initialize() -> void:
 
 	var expected_renamed_data: Dictionary = first["profile"]["data"].duplicate(true)
 	expected_renamed_data["profile_name"] = "SS甲"
-	expected_renamed_data["revision"] = 2
+	expected_renamed_data["revision"] = 2.0
 	var rename_temporary_path: String = profiles_directory.path_join(
 		".%s.rename.tmp" % first["profile"]["profile_id"]
 	)
@@ -218,20 +226,68 @@ func _initialize() -> void:
 		2,
 		"新名字"
 	)
+	var blocked_delete_by_corrupt_candidate: Dictionary = repository.delete_profile(
+		first["profile"]["profile_id"],
+		"SS甲",
+		2,
+		"SS甲"
+	)
 	if not _require(
-		not blocked_rename_by_corrupt_candidate.get("ok", false),
-		"A corrupt candidate did not block profile rename."
+		not blocked_rename_by_corrupt_candidate.get("ok", false)
+			and not blocked_delete_by_corrupt_candidate.get("ok", false),
+		"A corrupt candidate did not block profile mutation."
 	):
 		return
 
-	for profile: Dictionary in corrupt_catalog["profiles"]:
-		var profile_path: String = profiles_directory.path_join(profile["file_name"])
-		if FileAccess.file_exists(profile_path):
-			DirAccess.remove_absolute(profile_path)
-	if DirAccess.dir_exists_absolute(profiles_directory):
-		DirAccess.remove_absolute(profiles_directory)
-	if DirAccess.dir_exists_absolute(arguments[0]):
-		DirAccess.remove_absolute(arguments[0])
+	var corrupt_path: String = profiles_directory.path_join("broken.json")
+	if not _require(
+		DirAccess.remove_absolute(corrupt_path) == OK
+			and not FileAccess.file_exists(corrupt_path),
+		"Could not remove the isolated corrupt profile fixture."
+	):
+		return
+
+	var name_mismatch_delete: Dictionary = repository.delete_profile(
+		first["profile"]["profile_id"],
+		"SS甲",
+		2,
+		"ss甲"
+	)
+	var stale_delete: Dictionary = repository.delete_profile(
+		first["profile"]["profile_id"],
+		"SS甲",
+		1,
+		"SS甲"
+	)
+	if not _require(
+		not name_mismatch_delete.get("ok", false)
+			and not stale_delete.get("ok", false)
+			and FileAccess.file_exists(
+				profiles_directory.path_join(first["profile"]["profile_id"] + ".json")
+			),
+		"A mismatched confirmation or stale revision changed the profile."
+	):
+		return
+
+	var deleted: Dictionary = repository.delete_profile(
+		first["profile"]["profile_id"],
+		"SS甲",
+		2,
+		"SS甲"
+	)
+	var remaining: Dictionary = repository.list_profiles()
+	if not _require(
+		deleted.get("ok", false)
+			and deleted.get("deleted", false)
+			and remaining.get("ok", false)
+			and remaining.get("all_valid", false)
+			and remaining.get("profiles", []).size() == 2
+			and not FileAccess.file_exists(
+				profiles_directory.path_join(first["profile"]["profile_id"] + ".json")
+			),
+		"Confirmed profile deletion did not remove only the selected empty archive."
+	):
+		return
 
 	print("P2 empty profile lifecycle smoke test passed.")
 	quit(0)
