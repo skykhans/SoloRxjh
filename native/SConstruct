@@ -1,0 +1,24 @@
+import os
+
+godot_cpp = os.path.normpath("vendor/godot-cpp/SConstruct")
+env = SConscript(
+    godot_cpp,
+    {
+        "api_version": "4.7",
+        "customs": [os.path.abspath("godot_cpp_options.py")],
+    },
+)
+env.Append(CPPPATH=["src"])
+
+target = ARGUMENTS.get("target", "template_release")
+build_type = "debug" if target == "template_debug" else "release"
+variant_dir = os.path.join("build", target)
+library_name = "solorxjh_native.windows.{}.x86_64.dll".format(build_type)
+
+env.VariantDir(variant_dir, "src", duplicate=0)
+
+sources = [os.path.join(variant_dir, name) for name in ("register_types.cpp", "windows_archive_lease.cpp")]
+extension = env.SharedLibrary(target=os.path.join(variant_dir, library_name), source=sources)
+runtime_extension = env.Command(os.path.join("bin", library_name), extension, Copy("$TARGET", "$SOURCE"))
+
+Default(runtime_extension)

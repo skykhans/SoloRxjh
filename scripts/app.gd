@@ -4,6 +4,7 @@ const REQUIRED_ENGINE_HASH: String = "ed1daf0bf001b61586d9930840f2f1394092c079"
 const CONFIG_DIRECTORY: String = "res://assets/config"
 const RESOURCE_MANIFEST_PATH: String = "res://assets/config/resources.json"
 const CONFIG_LOADER: Script = preload("res://scripts/config_loader.gd")
+const ARCHIVE_MENU: Script = preload("res://scripts/archive_menu.gd")
 
 var app_state: AppState = AppState.LOADING
 
@@ -31,6 +32,11 @@ func _ready() -> void:
 		_fail(resource_error)
 		return
 
+	var menu: Control = ARCHIVE_MENU.new() as Control
+	if menu == null:
+		_fail("无法创建本地档案界面。")
+		return
+	add_child(menu)
 	app_state = AppState.MAIN_MENU
 
 
