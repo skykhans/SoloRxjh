@@ -155,8 +155,8 @@ func _initialize() -> void:
 		return
 	var resource_manifest: Dictionary = resource_json.data
 	if not _require(
-		resource_manifest["resources"].size() == 19,
-		"Formal resource manifest does not enumerate all 19 runtime assets."
+		resource_manifest["resources"].size() == 21,
+		"Formal resource manifest does not enumerate all 21 runtime assets."
 	):
 		return
 	var malformed_manifest: Dictionary = resource_manifest.duplicate(true)

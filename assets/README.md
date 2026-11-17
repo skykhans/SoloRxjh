@@ -7,8 +7,11 @@
 | `models/characters/*.glb` | 本项目原创角色、野兽、竹、骨架与动画 | `tools/export_game_models.py`，Blender4.5.15LTS |
 | `models/sources/characters.blend` | 可编辑的角色与生物源工程，不导入游戏 | `tools/export_game_models.py`，Godot通过同目录`.gdignore`跳过源文件 |
 | `concepts/weapons/` | 非运行时武器造型与特效概念参考 | Godot通过`concepts/.gdignore`排除导入与发行 |
+| `concepts/weapons/emerald_storm_sword_detail.png` | 翡翠直剑高清造型与环绕剑气特效概念图，1024×1536，透明底 | Codex ImageGen，2026-11-17；非运行时武器制作参考 |
 | `audio/*.wav` | 本项目原创标准库波形合成，无第三方录音/采样 | `tools/generate_audio.py` |
-| `images/training_yard_backdrop.png` | 本项目生成的泫勃派演武场横向高清背景，1672×941 | Codex ImageGen，2026-11-17；主菜单背景，按比例裁切、不拉伸 |
+| `images/training_yard_backdrop.webp` | 本项目生成的泫勃派演武场横向高清背景，1672×941；Godot WebP质量95，约0.96 MB | Codex ImageGen，2026-11-17；主菜单不透明背景，按比例裁切、不拉伸 |
+| `images/qianzhu_valley_menu.png` | 千竹岭山谷主菜单/任务场景背景，1672×941，不透明高清原图 | Codex ImageGen，2026-11-17；主菜单运行时背景，按比例裁切不拉伸，PNG导入纹理约2.38 MB |
+| `shaders/training_yard_ground.gdshader` | 练功场地表草色噪声、苔痕和土路混合材质 | 本项目Godot空间shader；练习场运行时使用，不含碰撞或导航 |
 | `concepts/weapons/emerald_storm_sword_concept.png` | 翡翠剑与剑气特效概念图，1024×1536，带透明通道 | Codex ImageGen，2026-11-17；仅作武器造型/材质/VFX参考，不参与运行时加载 |
 | `fonts/NotoSansCJKsc-Regular.otf` | Adobe/Google Noto CJK | [字体来源与哈希](fonts/README.md)、[SIL OFL1.1](fonts/OFL.txt) |
 | `models/probes/` | 本项目原创坐标/骨骼测试资产 | [探针说明](models/probes/README.md)，Godot导入和发行均排除 |

@@ -64,19 +64,16 @@ func _run() -> void:
 		return
 	archive_menu.emit_signal("practice_requested")
 	await process_frame
-	var yard: Node3D = application.get("_training_yard") as Node3D
+	var city: Control = application.get("_xuanbo_city") as Control
 	if not _require(
-		yard != null
-			and is_equal_approx(float(yard.get("_camera_distance")), 9.0),
-		"Practice camera did not receive the current session distance: yard=%s distance=%s session=%s"
-			% [
-				yard,
-				str(yard.get("_camera_distance")) if yard != null else "missing",
-				application.get("_session_settings"),
-			]
+		city != null and is_equal_approx(
+			float(application.get("_session_settings")["camera_distance"]),
+			9.0
+		),
+		"World entry did not preserve the current session camera setting."
 	):
 		return
-	yard.call("_request_exit")
+	city.exit_requested.emit()
 	await process_frame
 	var master_after_return: float = AudioServer.get_bus_volume_linear(
 		AudioServer.get_bus_index("Master")
@@ -174,7 +171,7 @@ func _run() -> void:
 		"A stale profile settings revision was reported as successfully saved."
 	):
 		return
-	print("Settings dialog, session application, and practice camera smoke test passed.")
+	print("Settings dialog, session application, and world entry smoke test passed.")
 	quit(0)
 
 

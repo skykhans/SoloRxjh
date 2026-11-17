@@ -5,12 +5,12 @@ signal quit_requested
 signal session_settings_changed(settings: Dictionary)
 
 const ARCHIVE_REPOSITORY: Script = preload("res://scripts/archive_repository.gd")
-const FANG_CHEN_SWORD_VISUAL: Script = preload(
-	"res://scripts/fang_chen_sword_visual.gd"
+const FANG_CHEN_VISUAL_STYLE: Script = preload(
+	"res://scripts/fang_chen_visual_style.gd"
 )
 const FONT_PATH: String = "res://assets/fonts/NotoSansCJKsc-Regular.otf"
 const MODEL_PATH: String = "res://assets/models/characters/fang_chen.glb"
-const BACKGROUND_PATH: String = "res://assets/images/training_yard_backdrop.png"
+const BACKGROUND_PATH: String = "res://assets/images/qianzhu_valley_menu.png"
 
 const COLOR_BACKGROUND: Color = Color("#18221f")
 const COLOR_PANEL: Color = Color("#1b2925")
@@ -25,7 +25,7 @@ var _repository: RefCounted
 var _profile_list: VBoxContainer
 var _name_input: LineEdit
 var _create_button: Button
-var _practice_button: Button
+var _enter_world_button: Button
 var _status: Label
 var _capacity_label: Label
 var _model_pivot: Node3D
@@ -178,10 +178,10 @@ func _build_layout() -> void:
 	_status.add_theme_color_override("font_color", COLOR_MUTED)
 	content.add_child(_status)
 
-	_practice_button = _make_button("进入演练场", false)
-	_practice_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	_practice_button.pressed.connect(_on_practice_pressed)
-	content.add_child(_practice_button)
+	_enter_world_button = _make_button("进入泫勃派", true)
+	_enter_world_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_enter_world_button.pressed.connect(_on_practice_pressed)
+	content.add_child(_enter_world_button)
 	var settings_button: Button = _make_button("本次设置", false)
 	settings_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	settings_button.pressed.connect(_on_settings_pressed)
@@ -662,7 +662,7 @@ func _build_character_view(parent: Control) -> void:
 		push_error("档案界面角色资源根节点不是Node3D：%s" % MODEL_PATH)
 		return
 	_model_pivot.add_child(model)
-	var weapon_style_result: Dictionary = FANG_CHEN_SWORD_VISUAL.apply_to_model(model)
+	var weapon_style_result: Dictionary = FANG_CHEN_VISUAL_STYLE.apply_to_model(model)
 	if not weapon_style_result.get("ok", false):
 		push_error("档案界面武器样式初始化失败：%s" % weapon_style_result.get("error", "unknown"))
 		return

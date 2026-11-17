@@ -23,6 +23,9 @@ func _run() -> void:
 	var menu_background: TextureRect = archive_menu.get_node_or_null(
 		"MenuBackground"
 	) as TextureRect
+	var valley_background: Texture2D = load(
+		"res://assets/images/qianzhu_valley_menu.png"
+	) as Texture2D
 	var character_preview: SubViewport = archive_menu.get_node_or_null(
 		"CharacterPreviewViewport"
 	) as SubViewport
@@ -39,9 +42,16 @@ func _run() -> void:
 			and menu_background != null
 			and menu_background.texture != null
 			and menu_background.texture.resource_path
-				== "res://assets/images/training_yard_backdrop.png"
+				== "res://assets/images/qianzhu_valley_menu.png"
 			and menu_background.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED,
 		"Archive capacity controls are missing."
+	):
+		return
+	if not _require(
+		valley_background != null
+			and valley_background.get_width() == 1672
+			and valley_background.get_height() == 941,
+		"High-resolution Qianzhu valley background did not import correctly."
 	):
 		return
 	if not _require(character_preview != null, "Character preview viewport is missing."):
@@ -57,16 +67,28 @@ func _run() -> void:
 		if preview_pivot != null
 		else null
 	)
+	var preview_body: MeshInstance3D = (
+		preview_pivot.find_child("fang_chen_Body", true, false) as MeshInstance3D
+		if preview_pivot != null
+		else null
+	)
 	var preview_edge: StandardMaterial3D = (
 		preview_sword.get_surface_override_material(3) as StandardMaterial3D
 		if preview_sword != null
 		else null
 	)
+	var preview_skin: StandardMaterial3D = (
+		preview_body.get_surface_override_material(3) as StandardMaterial3D
+		if preview_body != null
+		else null
+	)
 	if not _require(
 		preview_edge != null
 			and preview_edge.emission_enabled
-			and is_equal_approx(preview_edge.emission_energy_multiplier, 1.35),
-		"Archive preview did not apply the shared character weapon style."
+			and is_equal_approx(preview_edge.emission_energy_multiplier, 1.35)
+			and preview_skin != null
+			and is_equal_approx(preview_skin.roughness, 0.62),
+		"Archive preview did not apply the shared character material style."
 	):
 		return
 	if not _require(

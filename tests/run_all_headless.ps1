@@ -31,7 +31,8 @@ $scriptTests = @(
 	"recommendation_material_aggregation.gd",
 	"settings_runtime_smoke.gd",
 	"strict_json.gd",
-	"training_yard_smoke.gd"
+	"training_yard_smoke.gd",
+	"xuanbo_city_smoke.gd"
 )
 
 New-Item -ItemType Directory -Path $testRoot | Out-Null

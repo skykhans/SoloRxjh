@@ -7,11 +7,11 @@ const CONFIG_LOADER: Script = preload("res://scripts/config_loader.gd")
 const STRICT_JSON: Script = preload("res://scripts/strict_json.gd")
 const ARCHIVE_MENU: Script = preload("res://scripts/archive_menu.gd")
 const SETTINGS_RUNTIME: Script = preload("res://scripts/settings_runtime.gd")
-const TRAINING_YARD: PackedScene = preload("res://scenes/training_yard.tscn")
+const XUANBO_CITY: PackedScene = preload("res://scenes/xuanbo_city.tscn")
 
 var app_state: AppState = AppState.LOADING
 var _archive_menu: Control
-var _training_yard: Node3D
+var _xuanbo_city: Control
 var _settings_runtime: RefCounted
 var _session_settings: Dictionary = {}
 
@@ -53,7 +53,7 @@ func _ready() -> void:
 	if _archive_menu == null:
 		_fail("无法创建本地档案界面。")
 		return
-	_archive_menu.connect("practice_requested", _enter_practice)
+	_archive_menu.connect("practice_requested", _enter_xuanbo_city)
 	_archive_menu.connect("quit_requested", _quit_application)
 	_archive_menu.connect("session_settings_changed", _apply_session_settings)
 	add_child(_archive_menu)
@@ -253,28 +253,34 @@ static func _collect_json_paths(directory_path: String, output: Array[String]) -
 		_collect_json_paths(directory_path.path_join(child_directory), output)
 
 
-func _enter_practice() -> void:
-	if app_state != AppState.MAIN_MENU or _training_yard != null:
+func _enter_xuanbo_city() -> void:
+	if app_state != AppState.MAIN_MENU or _xuanbo_city != null:
 		return
 
-	_training_yard = TRAINING_YARD.instantiate() as Node3D
-	if _training_yard == null:
-		_fail("无法创建练功场。")
+	_xuanbo_city = XUANBO_CITY.instantiate() as Control
+	if _xuanbo_city == null:
+		_fail("无法创建泫勃派场景。")
 		return
-	_training_yard.set("camera_distance", float(_session_settings["camera_distance"]))
-	_training_yard.connect("exit_requested", _return_to_archive_menu)
+	_xuanbo_city.connect("exit_requested", _return_to_archive_menu)
+	_xuanbo_city.connect("settings_requested", _open_world_settings)
 	_archive_menu.hide()
-	add_child(_training_yard)
+	add_child(_xuanbo_city)
 	app_state = AppState.IN_GAME
 
 
 func _return_to_archive_menu() -> void:
-	if app_state != AppState.IN_GAME or _training_yard == null:
+	if app_state != AppState.IN_GAME or _xuanbo_city == null:
 		return
-	_training_yard.queue_free()
-	_training_yard = null
+	_xuanbo_city.queue_free()
+	_xuanbo_city = null
 	_archive_menu.show()
 	app_state = AppState.MAIN_MENU
+
+
+func _open_world_settings() -> void:
+	if app_state != AppState.IN_GAME or _archive_menu == null:
+		return
+	_archive_menu.call("_on_settings_pressed")
 
 
 func _quit_application() -> void:
@@ -294,8 +300,6 @@ func _apply_session_settings(settings: Dictionary) -> void:
 		return
 	_session_settings = settings.duplicate(true)
 	_archive_menu.call("set_confirmed_session_settings", _session_settings)
-	if _training_yard != null:
-		_training_yard.set("camera_distance", float(_session_settings["camera_distance"]))
 
 
 func _exit_tree() -> void:

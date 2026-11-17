@@ -9,6 +9,7 @@ const ALLOWED_RESOURCE_TYPES: PackedStringArray = [
 	"CompressedTexture2D",
 	"FontFile",
 	"PackedScene",
+	"Shader",
 ]
 
 
@@ -132,4 +133,6 @@ static func _matches_resource_type(resource: Resource, expected_type: String) ->
 			return resource is FontFile
 		"PackedScene":
 			return resource is PackedScene
+		"Shader":
+			return resource is Shader
 	return false

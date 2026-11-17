@@ -6,8 +6,9 @@ const PLAYER_MODEL_PATH: String = "res://assets/models/characters/fang_chen.glb"
 const TARGET_MODEL_PATH: String = "res://assets/models/characters/bamboo_beast.glb"
 const BAMBOO_MODEL_PATH: String = "res://assets/models/characters/linglong_bamboo.glb"
 const FONT_PATH: String = "res://assets/fonts/NotoSansCJKsc-Regular.otf"
-const FANG_CHEN_SWORD_VISUAL: Script = preload(
-	"res://scripts/fang_chen_sword_visual.gd"
+const GROUND_SHADER_PATH: String = "res://assets/shaders/training_yard_ground.gdshader"
+const FANG_CHEN_VISUAL_STYLE: Script = preload(
+	"res://scripts/fang_chen_visual_style.gd"
 )
 const TARGET_MAX_HP: int = 100
 const ATTACK_RANGE: float = 2.2
@@ -224,7 +225,13 @@ func _add_ground() -> void:
 	var mesh: PlaneMesh = PlaneMesh.new()
 	mesh.size = Vector2(76.0, 76.0)
 	mesh_instance.mesh = mesh
-	mesh_instance.material_override = _material(Color("#66835e"), 0.92)
+	var ground_shader: Shader = load(GROUND_SHADER_PATH) as Shader
+	if ground_shader == null:
+		push_error("无法加载正式练功场地表材质：%s" % GROUND_SHADER_PATH)
+		return
+	var ground_material: ShaderMaterial = ShaderMaterial.new()
+	ground_material.shader = ground_shader
+	mesh_instance.material_override = ground_material
 	ground.add_child(mesh_instance)
 
 	var collision: CollisionShape3D = CollisionShape3D.new()
@@ -385,7 +392,7 @@ func _build_player() -> void:
 		push_error("玩家模型根节点不是Node3D：%s" % PLAYER_MODEL_PATH)
 		return
 	_player_visual.add_child(model)
-	var weapon_style_result: Dictionary = FANG_CHEN_SWORD_VISUAL.apply_to_model(model)
+	var weapon_style_result: Dictionary = FANG_CHEN_VISUAL_STYLE.apply_to_model(model)
 	if not weapon_style_result.get("ok", false):
 		push_error("练功场武器样式初始化失败：%s" % weapon_style_result.get("error", "unknown"))
 		return
@@ -630,17 +637,111 @@ func _pulse_weapon_edge() -> void:
 func _show_weapon_slash_effect(direction: Vector3) -> void:
 	var slash: MeshInstance3D = MeshInstance3D.new()
 	slash.name = "WeaponSlash"
+	const SEGMENTS: int = 18
+	slash.mesh = _make_slash_ribbon(0.72, 0.98, -1.05, 1.05, SEGMENTS)
+	var material: StandardMaterial3D = _make_slash_material(
+		Color("#7ffff0c9"),
+		Color("#42e5c0"),
+		1.4
+	)
+	slash.material_override = material
+
+	var outer_trail: MeshInstance3D = MeshInstance3D.new()
+	outer_trail.name = "WeaponSlashTrail"
+	outer_trail.mesh = _make_slash_ribbon(0.91, 1.08, -0.84, 1.12, SEGMENTS)
+	var outer_material: StandardMaterial3D = _make_slash_material(
+		Color("#62ffd989"),
+		Color("#29e8b1"),
+		1.0
+	)
+	outer_trail.material_override = outer_material
+	slash.add_child(outer_trail)
+
+	var inner_trail: MeshInstance3D = MeshInstance3D.new()
+	inner_trail.name = "WeaponSlashGoldTrail"
+	inner_trail.mesh = _make_slash_ribbon(0.52, 0.59, -0.96, 1.02, SEGMENTS)
+	var gold_material: StandardMaterial3D = _make_slash_material(
+		Color("#ffd88cbb"),
+		Color("#ffc76b"),
+		1.8
+	)
+	inner_trail.material_override = gold_material
+	inner_trail.position.z = 0.018
+	slash.add_child(inner_trail)
+
+	var core: MeshInstance3D = MeshInstance3D.new()
+	core.name = "WeaponSlashCore"
+	core.mesh = _make_slash_ribbon(0.68, 0.72, -1.05, 1.05, SEGMENTS)
+	core.position.z = 0.012
+	core.scale = Vector3(0.68, 0.68, 1.0)
+	var core_material: StandardMaterial3D = _make_slash_material(
+		Color("#ecfff8d6"),
+		Color("#d3fff2"),
+		2.1
+	)
+	core.material_override = core_material
+	slash.add_child(core)
+	_add_slash_sparks(slash)
+
+	var toward_target: Vector3 = direction.normalized()
+	add_child(slash)
+	slash.global_position = (
+		_target.global_position
+		- toward_target * 0.35
+		+ Vector3(0.0, 0.9, 0.0)
+	)
+	slash.rotation.y = _player_visual.rotation.y
+	var fade: Tween = create_tween()
+	fade.tween_property(material, "albedo_color:a", 0.0, 0.22)
+	fade.parallel().tween_property(
+		outer_material,
+		"albedo_color:a",
+		0.0,
+		0.22
+	)
+	fade.parallel().tween_property(
+		gold_material,
+		"albedo_color:a",
+		0.0,
+		0.22
+	)
+	fade.parallel().tween_property(
+		core_material,
+		"albedo_color:a",
+		0.0,
+		0.22
+	)
+	fade.parallel().tween_property(slash, "scale", Vector3(1.12, 1.12, 1.0), 0.22)
+	fade.tween_callback(slash.queue_free)
+
+
+func _make_slash_ribbon(
+	inner_radius: float,
+	outer_radius: float,
+	start_angle: float,
+	end_angle: float,
+	segments: int
+) -> ArrayMesh:
 	var mesh: ArrayMesh = ArrayMesh.new()
 	var vertices: PackedVector3Array = []
 	var indices: PackedInt32Array = []
-	const SEGMENTS: int = 18
-	for segment: int in range(SEGMENTS + 1):
-		var angle: float = lerpf(-1.05, 1.05, float(segment) / float(SEGMENTS))
-		var inner: Vector3 = Vector3(sin(angle) * 0.72, cos(angle) * 0.72, 0.0)
-		var outer: Vector3 = Vector3(sin(angle) * 0.98, cos(angle) * 0.98, 0.0)
-		vertices.append(inner)
-		vertices.append(outer)
-	for segment: int in range(SEGMENTS):
+	for segment: int in range(segments + 1):
+		var angle: float = lerpf(
+			start_angle,
+			end_angle,
+			float(segment) / float(segments)
+		)
+		vertices.append(Vector3(
+			sin(angle) * inner_radius,
+			cos(angle) * inner_radius,
+			0.0
+		))
+		vertices.append(Vector3(
+			sin(angle) * outer_radius,
+			cos(angle) * outer_radius,
+			0.0
+		))
+	for segment: int in range(segments):
 		var base: int = segment * 2
 		indices.append_array(PackedInt32Array([
 			base,
@@ -655,51 +756,80 @@ func _show_weapon_slash_effect(direction: Vector3) -> void:
 	arrays[Mesh.ARRAY_VERTEX] = vertices
 	arrays[Mesh.ARRAY_INDEX] = indices
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-	slash.mesh = mesh
+	return mesh
 
+
+func _make_slash_material(
+	color: Color,
+	emission: Color,
+	emission_energy: float
+) -> StandardMaterial3D:
 	var material: StandardMaterial3D = StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	material.albedo_color = Color("#7ffff0c9")
+	material.albedo_color = color
 	material.emission_enabled = true
-	material.emission = Color("#42e5c0")
-	material.emission_energy_multiplier = 1.4
-	slash.material_override = material
+	material.emission = emission
+	material.emission_energy_multiplier = emission_energy
+	return material
 
-	var core: MeshInstance3D = MeshInstance3D.new()
-	core.name = "WeaponSlashCore"
-	core.mesh = mesh
-	core.position.z = 0.012
-	core.scale = Vector3(0.68, 0.68, 1.0)
-	var core_material: StandardMaterial3D = StandardMaterial3D.new()
-	core_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	core_material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	core_material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	core_material.albedo_color = Color("#ecfff8d6")
-	core_material.emission_enabled = true
-	core_material.emission = Color("#d3fff2")
-	core_material.emission_energy_multiplier = 2.1
-	core.material_override = core_material
-	slash.add_child(core)
 
-	var toward_target: Vector3 = direction.normalized()
-	add_child(slash)
-	slash.global_position = (
-		_target.global_position
-		- toward_target * 0.35
-		+ Vector3(0.0, 0.9, 0.0)
-	)
-	slash.rotation.y = _player_visual.rotation.y
-	var fade: Tween = create_tween()
-	fade.tween_property(material, "albedo_color:a", 0.0, 0.22)
-	fade.parallel().tween_property(
-		core_material,
-		"albedo_color:a",
-		0.0,
-		0.22
-	)
-	fade.tween_callback(slash.queue_free)
+func _add_slash_sparks(parent: Node3D) -> void:
+	var sparks: Node3D = Node3D.new()
+	sparks.name = "WeaponSlashSparks"
+	parent.add_child(sparks)
+	var directions: PackedVector2Array = [
+		Vector2(-0.88, 0.42),
+		Vector2(-0.63, -0.77),
+		Vector2(-0.18, 0.98),
+		Vector2(0.38, -0.92),
+		Vector2(0.76, 0.65),
+		Vector2(0.98, -0.12),
+	]
+	var colors: Array[Color] = [
+		Color("#b8ffe5"),
+		Color("#ffd58b"),
+		Color("#72f5c8"),
+		Color("#fff0c5"),
+		Color("#5ee9bb"),
+		Color("#ffd58b"),
+	]
+	for index: int in range(directions.size()):
+		var spark: MeshInstance3D = MeshInstance3D.new()
+		spark.name = "Spark%d" % index
+		var mesh: SphereMesh = SphereMesh.new()
+		mesh.radius = 0.045
+		mesh.height = 0.09
+		mesh.radial_segments = 5
+		mesh.rings = 3
+		spark.mesh = mesh
+		var spark_material: StandardMaterial3D = _make_slash_material(
+			colors[index],
+			colors[index],
+			2.4
+		)
+		spark.material_override = spark_material
+		spark.position = Vector3(
+			directions[index].x * 0.78,
+			directions[index].y * 0.78,
+			0.035
+		)
+		sparks.add_child(spark)
+		var outward: Vector2 = directions[index] * (1.3 + float(index % 3) * 0.18)
+		var spark_tween: Tween = create_tween()
+		spark_tween.tween_property(
+			spark,
+			"position",
+			Vector3(outward.x, outward.y, 0.035),
+			0.2
+		)
+		spark_tween.parallel().tween_property(
+			spark_material,
+			"albedo_color:a",
+			0.0,
+			0.2
+		)
 
 
 func _begin_dodge() -> void:

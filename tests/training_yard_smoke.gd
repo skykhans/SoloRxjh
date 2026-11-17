@@ -16,21 +16,35 @@ func _initialize() -> void:
 		"Application did not reach the archive menu."
 	):
 		return
-	archive_menu.emit_signal("practice_requested")
+	var yard_scene: PackedScene = load("res://scenes/training_yard.tscn") as PackedScene
+	var yard: Node3D = yard_scene.instantiate() as Node3D
+	application.add_child(yard)
 	await process_frame
-	var yard: Node3D = application.get("_training_yard") as Node3D
-	if not _require(yard != null, "Archive menu did not create the training yard scene."):
+	if not _require(
+		yard != null and application.get("_xuanbo_city") == null,
+		"Training yard isolation setup failed."
+	):
 		return
 	var player: CharacterBody3D = yard.get_node_or_null("Player") as CharacterBody3D
 	var target: StaticBody3D = yard.get_node_or_null("TrainingTarget") as StaticBody3D
+	var ground: StaticBody3D = yard.get_node_or_null("Ground") as StaticBody3D
+	var ground_mesh: MeshInstance3D = (
+		ground.get_child(0) as MeshInstance3D
+		if ground != null and ground.get_child_count() > 0
+		else null
+	)
+	var ground_material: ShaderMaterial = (
+		ground_mesh.material_override as ShaderMaterial
+		if ground_mesh != null
+		else null
+	)
 	var training_status: Label = yard.find_child("TrainingStatus", true, false) as Label
 	var sky: Sky = (
 		(yard.get_node("WorldEnvironment") as WorldEnvironment).environment.sky
 	)
 	var sky_material: ProceduralSkyMaterial = sky.sky_material as ProceduralSkyMaterial
 	if not _require(
-		application.get("app_state") == 2
-			and player != null
+		player != null
 			and target != null
 			and yard.get_node_or_null("WorldEnvironment") is WorldEnvironment
 			and yard.get_node_or_null("Camera3D") is Camera3D
@@ -41,6 +55,11 @@ func _initialize() -> void:
 			and training_status != null
 			and training_status.text == "练习演示 · 不保存角色进度",
 		"Archive menu did not enter a complete training yard."
+	):
+		return
+	if not _require(
+		ground_material != null and ground_material.shader != null,
+		"Training yard ground does not use the registered ground shader material."
 	):
 		return
 
@@ -69,14 +88,20 @@ func _initialize() -> void:
 	player.global_position = Vector3(0.0, 0.0, -1.0)
 	player.velocity = Vector3.ZERO
 	yard._face_direction(Vector3(0.0, 0.0, -1.0))
+	var attack_landed: bool = yard._perform_practice_attack()
+	var slash_sparks: Node3D = yard.find_child("WeaponSlashSparks", true, false) as Node3D
 	if not _require(
-		yard._perform_practice_attack()
+		attack_landed
 			and yard._target_health == 75
 			and yard._target_respawn_timer == 0.0
 			and yard.find_child("WeaponSlash", true, false) is MeshInstance3D
 			and yard.find_child("WeaponSlashCore", true, false) is MeshInstance3D
+			and yard.find_child("WeaponSlashTrail", true, false) is MeshInstance3D
+			and yard.find_child("WeaponSlashGoldTrail", true, false) is MeshInstance3D
+			and slash_sparks != null
+			and slash_sparks.get_child_count() == 6
 			and _weapon_edge_is_pulsing(player),
-		"An in-range attack did not damage its target and create the styled weapon effects."
+		"An in-range attack did not damage its target and create the layered jade-and-gold weapon effects."
 	):
 		return
 
@@ -111,17 +136,11 @@ func _initialize() -> void:
 	):
 		return
 
-	yard._request_exit()
+	yard.queue_free()
+	yard = null
 	await process_frame
-	if not _require(
-		application.get("app_state") == 1
-			and archive_menu.visible
-			and application.get("_training_yard") == null,
-		"Training yard did not return cleanly to the archive menu."
-	):
-		return
 
-	print("Training yard menu, movement, attack, and return smoke test passed.")
+	print("Training yard movement and attack slice smoke test passed.")
 	quit(0)
 
 
@@ -135,7 +154,17 @@ func _require(condition: bool, message: String) -> bool:
 
 func _weapon_materials_are_styled(player: CharacterBody3D) -> bool:
 	var sword: MeshInstance3D = player.find_child("Sword", true, false) as MeshInstance3D
-	if sword == null or sword.mesh == null or sword.mesh.get_surface_count() != 4:
+	var body: MeshInstance3D = (
+		player.find_child("fang_chen_Body", true, false) as MeshInstance3D
+	)
+	if (
+		sword == null
+		or sword.mesh == null
+		or sword.mesh.get_surface_count() != 4
+		or body == null
+		or body.mesh == null
+		or body.mesh.get_surface_count() != 6
+	):
 		return false
 	for surface: int in range(4):
 		var material: StandardMaterial3D = (
@@ -143,8 +172,15 @@ func _weapon_materials_are_styled(player: CharacterBody3D) -> bool:
 		)
 		if material == null:
 			return false
+	for surface: int in range(6):
+		if (body.get_surface_override_material(surface) as StandardMaterial3D) == null:
+			return false
 	return (
 		(sword.get_surface_override_material(3) as StandardMaterial3D).emission_enabled
+			and is_equal_approx(
+				(body.get_surface_override_material(3) as StandardMaterial3D).roughness,
+				0.62
+			)
 	)
 
 
