@@ -30,6 +30,9 @@ func _initialize() -> void:
 	var hangul_name: Dictionary = UNICODE_NORMALIZER.normalize_profile_name("가乙")
 	var compatibility_name: Dictionary = UNICODE_NORMALIZER.normalize_profile_name("ﬃ甲")
 	var compatibility_fold: Dictionary = UNICODE_NORMALIZER.normalize_profile_name("ffi甲")
+	var character_name: Dictionary = UNICODE_NORMALIZER.normalize_character_name("  e\u0301乙  ")
+	var character_sharp_s: Dictionary = UNICODE_NORMALIZER.normalize_character_name("ß甲")
+	var character_ss: Dictionary = UNICODE_NORMALIZER.normalize_character_name("SS甲")
 	if not _require(
 		normalized_name.get("ok", false)
 			and normalized_name.get("profile_name") == "é乙"
@@ -40,6 +43,12 @@ func _initialize() -> void:
 			and hangul_name.get("profile_name") == "가乙"
 			and compatibility_name.get("profile_name") == "ﬃ甲"
 			and compatibility_name.get("comparison_key") == compatibility_fold.get("comparison_key")
+			and character_name.get("ok", false)
+			and character_name.get("character_name") == "é乙"
+			and character_sharp_s.get("comparison_key") == character_ss.get("comparison_key")
+			and not UNICODE_NORMALIZER.normalize_character_name("甲").get("ok", true)
+			and not UNICODE_NORMALIZER.normalize_character_name("甲乙丙丁戊己庚辛壬癸子丑寅").get("ok", true)
+			and not UNICODE_NORMALIZER.normalize_character_name("甲\n乙").get("ok", true)
 			and UNICODE_NORMALIZER.normalize_profile_name("  e\u0301乙  ").get("profile_name")
 				== normalized_name.get("profile_name")
 			and UNICODE_NORMALIZER.normalize_profile_name("甲\n乙").get("ok", true) == false,
@@ -113,7 +122,7 @@ func _initialize() -> void:
 
 	var expected_renamed_data: Dictionary = first["profile"]["data"].duplicate(true)
 	expected_renamed_data["profile_name"] = "SS甲"
-	expected_renamed_data["revision"] = 2.0
+	expected_renamed_data["revision"] = 2
 	var rename_temporary_path: String = profiles_directory.path_join(
 		".%s.rename.tmp" % first["profile"]["profile_id"]
 	)
@@ -131,11 +140,16 @@ func _initialize() -> void:
 		1,
 		" SS甲 "
 	)
+	var actual_renamed_data: Dictionary = renamed.get("profile", {}).get("data", {}).duplicate(true)
+	actual_renamed_data.erase("revision")
+	var expected_renamed_data_without_revision: Dictionary = expected_renamed_data.duplicate(true)
+	expected_renamed_data_without_revision.erase("revision")
 	if not _require(
 		renamed.get("ok", false)
 			and renamed.get("changed", false)
 			and not renamed.get("recovered", true)
-			and renamed["profile"]["data"] == expected_renamed_data
+			and actual_renamed_data == expected_renamed_data_without_revision
+			and renamed["profile"]["data"]["revision"] == 2
 			and not FileAccess.file_exists(rename_temporary_path),
 		"Rename did not preserve the complete profile except its name and revision."
 	):
@@ -198,6 +212,159 @@ func _initialize() -> void:
 		"Profile capacity could not be filled: %s, %s" % [second, third]
 	):
 		return
+	var second_profile_path: String = profiles_directory.path_join(
+		second["profile"]["profile_id"] + ".json"
+	)
+	var original_profile_file: FileAccess = FileAccess.open(second_profile_path, FileAccess.READ)
+	if not _require(
+		original_profile_file != null,
+		"Could not read isolated archive for revision type validation."
+	):
+		return
+	var original_profile_bytes: PackedByteArray = original_profile_file.get_buffer(
+		original_profile_file.get_length()
+	)
+	original_profile_file.close()
+	var original_profile_text: String = original_profile_bytes.get_string_from_utf8()
+	var float_revision_text: String = original_profile_text.replace(
+		"\"revision\": 1,",
+		"\"revision\": 1.0,"
+	)
+	if not _require(
+		float_revision_text != original_profile_text,
+		"Could not form an explicit floating-point revision token."
+	):
+		return
+	var float_revision_file: FileAccess = FileAccess.open(second_profile_path, FileAccess.WRITE)
+	if not _require(
+		float_revision_file != null,
+		"Could not create the isolated floating revision fixture."
+	):
+		return
+	float_revision_file.store_string(float_revision_text)
+	float_revision_file.close()
+	var float_revision_catalog: Dictionary = repository.list_profiles()
+	var float_revision_rejected: bool = false
+	for profile: Dictionary in float_revision_catalog.get("profiles", []):
+		if profile.get("file_name") == second["profile"]["profile_id"] + ".json":
+			float_revision_rejected = (
+				not profile.get("valid", false)
+				and profile.get("error") == "档案revision无效"
+			)
+	if not _require(
+		float_revision_rejected,
+		"A floating-point profile revision was accepted."
+	):
+		return
+	var restored_profile_file: FileAccess = FileAccess.open(second_profile_path, FileAccess.WRITE)
+	if not _require(
+		restored_profile_file != null,
+		"Could not restore the isolated profile after revision type validation."
+	):
+		return
+	restored_profile_file.store_buffer(original_profile_bytes)
+	restored_profile_file.close()
+	if not _require(
+		repository.list_profiles().get("all_valid", false),
+		"Profile fixture restoration did not recover the valid archive catalog."
+	):
+		return
+	for invalid_field: String in ["character_creation_events", "unexpected"]:
+		var invalid_profile: Dictionary = JSON.parse_string(original_profile_text)
+		if invalid_field == "character_creation_events":
+			invalid_profile[invalid_field] = [{}]
+		else:
+			invalid_profile[invalid_field] = true
+		var invalid_schema_file: FileAccess = FileAccess.open(
+			second_profile_path,
+			FileAccess.WRITE
+		)
+		if not _require(
+			invalid_schema_file != null,
+			"Could not create an isolated invalid-schema fixture."
+		):
+			return
+		invalid_schema_file.store_string(JSON.stringify(invalid_profile, "\t", true, true) + "\n")
+		invalid_schema_file.close()
+		var invalid_schema_catalog: Dictionary = repository.list_profiles()
+		var invalid_schema_rejected: bool = false
+		for profile: Dictionary in invalid_schema_catalog.get("profiles", []):
+			if profile.get("file_name") == second["profile"]["profile_id"] + ".json":
+				invalid_schema_rejected = (
+					not profile.get("valid", false)
+					and str(profile.get("error", "")).begins_with("档案不符合正式schema：")
+				)
+		if not _require(
+			invalid_schema_rejected,
+			"An archive outside the formal empty-profile schema was accepted."
+		):
+			return
+		var restore_schema_file: FileAccess = FileAccess.open(
+			second_profile_path,
+			FileAccess.WRITE
+		)
+		if not _require(
+			restore_schema_file != null,
+			"Could not restore the profile after schema validation."
+		):
+			return
+		restore_schema_file.store_buffer(original_profile_bytes)
+		restore_schema_file.close()
+		if not _require(
+			repository.list_profiles().get("all_valid", false),
+			"Schema fixture restoration did not recover the valid archive catalog."
+		):
+			return
+	for item_index: int in range(2):
+		var invalid_resolution_text: String = _with_invalid_resolution_token(
+			original_profile_text,
+			item_index
+		)
+		if not _require(
+			invalid_resolution_text != original_profile_text,
+			"Could not form an invalid resolution token fixture."
+		):
+			return
+		var invalid_resolution_file: FileAccess = FileAccess.open(
+			second_profile_path,
+			FileAccess.WRITE
+		)
+		if not _require(
+			invalid_resolution_file != null,
+			"Could not create an isolated invalid resolution fixture."
+		):
+			return
+		invalid_resolution_file.store_string(invalid_resolution_text)
+		invalid_resolution_file.close()
+		var invalid_resolution_catalog: Dictionary = repository.list_profiles()
+		var invalid_resolution_rejected: bool = false
+		for profile: Dictionary in invalid_resolution_catalog.get("profiles", []):
+			if profile.get("file_name") == second["profile"]["profile_id"] + ".json":
+				invalid_resolution_rejected = (
+					not profile.get("valid", false)
+					and profile.get("error") == "档案settings无效：window_resolution"
+				)
+		if not _require(
+			invalid_resolution_rejected,
+			"An invalid resolution number token was accepted."
+		):
+			return
+		var restore_resolution_file: FileAccess = FileAccess.open(
+			second_profile_path,
+			FileAccess.WRITE
+		)
+		if not _require(
+			restore_resolution_file != null,
+			"Could not restore the isolated resolution fixture."
+		):
+			return
+		restore_resolution_file.store_buffer(original_profile_bytes)
+		restore_resolution_file.close()
+		if not _require(
+			repository.list_profiles().get("all_valid", false),
+			"Resolution fixture restoration did not recover the valid archive catalog."
+		):
+			return
 	var over_capacity: Dictionary = repository.create_profile("庚辛")
 	if not _require(not over_capacity.get("ok", false), "A fourth profile was accepted."):
 		return
@@ -236,6 +403,27 @@ func _initialize() -> void:
 		not blocked_rename_by_corrupt_candidate.get("ok", false)
 			and not blocked_delete_by_corrupt_candidate.get("ok", false),
 		"A corrupt candidate did not block profile mutation."
+	):
+		return
+	var duplicate_key_path: String = profiles_directory.path_join("duplicate.json")
+	var duplicate_key_file: FileAccess = FileAccess.open(duplicate_key_path, FileAccess.WRITE)
+	if not _require(
+		duplicate_key_file != null,
+		"Could not create an isolated duplicate-key candidate."
+	):
+		return
+	duplicate_key_file.store_string("{\"profile_id\":\"one\",\"profile_id\":\"two\"}")
+	duplicate_key_file.close()
+	var duplicate_key_catalog: Dictionary = repository.list_profiles()
+	if not _require(
+		not duplicate_key_catalog.get("all_valid", true)
+			and duplicate_key_catalog["profiles"].size() == 5,
+		"A duplicate-key JSON candidate was not rejected as an occupied invalid candidate."
+	):
+		return
+	if not _require(
+		DirAccess.remove_absolute(duplicate_key_path) == OK,
+		"Could not remove the isolated duplicate-key fixture."
 	):
 		return
 
@@ -299,3 +487,38 @@ func _require(condition: bool, message: String) -> bool:
 	push_error(message)
 	quit(1)
 	return false
+
+
+func _with_invalid_resolution_token(source: String, item_index: int) -> String:
+	var pattern: RegEx = RegEx.new()
+	if pattern.compile(
+		"(\"window_resolution\"\\s*:\\s*\\[\\s*)(\\d+)(\\s*,\\s*)(\\d+)(\\s*\\])"
+	) != OK:
+		return source
+	var matched: RegExMatch = pattern.search(source)
+	if matched == null:
+		return source
+	var replacement: String = ""
+	if item_index == 0:
+		replacement = (
+			matched.get_string(1)
+			+ matched.get_string(2) + ".0"
+			+ matched.get_string(3)
+			+ matched.get_string(4)
+			+ matched.get_string(5)
+		)
+	elif item_index == 1:
+		replacement = (
+			matched.get_string(1)
+			+ matched.get_string(2)
+			+ matched.get_string(3)
+			+ matched.get_string(4) + "e0"
+			+ matched.get_string(5)
+		)
+	else:
+		return source
+	return (
+		source.substr(0, matched.get_start())
+		+ replacement
+		+ source.substr(matched.get_end())
+	)

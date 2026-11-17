@@ -1,8 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:solorxjh:character-session:v1",
-  "$comment": "身份与持久守卫片段，外层pending_play_session可显式null；摘要关系、计数已预留、角色归属、权限和完整begin/结束收据语义另验。",
+  "$comment": "身份与持久守卫片段，根允许pending_play_session显式null或identity/guard；摘要关系、计数已预留、角色归属、权限和完整begin/结束收据语义另验。",
   "oneOf": [
+    {
+      "type": "null"
+    },
     {
       "$ref": "#/$defs/identity"
     },

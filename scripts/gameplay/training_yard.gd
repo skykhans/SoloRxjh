@@ -6,12 +6,11 @@ const PLAYER_MODEL_PATH: String = "res://assets/models/characters/fang_chen.glb"
 const TARGET_MODEL_PATH: String = "res://assets/models/characters/bamboo_beast.glb"
 const BAMBOO_MODEL_PATH: String = "res://assets/models/characters/linglong_bamboo.glb"
 const FONT_PATH: String = "res://assets/fonts/NotoSansCJKsc-Regular.otf"
-const PLAYER_HP: int = 133
-const PLAYER_MANA: int = 118
 const TARGET_MAX_HP: int = 100
 const ATTACK_RANGE: float = 2.2
 const ATTACK_RECOVERY_SECONDS: float = 0.5
 const DODGE_SECONDS: float = 0.24
+const PLAYER_AREA_LIMIT: float = 31.0
 
 const COLOR_TEXT: Color = Color("#edf1e9")
 const COLOR_MUTED: Color = Color("#a9b8ad")
@@ -39,6 +38,11 @@ var _dodge_direction: Vector3 = Vector3.ZERO
 var _camera_yaw: float = 0.0
 var _camera_pitch: float = 0.23
 var _camera_distance: float = 7.0
+var camera_distance: float:
+	get:
+		return _camera_distance
+	set(value):
+		_camera_distance = clampf(value, 3.0, 12.0)
 var _orbiting: bool = false
 var _move_destination: Vector3 = Vector3.ZERO
 var _has_move_destination: bool = false
@@ -46,6 +50,7 @@ var _toast_timer: float = 0.0
 var _toast_label: Label
 var _target_title: Label
 var _target_bar: ProgressBar
+var _training_status: Label
 var _player_animation_name: StringName = &""
 
 
@@ -69,6 +74,7 @@ func _physics_process(delta: float) -> void:
 		_toast_label.visible = false
 	if _target_respawn_timer == 0.0 and _target_health <= 0:
 		_respawn_training_target()
+		_show_toast("演练目标已恢复。")
 
 	if Input.is_action_just_pressed("dodge"):
 		_begin_dodge()
@@ -112,6 +118,16 @@ func _physics_process(delta: float) -> void:
 	else:
 		_player.velocity.y = 0.0
 	_player.move_and_slide()
+	_player.global_position.x = clampf(
+		_player.global_position.x,
+		-PLAYER_AREA_LIMIT,
+		PLAYER_AREA_LIMIT
+	)
+	_player.global_position.z = clampf(
+		_player.global_position.z,
+		-PLAYER_AREA_LIMIT,
+		PLAYER_AREA_LIMIT
+	)
 	_update_player_animation(direction.length_squared() > 0.0)
 
 
@@ -164,16 +180,16 @@ func _build_environment() -> void:
 	var world_environment: WorldEnvironment = WorldEnvironment.new()
 	world_environment.name = "WorldEnvironment"
 	var environment: Environment = Environment.new()
+	var sky: Sky = Sky.new()
+	environment.background_mode = Environment.BG_SKY
+	environment.sky = sky
 	var sky_material: ProceduralSkyMaterial = ProceduralSkyMaterial.new()
 	sky_material.sky_top_color = Color("#6e91a0")
 	sky_material.sky_horizon_color = Color("#c7d4c4")
 	sky_material.ground_bottom_color = Color("#465a4c")
 	sky_material.ground_horizon_color = Color("#a2ad91")
 	sky_material.sun_angle_max = 18.0
-	var sky: Sky = Sky.new()
 	sky.sky_material = sky_material
-	environment.background_mode = Environment.BG_SKY
-	environment.sky = sky
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.ambient_light_color = Color("#b8c9bb")
 	environment.ambient_light_energy = 0.55
@@ -432,20 +448,25 @@ func _build_hud() -> void:
 
 	var status_panel: PanelContainer = PanelContainer.new()
 	status_panel.position = Vector2(28.0, 26.0)
-	status_panel.custom_minimum_size = Vector2(330.0, 130.0)
+	status_panel.custom_minimum_size = Vector2(300.0, 92.0)
 	status_panel.add_theme_stylebox_override("panel", _panel_style())
 	root.add_child(status_panel)
 
 	var status_content: VBoxContainer = VBoxContainer.new()
-	status_content.add_theme_constant_override("separation", 7)
+	status_content.add_theme_constant_override("separation", 5)
 	status_panel.add_child(status_content)
-	var identity: Label = Label.new()
-	identity.text = "方尘  ·  剑客  ·  1级"
-	identity.add_theme_font_size_override("font_size", 21)
-	identity.add_theme_color_override("font_color", COLOR_TEXT)
-	status_content.add_child(identity)
-	_add_status_bar(status_content, "生命", PLAYER_HP, PLAYER_HP, COLOR_HEALTH)
-	_add_status_bar(status_content, "内力", PLAYER_MANA, PLAYER_MANA, COLOR_MANA)
+	var training_title: Label = Label.new()
+	training_title.name = "TrainingTitle"
+	training_title.text = "演练场"
+	training_title.add_theme_font_size_override("font_size", 20)
+	training_title.add_theme_color_override("font_color", COLOR_TEXT)
+	status_content.add_child(training_title)
+	_training_status = Label.new()
+	_training_status.name = "TrainingStatus"
+	_training_status.text = "练习演示 · 不保存角色进度"
+	_training_status.add_theme_font_size_override("font_size", 14)
+	_training_status.add_theme_color_override("font_color", COLOR_MUTED)
+	status_content.add_child(_training_status)
 
 	var target_box: VBoxContainer = VBoxContainer.new()
 	target_box.set_anchors_preset(Control.PRESET_CENTER_TOP)
@@ -503,38 +524,6 @@ func _build_hud() -> void:
 	root.add_child(_toast_label)
 
 
-func _add_status_bar(
-	parent: VBoxContainer,
-	label_text: String,
-	value: int,
-	maximum: int,
-	fill_color: Color
-) -> void:
-	var row: HBoxContainer = HBoxContainer.new()
-	row.add_theme_constant_override("separation", 8)
-	parent.add_child(row)
-	var label: Label = Label.new()
-	label.text = label_text
-	label.custom_minimum_size.x = 42.0
-	label.add_theme_color_override("font_color", COLOR_MUTED)
-	row.add_child(label)
-	var bar: ProgressBar = ProgressBar.new()
-	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bar.custom_minimum_size.y = 13.0
-	bar.max_value = maximum
-	bar.value = value
-	bar.show_percentage = false
-	bar.add_theme_stylebox_override("background", _bar_style(Color("#2a3330")))
-	bar.add_theme_stylebox_override("fill", _bar_style(fill_color))
-	row.add_child(bar)
-	var value_label: Label = Label.new()
-	value_label.text = "%d/%d" % [value, maximum]
-	value_label.custom_minimum_size.x = 66.0
-	value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	value_label.add_theme_color_override("font_color", COLOR_TEXT)
-	row.add_child(value_label)
-
-
 func _make_action_key(key_text: String, action_text: String) -> Control:
 	var group: HBoxContainer = HBoxContainer.new()
 	group.add_theme_constant_override("separation", 6)
@@ -564,6 +553,7 @@ func _select_or_move(screen_position: Vector2) -> void:
 	if collider is Node and collider.is_in_group("training_target"):
 		_target_selected = true
 		_has_move_destination = false
+		_training_status.text = "已锁定演练目标 · 不产生正式战利品"
 		_update_target_hud()
 		return
 	if result.is_empty():
@@ -601,8 +591,10 @@ func _perform_practice_attack() -> bool:
 		_target_collision.set_deferred("disabled", true)
 		_target_model.visible = false
 		_target_label.visible = false
+		_training_status.text = "目标倒地 · 2.5秒后恢复"
 		_show_toast("演练目标已击倒。")
 	else:
+		_training_status.text = "命中演练目标 · 不结算经验或物品"
 		_show_toast("命中演练目标。")
 	_update_target_hud()
 	return true
@@ -665,7 +657,9 @@ func _play_animation(
 	if player == _player_animation:
 		_player_animation_name = animation_name
 	if player == _target_animation and animation_name == &"Hit":
-		player.animation_finished.connect(_on_target_animation_finished, CONNECT_ONE_SHOT)
+		var finished_callback: Callable = _on_target_animation_finished
+		if not player.animation_finished.is_connected(finished_callback):
+			player.animation_finished.connect(finished_callback)
 
 
 func _on_target_animation_finished(_animation_name: StringName) -> void:
@@ -706,6 +700,7 @@ func _respawn_training_target() -> void:
 	_target_model.visible = true
 	_target_label.visible = true
 	_target_animation.play(&"Idle")
+	_training_status.text = "练习演示 · 不保存角色进度"
 	_update_target_hud()
 
 

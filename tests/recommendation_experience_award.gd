@@ -101,6 +101,151 @@ func _initialize() -> void:
 	):
 		return
 
+	var delivery_materials: Dictionary = {
+		"ok": true,
+		"stack_ids": ["axe_0", "proof_0"],
+		"inputs": [
+			{
+				"previous_output": {"receipt_id": "source_axe_0", "output_index": 0},
+				"stack": {
+					"stack_id": "axe_0",
+					"item_id": "recommendation_bandit_axe",
+					"binding": "character",
+					"quest_scope": {
+						"quest_id": "ref_QREF-63791-016",
+						"attempt_id": "attempt-001",
+					},
+					"quantity": 10,
+					"origin_receipt_id": "source_axe_0",
+				},
+			},
+			{
+				"previous_output": {"receipt_id": "source_proof_0", "output_index": 0},
+				"stack": {
+					"stack_id": "proof_0",
+					"item_id": "recommendation_bandit_proof",
+					"binding": "character",
+					"quest_scope": {
+						"quest_id": "ref_QREF-63791-016",
+						"attempt_id": "attempt-001",
+					},
+					"quantity": 5,
+					"origin_receipt_id": "source_proof_0",
+				},
+			},
+		],
+		"totals": {
+			"recommendation_bandit_axe": 10,
+			"recommendation_bandit_proof": 5,
+		},
+		"quest_before": {
+			"state": "in_progress",
+			"attempt_id_or_null": "attempt-001",
+			"completion_receipt_id_or_null": null,
+		},
+	}
+	var delivery_progress: Dictionary = {
+		"total_xp": level_35_threshold,
+		"hp": 100,
+		"mana": 100,
+		"stamina": 100,
+		"completed_rank": 1,
+		"route": "unselected",
+	}
+	var delivery_qigong: Dictionary = {
+		"covered_level": crossed_35["history_after"]["covered_level"],
+		"level_award_spans": crossed_35["history_after"]["level_award_spans"],
+		"qigong_unallocated": 4,
+		"allocations": {},
+		"learned_manuals": [],
+		"anti_allocations": {},
+		"anti_cooldowns": {},
+		"ascension_unallocated": 0,
+	}
+	var delivery: Dictionary = EXPERIENCE_AWARD.calculate_delivery_after(
+		delivery_materials,
+		delivery_progress,
+		delivery_qigong,
+		false,
+		experience_records,
+		award_records
+	)
+	if not _require(
+		delivery.get("ok", false)
+			and delivery["experience"]["base_award"] == BASE_AWARD
+			and delivery["progress_after"]["total_xp"]
+				== delivery_progress["total_xp"] + BASE_AWARD
+			and delivery["qigong_after"]["qigong_unallocated"]
+				== delivery_qigong["qigong_unallocated"]
+					+ delivery["level_awards"]["qigong_points"]
+			and delivery["qigong_after"]["covered_level"] == delivery["level_after"]
+			and delivery["qigong_after"]["allocations"] == delivery_qigong["allocations"],
+		"Recommendation delivery did not produce one consistent progress and qigong result."
+	):
+		return
+	if not _require(
+		not EXPERIENCE_AWARD.calculate_delivery_after(
+			{"ok": true, "stack_ids": [], "totals": {}},
+			delivery_progress,
+			delivery_qigong,
+			false,
+			experience_records,
+			award_records
+		).get("ok", false)
+			and not EXPERIENCE_AWARD.calculate_delivery_after(
+				delivery_materials,
+				delivery_progress.merged({"route": "righteous"}, true),
+				delivery_qigong,
+				false,
+				experience_records,
+				award_records
+			).get("ok", false)
+			and not EXPERIENCE_AWARD.calculate_delivery_after(
+				delivery_materials.merged({"stack_ids": ["axe_0", "axe_0"]}, true),
+				delivery_progress,
+				delivery_qigong,
+				false,
+				experience_records,
+				award_records
+			).get("ok", false)
+			and not EXPERIENCE_AWARD.calculate_delivery_after(
+				delivery_materials,
+				delivery_progress.merged({"hp": 0}, true),
+				delivery_qigong,
+				false,
+				experience_records,
+				award_records
+			).get("ok", false),
+		"Invalid material totals, a dead character, or a selected route were accepted."
+	):
+		return
+
+	var full_qigong_pool: Dictionary = delivery_qigong.duplicate(true)
+	full_qigong_pool["covered_level"] = 179
+	full_qigong_pool["level_award_spans"] = [{
+		"first_level": 2,
+		"last_level": 179,
+		"kind": "legacy_import_skip",
+		"award_rule_version": 1,
+		"qigong_points_awarded": 0,
+		"ascension_points_awarded": 0,
+	}]
+	full_qigong_pool["qigong_unallocated"] = 9007199254740991
+	var final_delivery_progress: Dictionary = delivery_progress.duplicate(true)
+	final_delivery_progress["total_xp"] = MAX_TOTAL_XP - 5
+	if not _require(
+		not EXPERIENCE_AWARD.calculate_delivery_after(
+			delivery_materials,
+			final_delivery_progress,
+			full_qigong_pool,
+			true,
+			experience_records,
+			award_records
+		).get("ok", false),
+		"A qigong pool overflow was accepted."
+	):
+		return
+
 	var level_179_history: Dictionary = {
 		"covered_level": 179,
 		"level_award_spans": [{

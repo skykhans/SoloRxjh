@@ -23,13 +23,25 @@ func _initialize() -> void:
 		return
 	var player: CharacterBody3D = yard.get_node_or_null("Player") as CharacterBody3D
 	var target: StaticBody3D = yard.get_node_or_null("TrainingTarget") as StaticBody3D
+	var training_status: Label = yard.find_child("TrainingStatus", true, false) as Label
+	var sky: Sky = (
+		(yard.get_node("WorldEnvironment") as WorldEnvironment).environment.sky
+	)
+	var sky_material: PanoramaSkyMaterial = sky.sky_material as PanoramaSkyMaterial
 	if not _require(
 		application.get("app_state") == 2
 			and player != null
 			and target != null
 			and yard.get_node_or_null("WorldEnvironment") is WorldEnvironment
 			and yard.get_node_or_null("Camera3D") is Camera3D
-			and yard.get_node_or_null("HUD") is CanvasLayer,
+			and yard.get_node_or_null("HUD") is CanvasLayer
+			and sky_material != null
+			and sky_material.panorama != null
+			and sky_material.panorama.resource_path
+				== "res://assets/images/training_yard_backdrop.png"
+			and yard.find_child("TrainingTitle", true, false) is Label
+			and training_status != null
+			and training_status.text == "练习演示 · 不保存角色进度",
 		"Archive menu did not enter a complete training yard."
 	):
 		return
@@ -42,6 +54,17 @@ func _initialize() -> void:
 	if not _require(
 		player.global_position.z < starting_position.z - 0.1,
 		"Forward movement did not advance the player."
+	):
+		return
+	player.global_position = Vector3(30.95, 0.0, 0.0)
+	player.velocity = Vector3.ZERO
+	Input.action_press("move_right")
+	for _frame: int in range(8):
+		await physics_frame
+	Input.action_release("move_right")
+	if not _require(
+		player.global_position.x <= 31.0,
+		"Keyboard movement allowed the player to leave the training yard boundary."
 	):
 		return
 
@@ -60,6 +83,30 @@ func _initialize() -> void:
 	if not _require(
 		not blocked_attack and yard._target_health == 75,
 		"Attack recovery did not prevent an immediate second hit."
+	):
+		return
+	if not _require(
+		training_status.text == "命中演练目标 · 不结算经验或物品",
+		"Training attack did not clearly report its non-persistent result."
+	):
+		return
+	yard._attack_cooldown = 0.0
+	for _hit: int in range(3):
+		yard._perform_practice_attack()
+		yard._attack_cooldown = 0.0
+	if not _require(
+		yard._target_health == 0
+			and yard._target_respawn_timer > 0.0
+			and training_status.text == "目标倒地 · 2.5秒后恢复",
+		"Training target defeat did not enter its timed recovery state."
+	):
+		return
+	yard._respawn_training_target()
+	if not _require(
+		yard._target_health == 100
+			and yard._target_model.visible
+			and training_status.text == "练习演示 · 不保存角色进度",
+		"Training target recovery did not restore the practice state."
 	):
 		return
 

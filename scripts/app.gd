@@ -4,12 +4,16 @@ const REQUIRED_ENGINE_HASH: String = "ed1daf0bf001b61586d9930840f2f1394092c079"
 const CONFIG_DIRECTORY: String = "res://assets/config"
 const RESOURCE_MANIFEST_PATH: String = "res://assets/config/resources.json"
 const CONFIG_LOADER: Script = preload("res://scripts/config_loader.gd")
+const STRICT_JSON: Script = preload("res://scripts/strict_json.gd")
 const ARCHIVE_MENU: Script = preload("res://scripts/archive_menu.gd")
+const SETTINGS_RUNTIME: Script = preload("res://scripts/settings_runtime.gd")
 const TRAINING_YARD: PackedScene = preload("res://scenes/training_yard.tscn")
 
 var app_state: AppState = AppState.LOADING
 var _archive_menu: Control
 var _training_yard: Node3D
+var _settings_runtime: RefCounted
+var _session_settings: Dictionary = {}
 
 enum AppState {
 	LOADING,
@@ -40,12 +44,20 @@ func _ready() -> void:
 		_fail(resource_error)
 		return
 
+	_settings_runtime = SETTINGS_RUNTIME.new()
+	_session_settings = SETTINGS_RUNTIME.default_settings()
+	if _session_settings.is_empty():
+		_fail("无法读取本次会话设置默认值。")
+		return
 	_archive_menu = ARCHIVE_MENU.new(arguments_result["profiles_directory"]) as Control
 	if _archive_menu == null:
 		_fail("无法创建本地档案界面。")
 		return
 	_archive_menu.connect("practice_requested", _enter_practice)
+	_archive_menu.connect("quit_requested", _quit_application)
+	_archive_menu.connect("session_settings_changed", _apply_session_settings)
 	add_child(_archive_menu)
+	_apply_session_settings(_session_settings)
 	app_state = AppState.MAIN_MENU
 
 
@@ -159,8 +171,11 @@ static func validate_runtime_config(config_dir: String = CONFIG_DIRECTORY) -> St
 				error_string(FileAccess.get_open_error()),
 			]
 
+		var source: String = file.get_as_text()
+		if STRICT_JSON.has_duplicate_object_keys(source):
+			return "正式 JSON 配置包含重复对象键：%s" % config_path
 		var parsed: JSON = JSON.new()
-		var parse_error: Error = parsed.parse(file.get_as_text())
+		var parse_error: Error = parsed.parse(source)
 		if parse_error != OK:
 			return "正式 JSON 配置格式错误：%s:%d %s" % [
 				config_path,
@@ -246,6 +261,7 @@ func _enter_practice() -> void:
 	if _training_yard == null:
 		_fail("无法创建练功场。")
 		return
+	_training_yard.set("camera_distance", float(_session_settings["camera_distance"]))
 	_training_yard.connect("exit_requested", _return_to_archive_menu)
 	_archive_menu.hide()
 	add_child(_training_yard)
@@ -259,6 +275,32 @@ func _return_to_archive_menu() -> void:
 	_training_yard = null
 	_archive_menu.show()
 	app_state = AppState.MAIN_MENU
+
+
+func _quit_application() -> void:
+	get_tree().quit()
+
+
+func _apply_session_settings(settings: Dictionary) -> void:
+	if _settings_runtime == null:
+		return
+	var result: Dictionary = _settings_runtime.apply(
+		settings,
+		get_viewport(),
+		DisplayServer.get_name() != "headless"
+	)
+	if not result.get("ok", false):
+		_archive_menu.call("show_settings_error", result.get("error", "设置应用失败。"))
+		return
+	_session_settings = settings.duplicate(true)
+	_archive_menu.call("set_confirmed_session_settings", _session_settings)
+	if _training_yard != null:
+		_training_yard.set("camera_distance", float(_session_settings["camera_distance"]))
+
+
+func _exit_tree() -> void:
+	if _settings_runtime != null:
+		_settings_runtime.restore(get_viewport())
 
 
 func _exit_failed_startup() -> void:

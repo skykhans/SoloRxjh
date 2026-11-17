@@ -29,6 +29,30 @@ static func normalize_profile_name(raw_name: String) -> Dictionary:
 	}
 
 
+static func normalize_character_name(raw_name: String) -> Dictionary:
+	if _has_forbidden_codepoint(raw_name):
+		return _failure("character_name_contains_control")
+
+	var trimmed: String = _trim_unicode_whitespace(raw_name)
+	if trimmed.is_empty():
+		return _failure("character_name_length")
+
+	var display_name: String = _normalize_nfc(trimmed)
+	if (
+		display_name.length() < 2
+		or display_name.length() > 12
+		or _has_forbidden_codepoint(display_name)
+	):
+		return _failure("character_name_invalid")
+
+	var folded: String = _casefold(display_name)
+	return {
+		"ok": true,
+		"character_name": display_name,
+		"comparison_key": _normalize_nfc(folded),
+	}
+
+
 static func _trim_unicode_whitespace(value: String) -> String:
 	var first: int = 0
 	var last: int = value.length()

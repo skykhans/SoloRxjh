@@ -1,10 +1,12 @@
 extends RefCounted
 
+const STRICT_JSON: Script = preload("res://scripts/strict_json.gd")
 const MANIFEST_PATH: String = "res://assets/config/resources.json"
 const ROOT_KEYS: PackedStringArray = ["format_version", "resources"]
 const ENTRY_KEYS: PackedStringArray = ["id", "path", "type"]
 const ALLOWED_RESOURCE_TYPES: PackedStringArray = [
 	"AudioStreamWAV",
+	"CompressedTexture2D",
 	"FontFile",
 	"PackedScene",
 ]
@@ -18,8 +20,11 @@ static func validate_manifest_file(manifest_path: String = MANIFEST_PATH) -> Str
 			error_string(FileAccess.get_open_error()),
 		]
 
+	var source: String = file.get_as_text()
+	if STRICT_JSON.has_duplicate_object_keys(source):
+		return "正式资源清单包含重复对象键：%s" % manifest_path
 	var parsed: JSON = JSON.new()
-	var parse_error: Error = parsed.parse(file.get_as_text())
+	var parse_error: Error = parsed.parse(source)
 	if parse_error != OK:
 		return "正式资源清单格式错误：%s:%d %s" % [
 			manifest_path,
@@ -121,6 +126,8 @@ static func _matches_resource_type(resource: Resource, expected_type: String) ->
 	match expected_type:
 		"AudioStreamWAV":
 			return resource is AudioStreamWAV
+		"CompressedTexture2D":
+			return resource is CompressedTexture2D
 		"FontFile":
 			return resource is FontFile
 		"PackedScene":

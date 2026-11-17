@@ -32,7 +32,7 @@
     "file": "玩家交易.v1.json",
     "pointer": "/canonical_digest"
   },
-  "command": "精确command_id/expected_profile_revision/name/class_id/appearance五键。command_id为确认时系统CSPRNG16字节小写hex32，同一次确认及写盘存疑恢复保同值，不使用可重置UI整数或玩法RNG；新确认才生成新值。确认后姓名已trim/NFC、2..12标量，职业体型按身份唯一规则。identity.request_id为71确定编码[\"new_character\",authority_profile_id,command_id]字符串，完整含owner/档案作用域；不能依赖另一个隐式owner表避冲突。identity.request_digest=71确定JSON编码完整command的SHA256。不同请求同名仍须拒绝，不把请求ID当角色名。",
+  "command": "精确command_id/expected_profile_revision/name/class_id/appearance五键。command_id为确认时系统CSPRNG16字节小写hex32，同一次确认及写盘存疑恢复保同值，不使用可重置UI整数或玩法RNG；新确认才生成新值。expected_profile_revision须为严格安全整数且不大于MAX-2，为reservation与最终decision各保留一次递增空间。确认后姓名已trim/NFC、2..12标量，职业体型按身份唯一规则。identity.request_id为71确定编码[\"new_character\",authority_profile_id,command_id]字符串，完整含owner/档案作用域；不能依赖另一个隐式owner表避冲突。identity.request_digest=71确定JSON编码完整command的SHA256。不同请求同名仍须拒绝，不把请求ID当角色名。",
   "lookup_first": "持该档案独占锁，先以结算身份原请求索引查完整request_id：摘要不同拒绝；相同reserved恢复原plan、committed返回原创建决定、aborted返回原取消，不再次生成角色或资源。先做已提交去重再判当前容量/姓名/修订，因此原角色已改名、消耗礼包或删除都不能重新创建；角色删除沿原独立事件及完整来源闭包，不以角色缺失补发。",
   "preconditions": "全量profile验证、规则清单通过、当前档案为目标且最多5个现存角色；expected_profile_revision等当前revision并至多MAX-2。只在选角/档案菜单且无本档活动玩法、未决会话/交易/导入/其他保存决定时确认；不冻结已活跃LAN来偷建角色。14职业沿14直接开放，不设置可缺失的创建解锁开关。核规范姓名唯一、ID历史不冲突、全部职业模板/出生锚/技能/初始物品/布局/重量及完整子系统可构造；任一不满足在预留前拒绝，不消费结算编号或写空角色。",
   "allocation": "采用原通用counter，authority_profile_id为本档案，allocation_index=n、counter同笔n+1。character_id=character:加71确定JSON数组[\"new_character\",settlement_id] UTF8 SHA256小写hex。检查与当前及保留历史角色ID无冲突，冲突拒绝，不重抽、改后缀或覆盖。角色ID不是authority结算ID，不为角色/装备/药再增结算counter。",
@@ -59,7 +59,7 @@
     "pointer": ""
   },
   "registered_initial_components": {
-    "scope": "已登记新增组件及原完整气功根的创建绑定；其他已采用角色组件与完整根门禁保持，不将局部绑定当完整角色。",
+    "scope": "已登记新增组件、完整气功根及玩法会话守卫初值的创建绑定；其他已采用角色组件与完整根门禁保持，不将局部绑定当完整角色。",
     "bindings": [
       {
         "character_field": "character.basic_combo_window_or_null",
@@ -203,9 +203,20 @@
           "file": "泫勃推荐书任务状态.schema.json",
           "pointer": ""
         }
+      },
+      {
+        "character_field": "character.pending_play_session",
+        "initial_value_ref": {
+          "file": "角色会话.v1.json",
+          "pointer": "/character_initialization/pending_play_session"
+        },
+        "schema_ref": {
+          "file": "角色会话.schema.json",
+          "pointer": ""
+        }
       }
     ],
-    "construction": "Use actual frozen rules_hash original release/template/schema closure; resolve declared original initial-value reference and copy its explicit initial value to its one real character field, validate that complete value under its original schema and owner. Missing initial definition/schema/unknown field fails before counter reservation; never synthesize an empty component as repair.",
+    "construction": "Use actual frozen rules_hash original release/template/schema closure; resolve declared original initial-value reference and copy its explicit initial value to its one real character field, validate that complete value under its original schema and owner. Runtime resolves and instance-validates every registered initial value against the referenced Draft 2020-12 schema before returning components; unsupported assertion keywords and unresolved references reject. This covers only the fourteen registered bindings, not the complete character root. Missing initial definition/schema/unknown field fails before counter reservation; never synthesize an empty component as repair.",
     "ordering": "All registered values are present and valid before complete-character joint/source validation and before initial_character_digest is calculated. They are part of the one original complete candidate, not post-commit additions, omitted transport fields or separate editor state. Commit reconstructs exactly using original frozen release and checks the original digest.",
     "customization": "New character business/inventory revisions are1 but customization revision is0, format_version1/explicit{}/latest_event_ref null. Creation is not a configuration event and does not allocate timer configuration history. New profile original configuration journal is explicitly empty; existing target profile keeps actual other-character history.",
     "travel_training": "Earth points empty; both training ledgers by_world empty, no stored public pose or four-theme/eight-task world record fabricated. No free talisman, training reward, simulated grant or past day history. Creation makes no world; original first-world initialization occurs only after validated actual authority clock under training owner.",

@@ -1,19 +1,22 @@
 extends Control
 
 signal practice_requested
+signal quit_requested
+signal session_settings_changed(settings: Dictionary)
 
 const ARCHIVE_REPOSITORY: Script = preload("res://scripts/archive_repository.gd")
 const FONT_PATH: String = "res://assets/fonts/NotoSansCJKsc-Regular.otf"
 const MODEL_PATH: String = "res://assets/models/characters/fang_chen.glb"
+const BACKGROUND_PATH: String = "res://assets/images/training_yard_backdrop.png"
 
-const COLOR_BACKGROUND: Color = Color("#101917")
-const COLOR_PANEL: Color = Color("#17221f")
-const COLOR_PANEL_ALT: Color = Color("#202e29")
-const COLOR_TEXT: Color = Color("#e8eee9")
-const COLOR_MUTED: Color = Color("#9caaa1")
-const COLOR_ACCENT: Color = Color("#51b79d")
-const COLOR_ERROR: Color = Color("#e78a73")
-const COLOR_DIVIDER: Color = Color("#33453e")
+const COLOR_BACKGROUND: Color = Color("#18221f")
+const COLOR_PANEL: Color = Color("#1b2925")
+const COLOR_PANEL_ALT: Color = Color("#293b34")
+const COLOR_TEXT: Color = Color("#f0eee4")
+const COLOR_MUTED: Color = Color("#c2c6b8")
+const COLOR_ACCENT: Color = Color("#9fcbb0")
+const COLOR_ERROR: Color = Color("#d98268")
+const COLOR_DIVIDER: Color = Color("#728276")
 
 var _repository: RefCounted
 var _profile_list: VBoxContainer
@@ -21,6 +24,7 @@ var _name_input: LineEdit
 var _create_button: Button
 var _practice_button: Button
 var _status: Label
+var _capacity_label: Label
 var _model_pivot: Node3D
 var _rename_dialog: ConfirmationDialog
 var _rename_input: LineEdit
@@ -35,6 +39,16 @@ var _delete_expected_name: String = ""
 var _delete_expected_revision: int = 0
 var _all_profiles_valid: bool = false
 var _profiles_directory: String = ""
+var _map_overlay: Control
+var _settings_dialog: ConfirmationDialog
+var _quit_dialog: ConfirmationDialog
+var _settings_values: Dictionary = {}
+var _confirmed_settings: Dictionary = {}
+var _settings_controls: Dictionary = {}
+var _settings_apply_generation: int = 0
+var _settings_profile_id: String = ""
+var _settings_profile_name: String = ""
+var _settings_profile_revision: int = 0
 
 
 func _init(profiles_directory: String = "") -> void:
@@ -54,6 +68,12 @@ func _process(delta: float) -> void:
 		_model_pivot.rotate_y(delta * 0.12)
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel") and _map_overlay != null and _map_overlay.visible:
+		_map_overlay.hide()
+		get_viewport().set_input_as_handled()
+
+
 func _build_theme() -> void:
 	var font: FontFile = load(FONT_PATH) as FontFile
 	if font == null:
@@ -66,10 +86,7 @@ func _build_theme() -> void:
 
 
 func _build_layout() -> void:
-	var background: ColorRect = ColorRect.new()
-	background.color = COLOR_BACKGROUND
-	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(background)
+	_build_valley_background()
 
 	var columns: HBoxContainer = HBoxContainer.new()
 	columns.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -110,7 +127,15 @@ func _build_layout() -> void:
 	section_heading.text = "本地档案"
 	section_heading.add_theme_font_size_override("font_size", 24)
 	section_heading.add_theme_color_override("font_color", COLOR_TEXT)
-	content.add_child(section_heading)
+	var section_heading_row: HBoxContainer = HBoxContainer.new()
+	section_heading_row.add_child(section_heading)
+	_capacity_label = Label.new()
+	_capacity_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_capacity_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_capacity_label.add_theme_font_size_override("font_size", 15)
+	_capacity_label.add_theme_color_override("font_color", COLOR_MUTED)
+	section_heading_row.add_child(_capacity_label)
+	content.add_child(section_heading_row)
 
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -135,8 +160,8 @@ func _build_layout() -> void:
 	_name_input = LineEdit.new()
 	_name_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_name_input.custom_minimum_size = Vector2(0.0, 48.0)
-	_name_input.max_length = 32
-	_name_input.placeholder_text = "档案名称"
+	_name_input.max_length = 16
+	_name_input.placeholder_text = "档案名称（2～16个字符）"
 	_name_input.text_submitted.connect(_on_name_submitted)
 	form.add_child(_name_input)
 
@@ -154,13 +179,123 @@ func _build_layout() -> void:
 	_practice_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_practice_button.pressed.connect(_on_practice_pressed)
 	content.add_child(_practice_button)
+	var settings_button: Button = _make_button("本次设置", false)
+	settings_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	settings_button.pressed.connect(_on_settings_pressed)
+	content.add_child(settings_button)
+	var quit_button: Button = _make_button("退出游戏", false)
+	quit_button.name = "QuitButton"
+	quit_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	quit_button.pressed.connect(_on_quit_pressed)
+	content.add_child(quit_button)
 
 	var image_column: Control = Control.new()
 	image_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	columns.add_child(image_column)
 	_build_character_view(image_column)
+	_build_map_overlay()
 	_build_rename_dialog()
 	_build_delete_dialog()
+	_build_settings_dialog()
+	_build_quit_dialog()
+
+
+func _build_valley_background() -> void:
+	var texture: Texture2D = load(BACKGROUND_PATH) as Texture2D
+	if texture == null:
+		push_error("无法加载正式主菜单背景：%s" % BACKGROUND_PATH)
+		return
+	var background: TextureRect = TextureRect.new()
+	background.name = "MenuBackground"
+	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	background.texture = texture
+	background.z_index = -2
+	add_child(background)
+
+	var shade: ColorRect = ColorRect.new()
+	shade.name = "MenuBackgroundShade"
+	shade.color = Color("#111a1680")
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	shade.z_index = -1
+	add_child(shade)
+
+
+func _build_map_overlay() -> void:
+	_map_overlay = Control.new()
+	_map_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_map_overlay.visible = false
+	_map_overlay.z_index = 4
+	add_child(_map_overlay)
+
+	var backdrop: ColorRect = ColorRect.new()
+	backdrop.color = Color("#0b1513ef")
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_map_overlay.add_child(backdrop)
+
+	var map: Control = Control.new()
+	map.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	map.offset_left = 80.0
+	map.offset_top = 72.0
+	map.offset_right = -80.0
+	map.offset_bottom = -72.0
+	map.draw.connect(_draw_region_map.bind(map))
+	_map_overlay.add_child(map)
+
+	var heading: Label = Label.new()
+	heading.text = "千竹岭"
+	heading.position = Vector2(112.0, 80.0)
+	heading.add_theme_font_size_override("font_size", 30)
+	_map_overlay.add_child(heading)
+
+	var description: Label = Label.new()
+	description.text = "泫勃派外郊 · 竹林山径"
+	description.position = Vector2(112.0, 124.0)
+	description.add_theme_color_override("font_color", COLOR_MUTED)
+	_map_overlay.add_child(description)
+
+	var close_button: Button = _make_button("返回", false)
+	close_button.position = Vector2(112.0, 168.0)
+	close_button.pressed.connect(_map_overlay.hide)
+	_map_overlay.add_child(close_button)
+
+	var map_button: Button = _make_button("查看地图", false)
+	map_button.position = Vector2(20.0, 22.0)
+	map_button.z_index = 2
+	map_button.pressed.connect(_map_overlay.show)
+	add_child(map_button)
+
+
+func _draw_region_map(map: Control) -> void:
+	var size: Vector2 = map.size
+	var origin: Vector2 = Vector2(size.x * 0.12, size.y * 0.2)
+	var route: PackedVector2Array = PackedVector2Array([
+		origin + Vector2(size.x * 0.08, size.y * 0.66),
+		origin + Vector2(size.x * 0.23, size.y * 0.54),
+		origin + Vector2(size.x * 0.39, size.y * 0.61),
+		origin + Vector2(size.x * 0.54, size.y * 0.38),
+		origin + Vector2(size.x * 0.7, size.y * 0.42),
+		origin + Vector2(size.x * 0.84, size.y * 0.18),
+	])
+	map.draw_polyline(route, Color("#bba777"), 5.0, true)
+	var font: Font = theme.default_font
+	var places: Array[Dictionary] = [
+		{"name": "泫勃派", "at": route[0], "color": Color("#94c8ae")},
+		{"name": "竹桥", "at": route[1], "color": Color("#c4b17f")},
+		{"name": "竹林营地", "at": route[2], "color": Color("#d28d67")},
+		{"name": "千竹岭", "at": route[3], "color": Color("#94c8ae")},
+		{"name": "巡山小径", "at": route[4], "color": Color("#c4b17f")},
+		{"name": "琉璃剑宗", "at": route[5], "color": Color("#d1c18d")},
+	]
+	for place: Dictionary in places:
+		var point: Vector2 = place["at"]
+		map.draw_circle(point, 9.0, place["color"])
+		map.draw_arc(point, 13.0, 0.0, TAU, 32, Color("#e5e7d8"), 1.5, true)
+		map.draw_string(font, point + Vector2(17.0, 6.0), place["name"], HORIZONTAL_ALIGNMENT_LEFT, -1.0, 19, COLOR_TEXT)
+	map.draw_string(font, Vector2(size.x * 0.67, size.y * 0.83), "溪流", HORIZONTAL_ALIGNMENT_CENTER, -1.0, 16, Color("#82b7bb"))
 
 
 func _build_rename_dialog() -> void:
@@ -176,7 +311,7 @@ func _build_rename_dialog() -> void:
 
 	_rename_input = LineEdit.new()
 	_rename_input.custom_minimum_size = Vector2(440.0, 44.0)
-	_rename_input.max_length = 32
+	_rename_input.max_length = 16
 	_rename_input.placeholder_text = "2～16个字符"
 	content.add_child(_rename_input)
 
@@ -208,6 +343,256 @@ func _build_delete_dialog() -> void:
 
 	_delete_dialog.get_ok_button().text = "永久删除"
 	_delete_dialog.get_ok_button().disabled = true
+
+
+func _build_settings_dialog() -> void:
+	_settings_dialog = ConfirmationDialog.new()
+	_settings_dialog.title = "设置"
+	_settings_dialog.dialog_text = "应用后立即作用于本次会话；之后新建的档案会保存这些设置。"
+	_settings_dialog.get_ok_button().text = "应用"
+	_settings_dialog.confirmed.connect(_on_settings_confirmed)
+	_settings_dialog.canceled.connect(_on_settings_cancelled)
+	var content: VBoxContainer = VBoxContainer.new()
+	content.add_theme_constant_override("separation", 10)
+	_settings_dialog.add_child(content)
+
+	var volume_labels: Array[String] = ["主音量", "音乐音量", "音效音量", "界面音量"]
+	var volume_keys: Array[String] = [
+		"master_volume", "music_volume", "sfx_volume", "ui_volume",
+	]
+	for index: int in range(volume_keys.size()):
+		var row: HBoxContainer = HBoxContainer.new()
+		content.add_child(row)
+		var label: Label = Label.new()
+		label.text = volume_labels[index]
+		label.custom_minimum_size.x = 112.0
+		row.add_child(label)
+		var slider: HSlider = HSlider.new()
+		slider.min_value = 0.0
+		slider.max_value = 1.0
+		slider.step = 0.01
+		slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(slider)
+		var value_label: Label = Label.new()
+		value_label.custom_minimum_size.x = 48.0
+		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		row.add_child(value_label)
+		_settings_controls[volume_keys[index]] = [slider, value_label]
+
+	_add_settings_option(
+		content,
+		"镜头距离",
+		"camera_distance",
+		[3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0],
+		["3米", "4米", "5米", "6米", "7米", "8米", "9米", "10米", "11米", "12米"]
+	)
+	_add_settings_option(
+		content,
+		"窗口模式",
+		"window_mode",
+		["windowed", "borderless_fullscreen"],
+		["窗口", "无边框全屏"]
+	)
+	_add_settings_option(
+		content,
+		"窗口分辨率",
+		"window_resolution",
+		[[1280, 720], [1600, 900], [1920, 1080], [2560, 1440]],
+		["1280 × 720", "1600 × 900", "1920 × 1080", "2560 × 1440"]
+	)
+	_add_settings_option(
+		content,
+		"画质",
+		"graphics_preset",
+		["low", "medium", "high"],
+		["低", "中", "高"]
+	)
+	_add_settings_option(
+		content,
+		"垂直同步",
+		"vsync_enabled",
+		[true, false],
+		["开启", "关闭"]
+	)
+	add_child(_settings_dialog)
+
+
+func _build_quit_dialog() -> void:
+	_quit_dialog = ConfirmationDialog.new()
+	_quit_dialog.name = "QuitDialog"
+	_quit_dialog.title = "退出游戏"
+	_quit_dialog.dialog_text = "确定退出 SoloRxjh？"
+	_quit_dialog.get_ok_button().text = "退出"
+	_quit_dialog.get_cancel_button().text = "继续游戏"
+	_quit_dialog.confirmed.connect(_on_quit_confirmed)
+	add_child(_quit_dialog)
+
+
+func _on_quit_pressed() -> void:
+	_quit_dialog.popup_centered()
+
+
+func _on_quit_confirmed() -> void:
+	quit_requested.emit()
+
+
+func _add_settings_option(
+	content: VBoxContainer,
+	label_text: String,
+	key: String,
+	values: Array,
+	display_values: Array
+) -> void:
+	var row: HBoxContainer = HBoxContainer.new()
+	content.add_child(row)
+	var label: Label = Label.new()
+	label.text = label_text
+	label.custom_minimum_size.x = 112.0
+	row.add_child(label)
+	var option: OptionButton = OptionButton.new()
+	option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for index: int in range(values.size()):
+		option.add_item(str(display_values[index]))
+	option.set_meta("setting_values", values)
+	option.item_selected.connect(_on_settings_option_selected.bind(key))
+	row.add_child(option)
+	_settings_controls[key] = option
+
+
+func _on_settings_pressed() -> void:
+	_settings_profile_id = ""
+	_settings_profile_name = ""
+	_settings_profile_revision = 0
+	_settings_dialog.dialog_text = "应用后立即作用于本次会话；之后新建的档案会保存这些设置。"
+	if _confirmed_settings.is_empty():
+		_confirmed_settings = _read_default_settings()
+	_settings_values = _confirmed_settings.duplicate(true)
+	_populate_settings_dialog()
+	_settings_dialog.popup_centered(Vector2i(620, 580))
+
+
+func _on_profile_settings_pressed(
+		profile_id: String,
+		profile_name: String,
+		profile_revision: int,
+		settings: Dictionary
+) -> void:
+	_settings_profile_id = profile_id
+	_settings_profile_name = profile_name
+	_settings_profile_revision = profile_revision
+	_settings_dialog.dialog_text = "应用后立即作用于本次会话，并保存到此档案。"
+	_settings_values = settings.duplicate(true)
+	_populate_settings_dialog()
+	_settings_dialog.popup_centered(Vector2i(620, 580))
+
+
+func _read_default_settings() -> Dictionary:
+	var file: FileAccess = FileAccess.open(
+		"res://docs/contracts/档案元数据与设置.v1.json",
+		FileAccess.READ
+	)
+	if file == null:
+		return {}
+	var parsed: JSON = JSON.new()
+	if parsed.parse(file.get_as_text()) != OK or not parsed.data is Dictionary:
+		file.close()
+		return {}
+	file.close()
+	var settings: Dictionary = parsed.data.get("default_settings", {}).duplicate(true)
+	settings["window_resolution"] = [
+		int(settings["window_resolution"][0]),
+		int(settings["window_resolution"][1]),
+	]
+	return settings
+
+
+func _populate_settings_dialog() -> void:
+	for key: String in _settings_controls:
+		var control: Variant = _settings_controls[key]
+		if key in ["master_volume", "music_volume", "sfx_volume", "ui_volume"]:
+			var pair: Array = control
+			var slider: HSlider = pair[0]
+			var value_label: Label = pair[1]
+			slider.value = float(_settings_values[key])
+			value_label.text = "%d%%" % roundi(slider.value * 100.0)
+			var callback: Callable = _on_volume_changed.bind(key, value_label)
+			if not slider.value_changed.is_connected(callback):
+				slider.value_changed.connect(callback)
+		elif control is OptionButton:
+			var option: OptionButton = control
+			var values: Array = option.get_meta("setting_values")
+			for index: int in range(values.size()):
+				if values[index] == _settings_values[key]:
+					option.select(index)
+
+
+func _on_volume_changed(value: float, key: String, value_label: Label) -> void:
+	_settings_values[key] = value
+	value_label.text = "%d%%" % roundi(value * 100.0)
+
+
+func _on_settings_option_selected(index: int, key: String) -> void:
+	var option: OptionButton = _settings_controls[key]
+	var values: Array = option.get_meta("setting_values")
+	_settings_values[key] = (
+		values[index].duplicate(true)
+		if values[index] is Array
+		else values[index]
+	)
+
+
+func _on_settings_confirmed() -> void:
+	var candidate: Dictionary = _settings_values.duplicate(true)
+	var generation_before_apply: int = _settings_apply_generation
+	session_settings_changed.emit(candidate)
+	if _settings_apply_generation == generation_before_apply:
+		return
+	if _settings_profile_id.is_empty():
+		return
+
+	var result: Dictionary = _repository.save_profile_settings(
+		_settings_profile_id,
+		_settings_profile_revision,
+		candidate
+	)
+	if not result.get("ok", false):
+		_status.text = "设置已应用到本次会话，但档案保存失败：%s" % result.get(
+			"error",
+			"未知错误"
+		)
+		_status.add_theme_color_override("font_color", COLOR_ERROR)
+	elif not str(result.get("warning", "")).is_empty():
+		_status.text = result["warning"]
+		_status.add_theme_color_override("font_color", COLOR_ERROR)
+	else:
+		_status.text = (
+			"档案设置已保存：%s" % _settings_profile_name
+			if result.get("changed", false)
+			else "档案设置没有变化：%s" % _settings_profile_name
+		)
+		_status.add_theme_color_override("font_color", COLOR_ACCENT)
+	_refresh_profiles()
+	_settings_profile_id = ""
+	_settings_profile_name = ""
+	_settings_profile_revision = 0
+
+
+func _on_settings_cancelled() -> void:
+	_settings_profile_id = ""
+	_settings_profile_name = ""
+	_settings_profile_revision = 0
+	_settings_values = _confirmed_settings.duplicate(true)
+
+
+func set_confirmed_session_settings(settings: Dictionary) -> void:
+	_confirmed_settings = settings.duplicate(true)
+	_settings_values = _confirmed_settings.duplicate(true)
+	_settings_apply_generation += 1
+
+
+func show_settings_error(message: String) -> void:
+	_status.text = message
+	_status.add_theme_color_override("font_color", COLOR_ERROR)
 
 
 func _build_character_view(parent: Control) -> void:
@@ -301,20 +686,23 @@ func _build_character_view(parent: Control) -> void:
 	caption.add_child(caption_detail)
 
 
-func _refresh_profiles() -> void:
+func _refresh_profiles(preserve_status: bool = false) -> void:
 	for child: Node in _profile_list.get_children():
 		child.queue_free()
 
 	var catalog: Dictionary = _repository.list_profiles()
 	if not catalog.get("ok", false):
 		_all_profiles_valid = false
-		_status.text = catalog.get("error", "档案目录读取失败")
-		_status.add_theme_color_override("font_color", COLOR_ERROR)
+		_capacity_label.text = "数量无法读取"
+		if not preserve_status:
+			_status.text = catalog.get("error", "档案目录读取失败")
+			_status.add_theme_color_override("font_color", COLOR_ERROR)
 		_create_button.disabled = true
 		return
 
 	_all_profiles_valid = catalog.get("all_valid", false)
 	var profiles: Array = catalog.get("profiles", [])
+	_capacity_label.text = "档案 %d / 3" % profiles.size()
 	if profiles.is_empty():
 		var empty_state: Label = Label.new()
 		empty_state.text = "尚无档案"
@@ -324,14 +712,15 @@ func _refresh_profiles() -> void:
 		_profile_list.add_child(_make_profile_row(profile))
 
 	_create_button.disabled = not catalog.get("can_create", false)
-	if profiles.size() >= 3:
-		_status.text = "档案数量已达上限。"
-		_status.add_theme_color_override("font_color", COLOR_MUTED)
-	elif not catalog.get("all_valid", false):
-		_status.text = "有档案无法验证，新建已停用。"
-		_status.add_theme_color_override("font_color", COLOR_ERROR)
-	elif _status.text.is_empty():
-		_status.text = " "
+	if not preserve_status:
+		if not catalog.get("all_valid", false):
+			_status.text = "有档案无法验证，新建已停用。"
+			_status.add_theme_color_override("font_color", COLOR_ERROR)
+		elif not catalog.get("can_create", false):
+			_status.text = "档案数量已达上限。"
+			_status.add_theme_color_override("font_color", COLOR_MUTED)
+		elif _status.text.is_empty():
+			_status.text = " "
 
 
 func _make_profile_row(profile: Dictionary) -> Control:
@@ -394,6 +783,20 @@ func _make_profile_row(profile: Dictionary) -> Control:
 		)
 	row_content.add_child(rename_button)
 
+	var settings_button: Button = _make_button("设置", false)
+	settings_button.custom_minimum_size = Vector2(82.0, 46.0)
+	settings_button.disabled = not profile.get("valid", false) or not _all_profiles_valid
+	if profile.get("valid", false):
+		settings_button.pressed.connect(
+			_on_profile_settings_pressed.bind(
+				profile["profile_id"],
+				profile["profile_name"],
+				int(profile["revision"]),
+				profile["data"].get("settings", {}).duplicate(true)
+			)
+		)
+	row_content.add_child(settings_button)
+
 	var delete_button: Button = _make_button("删除", false)
 	delete_button.custom_minimum_size = Vector2(82.0, 46.0)
 	delete_button.disabled = not profile.get("valid", false) or not _all_profiles_valid
@@ -432,16 +835,25 @@ func _make_button(label: String, emphasized: bool) -> Button:
 
 
 func _on_create_pressed() -> void:
-	var result: Dictionary = _repository.create_profile(_name_input.text)
+	var settings_to_save: Variant = (
+		_confirmed_settings
+		if not _confirmed_settings.is_empty()
+		else null
+	)
+	var result: Dictionary = _repository.create_profile(
+		_name_input.text,
+		settings_to_save
+	)
 	if not result.get("ok", false):
 		_status.text = result.get("error", "档案创建失败")
 		_status.add_theme_color_override("font_color", COLOR_ERROR)
+		_refresh_profiles(true)
 		return
 
 	_status.text = "已创建档案：%s" % result["profile"]["profile_name"]
 	_status.add_theme_color_override("font_color", COLOR_ACCENT)
 	_name_input.clear()
-	_refresh_profiles()
+	_refresh_profiles(true)
 
 
 func _on_name_submitted(_submitted_text: String) -> void:
