@@ -200,7 +200,7 @@ func _build_hud() -> void:
 	footer.add_theme_constant_override("separation", 8)
 	footer.z_index = 3
 	add_child(footer)
-	footer.add_child(_button("設置", "settings"))
+	footer.add_child(_button("设置", "settings"))
 	footer.add_child(_button("返回档案", "return"))
 
 
@@ -264,7 +264,7 @@ func _label(text: String, size: int, color: Color) -> Label:
 func _button(text: String, action: String) -> Button:
 	var button := Button.new()
 	button.text = text
-	button.custom_minimum_size = Vector2(88, 38)
+	button.custom_minimum_size = Vector2(88, 44)
 	button.add_theme_color_override("font_color", TEXT)
 	button.add_theme_stylebox_override("normal", _button_style(Color("#20352e")))
 	button.add_theme_stylebox_override("hover", _button_style(Color("#365647")))
