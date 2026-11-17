@@ -27,7 +27,7 @@ func _initialize() -> void:
 	var sky: Sky = (
 		(yard.get_node("WorldEnvironment") as WorldEnvironment).environment.sky
 	)
-	var sky_material: PanoramaSkyMaterial = sky.sky_material as PanoramaSkyMaterial
+	var sky_material: ProceduralSkyMaterial = sky.sky_material as ProceduralSkyMaterial
 	if not _require(
 		application.get("app_state") == 2
 			and player != null
@@ -36,9 +36,7 @@ func _initialize() -> void:
 			and yard.get_node_or_null("Camera3D") is Camera3D
 			and yard.get_node_or_null("HUD") is CanvasLayer
 			and sky_material != null
-			and sky_material.panorama != null
-			and sky_material.panorama.resource_path
-				== "res://assets/images/training_yard_backdrop.png"
+			and _weapon_materials_are_styled(player)
 			and yard.find_child("TrainingTitle", true, false) is Label
 			and training_status != null
 			and training_status.text == "练习演示 · 不保存角色进度",
@@ -74,8 +72,11 @@ func _initialize() -> void:
 	if not _require(
 		yard._perform_practice_attack()
 			and yard._target_health == 75
-			and yard._target_respawn_timer == 0.0,
-		"An in-range facing practice attack did not damage only its target."
+			and yard._target_respawn_timer == 0.0
+			and yard.find_child("WeaponSlash", true, false) is MeshInstance3D
+			and yard.find_child("WeaponSlashCore", true, false) is MeshInstance3D
+			and _weapon_edge_is_pulsing(player),
+		"An in-range attack did not damage its target and create the styled weapon effects."
 	):
 		return
 
@@ -130,3 +131,28 @@ func _require(condition: bool, message: String) -> bool:
 	push_error(message)
 	quit(1)
 	return false
+
+
+func _weapon_materials_are_styled(player: CharacterBody3D) -> bool:
+	var sword: MeshInstance3D = player.find_child("Sword", true, false) as MeshInstance3D
+	if sword == null or sword.mesh == null or sword.mesh.get_surface_count() != 4:
+		return false
+	for surface: int in range(4):
+		var material: StandardMaterial3D = (
+			sword.get_surface_override_material(surface) as StandardMaterial3D
+		)
+		if material == null:
+			return false
+	return (
+		(sword.get_surface_override_material(3) as StandardMaterial3D).emission_enabled
+	)
+
+
+func _weapon_edge_is_pulsing(player: CharacterBody3D) -> bool:
+	var sword: MeshInstance3D = player.find_child("Sword", true, false) as MeshInstance3D
+	if sword == null:
+		return false
+	var edge: StandardMaterial3D = (
+		sword.get_surface_override_material(3) as StandardMaterial3D
+	)
+	return edge != null and edge.emission_energy_multiplier >= 2.5

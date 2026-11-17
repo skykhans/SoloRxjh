@@ -6,6 +6,9 @@ const PLAYER_MODEL_PATH: String = "res://assets/models/characters/fang_chen.glb"
 const TARGET_MODEL_PATH: String = "res://assets/models/characters/bamboo_beast.glb"
 const BAMBOO_MODEL_PATH: String = "res://assets/models/characters/linglong_bamboo.glb"
 const FONT_PATH: String = "res://assets/fonts/NotoSansCJKsc-Regular.otf"
+const FANG_CHEN_SWORD_VISUAL: Script = preload(
+	"res://scripts/fang_chen_sword_visual.gd"
+)
 const TARGET_MAX_HP: int = 100
 const ATTACK_RANGE: float = 2.2
 const ATTACK_RECOVERY_SECONDS: float = 0.5
@@ -22,6 +25,8 @@ const COLOR_PANEL: Color = Color("#17211ddc")
 var _player: CharacterBody3D
 var _player_visual: Node3D
 var _player_animation: AnimationPlayer
+var _weapon_edge_material: StandardMaterial3D
+var _weapon_glow_tween: Tween
 var _camera: Camera3D
 var _target: StaticBody3D
 var _target_collision: CollisionShape3D
@@ -380,6 +385,11 @@ func _build_player() -> void:
 		push_error("玩家模型根节点不是Node3D：%s" % PLAYER_MODEL_PATH)
 		return
 	_player_visual.add_child(model)
+	var weapon_style_result: Dictionary = FANG_CHEN_SWORD_VISUAL.apply_to_model(model)
+	if not weapon_style_result.get("ok", false):
+		push_error("练功场武器样式初始化失败：%s" % weapon_style_result.get("error", "unknown"))
+		return
+	_weapon_edge_material = weapon_style_result["edge_material"]
 	_player_animation = model.find_child("AnimationPlayer", true, false) as AnimationPlayer
 	if _player_animation == null:
 		push_error("玩家模型缺少AnimationPlayer：%s" % PLAYER_MODEL_PATH)
@@ -583,6 +593,8 @@ func _perform_practice_attack() -> bool:
 	_attack_cooldown = ATTACK_RECOVERY_SECONDS
 	_action_animation_timer = ATTACK_RECOVERY_SECONDS
 	_play_animation(_player_animation, &"Attack1", false)
+	_pulse_weapon_edge()
+	_show_weapon_slash_effect(offset.normalized())
 	_target_health = maxi(0, _target_health - 25)
 	if _target_animation.has_animation(&"Hit"):
 		_play_animation(_target_animation, &"Hit", false)
@@ -598,6 +610,96 @@ func _perform_practice_attack() -> bool:
 		_show_toast("命中演练目标。")
 	_update_target_hud()
 	return true
+
+
+func _pulse_weapon_edge() -> void:
+	if _weapon_edge_material == null:
+		return
+	if _weapon_glow_tween != null and _weapon_glow_tween.is_running():
+		_weapon_glow_tween.kill()
+	_weapon_edge_material.emission_energy_multiplier = 2.6
+	_weapon_glow_tween = create_tween()
+	_weapon_glow_tween.tween_property(
+		_weapon_edge_material,
+		"emission_energy_multiplier",
+		1.35,
+		0.28
+	)
+
+
+func _show_weapon_slash_effect(direction: Vector3) -> void:
+	var slash: MeshInstance3D = MeshInstance3D.new()
+	slash.name = "WeaponSlash"
+	var mesh: ArrayMesh = ArrayMesh.new()
+	var vertices: PackedVector3Array = []
+	var indices: PackedInt32Array = []
+	const SEGMENTS: int = 18
+	for segment: int in range(SEGMENTS + 1):
+		var angle: float = lerpf(-1.05, 1.05, float(segment) / float(SEGMENTS))
+		var inner: Vector3 = Vector3(sin(angle) * 0.72, cos(angle) * 0.72, 0.0)
+		var outer: Vector3 = Vector3(sin(angle) * 0.98, cos(angle) * 0.98, 0.0)
+		vertices.append(inner)
+		vertices.append(outer)
+	for segment: int in range(SEGMENTS):
+		var base: int = segment * 2
+		indices.append_array(PackedInt32Array([
+			base,
+			base + 1,
+			base + 2,
+			base + 1,
+			base + 3,
+			base + 2,
+		]))
+	var arrays: Array = []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_INDEX] = indices
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	slash.mesh = mesh
+
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.albedo_color = Color("#7ffff0c9")
+	material.emission_enabled = true
+	material.emission = Color("#42e5c0")
+	material.emission_energy_multiplier = 1.4
+	slash.material_override = material
+
+	var core: MeshInstance3D = MeshInstance3D.new()
+	core.name = "WeaponSlashCore"
+	core.mesh = mesh
+	core.position.z = 0.012
+	core.scale = Vector3(0.68, 0.68, 1.0)
+	var core_material: StandardMaterial3D = StandardMaterial3D.new()
+	core_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	core_material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	core_material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	core_material.albedo_color = Color("#ecfff8d6")
+	core_material.emission_enabled = true
+	core_material.emission = Color("#d3fff2")
+	core_material.emission_energy_multiplier = 2.1
+	core.material_override = core_material
+	slash.add_child(core)
+
+	var toward_target: Vector3 = direction.normalized()
+	add_child(slash)
+	slash.global_position = (
+		_target.global_position
+		- toward_target * 0.35
+		+ Vector3(0.0, 0.9, 0.0)
+	)
+	slash.rotation.y = _player_visual.rotation.y
+	var fade: Tween = create_tween()
+	fade.tween_property(material, "albedo_color:a", 0.0, 0.22)
+	fade.parallel().tween_property(
+		core_material,
+		"albedo_color:a",
+		0.0,
+		0.22
+	)
+	fade.tween_callback(slash.queue_free)
 
 
 func _begin_dodge() -> void:

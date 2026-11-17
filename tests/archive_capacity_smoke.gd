@@ -20,9 +20,53 @@ func _run() -> void:
 	var repository: RefCounted = archive_menu.get("_repository")
 	var create_button: Button = archive_menu.get("_create_button")
 	var capacity_label: Label = archive_menu.get("_capacity_label")
+	var menu_background: TextureRect = archive_menu.get_node_or_null(
+		"MenuBackground"
+	) as TextureRect
+	var character_preview: SubViewport = archive_menu.get_node_or_null(
+		"CharacterPreviewViewport"
+	) as SubViewport
+	if character_preview == null:
+		character_preview = archive_menu.find_child(
+			"CharacterPreviewViewport",
+			true,
+			false
+		) as SubViewport
 	if not _require(
-		repository != null and create_button != null and capacity_label != null,
+		repository != null
+			and create_button != null
+			and capacity_label != null
+			and menu_background != null
+			and menu_background.texture != null
+			and menu_background.texture.resource_path
+				== "res://assets/images/training_yard_backdrop.png"
+			and menu_background.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED,
 		"Archive capacity controls are missing."
+	):
+		return
+	if not _require(character_preview != null, "Character preview viewport is missing."):
+		return
+	if not _require(
+		character_preview.transparent_bg,
+		"Character preview is not rendering with a transparent background."
+	):
+		return
+	var preview_pivot: Node3D = archive_menu.get("_model_pivot") as Node3D
+	var preview_sword: MeshInstance3D = (
+		preview_pivot.find_child("Sword", true, false) as MeshInstance3D
+		if preview_pivot != null
+		else null
+	)
+	var preview_edge: StandardMaterial3D = (
+		preview_sword.get_surface_override_material(3) as StandardMaterial3D
+		if preview_sword != null
+		else null
+	)
+	if not _require(
+		preview_edge != null
+			and preview_edge.emission_enabled
+			and is_equal_approx(preview_edge.emission_energy_multiplier, 1.35),
+		"Archive preview did not apply the shared character weapon style."
 	):
 		return
 	if not _require(

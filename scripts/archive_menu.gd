@@ -5,6 +5,9 @@ signal quit_requested
 signal session_settings_changed(settings: Dictionary)
 
 const ARCHIVE_REPOSITORY: Script = preload("res://scripts/archive_repository.gd")
+const FANG_CHEN_SWORD_VISUAL: Script = preload(
+	"res://scripts/fang_chen_sword_visual.gd"
+)
 const FONT_PATH: String = "res://assets/fonts/NotoSansCJKsc-Regular.otf"
 const MODEL_PATH: String = "res://assets/models/characters/fang_chen.glb"
 const BACKGROUND_PATH: String = "res://assets/images/training_yard_backdrop.png"
@@ -597,13 +600,16 @@ func show_settings_error(message: String) -> void:
 
 func _build_character_view(parent: Control) -> void:
 	var viewport_container: SubViewportContainer = SubViewportContainer.new()
+	viewport_container.name = "CharacterPreviewContainer"
 	viewport_container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	viewport_container.stretch = true
 	viewport_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(viewport_container)
 
 	var viewport: SubViewport = SubViewport.new()
+	viewport.name = "CharacterPreviewViewport"
 	viewport.size = Vector2i(900, 900)
+	viewport.transparent_bg = true
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	viewport_container.add_child(viewport)
 
@@ -613,7 +619,7 @@ func _build_character_view(parent: Control) -> void:
 	var environment_node: WorldEnvironment = WorldEnvironment.new()
 	var environment: Environment = Environment.new()
 	environment.background_mode = Environment.BG_COLOR
-	environment.background_color = Color("#21302b")
+	environment.background_color = Color(0.0, 0.0, 0.0, 0.0)
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.ambient_light_color = Color("#b0c2b3")
 	environment.ambient_light_energy = 0.48
@@ -656,6 +662,10 @@ func _build_character_view(parent: Control) -> void:
 		push_error("档案界面角色资源根节点不是Node3D：%s" % MODEL_PATH)
 		return
 	_model_pivot.add_child(model)
+	var weapon_style_result: Dictionary = FANG_CHEN_SWORD_VISUAL.apply_to_model(model)
+	if not weapon_style_result.get("ok", false):
+		push_error("档案界面武器样式初始化失败：%s" % weapon_style_result.get("error", "unknown"))
+		return
 
 	var camera: Camera3D = Camera3D.new()
 	camera.position = Vector3(0.0, 1.45, 4.8)
